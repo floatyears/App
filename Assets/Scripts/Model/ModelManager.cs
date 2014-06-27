@@ -56,8 +56,6 @@ public class ModelManager {
 			string info = obj.text;
 			UIIns ins = new UIIns(info);
 			SetData(ModelEnum.UIInsConfig, ins);
-
-
 		});
         
 //		MapConfig mc = new MapConfig ();

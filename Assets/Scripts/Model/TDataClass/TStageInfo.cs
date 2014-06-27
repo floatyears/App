@@ -67,6 +67,10 @@ public class TStageInfo : ProtobufDataBase {
 		get { return instance.endTime; }
 	}
 
+	public List<bbproto.Period> ValidTime {
+		get { return instance.validTime; }
+	}
+
 	public QuestBoost Boost {
 		get { return instance.boost; }
 	}

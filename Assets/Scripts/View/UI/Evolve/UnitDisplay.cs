@@ -15,6 +15,12 @@ public class UnitDisplay : ConcreteComponent {
 
 	public override void HideUI () {
 		base.HideUI ();
+
+		if (UIManager.Instance.nextScene != SceneEnum.UnitDetail) {
+			//			Debug.LogError ("levelup DestoryUI ui : " + UIManager.Instance.nextScene);
+			base.DestoryUI();
+			//			UIManager.Instance.RemoveUI ();
+		}
 	}
 
 	public override void CreatUI () {

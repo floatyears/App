@@ -196,12 +196,9 @@ public class AttackController {
 
 	void Attack () {
 		enemyIndex = 0;
-
 		if (attackInfoQueue.Count == 0) {
-			Debug.LogError("attackinfoqueue.count == 0");
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
 			bud.Blood += blood;
-			Debug.LogError("attackinfoqueue.count == 0 blood : " + blood);
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 			endCount = 0;
 			if (!CheckBattleSuccess ()) {
@@ -211,9 +208,7 @@ public class AttackController {
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
-
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
-
 		AttackEnemy ();
 	}
 

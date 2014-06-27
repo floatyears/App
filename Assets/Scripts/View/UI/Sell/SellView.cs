@@ -64,12 +64,10 @@ public class SellView : UIComponentUnity{
 	}
 
     public override void ResetUIState() {
-//		Debug.LogError("ResetUIState()... 1");
 		ResetUIElement();
         SellController controller = origin as SellController;
 	
         if (controller != null){
-//			Debug.LogError("ResetUIState()... controller.ResetUI();");
             controller.ResetUI();
         }
 		else{
@@ -78,16 +76,15 @@ public class SellView : UIComponentUnity{
 
     }
     Vector3 pos = Vector3.zero;
-    void BackToMainWindow(object args){
+    void BackToMainWindow(object args) {
 		mainRoot.transform.localPosition = pos;
 		submitRoot.SetActive(false);
 		ResetReadyPool();
-
 		ShowUIAnimation();
 	}
 
-	void ResetReadyPool(){
-		for (int i = 0; i < readyItemList.Count; i++){
+	void ResetReadyPool() {
+		for (int i = 0; i < readyItemList.Count; i++) {
 			Transform trans = readyItemList[ i ].transform;
 			UISprite bg = trans.FindChild("Background").GetComponent<UISprite>();
 			UISprite border = trans.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
@@ -211,8 +208,6 @@ public class SellView : UIComponentUnity{
 	void ShowUIAnimation(){
 		transform.localPosition = new Vector3(-1000, -285, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
-
-
 	}
 
 	void InitUIElement(){
@@ -339,8 +334,7 @@ public class SellView : UIComponentUnity{
 				//conditin 1 : not exist empty slot in current picked list and add in the end of the list
 					poolPos = pickUnitViewList.Count;
 					pickUnitViewList.Add(item);
-				}
-			else{
+				} else{
 				//conditin 2 : exist empty slot and insert it
 					poolPos = index;
 					pickUnitViewList[index] = item;

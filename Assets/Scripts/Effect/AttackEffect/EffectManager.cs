@@ -7,7 +7,9 @@ public class EffectManager {
 	public enum EffectEnum {
 		DragCard,
 
-		PassiveAntiAttack,
+//		PassiveAntiAttack,
+//
+//		LeaderSkillExtrackAttack,
 	}
 
 	private static EffectManager instance;
@@ -34,9 +36,12 @@ public class EffectManager {
 		case EffectEnum.DragCard:
 			path = "card_effect";
 			break;
-		case EffectEnum.PassiveAntiAttack:
-			path = "PS-fight-back";
-			break;
+//		case EffectEnum.PassiveAntiAttack:
+//			path = "PS-fight-back";
+//			break;
+//		case EffectEnum.LeaderSkillExtrackAttack:
+//			path = "LS-pursuit";
+//			break;
 		}
 
 		if (path == "") {
@@ -84,44 +89,49 @@ public class EffectManager {
 		if (tns != null) {
 //			Debug.LogError("tns : " + tns.)
 			path = GetNormalSkillEffectName (tns);
-		} else if(sbi is ActiveSkill) {
+		} else if (sbi is ActiveSkill) {
 			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
 			//TSkillAttackRecoverHP, GravityAttack, KnockdownAttack, TSkillRecoverSP, TSkillPoison, TSkillSuicideAttack, RecoverSP
-			StringBuilder sb = new StringBuilder();
-			sb.Append("as-");
-			Type type = sbi.GetType();
-			if(type == typeof(TSkillSingleAttack)) {
-				GetSingleAttackEffectName(sbi as TSkillSingleAttack, sb);
-			} else if(type == typeof(ActiveAttackTargetType)) {
-				GetAttackTargetType(sbi as ActiveAttackTargetType, sb);
+			StringBuilder sb = new StringBuilder ();
+			sb.Append ("as-");
+			Type type = sbi.GetType ();
+			if (type == typeof(TSkillSingleAttack)) {
+					GetSingleAttackEffectName (sbi as TSkillSingleAttack, sb);
+			} else if (type == typeof(ActiveAttackTargetType)) {
+					GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
-				sb.Append("color");
-			} else if(type == typeof(ActiveDeferAttackRound)) {
-				sb.Append("low");
-			} else if(type == typeof(ActiveDelayTime)) {
-				sb.Append("delay");
-			} else if(type == typeof(ActiveReduceDefense)) {
-				sb.Append("reduce-defense-purple");
-			} else if(type == typeof(ActiveReduceHurt)) {
-				sb.Append("reduce-injure");
-			} else if(type == typeof(TSkillAttackRecoverHP)) {
-				sb.Append("single-blood-purple");
-			} else if(type == typeof(GravityAttack)) {
-				sb.Append("all-2-dark");
-			} else if(type == typeof(KnockdownAttack)) {
-				sb.Append("single-2-dark");
-			} else if(type == typeof(TSkillRecoverSP)) {
-				sb.Append("sp-recover");
-			} else if(type == typeof(TSkillPoison)) {
-				sb.Append("poison");
-			} else if(type == typeof(TSkillSuicideAttack)) {
-				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
-				sb.Append( GetAttackRanger(tsa.AttackRange) );
-				sb.Append( GetAttackDanger(1, 2) ); //2 == second effect.
-				sb.Append( GetSkillType(tsa.AttackUnitType) );
+					sb.Append ("color");
+			} else if (type == typeof(ActiveDeferAttackRound)) {
+					sb.Append ("low");
+			} else if (type == typeof(ActiveDelayTime)) {
+					sb.Append ("delay");
+			} else if (type == typeof(ActiveReduceDefense)) {
+					sb.Append ("reduce-defense-purple");
+			} else if (type == typeof(ActiveReduceHurt)) {
+					sb.Append ("reduce-injure");
+			} else if (type == typeof(TSkillAttackRecoverHP)) {
+					sb.Append ("single-blood-purple");
+			} else if (type == typeof(GravityAttack)) {
+					sb.Append ("all-2-dark");
+			} else if (type == typeof(KnockdownAttack)) {
+					sb.Append ("single-2-dark");
+			} else if (type == typeof(TSkillRecoverSP)) {
+					sb.Append ("sp-recover");
+			} else if (type == typeof(TSkillPoison)) {
+					sb.Append ("poison");
+			} else if (type == typeof(TSkillSuicideAttack)) {
+					TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
+					sb.Append (GetAttackRanger (tsa.AttackRange));
+					sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
+					sb.Append (GetSkillType (tsa.AttackUnitType));
 			}
-			path = sb.ToString();
+			path = sb.ToString ();
+		} else if (sbi is ILeaderSkillExtraAttack) {
+			path = "LS-pursuit";
+		}else if(sbi is TSkillAntiAttack) {
+			path = "PS-fight-back";
 		}
+
 		GetEffectFromCache (path, resouceCb);
 	}
 
@@ -184,13 +194,13 @@ public class EffectManager {
 	
 	string GetAttackDanger(int attackRange, float attackValue) {
 		if (attackRange == 0) {
-			if (attackValue <= 2.3f) {	
+			if (attackValue < 2.3f) {	
 					return "1-";
 			} else {
 					return "2-";
 			}
 		} else {
-			if (attackValue <= 1.8f) {
+			if (attackValue < 1.8f) {
 				return "1-";
 			} else {
 				return "2-";

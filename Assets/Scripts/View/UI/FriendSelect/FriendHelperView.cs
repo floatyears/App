@@ -26,6 +26,7 @@ public class FriendHelperView : UIComponentUnity{
 		AddCmdListener();
 
 		CreateGeneralListView();
+		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
 
@@ -211,6 +212,7 @@ public class FriendHelperView : UIComponentUnity{
 
 	private void ShowUIAnimation(DragPanel dragPannel){
 		if(dragPannel == null) return;
+//		Debug.LogError ("ShowUIAnimation : " + dragPannel.DragPanelView);
 		GameObject targetPanel = dragPannel.DragPanelView.gameObject;
 		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo(targetPanel, iTween.Hash("x", 0, "time", 0.4f));      
