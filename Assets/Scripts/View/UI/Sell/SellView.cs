@@ -334,8 +334,7 @@ public class SellView : UIComponentUnity{
 				//conditin 1 : not exist empty slot in current picked list and add in the end of the list
 					poolPos = pickUnitViewList.Count;
 					pickUnitViewList.Add(item);
-				}
-			else{
+				} else{
 				//conditin 2 : exist empty slot and insert it
 					poolPos = index;
 					pickUnitViewList[index] = item;

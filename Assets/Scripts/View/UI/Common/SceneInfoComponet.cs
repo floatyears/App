@@ -26,10 +26,14 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	}
 
 	public void CallbackView (object data) {
-//		Debug.LogError ("callbackview : " + backScene);
+		Debug.LogError ("callbackview : " + backScene);
 		if (DataCenter.gameState == GameState.Evolve) {
 			if(backScene == SceneEnum.Home) {
 				backScene = SceneEnum.Evolve;
+			}
+
+			if(backScene == SceneEnum.FriendSelect) {
+				backScene = SceneEnum.QuestSelect;
 			}
 		}
 
