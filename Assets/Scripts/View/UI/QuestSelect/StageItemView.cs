@@ -92,8 +92,13 @@ public class StageItemView : MonoBehaviour{
 
 	private void SetIconView(){
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
-		StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState(data.ID);
-		ShowIconByState(clearState);
+//		if (data.Type == bbproto.QuestType.E_QUEST_STORY) {
+			StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState (data.ID);
+			ShowIconByState (clearState);
+//		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
+//
+//		}
+
 	}
 
 	void SetEvolveIcon() {
@@ -160,7 +165,7 @@ public class StageItemView : MonoBehaviour{
 			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}
-		else{
+		else if(state == StageState.CLEAR){
 			ShowIconAccessState(icon);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}

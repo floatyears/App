@@ -138,7 +138,7 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = "current: " + (1-pro.value)*100 + "%(total " + (float)total / (float)(1024*1024) + "M)";
+			proText.text = "current: " + ((1-pro.value)*100).ToString("F2") + "%(total " + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
 		}
 
 

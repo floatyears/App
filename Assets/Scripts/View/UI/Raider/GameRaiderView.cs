@@ -30,8 +30,16 @@ public class GameRaiderView : UIComponentUnity {
 		base.ShowUI ();
 
 		Debug.Log (TextCenter.GetText("Raider_0"));
-		html.html = "";
-		html.html = TextCenter.GetText("Raider_0");
+		html.html = "<p align=center>游戏帮助</p>";
+		StartCoroutine (ShowContent());
+//						
+//		);
+
+	}
+
+	private IEnumerator ShowContent(){
+		yield return 0;
+		html.html = TextCenter.GetText ("Raider_0");
 	}
 	
 	public override void HideUI(){

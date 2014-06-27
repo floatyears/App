@@ -47,25 +47,42 @@ public class StageSelectView : UIComponentUnity{
 	}
 
 	private void ShowEventCityView(object data){
-		List<TStageInfo> eventStageList = DataCenter.Instance.EventStageList;
+		List<TStageInfo> eventStageList = FilterEventCityData(DataCenter.Instance.EventStageList);
 		if(eventStageList == null){
 			Debug.LogError("DataCenter.Instance.EventStageList == NULL, return...");
 			return;
 		}
 		Debug.Log("Now event stage count is :" + eventStageList.Count);
 
+		for (int i = 0; i < eventStageRoot.transform.childCount; i++) {
+			GameObject stageItem = eventStageRoot.transform.GetChild(i).gameObject;
+			Destroy(stageItem);
+		}
+
 		storyStageRoot.gameObject.SetActive(false);
 		eventStageRoot.gameObject.SetActive(true);
 
-		for (int i = 0; i < eventStageRoot.transform.childCount; i++){
-			Destroy(eventStageRoot.transform.GetChild(i).gameObject);
-		}
-
 		for (int i = 0; i < eventStageList.Count; i++){
-			GameObject cell = NGUITools.AddChild(storyStageRoot, StageItemView.Prefab);
+			GameObject cell = NGUITools.AddChild(eventStageRoot, EventItemView.Prefab);
 			cell.name = i.ToString();
-			StageItemView stageItemView = StageItemView.Inject(cell);
+			EventItemView stageItemView = EventItemView.Inject(cell);
+			stageItemView.Data = eventStageList[i];
 		}
+	}
+
+	private List<TStageInfo> FilterEventCityData(List<TStageInfo> eventCityData){
+		Dictionary<uint,TStageInfo> cityData = new Dictionary<uint,TStageInfo> ();
+		foreach (var item in eventCityData) {
+			if(cityData.ContainsKey(item.CityId)){
+				if(cityData[item.CityId].StartTime	< item.StartTime){
+					cityData[item.CityId] = item;
+				}
+			}else{
+				cityData[item.CityId] = item;
+			}
+		//	item.StartTime 
+		}
+		return new List<TStageInfo> (cityData.Values);
 	}
 
 	public override void HideUI(){

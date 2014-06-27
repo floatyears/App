@@ -1,1 +1,1 @@
-QSavePath:Assets/ResourceDownload/Output;Filename:Atlas_Avatar_1;Extension:unity3dd
+NSavePath:Assets/ResourceDownload/Output;Filename:Language_en;Extension:unity3dy3dd
