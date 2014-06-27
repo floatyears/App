@@ -62,8 +62,7 @@ public class BattleMap : UIBaseUnity {
 					temp.battleMap = this;
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
-				}
-				else {
+				} else {
 					map[i,j].ShowUI();
 				}
 			}
@@ -173,7 +172,7 @@ public class BattleMap : UIBaseUnity {
 			for (int j = 0; j < map.GetLength(1); j++) {
 				if(i == map.GetLength(0) - 1 && j == map.GetLength(1) - 1){
 					map[i,j].RotateAll(cb,allShow);
-				} else{
+				} else {
 					map[i,j].RotateAll(null,allShow);
 				}
 				yield return 10;

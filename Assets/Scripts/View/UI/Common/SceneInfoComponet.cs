@@ -27,6 +27,12 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 
 	public void CallbackView (object data) {
 //		Debug.LogError ("callbackview : " + backScene);
+		if (DataCenter.gameState == GameState.Evolve) {
+			if(backScene == SceneEnum.Home) {
+				backScene = SceneEnum.Evolve;
+			}
+		}
+
 		MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, backScene);
 		UIManager.Instance.ChangeScene(backScene);
 	}

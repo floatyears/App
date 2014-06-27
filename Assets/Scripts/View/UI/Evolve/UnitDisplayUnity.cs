@@ -25,15 +25,11 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		unitItemDragPanel.DestoryDragPanel ();
 	}
 
 	public override void ResetUIState () {
 		state = 1;
-//		selectBase = null;
-//		baseData.userUnitItem = null;
-
-//		sortRule = SortRule.Attack;
-//		ReceiveSortInfo (sortRule);
 	}
 
 	public override void CallbackView (object data) {
