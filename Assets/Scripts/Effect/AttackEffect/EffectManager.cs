@@ -83,6 +83,7 @@ public class EffectManager {
 
 	public void GetSkillEffectObject(int skillID, string userUnitID, ResourceCallback resouceCb) {
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
+//		Debug.LogError ("skillStoreID : " + skillStoreID + " userUnitID : " + userUnitID + " skillid :" + skillID);
 		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
 		string path = "";
 		TNormalSkill tns = sbi as TNormalSkill;
@@ -106,7 +107,7 @@ public class EffectManager {
 			} else if (type == typeof(ActiveDelayTime)) {
 					sb.Append ("delay");
 			} else if (type == typeof(ActiveReduceDefense)) {
-					sb.Append ("reduce-defense-purple");
+					sb.Append ("reduce-def");
 			} else if (type == typeof(ActiveReduceHurt)) {
 					sb.Append ("reduce-injure");
 			} else if (type == typeof(TSkillAttackRecoverHP)) {
@@ -136,7 +137,9 @@ public class EffectManager {
 	}
 
 	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
+
 		string reallyPath = "Effect/effect/" + path;
+//		Debug.LogError ("reallyPath : " + reallyPath);
 		if (skillEffectObject.ContainsKey (reallyPath)) {
 			resouceCallback(skillEffectObject[reallyPath]);
 			return;

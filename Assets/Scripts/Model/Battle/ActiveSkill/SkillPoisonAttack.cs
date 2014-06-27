@@ -25,6 +25,7 @@ public class TSkillPoison : ActiveSkill {
 		ai.AttackRound = instance.roundValue;
 		ai.IgnoreDefense = true;
 		ai.AttackType = 0; //0 = ATK_SINGLE
+		ai.SkillID = skillBase.id;
 		ConfigBattleUseData.Instance.posionAttack = ai;
 
 		ExcuteByDisk (ai);

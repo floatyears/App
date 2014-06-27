@@ -80,24 +80,37 @@ public class AttackController {
 	}
 
 	AttackInfo reduceInfo = null;
+	bool isReduce = false;
 	void ReduceDefense(object data) {
 		reduceInfo = data as AttackInfo;
 		if (reduceInfo == null) {
 			return;		
 		}
 
+		if (!isReduce && !BattleQuest.reduceDefense) {
+			reduceInfo.AttackRange = 1;
+			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);	
+
+		}
+
+		if (BattleQuest.reduceDefense == true) {
+			BattleQuest.reduceDefense  = false;
+		}
+
 		if (reduceInfo.AttackRound == 0) {
 			reduceInfo = null;
-			ReduceEnemy(0f);
+			ReduceEnemy(null);
+			isReduce = false;
 			return;
 		}
 
-		ReduceEnemy (reduceInfo.AttackValue);
+		ReduceEnemy (reduceInfo);
+		isReduce = true;
 	}
 
-	void ReduceEnemy(float value) {
+	void ReduceEnemy(AttackInfo attack) {
 		for (int i = 0; i < enemyInfo.Count; i++) {
-			enemyInfo[i].ReduceDefense(value);
+			enemyInfo[i].ReduceDefense(attack == null ? 0 : attack.AttackValue, attack);
 		}
 	}
 
@@ -107,8 +120,14 @@ public class AttackController {
 			return;	
 		}
 		BeginAttack (ai);
+		GameTimer.GetInstance ().AddCountDown (2f, ActiveSkillEnd);
+	}
+
+	void ActiveSkillEnd() {
+		msgCenter.Invoke(CommandEnum.AttackEnemyEnd, 0);
 		CheckBattleSuccess ();
 	}
+
 
 	void AttackTargetTypeEnemy (object data) {
 		AttackTargetType att = data as AttackTargetType;
@@ -288,6 +307,7 @@ public class AttackController {
 				}
 			}
 		}
+//		Debug.LogError ("CheckBattleSuccess : " + (enemyInfo.Count == 0));
 		if (enemyInfo.Count == 0) {
 			BattleBottom.notClick = false;
 			GameTimer.GetInstance().AddCountDown(1f, BattleEnd); //TODO: set time in const config
@@ -364,6 +384,7 @@ public class AttackController {
 	}
 
 	int tempAllAttakSignal = 1;
+
 	void DisposeAttackAll (AttackInfo ai) {
 		if (enemyInfo.Count == 0) {
 			return;		

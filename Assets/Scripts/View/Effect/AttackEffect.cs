@@ -68,8 +68,8 @@ public class AttackEffect : MonoBehaviour {
 
 	void ActiveSkillEnd() {
 		AttackEffectItem aei = GetAttackEffectItem ();
-		aei.ShowActiveSkill (avatarTexture.mainTexture, skillName, End);
-		avatarTexture.mainTexture = null;
+//		aei.ShowActiveSkill (avatarTexture, skillName, End);
+//		avatarTexture.mainTexture = null;
 		activeEffect.SetActive (false);
 	}
 

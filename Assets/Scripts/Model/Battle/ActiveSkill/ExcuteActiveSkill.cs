@@ -76,7 +76,7 @@ public class ExcuteActiveSkill {
 		iase = null;
 		userUnit = null;
 
-		GameTimer.GetInstance ().AddCountDown (3f, ActiveSkillEnd);
+		GameTimer.GetInstance ().AddCountDown (5f, ActiveSkillEnd);
 	}
 
 	void ActiveSkillEnd() {

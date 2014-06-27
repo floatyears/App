@@ -209,7 +209,7 @@ public class Role : UIBaseUnity {
 			isVerticalMove = true;
 			adjustTime = 0.05f;
 		} else {
-			Debug.LogError("  localposition: "+ localposition.x+","+localposition.y+ " targetPoint: "+ targetPoint.x+","+targetPoint.y);
+//			Debug.LogError("  localposition: "+ localposition.x+","+localposition.y+ " targetPoint: "+ targetPoint.x+","+targetPoint.y);
 
 			float x = targetPoint.x - localposition.x;
 			leftMiddlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth* 1.2f * 0.5f, localposition.z);

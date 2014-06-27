@@ -32,7 +32,7 @@ public class GravityAttack : ActiveSkill {
 		ai.UserUnitID = userUnitID;
 		ai.IgnoreDefense = true;
 		ai.AttackValue = instance.value;
-
+		ai.SkillID = skillBase.id;
 		MsgCenter.Instance.Invoke(CommandEnum.SkillGravity, ai);
 		return ai;
 	}

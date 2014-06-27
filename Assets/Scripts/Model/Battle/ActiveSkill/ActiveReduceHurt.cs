@@ -34,7 +34,7 @@ public class ActiveReduceHurt : ActiveSkill {
 		ai.UserUnitID = userUnitID;
 		ai.AttackValue = instance.value;
 		ai.AttackRound = instance.periodValue;
-
+		ai.SkillID = skillBase.id;
 		return ExcuteByDisk(ai);
 	}
 

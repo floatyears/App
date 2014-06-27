@@ -72,7 +72,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	}
 
 	float reduceProportion = 0f;
-	public void ReduceDefense(float value) {
+	public void ReduceDefense(float value, AttackInfo ai) {
 		reduceProportion = value;
 	}
 

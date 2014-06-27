@@ -136,7 +136,6 @@ public class VictoryEffect : UIBaseUnity {
 				                                  
 	void RankUp() {
 		battleQuest.battle.ShieldInput(true);
-//		MsgCenter.Instance.Invoke (CommandEnum.MeetEnemy, false);
 	}
 	
 	IEnumerator UpdateCoinNumber (float addCoin, float curCoin, float gotCoin) {
