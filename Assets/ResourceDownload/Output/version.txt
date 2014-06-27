@@ -5,7 +5,7 @@ Atlas_Avatar_9|Assets/ResourceDownload/Output/Atlas_Avatar_9.unity3d|0be63772beb
 Atlas_Avatar_10|Assets/ResourceDownload/Output/Atlas_Avatar_10.unity3d|9f319e80ce24f284c78af7a9bef6d804|0|52587
 Atlas_Avatar_11|Assets/ResourceDownload/Output/Atlas_Avatar_11.unity3d|60e51b9cd6cd0389f897f863431fc9ae|0|84456
 Profile_9|Assets/ResourceDownload/Output/Profile_9.unity3d|0da3b2671cc7bb7e9e313c01732e923c|0|54986
-Atlas_Avatar_0|Assets/ResourceDownload/Output/Atlas_Avatar_0.unity3d|229c34de44f9841716acf1bbd9f55fdb|1|100795
+Atlas_Avatar_0|Assets/ResourceDownload/Output/Atlas_Avatar_0.unity3d|c2115a2691fb2d7b9c1a4227835382c2|3|71632
 Profile_0|Assets/ResourceDownload/Output/Profile_0.unity3d|76cfed4f0896d687f07f37b491909e06|0|419862
 Atlas_Avatar_7|Assets/ResourceDownload/Output/Atlas_Avatar_7.unity3d|29ee82ed553e089c0ac7ec9983afc75b|0|146858
 Atlas_Avatar_6|Assets/ResourceDownload/Output/Atlas_Avatar_6.unity3d|9cb78f68c0dea99a754d81f1bbd3224a|0|171407
@@ -19,3 +19,4 @@ Profile_3|Assets/ResourceDownload/Output/Profile_3.unity3d|0f0c51a568ace7403c978
 Profile_4|Assets/ResourceDownload/Output/Profile_4.unity3d|35bac7d72bfcca52293ad715e2a3d1d4|0|992280
 Profile_5|Assets/ResourceDownload/Output/Profile_5.unity3d|d6d5235bb13d6e4244c7ada3052b63fd|0|456871
 Profile_8|Assets/ResourceDownload/Output/Profile_8.unity3d|67e1bd8a0c67e877693b5e72c731e28c|0|667186
+Atlas_Avatar_1|Assets/ResourceDownload/Output/Atlas_Avatar_1.unity3d|8d9372ce0baafd26a937dc868a9291db|0|17966

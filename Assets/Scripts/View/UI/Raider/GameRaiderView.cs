@@ -19,6 +19,7 @@ public class GameRaiderView : UIComponentUnity {
 		HtEngine.LinkPressedFactor = 0.5f;
 		// link function name.
 		HtEngine.DefaultFontSize = 24;
+		HtEngine.DefaultFontFace = "Dimbo Regular";
 		HtEngine.LinkFunctionName = "onLinkClicked";
 
 		html = FindChild("HTML/Content").GetComponent<NGUIHTML> ();
