@@ -116,7 +116,6 @@ public class UIManager {
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
 		ChangeScene (SceneEnum.Home);
-
 	}
 
 	public void HideBaseScene () {

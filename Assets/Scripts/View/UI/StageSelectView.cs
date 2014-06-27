@@ -52,6 +52,7 @@ public class StageSelectView : UIComponentUnity{
 			Debug.LogError("DataCenter.Instance.EventStageList == NULL, return...");
 			return;
 		}
+
 		Debug.Log("Now event stage count is :" + eventStageList.Count);
 
 		storyStageRoot.gameObject.SetActive(false);

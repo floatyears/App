@@ -8,6 +8,8 @@ public class EffectManager {
 		DragCard,
 
 		PassiveAntiAttack,
+
+		LeaderSkillExtrackAttack,
 	}
 
 	private static EffectManager instance;
@@ -36,6 +38,9 @@ public class EffectManager {
 			break;
 		case EffectEnum.PassiveAntiAttack:
 			path = "PS-fight-back";
+			break;
+		case EffectEnum.LeaderSkillExtrackAttack:
+			path = "LS-pursuit";
 			break;
 		}
 
@@ -184,13 +189,13 @@ public class EffectManager {
 	
 	string GetAttackDanger(int attackRange, float attackValue) {
 		if (attackRange == 0) {
-			if (attackValue <= 2.3f) {	
+			if (attackValue < 2.3f) {	
 					return "1-";
 			} else {
 					return "2-";
 			}
 		} else {
-			if (attackValue <= 1.8f) {
+			if (attackValue < 1.8f) {
 				return "1-";
 			} else {
 				return "2-";
