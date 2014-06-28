@@ -590,7 +590,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			expSlider.value = 1.0f;
 			return;
 		} else {
-			needExpLabel.text = TextCenter.GetText("Text_Next") + needExp.ToString();
+			needExpLabel.text = TextCenter.GetText("Text_Next") +": " + needExp.ToString();
 		}
 
 		float progress = (float)curExp / (float)currMaxExp;
