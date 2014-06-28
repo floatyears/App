@@ -64,8 +64,8 @@ Float_TotalExp=累计经验:
 
 LeaderSkillText=队长技能: 
 PARTY=队伍
-Text_Sell_Price=卖出单价
-Text_Next=下一级
+Text_Sell_Price=卖出价格
+Text_Next=下一级:
 Text_Max=最大
 Text_Support=援军
 Text_Point=点
@@ -108,7 +108,6 @@ Text_Reject=移除
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
-Unit_Detail_Next=下一级：
 Text_Party=使用中
 Text_TapToLogin=点击屏幕进入游戏
 

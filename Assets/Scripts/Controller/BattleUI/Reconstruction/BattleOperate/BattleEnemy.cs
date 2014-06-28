@@ -210,16 +210,21 @@ public class BattleEnemy : UIBaseUnity {
 
 		bool isOdd = DGTools.IsOddNumber (count);
 		int centerIndex = count >> 1;
+		probability = 1.0f;
 		if (isOdd) {
-			probability = GetProbability (Screen.width, enemys);
-			enemys [centerIndex].CompressTextureSize (probability);
-			SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
+			float allPro = GetProbability (Screen.width, enemys);
+			probability = SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
+			if( probability > allPro ) {
+				probability = allPro;
+			}
 		} else {
-			SetgmentationEnemys(enemys, 0, screenWidth);
+			probability = SetgmentationEnemys(enemys, 0, screenWidth);
 		}
+
+		CompressTexture (probability, enemys);
 	}
 
-	void SetgmentationEnemys(List<EnemyItem> enemys, int centerIndex, float screenWidth) {
+	float SetgmentationEnemys(List<EnemyItem> enemys, int centerIndex, float screenWidth) {
 		int leftEndIndex = centerIndex ;
 		int rightStartIndex = centerIndex + 1;
 
@@ -239,11 +244,14 @@ public class BattleEnemy : UIBaseUnity {
 		}
 		float lefrpro = GetProbability (screenWidth, leftEnemys);
 		float rightpro = GetProbability (screenWidth, rightEnemys);
-		if (lefrpro > rightpro) {
-			CompressTexture (rightpro, enemys);
-		} else {
-			CompressTexture (lefrpro, enemys);	
-		}
+//		Debug.LogError("leftScale:"+lefrpro+" rightScale:"+rightpro);
+//		if (lefrpro > rightpro) {
+//			CompressTexture (rightpro, enemys);
+//		} else {
+//			CompressTexture (lefrpro, enemys);	
+//		}
+
+		return (lefrpro < rightpro ? lefrpro : rightpro);
 	}
 
 	float GetProbability(float screenWidth, List<EnemyItem> enemys) {
@@ -251,8 +259,11 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
 			UITexture tex = enemys [i].texture;
 			width += tex.width;
+//			Debug.LogError("screenWidth:"+screenWidth+" totalWidth:"+width+" tex.width:"+tex.width);
 		}
-		
+		if( screenWidth >= width ) {
+			return 1.0f;
+		}
 		return screenWidth / width;
 	}
 

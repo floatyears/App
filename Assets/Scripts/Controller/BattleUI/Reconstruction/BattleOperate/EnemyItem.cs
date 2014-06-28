@@ -228,6 +228,7 @@ public class EnemyItem : UIBaseUnity {
 
 	public void CompressTextureSize(float proportion) {
 		if (proportion < 1f) {
+//			Debug.LogError("CompressTexture: width:"+texture.width+" => "+(int)(texture.width * proportion));
 			texture.width = (int)(texture.width * proportion);
 			texture.height = (int)(texture.height * proportion);
 			SetBloodSpriteWidth ();
