@@ -296,8 +296,8 @@ public class FightReadyView : UIComponentUnity {
 	private void UpdateLeaderSkillView(SkillBase skill, UILabel name, UILabel dscp){
 		if(skill == null){
 			Debug.LogError("Leader skill is Null");
-			name.text = TextCenter.GetText("LeaderSkillText") + "-";
-			dscp.text = "-";
+			name.text = TextCenter.GetText("LeaderSkillText") +  TextCenter.GetText("Text_None");
+			dscp.text = "";
 		}
 		else{
 			name.text = TextCenter.GetText("LeaderSkillText") + TextCenter.GetText("SkillName_" + skill.id);//skill.name;

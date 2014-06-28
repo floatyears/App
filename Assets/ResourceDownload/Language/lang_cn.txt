@@ -64,6 +64,7 @@ Float_TotalExp=累计经验:
 
 LeaderSkillText=队长技能: 
 PARTY=队伍
+Text_None=无
 Text_Sell_Price=卖出价格
 Text_Next=下一级
 Text_Max=最大

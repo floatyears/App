@@ -64,6 +64,7 @@ Float_TotalExp=累计经验:
 
 LeaderSkillText=Leader Skill: 
 PARTY=PARTY
+Text_None=无
 Text_Sell_Price=卖出单价
 Text_Next=下一级
 Text_Max=最大
@@ -108,7 +109,6 @@ Text_Reject=移除
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
-Unit_Detail_Next=下一级
 Text_Party=使用中
 Text_TapToLogin=点击屏幕进入游戏
 
@@ -144,6 +144,8 @@ SCENE_NAME_CURRENCY=Currency
 SCENE_NAME_MUSIC=设置
 SCENE_NAME_NICKNAME=修改昵称
 
+Stage_Event_Close=活动开始时间：
+Stage_Event_Remain=活动剩余时间：
 Stage_Locked=LOCKED
 Stamina=STAMINA
 Floor=FLOOR

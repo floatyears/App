@@ -234,6 +234,7 @@ public class TUnitInfo : ProtobufDataBase {
 		return Mathf.FloorToInt(result);
 	}
 
+	//return (level+1)'s exp - level's exp
 	public int GetLevelExp(int level) {
 		int result = 0;
 		if (level == 1) {
@@ -243,6 +244,29 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 
 		return result;
+	}
+
+	//return Hp at level
+	public int GetHpByLevel(int level) {
+		return GetCurveValue(level, instance.powerType.hpType);
+	}
+
+	//return Atk at level
+	public int GetAtkByLevel(int level) {
+		return GetCurveValue(level, instance.powerType.attackType);
+	}
+
+	//return the unit level at totalExp
+	public int GetLevelByExp(int totalExp) {
+		int level = 1;
+		while (level < MaxLevel) {
+			int exp = GetCurveValue(level, instance.powerType.expType);
+			if ( totalExp < exp ){
+				break;
+			}
+			level += 1;
+		}
+		return level;
 	}
 
 	public bbproto.PowerType PowerType {

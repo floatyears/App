@@ -329,6 +329,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void ShowSkill1Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill1;
+		if (skillId == 0) {
+			normalSkill1NameLabel.text = TextCenter.GetText("Text_None");
+			normalSkill1DscpLabel.text = "";
+			return;	
+		}
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill); //Skill[ skillId ];
 		SkillBase skill =sbi.GetSkillInfo();
 
@@ -347,6 +352,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.NormalSkill2;
 		if (skillId == 0) {
+			normalSkill2NameLabel.text = TextCenter.GetText("Text_None");
+			normalSkill2DscpLabel.text = "";
 			return;	
 		}
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill);//Skill[ skillId ];
@@ -367,6 +374,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
 		if (skillId == 0) {
+			leaderSkillNameLabel.text = TextCenter.GetText("Text_None");
+			leaderSkillDscpLabel.text = "";
 			return;	
 		}
 		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();
@@ -378,6 +387,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.ActiveSkill;
 		if (skillId == 0) {
+			activeSkillNameLabel.text = TextCenter.GetText("Text_None");
+			activeSkillDscpLabel.text = "";
 			return;	
 		} 
 		SkillBase skill = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill).GetSkillInfo();
@@ -386,8 +397,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
     }
         
 	void ShowProfileContent( TUserUnit data ){
-		TUnitInfo unitInfo = data.UnitInfo;
-		profileLabel.text = unitInfo.Profile;
+//		TUnitInfo unitInfo = data.UnitInfo;
+		profileLabel.text = "";
 	}
 
 	//--------------interface function-------------------------------------
