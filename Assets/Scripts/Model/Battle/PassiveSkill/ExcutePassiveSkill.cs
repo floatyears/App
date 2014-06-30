@@ -75,10 +75,10 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	public List<AttackInfo> Dispose (int AttackType, int attack) {
 		attackList.Clear ();
 		foreach (var item in passiveSkill) {
-			Debug.LogError("dispose : " + item.Value);
+//			Debug.LogError("dispose : " + item.Value);
 			if(item.Value is TSkillAntiAttack) {
 				AttackInfo ai = item.Value.Excute(AttackType, this) as AttackInfo;
-				Debug.LogError("dispose attackinfo : " + ai);
+//				Debug.LogError("dispose attackinfo : " + ai);
 				if(ai != null) {
 					ai.SkillID = item.Value.skillBaseInfo.BaseInfo.id;
 					ai.UserUnitID = item.Key;
