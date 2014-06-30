@@ -885,12 +885,12 @@ public class BattleQuest : UIBase {
 	}
 
 	void CancelRetry(object data) {
-		RequestData ();
+		RequestData (null);
 	}
 
 	void QuestClearShow(object data) {
 		configBattleUseData.ClearData ();
-		RequestData ();
+		RequestData (null);
 	}
 
 	public TClearQuestParam GetQuestData () {
@@ -905,7 +905,7 @@ public class BattleQuest : UIBase {
 		return cqp;
 	}
 
-	void RequestData () {
+	void RequestData (object data) {
 		if (DataCenter.gameState == GameState.Evolve) {
 			EvolveDone evolveDone = new EvolveDone ();
 			TClearQuestParam cqp = GetQuestData();
@@ -972,12 +972,33 @@ public class BattleQuest : UIBase {
 	}
 
 	void ResponseClearQuest (object data) {
-		if ( data != null ) {
+		if (data != null) {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
 			End (clearQuest, QuestEnd);
+		} else {
+			RetryClearQuestRequest();
 		}
+	}
+
+	void RetryClearQuestRequest () {
+		MsgWindowParams mwp = new MsgWindowParams ();
+		mwp.btnParam = new BtnParam();
+		mwp.titleText = TextCenter.GetText("RetryClearQuestTitle");
+		mwp.contentText = TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
+		                                     DataCenter.Instance.AccountInfo.Stone);
+		BtnParam sure = new BtnParam ();
+		sure.callback = RequestData;
+		sure.text = TextCenter.GetText("Retry");
+		mwp.btnParam = sure;
+		
+//		sure = new BtnParam ();
+//		sure.callback = CancelInitiativeRetry;
+//		sure.text = TextCenter.GetText("Cancel");
+//		mwp.btnParams[1] = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 	}
 
 	void End(TRspClearQuest clearQuest,Callback questEnd) {

@@ -80,6 +80,8 @@ public class UnitsWindow : UIComponentUnity{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		if (iuiCallback == null)
 			return;
+
+//		ViewManager.Instance.ShowTipsLabel ("Click", caller);
 		SceneEnum se = buttonInfo [caller];
 		iuiCallback.CallbackView(se);
 	}
