@@ -103,6 +103,7 @@ public class QuestItemView : MonoBehaviour {
 		expLabel = transform.FindChild("Label_Exp").GetComponent<UILabel>();
 		coinLabel = transform.FindChild("Label_Coin").GetComponent<UILabel>();
 		clearFlagLabel = transform.FindChild("Label_Clear_Flag").GetComponent<UILabel>();
+		clearFlagLabel.text = TextCenter.GetText ("StageStateClear");
 		borderSpr = transform.FindChild("Sprite_Boss_Avatar_Border").GetComponent<UISprite>();
 		avatarBgSpr = transform.FindChild("Sprite_Boss_Avatar_Bg").GetComponent<UISprite>();
 	}

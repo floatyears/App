@@ -1,1 +1,1 @@
-NSavePath:Assets/ResourceDownload/Output;Filename:Language_en;Extension:unity3dy3dd
+KSavePath:Assets/ResourceDownload/Output;Filename:Protobuf;Extension:unity3d3ddty3d

@@ -15,6 +15,8 @@ using System.Collections.Generic;
 
 public class LoadingLogic : ConcreteComponent {
     
+	public int currentVersion = 1;
+
     public LoadingLogic(string uiName):base(uiName) {
         MsgCenter.Instance.AddListener(CommandEnum.StartFirstLogin, StartFirstLogin);
     }
@@ -37,12 +39,12 @@ public class LoadingLogic : ConcreteComponent {
 
     public void StartLogin(){
         INetBase netBase = new AuthUser();
-        netBase.OnRequest(null, LoginSuccess);
+        netBase.OnRequest(currentVersion, LoginSuccess);
     }
 
     public void StartFirstLogin(object args){
         uint roleSelected = (uint)args;
-        AuthUser.FirstLogin(roleSelected, LoginSuccess);
+        AuthUser.FirstLogin(roleSelected,currentVersion, LoginSuccess);
     }
 	bbproto.RspAuthUser rspAuthUser;
     void LoginSuccess(object data) {
@@ -143,6 +145,21 @@ public class LoadingLogic : ConcreteComponent {
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
 
+			if(rspAuthUser.login.friendPointGet > currentVersion){
+				MsgWindowParams mwp = new MsgWindowParams ();
+				mwp.btnParams = new BtnParam[1];
+				mwp.titleText = TextCenter.GetText("HighVersionToLoadTitle");
+				mwp.contentText = TextCenter.GetText("HighVersionToLoad");
+				
+				BtnParam sure = new BtnParam ();
+				sure.callback = o=>{Application.OpenURL (rspAuthUser.appUrl);};
+				sure.text = TextCenter.GetText("OK");
+				mwp.btnParams[0] = sure;
+
+				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+				return;
+			}
+
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
 				if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE){
@@ -155,12 +172,12 @@ public class LoadingLogic : ConcreteComponent {
 					
 					BtnParam sure = new BtnParam ();
 					sure.callback = SureRetry;
-				sure.text = TextCenter.GetText("Resume");
+					sure.text = TextCenter.GetText("Resume");
 					mwp.btnParams[0] = sure;
 					
 					sure = new BtnParam ();
 					sure.callback = Cancel;
-				sure.text = TextCenter.GetText("Discard");
+					sure.text = TextCenter.GetText("Discard");
 					mwp.btnParams[1] = sure;
 					
 					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
@@ -172,6 +189,7 @@ public class LoadingLogic : ConcreteComponent {
 			}
         }
     }
+
 
 	private void StartFight(){
 		StartQuest sq = new StartQuest ();

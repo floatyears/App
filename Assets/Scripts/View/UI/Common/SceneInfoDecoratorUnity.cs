@@ -73,4 +73,8 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		gameObject.transform.localPosition = new Vector3(0, 1000, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.4f, "islocal", true));
 	}
+
+	public void SetSceneName(string name){
+		sceneNameLabel.text = name;
+	}
 }

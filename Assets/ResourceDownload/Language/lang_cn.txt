@@ -112,6 +112,10 @@ Unit_Detail_Tab_Prifile=信息
 Text_Party=使用中
 Text_TapToLogin=点击屏幕进入游戏
 
+Text_Leader_Skill_Colon=队长技能：
+Name_No_LeaderSkill=无队长技能
+Description_No_LeaderSkill=无技能描述
+
 ##Scene Name
 SCENE_NAME_APPLY=申请好友
 SCENE_NAME_CATALOG=图鉴
@@ -143,6 +147,8 @@ SCENE_NAME_RAIDER=游戏攻略
 SCENE_NAME_CURRENCY=购买测试
 SCENE_NAME_MUSIC=设置
 SCENE_NAME_NICKNAME=修改昵称
+SCENE_NAME_EVENTSTAGE=活动关卡
+SCENE_NAME_EVOLVETAGE=进化关卡
 
 Stage_Event_Close=活动开始时间：
 Stage_Event_Remain=活动剩余时间：
@@ -182,6 +188,8 @@ BattleContinueTitle=战斗继续确认
 BattleContinueContent=你有还未结束的战斗，你要继续进行未完成的战斗吗？\n\n放弃战斗将损失所有战利品和已消耗的体力.
 
 Connecting=连接中...
+HighVersionToLoadTitle=升级程序
+HighVersionToLoad=游戏有新版本，请升级
 
 #Friend search
 SearchError=查找错误

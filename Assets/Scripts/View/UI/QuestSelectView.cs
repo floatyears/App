@@ -13,6 +13,11 @@ public class QuestSelectView : UIComponentUnity {
 		ShowUIAnimation();
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+
+		if (pickedStage != null) {
+			GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+			obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (pickedStage.StageName);
+		}
 	}
 
 	public override void HideUI(){
@@ -34,6 +39,7 @@ public class QuestSelectView : UIComponentUnity {
 	private void GetQuestInfo(object msg){
 		TStageInfo newPickedStage = msg as TStageInfo;
 		List<TQuestInfo> newQuestList = newPickedStage.QuestInfo;
+		newQuestList.Reverse ();
 
 		if(accessQuestList == null){
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList is NULL as FRIST step in, CREATE list view...");
@@ -51,6 +57,9 @@ public class QuestSelectView : UIComponentUnity {
 		else{
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList NOT CHANGED, KEEP prev list view...");
 		}
+
+		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (newPickedStage.StageName);
 	}
 
 	private void UpdateQuestListView(){
