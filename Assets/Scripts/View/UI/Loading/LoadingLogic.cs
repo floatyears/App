@@ -145,16 +145,18 @@ public class LoadingLogic : ConcreteComponent {
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
 
-			if(rspAuthUser.login.friendPointGet > currentVersion){
+			if(rspAuthUser.newAppVersion > currentVersion){
 				MsgWindowParams mwp = new MsgWindowParams ();
 				mwp.btnParams = new BtnParam[1];
 				mwp.titleText = TextCenter.GetText("HighVersionToLoadTitle");
 				mwp.contentText = TextCenter.GetText("HighVersionToLoad");
 				
 				BtnParam sure = new BtnParam ();
-				sure.callback = o=>{Application.OpenURL (rspAuthUser.appUrl);};
+				sure.callback = o=>{
+					Application.OpenURL (rspAuthUser.appUrl);
+				};
 				sure.text = TextCenter.GetText("OK");
-				mwp.btnParams[0] = sure;
+				mwp.btnParam = sure;
 
 				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 				return;

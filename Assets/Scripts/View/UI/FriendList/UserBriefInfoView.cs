@@ -61,6 +61,18 @@ public class UserBriefInfoView : UIComponentUnity{
 		UIEventListener.Get(buttonExit).onClick = Exit;
 		buttonDelete = transform.FindChild("Window/Button_Delete").gameObject;
 		originLayer = Main.Instance.NguiCamera.eventReceiverMask;
+
+		FindChild<UILabel>("Window/Label_Text/Hp").text = TextCenter.GetText("Text_HP_Colon");
+		FindChild<UILabel>("Window/Label_Text/ATK").text = TextCenter.GetText("Text_ATK_Colon");
+		FindChild<UILabel>("Window/Label_Text/Race").text = TextCenter.GetText("Text_RACE_Colon");
+		FindChild<UILabel>("Window/Label_Text/Name").text = TextCenter.GetText("Text_Name_Colon");
+//		FindChild<UILabel>("Window/Label_Text/Rank").text = TextCenter.GetText("Text_Rank");
+		FindChild<UILabel>("Window/Label_Text/Lv").text = TextCenter.GetText("Text_Level_Colon");
+		FindChild<UILabel>("Window/Label_Text/LastLogin").text = TextCenter.GetText("Text_LastLogin_Colon");
+		FindChild<UILabel>("Window/btn_choose/Label").text = TextCenter.GetText("Text_Select");
+		FindChild<UILabel>("Window/btn_see_info/Label").text = TextCenter.GetText("Text_SeeInfo");
+		FindChild<UILabel>("Window/btn_exit/Label").text = TextCenter.GetText("Text_Exit");
+		FindChild<UILabel>("Window/Button_Delete/Label").text = TextCenter.GetText("DeleteNoteTitle");
 	}
 	
 	void ShowSelf(bool canShow){
@@ -172,7 +184,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	}
 
 	void RefreshRank(object args){
-		rankLabel.text = "Rank : " + args as string;
+		rankLabel.text = TextCenter.GetText("Text_Rank") + ": " + args as string;
 	}
 
 	void RefreshUserName(object args){

@@ -71,6 +71,8 @@ Text_Max=最大
 Text_Support=援军
 Text_Point=点
 Text_Rank=等级
+Text_Rank_Colon=等级：
+Text_Name_Colon=名称：
 
 
 ##City Name
@@ -99,7 +101,9 @@ Text_HP=血量
 Text_ATK=攻击
 Text_COST=统御力
 Text_Level=等级
+Text_Level_Colon=等级：
 Text_RACE=种族
+Text_RACE_Colon=种族：
 Text_EXP=经验
 Text_Coins=金币
 Text_TYPE=属性
@@ -207,6 +211,15 @@ ConfirmRefreshFriend=确定立即更新好友列表吗？
 
 FriendSearch_Title=查找好友
 FriendSearch_Content=请输入你像查找的用户ID
+
+#friend
+Text_HP_Colon=血量：
+Text_ATK_Colon=攻击：
+Text_Select=选择
+Text_SeeInfo=查看信息
+Text_Exit=退出
+Text_LastLogin_Colon=最近登录：
+ApplyFriendNote=确定要提交好友申请吗？
 
 # shop
 Btn_Friend_Expand=好友扩容
