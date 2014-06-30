@@ -316,7 +316,8 @@ public class BattleEnemy : UIBaseUnity {
 			GameObject prefab = returnValue as GameObject;
 			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
 			ProtobufDataBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
-			if(pdb is TSkillExtraAttack) {
+			Types t = pdb.GetType();
+			if(t == typeof(TSkillExtraAttack) || t == typeof(TSkillAntiAttack)) {
 				foreach (var item in monster.Values) {
 					if(item != null) {
 						GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);
