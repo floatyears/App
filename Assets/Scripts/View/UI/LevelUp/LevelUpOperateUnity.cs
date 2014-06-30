@@ -86,24 +86,49 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// </summary>
 	private UILabel[] infoLabel = new UILabel[6];
 
-	private int hp = 0;
-	public int Hp{ 
-		set {hp = value; infoLabel[0].text = hp.ToString();}
+	private string hp = "0";
+	public string Hp{ 
+		set { 
+			hp = value;
+			infoLabel [0].text = value;}//hp.ToString();}
 	}
 
-	private int atk = 0;
-	public int Atk{ 
-		set {atk = value; infoLabel[2].text = atk.ToString();}
+	private string atk = "0";
+	public string Atk{ 
+		set { 
+			atk = value;
+			infoLabel [1].text = value;}//atk.ToString();}
 	}
 
-	private int expNeed = 0;
-	public int ExpNeed{ 
-		set {expNeed = value; infoLabel[3].text = expNeed.ToString();}
+	private string expNeed = "0";
+	public string ExpNeed{ 
+		set { 
+			expNeed = value;
+			infoLabel [3].text = value;}//expNeed.ToString();}
 	}
 
 	private int expGot = 0;
 	public int ExpGot{ 
-		set {expGot = value; infoLabel[1].text = expGot.ToString();}
+		set {
+			expGot = value; 
+			infoLabel[2].text = expGot.ToString();
+
+			TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
+			if(baseInfo == null)
+				return;
+			TUnitInfo tu = baseInfo.UnitInfo;
+			int toLevel = tu.GetLevelByExp (expGot + baseInfo.Exp);
+			if (expGot == 0) {
+				Hp = baseInfo.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
+				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
+				ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
+			}else{
+				Hp = baseInfo.Hp + "->" + tu.GetHpByLevel(toLevel);
+				Atk =  baseInfo.Attack + "->" + tu.GetAtkByLevel(toLevel);
+				ExpNeed = baseInfo.Level + "->" + toLevel;
+			}
+
+		}
 	}
 
 	private int coinNeed = 0;
@@ -398,9 +423,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void ClearInfoPanelData() {
-		Hp = 0;
-		Atk = 0;
-		ExpNeed = 0;
+		Hp = "0";
+		Atk = "0";
+		ExpNeed = "0";
 		ExpGot = 0;
 		CoinNeed = 0;
 	}
@@ -588,6 +613,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
 	void CheckLevelUp() {
 		levelUpInfo.Clear ();
+
 		TUserUnit baseItem = selectedItem [baseItemIndex].UserUnit;
 		if (baseItem == null) {
 			levelUpButton.isEnabled = false;
@@ -614,6 +640,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 	
 		levelUpButton.isEnabled = true;
+
+
 	}
 
 	void UpdateBaseInfoView(){
@@ -623,11 +651,28 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return;	
 		}
 
-		TUnitInfo tu = baseInfo.UnitInfo;
-		Hp = baseInfo.Hp;
-		Atk =  baseInfo.Attack;
-		ExpNeed = baseInfo.Level;
+		//int exp = GetLevelExp ();
+
+
 		RefreshMaterial ();
+
+		if (baseInfo == null) {
+			ClearInfoPanelData ();
+			//			return;	
+		}
+//		TUnitInfo tu = baseInfo.UnitInfo;
+//		int toLevel = tu.GetLevelByExp (expGot + baseInfo.Exp);
+//		if (expGot == 0) {
+//			Hp = baseInfo.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
+//			Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
+//			ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
+//		}else{
+//			Hp = baseInfo.Hp + "->" + tu.GetHpByLevel(toLevel);
+//			Atk =  baseInfo.Attack + "->" + tu.GetAtkByLevel(toLevel);
+//			ExpNeed = baseInfo.Level + "->" + toLevel;
+//		}
+
+
 	}
 
 	void RefreshMaterial() {
