@@ -130,7 +130,6 @@ public class BattleBackground : UIBaseUnity {
 	private int tempNum = 0;
 	void SetBlood (int num) {
 		string info = "HP:" + num + "/" + initBlood;
-//		Debug.LogError ("SetBlood : " + num);
 		label.text = info;
 		if (num > tempNum) {
 			spriteAnimation.Reset();
@@ -141,16 +140,13 @@ public class BattleBackground : UIBaseUnity {
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {
 		int currentBlood = (int)data;
-//		Debug.LogError ("currentBlood : " + currentBlood);
 		SetBlood (currentBlood);
 	}
 
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
-
 		for (int i = 0; i < spSprite.Length; i++) {
 			UISprite sprite = spSprite[i];
-//			Debug.LogError(" ListenEnergyPoint : " + (i < energyPoint) + " sprite : " + sprite);
 			if(i < energyPoint) {
 				if(!sprite.enabled) {
 					sprite.enabled = true;
