@@ -122,6 +122,10 @@ public class ViewManager {
 		tipsLabelUI.ShowInfo (content);
 	}
 
+	public void ShowTipsLabel(string content, GameObject target) {
+		tipsLabelUI.ShowInfo (content, target);
+	}
+
 	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
 	public void RegistUIBaseUnity(UIBaseUnity obj) {
