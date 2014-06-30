@@ -64,13 +64,11 @@ public class QuestController : ConcreteComponent{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TStageInfo stageSelected =args as TStageInfo ; 
 		if (stageSelected != null) {
-			if (DataCenter.Instance.QuestClearInfo.GetStoryCityState (stageSelected.CityId) == StageState.LOCKED ) {
-				ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("Stage_Clocked"));
-			} else {
+
 				ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
 				UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 				MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
-			}
+
 		}
 
 	}
