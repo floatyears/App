@@ -43,6 +43,7 @@ Btn_Reception_RefuseAll=拒绝
 Btn_Submit_SearchFriend=查找
 Btn_UserID_OK=返回
 
+
 Btn_SortRule_HP=血量
 Btn_SortRule_Atk=攻击
 Btn_SortRule_GetTime=获得时间
@@ -186,6 +187,8 @@ RedoQuestTitle=战斗重打确认
 RedoQuestContent=是否花费 {0} 个钻石来重打此层战斗？\n\n你当前拥有{1}颗钻石.
 ResumeQuestTitle=战斗续打确认
 ResumeQuestContent=是否花费 {0} 个钻石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
+RetryClearQuestNet=网络异常，请点击确认按钮重试。
+RetryClearQuestTitle=请求错误。
 
 #Loading
 BattleContinueTitle=战斗继续确认
