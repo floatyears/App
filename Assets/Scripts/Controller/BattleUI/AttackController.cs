@@ -155,6 +155,7 @@ public class AttackController {
 	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
+//		Debug.LogError ("leaderSkilllExtarAttack");
 		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
 		foreach (var item in attack) {

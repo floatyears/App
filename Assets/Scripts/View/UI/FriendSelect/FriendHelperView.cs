@@ -26,7 +26,7 @@ public class FriendHelperView : UIComponentUnity{
 		AddCmdListener();
 
 		CreateGeneralListView();
-		Debug.LogError ("generalDragPanel : " + generalDragPanel);
+//		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
 

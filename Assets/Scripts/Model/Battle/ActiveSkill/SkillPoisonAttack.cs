@@ -26,8 +26,9 @@ public class TSkillPoison : ActiveSkill {
 		ai.IgnoreDefense = true;
 		ai.AttackType = 0; //0 = ATK_SINGLE
 		ai.SkillID = skillBase.id;
+		ai.AttackRange = 1;
 		ConfigBattleUseData.Instance.posionAttack = ai;
-
+		MsgCenter.Instance.Invoke (CommandEnum.PlayAllEffect, ai);
 		ExcuteByDisk (ai);
 		return null;
 	}
@@ -36,7 +37,7 @@ public class TSkillPoison : ActiveSkill {
 		posionInfo = ai;
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-		Debug.LogError ("TSkillPoison ai.AttackRound : " + ai.AttackRound + " value :  " + ai.AttackValue);
+//		Debug.LogError ("TSkillPoison ai.AttackRound : " + ai.AttackRound + " value :  " + ai.AttackValue);
 		MsgCenter.Instance.Invoke(CommandEnum.BePosion, ai);
 		return posionInfo;
 	}

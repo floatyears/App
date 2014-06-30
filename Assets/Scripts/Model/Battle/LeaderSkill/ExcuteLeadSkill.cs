@@ -16,13 +16,16 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		int temp = 0;
 		foreach (var item in leadSkill.LeadSkill) {
 			temp++;
-			leaderSkillQueue.Enqueue(item.Key);
-			GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
+			if(item.Value is TSkillBoost) {
+				leaderSkillQueue.Enqueue(item.Key);
+				GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
+			}
 		}
 	}
 
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
+		DisposeBoostSkill (key, leadSkill.LeadSkill [key]);
 		leadSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
 			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
@@ -82,11 +85,13 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		
 	public List<AttackInfo> ExtraAttack (){
 		List<AttackInfo> ai = new List<AttackInfo>();
+//		Debug.LogError("leadSkill.LeadSkill.Count : " + leadSkill.LeadSkill.Count);
 		if (leadSkill.LeadSkill.Count == 0) {
 			return ai;
 		}
 		foreach (var item in leadSkill.LeadSkill) {
 			TSkillExtraAttack tsea = item.Value as TSkillExtraAttack;
+//			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
 			if(tsea == null) {
 				continue;
 			}
