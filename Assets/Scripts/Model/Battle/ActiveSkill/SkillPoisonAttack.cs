@@ -18,7 +18,6 @@ public class TSkillPoison : ActiveSkill {
 			return null;
 		}
 		InitCooling ();
-
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
 		ai.AttackValue = atk * instance.value;

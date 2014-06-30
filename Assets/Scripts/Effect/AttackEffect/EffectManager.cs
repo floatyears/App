@@ -93,7 +93,6 @@ public class EffectManager {
 		string path = "";
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {
-//			Debug.LogError("tns : " + tns.)
 			path = GetNormalSkillEffectName (tns);
 		} else if (sbi is ActiveSkill) {
 			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
