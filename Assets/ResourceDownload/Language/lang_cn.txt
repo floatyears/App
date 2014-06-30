@@ -1057,6 +1057,7 @@ guide62_title=指引结束
 guide62_content=点击quest start。\n我的指引就到这了，前进吧！Divine gate！
 
 notmaxleveltips=基础卡牌等级未达到最高等级。
+clearQuest=已通关
 
 ##Tips
 Tips_A_1=MQ是一个滑动方块来战斗的恶魔题材卡牌游戏。

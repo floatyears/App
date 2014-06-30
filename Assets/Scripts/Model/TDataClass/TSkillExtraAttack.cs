@@ -14,6 +14,7 @@ public class TSkillExtraAttack : SkillBaseInfo {
 		ai.AttackValue = attackValue * instance.attackValue;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = 1;//attack all enemy
+		ai.SkillID = skillBase.id;
 		ai.UserUnitID = id.MakeUserUnitKey();
 		return ai;
 	}

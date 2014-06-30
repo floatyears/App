@@ -46,15 +46,13 @@ public class QuestSelectView : UIComponentUnity {
 			pickedStage = newPickedStage;
 			accessQuestList = GetAccessQuest(newQuestList);
 			UpdateQuestListView();
-		}
-		else if(!accessQuestList.Equals(newQuestList)){
+		} else if(!accessQuestList.Equals(newQuestList)){
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList CHANGED, UPDATE prev list view...");
 			pickedStage = newPickedStage;
 			accessQuestList = GetAccessQuest(newQuestList);
 			dragPanel.DestoryUI();
 			UpdateQuestListView();
-		}
-		else{
+		} else{
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList NOT CHANGED, KEEP prev list view...");
 		}
 
@@ -68,16 +66,17 @@ public class QuestSelectView : UIComponentUnity {
 
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
 		dragPanel.CreatUI();
-		dragPanel.AddItem(accessQuestList.Count);
+		int dataCount = accessQuestList.Count;
+		dragPanel.AddItem (dataCount);
 		CustomDragPanel();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, transform);
-
+		dataCount--;
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			QuestItemView questItemView = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
 			//do before, store questInfo's stageInfo 
 			questItemView.stageInfo = pickedStage;
 			//do after, because stageInfo's refresh don't bind with questInfo's
-			questItemView.Data = accessQuestList[ i ];
+			questItemView.Data = accessQuestList[ dataCount - i ];
 		}
 	}
 

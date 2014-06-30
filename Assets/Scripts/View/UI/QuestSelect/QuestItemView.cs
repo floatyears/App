@@ -84,7 +84,7 @@ public class QuestItemView : MonoBehaviour {
 			isClear = false;
 		}
 
-		clearFlagLabel.enabled = isClear;
+		clearFlagLabel.text = isClear ? TextCenter.GetText("clearQuest") : "";
 
 		TUnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.BossID[ 0 ]);
 		avatarBgSpr.spriteName = bossUnitInfo.GetUnitBackgroundName();

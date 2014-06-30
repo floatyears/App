@@ -155,7 +155,9 @@ public class AttackController {
 	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
-		attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
+//		Debug.LogError ("leaderSkilllExtarAttack");
+		if(attack.Count > 0)
+			attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
 		foreach (var item in attack) {
 			attackInfoQueue.Enqueue (item);
@@ -466,8 +468,6 @@ public class AttackController {
 			int attackType = te.GetUnitType ();
 			float reduceValue = te.AttackValue;
 
-//			Debug.LogError("enemy attack : " + reduceValue + " attackType : " + attackType + " te.id : " + te.AttackValue);
-
 			if(leadSkillReuduce != null) {
 				reduceValue = leadSkillReuduce.ReduceHurtValue(reduceValue, attackType);
 			}
@@ -481,12 +481,15 @@ public class AttackController {
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
+			Debug.LogError("EnemyAttack attackType : " + attackType);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType, hurtValue);
-			for (int i = 0; i < temp.Count; i++) {
-				temp[i].EnemyID = te.EnemySymbol;
-				antiInfo.Add(temp[i]);
-			}
 
+//			for (int i = 0; i < temp.Count; i++) {
+//				temp[i].EnemyID = te.EnemySymbol;
+//				antiInfo.Add(temp[i]);
+//			}
+			antiInfo.AddRange(temp);
+			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
 			if(!isBoss) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			}else{
@@ -503,16 +506,15 @@ public class AttackController {
 	}    
 
 	void EnemyAttackLoopEnd() {
-//		Debug.LogError ("bud.Blood : " + bud.Blood + " antiInfo.Count : " + antiInfo.Count);
 		if(bud.Blood > 0) {
+			Debug.LogError("antiInfo.Count : " + antiInfo.Count);
 			if (antiInfo.Count == 0) {
-//				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, "");
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 				GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
 				return;
 			}
 			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [3]); // stateInfo [3]="PassiveSkill"
-			GameTimer.GetInstance ().AddCountDown (1f, LoopAntiAttack);
+			GameTimer.GetInstance ().AddCountDown (0.3f, LoopAntiAttack);
 		}
 		else{
 			EnemyAttackEnd();
@@ -545,13 +547,15 @@ public class AttackController {
 
 	void AntiAttack() {
 		if (antiInfo.Count == 0) {
-			EnemyAttackEnd();	
+			EnemyAttackEnd();
+			MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 			return;
 		}
 
 		AttackInfo ai = antiInfo [0];
 		antiInfo.RemoveAt (0);
 		TEnemyInfo te = enemyInfo.Find(a=>a.EnemySymbol == ai.EnemyID);
+		Debug.LogError ("AntiAttack te : " + te);
 		if (te == default(TEnemyInfo)) {
 			return;	
 		}
