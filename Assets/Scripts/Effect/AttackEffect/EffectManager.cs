@@ -82,6 +82,11 @@ public class EffectManager {
 	}
 
 	public void GetSkillEffectObject(int skillID, string userUnitID, ResourceCallback resouceCb) {
+		if (skillID == 0) {
+			Debug.LogError ("skillStoreID : " + skillID + " userUnitID : " + userUnitID);
+			resouceCb(null);
+			return;	
+		}
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
 //		Debug.LogError ("skillStoreID : " + skillStoreID + " userUnitID : " + userUnitID + " skillid :" + skillID);
 		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
@@ -127,12 +132,12 @@ public class EffectManager {
 					sb.Append (GetSkillType (tsa.AttackUnitType));
 			}
 			path = sb.ToString ();
-		} else if (sbi is ILeaderSkillExtraAttack) {
+		} else if (sbi is TSkillExtraAttack) {
 			path = "LS-pursuit";
 		}else if(sbi is TSkillAntiAttack) {
 			path = "PS-fight-back";
 		}
-
+//		Debug.LogError ("path : " + path);
 		GetEffectFromCache (path, resouceCb);
 	}
 

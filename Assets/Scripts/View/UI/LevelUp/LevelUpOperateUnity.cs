@@ -252,6 +252,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
+		Debug.LogError ("friendWindow : " + friendWindow);
 		gameObject.SetActive (false);
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();

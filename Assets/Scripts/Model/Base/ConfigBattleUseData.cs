@@ -79,7 +79,7 @@ public class ConfigBattleUseData {
 		get { return _strengthenAttack; }
 		set { _strengthenAttack = value; 
 			AttackInfoProto aip = _strengthenAttack == null ? null : _strengthenAttack.Instance;
-			Debug.LogError(aip.skillID);
+//			Debug.LogError(aip.skillID);
 			WriteBuff<AttackInfoProto>(strengthenAttackName, aip); 
 		}
 	}
