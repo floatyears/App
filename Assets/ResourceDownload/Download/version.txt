@@ -1,4 +1,4 @@
-Language_en|Assets/ResourceDownload/Output/Language_en.unity3d|29fddaca631f4f63ae29924d70cba964|2|12066
+Language_en|Assets/ResourceDownload/Output/Language_en.unity3d|bc5a96704337a75110657ab553afd28f|3|15850
 Protobuf|Assets/ResourceDownload/Output/Protobuf.unity3d|97374194e9fb784370c9a51bd3b30eec|6|136424
 Atlas_Avatar_0|Assets/ResourceDownload/Output/Atlas_Avatar_0.unity3d|f44db7e7780a5de5696c35acca080c3c|5|70636
 Atlas_Avatar_2|Assets/ResourceDownload/Output/Atlas_Avatar_2.unity3d|222bd75ed3f7b3acb235bc1a97c82691|1|76741
@@ -19,4 +19,4 @@ Profile_5|Assets/ResourceDownload/Output/Profile_5.unity3d|8ab2529b87a48d1f172a6
 Profile_8|Assets/ResourceDownload/Output/Profile_8.unity3d|3df0ae112120fbfb4116a6531b03df40|1|668038
 Profile_9|Assets/ResourceDownload/Output/Profile_9.unity3d|206a7ce742db544efc970c9720577841|1|55031
 Profile_10|Assets/ResourceDownload/Output/Profile_10.unity3d|298dba9f9b69e71de8f286bbf36aadb7|1|204865
-Atlas_Avatar_1|Assets/ResourceDownload/Output/Atlas_Avatar_1.unity3d|389b2ff8dd64e2d509e988746db50930|0|15962
+Atlas_Avatar_1|Assets/ResourceDownload/Output/Atlas_Avatar_1.unity3d|51367e57f50f986110a79682f87ded53|1|16996
