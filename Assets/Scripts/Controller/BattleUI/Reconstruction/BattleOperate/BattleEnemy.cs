@@ -108,6 +108,12 @@ public class BattleEnemy : UIBaseUnity {
 		if (prevEffect != null) {				
 			Destroy(prevEffect);
 		}
+		if (extraEffect.Count > 0) {
+			for (int i = extraEffect.Count - 1; i >= 0; i--) {
+				Destroy(extraEffect[i]);
+			}	
+			extraEffect.Clear();
+		}
 	}
 
 	void End() {
@@ -290,7 +296,7 @@ public class BattleEnemy : UIBaseUnity {
 		while(tempIndex < temp.Count) {
 			EnemyItem leftItem = temp[tempIndex - 1];
 			EnemyItem currentEnemyItem = temp[tempIndex];
-
+		
 			Vector3 localPosition = leftItem.transform.localPosition;
 			float leftWidth = leftItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f; 
 			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + leftWidth, 0f, 0f);
@@ -299,6 +305,7 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	GameObject prevEffect;
+	List<GameObject> extraEffect = new List<GameObject> ();
 	public void PlayerEffect(EnemyItem ei, AttackInfo ai) {
 		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
 			if(ei != null)
@@ -307,11 +314,23 @@ public class BattleEnemy : UIBaseUnity {
 				return;
 			}
 			GameObject prefab = returnValue as GameObject;
-			Vector3 pos = prefab.transform.localPosition;
-			prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
-			prevEffect.transform.localPosition = pos;
-			if(ai.AttackRange == 0) {
-				prevEffect.transform.localPosition = ei.transform.localPosition;
+			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
+			ProtobufDataBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
+			if(pdb is TSkillExtraAttack) {
+				foreach (var item in monster.Values) {
+					if(item != null) {
+						GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);
+						go.transform.localPosition = item.transform.localPosition;
+						extraEffect.Add(go);
+					}
+				}
+			} else {
+				Vector3 pos = prefab.transform.localPosition;
+				prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
+				prevEffect.transform.localPosition = pos;
+				if(ai.AttackRange == 0) {
+					prevEffect.transform.localPosition = ei.transform.localPosition;
+				}
 			}
 		});
 	}
