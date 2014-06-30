@@ -1,6 +1,6 @@
 Language_en|Assets/ResourceDownload/Output/Language_en.unity3d|29fddaca631f4f63ae29924d70cba964|2|12066
 Protobuf|Assets/ResourceDownload/Output/Protobuf.unity3d|97374194e9fb784370c9a51bd3b30eec|6|136424
-Atlas_Avatar_0|Assets/ResourceDownload/Output/Atlas_Avatar_0.unity3d|2c83e7e0caf2280fcd95e1b6d42fee39|4|67153
+Atlas_Avatar_0|Assets/ResourceDownload/Output/Atlas_Avatar_0.unity3d|f44db7e7780a5de5696c35acca080c3c|5|70636
 Atlas_Avatar_2|Assets/ResourceDownload/Output/Atlas_Avatar_2.unity3d|222bd75ed3f7b3acb235bc1a97c82691|1|76741
 Atlas_Avatar_3|Assets/ResourceDownload/Output/Atlas_Avatar_3.unity3d|6a3b44c9c8162857c3cbca1573a8d30a|1|251220
 Atlas_Avatar_4|Assets/ResourceDownload/Output/Atlas_Avatar_4.unity3d|41c1f10715bdd823dba41111dbe5b139|1|247037
