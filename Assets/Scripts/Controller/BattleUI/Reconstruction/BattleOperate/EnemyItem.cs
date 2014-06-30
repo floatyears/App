@@ -72,7 +72,7 @@ public class EnemyItem : UIBaseUnity {
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
     void Attack(object data) {
         AttackInfo ai = data as AttackInfo;
-		Debug.LogError("attack enemy");
+//		Debug.LogError("attack enemy");
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }

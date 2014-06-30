@@ -99,7 +99,7 @@ public class BattleEnemy : UIBaseUnity {
 		if (prevAttackInfo != null &&  prevAttackInfo.IsLink > 0 && prevAttackInfo.IsLink == ai.IsLink) {
 			return;
 		}
-		Debug.LogError ("EnemyItemPlayEffect ");
+//		Debug.LogError ("EnemyItemPlayEffect ");
 		prevAttackInfo = ai;
 		PlayerEffect (ei, ai);
 	}
@@ -317,7 +317,7 @@ public class BattleEnemy : UIBaseUnity {
 		
 			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
 			ProtobufDataBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
-			Debug.LogError("prefab : " + prefab + " skillStoreID: " + skillStoreID);
+//			Debug.LogError("prefab : " + prefab + " skillStoreID: " + skillStoreID);
 			System.Type t = pdb.GetType();
 //			Debug.LogError("PlayerEffect t : " + t);
 			if(t == typeof(TSkillExtraAttack)) {

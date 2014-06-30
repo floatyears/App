@@ -342,6 +342,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// drag panel item click.
 	/// </summary>
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
+		if (pui.IsFavorite) {
+			return;		
+		}
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
 				return;	

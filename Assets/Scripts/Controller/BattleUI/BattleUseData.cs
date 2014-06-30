@@ -95,7 +95,6 @@ public class BattleUseData {
 			maxEnergyPoint =DataCenter.maxEnergyPoint;
 		} else {
 			maxBlood = upi.GetInitBlood ();
-//			Debug.LogError("InitBattleUseData : " + sbd.hp);
 			blood = sbd.hp;
 			maxEnergyPoint = sbd.sp;
 		}
@@ -112,7 +111,6 @@ public class BattleUseData {
     }
 
     void ListenEvent() {
-
         MsgCenter.Instance.AddListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
         MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, MoveToMapItem);
         MsgCenter.Instance.AddListener(CommandEnum.StartAttack, StartAttack);
@@ -314,18 +312,22 @@ public class BattleUseData {
             return;
         }
         MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
+//		Debug.LogError ("skillRecoverHP : " + skillRecoverHP);
         int addBlood = skillRecoverHP.RecoverHP(maxBlood, 2);	//3: every step.
 //        RecoverHP(addBlood);
+//		Debug.LogError ("addblood : " + addBlood + "Blood : " + Blood);
 		Blood += addBlood;
         ConsumeEnergyPoint();
     }
 
 	bool isLimit = false;
 
-    void ConsumeEnergyPoint() {
+    void ConsumeEnergyPoint() {	
+//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint);
         if (maxEnergyPoint == 0) {
 			int temp = Blood;
 			temp -= ReductionBloodByProportion(0.2f);
+//			Debug.LogError(temp + " blood : " + Blood);
 			Blood = temp < 1 ? 1 : temp;
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
         }
