@@ -76,20 +76,21 @@ public class BattleCardArea : UIBaseUnity {
 
 	void StateInfo(object data) {
 		string info = (string)data;
-//		Debug.LogError ("StateInfo : " + info);
+//		Debug.LogError ("1 StateInfo data : " + info);
 		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
 			HideStateLabel(string.Empty);
+//			Debug.LogError ("2 stateLabel.spriteName  : " + stateLabel.spriteName );
 			return;
 		}			
 
 		if (info == DGTools.stateInfo [0]) {
 			SetBoost();
 		}
-
+//		Debug.LogError ("3 stateLabel.spriteName : " + stateLabel.spriteName + " info : " + info);
 		if (stateLabel.spriteName == info) {
 			return;	
 		}
-//		Debug.LogError ("StateInfo 2: " + info);
+
 		if (info == DGTools.stateInfo [4]) {
 			prevInfo = stateLabel.spriteName;
 		}
@@ -114,7 +115,11 @@ public class BattleCardArea : UIBaseUnity {
 
 	void HideStateLabel (string nextFunction) {
 		float x = showPosition.x - stateLabel.width;
-		iTween.MoveTo(stateLabel.gameObject, iTween.Hash("x", x, "islocal", true,"time",0.15f,"easetype",iTween.EaseType.easeOutCubic,"oncompletetarget",gameObject,"oncomplete",nextFunction));
+		iTween.MoveTo(stateLabel.gameObject, iTween.Hash("x", x, "islocal", true,"time",0.15f,"easetype",iTween.EaseType.easeOutCubic,"oncompletetarget",gameObject,"oncomplete","ClearTexture"));
+	}
+
+	void ClearTexture () {
+		stateLabel.spriteName = string.Empty;
 	}
 
 	void ShowStateLabel () {

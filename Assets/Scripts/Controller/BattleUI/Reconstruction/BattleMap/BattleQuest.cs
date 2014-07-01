@@ -450,9 +450,9 @@ public class BattleQuest : UIBase {
 	void RecoverBuff() {
 		ExcuteDiskActiveSkill(configBattleUseData.posionAttack, ref recoverPosion);
 		ExcuteDiskActiveSkill(configBattleUseData.reduceHurtAttack, ref reduceHurt);
-		Debug.LogError ("reduceDefense 1:" + reduceDefense);
+//		Debug.LogError ("reduceDefense 1:" + reduceDefense);
 		ExcuteDiskActiveSkill(configBattleUseData.reduceDefenseAttack, ref reduceDefense);
-		Debug.LogError ("reduceDefense 2:" + reduceDefense);
+//		Debug.LogError ("reduceDefense 2:" + reduceDefense);
 		ExcuteDiskActiveSkill(configBattleUseData.strengthenAttack, ref strengthenAttack);
 	}
 
