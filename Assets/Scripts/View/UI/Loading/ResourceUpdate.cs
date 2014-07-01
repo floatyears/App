@@ -323,7 +323,7 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 
 		} else {
-			Debug.Log("load res again: md5:"+serverVersionDic [downloadItem.name].md5+" != hash:"+hash);
+			Debug.Log("load res again: server-version.txt-md5:"+serverVersionDic [downloadItem.name].md5+" != downloaded filehash:"+hash);
 //			LoadRes(serverVersionDic[name][1],name);
 //			retryItemList.Add(downloadItem);
 			if(downloadItem.retryCount >0)

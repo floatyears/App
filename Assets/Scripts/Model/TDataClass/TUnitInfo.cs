@@ -260,7 +260,9 @@ public class TUnitInfo : ProtobufDataBase {
 	public int GetLevelByExp(int totalExp) {
 		int level = 1;
 		while (level < MaxLevel) {
-			int exp = GetCurveValue(level, instance.powerType.expType);
+
+			int exp = GetCurveValue(level+1, instance.powerType.expType);
+//			Debug.LogError(">>>> level:"+level+" totalExp:"+totalExp+" exp:"+exp);
 			if ( totalExp < exp ){
 				break;
 			}
