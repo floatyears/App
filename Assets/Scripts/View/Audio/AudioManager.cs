@@ -114,7 +114,7 @@ public class AudioManager {
 		if (!CheckAudio (audioEnum)) {
 			return;	
 		}
-
+//		Debug.LogError ("play audio : " + audioEnum);
 		Play (audioEnum);
 	}
 
