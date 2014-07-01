@@ -131,8 +131,7 @@ public class ClearQuest: ProtoManager {
                 cq.gotUnit.Add(tuu);
             }
             base.OnResponseEnd(cq);
-        }
-        else {
+        } else {
             base.OnResponseEnd(null);
         }
     }
