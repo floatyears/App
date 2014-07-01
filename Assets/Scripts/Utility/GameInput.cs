@@ -48,15 +48,13 @@ public class GameInput : MonoBehaviour  {
 		Debug.LogError ("DG : " + " " + lt +  " " + condition + " " + stackInfo + "    " + TimeHelper.FormattedTimeNow ());
 	}
 
-	void Update()
-	{
-//		Debug.LogError ("update : ");
+	void Update() {
 		if(Time.timeScale < 0.5f)
 			return;
 
 		if(OnUpdate != null)
 			OnUpdate();
-//		Debug.LogError ("GameInput : " + isCheckInput + "Time : " + Time.realtimeSinceStartup);
+
 		if(!isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID
