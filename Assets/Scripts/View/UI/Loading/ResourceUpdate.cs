@@ -89,6 +89,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 		pro.enabled = false;
 		proText.enabled = false;
+		tipText.enabled = false;
 
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
@@ -429,6 +430,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 			pro.enabled = true;
 			proText.enabled = true;
+			tipText.enabled = true;
 		}
 	}
 
