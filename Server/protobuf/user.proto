@@ -35,6 +35,14 @@ message UserInfoDetail {
     optional bytes			userGuideFlag		= 11;
 }
 
+message MonthCard {
+    optional bool           buyFlag             = 1;  // buy or not
+    optional uint32         buyTime             = 2;  // xxxx-xx-xx 00:00:00 's utc timestamp
+    optional uint32         nextReceiveTime     = 3;  // 下次领取时间（上次领取时间），领取后一日零时
+    optional int32          remainCount         = 4;  // 剩余的领取天数
+    optional int32          cardType            = 5;  // 卡的类型
+}
+
 message AccountInfo {
 	optional int32	review						= 1;
 	optional int32	payTotal					= 2;
@@ -45,6 +53,8 @@ message AccountInfo {
 	optional int32	stone						= 7;
 	optional int32	friendPoint					= 8;
 	optional int32	firstSelectNum				= 9;
+    optional MonthCard  monthCard               = 10; // 月卡，多次购买累计日期
+    optional MonthCard  weekCard                = 11; // 周卡，多次购买累计日期
 }
 
 message StageClearItem {
