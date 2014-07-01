@@ -5,7 +5,7 @@ public class BattleBottom : MonoBehaviour {
 	private Camera bottomCamera;
 	private RaycastHit rch;
 	private TUnitParty upi;
-	private Dictionary<int,GameObject> actorObject = new Dictionary<int,GameObject>();
+	private Dictionary<int, GameObject> actorObject = new Dictionary<int, GameObject>();
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
 
@@ -19,14 +19,14 @@ public class BattleBottom : MonoBehaviour {
 			_battleQuest = value;
 			battleSkill.battleQuest = battleQuest;
 		}
-		get{
+		get {
 			return _battleQuest;
 		}
 	}
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
-		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o =>{
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
 			battleSkillObject = o as GameObject;
 			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
 			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
@@ -40,17 +40,19 @@ public class BattleBottom : MonoBehaviour {
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = transform.Find("Actor/" + i).gameObject;	
+			UISprite tex =  transform.Find("Actor/" + i + "_Border").GetComponent<UISprite>();
 			if(userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
+				tex.enabled = false;
 				continue;
 			}
 
 			TUnitInfo tui = userUnitInfo[i].UnitInfo;
 			tui.GetAsset(UnitAssetType.Profile, o=>{
-				temp.renderer.material.SetTexture("_MainTex", o as Texture2D);
+				temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
 			});
-			UITexture tex =  transform.Find("ActorP/" + i).GetComponent<UITexture>();
-			tex.color =  DGTools.TypeToColor(tui.Type);
+
+			tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
 		}
 
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
@@ -59,6 +61,19 @@ public class BattleBottom : MonoBehaviour {
 				actorObject[i].SetActive(false);
 			}
 		}
+	}
+
+	string GetUnitTypeSpriteName(int pos, bbproto.EUnitType type) {
+		string suffixName = "avatar_border_";
+		if (pos == 0) {
+			suffixName += "l_";
+		} else {
+			suffixName += "f_";
+		}
+
+		int typeNumber = (int)type;
+		suffixName += typeNumber.ToString ();
+		return suffixName;
 	}
 
 	void OnDestroy() {

@@ -487,7 +487,7 @@ public class AttackController {
 //				antiInfo.Add(temp[i]);
 //			}
 			antiInfo.AddRange(temp);
-//			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
+			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
 			if(!isBoss) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			}else{
@@ -539,7 +539,7 @@ public class AttackController {
 	}
 
 	void LoopAntiAttack() {
-		float intervTime = 0.8f;
+		float intervTime = 0.5f;
 		GameTimer.GetInstance ().AddCountDown (intervTime, AntiAttack);
 	}
 

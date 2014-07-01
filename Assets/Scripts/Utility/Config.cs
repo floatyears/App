@@ -25,7 +25,7 @@ public class Config
 	public const string battleCardName = "BattleCard";
 	public int[] cardTypeID = new int[4] {1,2,3,7};
 
-	public static Vector3 cardPoolInitPosition = new Vector3(-255f,300f,0f);
+	public static Vector3 cardPoolInitPosition = new Vector3(-255f,275f,0f);
 	
 	private Dictionary<int,ItemData> cardData = new Dictionary<int, ItemData>();
 

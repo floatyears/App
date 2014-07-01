@@ -65,7 +65,7 @@ public class BattleQuest : UIBase {
 		viewManager.GetViewObject(backgroundName , o=>{
 			background = o as BattleBackground;
 			background.transform.parent = viewManager.BottomPanel.transform;
-			background.transform.localPosition = Vector3.zero;
+			background.transform.localPosition = new Vector3(0f,20f,0f);
 			background.Init (backgroundName);
 			background.SetBattleQuest (this);
 			questData.questId = questDungeonData.QuestId;
