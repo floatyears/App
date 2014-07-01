@@ -152,15 +152,15 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		if (leadSkill.LeadSkill.Count == 0) {
 			return 0;	//recover zero hp
 		}
-
+		int recoverHP = 0;
 		foreach (var item in leadSkill.LeadSkill) {
 			TSkillRecoverHP trhp = item.Value as TSkillRecoverHP;
 			if(trhp == null) {
 				continue;
 			}
-			blood = trhp.RecoverHP(blood, type);
+			recoverHP = trhp.RecoverHP(blood, type);
 		}
-		return blood;
+		return recoverHP;
 	}
 
 	public float MultipleAttack (List<AttackInfo> attackInfo) {

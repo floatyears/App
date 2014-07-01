@@ -43,7 +43,6 @@ Btn_Reception_RefuseAll=拒绝
 Btn_Submit_SearchFriend=查找
 Btn_UserID_OK=返回
 
-
 Btn_SortRule_HP=血量
 Btn_SortRule_Atk=攻击
 Btn_SortRule_GetTime=获得时间
@@ -184,9 +183,9 @@ Type_Wind=风
 RedoQuest=重打
 GoOnQuest=通关
 RedoQuestTitle=战斗重打确认
-RedoQuestContent=是否花费 {0} 个钻石来重打此层战斗？\n\n你当前拥有{1}颗钻石.
+RedoQuestContent=是否花费 {0} 个魔法石来重打此层战斗？\n\n你当前拥有{1}颗魔法石.
 ResumeQuestTitle=战斗续打确认
-ResumeQuestContent=是否花费 {0} 个钻石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
+ResumeQuestContent=是否花费 {0} 个魔法石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
 RetryClearQuestTitle=请求错误。
 
@@ -230,36 +229,36 @@ Btn_Unit_Expand=卡牌扩容
 Btn_Stamina_Recover=恢复体力
 
 FriendExpand=好友扩容
-FriendExpansionConfirm=确定花费 {0} 颗钻石来扩充 {1} 个好友上限吗？
+FriendExpansionConfirm=确定花费 {0} 颗魔法石来扩充 {1} 个好友上限吗？
 FriendExpansionInfo=当前好友数量： {0}/{1}
 DoFriendExpand=扩容
 
 FriendExpansionFailed=好友扩容失败
 FriendCountLimitReachedMax=你的好友容量已达到等级上限，必须先提升账号等级才能扩充好友容量。
-FriendExpandStonesNotEnough=你的钻石数量不足，无法扩容好友。请先进行充值！
+FriendExpandStonesNotEnough=你的魔法石数量不足，无法扩容好友。请先进行充值！
 
 FriendExpansionFinish=好友扩容成功
 FriendExpansionResult=好友上限达到 {0}!
 
 StaminaRecover=恢复体力
-StaminaRecoverConfirm=确定花费{0}颗钻石来恢复体力吗？
+StaminaRecoverConfirm=确定花费{0}颗魔法石来恢复体力吗？
 DoStaminaRecover=恢复
 
 StaminaRecoverFailed=体力恢复失败
 StaminaStillFull=你的体力已满，无需恢复。
-StaminaRecoverStonesNotEnough=你的钻石余额不足，无法恢复体力。请先充值！
+StaminaRecoverStonesNotEnough=你的魔法石余额不足，无法恢复体力。请先充值！
 
 StaminaRecoverFinish=体力恢复成功
 StaminaRecoverResult=当前体力值达到：{0}.
 
 UnitExpand=卡牌容量扩充
-UnitExpansionConfirm=确定花费 {0} 颗钻石来扩充卡牌容量?
+UnitExpansionConfirm=确定花费 {0} 颗魔法石来扩充卡牌容量?
 UnitExpansionInfo=现有卡牌数量：{0}/{1}
 DoUnitExpansion=扩容
 
 UnitExpansionFailed=卡牌扩容失败
 UnitCountLimitReachedMax=你的卡牌容量已达到等级上限限制。请先提升你的账号等级！
-UnitExpandStonesNotEnough=你的钻石余额不足，无法扩充卡牌容量。请先充值！
+UnitExpandStonesNotEnough=你的魔法石余额不足，无法扩充卡牌容量。请先充值！
 
 UnitExpansionFinish=卡牌扩容成功
 UnitExpansionResult=当前卡牌容量达到：{0}
@@ -279,26 +278,26 @@ GachaFriendPointNotEnough=你的友情点数不足！\n抽卡一次需要 {0} �
 
 RareGacha=稀有抽卡
 RareGachaTitle=稀有抽卡
-RareGachaDescription=花费钻石来抽卡
-RareGachaStatus=1抽: {0} 钻石 {1} 抽: {2} 钻石\n\n你当前拥有 {3} 钻石.
+RareGachaDescription=花费魔法石来抽卡
+RareGachaStatus=1抽: {0} 魔法石 {1} 抽: {2} 魔法石\n\n你当前拥有 {3} 魔法石.
 
 ConfirmOneRareGacha=抽一次
 ConfirmMaxRareGacha={0}连抽 
 
 RareGachaFailed=[FF0000]抽卡失败[-]
-RareGachaStoneNotEnough=你的钻石余额不足！抽卡一次需要 {0} 钻石.
+RareGachaStoneNotEnough=你的魔法石余额不足！抽卡一次需要 {0} 魔法石.
 
 EventGacha=限时活动抽卡
 EventGachaTitle=限时活动抽卡
 EventGachaDescription=限时活动抽卡
-EventGachaStatus=1抽: {0} 钻石 {1} 抽: {2} 钻石\n\n你当前拥有 {3} 钻石.
+EventGachaStatus=1抽: {0} 魔法石 {1} 抽: {2} 魔法石\n\n你当前拥有 {3} 魔法石.
 
 ConfirmOneEventGacha=抽一次
 ConfirmMaxEventGacha={0}连抽
 
 EventGachaFailed=[FF0000]抽卡失败[-]
 EventGachaNotOpen=限时活动抽卡会定期开放。请关注登录公告！
-EventGachaStoneNotEnough=你的钻石余额不足！抽卡一次需要 {0} 钻石.
+EventGachaStoneNotEnough=你的魔法石余额不足！抽卡一次需要 {0} 魔法石.
 
 FriendScratch=友情抽卡
 RareScratch=稀有抽卡
@@ -872,26 +871,26 @@ SkillDesc_3018=所有无属性卡牌的攻击力提升至2.5倍
 
 
 ##normal skill1 description
-SkillDesc_4001=对单个敌人造成火属性的小攻击
-SkillDesc_4002=对单个敌人造成火属性的中攻击
-SkillDesc_4003=对单个敌人造成火属性的特大攻击
-SkillDesc_4004=对单个敌人造成水属性的小攻击
-SkillDesc_4005=对单个敌人造成水属性的中攻击
-SkillDesc_4006=对单个敌人造成风属性的小攻击
-SkillDesc_4007=对单个敌人造成风属性的中攻击
-SkillDesc_4008=对单个敌人造成光属性的小攻击
-SkillDesc_4009=对单个敌人造成光属性的中攻击
-SkillDesc_4010=对单个敌人造成暗属性的小攻击
-SkillDesc_4011=对单个敌人造成暗属性的中攻击
-SkillDesc_4012=对单个敌人造成无属性的小攻击
-SkillDesc_4013=对单个敌人造成无属性的中攻击
-SkillDesc_4014=对单个敌人造成无属性的特大攻击
-SkillDesc_4015=对单个敌人造成火属性的中攻击
-SkillDesc_4016=对单个敌人造成水属性的中攻击
-SkillDesc_4017=对单个敌人造成风属性的中攻击
-SkillDesc_4018=对单个敌人造成光属性的中攻击
-SkillDesc_4019=对单个敌人造成暗属性的中攻击
-SkillDesc_4020=对单个敌人造成无属性的中攻击
+SkillDesc_4001=对单体敌人造成火属性的小攻击
+SkillDesc_4002=对单体敌人造成火属性的中攻击
+SkillDesc_4003=对单体敌人造成火属性的特大攻击
+SkillDesc_4004=对单体敌人造成水属性的小攻击
+SkillDesc_4005=对单体敌人造成水属性的中攻击
+SkillDesc_4006=对单体敌人造成风属性的小攻击
+SkillDesc_4007=对单体敌人造成风属性的中攻击
+SkillDesc_4008=对单体敌人造成光属性的小攻击
+SkillDesc_4009=对单体敌人造成光属性的中攻击
+SkillDesc_4010=对单体敌人造成暗属性的小攻击
+SkillDesc_4011=对单体敌人造成暗属性的中攻击
+SkillDesc_4012=对单体敌人造成无属性的小攻击
+SkillDesc_4013=对单体敌人造成无属性的中攻击
+SkillDesc_4014=对单体敌人造成无属性的特大攻击
+SkillDesc_4015=对单体敌人造成火属性的中攻击
+SkillDesc_4016=对单体敌人造成水属性的中攻击
+SkillDesc_4017=对单体敌人造成风属性的中攻击
+SkillDesc_4018=对单体敌人造成光属性的中攻击
+SkillDesc_4019=对单体敌人造成暗属性的中攻击
+SkillDesc_4020=对单体敌人造成无属性的中攻击
 
 ##normal skill2 description
 SkillDesc_4021=对全体敌人造成火属性的小攻击
@@ -919,14 +918,14 @@ SkillDesc_4042=对全体敌人造成暗属性的超大攻击
 SkillDesc_4043=对全体敌人造成无属性的超大攻击
 SkillDesc_4044=对全体敌人造成暗属性的中攻击
 SkillDesc_4045=对全体敌人造成无属性的中攻击
-SkillDesc_4046=对单个敌人造成火属性的特大攻击
-SkillDesc_4047=对单个敌人造成水属性的特大攻击
-SkillDesc_4048=对单个敌人造成风属性的特大攻击
-SkillDesc_4049=对单个敌人造成光属性的特大攻击
-SkillDesc_4050=对单个敌人造成暗属性的特大攻击
-SkillDesc_4051=对单个敌人造成无属性的特大攻击
-SkillDesc_4052=对单个敌人造成风属性的绝大攻击
-SkillDesc_4053=对单个敌人造成风属性的极大攻击
+SkillDesc_4046=对单体敌人造成火属性的特大攻击
+SkillDesc_4047=对单体敌人造成水属性的特大攻击
+SkillDesc_4048=对单体敌人造成风属性的特大攻击
+SkillDesc_4049=对单体敌人造成光属性的特大攻击
+SkillDesc_4050=对单体敌人造成暗属性的特大攻击
+SkillDesc_4051=对单体敌人造成无属性的特大攻击
+SkillDesc_4052=对单体敌人造成风属性的绝大攻击
+SkillDesc_4053=对单体敌人造成风属性的极大攻击
 SkillDesc_4054=对全体敌人造成无属性的超特大攻击
 SkillDesc_4055=回复10%的血量
 SkillDesc_4056=回复10%的血量
@@ -1102,7 +1101,7 @@ Tips_B_9=卡牌的强化离不开帮手的协助。
 Tips_B_10=强化帮手若能与基础卡牌同属性或同种族，则Exp可获得加成。
 
 Tips_C_1=Rank提升后，耐力不仅会max，且耐力、好友或统御力上限也会逐步提升。
-Tips_C_2=耐力每10分钟自动回复1点，也可花费1钻石瞬间让耐力max。
+Tips_C_2=耐力每10分钟自动回复1点，也可花费1魔法石瞬间让耐力max。
 Tips_C_3=按住方块并左右滑动即可变换到任一方块位置。
 Tips_C_4=按住方块并左右滑动即可与相邻同色方块重叠。
 Tips_C_5=带有BOOST字样的战斗槽可以让攻击或回复变成1.5倍。
@@ -1137,7 +1136,7 @@ Tips_D_14=周末是攒钱的绝好时机，请及早存够耐力。
 Tips_D_15=尖叫奶酪是强化专用的材料卡牌，可让卡牌等级飞速提升。
 Tips_D_16=尖叫奶酪主要出现在每日限时开放的活动关卡里，系统会提前公告通知。
 Tips_D_17=只有进化成功时，材料卡牌才会消耗。
-Tips_D_18=可花费钻石扩张好友和卡牌仓库的上限。
+Tips_D_18=可花费魔法石扩张好友和卡牌仓库的上限。
 
 
 Tips_E_1=“+1”卡牌：偶尔会掉落右下角带“+1”的卡牌，这代表该卡牌的能力有额外的加成。
@@ -1149,9 +1148,9 @@ Tips_E_6=“+1”卡牌的强化费用很高，每多1个“+1”，费用便多
 Tips_E_7=基础卡牌的等级每多1级，强化价格就多100.
 Tips_E_8=试着先用较弱的卡牌去提升材料卡牌的等级后再进行强化，不仅有可能获得更高的Exp，也能减少强化所需的金币。
 Tips_E_9=系统会不定期开启限定抽卡，届时超强力卡牌中奖率将极大提升！
-Tips_E_10=首次闯过一个大关，即可获得钻石1颗，请积极攻略！
+Tips_E_10=首次闯过一个大关，即可获得魔法石1颗，请积极攻略！
 Tips_E_11=将具有相同主动技能的卡牌强化合成后，基础卡牌的技能等级有可能提升，从而减少冷却回合。
-Tips_E_12=若没有合适的帮手时，花费1颗钻石后即可获得超级帮手。不仅条件达标，且能获得50点友情点数！
+Tips_E_12=若没有合适的帮手时，花费1颗魔法石后即可获得超级帮手。不仅条件达标，且能获得50点友情点数！
 Tips_E_13=上一次战斗结束时的方块，将自动成为下一场战斗的开局，所以无用的方块可趁早扔掉。
 Tips_E_14=当战斗槽内已填满方块，再次拖上去的方块会被弹回，不仅操作无效也浪费时间。
 Tips_E_15=可轻点敌人作为攻击目标，也可长按查看敌人详情。
@@ -1168,11 +1167,11 @@ Tips_E_24=单色队伍不仅能在敌人只有一种属性的关卡里游刃有�
 ## raider
 Raider_0=<p align=center>游戏帮助<br></p><p align=center>基础<br></p><p><a href='Raider_1'>背景介绍</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_2'>战场介绍</a><br></p><p><a href='Raider_3'>战场格子</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_4'>战斗介绍</a><br></p><p><a href='Raider_5'>技能</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_6'>卡牌</a><br></p><p><a href='Raider_7'>强化</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_8'>抽卡</a><br></p>
 Raider_1=<p align=center><font size=34>背景介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left>MQ是一个以西方恶魔为题材的新生代卡牌游戏，诸如吸血鬼伯爵，狼人，科学怪人，木乃伊，地狱三头犬等著名恶魔都将出现在游戏里。玩家将率领以伯爵女儿和其男友为首的军团，招募人类、亡灵、魔兽、巨龙等各种伙伴，通过一场场滑动于指尖的战斗，拯救被黑手绑架的伯爵，恢复恶魔国度的秩序。</p>
-Raider_2=<p align=center><font size=34>战场介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场是由5x5的格子拼接而成，格子里面隐藏着金币、敌人甚至陷阱。玩家需要在这样的战场上收集金币，消灭敌人并最终击倒Boss方可战斗胜利.<br>；<br></p><p><font color=#ffff00ff>进入战场流程</font><br></p><p>1-点击世界地图上任一一个地区；<br>2-选择地区地图上任一一个图标；<br>3-选择好友；<br>4-点击开始按钮。<br><br></p><p><font color=#ffff00ff>什么是耐力</font><br></p><p>耐力是进入战场必不可少的行动力，若耐力过低则无法进入战场。<br><br></p><p><font color=#ffff00ff>如何回复耐力</font><br></p><p>1-等待时间自动回复，每10分钟回复1点。<br>2-花费6钻石瞬间让耐力Max。<br><br></p><p><font color=#ffff00ff>如何战场移动</font><br></p><p>点击战场上任一一个格子，棋子就会自动跳过去。请注意，当路线中的格子都是闪烁状态时，必须一个一个格子地走。<br><br></p><p><font color=#ffff00ff>什么是SP</font><br></p><p>SP是棋子移动必不可少的行动力，每移动一格都会消耗1点SP，总共20点。<br>请注意，当SP为0后，就将代扣HP，直至HP剩下1点。<br><br></p><p><font color=#ffff00ff>如何回复SP</font><br></p><p>1-战场里切换场景后，会回复少量SP。<br>2-利用某些卡牌的技能回复少量SP。</p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_2=<p align=center><font size=34>战场介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场是由5x5的格子拼接而成，格子里面隐藏着金币、敌人甚至陷阱。玩家需要在这样的战场上收集金币，消灭敌人并最终击倒Boss方可战斗胜利.<br>；<br></p><p><font color=#ffff00ff>进入战场流程</font><br></p><p>1-点击世界地图上任一一个地区；<br>2-选择地区地图上任一一个图标；<br>3-选择好友；<br>4-点击开始按钮。<br><br></p><p><font color=#ffff00ff>什么是耐力</font><br></p><p>耐力是进入战场必不可少的行动力，若耐力过低则无法进入战场。<br><br></p><p><font color=#ffff00ff>如何回复耐力</font><br></p><p>1-等待时间自动回复，每10分钟回复1点。<br>2-花费6魔法石瞬间让耐力Max。<br><br></p><p><font color=#ffff00ff>如何战场移动</font><br></p><p>点击战场上任一一个格子，棋子就会自动跳过去。请注意，当路线中的格子都是闪烁状态时，必须一个一个格子地走。<br><br></p><p><font color=#ffff00ff>什么是SP</font><br></p><p>SP是棋子移动必不可少的行动力，每移动一格都会消耗1点SP，总共20点。<br>请注意，当SP为0后，就将代扣HP，直至HP剩下1点。<br><br></p><p><font color=#ffff00ff>如何回复SP</font><br></p><p>1-战场里切换场景后，会回复少量SP。<br>2-利用某些卡牌的技能回复少量SP。</p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_3=<p align=center><font size=34>战场格子</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场格子从图案上可分为3类：骷髅、感叹号、钥匙，它们各自隐藏着不同的内容。<br></p><p><font color=#ffff00ff>骷髅格子</font><br></p><p>骷髅格子隐藏着金币、敌人、陷阱，每次随机出现一种内容。<br><br></p><p><font color=#ffff00ff>骷髅颜色</font><br></p><p>骷髅颜色代表格子的危险等级，蓝色→黄色→红色，出现敌人的几率依次提升。<br><br></p><p><font color=#ffff00ff>骷髅数量</font><br></p><p>骷髅数量的多与少与出现的敌人或金币的数量成正比，可谓高风险高回报。<br><br></p><p><font color=#ffff00ff>感叹号格子</font><br></p><p>感叹号格子兼顾最高的风险和回报，而且还隐藏有一个重大内容（请查看“进阶-乱入Boss”）<br><br></p><p><font color=#ffff00ff>钥匙格子</font><br></p><p>钥匙格子里隐藏着钥匙，这是与战场深处的Boss战斗必不可少的通行证。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_4=<p align=center><font size=34>战斗介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的战斗是滑动方块来进行的，在有限的时间内，滑动更多的方块，给敌人以更高的伤害。这是一场活跃于指尖的战斗，乐趣十足，刺激满点。<br><br></p><p><font color=#ffff00ff>操作方法</font><br></p><p>1-按住方块，将其从下方的准备槽滑动进上方的战斗槽内即可。\n2-按住方块并左右滑动即可变换到任一方块位置。\n3-按住方块并左右滑动即可与相邻同色方块重叠。<br><br></p><p><font color=#ffff00ff>滑动时间</font><br></p><p>将方块滑动进战斗槽内的有限时间只有5s，必须眼疾手快。<br>但是，只要方块还没有进入战斗槽，则倒计时不会开始，所以这个时候可将同色方块整理在一起后再滑动能节省不少时间。<br><br></p><p><font color=#ffff00ff>方块种类</font><br></p><p>方块总共有7类，除开用于恢复HP的心方块外，其他6种为攻击用方块，分别对应卡牌的6种属性：火、水、风、光、暗、无。<br><br></p><p><font color=#ffff00ff>卡牌属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。\n火→风，风→水，水→火；光暗互克；无为独立。\n当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>如何正确攻击</font><br></p><p>	重点来了！\n一般情况下，滑动≥2个与卡牌同色的方块到同一个战斗槽中即可发动攻击。<br>但是，究竟需要什么颜色的方块，多少数量的方块，这一点最终由卡牌的普通技能决定。（可在战斗中点击卡牌头像查看技能详情）<br><br></p><p><font color=#ffff00ff>如何回复HP</font><br></p><p>将≥2个心方块滑动进同一个战斗槽即可回复HP，方块越多，回复量越高。<br><br></p><p><font color=#ffff00ff>敌人何时攻击</font><br></p><p>敌人下方有个Next字样，Next后面的数字表示敌人的攻击冷却回合。即比如Next 2，那就表示该敌人2回合后将发动攻击。<br><br></p><p><font color=#ffff00ff>如何挑战Boss</font><br></p><p>战场最上方有一双闪动的红色魔眼，那就是Boss。要挑战它需要完成以下2步：<br>1-在战场中找到钥匙。<br>2-走到离Boss最近的格子处，点击Boss即可开战。<br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_5=<p align=center><font size=34>卡牌</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌是游戏里最为重要的元素，不管是攻略主线关卡还是挑战活动关卡，强力的卡牌都是玩家不可缺少的伙伴。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-在非战斗情况下，长按卡牌头像即可查看卡牌详情。<br>2-在卡牌详情界面，点击“锁”图标即可收藏该卡牌，防止误操作将卡牌卖出或强化。<br><br></p><p><font color=#ffff00ff>HP和ATK</font><br></p><p>HP：卡牌的基本能力之一，HP越高，战斗时的总HP越高。<br>ATK：卡牌的基本能力之二，ATK越高，给予敌人的伤害越高。<br><br></p><p><font color=#ffff00ff>统御力</font><br></p><p>统御力好比粮草，如果士兵所需的粮草之和＞队伍所能携带的粮草上限，则必须减少士兵数量。因此在MQ里，若要被编入队伍的卡牌统御力之和＞队伍统御力上限的话，则无法将它们都编入队伍，必须重新选择卡牌进行编排。<br><br></p><p><font color=#ffff00ff>属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。<br>火→风，风→水，水→火；光暗互克；无为独立。<br>当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>种族</font><br></p><p>卡牌共8个种族，人类、龙、亡灵、兽、幻魔、魔怪、魔神和强化种族。<br>种族的划分不仅在战斗时能产生更多的策略性，也让卡牌的强化和进化更加有趣。<br><br></p><p><font color=#ffff00ff>星级</font><br></p><p>卡牌共有6个星级，星级越高的卡牌越难以入手，自然有着越强大的实力。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_6=<p align=center><font size=34>技能</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌的技能是除HP和ATK外，另外一个决定卡牌强弱的极其重要的元素。由于稍稍复杂一点，所以单独提出来讲。<br><br></p><p><font color=#ffff00ff>分类</font><br></p><p>技能分为4种：队长技能、主动技能、普通技能、被动技能。<br>某些没有被动技能的卡牌会追加第二个普通技能。<br><br></p><p><font color=#ffff00ff>队长技能</font><br></p><p>队长技能就如同buff一样，能够在整个战斗中持续有效。比如“我方火属性队员攻击提升2倍”，“减少来自敌方的火属性伤害50%”等等。另外还需要注意2点：<br>1-卡牌必须作为队长编入队伍中，其队长技能才能生效。<br>2-不是每张卡牌都有队长技能。<br><br></p><p><font color=#ffff00ff>主动技能</font><br></p><p>主动技能就如同暗黑、魔兽等游戏里的技能，当冷却时间为0后即可发动，只不过在MQ里，冷却时间换成了冷却回合。<br>比如“’给敌方全体造成基于ATK的10倍火属性伤害‘，冷却回合20”。那么随着战斗的进行，回合数变为0后即可点击卡牌头像进行发动。<br><br></p><p><font color=#ffff00ff>普通技能</font><br></p><p>普通技能可以看做格斗游戏里面需要攒怒气来发动的必杀技，只不过在MQ里，需要攒的不是怒气而是方块。<br>比如“’对敌方单体造成水属性小伤害‘，蓝色方块2个”。那么就需要在5s的战斗倒计时结束之前，将2个蓝色方块滑动到同一个战斗槽，之后卡牌就会自动攻击了。<br><br></p><p><font color=#ffff00ff>被动技能</font><br></p><p>被动技能也可以看做buff，它和队长技能的区别之一在于：不管卡牌处于队长还是队员位置，其被动技能都有效。<br>比如“一定几率将所受伤害的10%转为水属性反击给敌人”。那么当队伍受伤后，持有该被动技能的卡牌便有可能发动反击。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_7=<p align=center><font size=34>强化</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的卡牌不像传统游戏可以在战斗中打倒敌人获得经验值从而升级变得强大，在这里必须通过特殊的方式——强化，即吞噬其他卡牌来获得经验值从而升级变强。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-点击units。<br>2-点击level up。3-点击卡牌选择基础和用于被吞噬的材料。<br>4-点击好友头像框选择好友。<br>5-点击下方的level up按钮。<br><br></p><p><font color=#ffff00ff>基础卡牌</font><br></p><p>基础卡牌即为被强化对象，强化后等级提升。最右上角的头像框即为基础卡牌的选择位置，点击此处进行基础卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>材料卡牌</font><br></p><p>材料卡牌即为被吞噬对象，强化后被消耗。上方中间4个头像框即为材料卡牌的选择位置，点击此处进行材料卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>帮手</font><br></p><p>卡牌的强化离不开帮手的协助，帮手不仅可以带来友情点数（好友带来的更多），更能让基础卡牌获得的经验值大幅度加成，具体加成如下：<br>1-若帮手与基础卡牌的种族或属性相同，则经验值x1.25；<br>2-若帮手与基础卡牌的种族和属性都相同，则经验值x1.5。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
-Raider_8=<p align=center><font size=34>抽卡</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>抽卡是玩家获取战斗力最为重要的地方。虽然战斗中也可掉落部分强力卡牌，但只有善用抽卡的玩家才可君临天下！<br><br></p><p><font color=#ffff00ff>抽卡分类</font><br></p><p>抽卡分为3类，友情抽卡、稀有抽卡、限定抽卡。<br><br></p><p><font color=#ffff00ff>友情抽卡</font><br></p><p>友情抽卡即使用友情点数来进行的抽卡，虽然经常出低星卡，但是有几率抽到主角卡。<br><br></p><p><font color=#ffff00ff>稀有抽卡</font><br></p><p>稀有抽卡即使用钻石来进行的抽卡，虽然花费不菲，但是隐藏于其中的超强力卡牌绝对值得玩家付出。<br><br></p><p><font color=#ffff00ff>限定抽卡</font><br></p><p>限定抽卡类似稀有抽卡，也是花费钻石来获取超强力卡牌，只不过这些卡牌是限定于某时间段出现。若想获得这些珍贵的卡牌，请密切关注系统的公告通知。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_8=<p align=center><font size=34>抽卡</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>抽卡是玩家获取战斗力最为重要的地方。虽然战斗中也可掉落部分强力卡牌，但只有善用抽卡的玩家才可君临天下！<br><br></p><p><font color=#ffff00ff>抽卡分类</font><br></p><p>抽卡分为3类，友情抽卡、稀有抽卡、限定抽卡。<br><br></p><p><font color=#ffff00ff>友情抽卡</font><br></p><p>友情抽卡即使用友情点数来进行的抽卡，虽然经常出低星卡，但是有几率抽到主角卡。<br><br></p><p><font color=#ffff00ff>稀有抽卡</font><br></p><p>稀有抽卡即使用魔法石来进行的抽卡，虽然花费不菲，但是隐藏于其中的超强力卡牌绝对值得玩家付出。<br><br></p><p><font color=#ffff00ff>限定抽卡</font><br></p><p>限定抽卡类似稀有抽卡，也是花费魔法石来获取超强力卡牌，只不过这些卡牌是限定于某时间段出现。若想获得这些珍贵的卡牌，请密切关注系统的公告通知。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
  

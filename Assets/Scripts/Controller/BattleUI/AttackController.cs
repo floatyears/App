@@ -155,7 +155,6 @@ public class AttackController {
 	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
-//		Debug.LogError ("leaderSkilllExtarAttack");
 		if(attack.Count > 0)
 			attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
 		MultipleAttack (attack);
@@ -286,6 +285,7 @@ public class AttackController {
 			if(tei.Equals(targetEnemy)) {
 				targetEnemy = null;
 			}
+//			Debug.LogError("CheckBattleSuccess : " + deadEnemy.Count);
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
@@ -302,7 +302,7 @@ public class AttackController {
 				if(te.Equals(targetEnemy)) {
 					targetEnemy = null;
 				}
-
+//				Debug.LogError("CheckBattleSuccess enemyInfo : " + enemyInfo.Count);
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				if(grid != null) {
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
@@ -316,7 +316,7 @@ public class AttackController {
 			return false;
 		}
 
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
+//		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		return true;
 	}
 
@@ -423,12 +423,10 @@ public class AttackController {
 			bool enterEnemyPhase = false;
 			for (int i = 0; i < enemyInfo.Count; i++) {
 				enemyInfo[i].Next();
-//				Debug.LogError("enemyInfo[i].Next() : " + enemyInfo[i].GetRound());
 				if(enemyInfo[i].GetRound() <= 0) {
 					enterEnemyPhase = true;
 				}
 			}
-//			Debug.LogError("enterEnemyPhase : " + enterEnemyPhase);
 			if(enterEnemyPhase) {
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [1]);
 				LoopEnemyAttack ();	
@@ -472,16 +470,16 @@ public class AttackController {
 				reduceValue = leadSkillReuduce.ReduceHurtValue(reduceValue, attackType);
 			}
 
-			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
+//			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
 
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 
-			Debug.LogError("hurtValue : " + hurtValue);
+//			Debug.LogError("hurtValue : " + hurtValue);
 
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
-			Debug.LogError("EnemyAttack attackType : " + attackType);
+//			Debug.LogError("EnemyAttack attackType : " + attackType);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType, hurtValue);
 
 //			for (int i = 0; i < temp.Count; i++) {
@@ -489,7 +487,7 @@ public class AttackController {
 //				antiInfo.Add(temp[i]);
 //			}
 			antiInfo.AddRange(temp);
-			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
+//			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
 			if(!isBoss) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 			}else{
@@ -507,7 +505,7 @@ public class AttackController {
 
 	void EnemyAttackLoopEnd() {
 		if(bud.Blood > 0) {
-			Debug.LogError("antiInfo.Count : " + antiInfo.Count);
+//			Debug.LogError("antiInfo.Count : " + antiInfo.Count);
 			if (antiInfo.Count == 0) {
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 				GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);

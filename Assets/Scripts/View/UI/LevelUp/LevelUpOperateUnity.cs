@@ -118,14 +118,15 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			TUnitInfo tu = baseInfo.UnitInfo;
 			int toLevel = tu.GetLevelByExp (expGot + baseInfo.Exp);
+//			Debug.LogError("toLevel: " + toLevel+ " expGot:"+expGot +" baseExp:"+ baseInfo.Exp+" totalExp:"+(expGot + baseInfo.Exp));
 			if (expGot == 0) {
 				Hp = baseInfo.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
 				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
 				ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
 			}else{
-				Hp = baseInfo.Hp + "->" + tu.GetHpByLevel(toLevel);
-				Atk =  baseInfo.Attack + "->" + tu.GetAtkByLevel(toLevel);
-				ExpNeed = baseInfo.Level + "->" + toLevel;
+				Hp = baseInfo.Hp + " -> " + tu.GetHpByLevel(toLevel);
+				Atk =  baseInfo.Attack + " -> " + tu.GetAtkByLevel(toLevel);
+				ExpNeed = baseInfo.Level + " -> " + toLevel;
 			}
 
 		}
@@ -342,6 +343,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// drag panel item click.
 	/// </summary>
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
+		if (pui.IsFavorite) {
+			return;		
+		}
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
 				return;	
@@ -698,7 +702,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return ;
 		}
 
-		ExpGot = System.Convert.ToInt32(expGot * friend.MultipleDevorExp (selectedItem [friendItemIndex].UserUnit));
+		TUserUnit baseInfo = selectedItem[baseItemIndex].UserUnit;
+		ExpGot = System.Convert.ToInt32(LevelUpCurExp() * DGTools.AllMultiple (friend, baseInfo) );
 	}
 
 	bool CheckBaseIsNull() {

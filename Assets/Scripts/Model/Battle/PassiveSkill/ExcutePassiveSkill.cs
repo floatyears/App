@@ -23,7 +23,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if (item==null) {
 				continue;
 			}
-			Debug.LogError("ExcutePassiveSkill item.value : " + item.PassiveSkill);
+//			Debug.LogError("ExcutePassiveSkill item.value : " + item.PassiveSkill);
 			int id = item.PassiveSkill;
 
 			if(id == -1) {
@@ -33,7 +33,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(ipe == null) {
 				continue;
 			}
-			Debug.LogError("ExcutePassiveSkill ipe : " + ipe);
+//			Debug.LogError("ExcutePassiveSkill ipe : " + ipe);
 			string name = item.MakeUserUnitKey();
 			passiveSkill.Add(name,ipe);
 			multipe.Add(name,item.AttackMultiple);
@@ -75,10 +75,10 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 	public List<AttackInfo> Dispose (int AttackType, int attack) {
 		attackList.Clear ();
 		foreach (var item in passiveSkill) {
-			Debug.LogError("dispose : " + item.Value);
+//			Debug.LogError("dispose : " + item.Value);
 			if(item.Value is TSkillAntiAttack) {
 				AttackInfo ai = item.Value.Excute(AttackType, this) as AttackInfo;
-				Debug.LogError("dispose attackinfo : " + ai);
+//				Debug.LogError("dispose attackinfo : " + ai);
 				if(ai != null) {
 					ai.SkillID = item.Value.skillBaseInfo.BaseInfo.id;
 					ai.UserUnitID = item.Key;

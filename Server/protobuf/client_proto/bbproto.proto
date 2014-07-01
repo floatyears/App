@@ -1019,6 +1019,7 @@ message NoticeItem {
 
 message NoticeInfo {
     repeated NoticeItem		items				= 1;
+    optional string         gachaNotice         = 2;
 }
 
 message ReqAuthUser {
