@@ -9,8 +9,8 @@ public class TopUI : UIBaseUnity {
 	private UILabel floorLabel;
 	private UISprite menuButton;
 
-	private UIAnchor leftAnchor;
-	private UIAnchor rightAnchor;
+//	private UIAnchor leftAnchor;
+//	private UIAnchor rightAnchor;
 
 	private UIButton retryButton;
 
@@ -22,33 +22,33 @@ public class TopUI : UIBaseUnity {
 	public override void Init (string name) {
 		base.Init (name);
 
-		coinLabel = FindChild<UILabel> ("Topleft/CoinLabel");
-		dropLabel = FindChild<UILabel> ("Topleft/DropLabel");
-		floorLabel = FindChild<UILabel> ("TopRight/FloorLabel");
-		retryButton = FindChild<UIButton>("TopRight/RetryButton");
+		coinLabel = FindChild<UILabel> ("Top/CoinLabel");
+		dropLabel = FindChild<UILabel> ("Top/DropLabel");
+		floorLabel = FindChild<UILabel> ("Top/FloorLabel");
+		retryButton = FindChild<UIButton>("Top/RetryButton");
 		UIEventListener.Get (retryButton.gameObject).onClick = Retry;
 
-		menuButton = FindChild<UISprite>("TopRight/Sprite");
+		menuButton = FindChild<UISprite>("Top/MenuButton");
 		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
 
-		leftAnchor = transform.Find ("Topleft").gameObject.AddComponent<UIAnchor> ();
-		leftAnchor.side = UIAnchor.Side.TopLeft;
-		leftAnchor.runOnlyOnce = false;
-		leftAnchor.enabled = true;
+//		leftAnchor = transform.Find ("Topleft").gameObject.AddComponent<UIAnchor> ();
+//		leftAnchor.side = UIAnchor.Side.TopLeft;
+//		leftAnchor.runOnlyOnce = false;
+//		leftAnchor.enabled = true;
 
-		rightAnchor = transform.Find ("TopRight").gameObject.AddComponent<UIAnchor> ();
-		rightAnchor.side = UIAnchor.Side.TopRight;
-		rightAnchor.runOnlyOnce = false;
-		rightAnchor.enabled = true;
+//		rightAnchor = transform.Find ("TopRight").gameObject.AddComponent<UIAnchor> ();
+//		rightAnchor.side = UIAnchor.Side.TopRight;
+//		rightAnchor.runOnlyOnce = false;
+//		rightAnchor.enabled = true;
 
-		StartCoroutine (Set ());
+//		StartCoroutine (Set ());
 	}
 	
-	IEnumerator Set () {
-		yield return 0;
-		leftAnchor.runOnlyOnce = true;
-		rightAnchor.runOnlyOnce = true;
-	}
+//	IEnumerator Set () {
+//		yield return 0;
+//		leftAnchor.runOnlyOnce = true;
+//		rightAnchor.runOnlyOnce = true;
+//	}
 
 	public override void HideUI () {
 		if(gameObject.activeSelf)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BattleBackground : UIBaseUnity {
 	private UITexture background;
 	private Camera bottomCamera;
-	private Material[] actor;
+	private UITexture[] actor;
 	private UISprite[] spSprite;
 	private UISpriteAnimationCustom spriteAnimation;
 	private GameObject battleBottom;
@@ -14,11 +14,6 @@ public class BattleBackground : UIBaseUnity {
 	private int initBlood = -1;
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
-
-//	private static Dictionary<string, Vector3> attackPosition = new Dictionary<string, Vector3> ();
-//	public static Dictionary<string, Vector3> AttackPosition {
-//		get { return attackPosition; }
-//	}
 
 	private static Vector3 actorPosition = Vector3.zero;
 	public static Vector3 ActorPosition	{
@@ -42,14 +37,15 @@ public class BattleBackground : UIBaseUnity {
 		_battleBottomScript.Init (bottomCamera);
 		actorPosition = transform.Find ("Position").localPosition;
 
-		actor = new Material[5];
+		actor = new UITexture[5];
 		spSprite = new UISprite[20];
 		string path;
 
 		for (int i = 0; i < actor.Length; i++) {
 			path = "BattleBottom/Actor/" + i.ToString();
-			actor[i] = 	transform.Find(path).renderer.material;
+			actor[i] = 	transform.Find(path).GetComponent<UITexture>();
 		}
+
 		GameObject panel = battleBottom.transform.Find("Panel").gameObject;
 		panel.layer = GameLayer.BottomInfo;
 		for (int i = spSprite.Length; i > 0; i--) {
@@ -59,7 +55,7 @@ public class BattleBackground : UIBaseUnity {
 
 		spriteAnimation = battleBottom.transform.Find ("Panel/HP").GetComponent<UISpriteAnimationCustom> ();
 		bloodBar = battleBottom.transform.Find("Panel/Slider").GetComponent<UISlider>();
-		label = battleBottom.transform.Find("Panel/Label").GetComponent<UILabel>();
+		label = battleBottom.transform.Find("Panel/HPLabel").GetComponent<UILabel>();
 
 		InitTransform ();
 	}
@@ -129,7 +125,7 @@ public class BattleBackground : UIBaseUnity {
 
 	private int tempNum = 0;
 	void SetBlood (int num) {
-		string info = "HP:" + num + "/" + initBlood;
+		string info = num + "/" + initBlood;
 		label.text = info;
 		if (num > tempNum) {
 			spriteAnimation.Reset();
