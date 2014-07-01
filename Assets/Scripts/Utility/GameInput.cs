@@ -99,34 +99,26 @@ public class GameInput : MonoBehaviour  {
 	}
 
 
-	void ProcessMouse()
-	{
-		if(Input.GetMouseButtonDown(0))
-		{
+	void ProcessMouse() {
+		if(Input.GetMouseButtonDown(0)) {
 //			lastPosition = Input.mousePosition;
 //			
 //			currentPosition = Input.mousePosition;
 			
 			OnPress();
-		}
-		else if(Input.GetMouseButtonUp(0))
-		{
+		} else if(Input.GetMouseButtonUp(0)) {
 			OnRelease();
-		}
-		else if(Input.GetMouseButton(0))
-		{
+		} else if(Input.GetMouseButton(0)) {
 			currentPosition = Input.mousePosition;
 			
-			if(currentPosition != lastPosition)
-			{
+			if(currentPosition != lastPosition) {
 				deltaPosition = currentPosition;// currentPosition - lastPosition;
 				
 				OnDrag();
 				
 				lastPosition = currentPosition;
 			}
-			else
-			{
+			else {
 				OnStationary();
 			}
 		}
