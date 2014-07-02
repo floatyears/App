@@ -13,6 +13,11 @@ public class QuestSelectView : UIComponentUnity {
 		ShowUIAnimation();
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+
+		if (pickedStage != null) {
+			GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+			obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (pickedStage.StageName);
+		}
 	}
 
 	public override void HideUI(){
@@ -34,6 +39,7 @@ public class QuestSelectView : UIComponentUnity {
 	private void GetQuestInfo(object msg){
 		TStageInfo newPickedStage = msg as TStageInfo;
 		List<TQuestInfo> newQuestList = newPickedStage.QuestInfo;
+//		newQuestList.Reverse ();
 
 		if(accessQuestList == null){
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList is NULL as FRIST step in, CREATE list view...");
@@ -49,6 +55,9 @@ public class QuestSelectView : UIComponentUnity {
 		} else{
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList NOT CHANGED, KEEP prev list view...");
 		}
+
+		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (newPickedStage.StageName);
 	}
 
 	private void UpdateQuestListView(){
@@ -62,7 +71,7 @@ public class QuestSelectView : UIComponentUnity {
 		CustomDragPanel();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, transform);
 		dataCount--;
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+		for (int i = dragPanel.ScrollItem.Count - 1; i >=0 ; i--){
 			QuestItemView questItemView = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
 			//do before, store questInfo's stageInfo 
 			questItemView.stageInfo = pickedStage;

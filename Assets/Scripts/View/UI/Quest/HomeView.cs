@@ -171,13 +171,18 @@ public class HomeView : UIComponentUnity{
 			return;
 		}
                 
-        UISprite bgSpr = item.transform.FindChild("Background").GetComponent<UISprite>();
-		bgSpr.enabled = isPressed;
-		if(!isPressed){
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
-			MsgCenter.Instance.Invoke(CommandEnum.OnPickStoryCity, cityViewInfo[ item ].ID);
-			Debug.Log("CityID is : " + cityViewInfo[ item ].ID) ;
+		if (DataCenter.Instance.QuestClearInfo.GetStoryCityState (cityViewInfo [item].ID) == StageState.LOCKED) {
+			ViewManager.Instance.ShowTipsLabel (TextCenter.GetText ("Stage_Locked"), item);
+		} else {
+	
+			UISprite bgSpr = item.transform.FindChild ("Background").GetComponent<UISprite> ();
+			bgSpr.enabled = isPressed;
+			if (!isPressed) {
+					AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+					UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
+					MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
+					Debug.Log ("CityID is : " + cityViewInfo [item].ID);
+			}
 		}
 	}
 

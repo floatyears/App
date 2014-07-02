@@ -3,9 +3,12 @@ using System.Collections;
 
 public class MainBgView : UIComponentUnity {
 	private UISprite background;
+	private UITexture otherBg;
 	public override void Init (UIInsConfig config, IUICallback origin){
 		base.Init (config,origin);
-		background = transform.FindChild("Background").GetComponent<UISprite>();
+		background = transform.FindChild("HomeBG").GetComponent<UISprite>();
+		otherBg = FindChild<UITexture> ("OtherBG");
+		otherBg.enabled = false;
 	}
 
 	public override void ShowUI () {
@@ -21,8 +24,7 @@ public class MainBgView : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowHomeBgMask, ShowMask);
 	}
 
-	public override void DestoryUI ()
-	{
+	public override void DestoryUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowHomeBgMask, ShowMask);
 		base.DestoryUI ();
 	}
@@ -37,11 +39,12 @@ public class MainBgView : UIComponentUnity {
 	private void ShowMask(object msg){
 		bool isMask = (bool)msg;
 		if(isMask){
-			//translucent
-			background.color = new Color(1, 1, 1, 0.5f);
+			otherBg.enabled = true;
+			background.enabled = false;
 		}
 		else{
-			background.color = new Color(1, 1, 1, 1);
+			otherBg.enabled = false;
+			background.enabled = true;
 		}
 	}
 }

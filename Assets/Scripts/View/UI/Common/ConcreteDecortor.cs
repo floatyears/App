@@ -109,12 +109,12 @@ public class LoadingDecorator : DecoratorBase{
 
 //--------------------------------Home---------------------------------------
 public class HomeDecorator : DecoratorBase{
-	private SceneInfoComponent sceneInfoBar;
+//	private SceneInfoComponent sceneInfoBar;
 	public HomeDecorator(SceneEnum sEnum) : base(sEnum) { }
 	
 	public override void ShowScene() {
-		sceneInfoBar.SetBackScene(SceneEnum.None);
-		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_HOME));
+//		sceneInfoBar.SetBackScene(SceneEnum.None);
+//		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_HOME));
 		base.ShowScene();
 	}
 		
@@ -127,11 +127,11 @@ public class HomeDecorator : DecoratorBase{
 	}
 
 	public override void DecoratorScene(){
-		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		sceneInfoBar.SetComponent(decorator);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar.SetComponent(decorator);
 
 		QuestController quest = CreatComponent< QuestController >(UIConfig.homeWindowName);
-		quest.SetComponent(sceneInfoBar);
+		quest.SetComponent(decorator);
 
 		lastDecorator = quest;
 		lastDecorator.CreatUIAsyn (this);
@@ -367,7 +367,7 @@ public class StageSelectDecorrator : DecoratorBase{
 		base.ShowScene();
 //		Debug.LogError ("sceneInfoBar : " + sceneInfoBar);
 		sceneInfoBar.SetBackScene(SceneEnum.Home);
-		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_STAGE_SELECT));
+//		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_STAGE_SELECT));
 	}
 	
 	public override void HideScene(){
@@ -996,7 +996,7 @@ public class QuestSelectDecorator : DecoratorBase{
 	public override void ShowScene(){
 		base.ShowScene();
 		sceneInfoBar.SetBackScene(SceneEnum.StageSelect);
-		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_QUEST_SELECT));
+//		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_QUEST_SELECT));
 	}
 	
 	public override void HideScene(){

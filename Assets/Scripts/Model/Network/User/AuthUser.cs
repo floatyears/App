@@ -9,6 +9,7 @@ public class AuthUser: ProtoManager {
     private bbproto.RspAuthUser rspAuthUser;
     private uint userId;
 	private uint userSelectRole;
+	private int appVersion;
 
     public uint UserSelectRole {
         set { userSelectRole = value; }
@@ -20,10 +21,10 @@ public class AuthUser: ProtoManager {
     ~AuthUser() {
     }
 
-    public static void FirstLogin(uint selectRole, DataListener callback) {
+    public static void FirstLogin(uint selectRole,int version, DataListener callback) {
         AuthUser authUser = new AuthUser();
         authUser.UserSelectRole = selectRole;
-        authUser.OnRequest(null, callback);
+		authUser.OnRequest(version, callback);
     }
 
     public override bool MakePacket() {
@@ -52,6 +53,7 @@ public class AuthUser: ProtoManager {
         reqAuthUser.header.userId = userId;
         reqAuthUser.terminal.uuid = uuid;
 		reqAuthUser.selectRole = userSelectRole;
+		reqAuthUser.appVersion = appVersion;
 
         ErrorMsg err = SerializeData(reqAuthUser); // save to Data for send out
 		
@@ -68,7 +70,7 @@ public class AuthUser: ProtoManager {
     protected override void OnReceiveCommand(object data) {
 //		LogHelper.Log ("OnReceiveCommand authUser...");
 		if (data != null ) {
-			userSelectRole = (uint)data;
+			appVersion = (int)data;
 		}
         Send(); //send request to server
     }

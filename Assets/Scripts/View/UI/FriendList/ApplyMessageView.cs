@@ -71,7 +71,14 @@ public class ApplyMessageView : UIComponentUnity{
 		cancelButton = FindChild<UIButton>("Window/Button_Cancel");
 	
 		UIEventListener.Get(sureButton.gameObject).onClick = ClickSure;
-		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;                
+		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;  
+
+		FindChild<UILabel> ("Window/Label_Text/Name").text = TextCenter.GetText ("Text_Name_Colon");
+		FindChild<UILabel> ("Window/Label_Text/Rank").text = TextCenter.GetText ("Text_Rank_Colon");
+		FindChild<UILabel> ("Window/Label_Text/LastLogin").text = TextCenter.GetText ("Text_LastLogin_Colon");
+		FindChild<UILabel> ("Window/Button_Sure/Label").text = TextCenter.GetText ("OK");
+		FindChild<UILabel> ("Window/Button_Cancel/Label").text = TextCenter.GetText ("Cancel");
+		FindChild<UILabel> ("Window/Label_Note").text = TextCenter.GetText ("ApplyFriendNote");
 	}
 
 
