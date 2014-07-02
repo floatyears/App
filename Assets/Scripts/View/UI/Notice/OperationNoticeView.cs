@@ -52,6 +52,7 @@ public class OperationNoticeView : UIComponentUnity {
 			GameObject prefab = o as GameObject;
 			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
 //				Debug.Log("operation notice");
+//				DataCenter.Instance.NoticeInfo.NoticeList.Reverse();
 				foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {
 					GameObject item = NGUITools.AddChild(content,prefab);
 					

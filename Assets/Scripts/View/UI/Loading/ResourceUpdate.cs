@@ -8,7 +8,7 @@ using System.IO;
 public class ResourceUpdate : MonoBehaviour {
 
 	//private static string serverResURL = "file://" + Application.dataPath +"/ServerTest/";
-	public const string serverHost = "http://107.170.243.127:6001";
+	public const string serverHost = "http://61.153.100.131";
 
 	public const string serverResURL =
 #if UNITY_EDITOR
@@ -518,7 +518,7 @@ public class DownloadItemInfo {
 		if (www != null) {
 			www.Dispose();		
 		}
-		www = new WWW (ResourceUpdate.serverResURL + name + ".unity3d");
+		www = new WWW (ResourceUpdate.serverResURL + name + ".unity3d?"+ Random.Range(10000,1000000));
 		Debug.Log ("url: " +ResourceUpdate.serverResURL + name + ".unity3d");
 	}
 

@@ -39,7 +39,7 @@ public class QuestSelectView : UIComponentUnity {
 	private void GetQuestInfo(object msg){
 		TStageInfo newPickedStage = msg as TStageInfo;
 		List<TQuestInfo> newQuestList = newPickedStage.QuestInfo;
-		newQuestList.Reverse ();
+//		newQuestList.Reverse ();
 
 		if(accessQuestList == null){
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList is NULL as FRIST step in, CREATE list view...");
@@ -71,7 +71,7 @@ public class QuestSelectView : UIComponentUnity {
 		CustomDragPanel();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, transform);
 		dataCount--;
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+		for (int i = dragPanel.ScrollItem.Count - 1; i >=0 ; i--){
 			QuestItemView questItemView = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
 			//do before, store questInfo's stageInfo 
 			questItemView.stageInfo = pickedStage;
