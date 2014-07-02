@@ -26,6 +26,9 @@ public class EffectManager {
 
 	public const int DragCardEffect = -1000;
 
+	public const float SingleSkillDangerLevel = 2.3f;
+	public const float AllSkillDangerLevel = 1.8f;
+
 	private Dictionary<int, string> effectName = new Dictionary<int, string>();
 	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
 	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
@@ -88,15 +91,12 @@ public class EffectManager {
 			return;	
 		}
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
-//		Debug.LogError ("skillStoreID : " + skillStoreID + " userUnitID : " + userUnitID + " skillid :" + skillID);
 		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
 		string path = "";
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {
 			path = GetNormalSkillEffectName (tns);
 		} else if (sbi is ActiveSkill) {
-			//ActiveAttackTargetType, ActiveChangeCardColor, ActiveDeferAttackRound, ActiveDelayTime, ActiveReduceDefense, ActiveReduceHurt, TSkillSingleAttack, ActiveStrengthenAttack,
-			//TSkillAttackRecoverHP, GravityAttack, KnockdownAttack, TSkillRecoverSP, TSkillPoison, TSkillSuicideAttack, RecoverSP
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("as-");
 			Type type = sbi.GetType ();
@@ -105,22 +105,36 @@ public class EffectManager {
 			} else if (type == typeof(ActiveAttackTargetType)) {
 					GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
+//				AudioManager.Instance.PlayAudio(AudioEnum.sound_as);
+
 					sb.Append ("color");
 			} else if (type == typeof(ActiveDeferAttackRound)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
+
 					sb.Append ("low");
 			} else if (type == typeof(ActiveDelayTime)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_delay);
+
 					sb.Append ("delay");
 			} else if (type == typeof(ActiveReduceDefense)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_def_down);
+
 					sb.Append ("reduce-def");
 			} else if (type == typeof(ActiveReduceHurt)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_damage_down);
+
 					sb.Append ("reduce-injure");
 			} else if (type == typeof(TSkillAttackRecoverHP)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1_blood);
+
 					sb.Append ("single-blood-purple");
 			} else if (type == typeof(GravityAttack)) {
 					sb.Append ("all-2-dark");
 			} else if (type == typeof(KnockdownAttack)) {
 					sb.Append ("single-2-dark");
 			} else if (type == typeof(TSkillRecoverSP)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
+
 					sb.Append ("sp-recover");
 			} else if (type == typeof(TSkillPoison)) {
 					sb.Append ("poison");
@@ -132,8 +146,12 @@ public class EffectManager {
 			}
 			path = sb.ToString ();
 		} else if (sbi is TSkillExtraAttack) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);
+
 			path = "LS-pursuit";
 		}else if(sbi is TSkillAntiAttack) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
+
 			path = "PS-fight-back";
 		}
 //		Debug.LogError ("path : " + path);
@@ -150,23 +168,40 @@ public class EffectManager {
 		}
 
 		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { 
-			if(o != null) { 
+			if(o != null) {
 				skillEffectObject.Add(reallyPath,o as GameObject);
 			} 
 			resouceCallback(o);
-		} 
-		);
+		});
 	}
 
 	void GetAttackTargetType(ActiveAttackTargetType aatt,StringBuilder sb) {
 		sb.Append(GetAttackRanger(aatt.AttackRange));
+		float hurtValue = aatt.AttackValue;
 		if(aatt.ValueType == bbproto.EValueType.FIXED) {
 			sb.Append("1-");
 		}
-		else{
-			sb.Append(GetAttackDanger(aatt.AttackRange ,aatt.AttackValue));
+		else {
+			sb.Append(GetAttackDanger(aatt.AttackRange ,hurtValue));
 		}
 		sb.Append (GetSkillType (aatt.AttackType));
+
+		switch (aatt.AttackRange) {
+			case 0:
+				if(hurtValue < SingleSkillDangerLevel) {
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
+				}else{
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
+				}
+				break;
+			case 1:
+				if(hurtValue < AllSkillDangerLevel) {
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
+				}else{
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
+				}
+				break;
+		}
 	}
 
 	void GetSingleAttackEffectName(TSkillSingleAttack tssa,StringBuilder sb) {
@@ -184,9 +219,27 @@ public class EffectManager {
 		StringBuilder sb = new StringBuilder ();
 		sb.Append("ns-");
 		sb.Append (GetAttackRanger (tns.AttackRange));
-		sb.Append (GetAttackDanger (tns.AttackRange, tns.Object.attackValue));
+		float hurtValue = tns.Object.attackValue;
+		sb.Append (GetAttackDanger (tns.AttackRange, hurtValue));
 		sb.Append(GetSkillType(tns.AttackType));
-//		Debug.LogError ("tns.AttackRange : " + tns.AttackRange + " tns.Object.attackValue : " + tns.Object.attackValue + " tns.AttackType : " + tns.AttackType + " sb : "+ sb.ToString());
+
+		switch (tns.AttackRange) {
+		case 0:
+			if(hurtValue < SingleSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single2);
+			}
+			break;
+		case 1:
+			if(hurtValue < AllSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all2);
+			}
+			break;
+		}
+
 		return sb.ToString ();
 	}
 
@@ -201,13 +254,13 @@ public class EffectManager {
 	
 	string GetAttackDanger(int attackRange, float attackValue) {
 		if (attackRange == 0) {
-			if (attackValue < 2.3f) {	
+			if (attackValue < SingleSkillDangerLevel) {	
 					return "1-";
 			} else {
 					return "2-";
 			}
 		} else {
-			if (attackValue < 1.8f) {
+			if (attackValue < AllSkillDangerLevel) {
 				return "1-";
 			} else {
 				return "2-";

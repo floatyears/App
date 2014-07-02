@@ -402,14 +402,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	//--------------interface function-------------------------------------
-	private TUserUnit curUserUnit;
+//	private TUserUnit curUserUnit;
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 
-		curUserUnit = userUnit;
+//		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
-//			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
+			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
 			ShowInfo (oldBlendUnit);
 		}
 		else if (userUnit != null) {
@@ -436,6 +436,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		unitInfoTabs.SetActive (false);
 		SetEffectCamera ();
 		StartCoroutine (CreatEffect ());
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_devour_unit);
 	}
 
 	TUserUnit oldBlendUnit = null;
