@@ -31,6 +31,8 @@ public class StageSelectView : UIComponentUnity{
 	
 	private GameObject eventStageRoot;
 
+	private string currentCityName = "";
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		storyStageRoot = transform.FindChild("StoryStages").gameObject;
@@ -44,6 +46,10 @@ public class StageSelectView : UIComponentUnity{
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, ShowEventCityView);
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+
+		if (currentCityName != "") {
+			SetSceneName(currentCityName);
+		}
 	}
 
 	private void ShowEventCityView(object data){
@@ -69,6 +75,8 @@ public class StageSelectView : UIComponentUnity{
 			EventItemView stageItemView = EventItemView.Inject(cell);
 			stageItemView.Data = eventStageList[i];
 		}
+
+		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVENTSTAGE"));
 	}
 
 	private List<TStageInfo> FilterEventCityData(List<TStageInfo> eventCityData){
@@ -146,6 +154,8 @@ public class StageSelectView : UIComponentUnity{
 		storyStageRoot.gameObject.SetActive(true);
 		eventStageRoot.gameObject.SetActive(false);
 		GetData((uint)msg);
+
+		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.ID));
 	}
 
 	private void FillView(){
@@ -280,6 +290,8 @@ public class StageSelectView : UIComponentUnity{
 		evolveStageInfo = data as TEvolveStart;
 		GetData(evolveStageInfo.StageInfo.CityId);
 		FillViewEvolve();
+
+		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVOLVETAGE"));
 	}
 
 	void FillViewEvolve(){
@@ -319,6 +331,12 @@ public class StageSelectView : UIComponentUnity{
 		}
 
 		return null;
+	}
+
+	private void SetSceneName(string name){
+		currentCityName = name;
+		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (name);
 	}
 }
 

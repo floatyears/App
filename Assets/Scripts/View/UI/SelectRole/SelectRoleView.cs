@@ -81,15 +81,40 @@ public class SelectRoleView : UIComponentUnity {
 			UIEventListener.Get(tabList[ i ]).onClick = ClickTab;
 		}
 
+
+
+		unitInfoList[ 0 ].GetAsset(UnitAssetType.Profile, o => {
+			UITexture texture1 = contentList[ 0 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
+
+			Texture2D source = o as Texture2D;
+			texture1.mainTexture = source;
+			texture1.width = source.width;
+			texture1.height = source.height;
+		});
+
+
+		unitInfoList[ 1 ].GetAsset(UnitAssetType.Profile, o => {
+
+			UITexture texture1 = contentList[ 1 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
+
+			Texture2D source = o as Texture2D;
+			texture1.mainTexture = source;
+			texture1.width = source.width;
+			texture1.height = source.height;
+		});
+
+
+		unitInfoList[ 2 ].GetAsset(UnitAssetType.Profile, o => {
+			UITexture texture1 = contentList[ 2 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
+			Texture2D source = o as Texture2D;
+			texture1.mainTexture = source;
+			texture1.width = source.width;
+			texture1.height = source.height;
+		});
+
 		//Content
 		for (int i = 0; i < contentList.Count; i++){
-			texture = contentList[ i ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
-			unitInfoList[ i ].GetAsset(UnitAssetType.Profile, o => {
-				Texture2D source = o as Texture2D;
-				texture.mainTexture = source;
-				texture.width = source.width;
-				texture.height = source.height;
-			});
+
 
 
 			label = contentList[ i ].transform.FindChild("Label_No").GetComponent<UILabel>();

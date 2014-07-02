@@ -68,10 +68,10 @@ public class SortPanelView : UIComponentUnity {
 		label.text = TextCenter.GetText("Btn_SortRule_Fav");
 		sortRuleSelectDic.Add(btn, SortRule.Fav);
 
-		btn = FindChild<UIButton>("RulePanel/Button_Sort_AddPoint");
-		label = btn.GetComponentInChildren<UILabel>();
-		label.text = TextCenter.GetText("Btn_SortRule_AddPoint");
-		sortRuleSelectDic.Add(btn, SortRule.AddPoint);
+//		btn = FindChild<UIButton>("RulePanel/Button_Sort_AddPoint");
+//		label = btn.GetComponentInChildren<UILabel>();
+//		label.text = TextCenter.GetText("Btn_SortRule_AddPoint");
+//		sortRuleSelectDic.Add(btn, SortRule.AddPoint);
 	}
 
 	private void ClickSortBtn(GameObject btn){

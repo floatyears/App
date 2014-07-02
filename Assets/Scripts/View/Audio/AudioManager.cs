@@ -12,7 +12,11 @@ public class AudioManager {
 			return instance;
 		}
 	}
-	private AudioManager(){}
+	private AudioManager(){
+		Debug.Log ("data store: " + GameDataStore.Instance.GetIntDataNoEncypt ("sound"));
+		isCloseSound = GameDataStore.Instance.GetIntDataNoEncypt ("sound")  == 0 ? true : false;
+		isCloseBackground = GameDataStore.Instance.GetIntDataNoEncypt ("bgm") == 0 ? true : false;
+	}
 
 	//AudioSource Cache
 	private Dictionary< int, AudioSource> audioPlayerCache = new Dictionary<int, AudioSource>();
@@ -23,8 +27,7 @@ public class AudioManager {
 	/// background audio close
 	/// </summary>
 	private bool isCloseBackground = false;
-
-	/// <summary>
+		/// <summary>
 	/// sound audio close
 	/// </summary>
 	private bool isCloseSound = false;

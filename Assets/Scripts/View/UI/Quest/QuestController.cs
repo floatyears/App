@@ -63,12 +63,14 @@ public class QuestController : ConcreteComponent{
 	void TurnToSelectQuest(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		TStageInfo stageSelected =args as TStageInfo ; 
-		if(stageSelected == null) {
-			return;
+		if (stageSelected != null) {
+
+				ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
+				UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
+				MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
+
 		}
-		ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
-		UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
-		MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
+
 	}
 
 

@@ -587,8 +587,8 @@ public class PartyView : UIComponentUnity{
 			leaderSkillDscpLabel.text = TextCenter.GetText("Description_No_LeaderSkill");
 		}
 		else{
-			leaderSkillNameLabel.text = TextCenter.GetText("Leader_Skill") + skillBase.name;
-			leaderSkillDscpLabel.text = skillBase.description;
+			leaderSkillNameLabel.text = TextCenter.GetText("Text_Leader_Skill_Colon") + TextCenter.GetText("SkillName_" +  skillBase.id);
+			leaderSkillDscpLabel.text =  TextCenter.GetText("SkillDesc_" +  skillBase.id);
 		}
 		
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
