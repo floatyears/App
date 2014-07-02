@@ -159,7 +159,6 @@ public class EffectManager {
 	}
 
 	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
-
 		string reallyPath = "Effect/effect/" + path;
 //		Debug.LogError ("reallyPath : " + reallyPath);
 		if (skillEffectObject.ContainsKey (reallyPath)) {
@@ -167,10 +166,10 @@ public class EffectManager {
 			return;
 		}
 
-		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => { 
+		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => {
 			if(o != null) {
 				skillEffectObject.Add(reallyPath,o as GameObject);
-			} 
+			}
 			resouceCallback(o);
 		});
 	}
