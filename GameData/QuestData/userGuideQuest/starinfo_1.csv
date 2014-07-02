@@ -1,0 +1,10 @@
+questId,keyNum,treasureNum,trapNum,enemyNum,,
+1,1,3,0,5,,
+,,,,,,
+questId,star,starNum,treasure,trap,enemyPool,enemyNum
+1,1,6,20|45,,61,1|1
+1,3,5,40|80,,62,1|1
+1,4,4,70|100,,61|62,1|2
+1,5,5,90|120,,62,1|1
+,,,,,,
+,,,,,,
