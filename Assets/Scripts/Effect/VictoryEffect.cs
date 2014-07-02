@@ -125,7 +125,9 @@ public class VictoryEffect : UIBaseUnity {
 				currentExp -= currentTotalExp;
 				rank++;
 				battleQuest.battle.ShieldInput(false);
-				
+
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
+
 				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp, RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
