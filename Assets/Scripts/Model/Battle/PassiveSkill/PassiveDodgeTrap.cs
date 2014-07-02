@@ -19,6 +19,9 @@ public class PassiveDodgeTrap : SkillBaseInfo, IPassiveExcute {
 		if (instance.trapType == tb.GetTrapType() || instance.trapType == ETrapType.All) {
 			if(tb.GetLevel == -1 || instance.trapLevel >= tb.GetLevel) {
 				excutePS.DisposeTrap(true);
+
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_dodge_trap);
+
 				return true;
 			}
 		}

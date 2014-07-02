@@ -65,6 +65,8 @@ public class BattleAttackInfo : UIBaseUnity {
 	}
 
 	void MoveNumberSprite() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_combo);
+
 		iTween.MoveTo(firstSprite.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
 		iTween.MoveTo(secondSprite.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
 		iTween.MoveTo (handsSprite.gameObject, iTween.Hash ("y", -50f, "time", 0.3f, "islocal",true, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "StartMoveEnd", "oncompletetarget", gameObject));

@@ -243,27 +243,27 @@ public class DGTools {
 	public static void PlayAttackSound(int attackType) {
 //		Debug.LogError ("PlayAttackSound : " + attackType);
 		switch (attackType) {
-		case 1:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_fire_attack);
-			break;
-		case 2:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_water_attack);
-			break;
-		case 3:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_wind_attack);
-			break;
-		case 4:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_light_attack);
-			break;
-		case 5:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_dark_attack);
-			break;
-		case 6:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_zero_attack);
-			break;
-		case 7:
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-			break;
+//		case 1:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_fire_attack);
+//			break;
+//		case 2:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_water_attack);
+//			break;
+//		case 3:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_wind_attack);
+//			break;
+//		case 4:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_light_attack);
+//			break;
+//		case 5:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_dark_attack);
+//			break;
+//		case 6:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_zero_attack);
+//			break;
+//		case 7:
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+//			break;
 		}
 	}
 

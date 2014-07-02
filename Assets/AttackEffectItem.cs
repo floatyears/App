@@ -55,7 +55,7 @@ public class AttackEffectItem : MonoBehaviour {
 		ATKLabel.text = "";
 		avatarTexture.mainTexture = tex;
 		transform.localPosition = middlePosition;
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", 0.5f, "easetype", iTween.EaseType.easeInOutQuart,"oncomplete","DropComplete","oncompletetarget",gameObject));
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", 0.5f, "easetype", iTween.EaseType.easeInOutQuart, "oncomplete", "DropComplete", "oncompletetarget", gameObject));
 	}
 
 	void CheckComponentInit() {
@@ -67,7 +67,7 @@ public class AttackEffectItem : MonoBehaviour {
 			transform.localPosition = BattleCardArea.startPosition;
 			moveEndPosition = new Vector3 (BattleCardArea.endPosition.x,  BattleCardArea.startPosition.y, BattleCardArea.endPosition.z - 10f);
 			dropEndPosition = new Vector3 (moveEndPosition.x, BattleCardArea.endPosition.y, BattleCardArea.endPosition.z - 10f);
-			middlePosition = new Vector3(BattleCardArea.middlePosition.x - backGroundSprite.width * 0.5f, BattleCardArea.middlePosition.y,BattleCardArea.middlePosition.z);
+			middlePosition = new Vector3(BattleCardArea.middlePosition.x - backGroundSprite.width * 0.5f, BattleCardArea.middlePosition.y, BattleCardArea.middlePosition.z);
 		}
 	}
 	

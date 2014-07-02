@@ -323,13 +323,11 @@ public class BattleUseData {
 	bool isLimit = false;
 
     void ConsumeEnergyPoint() {	
-//		Debug.LogError ("maxEnergyPoint : " + maxEnergyPoint);
         if (maxEnergyPoint == 0) {
 			int temp = Blood;
 			temp -= ReductionBloodByProportion(0.2f);
-//			Debug.LogError(temp + " blood : " + Blood);
 			Blood = temp < 1 ? 1 : temp;
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
         }
         else {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
@@ -339,6 +337,9 @@ public class BattleUseData {
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
 				battleQuest.battle.ShieldInput(false);
+
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_sp_limited_over);
+
 				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, SPLimit);
 			}
         }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using bbproto;
 
 public class GachaWindowView : UIComponentUnity {
+	private const int rareAudioLevel = 4;
+
     private UILabel chancesLabel;
     private UILabel titleLabel;
     private bool displayingResult = false; // when 
@@ -16,8 +18,6 @@ public class GachaWindowView : UIComponentUnity {
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
 
-//	private MsgWindowView msgView;
-	
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -27,8 +27,6 @@ public class GachaWindowView : UIComponentUnity {
         base.ResetUIState();
         SetActive(false);
         Reset();
-//        CloseChooseGachaWindow();
-//        SetMenuBtnEnable(false);
     }
     
     public override void ShowUI () {
@@ -95,6 +93,9 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private Texture2D GetChessStarTextureByRareLevel(int rare){
+		if (rare >= 4) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_card_4);
+		}
         string path = string.Format("Texture/ChessStar{0}", rare);
         Texture2D texture = ResourceManager.Instance.LoadLocalAsset (path, null) as Texture2D;
         return texture;

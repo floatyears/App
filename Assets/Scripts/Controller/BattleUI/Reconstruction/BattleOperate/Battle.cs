@@ -736,7 +736,7 @@ public class Battle : UIBase {
 			if(selectTarget.Contains(ci))
 				return;
 			if(ci.CanDrag) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
+//				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 				
 				ci.OnPress(true, selectTarget.Count);
 				ci.ActorTexture.depth = ci.InitDepth;
