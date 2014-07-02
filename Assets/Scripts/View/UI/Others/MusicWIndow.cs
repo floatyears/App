@@ -26,14 +26,14 @@ public class MusicWIndow : UIComponentUnity {
 		//		SetUIElement();
 		okBtn.SetActive(true);
 
-//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
+		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
 	}
 	
 	public override void HideUI(){
 		base.HideUI ();
 		//		ResetUIElement();
 		okBtn.SetActive(false);
-//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,false));
+		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,false));
 
 	}
 	
