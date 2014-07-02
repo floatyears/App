@@ -4,6 +4,8 @@ using System;
 
 public class DecoratorBase {
 
+	public WindowType windowType = WindowType.Scene;
+
     private bool resetStateFlag = true;
     public bool ResetStateFlag {
         get { return resetStateFlag; }
@@ -87,5 +89,11 @@ public class DecoratorBase {
 		LogHelper.Log ("component: " + component);
 		return component;
 	}
+}
+
+
+public enum WindowType{
+	Scene,
+	PopUp
 }
 

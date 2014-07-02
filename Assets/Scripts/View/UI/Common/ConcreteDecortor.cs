@@ -1150,15 +1150,17 @@ public class GameCurrencyDecorator : DecoratorBase{
 	}
 }
 
-//--------------------------------Raider------------------------------------------
+//--------------------------------Music------------------------------------------
 public class MusicDecorator : DecoratorBase{
-	private SceneInfoComponent sceneInfoBar;
-	public MusicDecorator(SceneEnum sEnum) : base(sEnum){}
+//	private SceneInfoComponent sceneInfoBar;
+	public MusicDecorator(SceneEnum sEnum) : base(sEnum){
+		windowType = WindowType.PopUp;
+	}
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.Others);
-		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_MUSIC));
+//		sceneInfoBar.SetBackScene(SceneEnum.Others);
+//		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_MUSIC));
 	}
 	
 	public override void HideScene(){
@@ -1170,11 +1172,11 @@ public class MusicDecorator : DecoratorBase{
 	}
 	
 	public override void DecoratorScene(){
-		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		MusicComponent currency = CreatComponent<MusicComponent>(UIConfig.settingWindowName);
 		
-		sceneInfoBar.SetComponent(decorator);
-		currency.SetComponent (sceneInfoBar);
+//		sceneInfoBar.SetComponent(decorator);
+		currency.SetComponent (decorator);
 		
 		lastDecorator = currency;
 		lastDecorator.CreatUIAsyn (this);

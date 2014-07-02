@@ -226,8 +226,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
 		FindChild ("Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
-//		FindChild ("Top/1/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_BASE");
-//		FindChild ("Top/6/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Friend");
 
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;

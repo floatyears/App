@@ -76,11 +76,11 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		
 	}
 
-	private TUserUnit curUserUnit;
+//	private TUserUnit curUserUnit;
 	public void CallBackUnitData(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 		
-		curUserUnit = userUnit;
+//		curUserUnit = userUnit;
 		
 		if (userUnit != null) {
 			ShowInfo (userUnit);
@@ -102,8 +102,10 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
+//		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo);
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
+
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
 			ShowUnitScale();
 		});

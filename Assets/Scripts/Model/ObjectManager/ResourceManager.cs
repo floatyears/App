@@ -207,12 +207,15 @@ public class ResourceManager : MonoBehaviour{
 		}
 		yield return www;
 		Debug.Log ("download complete url: " + url);
-		assetBundles [key].assetBundle = www.assetBundle;
-		assetBundles [key].isLoading = false;
-
-		if(checkRelies(assetBundles [key])){
-			assetBundles [key].ExeCallback ();
+		if (string.IsNullOrEmpty (www.error)) {
+			assetBundles [key].assetBundle = www.assetBundle;
+			assetBundles [key].isLoading = false;
+			
+			if(checkRelies(assetBundles [key])){
+				assetBundles [key].ExeCallback ();
+			}	
 		}
+
 
 	}
 

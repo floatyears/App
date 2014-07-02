@@ -11,6 +11,7 @@ public class MusicWIndow : UIComponentUnity {
 
 	UISlider soundSlider;
 	UISlider bgmSlider;
+	GameObject okBtn;
 
 	public override void Init ( UIInsConfig config, IUICallback origin ){
 		FindUIElement();
@@ -23,17 +24,23 @@ public class MusicWIndow : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI ();
 		//		SetUIElement();
+		okBtn.SetActive(true);
+
+//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
 	}
 	
 	public override void HideUI(){
 		base.HideUI ();
 		//		ResetUIElement();
+		okBtn.SetActive(false);
+//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,false));
 
 	}
 	
 	public override void DestoryUI(){
 		UIEventListenerCustom.Get( soundSlider.gameObject ).onPress -= PressSoundBtn;
 		UIEventListenerCustom.Get( bgmSlider.gameObject ).onPress -= PressBgmBtn;
+		UIEventListenerCustom.Get (okBtn).onClick -= ClickOk;
 
 		base.DestoryUI ();
 	}
@@ -43,6 +50,8 @@ public class MusicWIndow : UIComponentUnity {
 		FindChild< UILabel > ("BGM/Label").text = TextCenter.GetText ("Text_BGM");
 		FindChild< UILabel > ("Sound/Label").text = TextCenter.GetText ("Text_Sound");
 
+		FindChild< UILabel > ("Title").text = TextCenter.GetText ("Game_Setting_Option_Music");
+		FindChild< UILabel > ("OkBtn/Label").text = TextCenter.GetText ("OK");
 //		bgmOnBtn = FindChild< UIButton >("BGM/On" );
 //		bgmOffBtn = FindChild< UIButton >("BGM/Off" );
 //
@@ -51,18 +60,26 @@ public class MusicWIndow : UIComponentUnity {
 
 		soundSlider = FindChild<UISlider> ("Sound/Slider");
 		bgmSlider = FindChild<UISlider> ("BGM/Slider");
+
+		okBtn = FindChild("OkBtn");
 		
 	}
 
 	void SetMusicPanel() {
 //		maskOn.enabled = false;
 //		maskOff.enabled = true;
+		UIEventListenerCustom.Get (okBtn).onClick += ClickOk;
+
 		UIEventListenerCustom.Get( soundSlider.gameObject ).onPress += PressSoundBtn;
 		UIEventListenerCustom.Get( bgmSlider.gameObject ).onPress += PressBgmBtn;
 		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("sound");
 		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("bgm");
 	}
 //
+	void ClickOk(GameObject obj){
+		UIManager.Instance.ChangeScene (SceneEnum.Others);
+	}
+
 	void PressBgmBtn( GameObject btn,bool state ){
 //		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 

@@ -22,7 +22,7 @@ public class TrapPosion : TrapBase {
 	void RoleMove(object data) {
 		ExcuteTrap ();
 		if (Round != 0) {
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk_hurt);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
 		}
 	}
 

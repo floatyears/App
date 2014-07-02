@@ -38,7 +38,7 @@ public class GuideWindowParams{
 
 public class NoviceMsgWindowView : UIComponentUnity{
 
-	UITexture guidePicTex;
+	UISprite guidePicTex;
 	
 	GameObject window;
 	
@@ -85,7 +85,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		window = FindChild("Window");
 		mask = FindChild<UITexture>("Mask");
 
-		guidePicTex = FindChild<UITexture> ("Window/TipPic");
+		guidePicTex = FindChild<UISprite> ("Window/TipPic");
 
 		btnLeft = FindChild<UIButton>("Window/Button_Left");
 		btnRight = FindChild<UIButton>("Window/Button_Right");
@@ -317,16 +317,18 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		if (msgWindowParams.guidePic != null) {
 			LogHelper.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
 			guidePicTex.gameObject.SetActive(true);
-			ResourceManager.Instance.LoadLocalAsset ("Texture/NoviceGuide/" + msgWindowParams.guidePic.ToString (), o =>{
-				Texture2D tex = o as Texture2D;
-				if(tex == null)
-					LogHelper.Log("guide texture: null");
-				guidePicTex.mainTexture = tex;
-				msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width =  chagnedWidth;
-				ModifyThePos(msgLabelTop.gameObject.transform,100.0f);
-				ModifyThePos(msgLabelBottom.gameObject.transform,100.0f);
-				ModifyThePos(msgLabelCenter.gameObject.transform,100.0f);
-			});
+
+			guidePicTex.spriteName = msgWindowParams.guidePic.ToString (); //.mainTexture = tex;
+			msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width =  chagnedWidth;
+			ModifyThePos(msgLabelTop.gameObject.transform,100.0f);
+			ModifyThePos(msgLabelBottom.gameObject.transform,100.0f);
+			ModifyThePos(msgLabelCenter.gameObject.transform,100.0f);
+//			ResourceManager.Instance.LoadLocalAsset ("Texture/NoviceGuide/" + msgWindowParams.guidePic.ToString (), o =>{
+//				Texture2D tex = o as Texture2D;
+//				if(tex == null)
+//					LogHelper.Log("guide texture: null");
+//
+//			});
 
 		} else {
 			guidePicTex.gameObject.SetActive(false);

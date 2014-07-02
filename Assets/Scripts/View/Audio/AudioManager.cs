@@ -72,7 +72,7 @@ public class AudioManager {
 		switch (audio) {
 		case AudioEnum.music_boss_battle:
 		case AudioEnum.music_dungeon:
-		case AudioEnum.music_enemy_battle:
+//		case AudioEnum.music_enemy_battle:
 		case AudioEnum.music_home:
 		case AudioEnum.music_victory:
 			back = true;
@@ -82,12 +82,12 @@ public class AudioManager {
 	}
 
 	bool CheckAudio(AudioEnum audioEnum) {
-		if (audioEnum == AudioEnum.sound_walk && CheckAudioIsPlay(AudioEnum.sound_walk_hurt)) {
+		if (audioEnum == AudioEnum.sound_walk && CheckAudioIsPlay(AudioEnum.sound_enemy_attack)) {
 			return false;
 		}
 
-		if (audioEnum == AudioEnum.sound_walk_hurt) {
-			if(CheckAudioIsPlay(AudioEnum.sound_walk) && CheckAudioIsPlay(AudioEnum.sound_walk_hurt)) {
+		if (audioEnum == AudioEnum.sound_enemy_attack) {
+			if(CheckAudioIsPlay(AudioEnum.sound_walk) && CheckAudioIsPlay(AudioEnum.sound_enemy_attack)) {
 				return false;
 			}
 		}

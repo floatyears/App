@@ -358,6 +358,8 @@ public class BattleQuest : UIBase {
 		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 	}
 
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
@@ -663,10 +665,12 @@ public class BattleQuest : UIBase {
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.BackAttack, BackAttack);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
 			battle.ShieldInput (false);
 			break;
 		case EnemyAttackEnum.FirstAttack:
 			questFullScreenTips.ShowTexture (QuestFullScreenTips.FirstAttack, FirstAttack);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_first_attack);
 			break;
 		default:
 			break;
@@ -699,11 +703,15 @@ public class BattleQuest : UIBase {
 	void ActiveSkillStandReady(object data) {
 		TUserUnit tuu = data as TUserUnit;
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.standReady, null);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_active_skill);
 	}
 
 	void BossDead() {
 		battle.ShieldInput (false);
 		BattleBottom.notClick = true;
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_clear);
+
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 	}
 
@@ -1064,6 +1072,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void RetireQusetBattleFail(object data) {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
+
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.GameOver, BattleFail);
 		configBattleUseData.ClearData ();
 	}
