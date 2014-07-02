@@ -38,12 +38,20 @@ public class BattleBottom : MonoBehaviour {
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
+		Transform actorTrans = transform.Find ("Actor");
 		for (int i = 0; i < 5; i++) {
-			GameObject temp = transform.Find("Actor/" + i).gameObject;	
-			UISprite tex =  transform.Find("Actor/" + i + "_Border").GetComponent<UISprite>();
+			GameObject temp = actorTrans.Find(i.ToString()).gameObject;	
+			UISprite tex =  actorTrans.Find(i.ToString() + "_Border").GetComponent<UISprite>();
+			UISprite bgSpr = actorTrans.Find(i.ToString() + "_bg").GetComponent<UISprite>();
+			UISprite skillBGSpr = actorTrans.Find(i.ToString()+ "_skillBg").GetComponent<UISprite>();
+			UISprite skillSpr = actorTrans.Find(i.ToString() + "_skill").GetComponent<UISprite>();
+
 			if(userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
+				bgSpr.enabled = false;
+				skillBGSpr.enabled = false;
+				skillSpr.enabled = false;
 				continue;
 			}
 
@@ -53,6 +61,8 @@ public class BattleBottom : MonoBehaviour {
 			});
 
 			tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
+			bgSpr.spriteName = GetBGSpriteName(i, tui.Type);
+			skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 		}
 
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
@@ -61,6 +71,27 @@ public class BattleBottom : MonoBehaviour {
 				actorObject[i].SetActive(false);
 			}
 		}
+	}
+
+	string GetSkillSpriteName( bbproto.EUnitType type) {
+		string suffixName = "icon_skill_";
+
+		int typeNumber = (int)type;
+		suffixName += typeNumber.ToString ();
+		return suffixName;
+	}
+
+	string GetBGSpriteName(int pos, bbproto.EUnitType type) {
+		string suffixName = "avatar_bg_";
+		if (pos == 0) {
+			suffixName += "l_";
+		} else {
+			suffixName += "f_";
+		}
+		
+		int typeNumber = (int)type;
+		suffixName += typeNumber.ToString ();
+		return suffixName;
 	}
 
 	string GetUnitTypeSpriteName(int pos, bbproto.EUnitType type) {
