@@ -3298,14 +3298,13 @@ namespace bbproto
       get { return _devourValue; }
       set { _devourValue = value; }
     }
-    private bbproto.UnitGetWay _getWay = null;
-    [global::ProtoBuf.ProtoMember(18, IsRequired = false, Name=@"getWay", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.UnitGetWay getWay
+    private readonly global::System.Collections.Generic.List<bbproto.UnitGetWay> _getWay = new global::System.Collections.Generic.List<bbproto.UnitGetWay>();
+    [global::ProtoBuf.ProtoMember(18, Name=@"getWay", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.UnitGetWay> getWay
     {
       get { return _getWay; }
-      set { _getWay = value; }
     }
+  
     private int _maxActiveSkillLv = default(int);
     [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"maxActiveSkillLv", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
@@ -3348,13 +3347,14 @@ namespace bbproto
       get { return _getType; }
       set { _getType = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _getPath = new global::System.Collections.Generic.List<uint>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"getPath", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<uint> getPath
+    private uint _getPath = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"getPath", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint getPath
     {
       get { return _getPath; }
+      set { _getPath = value; }
     }
-  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4598,6 +4598,56 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MonthCard")]
+  public partial class MonthCard : global::ProtoBuf.IExtensible
+  {
+    public MonthCard() {}
+    
+    private bool _buyFlag = default(bool);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"buyFlag", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool buyFlag
+    {
+      get { return _buyFlag; }
+      set { _buyFlag = value; }
+    }
+    private uint _buyTime = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"buyTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint buyTime
+    {
+      get { return _buyTime; }
+      set { _buyTime = value; }
+    }
+    private uint _nextReceiveTime = default(uint);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"nextReceiveTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint nextReceiveTime
+    {
+      get { return _nextReceiveTime; }
+      set { _nextReceiveTime = value; }
+    }
+    private int _remainCount = default(int);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"remainCount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int remainCount
+    {
+      get { return _remainCount; }
+      set { _remainCount = value; }
+    }
+    private int _cardType = default(int);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"cardType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int cardType
+    {
+      get { return _cardType; }
+      set { _cardType = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AccountInfo")]
   public partial class AccountInfo : global::ProtoBuf.IExtensible
   {
@@ -4674,6 +4724,22 @@ namespace bbproto
     {
       get { return _firstSelectNum; }
       set { _firstSelectNum = value; }
+    }
+    private bbproto.MonthCard _monthCard = null;
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"monthCard", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.MonthCard monthCard
+    {
+      get { return _monthCard; }
+      set { _monthCard = value; }
+    }
+    private bbproto.MonthCard _weekCard = null;
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"weekCard", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.MonthCard weekCard
+    {
+      get { return _weekCard; }
+      set { _weekCard = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -6145,17 +6211,23 @@ namespace bbproto
       [global::ProtoBuf.ProtoEnum(Name=@"E_NONE", Value=0)]
       E_NONE = 0,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"E_QUEST", Value=1)]
-      E_QUEST = 1,
+      [global::ProtoBuf.ProtoEnum(Name=@"E_NORMAL_QUEST", Value=1)]
+      E_NORMAL_QUEST = 1,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"E_GACHA_NORMAL", Value=2)]
-      E_GACHA_NORMAL = 2,
+      [global::ProtoBuf.ProtoEnum(Name=@"E_EVENT_QUEST", Value=2)]
+      E_EVENT_QUEST = 2,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"E_GACHA_EVENT", Value=3)]
-      E_GACHA_EVENT = 3,
+      [global::ProtoBuf.ProtoEnum(Name=@"E_GACHA_NORMAL", Value=3)]
+      E_GACHA_NORMAL = 3,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"E_BUY", Value=4)]
-      E_BUY = 4
+      [global::ProtoBuf.ProtoEnum(Name=@"E_GACHA_EVENT", Value=4)]
+      E_GACHA_EVENT = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"E_BUY", Value=5)]
+      E_BUY = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"E_BONUS", Value=6)]
+      E_BONUS = 6
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EGachaType")]

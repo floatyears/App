@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MusicWIndow : UIComponentUnity {
 	
@@ -27,6 +28,7 @@ public class MusicWIndow : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI ();
 		//		ResetUIElement();
+
 	}
 	
 	public override void DestoryUI(){
@@ -57,6 +59,8 @@ public class MusicWIndow : UIComponentUnity {
 //		maskOff.enabled = true;
 		UIEventListenerCustom.Get( soundSlider.gameObject ).onPress += PressSoundBtn;
 		UIEventListenerCustom.Get( bgmSlider.gameObject ).onPress += PressBgmBtn;
+		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("sound");
+		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("bgm");
 	}
 //
 	void PressBgmBtn( GameObject btn,bool state ){
@@ -64,9 +68,9 @@ public class MusicWIndow : UIComponentUnity {
 
 		if (state == false) {
 			if(bgmSlider.value < 0.5){
-				bgmSlider.value = 0;
+				StartCoroutine(SetValue(bgmSlider,0));
 			}else{
-				bgmSlider.value = 1;
+				StartCoroutine(SetValue(bgmSlider,1));
 			}
 		}
 //		if( btn.name == "On") {
@@ -85,11 +89,26 @@ public class MusicWIndow : UIComponentUnity {
 	void PressSoundBtn(GameObject btn,bool state){
 		if (state == false) {
 			if(soundSlider.value < 0.5){
-				soundSlider.value = 0;
+				StartCoroutine(SetValue(soundSlider,0));
 			}else{
-				soundSlider.value = 1;
+				StartCoroutine(SetValue(soundSlider,1));
 			}
 		}
+	}
+
+	IEnumerator SetValue(UISlider slider, float value ){
+		yield return 0; 
+		slider.value = value;
+		if (slider == soundSlider) {
+			AudioManager.Instance.CloseSound (value == 0 ? true : false);
+			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
+		}
+			
+		else{
+			AudioManager.Instance.CloseBackground (value == 0 ? true : false);
+			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
+		}
+			
 	}
 
 //	public void OnSoundValueChange(){

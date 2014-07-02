@@ -30,16 +30,8 @@ public class Main : MonoBehaviour {
     public GameInput GInput {
         get{ return gInput;}
     }
+
     private GameTimer gTimer;
-//    private ShowUnitInfo sui;
-
-//    private const float screenWidth = 640;
-
-//    private static float texScale = 0f;
-//
-//    public static float TexScale {
-//        get{ return texScale; }
-//    }
 
     private static byte globalDataSeed = 0;
 
@@ -49,7 +41,7 @@ public class Main : MonoBehaviour {
         }
     }
 
-    private UICamera nguiCamera ;
+    private UICamera nguiCamera;
     public UICamera NguiCamera {
         get {
             if (nguiCamera == null) {
@@ -96,19 +88,15 @@ public class Main : MonoBehaviour {
 		UIPanel rootPanel = uiRoot.GetComponent<UIPanel>();
 
 		if (currentSize >= DefaultSize) {
-			//the current screen is thinner than the default, keep the default.
 			float sizePropotion = currentSize / DefaultSize;
 			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion);
 			root.manualHeight = height;
 			rootPanel.clipRange = new Vector4(0, 0, height / currentSize, height);
 		}
 		else{
-			//the current screen is fatter than the default
 			root.manualHeight = DefaultHeight;
 			rootPanel.clipRange = new Vector4(0, 0, 640, root.manualHeight);
 		}
-
-//		TestScreenAdaption(Screen.width, Screen.height, root.manualHeight);
 	}
 
 	public UILabel test_screen_width;
@@ -119,18 +107,4 @@ public class Main : MonoBehaviour {
 		test_screen_height.text = "Screen_Height : " + h;
 		test_screen_manual_height.text = "Manual_Height : " + mh;
 	}
-
-    void OnDisable() {
-//        sui.RemoveListener();
-    }
-
-//	void Update () {
-//		if (Input.GetKeyDown (KeyCode.A)) {
-//			MsgCenter.Instance.Invoke(CommandEnum.UserGuideAnim, null);	
-//		}
-//
-//		if (Input.GetKeyDown (KeyCode.S)) {
-//			MsgCenter.Instance.Invoke(CommandEnum.UserGuideAnim, true);	
-//		}
-//	}
 }

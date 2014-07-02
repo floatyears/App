@@ -65,7 +65,7 @@ public class BattleQuest : UIBase {
 		viewManager.GetViewObject(backgroundName , o=>{
 			background = o as BattleBackground;
 			background.transform.parent = viewManager.BottomPanel.transform;
-			background.transform.localPosition = Vector3.zero;
+			background.transform.localPosition = new Vector3(0f,20f,0f);
 			background.Init (backgroundName);
 			background.SetBattleQuest (this);
 			questData.questId = questDungeonData.QuestId;
@@ -801,7 +801,15 @@ public class BattleQuest : UIBase {
 //		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 	}
 
+	void SureRetry(object data) {
+		battle.ShieldInput (false);
+		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+	}
+
 	public void Retry () {
+//		GameInput.OnUpdate
+		main.GInput.IsCheckInput = false;
+		BattleBottom.notClick = true;
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
 		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
@@ -819,22 +827,21 @@ public class BattleQuest : UIBase {
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 	}
-
-	void SureRetry(object data) {
-		battle.ShieldInput (false);
-		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
-	}
-
+	
 	void SureInitiativeRetry(object data) {
 		battle.ShieldInput (false);
 		if (battle.isShowEnemy) {
 			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
 		}
 		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
+
+		main.GInput.IsCheckInput = true;
+		BattleBottom.notClick = false;
 	}
 
 	void CancelInitiativeRetry(object data) {
-//		NoFriendExit ();
+		main.GInput.IsCheckInput = true;
+		BattleBottom.notClick = false;
 	}
 
 //	object tempData = null;

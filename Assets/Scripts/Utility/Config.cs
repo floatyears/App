@@ -5,13 +5,10 @@ public class Config
 {
 	private static Config instance;
 
-	public static Config Instance
-	{
-		get
-		{
+	public static Config Instance {
+		get {
 			if(instance == null)
 				instance = new Config();
-
 			return instance;
 		}
 	}
@@ -20,13 +17,11 @@ public class Config
 	public const byte endCardID = 4;
 	public const byte cardPoolSingle = 5;
 	public const byte cardCollectionCount = 5;
-	public const byte cardInterv = 15;
+	public const byte cardInterv = 13;
 	public const byte cardDepth = 3;
 	public const string battleCardName = "BattleCard";
 	public int[] cardTypeID = new int[4] {1,2,3,7};
-
-	public static Vector3 cardPoolInitPosition = new Vector3(-255f,300f,0f);
-	
+	public static Vector3 cardPoolInitPosition = new Vector3(-255f,275f,0f);
 	private Dictionary<int,ItemData> cardData = new Dictionary<int, ItemData>();
 
 	public Dictionary<int,ItemData> CardData {
@@ -66,8 +61,7 @@ public class Config
 	}
 }
 
-public class ItemData
-{
+public class ItemData {
 	public int itemID;
 
 	public string itemName;
