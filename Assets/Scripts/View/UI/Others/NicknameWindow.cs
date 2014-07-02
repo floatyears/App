@@ -16,11 +16,15 @@ public class NicknameWindow : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI ();
 		//		SetUIElement();
+
+//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
 	}
 	
 	public override void HideUI(){
 		base.HideUI ();
 		//		ResetUIElement();
+
+//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,false));
 	}
 	
 	public override void DestoryUI(){
@@ -30,9 +34,13 @@ public class NicknameWindow : UIComponentUnity {
 
 	void FindUIElement(){
 		FindChild< UILabel > ("OKButton/Label").text = TextCenter.GetText ("OK");
+		FindChild< UILabel > ("Title").text = TextCenter.GetText ("Game_Setting_Option_NickName");
 
 		okButton = FindChild< UIButton >("OKButton" );
 		nickNameInput = FindChild< UIInput >("NickNameInput" );
+//		nickNameInput.
+
+
 	}
 
 	void SetNickNamePanel(){

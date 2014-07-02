@@ -129,9 +129,8 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
 
-		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (4);
+		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (3);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
 		click = UIEventListener.Get(unit).onClick;
 		UIEventListener.Get (unit).onClick = null;
@@ -220,12 +219,11 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
+
 		GameObject btn0 = GameObject.FindWithTag ("unit_detail_btn2");
 		//NoviceGuideUtil.ForceOneBtnClick(empty);
 		NoviceGuideUtil.ForceOneBtnClick (btn0);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{btn0},new Vector3[]{new Vector3(0,0,1)});
-
-
 
 		UIEventListener.Get (btn0).onClick += Btn0Click;
 
@@ -234,6 +232,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 	
 	private void Btn0Click(GameObject btn)
 	{
+
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= Btn0Click;
 
@@ -321,6 +320,8 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 	public override void Exit (NoviceGuideStepEntity stepEntity)
 	{
 		NoviceGuideUtil.HideTipText ();
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
 	}
 }
 
