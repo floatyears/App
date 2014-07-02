@@ -332,12 +332,10 @@ public class TUnitInfo : ProtobufDataBase {
 					avatarTexture = o as Texture2D;
 					callback(o);
 				});
-			}else{
+			} else {
 				callback(avatarTexture);
 			}
-
-		} 
-		else  {
+		} else {
 			if(profileTexture == null) {
 				path = string.Format("Profile/{0}", ID) ;
 				ResourceManager.Instance.LoadLocalAsset(path,o=>{
@@ -347,7 +345,6 @@ public class TUnitInfo : ProtobufDataBase {
 			}else{
 				callback(profileTexture);
 			}
-
 		}
 	}
 
