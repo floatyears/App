@@ -23,7 +23,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if (item==null) {
 				continue;
 			}
-//			Debug.LogError("ExcutePassiveSkill item.value : " + item.PassiveSkill);
+
 			int id = item.PassiveSkill;
 
 			if(id == -1) {
@@ -33,7 +33,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 			if(ipe == null) {
 				continue;
 			}
-//			Debug.LogError("ExcutePassiveSkill ipe : " + ipe);
+
 			string name = item.MakeUserUnitKey();
 			passiveSkill.Add(name,ipe);
 			multipe.Add(name,item.AttackMultiple);
