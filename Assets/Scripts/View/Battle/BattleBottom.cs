@@ -27,8 +27,9 @@ public class BattleBottom : MonoBehaviour {
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
-			battleSkillObject = o as GameObject;
-			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, battleSkillObject);
+			Debug.LogError("o : " + o);
+			GameObject go = o as GameObject;
+			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 			battleSkill.Init ("BattleSkill");
 			battleSkillObject.SetActive (false);
@@ -52,17 +53,26 @@ public class BattleBottom : MonoBehaviour {
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
 				skillSpr.enabled = false;
-				continue;
+//				continue;
+			}
+			else{
+				TUnitInfo tui = userUnitInfo[i].UnitInfo;
+				Debug.LogError("tui :  " + tui);
+				tui.GetAsset(UnitAssetType.Profile, o=>{
+					Debug.LogError("tui.GetAsset : " + o);
+					if(o != null)
+						temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
+				});
+				
+				//			DataCenter.Instance.GetProfile(tui.ID, o=>{
+				//				temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
+				//			});
+				
+				tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
+				bgSpr.spriteName = GetBGSpriteName(i, tui.Type);
+				skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 			}
 
-			TUnitInfo tui = userUnitInfo[i].UnitInfo;
-			tui.GetAsset(UnitAssetType.Profile, o=>{
-				temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
-			});
-
-			tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
-			bgSpr.spriteName = GetBGSpriteName(i, tui.Type);
-			skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 		}
 
 		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
