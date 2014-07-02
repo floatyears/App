@@ -84,7 +84,6 @@ public class GachaWindowView : UIComponentUnity {
 			GameObject gachaGrid = o as GameObject;
 			for (int i = 0; i < DataCenter.maxGachaPerTime; i++) {
 				GameObject go = NGUITools.AddChild (bg.gameObject, gachaGrid);
-//				UIButton button = go.GetComponent<UIButton> ();
 				go.transform.localPosition = new Vector3 (-width + (i % 3) * width, height - (i / 3) * height, 0);
 				gridDict.Add (go, i);
 				UIEventListener.Get (go).onClick = ClickButton;
@@ -164,8 +163,6 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void ClickButton(GameObject grid){
-        // when showing, not response click
-//		Debug.LogError ("Clickbutton : " + grid);
         if (GetTryCount() >= gachaInfo.totalChances){
             return;
         }
@@ -201,7 +198,7 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.GetText("Open");
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
-//        background.spriteName = "avatar_mask";
+//      background.spriteName = "avatar_mask";
         background.gameObject.SetActive(true);
         UITexture texture = grid.transform.FindChild("Cell/Texture").GetComponent<UITexture>();
         texture.mainTexture = null;
@@ -217,8 +214,8 @@ public class GachaWindowView : UIComponentUnity {
 
         clickedGrids.Add(grid);
         currentUid = uniqueId;
-//        grid = grid;
-//        ShowUnitByUserUnitID(btn, uniqueId);
+//      grid = grid;
+//      ShowUnitByUserUnitID(btn, uniqueId);
         LogHelper.Log("StartCoroutine, ShowUnitRareById(), currentUid {0}, currenGrid", currentUid);
         StartCoroutine(ShowUnitRareById(grid));
     }
@@ -351,15 +348,13 @@ public class GachaWindowView : UIComponentUnity {
         StartCoroutine(ShowUnitByGrid());
     }
 
-    IEnumerator ShowUnitByGrid(){
+    IEnumerator ShowUnitByGrid() {
         int i = 0;
         List<GameObject> sortedGrids = GetSortedGrids();
         while (i < gachaInfo.totalChances){
             yield return new WaitForSeconds(0.6f);
             GameObject grid = sortedGrids[i];
             ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
-//            yield return;
-//            ShowNewUnitDetail(i);
             i += 1;
         }
         FinishShowGachaWindow();
