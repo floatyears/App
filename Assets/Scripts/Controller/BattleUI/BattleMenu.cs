@@ -3,185 +3,115 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BattleMenu : UIBaseUnity {
-	private UIButton CloseButton;
-
-	//==================questinfo component=======
-	private UILabel areaNameLabel;
-	private UILabel questNameLabel;
-	private UILabel floorLabel;
-	private UIScrollView scrollView;
-	private UIGrid grid;
-	private GameObject itemObject;
-	private List<GameObject> itemList = new List<GameObject> ();
-	//============================================
-
-	//==================options component=======
-	private UIButton bgmOnButton;
-	private UIButton bgmOffButton;
-	private UIButton seOnButton;
-	private UIButton seOffButton;
-	private UIButton guideOnButton;
-	private UIButton guideOffButton;
-	//============================================
-
-	//==================options component=======
-	private UIButton exitButton;
-	private UIButton cancelButton;
-	//============================================
-
-	private UIButton closeButton;
-	private UIToggle defaultToggle;
-
-	private BattleQuest _battleQuest;
-	public BattleQuest battleQuest {
-		get { return _battleQuest; }
-		set { _battleQuest = value; }
-	}
-
-	private AudioManager audioManager;
-
 	public override void Init (string name) {
 		base.Init (name);
-		audioManager = AudioManager.Instance;
-	
-		closeButton = FindChild<UIButton> ("Title/Button_Close");
-		UIEventListener.Get (closeButton.gameObject).onClick = CancelButton;
-
-		string Path = "Tabs/Content_QuestInfo";
-		areaNameLabel = FindChild<UILabel> (Path + "/AreaNameLabel");
-		areaNameLabel.text = ConfigBattleUseData.Instance.currentQuestInfo.Name;
-
-		questNameLabel = FindChild<UILabel>(Path + "/QuestNameLabel");
-		questNameLabel.text = ConfigBattleUseData.Instance.currentStageInfo.StageName;
-
-		floorLabel = FindChild<UILabel>(Path + "/FloorLabel");
-		TQuestDungeonData tdd = ConfigBattleUseData.Instance.questDungeonData;
-		floorLabel.text = (tdd.currentFloor + 1) + "/" + tdd.Floors.Count;
-		string path = Path + "/GetUnitsDragPanel/ScrollView";
-		scrollView = FindChild<UIScrollView>(path);
-		grid = FindChild<UIGrid>(path + "/UIGrid");
-		itemObject = transform.Find (Path + "/GetUnitsDragPanel/ScrollView/UIGrid/Item").gameObject;
-
-		defaultToggle = FindChild<UIToggle> ("Tabs/Tab_QuestInfo");
-
-		Path = "Tabs/Content_Options/";
-		bgmOnButton = FindChild<UIButton> (Path + "Button_BGM_ON");
-		UIEventListener.Get (bgmOnButton.gameObject).onClick = BGMOn;
-
-		bgmOffButton = FindChild<UIButton> (Path + "Button_BGM_OFF");
-		UIEventListener.Get (bgmOffButton.gameObject).onClick = BGMOff;
-
-		seOnButton = FindChild<UIButton> (Path + "Button_SE_ON");
-		UIEventListener.Get (seOnButton.gameObject).onClick = SeOnButton;
-
-		seOffButton = FindChild<UIButton> (Path + "Button_SE_OFF");
-		UIEventListener.Get (seOffButton.gameObject).onClick = SeOffButton;
-
-		guideOnButton = FindChild<UIButton> (Path + "Button_GUIDE_ON");
-		UIEventListener.Get (guideOnButton.gameObject).onClick = GUIDEOnButton;
-
-		guideOffButton = FindChild<UIButton> (Path + "Button_GUIDE_OFF");
-		UIEventListener.Get (guideOffButton.gameObject).onClick = GUIDEOffButton;
-
-		Path = "Tabs/Content_Retire/";
-		exitButton = FindChild<UIButton> (Path + "Button_OK");
-		UIEventListener.Get (exitButton.gameObject).onClick = ExitButton;
-
-		cancelButton = FindChild<UIButton> (Path + "Button_Cancel");
-		UIEventListener.Get (cancelButton.gameObject).onClick = CancelButton;
-//		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
-//		RefreshDropItem ();
-		ShowUI ();
+		InitUIComponent ();
 	}
 
-	void RefreshDropItem () {
-		TClearQuestParam cqp = battleQuest.GetQuestData ();
-		int getUnitCount = cqp.getUnit.Count;
-		int itemCount = itemList.Count;
-		int count = getUnitCount - itemCount;
-
-		if (count > 0) {
-			for (int i = 0; i < count; i++) {
-				uint unitID = cqp.getUnit [itemCount + i];
-				GameObject go = NGUITools.AddChild (grid.gameObject, itemObject);
-				go.SetActive (true);
-				UISprite sprite = go.transform.Find ("ItemSprite").GetComponent<UISprite> ();
-				TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
-				sprite.spriteName = DGTools.GetUnitDropSpriteName (tui.Rare);
-				go.name = itemList.Count.ToString();
-				itemList.Add(go);
-			}	
-		} else {
-			count = -count;
-			for (int i = 0; i < count; i++) {
-				GameObject go = itemList[getUnitCount + i];
-				Destroy(go);
-				itemList.Remove(go);
-			}
-		}
-		scrollView.ResetPosition ();
+	public override void CreatUI () {
+		base.CreatUI ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		gameObject.SetActive (true);
-		RefreshDropItem ();
-		defaultToggle.value = true;
-		_battleQuest.battle.SwitchInput (true);
-		BattleBottom.notClick = true;
-		TouchEventBlocker.Instance.SetState (BlockerReason.MessageWindow, true);
-//		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, true));
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		gameObject.SetActive (false);
-		Main.Instance.GInput.IsCheckInput = true;
-		BattleBottom.notClick = false;
-		TouchEventBlocker.Instance.SetState (BlockerReason.MessageWindow, false);
-//		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.MessageWindow, false));
 	}
 
-	void BGMOn(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
-		audioManager.CloseBackground (false);
+	public override void DestoryUI () {
+		base.DestoryUI ();
 	}
 
-	void BGMOff(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
-		audioManager.CloseBackground (true);
+	public BattleQuest battleQuest;
+
+	private UISlider bgmSlider;
+	private UISlider soundSlider;
+	private UIButton okButton;
+	private UIButton returnButton;
+
+	private GameObject confirmWindow;
+	private UIButton confirmButton;
+	private UIButton cancelButton;
+	private UILabel confirmTitleLabel;
+	private UILabel	confirmContentLabel;
+	private UILabel confirmButtonLabel;
+	private UILabel cancelButtonLabel;
+
+	private UILabel menuTitleLabel;
+	private UILabel bgmLabel;
+	private UILabel soundLabel;
+	private UILabel okButtonLabel;
+	private UILabel returnButtonLabel;
+
+	void InitUIComponent() {
+		bgmSlider = FindChild<UISlider> ("BattleMenuWindow/BGM/Slider");
+		bgmLabel = FindChild<UILabel> ("BattleMenuWindow/BGM/Label");
+		soundSlider = FindChild<UISlider> ("BattleMenuWindow/Sound/Slider");
+		soundLabel = FindChild<UILabel> ("BattleMenuWindow/Sound/Label");
+		okButton = FindChild<UIButton> ("BattleMenuWindow/OkBtn");
+		okButtonLabel = FindChild<UILabel> ("BattleMenuWindow/OkBtn/Label");
+		returnButton = FindChild<UIButton> ("BattleMenuWindow/CancleButton");
+		returnButtonLabel = FindChild<UILabel> ("BattleMenuWindow/OkBtn/Label");
+
+		Transform confirmWindowTrans = FindChild<Transform> ("BattleMenuWindow/RetireWindow");
+		confirmWindow = confirmWindowTrans.gameObject;
+
+		confirmButton = FindChild<UIButton> ("BattleMenuWindow/RetireWindow/Button_Left");
+		cancelButton = FindChild<UIButton> ("BattleMenuWindow/RetireWindow/Button_Right");
+		confirmButtonLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Button_Left/Label");
+		cancelButtonLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Button_Right/Label");
+		confirmTitleLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Label_Title");
+		confirmContentLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Label_Msg_Center");
+
+		confirmWindow.gameObject.SetActive (false);
 	}
 
-	void SeOnButton (GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
-		audioManager.CloseSound (false);
+	void SetEvent() {
+		UIEventListener.Get (bgmSlider.gameObject).onPress = BGMSliderPress;
+		UIEventListener.Get (soundSlider.gameObject).onPress = SoundSliderPress;
+		UIEventListener.Get (okButton.gameObject).onClick = OKButtonClick;
+		UIEventListener.Get (returnButton.gameObject).onClick = ReturnButtonClick;
 	}
 
-	void SeOffButton(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
-		audioManager.CloseSound (true);
+	void BGMSliderPress(GameObject go, bool b) {
+		if (!b) {
+			StartCoroutine(SetValue(bgmSlider, bgmSlider.value > 0.5f ? 1 : 0));
+		}
 	}
 
-	void GUIDEOnButton(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
+	void SoundSliderPress(GameObject go, bool b) {
+		if (!b) {
+			StartCoroutine(SetValue(soundSlider, soundSlider.value > 0.5f ? 1 : 0));
+		}
 	}
 
-	void GUIDEOffButton(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
+	void ReturnButtonClick(GameObject go) {
+		
 	}
 
-	void ExitButton(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
-		HideUI ();
-		Battle.isShow = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
+	void OKButtonClick(GameObject go) {
 
-//		_battleQuest.NoFriendExit ();
-		_battleQuest.Retire (false);
 	}
 
-	void CancelButton(GameObject go) {
-		audioManager.PlayAudio (AudioEnum.sound_click);
-		HideUI ();
+	void CancelFight (object data) {
+
+	}
+
+	void CancelMenu(object data) {
+
+	}
+
+	IEnumerator SetValue(UISlider slider, float value ){
+		yield return 0; 
+		slider.value = value;
+		if (slider == soundSlider) {
+			AudioManager.Instance.CloseSound (value == 1 ? true : false);
+			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
+		} else{
+			AudioManager.Instance.CloseBackground (value == 0 ? true : false);
+			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
+		}
 	}
 }
