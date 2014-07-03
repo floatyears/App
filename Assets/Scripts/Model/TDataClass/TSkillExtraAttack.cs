@@ -8,6 +8,10 @@ public class TSkillExtraAttack : SkillBaseInfo {
 		this.instance = instance as SkillExtraAttack;
 		skillBase = this.instance.baseInfo;
 	}
+
+	public EUnitType UnitType {
+		get { return instance.unitType; }
+	}
 	
 	public AttackInfo AttackValue (float attackValue, TUserUnit id) {
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();

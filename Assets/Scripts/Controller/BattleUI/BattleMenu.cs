@@ -13,11 +13,13 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	public override void ShowUI () {
-		base.ShowUI ();
+		gameObject.SetActive (true);
+		BattleBottom.notClick = true;
+		Main.Instance.GInput.IsCheckInput = false;
 	}
 
 	public override void HideUI () {
-		base.HideUI ();
+		CancelMenu (null);
 	}
 
 	public override void DestoryUI () {
@@ -26,6 +28,7 @@ public class BattleMenu : UIBaseUnity {
 
 	public BattleQuest battleQuest;
 
+	private GameObject menuWindow;
 	private UISlider bgmSlider;
 	private UISlider soundSlider;
 	private UIButton okButton;
@@ -46,6 +49,8 @@ public class BattleMenu : UIBaseUnity {
 	private UILabel returnButtonLabel;
 
 	void InitUIComponent() {
+		menuWindow = FindChild<Transform> ("BattleMenuWindow").gameObject;
+
 		bgmSlider = FindChild<UISlider> ("BattleMenuWindow/BGM/Slider");
 		bgmLabel = FindChild<UILabel> ("BattleMenuWindow/BGM/Label");
 		soundSlider = FindChild<UISlider> ("BattleMenuWindow/Sound/Slider");
@@ -54,18 +59,28 @@ public class BattleMenu : UIBaseUnity {
 		okButtonLabel = FindChild<UILabel> ("BattleMenuWindow/OkBtn/Label");
 		returnButton = FindChild<UIButton> ("BattleMenuWindow/CancleButton");
 		returnButtonLabel = FindChild<UILabel> ("BattleMenuWindow/OkBtn/Label");
+		menuTitleLabel = FindChild <UILabel>("BattleMenuWindow/Title");
+		SetEvent ();
 
-		Transform confirmWindowTrans = FindChild<Transform> ("BattleMenuWindow/RetireWindow");
-		confirmWindow = confirmWindowTrans.gameObject;
+		confirmWindow = FindChild<Transform> ("RetireWindow").gameObject;
 
-		confirmButton = FindChild<UIButton> ("BattleMenuWindow/RetireWindow/Button_Left");
-		cancelButton = FindChild<UIButton> ("BattleMenuWindow/RetireWindow/Button_Right");
-		confirmButtonLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Button_Left/Label");
-		cancelButtonLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Button_Right/Label");
-		confirmTitleLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Label_Title");
-		confirmContentLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Label_Msg_Center");
+		confirmButton = FindChild<UIButton> ("RetireWindow/Button_Left");
+		cancelButton = FindChild<UIButton> ("RetireWindow/Button_Right");
+		confirmButtonLabel = FindChild<UILabel> ("RetireWindow/Button_Left/Label");
+		cancelButtonLabel = FindChild<UILabel> ("RetireWindow/Button_Right/Label");
+//		confirmTitleLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Label_Title");
+		confirmContentLabel = FindChild<UILabel> ("RetireWindow/Label_Msg_Center");
 
-		confirmWindow.gameObject.SetActive (false);
+		UIEventListener.Get (confirmButton.gameObject).onClick = CancelFight;
+		UIEventListener.Get (cancelButton.gameObject).onClick = CancelMenu;
+
+		confirmButtonLabel.text = TextCenter.GetText ("OK");
+		cancelButtonLabel.text = TextCenter.GetText ("CANCEL");
+		returnButtonLabel.text = TextCenter.GetText ("Resume");
+		okButtonLabel.text = TextCenter.GetText("Exit");
+		confirmContentLabel.text = TextCenter.GetText ("ExitBattleConfirm");
+		menuTitleLabel.text = TextCenter.GetText("BattleMenu");
+		confirmWindow.SetActive (false);
 	}
 
 	void SetEvent() {
@@ -88,19 +103,28 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	void ReturnButtonClick(GameObject go) {
-		
+		CancelMenu (null);
 	}
 
 	void OKButtonClick(GameObject go) {
-
+		confirmWindow.SetActive (true);
+		menuWindow.SetActive (false);
 	}
 
-	void CancelFight (object data) {
-
+	void CancelFight (GameObject data) {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+		CancelMenu (null);
+		Battle.isShow = false;
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
+		battleQuest.Retire (false);
 	}
 
-	void CancelMenu(object data) {
-
+	void CancelMenu(GameObject data) {
+		gameObject.SetActive (false);
+		confirmWindow.SetActive (false);
+		menuWindow.SetActive (true);
+		Main.Instance.GInput.IsCheckInput = true;
+		BattleBottom.notClick = false;
 	}
 
 	IEnumerator SetValue(UISlider slider, float value ){
