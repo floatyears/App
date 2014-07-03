@@ -55,7 +55,7 @@ droprateStageUrls.append("/wiki/%E3%83%A9%E3%82%A6%E3%83%B3%E3%82%B8%EF%BC%9A%E3
 # droprateStageUrls.append("/wiki/%E8%99%9A%E7%84%A1%E7%A0%94%E3%82%AB%E3%83%AB%E3%83%84%E3%82%A1%E3%82%AF%E3%83%A9%E3%82%A4%E3%83%B3")
 # droprateStageUrls.append("/wiki/%E9%9B%BB%E7%A3%81%E7%A0%94%E3%83%AD%E3%83%BC%E3%83%AC%E3%83%B3%E3%83%84")
 
-dataPath='/Users/kory/Documents/Dev/BB002/bb002/Data/QuestData'
+dataPath='/Users/kory/Documents/Dev/BB002/bb002/GameData/QuestData'
 
 
 def trimNumber(strNum):
