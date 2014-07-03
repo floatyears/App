@@ -34,6 +34,8 @@ public class DGTools {
 		return go;
 	}
 
+
+
 	public static int GetEnemyWidthByRare(int rare) {
 		switch (rare) {
 		case 1:
