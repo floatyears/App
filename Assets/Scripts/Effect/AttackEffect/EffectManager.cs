@@ -148,8 +148,31 @@ public class EffectManager {
 			path = sb.ToString ();
 		} else if (sbi is TSkillExtraAttack) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);
-
-			path = "LS-pursuit";
+			path = "ls-claw-1-";
+			TSkillExtraAttack tsea = sbi as TSkillExtraAttack;
+			switch (tsea.UnitType) {
+				case bbproto.EUnitType.UFIRE:
+					path += "fire";
+					break;
+				case bbproto.EUnitType.UWATER:
+					path += "water";
+					break;
+				case bbproto.EUnitType.UWIND:
+					path += "wind";
+					break;
+				case bbproto.EUnitType.ULIGHT:
+					path += "light";
+					break;
+				case bbproto.EUnitType.UDARK:
+					path += "dark";
+					break;
+				case bbproto.EUnitType.UNONE:
+					path += "none";
+					break;
+				default:
+					path += "fire";
+					break;
+			}
 		}else if(sbi is TSkillAntiAttack) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
 

@@ -16,7 +16,6 @@ public class BattleMenu : UIBaseUnity {
 		gameObject.SetActive (true);
 		BattleBottom.notClick = true;
 		Main.Instance.GInput.IsCheckInput = false;
-//		Debug.LogError("BattleMenu  showui : " + BattleBottom.notClick + " time : " +Time.realtimeSinceStartup);
 	}
 
 	public override void HideUI () {

@@ -312,10 +312,7 @@ public class BattleUseData {
             return;
         }
         MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
-//		Debug.LogError ("skillRecoverHP : " + skillRecoverHP);
-        int addBlood = skillRecoverHP.RecoverHP(maxBlood, 2);	//3: every step.
-//        RecoverHP(addBlood);
-//		Debug.LogError ("addblood : " + addBlood + "Blood : " + Blood);
+        int addBlood = skillRecoverHP.RecoverHP(maxBlood, 2);				// 3: every step.
 		Blood += addBlood;
         ConsumeEnergyPoint();
     }
@@ -323,6 +320,12 @@ public class BattleUseData {
 	bool isLimit = false;
 
     void ConsumeEnergyPoint() {	
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
+
+		if(battleQuest.ChainLinkBattle) {
+			return;
+		}
+
         if (maxEnergyPoint == 0) {
 			int temp = Blood;
 			temp -= ReductionBloodByProportion(0.2f);
@@ -330,7 +333,6 @@ public class BattleUseData {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
         }
         else {
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
             maxEnergyPoint--;
 			configBattleUseData.storeBattleData.sp = maxEnergyPoint;
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
