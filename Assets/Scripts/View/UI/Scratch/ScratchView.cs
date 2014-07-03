@@ -89,6 +89,7 @@ public class ScratchView : UIComponentUnity {
 
     private void OnClickRareGacha(GameObject btn){
 //        LogHelper.Log("OnClickRareGacha");
+		OnClickButton(btn);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
 		ExcuteCallback(cbdArgs);
 	}
