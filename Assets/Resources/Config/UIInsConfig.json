@@ -75,7 +75,7 @@
     "LoadingWindow": {
         "uiName":"Loading",
         "resoucePath": "Prefabs/UI/Common/",
-        "parent": 0,
+        "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
@@ -461,9 +461,9 @@
     "OperationNoticeView":{
     "uiName":"OperationNoticeView",
         "resoucePath": "Prefabs/UI/Notice/",
-        "parent": 2,
+        "parent": 4,
         "positionx": 0,
-        "positiony": 565,
+        "positiony": 460,
         "positionz": 0
     },
     "RewardView":{
@@ -509,7 +509,7 @@
     "MusicWindow": {
         "uiName":"MusicWindow",
         "resoucePath": "Prefabs/UI/Others/",
-        "parent": 0,
+        "parent": 4,
         "positionx": 0,
         "positiony":0,
         "positionz": 0
@@ -517,7 +517,7 @@
     "NicknameWindow": {
         "uiName":"NicknameWindow",
         "resoucePath": "Prefabs/UI/Others/",
-        "parent": 0,
+        "parent": 4,
         "positionx": 0,
         "positiony":0,
         "positionz": 0

@@ -221,6 +221,9 @@ public class UIIns : JsonOriginData
 			case UIParentEnum.BottomNoPanel:
 				trans = vm.ParentPanel.transform;
 				break;
+			case UIParentEnum.PopUp:
+				trans = vm.PopupPanel.transform;
+				break;
 			default:
 				break;
 		}

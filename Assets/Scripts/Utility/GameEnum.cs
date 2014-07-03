@@ -348,6 +348,10 @@ public enum UIParentEnum : byte
 	BottomNoPanel = 3,
 
 	/// <summary>
+	/// pop up window
+	/// </summary>
+	PopUp = 4,
+	/// <summary>
 	/// The none.
 	/// </summary>
 	None = 254,
