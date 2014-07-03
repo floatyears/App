@@ -8,6 +8,7 @@ Back=返回
 Open=Open
 Resume=继续
 Discard=放弃
+Exit=退出
 
 Retry=重试
 error=错误
@@ -188,6 +189,8 @@ ResumeQuestTitle=战斗续打确认
 ResumeQuestContent=是否花费 {0} 个魔法石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
 RetryClearQuestTitle=请求错误。
+ExitBattleConfirm=确认退出战斗？
+BattleMenu=菜单
 
 #Loading
 BattleContinueTitle=战斗继续确认
