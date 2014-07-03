@@ -25,14 +25,14 @@ public class MusicWIndow : UIComponentUnity {
 		base.ShowUI ();
 		okBtn.SetActive(true);
 
-		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
+//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
 
 	}
 	
 	public override void HideUI(){
 		base.HideUI ();
 		okBtn.SetActive(false);
-		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,false));
+//		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,false));
 
 	}
 	
@@ -94,10 +94,10 @@ public class MusicWIndow : UIComponentUnity {
 		yield return 0; 
 		slider.value = value;
 		if (slider == soundSlider) {
-			AudioManager.Instance.CloseSound (value == 1 ? true : false);
+			AudioManager.Instance.CloseSound (value == 0 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
 		} else{
-			AudioManager.Instance.CloseBackground (value == 0 ? true : false);
+			AudioManager.Instance.CloseBackground (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
 		}
 	}

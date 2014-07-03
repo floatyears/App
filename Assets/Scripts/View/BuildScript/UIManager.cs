@@ -154,33 +154,37 @@ public class UIManager {
 			return;		
 		}
 
-		if (baseScene.CurrentScene == sEnum) {
-			return;		
-		} else {
+		DecoratorBase last = current;
+
+		if (baseScene.CurrentScene != sEnum) {
+
 			nextScene = sEnum;
-			if(sEnum != SceneEnum.Music){
-				InvokeSceneClear(sEnum);
-				if(current != null ) {
-					current.HideScene();
-				}
-			}
+			InvokeSceneClear(sEnum);
 			baseScene.SetScene(sEnum);
 			storePrevScene = sEnum;
-		}
-
-		if (HasUIObject (sEnum)) {
-			current = GetUI(sEnum);	
-			if (current != null) {
-				current.ShowScene();
+			
+			if (HasUIObject (sEnum)) {
+				current = GetUI(sEnum);	
+				if (current != null) {
+					current.ShowScene();
+				}
+			} else{
+				DecoratorBase db = CreatScene(sEnum);
+				current = db;
 			}
-		} else{
-			DecoratorBase db = CreatScene(sEnum);
-			current = db;
-		}
+			
+			if(current == null || !current.CheckIsPopUpWindow()){
 
-		prevScene = sEnum;
-
-		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete,sEnum);
+				if(last != null ) {
+					last.HideScene();
+				}
+			}
+			
+			prevScene = sEnum;
+			
+			MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete,sEnum);
+		} 
+			
 	}
 	
 	DecoratorBase CreatScene(SceneEnum sEnum) {
