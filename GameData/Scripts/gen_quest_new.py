@@ -152,8 +152,8 @@ def parseEnemyTable(nameId, enemyType, table, dropRateMap):
         hp = td6
         defence = td7
         print "parseEnemyTable unitId:%s nameId:%d" % (unitId,nameId)
-        # print "before get keys:", dropRateMap.keys()
-        # print "before get values:", dropRateMap.values()
+        # print "before get dropRateMap.keys:", dropRateMap.keys()
+        # print "before get dropRateMap.values:", dropRateMap.values()
         dropRate="不適用"
         dropRate=dropRateMap.get(unitId)
 
@@ -668,6 +668,17 @@ def GetDroprateStageUrl(stageId):
     no=stageId%10
     count=count*7+no-1
 
+    # #御加城-童话系列
+    # stageUrls=[]
+    # stageUrls.append("http://www.divinegatewiki.com/wiki/%E5%BE%A1%E4%BC%BD%E5%9F%8E%E3%82%A2%E3%82%AB%E3%82%BA%E3%82%AD%E3%83%B3")
+    # stageUrls.append("http://www.divinegatewiki.com/wiki/%E5%BE%A1%E4%BC%BD%E5%9F%8E%E3%82%A2%E3%83%AA%E3%82%B9")
+    # stageUrls.append("http://www.divinegatewiki.com/wiki/%E5%BE%A1%E4%BC%BD%E5%9F%8E%E3%82%A4%E3%83%90%E3%83%A9")
+    # stageUrls.append("http://www.divinegatewiki.com/wiki/%E5%BE%A1%E4%BC%BD%E5%9F%8E%E3%82%B7%E3%83%B3%E3%83%87%E3%83%AC%E3%83%A9")
+    # stageUrls.append("http://www.divinegatewiki.com/wiki/%E5%BE%A1%E4%BC%BD%E5%9F%8E%E3%82%AB%E3%82%B0%E3%83%A4")
+    # stageUrls.append("http://www.divinegatewiki.com/wiki/%E5%BE%A1%E4%BC%BD%E5%9F%8E%E3%82%B7%E3%83%A9%E3%83%A6%E3%82%AD")
+    # return stageUrls[stageId%10-1]
+
+
     # for k, url in enumerate(droprateStageUrls):
     #     if k < count:
     #         continue
@@ -675,7 +686,7 @@ def GetDroprateStageUrl(stageId):
         return ""
 
     print "droprateStageUrls:%d url:%s" % (count, droprateStageUrls[count])
-    return droprateStageUrls[count]
+    return 'http://www.divinegatewiki.com'+droprateStageUrls[count]
 
 
 def GetDropRate(stageId):
@@ -690,9 +701,7 @@ def GetDropRate(stageId):
         print "Cannot GetDropUrl for stage:%d" % (stageId)
         return enemyDrop, bossDrop
 
-    wikiDropHost='http://www.divinegatewiki.com'
-
-    stageUrl=wikiDropHost+url
+    stageUrl=url
     print "wget for droprate: %s" % (stageUrl)
 
     request=urllib2.Request(stageUrl)
