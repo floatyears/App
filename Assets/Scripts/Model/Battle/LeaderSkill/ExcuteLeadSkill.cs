@@ -25,6 +25,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
+		Debug.LogError (" ExcuteStartLeaderSkill key : " + key);
 		DisposeBoostSkill (key, leadSkill.LeadSkill [key]);
 		leadSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
