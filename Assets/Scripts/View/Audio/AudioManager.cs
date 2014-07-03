@@ -14,8 +14,8 @@ public class AudioManager {
 	}
 	private AudioManager(){
 		Debug.Log ("data store: " + GameDataStore.Instance.GetIntDataNoEncypt ("sound"));
-		isCloseSound = GameDataStore.Instance.GetIntDataNoEncypt ("sound")  == 0 ? true : false;
-		isCloseBackground = GameDataStore.Instance.GetIntDataNoEncypt ("bgm") == 0 ? true : false;
+		isCloseSound = GameDataStore.Instance.GetIntDataNoEncypt ("sound")  == 0 ? false : true;
+		isCloseBackground = GameDataStore.Instance.GetIntDataNoEncypt ("bgm") == 0 ? false : true;
 	}
 
 	//AudioSource Cache
