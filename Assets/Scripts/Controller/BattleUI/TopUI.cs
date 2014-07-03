@@ -138,6 +138,7 @@ public class TopUI : UIBaseUnity {
 			battleMenu = go.GetComponent<BattleMenu> ();
 			battleMenu.battleQuest = battleQuest;
 			battleMenu.Init ("BattleMenu");
+			battleMenu.ShowUI();
 		});
 
 	}
