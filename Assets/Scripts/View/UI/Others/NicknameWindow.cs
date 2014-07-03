@@ -4,6 +4,7 @@ using System.Collections;
 public class NicknameWindow : UIComponentUnity {
 
 	UIButton okButton;
+	UIButton CancelButton;
 	UIInput nickNameInput;
 
 	public override void Init ( UIInsConfig config, IUICallback origin ){
@@ -34,8 +35,10 @@ public class NicknameWindow : UIComponentUnity {
 
 	void FindUIElement(){
 		FindChild< UILabel > ("OKButton/Label").text = TextCenter.GetText ("OK");
+		FindChild< UILabel > ("CancelButton/Label").text = TextCenter.GetText ("Cancel");
 		FindChild< UILabel > ("Title").text = TextCenter.GetText ("Game_Setting_Option_NickName");
 
+		CancelButton = FindChild<UIButton> ("CancelButton");
 		okButton = FindChild< UIButton >("OKButton" );
 		nickNameInput = FindChild< UIInput >("NickNameInput" );
 //		nickNameInput.
@@ -45,13 +48,23 @@ public class NicknameWindow : UIComponentUnity {
 
 	void SetNickNamePanel(){
 		UIEventListener.Get( okButton.gameObject ).onClick = ClickOkButton;
+		UIEventListener.Get( CancelButton.gameObject ).onClick = ClickCancelButton;
 	}
 	
 	void ClickOkButton( GameObject go ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		LogHelper.Log("ClickOkButton to rename");
 //		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
+		if (nickNameInput.value == null || nickNameInput.value == "") {
+				
+		}
 		ChangeName (nickNameInput.value);
+	}
+
+	void ClickCancelButton(GameObject go){
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+		//		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
+		UIManager.Instance.ChangeScene(SceneEnum.Others);
 	}
 
 

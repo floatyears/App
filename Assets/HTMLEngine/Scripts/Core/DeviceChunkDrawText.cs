@@ -33,7 +33,7 @@ namespace HTMLEngine.Core
 
         public override void Draw(float deltaTime, string linkText, object userData)
         {
-			UnityEngine.Debug.Log ("draw text:" + Text);
+//			UnityEngine.Debug.Log ("draw text:" + Text);
             HtDevice device = HtEngine.Device;
             if (0 != (this.Deco & DrawTextDeco.Underline))
             {

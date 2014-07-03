@@ -54,7 +54,7 @@ public class ResourceManager : MonoBehaviour{
 			
 
 //			ResourceAssetBundle key = GetBundleKeyByPath(path);
-			
+//			
 //			if(!assetBundles.ContainsKey(key)){
 //							assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
 //				StartCoroutine(DownloadResource(key));

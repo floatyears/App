@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 public class LoadingLogic : ConcreteComponent {
     
-	public int currentVersion = 1;
+	public int currentVersion = -1;
 
     public LoadingLogic(string uiName):base(uiName) {
         MsgCenter.Instance.AddListener(CommandEnum.StartFirstLogin, StartFirstLogin);
@@ -39,12 +39,12 @@ public class LoadingLogic : ConcreteComponent {
 
     public void StartLogin(){
         INetBase netBase = new AuthUser();
-        netBase.OnRequest(currentVersion, LoginSuccess);
+        netBase.OnRequest(null, LoginSuccess);
     }
 
     public void StartFirstLogin(object args){
         uint roleSelected = (uint)args;
-        AuthUser.FirstLogin(roleSelected,currentVersion, LoginSuccess);
+        AuthUser.FirstLogin(roleSelected, LoginSuccess);
     }
 	bbproto.RspAuthUser rspAuthUser;
     void LoginSuccess(object data) {
@@ -145,7 +145,7 @@ public class LoadingLogic : ConcreteComponent {
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
 
-			if(rspAuthUser.newAppVersion > currentVersion){
+			if(rspAuthUser.newAppVersion > 0){
 				MsgWindowParams mwp = new MsgWindowParams ();
 				mwp.btnParams = new BtnParam[1];
 				mwp.titleText = TextCenter.GetText("HighVersionToLoadTitle");
@@ -153,6 +153,7 @@ public class LoadingLogic : ConcreteComponent {
 				
 				BtnParam sure = new BtnParam ();
 				sure.callback = o=>{
+					Debug.Log("app url: " + rspAuthUser.appUrl);
 					Application.OpenURL (rspAuthUser.appUrl);
 				};
 				sure.text = TextCenter.GetText("OK");

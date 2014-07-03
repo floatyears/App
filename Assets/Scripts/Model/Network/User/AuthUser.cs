@@ -21,10 +21,10 @@ public class AuthUser: ProtoManager {
     ~AuthUser() {
     }
 
-    public static void FirstLogin(uint selectRole,int version, DataListener callback) {
+    public static void FirstLogin(uint selectRole, DataListener callback) {
         AuthUser authUser = new AuthUser();
         authUser.UserSelectRole = selectRole;
-		authUser.OnRequest(version, callback);
+		authUser.OnRequest(null, callback);
     }
 
     public override bool MakePacket() {
@@ -53,7 +53,8 @@ public class AuthUser: ProtoManager {
         reqAuthUser.header.userId = userId;
         reqAuthUser.terminal.uuid = uuid;
 		reqAuthUser.selectRole = userSelectRole;
-		reqAuthUser.appVersion = appVersion;
+		reqAuthUser.appVersion = ServerConfig.AppVersion;
+		reqAuthUser.terminal.channel = ServerConfig.Channel;
 
         ErrorMsg err = SerializeData(reqAuthUser); // save to Data for send out
 		

@@ -108,8 +108,14 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	public virtual void ShowUI() {
 
-		if(config != null)
+		if (config != null) {
 			transform.localPosition = config.localPosition;
+
+			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
+				ViewManager.Instance.TogglePopUpWindow(true);
+			}
+		}
+			
 
 	}
 
@@ -121,6 +127,10 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	private void InitHide() {
 		transform.localPosition = ViewManager.HidePos;
+
+		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
+			ViewManager.Instance.TogglePopUpWindow(false);
+		}
 	}
 
 	public virtual void DestoryUI() {

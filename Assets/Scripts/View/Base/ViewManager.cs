@@ -47,6 +47,13 @@ public class ViewManager {
 		get{ return parentPanel; }
 	}
 
+	private GameObject popupPanel;
+	
+	public GameObject PopupPanel
+	{
+		get{ return popupPanel; }
+	}
+
 	private GameObject bottomLeftPanel;
 	public GameObject BottomLeftPanel {
 		get { return bottomLeftPanel; }
@@ -91,6 +98,7 @@ public class ViewManager {
 
 	private TipsLabelUI tipsLabelUI;
 
+	private GameObject popUpBg;
 //	private UILabel trapLabel;
 //	public UILabel TrapLabel{
 //		get {
@@ -103,6 +111,9 @@ public class ViewManager {
 		mainUICamera = mainUIRoot.GetComponentInChildren<UICamera>();
 		Transform trans = mainUIRoot.transform;
 		parentPanel = trans.Find("Bottom").gameObject;
+		popupPanel = trans.Find ("PopUp").gameObject;
+		popUpBg = trans.Find ("PopUp/BackGround").gameObject;
+		popUpBg.SetActive (false);
 		topPanel = trans.Find ("Top").gameObject;
 		bottomPanel = trans.Find ("Bottom").gameObject;
 		effectPanel = trans.Find ("Anchor/EffectPanel").gameObject;
@@ -261,5 +272,9 @@ public class ViewManager {
 			cclist[i].DestoryUI();
 		}
 		cclist.Clear ();
+	}
+
+	public void TogglePopUpWindow(bool show){
+		popUpBg.SetActive(show);
 	}
 }

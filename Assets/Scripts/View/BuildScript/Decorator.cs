@@ -4,7 +4,7 @@ using System;
 
 public class DecoratorBase {
 
-	public WindowType windowType = WindowType.Scene;
+//	public WindowType windowType = WindowType.Scene;
 
     private bool resetStateFlag = true;
     public bool ResetStateFlag {
@@ -89,11 +89,16 @@ public class DecoratorBase {
 		LogHelper.Log ("component: " + component);
 		return component;
 	}
+
+	public bool CheckIsPopUpWindow(){
+		ConcreteComponent controller = lastDecorator as ConcreteComponent;
+		if (controller != null && controller.ViewComponent != null && controller.ViewComponent.gameObject != null && controller.ViewComponent.gameObject.transform.parent != null) {
+			return controller.ViewComponent.gameObject.transform.parent == ViewManager.Instance.PopupPanel.transform;	
+		}else{
+			return false;
+		}
+
+	}
 }
 
-
-public enum WindowType{
-	Scene,
-	PopUp
-}
 
