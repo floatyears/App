@@ -43,7 +43,7 @@ public partial class TextCenter {
 
     public void Test(){
         LogHelper.Log("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT TextHelper.Test() start");
-		LogHelper.Log("test get string {0}, result {1}", "error", TextCenter.GetText("error"));
+		LogHelper.Log("test get string {0}, result {1}", "Error", TextCenter.GetText("Error"));
 		LogHelper.Log("test get string {0}, result {1}", "error1", TextCenter.GetText("error1", "test error1"));
     }
 

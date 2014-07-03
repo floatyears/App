@@ -10,7 +10,7 @@ Resume=Resume
 Discard=Discard
 
 Retry=Retry
-error=Error
+Error=Error
 
 ##Button Label Text
 Btn_JumpScene_FriendList=FRIEND LIST

@@ -176,7 +176,7 @@ public class ErrorMsgCenter {
 
         ErrorMsg errMsg = new ErrorMsg(errorCode);
 //        errMsg.Msg = string.Format(errMsg.Msg, args);
-        msgWindowParams.titleText = TextCenter.GetText("error");
+        msgWindowParams.titleText = TextCenter.GetText("Error");
         msgWindowParams.contentText = errMsg.Msg;
 
         msgWindowParams.btnParam = new BtnParam();

@@ -104,6 +104,7 @@ public class HttpManager : INetSendPost {
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
             msgParams.contentText = errMsg.Msg;
+			msgParams.titleText = TextCenter.GetText("Error");
 
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
@@ -120,6 +121,7 @@ public class HttpManager : INetSendPost {
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
             msgParams.contentText = errMsg.Msg;
+			msgParams.titleText = TextCenter.GetText("Error");
             
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
@@ -131,6 +133,7 @@ public class HttpManager : INetSendPost {
 			msgParams = new MsgWindowParams();
 			ErrorMsg errMsg = new ErrorMsg(ErrorCode.TIMEOUT);
 			msgParams.contentText = errMsg.Msg;
+			msgParams.titleText = TextCenter.GetText("Error");
 		
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
@@ -142,6 +145,7 @@ public class HttpManager : INetSendPost {
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.NETWORK);
             msgParams.contentText = errMsg.Msg;
+			msgParams.titleText = TextCenter.GetText("Error");
 
 			msgParams.btnParam = new BtnParam();
 			msgParams.btnParam.callback = CallbackRetry;
