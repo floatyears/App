@@ -1054,10 +1054,10 @@ notmaxleveltips=基础卡牌等级未达到最高等级。
 clearQuest=已通关
 
 ##Tips
-Tips_A_1=MQ是一个滑动方块来战斗的恶魔题材卡牌游戏。
-Tips_A_2=点击地图中闪烁的格子后即可移动。
-Tips_A_3=每移动一个格子都会耗费一点SP（行动力）。
-Tips_A_4=SP为零后就将代扣HP，直至HP剩下1点。
+Tips_A_1=MonsterStory is a game of collecting monster cards.
+Tips_A_2=You can move by clicking the blinking grid on the map.
+Tips_A_3=Every move will cost 1 SP.
+Tips_A_4=When SP becomes 0, the HP will be losed when you continue moving.
 Tips_A_5=踩上格子后，可能获得宝箱或遭遇敌人或踩中陷阱。
 Tips_A_6=一般情况下，将≥2个与己方某张卡牌属性颜色相同的方块放入同一个战斗槽后即可攻击。
 Tips_A_7=战斗槽共5个，一个战斗槽中最多放入5个方块。
