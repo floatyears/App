@@ -275,9 +275,9 @@ public class BaseUnitItem : MonoBehaviour {
 
 	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
 //		UIAtlas atlas = asset as UIAtlas;
-		if (ID == 216) {
-			Debug.LogError("atlas : " + asset);	
-		}
+//		if (ID == 216) {
+//			Debug.LogError("atlas : " + asset);	
+//		}
 //		Debug.LogError ("SetAvatarSprite : UIAtlas :  " + asset);
 		if (asset == null) {
 			return;	

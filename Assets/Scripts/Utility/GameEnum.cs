@@ -172,6 +172,7 @@ public enum CommandEnum{
 	UnitDisplayMaterialData		= 3056,
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
+//	DropBoss,
 	ShowActiveSkill,
 	ShowPassiveSkill,
 	ShowTrap,

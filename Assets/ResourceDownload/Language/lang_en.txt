@@ -8,6 +8,7 @@ Back=Back
 Open=Open
 Resume=Resume
 Discard=Discard
+Exit=Exit
 
 Retry=Retry
 Error=Error
@@ -58,19 +59,21 @@ Btn_Fight=开始战斗
 
 ##Label Text
 Divided_Line=/
-Float_User_ID=用户ID:
-Float_NextExp=升级所需经验:
-Float_TotalExp=累计经验:
+Float_User_ID=User ID:
+Float_NextExp=Next Rank Exp:
+Float_TotalExp=Total Exp:
 
 LeaderSkillText=Leader Skill: 
 PARTY=PARTY
 Text_None=无
-Text_Sell_Price=卖出单价
-Text_Next=下一级
-Text_Max=最大
-Text_Support=援军
-Text_Point=点
-Text_Rank=等级
+Text_Sell_Price=Price
+Text_Next=Next
+Text_Max=MAX
+Text_Support=Support
+Text_Point=Pt
+Text_Rank=Rank
+Text_Rank_Colon=Rank:
+Text_Name_Colon=Name:
 
 
 ##City Name
@@ -81,14 +84,14 @@ City_Name_4=city_name_4
 City_Name_5=city_name_5
 City_Name_6=city_name_6
 
-Title_YourID=用户ID
+Title_YourID=User ID
 ##Game setting options
-Game_Setting_Option_Music=音乐
-Game_Setting_Option_NickName=昵称
-Game_Setting_Option_Currency=攻略
-Game_Setting_Option_Raider=RAIDER
-Text_ResetData=重置数据
-Text_BGM=背景音乐
+Game_Setting_Option_Music=Music
+Game_Setting_Option_NickName=NickName
+Game_Setting_Option_Currency=Test
+Game_Setting_Option_Raider=Help
+Text_ResetData=Reset
+Text_BGM=BGM
 Text_Sound=音量
 
 Text_Leader_Skill=队长技能
@@ -96,10 +99,12 @@ Text_Active_Skill=主动技能
 Text_Normal_Skill_1=技能1
 Text_Normal_Skill_2=技能2
 Text_HP=血量
-Text_ATK=攻击力
-Text_COST=体耗
+Text_ATK=攻击
+Text_COST=统御力
 Text_Level=等级
+Text_Level_Colon=等级：
 Text_RACE=种族
+Text_RACE_Colon=种族：
 Text_EXP=经验
 Text_Coins=金币
 Text_TYPE=属性
@@ -111,6 +116,11 @@ Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Text_Party=使用中
 Text_TapToLogin=点击屏幕进入游戏
+Text_Notice=运营通知
+
+Text_Leader_Skill_Colon=队长技能：
+Name_No_LeaderSkil=队长技能:无
+Description_No_LeaderSkill=技能描述:无
 
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
@@ -143,6 +153,8 @@ SCENE_NAME_RAIDER=Raider
 SCENE_NAME_CURRENCY=Currency
 SCENE_NAME_MUSIC=设置
 SCENE_NAME_NICKNAME=修改昵称
+SCENE_NAME_EVENTSTAGE=活动关卡
+SCENE_NAME_EVOLVETAGE=进化关卡
 
 Stage_Event_Close=活动开始时间：
 Stage_Event_Remain=活动剩余时间：
@@ -177,13 +189,17 @@ RedoQuestContent=Use {0} stones to redo this floor of quest? \n\nYou have {1} st
 ResumeQuestTitle=Resume Confirm
 ResumeQuestContent=Use {0} stones to resume the quest? \n(The SP and HP will be recovered.)
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
-RetryClearQuestTitle=请求错误。
+RetryClearQuestTitle=服务器错误
+ExitBattleConfirm=确认退出战斗？
+BattleMenu=菜单
 
 #Loading
 BattleContinueTitle=Battle Confirm
 BattleContinueContent=Do you want to recover previous battle?
 
-Connecting=通信中...
+Connecting=连接中...
+HighVersionToLoadTitle=升级程序
+HighVersionToLoad=游戏有新版本，请升级
 
 #Friend search
 SearchError=Search Error
@@ -201,6 +217,15 @@ ConfirmRefreshFriend=Are you sure to update friend list?
 
 FriendSearch_Title=查找好友
 FriendSearch_Content=请输入你像查找的用户ID
+
+#friend
+Text_HP_Colon=血量：
+Text_ATK_Colon=攻击：
+Text_Select=选择
+Text_SeeInfo=查看信息
+Text_Exit=退出
+Text_LastLogin_Colon=最近登录：
+ApplyFriendNote=确定要提交好友申请吗？
 
 # shop
 Btn_Friend_Expand=Friends Expand
@@ -395,6 +420,234 @@ TotalFriendPoint=Total friend point: {0}.
 ChainLogin=Chain Login {0}
 TotalLogin=Total Login {0}
 RankReach=Rank {0}
+
+##unit name
+UnitName_1=Indian Shaman
+UnitName_2=Indian Shaman
+UnitName_3=Indian Shaman
+UnitName_4=Indian Shaman
+UnitName_5=Kungfu Girl
+UnitName_6=Kungfu Girl
+UnitName_7=Kungfu Girl
+UnitName_8=Kungfu Girl
+UnitName_9=Adventurer
+UnitName_10=Adventurer
+UnitName_11=Adventurer
+UnitName_12=Adventurer
+UnitName_13=Policewoman
+UnitName_14=Policewoman
+UnitName_15=Policewoman
+UnitName_16=Policewoman
+UnitName_17=Gypsy Psychic
+UnitName_18=Gypsy Psychic
+UnitName_19=Gypsy Psychic
+UnitName_20=Gypsy Psychic
+UnitName_21=Mechanic
+UnitName_22=Mechanic
+UnitName_23=Mechanic
+UnitName_24=Mechanic
+UnitName_25=Fire Dragon
+UnitName_26=Fire Dragon
+UnitName_27=Fire Dragon
+UnitName_28=Fire Dragon
+UnitName_29=Water Dragon
+UnitName_30=Water Dragon
+UnitName_31=Water Dragon
+UnitName_32=Water Dragon
+UnitName_33=Air Dragon
+UnitName_34=Air Dragon
+UnitName_35=Air Dragon
+UnitName_36=Air Dragon
+UnitName_37=Thunder Dragon
+UnitName_38=Thunder Dragon
+UnitName_39=Thunder Dragon
+UnitName_40=Thunder Dragon
+UnitName_41=Shadow Dragon
+UnitName_42=Shadow Dragon
+UnitName_43=Shadow Dragon
+UnitName_44=Shadow Dragon
+UnitName_45=Earth Dragon
+UnitName_46=Earth Dragon
+UnitName_47=Earth Dragon
+UnitName_48=Earth Dragon
+UnitName_49=Zombie Rabbit
+UnitName_50=Zombie Rabbit
+UnitName_51=Zombie Rabbit
+UnitName_52=Zombie Rabbit
+UnitName_53=Zombie Rabbit
+UnitName_54=Zombie Rabbit
+UnitName_55=Zombie Rabbit
+UnitName_56=Zombie Rabbit
+UnitName_57=Zombie Rabbit
+UnitName_58=Zombie Rabbit
+UnitName_59=Zombie Rabbit
+UnitName_60=Zombie Rabbit
+UnitName_61=Imp
+UnitName_62=Imp
+UnitName_63=Fleaman
+UnitName_64=Fleaman
+UnitName_65=Slime
+UnitName_66=Slime
+UnitName_67=Scarecrow
+UnitName_68=Scarecrow
+UnitName_69=Ghost
+UnitName_70=Ghost
+UnitName_71=Gargoyle
+UnitName_72=Gargoyle
+UnitName_73=Boar
+UnitName_74=Boar
+UnitName_75=Boar
+UnitName_76=Boar
+UnitName_77=Boar
+UnitName_78=Boar
+UnitName_79=Boar
+UnitName_80=Boar
+UnitName_81=Boar
+UnitName_82=Boar
+UnitName_83=Boar
+UnitName_84=Boar
+UnitName_85=Cyclops
+UnitName_86=Cyclops
+UnitName_87=Yeti
+UnitName_88=Yeti
+UnitName_89=Flying Hippo
+UnitName_90=Flying Hippo
+UnitName_91=Flying Monkey
+UnitName_92=Flying Monkey
+UnitName_93=Long-tongued Monster
+UnitName_94=Long-tongued Monster
+UnitName_95=Bigfeet
+UnitName_96=Bigfeet
+UnitName_97=Armored Blaster
+UnitName_98=Armored Blaster
+UnitName_99=Frozen Spirit
+UnitName_100=Frozen Spirit
+UnitName_101=Spirit Dancer
+UnitName_102=Spirit Dancer
+UnitName_103=Undead Crusader
+UnitName_104=Undead Crusader
+UnitName_105=Mummy
+UnitName_106=Mummy
+UnitName_107=Dulaerhan
+UnitName_108=Dulaerhan
+UnitName_109=Devil Housekeeper
+UnitName_110=Devil Housekeeper
+UnitName_111=Witch
+UnitName_112=Witch
+UnitName_113=Dream Fairy
+UnitName_114=Dream Fairy
+UnitName_115=Female Frankenstein
+UnitName_116=Female Frankenstein
+UnitName_117=Demon Maid
+UnitName_118=Demon Maid
+UnitName_119=Trainee Witch
+UnitName_120=Trainee Witch
+UnitName_121=Pitbull Terrier
+UnitName_122=Pitbull Terrier
+UnitName_123=Dogo Argentino
+UnitName_124=Dogo Argentino
+UnitName_125=Tosa
+UnitName_126=Tosa
+UnitName_127=Caucasian Ovcharka
+UnitName_128=Caucasian Ovcharka
+UnitName_129=Cane Corso
+UnitName_130=Cane Corso
+UnitName_131=Tibetan Mastiff
+UnitName_132=Tibetan Mastiff
+UnitName_133=Cerberus
+UnitName_134=Cerberus
+UnitName_135=Giant Octopus
+UnitName_136=Giant Octopus
+UnitName_137=Hydra
+UnitName_138=Hydra
+UnitName_139=Long-pike Knight
+UnitName_140=Long-pike Knight
+UnitName_141=Mushussu
+UnitName_142=Mushussu
+UnitName_143=Hell King Pig
+UnitName_144=Hell King Pig
+UnitName_145=Dungeon Giant
+UnitName_146=Dungeon Giant
+UnitName_147=Sirens
+UnitName_148=Sirens
+UnitName_149=Treants
+UnitName_150=Treants
+UnitName_151=Alraune
+UnitName_152=Alraune
+UnitName_153=Daughter of Dracula
+UnitName_154=Daughter of Dracula
+UnitName_155=Banshee
+UnitName_156=Banshee
+UnitName_157=Flying Table
+UnitName_158=Flying Table
+UnitName_159=Flying Table
+UnitName_160=Flying Table
+UnitName_161=Flying Table
+UnitName_162=Flying Table
+UnitName_163=Bat
+UnitName_164=Bat
+UnitName_165=Bat
+UnitName_166=Bat
+UnitName_167=Bat
+UnitName_168=Bat
+UnitName_169=Horn Monster
+UnitName_170=Horn Monster
+UnitName_171=Horn Monster
+UnitName_172=Horn Monster
+UnitName_173=Horn Monster
+UnitName_174=Horn Monster
+UnitName_175=Skeleton Soldier
+UnitName_176=Skeleton Soldier
+UnitName_177=Skeleton Soldier
+UnitName_178=Skeleton Soldier
+UnitName_179=Skeleton Soldier
+UnitName_180=Skeleton Soldier
+UnitName_181=Fairy Dragon
+UnitName_182=Fairy Dragon
+UnitName_183=Fairy Dragon
+UnitName_184=Fairy Dragon
+UnitName_185=Fairy Dragon
+UnitName_186=Fairy Dragon
+UnitName_187=Mushroom Monster
+UnitName_188=Mushroom Monster
+UnitName_189=Mushroom Monster
+UnitName_190=Mushroom Monster
+UnitName_191=Mushroom Monster
+UnitName_192=Mushroom Monster
+UnitName_193=Mushroom Monster
+UnitName_194=Mushroom Monster
+UnitName_195=Mushroom Monster
+UnitName_196=Mushroom Monster
+UnitName_197=Mushroom Monster
+UnitName_198=Mushroom Monster
+UnitName_199=Mushroom Monster
+UnitName_200=Mushroom Monster
+UnitName_201=Mushroom Monster
+UnitName_202=Mushroom Monster
+UnitName_203=Mushroom Monster
+UnitName_204=Mushroom Monster
+UnitName_205=Cannibal Chef
+UnitName_206=Cannibal Chef
+UnitName_207=Murloc
+UnitName_208=Murloc
+UnitName_209=Contractor
+UnitName_210=Contractor
+UnitName_211=Panther Woman
+UnitName_212=Panther Woman
+UnitName_213=Capricorn Girl
+UnitName_214=Capricorn Girl
+UnitName_215=Female Werewolf
+UnitName_216=Female Werewolf
+UnitName_217=Death
+UnitName_218=Death
+UnitName_219=Lord of Chaos
+UnitName_220=Lord of Chaos
+UnitName_221=Lilith
+UnitName_222=Lilith
+UnitName_223=Lilith
+UnitName_224=Lilith
+UnitName_225=Lilith
+UnitName_226=Lilith
 
 ##skill name
 SkillName_1001=炎爆流星
@@ -1149,7 +1402,7 @@ Raider_1=<p align=center><font size=34>背景介绍</font></p><p align=right><a 
 Raider_2=<p align=center><font size=34>战场介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场是由5x5的格子拼接而成，格子里面隐藏着金币、敌人甚至陷阱。玩家需要在这样的战场上收集金币，消灭敌人并最终击倒Boss方可战斗胜利.<br>；<br></p><p><font color=#ffff00ff>进入战场流程</font><br></p><p>1-点击世界地图上任一一个地区；<br>2-选择地区地图上任一一个图标；<br>3-选择好友；<br>4-点击开始按钮。<br><br></p><p><font color=#ffff00ff>什么是耐力</font><br></p><p>耐力是进入战场必不可少的行动力，若耐力过低则无法进入战场。<br><br></p><p><font color=#ffff00ff>如何回复耐力</font><br></p><p>1-等待时间自动回复，每10分钟回复1点。<br>2-花费6魔法石瞬间让耐力Max。<br><br></p><p><font color=#ffff00ff>如何战场移动</font><br></p><p>点击战场上任一一个格子，棋子就会自动跳过去。请注意，当路线中的格子都是闪烁状态时，必须一个一个格子地走。<br><br></p><p><font color=#ffff00ff>什么是SP</font><br></p><p>SP是棋子移动必不可少的行动力，每移动一格都会消耗1点SP，总共20点。<br>请注意，当SP为0后，就将代扣HP，直至HP剩下1点。<br><br></p><p><font color=#ffff00ff>如何回复SP</font><br></p><p>1-战场里切换场景后，会回复少量SP。<br>2-利用某些卡牌的技能回复少量SP。</p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_3=<p align=center><font size=34>战场格子</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>战场格子从图案上可分为3类：骷髅、感叹号、钥匙，它们各自隐藏着不同的内容。<br></p><p><font color=#ffff00ff>骷髅格子</font><br></p><p>骷髅格子隐藏着金币、敌人、陷阱，每次随机出现一种内容。<br><br></p><p><font color=#ffff00ff>骷髅颜色</font><br></p><p>骷髅颜色代表格子的危险等级，蓝色→黄色→红色，出现敌人的几率依次提升。<br><br></p><p><font color=#ffff00ff>骷髅数量</font><br></p><p>骷髅数量的多与少与出现的敌人或金币的数量成正比，可谓高风险高回报。<br><br></p><p><font color=#ffff00ff>感叹号格子</font><br></p><p>感叹号格子兼顾最高的风险和回报，而且还隐藏有一个重大内容（请查看“进阶-乱入Boss”）<br><br></p><p><font color=#ffff00ff>钥匙格子</font><br></p><p>钥匙格子里隐藏着钥匙，这是与战场深处的Boss战斗必不可少的通行证。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_4=<p align=center><font size=34>战斗介绍</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的战斗是滑动方块来进行的，在有限的时间内，滑动更多的方块，给敌人以更高的伤害。这是一场活跃于指尖的战斗，乐趣十足，刺激满点。<br><br></p><p><font color=#ffff00ff>操作方法</font><br></p><p>1-按住方块，将其从下方的准备槽滑动进上方的战斗槽内即可。\n2-按住方块并左右滑动即可变换到任一方块位置。\n3-按住方块并左右滑动即可与相邻同色方块重叠。<br><br></p><p><font color=#ffff00ff>滑动时间</font><br></p><p>将方块滑动进战斗槽内的有限时间只有5s，必须眼疾手快。<br>但是，只要方块还没有进入战斗槽，则倒计时不会开始，所以这个时候可将同色方块整理在一起后再滑动能节省不少时间。<br><br></p><p><font color=#ffff00ff>方块种类</font><br></p><p>方块总共有7类，除开用于恢复HP的心方块外，其他6种为攻击用方块，分别对应卡牌的6种属性：火、水、风、光、暗、无。<br><br></p><p><font color=#ffff00ff>卡牌属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。\n火→风，风→水，水→火；光暗互克；无为独立。\n当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>如何正确攻击</font><br></p><p>	重点来了！\n一般情况下，滑动≥2个与卡牌同色的方块到同一个战斗槽中即可发动攻击。<br>但是，究竟需要什么颜色的方块，多少数量的方块，这一点最终由卡牌的普通技能决定。（可在战斗中点击卡牌头像查看技能详情）<br><br></p><p><font color=#ffff00ff>如何回复HP</font><br></p><p>将≥2个心方块滑动进同一个战斗槽即可回复HP，方块越多，回复量越高。<br><br></p><p><font color=#ffff00ff>敌人何时攻击</font><br></p><p>敌人下方有个Next字样，Next后面的数字表示敌人的攻击冷却回合。即比如Next 2，那就表示该敌人2回合后将发动攻击。<br><br></p><p><font color=#ffff00ff>如何挑战Boss</font><br></p><p>战场最上方有一双闪动的红色魔眼，那就是Boss。要挑战它需要完成以下2步：<br>1-在战场中找到钥匙。<br>2-走到离Boss最近的格子处，点击Boss即可开战。<br></p><p align=right><a href='Raider_0'>返回</a></p>
-Raider_5=<p align=center><font size=34>卡牌</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌是游戏里最为重要的元素，不管是攻略主线关卡还是挑战活动关卡，强力的卡牌都是玩家不可缺少的伙伴。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-在非战斗情况下，长按卡牌头像即可查看卡牌详情。<br>2-在卡牌详情界面，点击“锁”图标即可收藏该卡牌，防止误操作将卡牌卖出或强化。<br><br></p><p><font color=#ffff00ff>HP和ATK</font><br></p><p>HP：卡牌的基本能力之一，HP越高，战斗时的总HP越高。<br>ATK：卡牌的基本能力之二，ATK越高，给予敌人的伤害越高。<br><br></p><p><font color=#ffff00ff>Cost</font><br></p><p>Cost好比粮草，如果士兵所需的粮草之和＞队伍所能携带的粮草上限，则必须减少士兵数量。因此在MQ里，若要被编入队伍的卡牌Cost之和＞队伍Cost上限的话，则无法将它们都编入队伍，必须重新选择卡牌进行编排。<br><br></p><p><font color=#ffff00ff>属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。<br>火→风，风→水，水→火；光暗互克；无为独立。<br>当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>种族</font><br></p><p>卡牌共8个种族，人类、龙、亡灵、兽、幻魔、魔怪、魔神和强化种族。<br>种族的划分不仅在战斗时能产生更多的策略性，也让卡牌的强化和进化更加有趣。<br><br></p><p><font color=#ffff00ff>星级</font><br></p><p>卡牌共有6个星级，星级越高的卡牌越难以入手，自然有着越强大的实力。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
+Raider_5=<p align=center><font size=34>卡牌</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌是游戏里最为重要的元素，不管是攻略主线关卡还是挑战活动关卡，强力的卡牌都是玩家不可缺少的伙伴。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-在非战斗情况下，长按卡牌头像即可查看卡牌详情。<br>2-在卡牌详情界面，点击“锁”图标即可收藏该卡牌，防止误操作将卡牌卖出或强化。<br><br></p><p><font color=#ffff00ff>HP和ATK</font><br></p><p>HP：卡牌的基本能力之一，HP越高，战斗时的总HP越高。<br>ATK：卡牌的基本能力之二，ATK越高，给予敌人的伤害越高。<br><br></p><p><font color=#ffff00ff>统御力</font><br></p><p>统御力好比粮草，如果士兵所需的粮草之和＞队伍所能携带的粮草上限，则必须减少士兵数量。因此在MQ里，若要被编入队伍的卡牌统御力之和＞队伍统御力上限的话，则无法将它们都编入队伍，必须重新选择卡牌进行编排。<br><br></p><p><font color=#ffff00ff>属性</font><br></p><p>卡牌共有6种属性：火、水、风、光、暗、无，它们之间存在着相克关系。<br>火→风，风→水，水→火；光暗互克；无为独立。<br>当己方的属性克制敌人时，则伤害加倍；反之则伤害减半。<br><br></p><p><font color=#ffff00ff>种族</font><br></p><p>卡牌共8个种族，人类、龙、亡灵、兽、幻魔、魔怪、魔神和强化种族。<br>种族的划分不仅在战斗时能产生更多的策略性，也让卡牌的强化和进化更加有趣。<br><br></p><p><font color=#ffff00ff>星级</font><br></p><p>卡牌共有6个星级，星级越高的卡牌越难以入手，自然有着越强大的实力。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_6=<p align=center><font size=34>技能</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>卡牌的技能是除HP和ATK外，另外一个决定卡牌强弱的极其重要的元素。由于稍稍复杂一点，所以单独提出来讲。<br><br></p><p><font color=#ffff00ff>分类</font><br></p><p>技能分为4种：队长技能、主动技能、普通技能、被动技能。<br>某些没有被动技能的卡牌会追加第二个普通技能。<br><br></p><p><font color=#ffff00ff>队长技能</font><br></p><p>队长技能就如同buff一样，能够在整个战斗中持续有效。比如“我方火属性队员攻击提升2倍”，“减少来自敌方的火属性伤害50%”等等。另外还需要注意2点：<br>1-卡牌必须作为队长编入队伍中，其队长技能才能生效。<br>2-不是每张卡牌都有队长技能。<br><br></p><p><font color=#ffff00ff>主动技能</font><br></p><p>主动技能就如同暗黑、魔兽等游戏里的技能，当冷却时间为0后即可发动，只不过在MQ里，冷却时间换成了冷却回合。<br>比如“’给敌方全体造成基于ATK的10倍火属性伤害‘，冷却回合20”。那么随着战斗的进行，回合数变为0后即可点击卡牌头像进行发动。<br><br></p><p><font color=#ffff00ff>普通技能</font><br></p><p>普通技能可以看做格斗游戏里面需要攒怒气来发动的必杀技，只不过在MQ里，需要攒的不是怒气而是方块。<br>比如“’对敌方单体造成水属性小伤害‘，蓝色方块2个”。那么就需要在5s的战斗倒计时结束之前，将2个蓝色方块滑动到同一个战斗槽，之后卡牌就会自动攻击了。<br><br></p><p><font color=#ffff00ff>被动技能</font><br></p><p>被动技能也可以看做buff，它和队长技能的区别之一在于：不管卡牌处于队长还是队员位置，其被动技能都有效。<br>比如“一定几率将所受伤害的10%转为水属性反击给敌人”。那么当队伍受伤后，持有该被动技能的卡牌便有可能发动反击。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_7=<p align=center><font size=34>强化</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>MQ的卡牌不像传统游戏可以在战斗中打倒敌人获得经验值从而升级变得强大，在这里必须通过特殊的方式——强化，即吞噬其他卡牌来获得经验值从而升级变强。<br><br></p><p><font color=#ffff00ff>操作</font><br></p><p>1-点击units。<br>2-点击level up。3-点击卡牌选择基础和用于被吞噬的材料。<br>4-点击好友头像框选择好友。<br>5-点击下方的level up按钮。<br><br></p><p><font color=#ffff00ff>基础卡牌</font><br></p><p>基础卡牌即为被强化对象，强化后等级提升。最右上角的头像框即为基础卡牌的选择位置，点击此处进行基础卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>材料卡牌</font><br></p><p>材料卡牌即为被吞噬对象，强化后被消耗。上方中间4个头像框即为材料卡牌的选择位置，点击此处进行材料卡牌的选择或更换。<br><br></p><p><font color=#ffff00ff>帮手</font><br></p><p>卡牌的强化离不开帮手的协助，帮手不仅可以带来友情点数（好友带来的更多），更能让基础卡牌获得的经验值大幅度加成，具体加成如下：<br>1-若帮手与基础卡牌的种族或属性相同，则经验值x1.25；<br>2-若帮手与基础卡牌的种族和属性都相同，则经验值x1.5。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>
 Raider_8=<p align=center><font size=34>抽卡</font></p><p align=right><a href='Raider_0'>返回</a></p><p align=left><font color=#ffff00ff>简介</font><br></p><p align=left>抽卡是玩家获取战斗力最为重要的地方。虽然战斗中也可掉落部分强力卡牌，但只有善用抽卡的玩家才可君临天下！<br><br></p><p><font color=#ffff00ff>抽卡分类</font><br></p><p>抽卡分为3类，友情抽卡、稀有抽卡、限定抽卡。<br><br></p><p><font color=#ffff00ff>友情抽卡</font><br></p><p>友情抽卡即使用友情点数来进行的抽卡，虽然经常出低星卡，但是有几率抽到主角卡。<br><br></p><p><font color=#ffff00ff>稀有抽卡</font><br></p><p>稀有抽卡即使用魔法石来进行的抽卡，虽然花费不菲，但是隐藏于其中的超强力卡牌绝对值得玩家付出。<br><br></p><p><font color=#ffff00ff>限定抽卡</font><br></p><p>限定抽卡类似稀有抽卡，也是花费魔法石来获取超强力卡牌，只不过这些卡牌是限定于某时间段出现。若想获得这些珍贵的卡牌，请密切关注系统的公告通知。<br><br></p><p align=right><a href='Raider_0'>返回</a></p>

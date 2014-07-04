@@ -66,7 +66,7 @@ public class SellView : UIComponentUnity{
     public override void ResetUIState() {
 		ResetUIElement();
         SellController controller = origin as SellController;
-	
+		mainRoot.transform.localPosition = pos;
         if (controller != null){
             controller.ResetUI();
         }
@@ -78,6 +78,8 @@ public class SellView : UIComponentUnity{
     Vector3 pos = Vector3.zero;
     void BackToMainWindow(object args) {
 		mainRoot.transform.localPosition = pos;
+//		Debug.LogError ("pos : " + mainRoot.transform.localPosition);
+//		mainRoot.SetActive(true);
 		submitRoot.SetActive(false);
 		ResetReadyPool();
 		ShowUIAnimation();
@@ -134,8 +136,9 @@ public class SellView : UIComponentUnity{
 
 	void ClickSellCancel(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellCancel", null);
-		ExcuteCallback(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellCancel", null);
+//		ExcuteCallback(cbdArgs);
+		BackToMainWindow (null);
 	}
 
 	void UpdateCoinLabel(int coin){
