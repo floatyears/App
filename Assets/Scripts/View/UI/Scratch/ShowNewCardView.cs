@@ -5,6 +5,7 @@ public class ShowNewCardView : UIComponentUnity {
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 		InitComponent ();
+		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
 
 	public override void ShowUI () {
@@ -17,6 +18,7 @@ public class ShowNewCardView : UIComponentUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
 
 	private GameObject backEffect;
@@ -38,7 +40,7 @@ public class ShowNewCardView : UIComponentUnity {
 
 	void InitComponent() {
 		backEffect = transform.Find ("scratch01").gameObject;
-		bombEffect = transform.Find ("Scatch02").gameObject;
+		bombEffect = transform.Find ("Scratch02").gameObject;
 		bombEffect.gameObject.SetActive (false);
 		profileTexture = FindChild<UITexture> ("Texture");
 		starSpr = FindChild<UISprite>("Star2/Star1");
@@ -74,6 +76,7 @@ public class ShowNewCardView : UIComponentUnity {
 	void DetailButtonCallback(GameObject go) {
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
+//		UIManager.Instance.baseScene.PrevScene = SceneEnum.Scratch;
 	}
 
 	void ReturnButtonCallback(GameObject go) {
