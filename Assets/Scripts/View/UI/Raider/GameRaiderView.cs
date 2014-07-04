@@ -35,22 +35,31 @@ public class GameRaiderView : UIComponentUnity {
 //						
 //		);
 
+
 	}
 
 	private IEnumerator ShowContent(){
 		yield return 0;
 		html.html = TextCenter.GetText ("Raider_0");
+
+		ShowUIAnimation ();
 	}
 	
 	public override void HideUI(){
 
 		base.HideUI ();
+		iTween.Stop (gameObject);
 
 	}
 	
 	public override void DestoryUI(){
 		Debug.Log ("raider destroy ui");
 		base.DestoryUI ();
+	}
+
+	void ShowUIAnimation(){
+		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 	}
 
 }

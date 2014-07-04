@@ -30,18 +30,26 @@ public class OthersWindow : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI ();
 //		SetUIElement();
+
+		ShowUIAnimation ();
 	}
 	
 	public override void HideUI(){
 		base.HideUI ();
 //		ResetUIElement();
+		iTween.Stop (gameObject);
 	}
 	
 	public override void DestoryUI(){
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Music")).onClick = null;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Nickname")).onClick = null;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Raider")).onClick = null;
+#if UNITY_ANDROID
 		UIEventListenerCustom.Get (FindChild ("OptionItems/ResetData")).onClick = null;
+#endif
+		UIEventListenerCustom.Get (FindChild ("OptionItems/Notice")).onClick = null;
+		UIEventListenerCustom.Get (FindChild ("OptionItems/Contact")).onClick = null;
+		UIEventListenerCustom.Get (FindChild ("OptionItems/Reward")).onClick = null;
 
 		base.DestoryUI ();
 	}
@@ -50,12 +58,28 @@ public class OthersWindow : UIComponentUnity {
 		FindChild<UILabel> ("OptionItems/Music/Label").text = TextCenter.GetText ("Game_Setting_Option_Music");
 		FindChild<UILabel> ("OptionItems/Nickname/Label").text = TextCenter.GetText ("Game_Setting_Option_NickName");
 		FindChild<UILabel> ("OptionItems/Raider/Label").text = TextCenter.GetText ("Game_Setting_Option_Raider");
+		FindChild<UILabel> ("OptionItems/Notice/Label").text = TextCenter.GetText ("Game_Setting_Option_Notice");
+		FindChild<UILabel> ("OptionItems/Reward/Label").text = TextCenter.GetText ("Game_Setting_Option_Reward");
+		FindChild<UILabel> ("OptionItems/Contact/Label").text = TextCenter.GetText ("Game_Setting_Option_Contact");
+
+#if UNITY_ANDROID
 		FindChild<UILabel> ("OptionItems/ResetData/Label").text = TextCenter.GetText ("Text_ResetData");
+#else
+		FindChild("OptionItems/ResetData").SetActive(false);
+#endif
 
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Music")).onClick = ClicItems;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Nickname")).onClick = ClicItems;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Raider")).onClick = ClicItems;
 		UIEventListenerCustom.Get (FindChild ("OptionItems/ResetData")).onClick = ClicItems;
+		UIEventListenerCustom.Get (FindChild ("OptionItems/Reward")).onClick = ClicItems;
+		UIEventListenerCustom.Get (FindChild ("OptionItems/Notice")).onClick = ClicItems;
+		UIEventListenerCustom.Get (FindChild ("OptionItems/Contact")).onClick = ClicItems;
+	}
+
+	void ShowUIAnimation(){
+		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 	}
 
 	void ClicItems(GameObject obj){
@@ -74,8 +98,33 @@ public class OthersWindow : UIComponentUnity {
 			GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 			UIManager.Instance.ChangeScene(SceneEnum.Loading);
 			break;
+		case "Reward":
+			UIManager.Instance.ChangeScene(SceneEnum.Reward);
+			break;
+		case "Contact":
+			ShowContact();
+			break;
+		case "Notice":
+			UIManager.Instance.ChangeScene(SceneEnum.OperationNotice);
+			break;
 		}
 	}
+
+	private void ShowContact(){
+		MsgWindowParams mwp = new MsgWindowParams ();
+		//mwp.btnParams = new BtnParam[1];
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.GetText("ContactUs");
+		mwp.contentText = TextCenter.GetText("ContactUsContent");
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = null;
+		sure.text = TextCenter.GetText("OK");
+		mwp.btnParam = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+	}
+
 //	void SetOption() {
 //		string itemPath = "Prefabs/UI/Others/OtherOptions";
 //		ResourceManager.Instance.LoadLocalAsset( itemPath ,CallbackFunc);

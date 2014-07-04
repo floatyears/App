@@ -90,9 +90,14 @@ Game_Setting_Option_Music=音乐设置
 Game_Setting_Option_NickName=修改昵称
 Game_Setting_Option_Currency=购买测试
 Game_Setting_Option_Raider=游戏攻略
+Game_Setting_Option_Notice=游戏公告
+Game_Setting_Option_Reward=游戏奖励
+Game_Setting_Option_Contact=联系我们
 Text_ResetData=重置数据
 Text_BGM=背景音乐
 Text_Sound=音量
+ContactUsContent=联系我们
+ContactUs=联系我们
 
 Text_Leader_Skill=队长技能
 Text_Active_Skill=主动技能

@@ -154,37 +154,45 @@ public class UIManager {
 			return;		
 		}
 
-		DecoratorBase last = current;
-
-		if (baseScene.CurrentScene != sEnum) {
-
+		if (baseScene.CurrentScene == sEnum) {
+			return;		
+		} else {
 			nextScene = sEnum;
-			InvokeSceneClear(sEnum);
+			prevScene = (current != null ? current.CurrentDecoratorScene : SceneEnum.None);
+			if(!CheckIsPopUpWindow(sEnum,prevScene)){
+				InvokeSceneClear(sEnum);
+				if(current != null ) {
+					current.HideScene();
+				}
+			}
 			baseScene.SetScene(sEnum);
 			storePrevScene = sEnum;
-			
-			if (HasUIObject (sEnum)) {
-				current = GetUI(sEnum);	
-				if (current != null) {
-					current.ShowScene();
-				}
-			} else{
-				DecoratorBase db = CreatScene(sEnum);
-				current = db;
-			}
-			
-			if(current == null || !current.CheckIsPopUpWindow()){
+		}
 
-				if(last != null ) {
-					last.HideScene();
-				}
+		if (HasUIObject (sEnum)) {
+			current = GetUI(sEnum);	
+			if (current != null) {
+				current.ShowScene();
 			}
-			
-			prevScene = sEnum;
-			
-			MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete,sEnum);
-		} 
-			
+		} else{
+			DecoratorBase db = CreatScene(sEnum);
+			current = db;
+		}
+
+		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete,sEnum);
+	}
+
+	public static bool CheckIsPopUpWindow(SceneEnum sEnum,SceneEnum prevScene = SceneEnum.None){
+		if (prevScene == SceneEnum.None) {
+			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice)
+				return true;
+			return false;	
+		}else{
+			if(CheckIsPopUpWindow(sEnum) && !CheckIsPopUpWindow(prevScene))
+				return true;
+			return false;
+		}
+		return false;
 	}
 	
 	DecoratorBase CreatScene(SceneEnum sEnum) {
