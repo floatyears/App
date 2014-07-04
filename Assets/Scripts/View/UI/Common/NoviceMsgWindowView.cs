@@ -320,9 +320,9 @@ public class NoviceMsgWindowView : UIComponentUnity{
 
 			guidePicTex.spriteName = msgWindowParams.guidePic.ToString (); //.mainTexture = tex;
 			msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width =  chagnedWidth;
-			ModifyThePos(msgLabelTop.gameObject.transform,100.0f);
-			ModifyThePos(msgLabelBottom.gameObject.transform,100.0f);
-			ModifyThePos(msgLabelCenter.gameObject.transform,100.0f);
+			ModifyThePos(msgLabelTop.gameObject.transform,-100.0f);
+			ModifyThePos(msgLabelBottom.gameObject.transform,-100.0f);
+			ModifyThePos(msgLabelCenter.gameObject.transform,-100.0f);
 //			ResourceManager.Instance.LoadLocalAsset ("Texture/NoviceGuide/" + msgWindowParams.guidePic.ToString (), o =>{
 //				Texture2D tex = o as Texture2D;
 //				if(tex == null)
@@ -333,9 +333,9 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		} else {
 			guidePicTex.gameObject.SetActive(false);
 			msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width =  originWidth;
-			ModifyThePos(msgLabelTop.gameObject.transform,0.0f);
-			ModifyThePos(msgLabelBottom.gameObject.transform,0.0f);
-			ModifyThePos(msgLabelCenter.gameObject.transform,0.0f);
+			ModifyThePos(msgLabelTop.gameObject.transform,-274.0f);
+			ModifyThePos(msgLabelBottom.gameObject.transform,-274.0f);
+			ModifyThePos(msgLabelCenter.gameObject.transform,-274.0f);
 		}
 	}
 

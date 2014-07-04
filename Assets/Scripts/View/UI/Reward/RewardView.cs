@@ -24,6 +24,8 @@ public class RewardView : UIComponentUnity {
 		base.ShowUI();
 
 		bonusIDs.Clear ();
+
+		ShowUIAnimation ();
 	}
 	
 	public override void HideUI() {
@@ -33,6 +35,8 @@ public class RewardView : UIComponentUnity {
 		if(bonusIDs.Count > 0)
 			AcceptBonus.SendRequest(null,bonusIDs);
 		bonusIDs.Clear ();
+
+		iTween.Stop (gameObject);
 	}
 	
 	public override void DestoryUI () {
@@ -65,6 +69,11 @@ public class RewardView : UIComponentUnity {
 			}
 
 		}
+	}
+
+	void ShowUIAnimation(){
+		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 	}
 
 	private void CreateDragView(){

@@ -28,6 +28,7 @@ public class OperationNoticeView : UIComponentUnity {
 
 		base.ShowUI();
 //		Debug.Log ("show operation notice: " + config.localPosition.y);
+		ShowUIAnimation ();
 	}
 	
 	public override void HideUI() {
@@ -35,6 +36,7 @@ public class OperationNoticeView : UIComponentUnity {
 
 		base.HideUI();
 //		Debug.Log ("hide operation notice: " + config.localPosition.y);
+		iTween.Stop (gameObject);
 	}
 	
 	public override void DestoryUI () {
@@ -93,14 +95,26 @@ public class OperationNoticeView : UIComponentUnity {
 		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
+	void ShowUIAnimation(){
+		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+	}
+
 	public void ClickOK(){
-		if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
-			&& DataCenter.Instance.LoginInfo.Bonus.Count > 0) {
-//			Debug.LogError ("show Reward scene... ");
-			UIManager.Instance.ChangeScene (SceneEnum.Reward);	
-		} else {
+		bool backHome = false;
+		if (UIManager.Instance.prevScene == SceneEnum.Others)
+			backHome = true;
+		if (!backHome) {
 			UIManager.Instance.ChangeScene (SceneEnum.Home);
+			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
+			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0) {
+				//			Debug.LogError ("show Reward scene... ");
+				UIManager.Instance.ChangeScene (SceneEnum.Reward);
+			}	
+		}else{
+			UIManager.Instance.ChangeScene(SceneEnum.Others);
 		}
+
 
 //		HideUI ();
 	}

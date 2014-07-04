@@ -187,7 +187,7 @@ public class ResourceManager : MonoBehaviour{
 
 		string url = 
 #if UNITY_EDITOR
-	"file://" + Application.dataPath + "/ResourceDownload/Output/" + GetBundleUrlByKey(key);
+	"file://" + Application.dataPath + "/ResourceDownload/Output/Android/" + GetBundleUrlByKey(key);
 #elif UNITY_IOS
 	"file://" + Application.persistentDataPath + "/"+ GetBundleUrlByKey(key);
 #elif UNITY_ANDROID
@@ -206,14 +206,17 @@ public class ResourceManager : MonoBehaviour{
 			Debug.Log(www.error);		
 		}
 		yield return www;
-		Debug.Log ("download complete url: " + url);
+
 		if (string.IsNullOrEmpty (www.error)) {
+			Debug.Log ("download complete url: " + url);
 			assetBundles [key].assetBundle = www.assetBundle;
 			assetBundles [key].isLoading = false;
 			
 			if(checkRelies(assetBundles [key])){
 				assetBundles [key].ExeCallback ();
 			}	
+		}else{
+			Debug.LogError("load err: " + www.error);
 		}
 
 
@@ -448,6 +451,7 @@ public class ResourceManager : MonoBehaviour{
 			}
 
 		}
+		Debug.Log ("resource reply: " + allComplete);
 		return allComplete;
 	}
 }

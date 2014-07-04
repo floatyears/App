@@ -449,14 +449,14 @@ public class DGTools {
 	private static SkillJsonConfig skillJsonData;
 
 	public static SkillBaseInfo LoadSkill (int id, SkillType type) {
-		string reallyPath = path + skillPath;
+		string reallyPath = path +  skillPath;
 		if (skillJsonData == null) {
 			TextAsset json = LoadTextAsset(reallyPath + "skills");
 			skillJsonData = new SkillJsonConfig(json.text);
 		}
 
 		string className = skillJsonData.GetClassName (id);
-		TextAsset ta = LoadTextAsset(reallyPath + id);
+		TextAsset ta = LoadTextAsset(reallyPath + "skill_" +id);
 		if (ta == null) {
 			Debug.LogError("skill path : " + reallyPath + " not exist paorobuf file" + " id : " + id);
 			return null;
@@ -553,7 +553,7 @@ public class DGTools {
 	private const string path = "Protobuf/";
 	private const string unitInfoPath = "Unit/";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
-		string url = path +unitInfoPath + unitID;
+		string url = path +unitInfoPath + "unit_" + unitID;
 		TextAsset ta = LoadTextAsset (url);
 //		Debug.Log ("unitID: "+ unitID +" proto len: " +   ta.bytes.Length);
 		if (ta == null) {
