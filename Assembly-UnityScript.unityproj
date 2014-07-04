@@ -122,7 +122,6 @@
      <None Include="Assets\External\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
      <None Include="Assets\External\iTween\ReadMe!\ReadMe!.txt" />
-     <None Include="Assets\ResourceDownload\Output\version.txt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\Resources\Shaders\DepthMask.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
@@ -140,6 +139,7 @@
      <None Include="Assets\ResourceDownload\Download\version.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
+     <None Include="Assets\ResourceDownload\Output\Android\version.txt" />
      <None Include="Assets\Shaders\Particle Add(Self).shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
      <None Include="Assets\ResourceDownload\Language\lang_en.txt" />
