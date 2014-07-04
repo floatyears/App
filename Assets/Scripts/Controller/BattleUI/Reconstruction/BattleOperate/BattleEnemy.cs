@@ -44,6 +44,7 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.DropBoss, DropBoss);
 		count --;
 		battleAttackInfo.HideUI ();
 		gameObject.SetActive (false);
@@ -57,6 +58,7 @@ public class BattleEnemy : UIBaseUnity {
 		count ++;
 		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
+//		MsgCenter.Instance.AddListener (CommandEnum.DropBoss, DropBoss);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
@@ -153,6 +155,14 @@ public class BattleEnemy : UIBaseUnity {
 			monster.Remove (posSymbol);	
 		}
 	}
+
+//	void DropBoss(object data) {
+//		TDropUnit dropUnit = data as TDropUnit;
+//		if (dropUnit == null) {
+//			return;	
+//		}
+//
+//	}
 
 	void Clear() {
 		foreach (var item in monster) {

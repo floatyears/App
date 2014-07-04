@@ -178,7 +178,6 @@ public class EffectManager {
 
 			path = "PS-fight-back";
 		}
-//		Debug.LogError ("path : " + path);
 		GetEffectFromCache (path, resouceCb);
 	}
 

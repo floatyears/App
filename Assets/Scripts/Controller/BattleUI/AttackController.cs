@@ -9,6 +9,7 @@ public class AttackController {
 	private BattleUseData bud;
 	private Queue<AttackInfo> attackInfoQueue = new Queue<AttackInfo> ();
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
+	public TDropUnit dropUnit = null;
 	private TEnemyInfo targetEnemy;
 	private TUnitParty upi;
 	private float countDownTime = 0f;
@@ -289,6 +290,8 @@ public class AttackController {
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+			} else if(dropUnit != null){
+				msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 			}
 		}
 		deadEnemy.Clear ();
@@ -306,6 +309,8 @@ public class AttackController {
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				if(grid != null) {
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+				} else if(dropUnit != null){
+					msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 				}
 			}
 		}

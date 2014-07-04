@@ -426,7 +426,6 @@ public class BattleQuest : UIBase {
 		if (sbd.isBattle == 1) { // 1 == battle enemy
 			currentMapData.Enemy = temp;
 			bud.InitEnemyInfo (currentMapData);
-//			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_enemy_battle);
 			if(sbd.attackRound == 0) { // 0 == first attack
 				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 			}
@@ -435,12 +434,12 @@ public class BattleQuest : UIBase {
 			battleEnemy = true;
 			battle.ShieldInput (true);
 			questDungeonData.Boss= temp;
-			bud.InitBoss (questDungeonData.Boss);
+			TDropUnit bossDrop = questDungeonData.DropUnit.Find (a => a.DropId == 0);
+			bud.InitBoss (questDungeonData.Boss, bossDrop);
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 		}
 		battle.ShowEnemy(temp);
 		ExitFight (false);
-//		Debug.LogError ("continue RecoverBuff");
 		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 	}
 
@@ -619,7 +618,8 @@ public class BattleQuest : UIBase {
 			tei.EnemySymbol = (uint)i;
 			temp.Add (tei);
 		}
-		bud.InitBoss (questDungeonData.Boss);
+		TDropUnit bossDrop = questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		bud.InitBoss (questDungeonData.Boss, bossDrop);
 		configBattleUseData.storeBattleData.isBattle = 2; // 2 == battle boss. 
 		battle.ShowEnemy(temp);
 
