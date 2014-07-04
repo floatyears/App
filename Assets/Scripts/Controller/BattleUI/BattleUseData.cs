@@ -258,8 +258,10 @@ public class BattleUseData {
         ac.Grid = grid;
     }
 
-    public void InitBoss(List<TEnemyInfo> boss) {
-        ac.enemyInfo = boss;
+    public void InitBoss(List<TEnemyInfo> boss, TDropUnit bossDrop) {
+		ac.enemyInfo.Clear ();
+		ac.enemyInfo.AddRange (boss);
+		ac.dropUnit = bossDrop;
     }
 
     public List<AttackInfo> CaculateFight(int areaItem, int id, bool isBoost) {
