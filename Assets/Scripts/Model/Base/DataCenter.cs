@@ -585,7 +585,7 @@ public class DataCenter {
 
 	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
 
-	public void GetProfile(uint unitID, ResourceCallback resouceCB) {
+	public void GetProfile(uint unitID, UITexture uiTexture = null, ResourceCallback resouceCB = null) {
 		Texture2D profile = null;
 		if (!profileCache.TryGetValue (unitID, out profile)) {
 			string path = string.Format("Profile/{0}", unitID);
@@ -595,6 +595,12 @@ public class DataCenter {
 			});
 		}
 
-		resouceCB (profile);
+		if(uiTexture != null) {
+			uiTexture.mainTexture = profile;
+		}
+
+		if(resouceCB != null) {
+			resouceCB (profile);
+		}
 	}
 }
