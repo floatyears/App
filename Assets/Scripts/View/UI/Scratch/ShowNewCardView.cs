@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShowNewCardView : UIComponentUnity {
 	public override void Init (UIInsConfig config, IUICallback origin) {
@@ -9,7 +10,10 @@ public class ShowNewCardView : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
+		sEnum = UIManager.Instance.prevScene;
+
 		base.ShowUI ();
+		ActiveButton ();
 	}
 
 	public override void HideUI () {
@@ -20,6 +24,7 @@ public class ShowNewCardView : UIComponentUnity {
 		base.DestoryUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
+	private SceneEnum sEnum;
 
 	private GameObject backEffect;
 	private GameObject bombEffect;
@@ -35,15 +40,17 @@ public class ShowNewCardView : UIComponentUnity {
 	private int starSprWidth = 0;
 	private GameObject starParent;
 
+	private List<GameObject> starList = new List<GameObject> ();
+
 	private Vector3 DoubleScale = new Vector3 (2f, 2f, 2f);
 	private Vector3 TribleScale = new Vector3 (3f, 3f, 3f);
 
 	void InitComponent() {
-		backEffect = transform.Find ("scratch01").gameObject;
-		bombEffect = transform.Find ("Scratch02").gameObject;
+		backEffect = transform.Find ("scratch1").gameObject;
+		bombEffect = transform.Find ("scratch2").gameObject;
 		bombEffect.gameObject.SetActive (false);
 		profileTexture = FindChild<UITexture> ("Texture");
-		starSpr = FindChild<UISprite>("Star2/Star1");
+		starSpr = FindChild<UISprite>("Star/Star1");
 		starParent = starSpr.transform.parent.gameObject;
 		starSprWidth = starSpr.width;
 
@@ -66,21 +73,45 @@ public class ShowNewCardView : UIComponentUnity {
 
 	void ShowTexture() {
 		DataCenter.Instance.GetProfile (userUnit.Object.unitId, null, texture => {
-			Texture tex = texture as Texture;
-			profileTexture.mainTexture = tex;
-			iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale,"time","1f","easetype",iTween.EaseType.easeInOutBack));
-			GameTimer.GetInstance().AddCountDown(0.8f, ShowBombEffect);
+			Texture2D tex = texture as Texture2D;
+			DGTools.ShowTexture(profileTexture, tex);
+			iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.8f, "easetype", iTween.EaseType.easeOutBounce));
+			GameTimer.GetInstance().AddCountDown(0.6f, ShowBombEffect);
 		});
 	}
 
 	void DetailButtonCallback(GameObject go) {
+
 		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
-//		UIManager.Instance.baseScene.PrevScene = SceneEnum.Scratch;
+		UIManager.Instance.baseScene.PrevScene = sEnum;
+
+		ClearStar ();
 	}
 
 	void ReturnButtonCallback(GameObject go) {
+		UIManager.Instance.ChangeScene (sEnum);
 
+		ClearStar ();
+	}
+
+	void ClearStar() {
+		for (int i = 0; i < starList.Count; i++) {
+			Destroy(starList[i]);
+		}
+		starList.Clear ();
+	}
+
+	void ActiveButton() {
+		if (detailButton != null) {
+			detailButton.gameObject.SetActive(false);
+			detailButton.gameObject.SetActive(true);
+		}
+
+		if (returnButton != null) {
+			returnButton.gameObject.SetActive(false);
+			returnButton.gameObject.SetActive(true);
+		}
 	}
 
 	void ShowBombEffect() {
@@ -104,6 +135,8 @@ public class ShowNewCardView : UIComponentUnity {
 	IEnumerator ShowStar(int rare, Vector3 initPosition) {
 		for (int i = 0; i < rare; i++) {
 			GameObject go = NGUITools.AddChild(starParent, starSpr.gameObject);
+			starList.Add(go);
+			go.SetActive(false);
 			go.transform.localPosition = initPosition + Vector3.right * starSprWidth;
 			iTween.ScaleFrom(go, iTween.Hash("scale", DoubleScale,"time",0.5f,"easetype",iTween.EaseType.easeInQuad));
 			yield return 0.2f;
