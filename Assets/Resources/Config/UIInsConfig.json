@@ -117,7 +117,7 @@
         "resoucePath": "Prefabs/UI/Scratch/",
         "parent": 1,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": -880,
         "positionz": 0
     },
      "ShopWindow": {

@@ -84,6 +84,7 @@ public enum CommandEnum{
 	ChangeScene 				= 1,
     QuestSelectSaveState,
 //	EvolveSaveState,
+	ShowGachaWindow,
     LevelUpSaveState,
     SellUnitSaveState,
     EvolveSaveState,

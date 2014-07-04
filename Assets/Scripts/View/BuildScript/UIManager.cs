@@ -336,6 +336,10 @@ public class UIManager {
 		case SceneEnum.NickName:
 			temp = new NicknameDecorator(sEnum);
 			break;
+
+		case SceneEnum.ShowCardEffect:
+			temp = new ShowNewCardDecorator(sEnum);
+			break;
         }
 
 		if (temp != null) {
@@ -368,7 +372,6 @@ public class UIManager {
             MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
 		} else if (baseScene.CurrentScene == SceneEnum.UnitDetail) {
             if (nextScene == SceneEnum.LevelUp){
-//				Debug.LogError ("InvokeSceneClear : " + baseScene.CurrentScene + " nextScene : " + nextScene);
                 MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
 			} else if (nextScene == SceneEnum.Sell) {
                 MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
@@ -376,7 +379,13 @@ public class UIManager {
                 MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
 			} else if (nextScene == SceneEnum.Evolve) {
 				MsgCenter.Instance.Invoke (CommandEnum.EvolveSaveState);
-            }
+			} else if(nextScene == SceneEnum.EventScratch || nextScene == SceneEnum.FriendScratch || nextScene == SceneEnum.RareScratch) {
+				MsgCenter.Instance.Invoke(CommandEnum.ShowGachaWindow);
+			}
+		} else if(baseScene.CurrentScene == SceneEnum.ShowCardEffect) {
+			if(nextScene == SceneEnum.EventScratch || nextScene == SceneEnum.FriendScratch || nextScene == SceneEnum.RareScratch) {
+				MsgCenter.Instance.Invoke(CommandEnum.ShowGachaWindow);
+			}
 		} else if (DataCenter.gameState == GameState.Evolve) {
 			if(nextScene == SceneEnum.QuestSelect || nextScene == SceneEnum.FightReady || nextScene == SceneEnum.StageSelect) {
 				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);

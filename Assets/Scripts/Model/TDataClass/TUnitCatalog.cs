@@ -40,6 +40,7 @@ public class TUnitCatalog {
 	}
 
 	public bool IsHaveUnit(uint unitId) {
+//		Debug.LogError ("ishaveunit : " + unitId + " haveFlag : " + haveFlag.Count);
 		return ( unitId-1 >= haveFlag.Count ) ? false : (haveFlag[(int)unitId-1]==1);
 	}
 

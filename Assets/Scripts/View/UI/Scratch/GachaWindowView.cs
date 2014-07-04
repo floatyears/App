@@ -32,6 +32,10 @@ public class GachaWindowView : UIComponentUnity {
     public override void ShowUI () {
         base.ShowUI ();
         AddListener();
+
+		if (UIManager.Instance.prevScene == SceneEnum.UnitDetail || UIManager.Instance.prevScene == SceneEnum.ShowCardEffect) {
+			ShowUnitGrid();
+		}
     }
     
     public override void HideUI () {
@@ -198,7 +202,6 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.GetText("Open");
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
-//      background.spriteName = "avatar_mask";
         background.gameObject.SetActive(true);
         UISprite texture = grid.transform.FindChild("Cell/Texture").GetComponent<UISprite>();
         texture.spriteName = "";
@@ -266,8 +269,6 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
-//        background.spriteName = string.Empty;
-
 
 		UISprite texture = grid.transform.FindChild("Cell/Texture").GetComponent<UISprite>();
         TUnitInfo currentUnitInfo;
@@ -282,8 +283,6 @@ public class GachaWindowView : UIComponentUnity {
             currentUnitInfo = DataCenter.Instance.GetUnitInfo(unitId);
             level = 1;
         }
-
-//        Debug.LogWarning("ShowUnitById(), unitId " + currentUnitInfo.ID);
 
 		DataCenter.Instance.GetAvatarAtlas (currentUnitInfo.ID, texture);
 //		currentUnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
@@ -368,10 +367,10 @@ public class GachaWindowView : UIComponentUnity {
 		showIndex += 1;
 		TUserUnit currentUserunit = gridUnitDict [grid];
 		bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserunit.UnitID);
-//		Debug.LogError ("have : " + have);
 		if (have) {
 			ShowUnitGrid ();
 		} else {
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
 			UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
 			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
 		}
@@ -420,7 +419,7 @@ public class GachaWindowView : UIComponentUnity {
     }
     
     private void FinishShowGachaWindow(){
-        LogHelper.Log("FinishShowGachaWindow()");
+//        LogHelper.Log("FinishShowGachaWindow()");
         StartCoroutine(LastOperation());
     }
 
