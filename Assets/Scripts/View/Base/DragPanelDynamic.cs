@@ -62,7 +62,7 @@ public class DragPanelDynamic {
 		index = scrollItem.FindIndex (a => a.UserUnit.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 		if (index > -1) {
 			scrollItem[index].UserUnit = tuu;
-			scrollItem[index].IsEnable = false;
+//			scrollItem[index].IsEnable = false;
 		}
 	}
 
@@ -120,8 +120,10 @@ public class DragPanelDynamic {
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 
 		if (scrollItemData.Count == tuuList.Count) {	
-			for (int i = realStartIndex; i < realEndIndex; i++) {
+//			Debug.LogError("realStartIndex : " + realStartIndex + " realEndIndex : " + realEndIndex);
+			for (int i = realStartIndex; i <= realEndIndex; i++) {
 				scrollItem[i - realStartIndex].UserUnit = tuuList[i];
+//				Debug.LogError(scrollItem[i - realStartIndex] + " tuuList[i] : " + tuuList[i].isEnable);
 			}	
 			scrollItemData = tuuList;
 			return scrollItem;
@@ -199,9 +201,11 @@ public class DragPanelDynamic {
 		if (realTargetIndex >= endIndex || realTargetIndex <= startIndex) {
 			return;
 		}
+
 		if (realSourceIndex > endIndex || realSourceIndex < 0) {
 			return;
 		}
+
 		ChangeItem(realSourceIndex, realTargetIndex);
 	}
 
@@ -231,9 +235,9 @@ public class DragPanelDynamic {
 		movedWidget.Widget.cachedTransform.localPosition = pos;
 		int dataIndex = nowIndex - 1;
 
-		scrollItem [targetIndex].UserUnit.isEnable = scrollItem [targetIndex].IsEnable;
+//		scrollItemData [dataIndex].isEnable = scrollItem [targetIndex].IsEnable;
 		scrollItem [targetIndex].UserUnit = scrollItemData [dataIndex];
-		scrollItem [targetIndex].IsEnable =  scrollItemData [dataIndex].isEnable;
+//		scrollItem [targetIndex].IsEnable = scrollItemData [dataIndex].isEnable;
 	}
 
 	void CreatItem(List<TUserUnit> data) {

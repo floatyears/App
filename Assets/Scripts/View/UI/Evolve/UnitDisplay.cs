@@ -60,9 +60,9 @@ public class UnitDisplay : ConcreteComponent {
 //			Debug.LogError ("DisposeCallback : " + key);
 			MsgCenter.Instance.Invoke(CommandEnum.SelectUnitBase,key.Value);
 			break;
-		case UnitDisplayUnity.SelectMaterial:
-			MsgCenter.Instance.Invoke(CommandEnum.selectUnitMaterial,key.Value);
-			break;
+//		case UnitDisplayUnity.SelectMaterial:
+//			MsgCenter.Instance.Invoke(CommandEnum.selectUnitMaterial,key.Value);
+//			break;
 		default:
 			break;
 		}

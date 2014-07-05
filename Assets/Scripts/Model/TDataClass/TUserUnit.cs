@@ -21,6 +21,7 @@ public class TUserUnit : ProtobufDataBase {
 	}
 
 	public bool isEnable = true;
+	public bool isFocus = false;
 		
     public void RemovevListener() {
         MsgCenter.Instance.RemoveListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
@@ -324,7 +325,6 @@ public class TUserUnit : ProtobufDataBase {
 
     public TUnitInfo UnitInfo {
         get {
-//		UserUnit userUnit = instance;//DeserializeData () as UserUnit;
 			return DataCenter.Instance.GetUnitInfo(instance.unitId); //UnitInfo[instance.unitId];
         }
     }
@@ -451,7 +451,6 @@ public class TUserUnit : ProtobufDataBase {
 
     public uint UnitID {
         get {
-//            return UnitInfo.Object.id;
 				return instance.unitId;
         }
     }
@@ -459,7 +458,6 @@ public class TUserUnit : ProtobufDataBase {
     public uint ID {
         get {
             return instance.uniqueId;
-//			return DeserializeData<UserUnit>().uniqueId;
         }
     }
 
