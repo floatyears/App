@@ -34,6 +34,9 @@ public class DGTools {
 		return go;
 	}
 
+	public static bool CheckFavorate(TUserUnit tuu) {
+		return tuu.IsFavorite == 1 ? true : false;
+	}
 
 
 	public static int GetEnemyWidthByRare(int rare) {

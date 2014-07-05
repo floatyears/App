@@ -35,7 +35,14 @@ public class EvolveDragItem : MyUnitItem {
 //			IsEnable = !IsParty;
 		}
 	}
-	
+
+	protected override void SetCommonState () {
+		base.SetCommonState ();
+		IsEnable = userUnit.isEnable;
+//		Debug.LogError ("gameobject : " + gameObject + " isenable : " + IsEnable + " id : " + userUnit.UnitInfo.ID);
+		IsFocus = userUnit.isFocus;
+	}
+
 	protected override void UpdatePartyState(){
 		partyLabel.enabled = IsParty;
 //		IsEnable = !IsParty;
@@ -43,6 +50,8 @@ public class EvolveDragItem : MyUnitItem {
 	
 	protected override void UpdateFocus(){
 		lightSpr.enabled = IsFocus;
+
+//		Debug.LogError ("UpdateFocus : " + gameObject + "tuserunit : " + userUnit.UnitInfo.ID + " lightSpr : " + lightSpr + " isfouce ; " + IsFocus);
 	}
 	
 	protected override void RefreshState(){

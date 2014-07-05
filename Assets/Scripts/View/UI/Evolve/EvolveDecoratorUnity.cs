@@ -4,14 +4,11 @@ using bbproto;
 
 public class EvolveDecoratorUnity : UIComponentUnity {
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
-//		Debug.LogError("EvolveDecoratorUnity init 1 ");
 		base.Init (config, origin);
 		InitUI ();
-//		Debug.LogError("EvolveDecoratorUnity init 2 ");
 	}
 	
 	public override void ShowUI () {
-//		Debug.LogError("EvolveDecoratorUnity show 1 ");
 		bool b = friendWindow != null && friendWindow.isShow;
 		if (b) {
 			friendWindow.gameObject.SetActive (true);
@@ -23,8 +20,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
-
-//		Debug.LogError("EvolveDecoratorUnity show 2 ");
 	}
 	
 	public override void HideUI () {
@@ -148,6 +143,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		List<TUserUnit> hasMaterial = data as List<TUserUnit>;
 		if (hasMaterial == null) {
 			TUserUnit hasUnit = data as TUserUnit;
+//			Debug.LogError("selectUnitMaterial hasunit");
 			materialItem[state].Refresh(hasUnit);
 			List<TUserUnit> materialList = new List<TUserUnit>();
 			for (int i = 2; i < 5; i++) {

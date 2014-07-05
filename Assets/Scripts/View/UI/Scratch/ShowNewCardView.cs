@@ -18,6 +18,7 @@ public class ShowNewCardView : UIComponentUnity {
 
 	public override void HideUI () {
 		base.HideUI ();
+		profileTexture.mainTexture = null;
 	}
 
 	public override void DestoryUI () {
