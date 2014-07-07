@@ -400,6 +400,12 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
+	public List<bbproto.UnitGetWay> UnitGetWay{
+		get{
+			return instance.getWay;
+		}
+	}
+
 	public void Send () {}
 	public void Receive (IWWWPost post) {}
 	public void SerialToFile () {}

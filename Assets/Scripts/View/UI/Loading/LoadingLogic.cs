@@ -73,6 +73,7 @@ public class LoadingLogic : ConcreteComponent {
 
             //save to GlobalData
 			GameTimer.GetInstance().InitDateTime(rspAuthUser.serverTime);
+			GameTimer.GetInstance().recovertime = rspAuthUser.user.staminaRecover - rspAuthUser.serverTime;
 
             if (rspAuthUser.account != null) {
                 DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
@@ -138,8 +139,8 @@ public class LoadingLogic : ConcreteComponent {
 			if( rspAuthUser.login != null){
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
-			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
+//			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
 
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");

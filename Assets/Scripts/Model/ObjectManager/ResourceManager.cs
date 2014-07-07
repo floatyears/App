@@ -39,17 +39,17 @@ public class ResourceManager : MonoBehaviour{
 			return null;	
 		}
 
-		if (path.IndexOf ("Loading") >= 0 || path.IndexOf ("UIInsConfig") >= 0 || path.IndexOf ("ScreenMask") >= 0 || path.IndexOf ("CommonNoteWindow") >= 0) {
-			Debug.Log("path: " + path);
-			if (callback != null){
-				callback (Resources.Load (path));
-				return null;
-			}else{
-				return Resources.Load (path);
-			}
-		}
+//		if (path.IndexOf ("Loading") >= 0 || path.IndexOf ("UIInsConfig") >= 0 || path.IndexOf ("ScreenMask") >= 0 || path.IndexOf ("CommonNoteWindow") >= 0) {
+//			Debug.Log("path: " + path);
+//			if (callback != null){
+//				callback (Resources.Load (path));
+//				return null;
+//			}else{
+//				return Resources.Load (path);
+//			}
+//		}
 
-		if (path.IndexOf ("Config") == 0 || path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0) {
+		if (path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf("Atlas") == 0) {
 #if UNITY_EDITOR
 			
 
@@ -230,7 +230,9 @@ public class ResourceManager : MonoBehaviour{
 			return ResourceAssetBundle.UI;
 
 		}else if(path.IndexOf ("Atlas") == 0){
-
+			if(path.IndexOf("EventAtlas") >0){
+				return ResourceAssetBundle.EventAtlas;
+			}
 		}else if(path.IndexOf ("Language") == 0){
 			return ResourceAssetBundle.LANGUAGE;
 		}else if(path.IndexOf ("Protobuf") == 0){
@@ -362,7 +364,8 @@ public class ResourceManager : MonoBehaviour{
 			return "Atlas_Avatar_9.unity3d";
 			case ResourceAssetBundle.AVATAR_10:
 			return "Atlas_Avatar_10.unity3d";
-				break;
+			case ResourceAssetBundle.EventAtlas:
+			return "EventAtlas.unity3d";
 			default:
 				break;
 		}
@@ -402,6 +405,7 @@ public class ResourceManager : MonoBehaviour{
 			case ResourceAssetBundle.AVATAR_8:
 			case ResourceAssetBundle.AVATAR_9:
 			case ResourceAssetBundle.AVATAR_10:
+			case ResourceAssetBundle.EventAtlas:
 				return typeof(GameObject);
 			default:
 				break;
@@ -484,7 +488,9 @@ public enum ResourceAssetBundle{
 	AVATAR_7,
 	AVATAR_8,
 	AVATAR_9,
-	AVATAR_10
+	AVATAR_10,
+
+	EventAtlas
 }
 
 public class AssetBundleObj{

@@ -1,2 +1,4 @@
+version:1.0.1
 Protobuf|Assets/ResourceDownload/Output/Android/Protobuf.unity3d|66c0ea4ec96a6a9e8cc3a7a99d096d10|1|26311
 Language_en|Assets/ResourceDownload/Output/Android/Language_en.unity3d|4ed537ec1debfaaccbd64d53bd8769c1|0|12548
+EventAtlas|Assets/ResourceDownload/Output/Android/EventAtlas.unity3d|888603002cd686ce298d28ca999d2904|2|123238

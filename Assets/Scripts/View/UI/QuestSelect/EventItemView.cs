@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class EventItemView : MonoBehaviour{
 	UILabel time;
+	UIAtlas atlas;
 
 	public List<string> stageOrderList1 = new List<string>(){
 		{"icon_stage_special"},
@@ -103,6 +104,7 @@ public class EventItemView : MonoBehaviour{
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
 //
 //		}
+
 		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
 		if (data.StartTime > currentTime) {
 			if(currentTime < data.endTime){
@@ -172,19 +174,25 @@ public class EventItemView : MonoBehaviour{
 
 
 	public void ShowIconByState(StageState state){
-		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+		ResourceManager.Instance.LoadLocalAsset ("Atlas/Event_Atlas", o => {
+			atlas = (o as GameObject).GetComponent<UIAtlas>();
 
-		if(state == StageState.EVENT_OPEN){
-			ShowIconAccessState(icon);
-			
-//			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
-//			GameObject prefab = Resources.Load(sourcePath) as GameObject;
-//			NGUITools.AddChild(gameObject, prefab);
-			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
-		}else if(state == StageState.EVENT_CLOSE){
-			icon.spriteName = "icon_stage_lock";
-			UIEventListener.Get(this.gameObject).onClick = ShowTip;
-		}
+			UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+			icon.atlas = atlas;
+
+			if(state == StageState.EVENT_OPEN){
+				ShowIconAccessState(icon);
+				
+				//			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
+				//			GameObject prefab = Resources.Load(sourcePath) as GameObject;
+				//			NGUITools.AddChild(gameObject, prefab);
+				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+			}else if(state == StageState.EVENT_CLOSE){
+				icon.spriteName = "icon_stage_lock";
+				UIEventListener.Get(this.gameObject).onClick = ShowTip;
+			}
+		});
+
 	}
 
 	private void ShowIconAccessState(UISprite icon){

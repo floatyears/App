@@ -75,11 +75,14 @@ public class ExportResource : EditorWindow {
 	void OnGUI()
 	{
 
+
+
 		EditorGUILayout.BeginVertical();
 
 
 		//InitExportConfig ();
-		op = EditorGUILayout.EnumPopup ("Target Platform:", op);
+
+		EditorGUILayout.EnumPopup ("Target Platform:", op);
 
 	//	pt = EditorGUILayout.EnumPopup ("Resource Type:", pt);
 		EditorGUILayout.BeginHorizontal ();
@@ -178,6 +181,12 @@ public class ExportResource : EditorWindow {
 
 		EditorWindow window = EditorWindow.GetWindowWithRect (typeof(ExportResource),new Rect(100,100,250,200),true,"Export Resource");
 		window.Show ();
+
+		if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android) {
+			op = PLATFORM_OP.Android;
+		}else if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone) {
+			op = PLATFORM_OP.iOS;
+		}
 	}
 
 	//[MenuItem("Asserts/Build AssertBundle From Selection - Track dependencies")]
@@ -186,10 +195,16 @@ public class ExportResource : EditorWindow {
 		//save config
 		SaveExportConfig ();
 
+		if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android) {
+			op = PLATFORM_OP.Android;
+		}else if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone) {
+			op = PLATFORM_OP.iOS;
+		}
+
 		//select platform
-		if (op.Equals(PLATFORM_OP.iOS))
+		if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone)
 			tgtPlatform = BuildTarget.iPhone;
-		else if (op.Equals(PLATFORM_OP.Android))
+		else if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
 			tgtPlatform = BuildTarget.Android;
 
 		//file extension...temporarily only unity3d..maybe there will be others later.
@@ -415,7 +430,8 @@ public class ExportResource : EditorWindow {
 		}
 
 		using (StreamWriter sw = File.CreateText(savePath + versionConfigPath)) {
-			foreach (string record in versionConfigDic.Values) 
+			sw.WriteLine("version:1.0.1");
+			foreach (string record in versionConfigDic.Values)
 			{
 				sw.WriteLine(record);
 			}
