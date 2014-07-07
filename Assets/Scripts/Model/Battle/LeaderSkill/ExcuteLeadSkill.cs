@@ -53,7 +53,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			}
 		}
 		else {
-			DisposeDelayOperateTime(userunit,pdb);
+			DisposeDelayOperateTime(userunit, pdb);
 		}
 	}
 

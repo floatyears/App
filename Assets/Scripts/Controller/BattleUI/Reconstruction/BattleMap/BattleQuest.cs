@@ -26,7 +26,7 @@ public class BattleQuest : UIBase {
 			return _questData[ _questData.Count - 1 ];
 		}
 	}
-	private TUserUnit evolveUser;
+//	private TUserUnit evolveUser;
 	private string backgroundName = "BattleBackground";
 	private AttackEffect attackEffect;
 
@@ -314,25 +314,8 @@ public class BattleQuest : UIBase {
 		role.Stop();
 		battleEnemy = true;
 	}
-	
-	public void QuestEnd () {
-		if (configBattleUseData.currentStageInfo != null) {
-			if ( configBattleUseData.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
-				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
-			}else { // event quest
-				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
-			}	
-		}
-		TFriendInfo friendHelper = configBattleUseData.BattleFriend;
-		if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
-			HaveFriendExit ();
-		} else {
-			NoFriendExit();
-		}
-	}
 
 	public void NoFriendExit() {
-//		ExitFight (true);
 		ControllerManager.Instance.ExitBattle ();
 		UIManager.Instance.ExitBattle ();
 	}
@@ -352,14 +335,39 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, configBattleUseData.BattleFriend);
 	}
 
-	void EvolveEnd () {
+	public void QuestEnd (TRspClearQuest trcq) {
+		if (configBattleUseData.currentStageInfo != null) {
+			if ( configBattleUseData.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
+				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
+			}else { 
+				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
+			}	
+		}
+
+		NoFriendExit();
+
+		UIManager.Instance.ChangeScene (SceneEnum.Victory);
+		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
+
+//		TFriendInfo friendHelper = configBattleUseData.BattleFriend;
+//		if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
+//			HaveFriendExit ();
+//		} else {
+//			NoFriendExit();
+//		}
+	}
+
+	void EvolveEnd (TRspClearQuest trcq) {
 		ControllerManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
-		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
-		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
 
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
+		UIManager.Instance.ChangeScene (SceneEnum.Victory);
+		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
+
+//		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
+//		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+//		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
+//		AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 	}
 
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
@@ -600,7 +608,6 @@ public class BattleQuest : UIBase {
 	}
 
 	public void QuestCoorEnd() {
-//		Debug.LogError ("currentcoor x : " + currentCoor.x + " y : " + currentCoor.y);
 		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
 			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
 		} else {
@@ -967,7 +974,7 @@ public class BattleQuest : UIBase {
 			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
 		}
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
-		evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
+//		evolveUser = 
 
 		TRspClearQuest trcq = new TRspClearQuest ();
 		trcq.exp = rsp.exp;
@@ -975,6 +982,7 @@ public class BattleQuest : UIBase {
 		trcq.money = rsp.money;
 		trcq.gotMoney = rsp.gotMoney;
 		trcq.gotStone = rsp.gotStone;
+		trcq.evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
 		List<TUserUnit> temp = new List<TUserUnit> ();
 		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
 			TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId,rsp.gotUnit[i]);
@@ -983,7 +991,9 @@ public class BattleQuest : UIBase {
 		trcq.gotUnit = temp;
 		trcq.rank = rsp.rank;
 		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
-		End (trcq, EvolveEnd);
+//		End (trcq, EvolveEnd);
+		End();
+		EvolveEnd (trcq);
 	}
 
 	void ResponseClearQuest (object data) {
@@ -991,7 +1001,9 @@ public class BattleQuest : UIBase {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
-			End (clearQuest, QuestEnd);
+//			End (clearQuest, QuestEnd);
+			End();
+			QuestEnd(clearQuest);
 		} else {
 			RetryClearQuestRequest();
 		}
@@ -1016,23 +1028,26 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 	}
 
-	void End(TRspClearQuest clearQuest,Callback questEnd) {
-//		battle.SwitchInput (true);
+	void End() {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
-		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Victory", o => {
-			GameObject obj = o as GameObject;
-			Vector3 tempScale = obj.transform.localScale;
-			obj = NGUITools.AddChild(viewManager.EffectPanel, obj);
-			obj.transform.localScale = tempScale;
-			obj.transform.localPosition = new Vector3(0f, 475f, 0f);
-			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
-			ve.Init("Victory");
-			ve.battleQuest = this;
-			ve.ShowData (clearQuest);
-			ve.PlayAnimation(questEnd);
-			AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
-		});
+
+//		UIManager.Instance.ChangeScene (SceneEnum.Victory);
+//		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, clearQuest);
+
+//		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Victory", o => {
+//			GameObject obj = o as GameObject;
+//			Vector3 tempScale = obj.transform.localScale;
+//			obj = NGUITools.AddChild(viewManager.EffectPanel, obj);
+//			obj.transform.localScale = tempScale;
+//			obj.transform.localPosition = new Vector3(0f, 475f, 0f);
+////			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
+////			ve.Init("Victory");
+////			ve.battleQuest = this;
+////			ve.ShowData (clearQuest);
+////			ve.PlayAnimation(questEnd);
+//			AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
+//		});
 	}
 
 	void BattleFail(object data) {

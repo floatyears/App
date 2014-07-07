@@ -57,6 +57,8 @@ Btn_Level_Up=强化
 Btn_Evolve=进化
 Btn_Fight=开始战斗
 
+Btn_ToDetail=查看详情
+
 ##Label Text
 Divided_Line=/
 Float_User_ID=用户ID:

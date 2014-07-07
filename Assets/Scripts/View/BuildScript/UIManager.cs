@@ -340,6 +340,10 @@ public class UIManager {
 		case SceneEnum.ShowCardEffect:
 			temp = new ShowNewCardDecorator(sEnum);
 			break;
+
+		case SceneEnum.Victory:
+			temp = new VictoryDecorator(sEnum);
+			break;
         }
 
 		if (temp != null) {
@@ -360,7 +364,9 @@ public class UIManager {
 			nextScene == SceneEnum.FightReady || 
 			nextScene == SceneEnum.StageSelect || 
 			nextScene == SceneEnum.Evolve || 
-			nextScene == SceneEnum.UnitDetail)  {
+			nextScene == SceneEnum.UnitDetail ||
+		    nextScene == SceneEnum.Victory ||
+		    nextScene == SceneEnum.ShowCardEffect)  {
 			return;
 		}
 

@@ -229,6 +229,28 @@ public class ShowNewCardDecorator : DecoratorBase {
 	}
 }
 
+public class VictoryDecorator : DecoratorBase {
+	public VictoryDecorator(SceneEnum sEnum) : base (sEnum) { }
+
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+	
+	public override void HideScene () {
+		base.HideScene ();
+	}
+	
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+	
+	public override void DecoratorScene () {
+		VicotoryEffectControl sn = CreatComponent<VicotoryEffectControl> (UIConfig.victoryName);
+		lastDecorator = sn;
+		lastDecorator.CreatUIAsyn (this);
+	}
+}
+
 public class GachaWindowDecorator : DecoratorBase{
     private SceneInfoComponent sceneInfoBar;
     public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum){

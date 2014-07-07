@@ -55,11 +55,11 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private TUserUnit selectBase = null;
 	private TUserUnit baseData = null;
 
-	private UIButton sortButton;
-	private UILabel sortLabel;
+//	private UIButton sortButton;
+//	private UILabel sortLabel;
 	private SortRule _sortRule;
 	private SortRule sortRule {
-		set { _sortRule = value; sortLabel.text = value.ToString(); }
+		set { _sortRule = value; } //sortLabel.text = value.ToString(); }
 		get { return _sortRule; }
 	}
 
@@ -239,9 +239,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 	
 	void InitUI () {
 		CreatPanel ();
-		sortButton = FindChild<UIButton> ("sort_bar");
-		UIEventListener.Get (sortButton.gameObject).onClick = SortButtoCallback;
-		sortLabel = FindChild<UILabel>("sort_bar/SortLabel");
+//		sortButton = FindChild<UIButton> ("sort_bar");
+//		UIEventListener.Get (sortButton.gameObject).onClick = SortButtoCallback;
+//		sortLabel = FindChild<UILabel>("sort_bar/SortLabel");
 		sortRule = SortRule.HP;
 	}
 
