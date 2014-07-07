@@ -401,14 +401,14 @@ StaminaLackNoteContent=Current Stamina is not enough to battle!
 ##select role
 SelectRoleTitle=Select Role
 SelectRoleContent=Are you sure to select this role to adventure with you?
-SelectRole_ATK=攻击
-SelectRole_Fav=最爱
-SelectRole_Race=种族
-SelectRole_HP=血量
-SelectRole_LV=等级
-SelectRole_Type=属性
-SelectRole_Name=名称
-SelectRole_No=编号
+SelectRole_ATK=ATK
+SelectRole_Fav=Fav.
+SelectRole_Race=Race
+SelectRole_HP=HP
+SelectRole_LV=LV
+SelectRole_Type=Type
+SelectRole_Name=Name
+SelectRole_No=No.
 
 DeleteNoteTitle=Delete Friend
 DeleteNoteContent=Are you sure to delete this friend?
