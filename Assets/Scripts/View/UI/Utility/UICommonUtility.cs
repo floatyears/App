@@ -36,7 +36,7 @@ public class TouchEventBlocker{
 	
 	private UICamera nguiCamera ;
 
-	private Queue<CameraLayerObj> cameraLayerChanges = new Queue<CameraLayerObj>();
+	private Stack<CameraLayerObj> cameraLayerChanges = new Stack<CameraLayerObj>();
 
 	private List<CameraLayerObj> remainChanges = new List<CameraLayerObj> ();
 //	private Dictionary<BlockerReason, bool> stateDic = new Dictionary<BlockerReason, bool>();
@@ -68,7 +68,7 @@ public class TouchEventBlocker{
 //			stateDic.Add(reason, isBlocked);
 //		}
 
-		Debug.Log ("blocker reason: " +reason +"block: " + isBlocked);
+		Debug.Log ("blocker reason: " +reason +" block: " + isBlocked);
 
 		CameraLayerObj camLayerObj = new CameraLayerObj ();
 		camLayerObj.reason = reason;
@@ -76,11 +76,15 @@ public class TouchEventBlocker{
 		camLayerObj.isBlocked = isBlocked;
 
 		if (isBlocked) {
-			cameraLayerChanges.Enqueue (camLayerObj);
+			Debug.Log("en queue: " + camLayerObj.reason);
+			cameraLayerChanges.Push (camLayerObj);
 			SetBlocked(camLayerObj);
-		}else{
+		}else if(cameraLayerChanges.Count > 0){
 			if(cameraLayerChanges.Peek ().reason == reason){
-				SetBlocked(cameraLayerChanges.Dequeue());
+				Debug.Log("dequeue: " + cameraLayerChanges.Peek().reason);
+				CameraLayerObj obj = cameraLayerChanges.Pop();
+				obj.isBlocked = false;
+				SetBlocked(obj);
 				CheckRemains();
 			}else
 			{
@@ -91,10 +95,13 @@ public class TouchEventBlocker{
 	}
 
 	private void CheckRemains(){
+		if (cameraLayerChanges.Count <= 0)
+			return;
 	    foreach (var item in remainChanges) {
 			if(item.reason == cameraLayerChanges.Peek().reason){
-				SetBlocked(cameraLayerChanges.Dequeue());
+				SetBlocked(cameraLayerChanges.Pop());
 				CheckRemains();
+				break;
 			}
 		} 
 	}
@@ -124,11 +131,12 @@ public class TouchEventBlocker{
 	
 	private void SetBlocked(CameraLayerObj camObj){
 		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
+		Debug.Log ("ui camera: " + nguiCamera.eventReceiverMask.value + " origin: " + camObj.originLayer.value + " isblocked: " + camObj.isBlocked.ToString() + " reason: " + camObj.reason);
 		if (camObj.isBlocked){
 			if(camObj.reason != BlockerReason.NoviceGuide){
-				nguiCamera.eventReceiverMask = blockEvent;
+				nguiCamera.eventReceiverMask = 1 << LayerMask.NameToLayer(blockerLayerName);
 			}else{
-				nguiCamera.eventReceiverMask = guideLayer;
+				nguiCamera.eventReceiverMask = 1 << LayerMask.NameToLayer(guideLayerName);
 			}
 		}
 		else{
@@ -136,7 +144,7 @@ public class TouchEventBlocker{
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
 		}
-		LogHelper.Log ("ui camera: " + nguiCamera.eventReceiverMask.value + " origin: " + originLayer.ToString());
+
 	}
 
 //	private void Test(bool result){
