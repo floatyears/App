@@ -6,7 +6,14 @@ public enum BlockerReason{
 	MessageWindow,
 	BriefInfoWindow,
 	SortWindow,
-	Connecting
+	Connecting,
+	NoviceGuide
+}
+
+public struct CameraLayerObj{
+	public BlockerReason reason;
+	public LayerMask originLayer;
+	public bool isBlocked;
 }
 
 public class TouchEventBlocker{
@@ -25,11 +32,14 @@ public class TouchEventBlocker{
 	}
 	private int originLayer = 1;
 
-    private bool isBlocked;
+//    private bool isBlocked;
 	
 	private UICamera nguiCamera ;
 
-	private Dictionary<BlockerReason, bool> stateDic = new Dictionary<BlockerReason, bool>();
+	private Queue<CameraLayerObj> cameraLayerChanges = new Queue<CameraLayerObj>();
+
+	private List<CameraLayerObj> remainChanges = new List<CameraLayerObj> ();
+//	private Dictionary<BlockerReason, bool> stateDic = new Dictionary<BlockerReason, bool>();
 
 	private static TouchEventBlocker instance;
 
@@ -42,72 +52,99 @@ public class TouchEventBlocker{
 		}
 	}
 
-    public bool IsBlocked {
-        get {return isBlocked;}
-    }
+//    public bool IsBlocked {
+//        get {return isBlocked;}
+//    }
 
 	public void SetState(BlockerReason reason, bool isBlocked){
-        this.isBlocked = GetFinalState(reason, isBlocked);
-		SetBlocked(this.isBlocked);
+		RecordState(reason, isBlocked);
 	}
 
 	private void RecordState(BlockerReason reason, bool isBlocked){
-		if(stateDic.ContainsKey(reason)){
-			stateDic[reason] = isBlocked;
-		}
-		else{
-			stateDic.Add(reason, isBlocked);
-		}
-	}
+//		if(stateDic.ContainsKey(reason)){
+//			stateDic[reason] = isBlocked;
+//		}
+//		else{
+//			stateDic.Add(reason, isBlocked);
+//		}
 
-	private bool GetFinalState(BlockerReason reason, bool isBlocked){
-		RecordState(reason, isBlocked);
-		return CalculateFinalState(isBlocked);
-	}
+		Debug.Log ("blocker reason: " +reason +"block: " + isBlocked);
 
-	private bool CalculateFinalState(bool isBlocked){
-		bool result = isBlocked;
-		
-		if(isBlocked){
-			result = true;
-		}
-		else{
-			foreach (var item in stateDic) {
-				if(item.Value){
-					result = true;
-					break;
-				}
+		CameraLayerObj camLayerObj = new CameraLayerObj ();
+		camLayerObj.reason = reason;
+		camLayerObj.originLayer = nguiCamera.eventReceiverMask;
+		camLayerObj.isBlocked = isBlocked;
+
+		if (isBlocked) {
+			cameraLayerChanges.Enqueue (camLayerObj);
+			SetBlocked(camLayerObj);
+		}else{
+			if(cameraLayerChanges.Peek ().reason == reason){
+				SetBlocked(cameraLayerChanges.Dequeue());
+				CheckRemains();
+			}else
+			{
+				remainChanges.Add(camLayerObj);
 			}
 		}
 
-		return result;
 	}
+
+	private void CheckRemains(){
+	    foreach (var item in remainChanges) {
+			if(item.reason == cameraLayerChanges.Peek().reason){
+				SetBlocked(cameraLayerChanges.Dequeue());
+				CheckRemains();
+			}
+		} 
+	}
+
+//	private bool GetFinalState(BlockerReason reason, bool isBlocked){
+//		RecordState(reason, isBlocked);
+//		return CalculateFinalState(isBlocked);
+//	}
+
+//	private bool CalculateFinalState(bool isBlocked){
+//		bool result = isBlocked;
+//		
+//		if(isBlocked){
+//			result = true;
+//		}
+//		else{
+//			foreach (var item in stateDic) {
+//				if(item.Value){
+//					result = true;
+//					break;
+//				}
+//			}
+//		}
+//
+//		return result;
+//	}
 	
-	private void SetBlocked(bool isBlocked){
+	private void SetBlocked(CameraLayerObj camObj){
 		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
-		if (isBlocked){	
-			if(nguiCamera.eventReceiverMask != blockEvent){
-				originLayer = nguiCamera.eventReceiverMask;
+		if (camObj.isBlocked){
+			if(camObj.reason != BlockerReason.NoviceGuide){
+				nguiCamera.eventReceiverMask = blockEvent;
+			}else{
+				nguiCamera.eventReceiverMask = guideLayer;
 			}
-			nguiCamera.eventReceiverMask = blockEvent;
-
-//			Debug.LogError("TouchEventBlocker.SetBlocked(), when true, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
-
 		}
 		else{
-			nguiCamera.eventReceiverMask = originLayer;
+			nguiCamera.eventReceiverMask = camObj.originLayer;
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
 		}
 		LogHelper.Log ("ui camera: " + nguiCamera.eventReceiverMask.value + " origin: " + originLayer.ToString());
 	}
 
-	private void Test(bool result){
-		//Test
-		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
-		foreach (var item in stateDic){
-			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
-		}
-	}
+//	private void Test(bool result){
+//		//Test
+//		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
+//		foreach (var item in stateDic){
+//			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
+//		}
+//	}
 
 }
