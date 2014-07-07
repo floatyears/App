@@ -45,6 +45,7 @@ public class TRspClearQuest {
     public int			gotStone;
     public int			gotFriendPoint;
     public List<TUserUnit>		gotUnit = new List<TUserUnit>();
+	public TUserUnit evolveUser;
 }
 
 public class ClearQuest: ProtoManager {

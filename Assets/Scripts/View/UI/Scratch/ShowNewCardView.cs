@@ -10,13 +10,16 @@ public class ShowNewCardView : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
-		sEnum = UIManager.Instance.prevScene;
+		UIManager.Instance.HideBaseScene ();
 
+		sEnum = UIManager.Instance.prevScene;
 		base.ShowUI ();
 		ActiveButton ();
 	}
 
 	public override void HideUI () {
+		UIManager.Instance.ShowBaseScene ();
+
 		base.HideUI ();
 		profileTexture.mainTexture = null;
 	}
@@ -59,6 +62,9 @@ public class ShowNewCardView : UIComponentUnity {
 		detailButtonLabel = FindChild<UILabel>("DetailButton/Label");
 		returnButton = FindChild<UIButton>("ReturnButton");
 		returnButtonLabel = FindChild<UILabel> ("ReturnButton/Label");
+
+		detailButtonLabel.text = TextCenter.GetText ("Btn_ToDetail");
+		returnButtonLabel.text = TextCenter.GetText ("Btn_SceneBack");
 
 		UIEventListener.Get (detailButton.gameObject).onClick = DetailButtonCallback;
 		UIEventListener.Get (returnButton.gameObject).onClick = ReturnButtonCallback;

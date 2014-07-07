@@ -529,6 +529,13 @@
         "positionx": 0,
         "positiony":0,
         "positionz": 0
+    },
+    "Victory": {
+        "uiName":"Victory",
+        "resoucePath": "Prefabs/",
+        "parent": 0,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
-    
 }

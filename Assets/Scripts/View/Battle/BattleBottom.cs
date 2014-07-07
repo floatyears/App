@@ -59,7 +59,7 @@ public class BattleBottom : MonoBehaviour {
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 				Debug.LogError("tui :  " + tui);
 				tui.GetAsset(UnitAssetType.Profile, o=>{
-					Debug.LogError("tui.GetAsset : " + o);
+//					Debug.LogError("tui.GetAsset : " + o);
 					if(o != null)
 						temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
 				});
