@@ -51,6 +51,7 @@ public class UIConfig{
 	public const string shopWindowName = "ShopWindow";
 	public const string othersWindowName = "OthersWindow";
 	public const string unitsWindowName = "UnitsWindow";
+	public const string victoryName = "Victory";
 
 	public const string partyDragPanelName = "PartyDragPanel";
 	public const string partyInfoPanelName = "PartyInfoPanel";

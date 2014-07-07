@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class VictoryEffect : UIBaseUnity {
+public class VictoryEffect : UIComponentUnity {
 	private UISlider levelProgress;
 	private UILabel coinLabel;
 	private UILabel empiricalLabel;
@@ -15,6 +16,9 @@ public class VictoryEffect : UIBaseUnity {
 	private UIButton sureButton;
 	private GameObject parent;
 	private GameObject dropItem;
+	private Dictionary<TUserUnit, GameObject> dropItemList = new Dictionary<TUserUnit, GameObject> ();
+	private TRspClearQuest rspClearQuest = null;
+	private Queue<TUserUnit> getUserUnit = new Queue<TUserUnit> ();
 
 	private int coinNumber = 0;
 	private int empireNumber = 0;
@@ -29,25 +33,31 @@ public class VictoryEffect : UIBaseUnity {
 	private Vector3 rightWingAngle1 	= new Vector3 (0f, 0f, 30f);
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
-	private Callback sureButtonCallback;
 
-	public BattleQuest battleQuest;
-
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config, IUICallback origin) {
+		base.Init (config, origin);
 		FindComponent ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive (true);
-//		Debug.LogError ("CommandEnum.StopInput");
-		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
+		MsgCenter.Instance.AddListener (CommandEnum.VictoryData, VictoryData);
+
+		UIManager.Instance.HideBaseScene ();
+
+		if (UIManager.Instance.prevScene == SceneEnum.UnitDetail || UIManager.Instance.prevScene == SceneEnum.ShowCardEffect) {
+			StartShowGetCard();
+		}
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
+
+		UIManager.Instance.ShowBaseScene ();
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.VictoryData, VictoryData);
 	}
 
 	public override void DestoryUI () {
@@ -60,11 +70,21 @@ public class VictoryEffect : UIBaseUnity {
 	float add = 0;
 	int currentTotalExp = 0;
 	int rank = 0;
-	
+
+	void VictoryData (object data) {
+		TRspClearQuest trcq = data as TRspClearQuest;
+		ShowData (trcq);
+
+		PlayAnimation ();
+	}
+
 	public void ShowData(TRspClearQuest clearQuest){
 		if (clearQuest == null) {
 			return;	
 		}
+		rspClearQuest = clearQuest;
+
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
 
 		int nextEmp = DataCenter.Instance.UserInfo.NextExp;
 		int maxEmp = clearQuest.exp;
@@ -96,17 +116,54 @@ public class VictoryEffect : UIBaseUnity {
 		StartCoroutine (UpdateCoinNumber (addCoin, curCoin, gotCoin));
 
 		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
+			TUserUnit tuu = clearQuest.gotUnit[i];
+		
 			GameObject go = NGUITools.AddChild(parent, dropItem);
 			go.SetActive(true);
-			uint unitID = clearQuest.gotUnit[i].UnitInfo.ID;
+			uint unitID = tuu.UnitInfo.ID;
 			go.name = i.ToString();
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
 			DataCenter.Instance.GetAvatarAtlas(unitID, sprite);
-
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(clearQuest.gotUnit[i].UnitInfo.ID);
+			sprite.enabled = false;
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(tuu.UnitInfo.ID);
+			getUserUnit.Enqueue(tuu);
+			dropItemList.Add(tuu, go);
 		}
 
-		parent.GetComponent<UIGrid> ().repositionNow = true;
+//		parent.GetComponent<UIGrid> ().repositionNow = true;
+
+		StartShowGetCard ();
+	}
+
+	void StartShowGetCard() {
+		if(getUserUnit.Count > 0) {
+			GameTimer.GetInstance ().AddCountDown (0.5f, ShowGetCard);
+		}
+	}
+
+	GameObject goAnim = null;
+	TUserUnit showUserUnit = null;
+
+	void ShowGetCard () {
+		showUserUnit = getUserUnit.Dequeue ();
+		goAnim = dropItemList [showUserUnit];
+		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
+	}
+
+	void RecoverScale () {
+		goAnim.transform.Find ("Avatar").GetComponent<UISprite> ().enabled = true;
+		goAnim.transform.Find ("Sprite_Mask").GetComponent<UISprite> ().enabled = false;
+		iTween.ScaleTo (goAnim, iTween.Hash ("y", 1f, "time", 0.3f, "oncomplete", "AnimEnd", "oncompletetarget", gameObject));
+	}
+
+	void AnimEnd () {
+		if (DataCenter.Instance.CatalogInfo.IsHaveUnit (showUserUnit.Object.unitId)) {
+			StartShowGetCard ();
+		} else {
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.Object.unitId);
+			UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
+			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, showUserUnit);
+		}
 	}
 
 	IEnumerator UpdateLevelNumber () {
@@ -124,11 +181,11 @@ public class VictoryEffect : UIBaseUnity {
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
-				battleQuest.battle.ShieldInput(false);
+//				battleQuest.battle.ShieldInput(false);
 
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
 
-				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp, RankUp);
+//				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp, RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return new WaitForSeconds(0.1f);
@@ -137,7 +194,7 @@ public class VictoryEffect : UIBaseUnity {
 
 				                                  
 	void RankUp() {
-		battleQuest.battle.ShieldInput(true);
+//		battleQuest.battle.ShieldInput(true);
 	}
 	
 	IEnumerator UpdateCoinNumber (float addCoin, float curCoin, float gotCoin) {
@@ -157,7 +214,6 @@ public class VictoryEffect : UIBaseUnity {
 	}
 
 	void FindComponent () {
-		MsgCenter.Instance.Invoke (CommandEnum.StopInput, null);
 		levelProgress = FindChild<UISlider> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");
 		empiricalLabel = FindChild<UILabel>("EmpiricalValue");
@@ -168,29 +224,37 @@ public class VictoryEffect : UIBaseUnity {
 		backCircle = FindChild<UISprite>("BackCircle");
 		sureButton = FindChild<UIButton>("Button");
 		UIEventListener.Get (sureButton.gameObject).onClick = Sure;
-		Debug.LogError ("UIEventListener.Get (sureButton.gameObject).onClick  : " + UIEventListener.Get (sureButton.gameObject).onClick);
+		sureButton.transform.Find ("Label").GetComponent<UILabel> ().text = TextCenter.GetText ("OK");
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
-		dropItem = parent.transform.Find ("MyUnitPrefab").gameObject;
-		dropItem.transform.parent = parent.transform.parent;
-		dropItem.SetActive (false);
+		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
 	}
 
 	void Sure(GameObject go) {
-//		Debug.LogError ("sure : " + sureButtonCallback);
-		if (sureButtonCallback != null) {
-			sureButtonCallback();
-		}
 		DestoryUI ();
+		if (DataCenter.gameState == GameState.Evolve) {
+			UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
+			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
+			DataCenter.gameState = GameState.Normal;
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
+		} else {
+			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
+			if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
+				UIManager.Instance.ChangeScene(SceneEnum.Result);
+				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
+			} else {
+				UIManager.Instance.ExitBattle ();
+			}
+		}
 	}
 
-	public void PlayAnimation (Callback callback) {
-		sureButtonCallback = callback;
-
-		if (currentState == UIState.UIHide) {
-			ShowUI();	
+	public void PlayAnimation () {
+		if (!gameObject.activeSelf) {
+			ShowUI ();
 		}
+
 		PrevAnimation ();
 	}
 

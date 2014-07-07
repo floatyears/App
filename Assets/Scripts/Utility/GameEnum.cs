@@ -77,6 +77,8 @@ public enum SceneEnum
 	NickName,
 
 	ShowCardEffect,
+
+	Victory,
 }
 
 public enum CommandEnum{
@@ -194,6 +196,7 @@ public enum CommandEnum{
 	UseLeaderSkill,
 	UserGuideAnim,
 	UserGuideCard,
+	VictoryData,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

@@ -235,7 +235,7 @@ public class TEvolveStart : ProtobufDataBase {
 
 		ConfigBattleUseData.Instance.party = tup;
 
-		Debug.LogError (DataCenter.Instance.PartyInfo.AllParty.Count + " id : " + tup.ID);
+//		Debug.LogError (DataCenter.Instance.PartyInfo.AllParty.Count + " id : " + tup.ID);
 	}
 
 	public void ClearData () {
