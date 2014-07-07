@@ -1,4 +1,5 @@
 import public "base.proto";
+import public "user.proto";
 
 package bbproto;
 
@@ -13,5 +14,7 @@ message RspShopBuy {
     optional int32	        stonePay			= 2;
     optional int32	        stoneFree			= 3;
     optional int32	        stone				= 4;
+    optional BonusInfo      MonthBonus          = 5;
+    optional BonusInfo      WeekBonus           = 6;
 }
 
