@@ -87,7 +87,7 @@ public class UnitDetailTopPanel : UIComponentUnity,IUICallback {
 		TUnitInfo unitInfo = data.UnitInfo;
 		number.text = data.UnitID.ToString();
 	
-		name.text = unitInfo.Name;
+		name.text = TextCenter.GetText ("UnitName_" + unitInfo.ID);//unitInfo.Name;
 	
 		type.spriteName = "type_" + unitInfo.UnitType;
 

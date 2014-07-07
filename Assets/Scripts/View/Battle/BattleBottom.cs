@@ -57,7 +57,7 @@ public class BattleBottom : MonoBehaviour {
 			}
 			else{
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
-				Debug.LogError("tui :  " + tui);
+//				Debug.LogError("tui :  " + tui);
 				tui.GetAsset(UnitAssetType.Profile, o=>{
 //					Debug.LogError("tui.GetAsset : " + o);
 					if(o != null)
