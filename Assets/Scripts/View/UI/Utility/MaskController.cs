@@ -36,7 +36,7 @@ public class MaskController : ConcreteComponent {
 		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
 
 		SetBlocker(bmArgs.reason, bmArgs.isBlocked);
-        SetMaskActive(TouchEventBlocker.Instance.IsBlocked);
+		SetMaskActive(bmArgs.isBlocked);
 	}
 
 	void ShowConnect(object msg){

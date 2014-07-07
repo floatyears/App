@@ -176,8 +176,11 @@ public class NoviceGuideUtil {
 		
 		oneBtnClickLayer = obj.layer;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
-		mainCam.eventReceiverMask = mask;
+//		mainCam.eventReceiverMask = mask;
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
+
+		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, true);
+
 		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
 	}
 
@@ -187,7 +190,9 @@ public class NoviceGuideUtil {
 	{
 		UIEventListener.Get (btn).onClick -= BtnClick;
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-		mainCam.eventReceiverMask = camLastLayer;
+//		mainCam.eventReceiverMask = camLastLayer;
+
+		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, false);
 
 		btn.layer = oneBtnClickLayer;
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
@@ -197,9 +202,10 @@ public class NoviceGuideUtil {
 	public static void ForceBtnsClick(GameObject[] objs,UIEventListenerCustom.VoidDelegate clickCalback){
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 		camLastLayer = mainCam.eventReceiverMask;
-		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
-		mainCam.eventReceiverMask = mask;
-		
+//		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
+//		mainCam.eventReceiverMask = mask;
+		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, true);
+
 		multiBtns = objs;
 		
 		
@@ -221,7 +227,9 @@ public class NoviceGuideUtil {
 	private	static void MultiBtnClick(GameObject btn){
 
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-		mainCam.eventReceiverMask = camLastLayer;
+//		mainCam.eventReceiverMask = camLastLayer;
+
+		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, false);
 
 		foreach (GameObject item in multiBtns) {
 			UIEventListenerCustom.Get (item).onClick -= MultiBtnClick;
