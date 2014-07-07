@@ -225,7 +225,7 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	protected virtual void SetCommonState(){
-		IsEnable = true;
+		IsEnable = userUnit.isEnable;
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();

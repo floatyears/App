@@ -67,6 +67,8 @@ public class Main : MonoBehaviour {
         // init manager class
         ViewManager.Instance.Init(uiRoot);
        
+
+
 		//NoviceGuideStepEntityManager.Instance ();
     }
 

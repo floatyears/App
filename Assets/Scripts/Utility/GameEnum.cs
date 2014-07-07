@@ -74,7 +74,9 @@ public enum SceneEnum
 
 	Music,
 
-	NickName
+	NickName,
+
+	ShowCardEffect,
 }
 
 public enum CommandEnum{
@@ -82,6 +84,7 @@ public enum CommandEnum{
 	ChangeScene 				= 1,
     QuestSelectSaveState,
 //	EvolveSaveState,
+	ShowGachaWindow,
     LevelUpSaveState,
     SellUnitSaveState,
     EvolveSaveState,
@@ -291,6 +294,7 @@ public enum CommandEnum{
 	TakeAward,
 	GachaWindowInfo,
 	PlayAllEffect,
+	ShowNewCard,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

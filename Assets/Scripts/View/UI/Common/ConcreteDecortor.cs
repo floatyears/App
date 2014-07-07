@@ -203,14 +203,37 @@ public class ScratchDecorator : DecoratorBase{
         lastDecorator = scratch;
 		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
-
 	}
 }
 
+public class ShowNewCardDecorator : DecoratorBase {
+	public ShowNewCardDecorator(SceneEnum sEnum) : base(sEnum) { }
+
+	public override void ShowScene () {
+		base.ShowScene ();
+	}
+
+	public override void HideScene () {
+		base.HideScene ();
+	}
+
+	public override void DestoryScene () {
+		base.DestoryScene ();
+	}
+
+	public override void DecoratorScene () {
+		ShowNewCard sn = CreatComponent<ShowNewCard> (UIConfig.showNewCardName);
+
+		lastDecorator = sn;
+		lastDecorator.CreatUIAsyn (this);
+	}
+}
 
 public class GachaWindowDecorator : DecoratorBase{
     private SceneInfoComponent sceneInfoBar;
-    public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum){}
+    public GachaWindowDecorator(SceneEnum sEnum) : base(sEnum){
+		MsgCenter.Instance.AddListener (CommandEnum.ShowGachaWindow, SetKeepState);
+	}
     
     public override void ShowScene(){
         base.ShowScene();
@@ -226,6 +249,7 @@ public class GachaWindowDecorator : DecoratorBase{
     }
     
     public override void DestoryScene(){
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowGachaWindow, SetKeepState);
         base.DestoryScene();
     }
     

@@ -34,6 +34,9 @@ public class DGTools {
 		return go;
 	}
 
+	public static bool CheckFavorate(TUserUnit tuu) {
+		return tuu.IsFavorite == 1 ? true : false;
+	}
 
 
 	public static int GetEnemyWidthByRare(int rare) {
@@ -551,9 +554,9 @@ public class DGTools {
 
 	//============load unitinfo====================================================
 	private const string path = "Protobuf/";
-	private const string unitInfoPath = "Unit/";
+	private const string unitInfoPath = "Unit/unit_";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
-		string url = path +unitInfoPath + "unit_" + unitID;
+		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
 //		Debug.Log ("unitID: "+ unitID +" proto len: " +   ta.bytes.Length);
 		if (ta == null) {

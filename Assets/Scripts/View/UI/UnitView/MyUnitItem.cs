@@ -100,12 +100,20 @@ public class MyUnitItem : BaseUnitItem {
 	protected override void SetCommonState(){
 		base.SetCommonState();
 //		Debug.LogError (userUnit.TUserUnitID + " userUnit.IsFavorite : " + userUnit.IsFavorite);
-		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
+		IsFavorite = DGTools.CheckFavorate (userUnit);//(userUnit.IsFavorite == 1) ? true : false;
 	}
 
 	protected override void PressItem(GameObject item){
 		base.PressItem(item);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
 	}
-	
+
+	public void ChangeUserUnit(TUserUnit tuu) {
+		BehindChangeUserUnit (tuu);
+		userUnit = tuu;
+	} 
+
+	protected virtual void BehindChangeUserUnit(TUserUnit tuu) {
+
+	}
 }

@@ -114,9 +114,9 @@ public class ScratchLogic : ConcreteComponent {
         DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
 
 		//update catalog
-		foreach (UserUnit unit in unitList) {
-			DataCenter.Instance.CatalogInfo.AddHaveUnit( unit.unitId );
-		}
+//		foreach (UserUnit unit in unitList) {
+//			DataCenter.Instance.CatalogInfo.AddHaveUnit( unit.unitId );
+//		}
         
         LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
 
@@ -294,11 +294,11 @@ public class ScratchLogic : ConcreteComponent {
                                       GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaPointNotEnough));
             return;
         }
-        else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
-            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
-            return;
-        }
+//        else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
+//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+//                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
+//            return;
+//        }
         SceneEnum nextScene = SceneEnum.FriendScratch;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
@@ -312,11 +312,11 @@ public class ScratchLogic : ConcreteComponent {
                                       GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaStoneNotEnough));
             return;
         }
-        else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
-            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
-            return;
-        }
+//        else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
+//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+//                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
+//            return;
+//        }
         SceneEnum nextScene = SceneEnum.RareScratch;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
@@ -338,11 +338,11 @@ public class ScratchLogic : ConcreteComponent {
                                       GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaStoneNotEnough));
             return;
         }
-		else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
-            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaUnitCountReachedMax));
-            return;
-        }
+//		else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
+//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+//                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaUnitCountReachedMax));
+//            return;
+//        }
         // TODO eventGacha
         SceneEnum nextScene = SceneEnum.EventScratch;
         UIManager.Instance.ChangeScene(nextScene);

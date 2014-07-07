@@ -32,6 +32,10 @@ public class GachaWindowView : UIComponentUnity {
     public override void ShowUI () {
         base.ShowUI ();
         AddListener();
+
+		if (UIManager.Instance.prevScene == SceneEnum.UnitDetail || UIManager.Instance.prevScene == SceneEnum.ShowCardEffect) {
+			ShowUnitGrid();
+		}
     }
     
     public override void HideUI () {
@@ -198,7 +202,6 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = TextCenter.GetText("Open");
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
-//      background.spriteName = "avatar_mask";
         background.gameObject.SetActive(true);
         UISprite texture = grid.transform.FindChild("Cell/Texture").GetComponent<UISprite>();
         texture.spriteName = "";
@@ -266,8 +269,6 @@ public class GachaWindowView : UIComponentUnity {
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
-//        background.spriteName = string.Empty;
-
 
 		UISprite texture = grid.transform.FindChild("Cell/Texture").GetComponent<UISprite>();
         TUnitInfo currentUnitInfo;
@@ -282,8 +283,6 @@ public class GachaWindowView : UIComponentUnity {
             currentUnitInfo = DataCenter.Instance.GetUnitInfo(unitId);
             level = 1;
         }
-
-        Debug.LogWarning("ShowUnitById(), unitId " + currentUnitInfo.ID);
 
 		DataCenter.Instance.GetAvatarAtlas (currentUnitInfo.ID, texture);
 //		currentUnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
@@ -347,19 +346,34 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void StartAutoShowFinalResult(){
-        StartCoroutine(ShowUnitByGrid());
+		sortedGrids = GetSortedGrids();
+		ShowUnitGrid ();
     }
 
-    IEnumerator ShowUnitByGrid() {
-        int i = 0;
-        List<GameObject> sortedGrids = GetSortedGrids();
-        while (i < gachaInfo.totalChances){
-            yield return new WaitForSeconds(0.6f);
-            GameObject grid = sortedGrids[i];
-            ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
-            i += 1;
-        }
-        FinishShowGachaWindow();
+	void ShowUnitGrid() {
+		if (showIndex < gachaInfo.totalChances) {
+			GameTimer.GetInstance ().AddCountDown (0.6f, ShowUnitByGrid);
+		} else {
+			FinishShowGachaWindow();		
+		}
+	}
+
+	int showIndex = 0;
+	List<GameObject> sortedGrids = null;
+
+    void ShowUnitByGrid() {
+		GameObject grid = sortedGrids[showIndex];
+    	ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
+		showIndex += 1;
+		TUserUnit currentUserunit = gridUnitDict [grid];
+		bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserunit.UnitID);
+		if (have) {
+			ShowUnitGrid ();
+		} else {
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
+			UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
+			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
+		}
     }
 
     void ShowNewUnitDetail(int index){
@@ -399,12 +413,13 @@ public class GachaWindowView : UIComponentUnity {
 
     IEnumerator LastOperation(){
         yield return new WaitForSeconds(1f);
+		showIndex = 0;
         UIManager.Instance.ChangeScene(SceneEnum.Scratch);
         yield return null;
     }
     
     private void FinishShowGachaWindow(){
-        LogHelper.Log("FinishShowGachaWindow()");
+//        LogHelper.Log("FinishShowGachaWindow()");
         StartCoroutine(LastOperation());
     }
 

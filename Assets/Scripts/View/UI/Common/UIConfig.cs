@@ -46,6 +46,7 @@ public class UIConfig{
     public const string loadingWindowName = "Loading";
 	public const string friendWindowName = "FriendWindow";
 	public const string scratchWindowName = "ScratchWindow";
+	public const string showNewCardName = "ShowNewCard";
     public const string gachaWindowName = "GachaWindow";
 	public const string shopWindowName = "ShopWindow";
 	public const string othersWindowName = "OthersWindow";
