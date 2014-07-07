@@ -3008,6 +3008,22 @@ namespace bbproto
       get { return _stone; }
       set { _stone = value; }
     }
+    private bbproto.BonusInfo _MonthBonus = null;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"MonthBonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.BonusInfo MonthBonus
+    {
+      get { return _MonthBonus; }
+      set { _MonthBonus = value; }
+    }
+    private bbproto.BonusInfo _WeekBonus = null;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"WeekBonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.BonusInfo WeekBonus
+    {
+      get { return _WeekBonus; }
+      set { _WeekBonus = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
