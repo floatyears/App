@@ -229,9 +229,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
-		path = "Middle/LevelUpBasePanel/SortButton";
-		sortButton = FindChild<UIButton>(path);
-		UIEventListener.Get (sortButton.gameObject).onClick = SortCallback;
+//		path = "Middle/LevelUpBasePanel/SortButton";
+//		sortButton = FindChild<UIButton>(path);
+//		UIEventListener.Get (sortButton.gameObject).onClick = SortCallback;
 		InitDragPanel ();
 	}
 
@@ -536,7 +536,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		if (piv == null ) {
 			return false;
 		}
-
+		if (piv.UserUnit == null) {
+			return false;	
+		}
 		if (piv.UserUnit.MakeUserUnitKey() == selectedItem [baseItemIndex].UserUnit.MakeUserUnitKey() ) {
 			return true;
 		}
