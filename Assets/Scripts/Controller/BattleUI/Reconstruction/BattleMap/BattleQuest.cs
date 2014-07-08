@@ -23,10 +23,11 @@ public class BattleQuest : UIBase {
 				TClearQuestParam cqp = new TClearQuestParam(qp);
 				_questData.Add(cqp);
 			}
+
 			return _questData[ _questData.Count - 1 ];
 		}
 	}
-//	private TUserUnit evolveUser;
+
 	private string backgroundName = "BattleBackground";
 	private AttackEffect attackEffect;
 
@@ -121,6 +122,7 @@ public class BattleQuest : UIBase {
 		}
 		questDungeonData = configBattleUseData.questDungeonData; 	//GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 		_questData = configBattleUseData.storeBattleData.questData;
+		questDungeonData.currentFloor = _questData.Count;
 	}
 
 	void Init(UIBaseUnity ui, string name) {
@@ -136,8 +138,8 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
-		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		InitData ();
+		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		base.ShowUI ();
 		AddListener ();
 		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData, null);
@@ -284,6 +286,7 @@ public class BattleQuest : UIBase {
 	bool battleEnemy = false;
 
 	public void ClickDoor () {
+		Debug.LogError ("questDungeonData.Floors.Count : " + questDungeonData.Floors.Count);
 		if( questDungeonData.currentFloor == questDungeonData.Floors.Count - 1 ) {
 			QuestStop ();
 		} else {
@@ -300,10 +303,12 @@ public class BattleQuest : UIBase {
 		Reset ();
 		if (BattleUseData.maxEnergyPoint >= 10) {
 			BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
-		} 
-		else {
+		} else {
 			BattleUseData.maxEnergyPoint += 10;
 		}
+		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate;
+//		configBattleUseData.StoreQuestDungeonData (questDungeonData);
+		configBattleUseData.StoreMapData (_questData);
 	}
 
 	void QuestStop () {
@@ -348,13 +353,6 @@ public class BattleQuest : UIBase {
 
 		UIManager.Instance.ChangeScene (SceneEnum.Victory);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
-
-//		TFriendInfo friendHelper = configBattleUseData.BattleFriend;
-//		if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
-//			HaveFriendExit ();
-//		} else {
-//			NoFriendExit();
-//		}
 	}
 
 	void EvolveEnd (TRspClearQuest trcq) {
@@ -363,11 +361,6 @@ public class BattleQuest : UIBase {
 
 		UIManager.Instance.ChangeScene (SceneEnum.Victory);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
-
-//		UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
-//		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
-//		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, evolveUser);
-//		AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 	}
 
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
@@ -390,13 +383,15 @@ public class BattleQuest : UIBase {
 	}
 
 	public void ContineBattle () {
-//		Debug.LogError ("ContineBattle : ");
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
 		InitContinueData ();
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
 		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 			return;	
 		}
+
+		Debug.LogError ("questDungeonData : " + questDungeonData.currentFloor);
+
 		currentMapData = questDungeonData.GetSingleFloor (coor);
 		battleMap.ChangeStyle (coor);
 		role.Stop ();
@@ -459,9 +454,7 @@ public class BattleQuest : UIBase {
 	void RecoverBuff() {
 		ExcuteDiskActiveSkill(configBattleUseData.posionAttack, ref recoverPosion);
 		ExcuteDiskActiveSkill(configBattleUseData.reduceHurtAttack, ref reduceHurt);
-//		Debug.LogError ("reduceDefense 1:" + reduceDefense);
 		ExcuteDiskActiveSkill(configBattleUseData.reduceDefenseAttack, ref reduceDefense);
-//		Debug.LogError ("reduceDefense 2:" + reduceDefense);
 		ExcuteDiskActiveSkill(configBattleUseData.strengthenAttack, ref strengthenAttack);
 	}
 

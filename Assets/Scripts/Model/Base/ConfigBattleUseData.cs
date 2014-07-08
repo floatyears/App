@@ -151,6 +151,7 @@ public class ConfigBattleUseData {
 	public void ResetFromDisk() {
 		ReadFriend ();
 		ReadQuestDungeonData ();
+		Debug.LogError ("ResetFromDisk : " + questDungeonData.currentFloor);
 		ReadQuestInfo ();
 		ReadStageInfo ();
 		ReadAllBuff ();
@@ -171,6 +172,11 @@ public class ConfigBattleUseData {
 		StoreRuntimData ();
 	}
 
+	public void StoreQuestDungeonData(TQuestDungeonData tqdd) {
+		questDungeonData = tqdd;
+
+		WriteQuestDungeonData ();
+	}
 	
 	void ReadRuntimeData () {
 		byte[] runtimeData = ReadFile (storeBattleName);
@@ -337,6 +343,8 @@ public class ConfigBattleUseData {
 
 	//dungeonData
 	public void WriteQuestDungeonData () {
+//		Debug.LogError("WriteQuestDungeonData  : " + questDungeonData.Instance.)
+		
 		byte[] tdd = ProtobufSerializer.SerializeToBytes<QuestDungeonData> (questDungeonData.Instance);
 		WriteToFile (tdd, questDungeonDataName);
 	}

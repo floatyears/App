@@ -5,7 +5,7 @@ public class TipsLabelUI : MonoBehaviour {
 	private UILabel showInfoLabel;
 	private TweenScale tweenScale;
 	private TweenAlpha tweenAlpha;
-	private UIPanel panel;
+	private Transform panel;
 
 	private Transform cacheParent;
 
@@ -13,7 +13,7 @@ public class TipsLabelUI : MonoBehaviour {
 		showInfoLabel = GetComponent<UILabel> ();
 		tweenScale = GetComponent<TweenScale> ();
 		tweenAlpha = GetComponent<TweenAlpha> ();
-		panel = showInfoLabel.transform.parent.GetComponent<UIPanel> ();
+		panel = showInfoLabel.transform.parent.transform;
 		cacheParent = panel.transform.parent;
 	}
 
@@ -49,8 +49,9 @@ public class TipsLabelUI : MonoBehaviour {
 		}
 	}
 	void SetParent(Transform trans) {
-		Debug.LogError ("SetParent : " + panel);
-		panel.transform.parent = trans;		
+//		Debug.LogError ("SetParent : " + panel);
+		if(trans)
+			panel.transform.parent = trans;		
 		panel.transform.localPosition = Vector3.zero;
 		panel.transform.localScale = Vector3.one;
 	}

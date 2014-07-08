@@ -72,7 +72,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	void EnterBattle(object data) {
 //		string name = DataCenter.Instance.BattleFriend.UserUnit.MakeUserUnitKey ();
 //		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (name);
-//		Debug.LogError (DataCenter.friendPos + " EnterBattle " + DataCenter.Instance.BattleFriend.UserUnit);
+//		Debug.LogError (DataCenter.friendPos + " EnterBattle " + ConfigBattleUseData.Instance.BattleFriend);
 //		Debug.LogError ("id : " + ID + " tunitparty : " + DataCenter.friendPos);
 		if (ConfigBattleUseData.Instance.BattleFriend == null) {
 			UserUnit.Add(DataCenter.friendPos, null);
