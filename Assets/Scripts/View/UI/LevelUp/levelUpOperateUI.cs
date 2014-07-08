@@ -70,9 +70,7 @@ public class levelUpOperateUI : ConcreteComponent {
 				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
 				Debug.LogError("rspLevelUp.baseUnit : " +DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
 
-				foreach (uint partUniqueId in rspLevelUp.partUniqueId) {
-					DataCenter.Instance.UserUnitList.DelMyUnit (partUniqueId);
-				}
+				
 	
 				UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 

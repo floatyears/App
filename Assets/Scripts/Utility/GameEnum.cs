@@ -298,6 +298,7 @@ public enum CommandEnum{
 	GachaWindowInfo,
 	PlayAllEffect,
 	ShowNewCard,
+	ShowLevelupInfo,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
