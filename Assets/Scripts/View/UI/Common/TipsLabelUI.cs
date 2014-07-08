@@ -11,7 +11,6 @@ public class TipsLabelUI : MonoBehaviour {
 
 	void Awake() {
 		showInfoLabel = GetComponent<UILabel> ();
-		Debug.LogError (" Awake : " + gameObject + " showInfoLabel : " + showInfoLabel);
 		tweenScale = GetComponent<TweenScale> ();
 		tweenAlpha = GetComponent<TweenAlpha> ();
 		panel = showInfoLabel.transform.parent.GetComponent<UIPanel> ();
@@ -26,7 +25,6 @@ public class TipsLabelUI : MonoBehaviour {
 	}
 
 	public void ShowInfo(string text, GameObject target) {
-//		Debug.LogError ("ShowInfo : " + target);
 		if(target != null)
 			SetParent(target.transform);
 
