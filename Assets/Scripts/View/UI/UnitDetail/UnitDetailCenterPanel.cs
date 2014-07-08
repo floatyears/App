@@ -96,7 +96,7 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 			DataCenter.Instance.UserUnitList.DelMyUnit (rlu.partUniqueId[i]);
 		}
 		parent.GetComponent<UIGrid> ().Reposition ();
-		count = material.Count * 2;
+		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);

@@ -62,16 +62,13 @@ public class TUserUnit : ProtobufDataBase {
         if (boostType == EBoostType.BOOST_HP) {
             if (boostTarget == EBoostTarget.UNIT_RACE) {
                 SetHPByRace(value, type);
-            }
-            else {
+            } else {
                 SetHPByType(value, type);
             }
-        }
-        else {
+        } else {
             if (boostTarget == EBoostTarget.UNIT_RACE) {
                 SetAttackMultipeByRace(value, type);
-            }
-            else {
+            } else {
                 SetAttackMultipleByType(value, type);	
             }
         }
