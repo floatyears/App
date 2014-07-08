@@ -87,12 +87,12 @@ public class BattleSkill : UIBaseUnity {
 
 		info = SKill[2];
 		si = new SkillItem();
-		si.skillTypeLabel = FindChild<UILabel> ("NormalSkill2/Label");
-		si.skillName = FindChild<UILabel>("NormalSkill2/SkillName");
-		si.skillDescribeLabel = FindChild<UILabel>("NormalSkill2/DescribeLabel");
+		si.skillTypeLabel = FindChild<UILabel> ("NormalSKill2/Label");
+		si.skillName = FindChild<UILabel>("NormalSKill2/SkillName");
+		si.skillDescribeLabel = FindChild<UILabel>("NormalSKill2/DescribeLabel");
 		temp = new List<UISprite> ();
 		for (int j = 1; j < 6; j++) {
-			temp.Add(FindChild<UISprite> ("NormalSkill2/" + j));
+			temp.Add(FindChild<UISprite> ("NormalSKill2/" + j));
 		}
 		si.skillSprite = temp;
 		skillDic.Add(info, si);
