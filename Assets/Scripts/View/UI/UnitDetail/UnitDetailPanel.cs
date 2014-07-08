@@ -52,7 +52,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	List<UISprite> blockLsit1 = new List<UISprite>();
 	List<UISprite> blockLsit2 = new List<UISprite>();
         
-	public bool fobidClick = false;
+//	public bool fobidClick = false;
 
 	int currMaxExp, curExp, gotExp, expRiseStep;
 
@@ -241,17 +241,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		});
 	}
 
-	void ClickTexture( GameObject go ){
-		if (fobidClick) {
-			return;	
-		}
-		StopAllCoroutines ();
-		ClearEffectCache ();
-		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-//		Debug.LogError ("unit detail SceneEnum : " + preScene);
-		UIManager.Instance.ChangeScene( preScene );
-	}
+//	void ClickTexture( GameObject go ){
+//		if (fobidClick) {
+//			return;	
+//		}
+//		StopAllCoroutines ();
+//		ClearEffectCache ();
+//		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+//		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
+////		Debug.LogError ("unit detail SceneEnum : " + preScene);
+//		UIManager.Instance.ChangeScene( preScene );
+//	}
 
 
 	void PlayCheckRoleAudio(){

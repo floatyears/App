@@ -19,7 +19,7 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.AddListener (CommandEnum.LevelUp, LevelUpFunc);
 		base.ShowUI ();
-//		UIManager.Instance.HideBaseScene();
+		//UIManager.Instance.HideBaseScene();
 
 		//TODO:
 		//StartCoroutine ("nextState");
@@ -43,11 +43,24 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		topPanel = GameObject.Find ("UnitDetailTopPanel(Clone)").GetComponent<UnitDetailTopPanel> ();
 		materilItem = FindChild<Transform>("MaterialItem").gameObject;
 		parent = FindChild<UIGrid> ("UIGrid").gameObject;
+
+		GameObject go = FindChild<Transform>("Bg").gameObject;
+		UIEventListener.Get (go).onClick = ClickTexture;
 	}
 
-	void ClickTex(GameObject go) {
-
+	void ClickTexture( GameObject go ){
+//		if (fobidClick) {
+//			return;	
+//		}
+		StopAllCoroutines ();
+		ClearEffectCache ();
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
+		//		Debug.LogError ("unit detail SceneEnum : " + preScene);
+		UIManager.Instance.ChangeScene( preScene );
 	}
+
+
 
 	void ShowInfo(TUserUnit userUnit) {
 		ShowBodyTexture( userUnit ); 
@@ -96,7 +109,7 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 			DataCenter.Instance.UserUnitList.DelMyUnit (rlu.partUniqueId[i]);
 		}
 		parent.GetComponent<UIGrid> ().Reposition ();
-		count = material.Count * 2;
+		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
@@ -143,25 +156,27 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		});
 	}
 
+	GameObject materilUse = null;
+	GameObject linhunqiuIns = null;
+	GameObject swallowEffectIns = null;
+
 	IEnumerator SwallowUserUnit () {
 		yield return new WaitForSeconds(1f);
 
 		while (material.Count > 0) {
-			GameObject go = material.Dequeue();
-			iTween.ScaleTo(go, iTween.Hash("y", 0f, "time", 0.2f));
+			materilUse = material.Dequeue();
+			iTween.ScaleTo(materilUse, iTween.Hash("y", 0f, "time", 0.2f));
 			yield return new WaitForSeconds(0.2f);
-			Destroy(go);
-			GameObject lhqIns = NGUITools.AddChild(parent, linhunqiuEffect);
-			lhqIns.transform.localPosition = go.transform.localPosition;
-			lhqIns.transform.localScale = Vector3.zero;
-			iTween.ScaleTo(lhqIns, iTween.Hash("y", 1f, "time", 0.2f));
+			Destroy(materilUse);
+			GameObject linhunqiuIns = NGUITools.AddChild(parent, linhunqiuEffect);
+			linhunqiuIns.transform.localPosition = materilUse.transform.localPosition;
+			linhunqiuIns.transform.localScale = Vector3.zero;
+			iTween.ScaleTo(linhunqiuIns, iTween.Hash("y", 1f, "time", 0.2f));
 			yield return new WaitForSeconds(0.2f);
-
-			iTween.MoveTo(lhqIns, iTween.Hash("position", targetPosition, "time", 0.3f, "islocal", true));
-			Debug.LogError("targetPosition : " + targetPosition);
+			iTween.MoveTo(linhunqiuIns, iTween.Hash("position", targetPosition, "time", 0.3f, "islocal", true));
 			yield return new WaitForSeconds(0.3f);
-			Destroy(lhqIns);
-			GameObject swallowEffectIns = NGUITools.AddChild(gameObject, swallowEffect);
+			Destroy(linhunqiuIns);
+			swallowEffectIns = NGUITools.AddChild(gameObject, swallowEffect);
 			yield return new WaitForSeconds(0.4f);
 			Destroy(swallowEffectIns);
 		}
@@ -173,9 +188,6 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		yield return new WaitForSeconds(0.5f);
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		effectCache.Add (go);
-//		yield return new WaitForSeconds(0.1f);
-//		go = Instantiate (levelUpEffect) as GameObject;
-//		effectCache.Add (go);
 		if (effectCache.Count == count) {
 			yield return new WaitForSeconds(2f);
 			ClearEffectCache ();
@@ -189,6 +201,12 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 	}
 
 	void ClearEffectCache(){
+		StopAllCoroutines ();
+
+		DGTools.SafeDestory (materilUse);
+		DGTools.SafeDestory (linhunqiuIns);
+		DGTools.SafeDestory (swallowEffectIns);
+
 		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
 			GameObject go = effectCache[i];
 			Destroy( go );
@@ -217,12 +235,13 @@ public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 		TUnitInfo unitInfo = data.UnitInfo;
 		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
 			Texture2D target = o as Texture2D;
-			unitBodyTex.mainTexture = target;
-			if (target == null) {
-				return;	
-			}
-			unitBodyTex.width = target.width;
-			unitBodyTex.height = target.height;
+//			unitBodyTex.mainTexture = target;
+//			if (target == null) {
+//				return;	
+//			}
+//			unitBodyTex.width = target.width;
+//			unitBodyTex.height = target.height;
+			DGTools.ShowTexture(unitBodyTex, target);
 		});
 
 	}

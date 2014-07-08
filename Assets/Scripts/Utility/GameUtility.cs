@@ -168,12 +168,21 @@ public class DGTools {
 	}
 
 	public static void ShowTexture(UITexture sprite, Texture2D tex) {
-		if (sprite == null || tex == null) {
+		if (sprite == null ) {
 			return;	
 		}
 		sprite.mainTexture = tex;
+		if (tex == null) {
+			return;	
+		}
 		sprite.width = tex.width;
 		sprite.height = tex.height;
+	}
+
+	public static void SafeDestory(GameObject go) {
+		if (go != null) {
+			GameObject.Destroy(go);
+		}
 	}
 
 	public static string GetUnitDropSpriteName(int rare) {

@@ -276,7 +276,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
-		Debug.LogError ("friendWindow : " + friendWindow);
+//		Debug.LogError ("friendWindow : " + friendWindow);
 		gameObject.SetActive (false);
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();
@@ -294,6 +294,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// Selecteds material item's callback.
 	/// </summary>
 	void SelectedItemCallback(LevelUpItem piv) {
+		Debug.LogError ("SelectedItemCallback : " + piv);
 		if (prevMaterialItem == null) {
 			DisposeNoPreMaterial (piv);
 		} else {
@@ -314,7 +315,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void DisposeByPreMaterial(LevelUpItem lui) {
-		if (CheckBaseItem (lui)) {
+		if (CheckBaseItem (prevMaterialItem)) {
 			return;	
 		}
 		EnabledItem (lui.UserUnit);
