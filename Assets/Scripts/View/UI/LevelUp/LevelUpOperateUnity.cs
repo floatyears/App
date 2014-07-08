@@ -200,7 +200,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.IsEnable = true;
 			pui.IsFavorite = false;
 			if(i == 1) {	//base item ui.
-				pui.callback = SelectedItemCallback;
+				pui.callback = SelectBaseItemCallback;
 				pui.PartyLabel.text = TextCenter.GetText("Text_BASE");
 				continue;
 			}
@@ -303,6 +303,16 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		CheckLevelUp ();
 	}
 
+	void SelectBaseItemCallback(LevelUpItem piv){
+		if (prevMaterialItem == null) {
+			DisposeNoPreMaterial (piv);
+		} else {
+			DisposeByPreMaterial(piv);
+		}
+		RefreshMaterial ();
+		CheckLevelUp ();
+	}
+
 	void DisposeByPreMaterial(LevelUpItem lui) {
 		if (CheckBaseItem (lui)) {
 			return;	
@@ -341,9 +351,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// drag panel item click.
 	/// </summary>
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
-		if (pui.IsFavorite) {
-			return;		
-		}
+//		if (pui.IsFavorite) {
+//			return;		
+//		}
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
 				return;	

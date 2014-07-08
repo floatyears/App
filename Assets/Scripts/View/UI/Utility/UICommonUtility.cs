@@ -99,7 +99,9 @@ public class TouchEventBlocker{
 			return;
 	    foreach (var item in remainChanges) {
 			if(item.reason == cameraLayerChanges.Peek().reason){
-				SetBlocked(cameraLayerChanges.Pop());
+				CameraLayerObj obj = cameraLayerChanges.Pop();
+				obj.isBlocked = false;
+				SetBlocked(obj);
 				CheckRemains();
 				break;
 			}
