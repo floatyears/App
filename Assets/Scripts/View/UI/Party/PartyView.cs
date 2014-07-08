@@ -572,6 +572,9 @@ public class PartyView : UIComponentUnity{
 		
 		leaderSkillNameLabel = topRoot.transform.FindChild("Label_Leader_Skill_Name").GetComponent<UILabel>();
 		leaderSkillDscpLabel = topRoot.transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
+
+		topRoot.transform.FindChild ("Bgs/ATK").GetComponent<UILabel>().text = TextCenter.GetText("Text_ATK");
+		topRoot.transform.FindChild ("Bgs/COST").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_COST");;
 	}
 
 	private void UpdateInfoPanelView(object data){
@@ -588,11 +591,14 @@ public class PartyView : UIComponentUnity{
 		}
 		else{
 			leaderSkillNameLabel.text = TextCenter.GetText("Text_Leader_Skill_Colon") + TextCenter.GetText("SkillName_" +  skillBase.id);
-			leaderSkillDscpLabel.text =  TextCenter.GetText("SkillDesc_" +  skillBase.id);
+			leaderSkillDscpLabel.text =  TextCenter.GetText("Text_Leader_Skill_Colon") + TextCenter.GetText("SkillDesc_" +  skillBase.id);
 		}
 		
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
 		curCostLabel.text = unitParty.TotalCost.ToString();
+		if (DataCenter.Instance.UserInfo.CostMax < unitParty.TotalCost) {
+			curCostLabel.color = Color.red;	
+		}
 		maxCostLabel.text = DataCenter.Instance.UserInfo.CostMax.ToString();
 		
 		int value = 0;

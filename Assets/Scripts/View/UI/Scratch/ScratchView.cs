@@ -19,6 +19,8 @@ public class ScratchView : UIComponentUnity {
 	private GameObject infoPanelRoot;
 	private GameObject windowRoot;
 
+	private UILabel scratchContent;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
@@ -59,6 +61,9 @@ public class ScratchView : UIComponentUnity {
 		friendGachaTimes = FindChild<UILabel>("Gacha_Entrance/1/TimesParent/Times");
 		rareGachaTimes = FindChild<UILabel>("Gacha_Entrance/2/TimesParent/Times");
 		eventGachaTimes = FindChild<UILabel>("Gacha_Entrance/3/TimesParent/Times");
+
+		scratchContent = FindChild<UILabel> ("Notice_Window/Content");
+		scratchContent.text = DataCenter.Instance.NoticeInfo.GachaNotice;
 
 		infoPanelRoot = transform.FindChild("Notice_Window").gameObject;
 		windowRoot = transform.FindChild("Gacha_Entrance").gameObject;

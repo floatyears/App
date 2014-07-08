@@ -4,6 +4,8 @@ using System;
 
 public class GameTimer : MonoBehaviour {
 	private static GameTimer instance;
+
+	public uint recovertime;
 	public static GameTimer GetInstance() {
 		if(instance == null) {
 			instance = FindObjectOfType(typeof(GameTimer)) as GameTimer;
@@ -131,6 +133,12 @@ public class GameTimer : MonoBehaviour {
 		int min = (int)(seconds % 3600 / 60);
 		int sec = (int)(seconds %60);
 		return hr + ":" + min + ":" + sec;
+	}
+
+	public static string GetMinSecBySeconds(uint seconds){
+		int min = (int)(seconds % 3600 / 60);
+		int sec = (int)(seconds %60);
+		return ((min < 10) ? ("0"+ min) : "" + min) + ":" + ((sec < 10) ? ("0"+ sec) : "" + sec);
 	}
 }
 

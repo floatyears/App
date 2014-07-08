@@ -24,6 +24,9 @@ public class PlayerInfoBar : UIComponentUnity{
 	UILabel floatTotalExoTextLabel;
 	UILabel floatNextExpValueLabel;
 	UILabel floatTotalExpValueLabel;
+
+	UILabel countDown;
+	private uint currentTime;
         
 	UISprite expSpr;
 	UISprite stamSpr;
@@ -35,6 +38,9 @@ public class PlayerInfoBar : UIComponentUnity{
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
+
+		uint.TryParse(GameTimer.GetInstance().recovertime + "",out currentTime);
+		InvokeRepeating ("AddStamina", 0, 1.0f);
 	}
 
 	public override void ShowUI() {
@@ -94,6 +100,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		floatIDValueLabel = transform.FindChild("InfoBox/Label_Vaule_ID").GetComponent<UILabel>();
 		floatNextExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_NextExp").GetComponent<UILabel>();
 		floatTotalExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_TotalExp").GetComponent<UILabel>();
+
 	}
 
 	/// <summary>
@@ -106,6 +113,8 @@ public class PlayerInfoBar : UIComponentUnity{
 		cionNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_ChipNum").GetComponent<UILabel>();
 		userNameValueLabel = transform.FindChild("InfoBar/Label_Vaule_PlayerName").GetComponent<UILabel>();
 		outRankValueLabel = transform.FindChild("InfoBar/Label_Vaule_Rank").GetComponent<UILabel>();
+
+		countDown = transform.FindChild ("InfoBar/Label_CountDown").GetComponent<UILabel> ();
 	}
 	
 	private void FindLabel(){
@@ -206,4 +215,23 @@ public class PlayerInfoBar : UIComponentUnity{
         stamNowValueLabel.text = staminaMax.ToString();
         stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
     }
+
+	void AddStamina(){
+		if (currentTime > 0) {
+			countDown.text = GameTimer.GetMinSecBySeconds (currentTime);
+			currentTime--;
+		}else{
+			currentTime = 600;
+			if(DataCenter.Instance.UserInfo.StaminaNow < DataCenter.Instance.UserInfo.StaminaMax)
+				DataCenter.Instance.UserInfo.StaminaNow++;
+			int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+			int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
+			stamMaxValueLabel.text = staminaNow.ToString();
+			stamNowValueLabel.text = staminaMax.ToString();
+			stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
+		}
+
+
+
+	}
 }

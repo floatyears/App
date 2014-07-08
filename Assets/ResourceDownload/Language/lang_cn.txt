@@ -77,7 +77,6 @@ Text_Rank=等级
 Text_Rank_Colon=等级：
 Text_Name_Colon=名称：
 
-
 ##City Name
 City_Name_1=雾隐山脉
 City_Name_2=尖叫荒野
@@ -207,6 +206,9 @@ BattleContinueContent=你有还未结束的战斗，你要继续进行未完成�
 Connecting=连接中...
 HighVersionToLoadTitle=升级程序
 HighVersionToLoad=游戏有新版本，请升级
+AppVersion=版本：
+ProgressCurrent=已下载：
+ProgressTotal=总大小：
 
 #Friend search
 SearchError=查找错误
@@ -233,6 +235,12 @@ Text_SeeInfo=查看信息
 Text_Exit=退出
 Text_LastLogin_Colon=最近登录：
 ApplyFriendNote=确定要提交好友申请吗？
+
+#unit detail
+UnitDetail_EvolveTitle=获得途径
+UnitDetail_LevelUpTitle=合成经验
+UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
+UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
 
 # shop
 Btn_Friend_Expand=好友扩容

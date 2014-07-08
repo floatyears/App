@@ -35,6 +35,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UILabel normalSkill2NameLabel;
 
 	UILabel profileLabel;
+	UILabel profileTitle;
 
 //	GameObject tabSkill1;
 	GameObject tabSkill2;
@@ -141,6 +142,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void InitProfile() {
 		string rootPath			= "UnitInfoTabs/Content_Profile/";
 		profileLabel			= FindChild<UILabel>(rootPath + "Label_info"	);
+		profileTitle = FindChild<UILabel> (rootPath + "Title");
 	}
 	
 	void InitTexture(){
@@ -370,8 +372,23 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
     }
         
 	void ShowProfileContent( TUserUnit data ){
-//		TUnitInfo unitInfo = data.UnitInfo;
-		profileLabel.text = "";
+		TUnitInfo unitInfo = data.UnitInfo;
+		if (unitInfo.Race == EUnitRace.EVOLVEPARTS || (unitInfo.ID >= 49 && unitInfo.ID <= 72)) {
+			profileLabel.text = GetWayString(unitInfo.UnitGetWay);
+			profileTitle.text = TextCenter.GetText ("UnitDetail_EvolveTitle");
+		}else{
+			profileLabel.text = string.Format(TextCenter.GetText ("UnitDetail_LevelUpContent") , unitInfo.DevourExp) + "\n" + string.Format(TextCenter.GetText("UnitDetail_LevelUpAttr"),unitInfo.UnitTypeText,(int)(unitInfo.DevourExp*1.5));
+			profileTitle.text = TextCenter.GetText ("UnitDetail_LevelUpTitle");
+		}
+
+	}
+
+	string GetWayString(List<bbproto.UnitGetWay> getway){
+		string gw = "";
+		foreach (var item in getway) {
+			gw += item.getPath;
+		}
+		return gw;
 	}
 
 	//--------------interface function-------------------------------------

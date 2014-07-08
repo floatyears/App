@@ -12,7 +12,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	public const string serverResURL =
 #if UNITY_EDITOR
-		serverHost+"/resource/ios/";
+		serverHost+"/resource/android/";
 #elif UNITY_ANDROID
 	serverHost+"/resource/android/";
 #elif UNITY_IOS
@@ -70,6 +70,9 @@ public class ResourceUpdate : MonoBehaviour {
 	private UIProgressBar pro;
 	private UILabel tipText;
 	private UILabel proText;
+	private UILabel versionTxt;
+	private string version;
+
 	private WWW globalWWW;
 	private bool startDown = false;
 
@@ -85,6 +88,9 @@ public class ResourceUpdate : MonoBehaviour {
 		pro = GetComponent<UIProgressBar> ();
 		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
+
+		versionTxt = GameObject.Find ("Version").GetComponent<UILabel> ();
+
 		InvokeRepeating ("ShowTipText", 0, 5);
 
 		pro.enabled = false;
@@ -139,9 +145,10 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = "current: " + ((1-pro.value)*100).ToString("F2") + "%(total " + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
+			proText.text = TextCenter.GetText("ProgressCurrent") + ((1-pro.value)*100).ToString("F2") + "%(" + TextCenter.GetText("ProgressTotal") + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
 		}
 
+		versionTxt.text = TextCenter.GetText ("AppVersion") + version;
 
 	}
 
@@ -210,7 +217,8 @@ public class ResourceUpdate : MonoBehaviour {
 			}	
 		} else {
 			tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
-		}     
+		}  
+
 	}
 
 	private void DownloadAgain(object data){
@@ -233,7 +241,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 	public void StartDownload(){
-		StartCoroutine (Download (serverVersionURL, delegate(WWW serverVersion) {
+		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
 			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
 			LoadVersionConfig(serverVersion.text,serverVersionDic);
 			
@@ -260,11 +268,17 @@ public class ResourceUpdate : MonoBehaviour {
 		}
 
 		string[] records = content.Split (new string[]{"\n"},System.StringSplitOptions.RemoveEmptyEntries);
-			foreach (string record in records) {
-//				string[] items = record.Split('|');
-			DownloadItemInfo item = DownloadItemInfo.ParseSting (record);
+		int i = 0;
+		Debug.Log ("version content: " + content);
+		if (records [0].IndexOf ("version") >= 0) {
+			version = records[0].Split(':')[1];
+			i = 1;
+		}
+		for(; i < records.Length; i++){
+			DownloadItemInfo item = DownloadItemInfo.ParseSting (records[i]);
 			versionDic.Add (item.name, item);
 		}
+
 //		
 	}
 

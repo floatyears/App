@@ -13,6 +13,12 @@ public class TNoticeInfo : ProtobufDataBase {
 	//// property ////
 	public	List<NoticeItem>	NoticeList { get { return instance.items; }  }
 
+
+	public string GachaNotice{
+		get{
+			return instance.gachaNotice;
+		}
+	}
 }
 
 

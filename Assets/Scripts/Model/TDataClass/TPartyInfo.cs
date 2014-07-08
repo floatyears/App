@@ -180,6 +180,7 @@ public class TPartyInfo : ProtobufDataBase {
 			}
 			
 			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.CostMax ) {
+				ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("CostLimitText"));
 				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.CostMax);
 				return true;
 			}
