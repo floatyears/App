@@ -11,7 +11,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public UILabel normalSkillTextLabel;
 	public UILabel profileTextLabel;
 
-	UnitDetailTopPanel topPanel;
+//	UnitDetailTopPanel topPanel;
 
 	GameObject unitInfoTabs;
 
@@ -42,7 +42,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	GameObject tabProfile;
 
 	UIToggle statusToggle;
-	UITexture unitBodyTex;
+//	UITexture unitBodyTex;
 
 	GameObject levelUpEffect;
 	Material unitMaterial;
@@ -72,7 +72,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		InitEffect();
 		InitUI();
 
-		topPanel = GameObject.Find ("UnitDetailTopPanel(Clone)").GetComponent<UnitDetailTopPanel> ();
+//		topPanel = GameObject.Find ("UnitDetailTopPanel(Clone)").GetComponent<UnitDetailTopPanel> ();
 	}
 	
 	public override void ShowUI () {
@@ -81,7 +81,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
-
+		MsgCenter.Instance.AddListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 		//TODO:
 		//StartCoroutine ("nextState");
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
@@ -100,6 +100,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 		ClearEffectCache();
 		UIManager.Instance.ShowBaseScene();
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 	}
 
 	public override void DestoryUI () {
@@ -142,8 +144,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	void InitTexture(){
-		unitBodyTex = FindChild< UITexture >("detailSprite");
-		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
+//		unitBodyTex = FindChild< UITexture >("detailSprite");
+//		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
 	}
 
 	void InitTabStatus() {
@@ -231,10 +233,10 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void InitEffect(){
 //		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
-		string path = "Effect/HelixHealingYellow";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			levelUpEffect = o as GameObject;
-		});
+//		string path = "Effect/HelixHealingYellow";
+//		ResourceManager.Instance.LoadLocalAsset( path , o =>{
+//			levelUpEffect = o as GameObject;
+//		});
 	}
 
 	void ClickTexture( GameObject go ){
@@ -249,38 +251,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UIManager.Instance.ChangeScene( preScene );
 	}
 
-//	void ShowUnitScale(){
-//		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
-//		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
-//
-//		unitAlpha.eventReceiver = this.gameObject;
-//		unitAlpha.callWhenFinished = "PlayCheckRoleAudio";
-//
-//		if( unitScale == null || unitAlpha == null )
-//			return;
-//
-//		unitScale.Reset();
-//		unitScale.PlayForward();
-//
-//		unitAlpha.Reset();
-//		unitAlpha.PlayForward();
-//	}
 
 	void PlayCheckRoleAudio(){
 		//Debug.LogError("callWhenFinished...PlayCheckRoleAudio()");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
-
-//	void ShowBodyTexture( TUserUnit data ){
-//		TUnitInfo unitInfo = data.UnitInfo;
-//		Texture2D target = unitInfo.GetAsset( UnitAssetType.Profile);
-//		unitBodyTex.mainTexture = target;
-//		if (target == null) {
-//			return;	
-//		}
-//		unitBodyTex.width = target.width;
-//		unitBodyTex.height = target.height;
-//	}
 		
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
@@ -309,8 +284,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		rareLabel.text = unitInfo.Rare.ToString();
 
 		levelLabel.text = data.Level.ToString();
-
-//		Debug.LogError("ShowInfo :: Lv.text:"+levelLabel.text);
 
 		//next level need
 		if ((data.Level > unitInfo.MaxLevel ) 
@@ -426,18 +399,26 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
+
 	void PlayLevelUp(RspLevelUp rlu) {
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-//		Debug.LogError ("PlayLevelUp :: newBlend.UnitId:"+newBlendUnit.UnitInfo.ID);
-//		Debug.LogError ("unitBodyTex : " + unitBodyTex + " newBlendUnit : " + newBlendUnit + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-//		DGTools.ShowTexture (unitBodyTex, newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile));
-//		unitInfoTabs.SetActive (false);
-		SetEffectCamera ();
-		StartCoroutine (CreatEffect ());
+//		SetEffectCamera ();
+//		StartCoroutine (CreatEffect ());
+//
+//		AudioManager.Instance.PlayAudio (AudioEnum.sound_devour_unit);
+	}
 
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_devour_unit);
+	void ShowLevelupInfo(object data) {
+		ShowLevelInfo (newBlendUnit);
+		curLevel = oldBlendUnit.Level;
+		gotExp = levelUpData.blendExp;
+		
+		levelDone = gotExp > 0;
+		
+		curExp = oldBlendUnit.CurExp;
+		Calculate ();
 	}
 
 	TUserUnit oldBlendUnit = null;
@@ -447,7 +428,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public void SetEffectCamera() {
 		Camera camera = Main.Instance.effectCamera;
-//		Debug.LogError ("camera : " + camera);
 		camera.transform.eulerAngles = new Vector3 (15f, 0f, 0f);
 		camera.orthographicSize = 1.3f;
 	}
@@ -467,13 +447,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		effectCache.Add (go);
 
 		if (effectCache.Count == 6) {
-//			CancelInvoke("CreatEffect");
-//			yield break;
 			yield return new WaitForSeconds(2f);
 
 			ClearEffectCache ();
-//			unitInfoTabs.SetActive (true);
-			topPanel.ShowPanel();
 
 			ShowLevelInfo (newBlendUnit);
 			curLevel = oldBlendUnit.Level;
@@ -482,10 +458,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			levelDone = gotExp > 0;
 
 			curExp = oldBlendUnit.CurExp;
-//			Debug.Log ("CreatEffect :: gotExp : " + gotExp);
-//			Debug.Log ("CreatEffect :: newBlendUnit.level : " + newBlendUnit.Level);
-//			Debug.Log ("CreatEffect :: oldBlendUnit.CurExp : " + curExp + " oldBlendUnit.Lv:"+oldBlendUnit.Level +" unitId:"+oldBlendUnit.UnitID);
-
 			Calculate ();
 
 			RecoverEffectCamera();

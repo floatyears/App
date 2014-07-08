@@ -96,7 +96,47 @@ public class DGTools {
 		return UnityEngine.Random.Range (0f, 1f);
 	}
 
+	public static string GetItemBackgroundName (EUnitType unitType) {
+		string suffixName = "avatar_bg_";
+		switch (unitType) {
+		case EUnitType.UFIRE:
+			return suffixName += "fire";
+		case EUnitType.UWATER:
+			return suffixName += "water";
+		case EUnitType.UWIND:
+			return suffixName += "wind";
+		case EUnitType.ULIGHT:
+			return suffixName += "light";
+		case EUnitType.UDARK:
+			return suffixName += "dark";
+		case EUnitType.UNONE:
+			return suffixName += "none";
+		default:
+			return suffixName += "none";
+			break;
+		}
+	}
 
+	public static string GetItemBorderName (EUnitType unitType) {
+		string suffixName = "avatar_border_";	
+		switch (unitType) {
+		case EUnitType.UFIRE:
+			return suffixName += "fire";
+		case EUnitType.UWATER:
+			return suffixName += "water";
+		case EUnitType.UWIND:
+			return suffixName += "wind";
+		case EUnitType.ULIGHT:
+			return suffixName += "light";
+		case EUnitType.UDARK:
+			return suffixName += "dark";
+		case EUnitType.UNONE:
+			return suffixName += "none";
+		default:
+			return suffixName += "none";
+			break;
+		}
+	}
 
 	public static bool EqualCoordinate (Coordinate coorA, Coordinate coorB) {
 		return coorA.x == coorB.x && coorA.y == coorB.y;

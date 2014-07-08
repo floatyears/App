@@ -641,7 +641,7 @@ public class UserUnitList {
 
     public  void Del(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
-		Debug.LogError ("del my unit : " + userId + " unitqueid : " + uniqueId);
+//		Debug.LogError ("del my unit : " + userId + " unitqueid : " + uniqueId);
         if (userUnitInfo.ContainsKey(key))
             userUnitInfo.Remove(key);
     }
