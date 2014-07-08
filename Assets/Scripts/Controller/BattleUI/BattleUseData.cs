@@ -89,6 +89,7 @@ public class BattleUseData {
 	}
 
 	public void InitBattleUseData (TStoreBattleData sbd) {
+//		Debug.LogError("InitBattleUseData ");
 		els.Excute();
 		if (sbd == null) {
 			blood = maxBlood = upi.GetInitBlood ();

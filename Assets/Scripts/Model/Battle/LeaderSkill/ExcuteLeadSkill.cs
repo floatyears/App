@@ -17,6 +17,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		foreach (var item in leadSkill.LeadSkill) {
 			temp++;
 			if(item.Value is TSkillBoost) {
+				Debug.LogError("item.Key : " + item.Key + " item.Value : " + item.Value);
 				leaderSkillQueue.Enqueue(item.Key);
 				GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
 			}
@@ -25,7 +26,7 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
-//		Debug.LogError (" ExcuteStartLeaderSkill key : " + key);
+		Debug.LogError (" ExcuteStartLeaderSkill key : " + key);
 		DisposeBoostSkill (key, leadSkill.LeadSkill [key]);
 		leadSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {

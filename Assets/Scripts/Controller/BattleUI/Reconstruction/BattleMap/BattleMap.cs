@@ -100,8 +100,12 @@ public class BattleMap : UIBaseUnity {
 	public void RefreshMap(TClearQuestParam cqp) {
 		for (int i = 0; i < cqp.hitGrid.Count; i++) {
 			Coordinate coor = bQuest.questDungeonData.GetGridCoordinate(cqp.hitGrid[i]);
-			map[coor.x,coor.y].HideGridNoAnim();
+			if(coor.x < 0 || coor.y < 0 || coor.x >= MapConfig.MapWidth || coor.y >= MapConfig.MapHeight) {
+				continue;
+			}
+			map[coor.x, coor.y].HideGridNoAnim();
 		}
+
 		Coordinate roleCoor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
 
 		if(roleCoor.x != MapConfig.characterInitCoorX || roleCoor.y != MapConfig.characterInitCoorY) {
@@ -138,6 +142,9 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public bool ReachMapItem(Coordinate coor) {
+		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+			return true;	
+		}
 		prevMapItem = map[coor.x,coor.y];
 		return prevMapItem.IsOld;
 	}

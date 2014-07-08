@@ -41,7 +41,7 @@ public class ResultView : UIComponentUnity {
 		avatarBorderSpr = rootTop.transform.FindChild("Avatar/Sprite_Avatar_Border").GetComponent<UISprite>();
 
 		checkBtn = rootBottom.transform.FindChild("Button_Check").GetComponent<UIButton>();
-		okBtn = rootBottom.transform.FindChild("Button_Ok").GetComponent<UIButton>();
+		okBtn = rootBottom.transform.FindChild("Button_OK").GetComponent<UIButton>();
 		cancelBtn = rootBottom.transform.FindChild("Button_Cancel").GetComponent<UIButton>();
 
 		UIEventListener.Get(checkBtn.gameObject).onClick = ClickCheck;
