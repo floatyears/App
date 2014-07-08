@@ -75,7 +75,6 @@ public class BattleMap : UIBaseUnity {
 
 	public override void HideUI () {
 		base.HideUI ();
-//		useMapItem.Clear ();
 		prevAround.Clear ();
 		gameObject.SetActive (false);
 		for (int i = 0; i < map.GetLength(0); i++) {
