@@ -1039,7 +1039,7 @@ public class BattleQuest : UIBase {
 ////			ve.battleQuest = this;
 ////			ve.ShowData (clearQuest);
 ////			ve.PlayAnimation(questEnd);
-//			AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.sound_quest_clear);
 //		});
 	}
 
