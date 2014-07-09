@@ -71,6 +71,8 @@ public class BattleUseData {
 		battleQuest = bq;
 		configBattleUseData = ConfigBattleUseData.Instance;
 		Reset ();
+
+//		InitBattleUseData (null);
     }
 
 	public void ResetBlood () {
@@ -89,14 +91,16 @@ public class BattleUseData {
 	}
 
 	public void InitBattleUseData (TStoreBattleData sbd) {
-//		Debug.LogError("InitBattleUseData ");
+//		Debug.LogError ("InitBattleUseData : " + sbd);  
 		els.Excute();
 		if (sbd == null) {
 			blood = maxBlood = upi.GetInitBlood ();
 			maxEnergyPoint =DataCenter.maxEnergyPoint;
+//			Debug.LogError ("InitBattleUseData  :  upi.GetInitBlood () : " + upi.GetInitBlood () );
 		} else {
 			maxBlood = upi.GetInitBlood ();
 			blood = sbd.hp;
+//			Debug.LogError ("InitBattleUseData  : " + sbd + " sbd.hp  : " + sbd.hp );
 			maxEnergyPoint = sbd.sp;
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
@@ -284,6 +288,7 @@ public class BattleUseData {
 
     public void GetBaseData(object data) {
         BattleBaseData bbd = new BattleBaseData();
+//		Debug.LogError ("GetBaseData : " + blood + " Blood : " + Blood);
 		bbd.Blood = Blood;
 		bbd.maxBlood = maxBlood;
 		bbd.EnergyPoint = maxEnergyPoint;
@@ -324,7 +329,7 @@ public class BattleUseData {
 
     void ConsumeEnergyPoint() {	
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
-
+//		Debug.LogError ("ConsumeEnergyPoint : " + battleQuest.ChainLinkBattle);
 		if(battleQuest.ChainLinkBattle) {
 			return;
 		}

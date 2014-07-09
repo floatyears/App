@@ -141,9 +141,9 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public bool ReachMapItem(Coordinate coor) {
-		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-			return true;	
-		}
+//		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+//			return true;	
+//		}
 		prevMapItem = map[coor.x,coor.y];
 		return prevMapItem.IsOld;
 	}

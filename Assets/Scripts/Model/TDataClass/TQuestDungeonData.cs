@@ -187,6 +187,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		if (coor.y == 0 && coor.x < 3) {
 			index++;
 		} 
+//		UnityEngine.Debug.LogError ("currentFloor : " + currentFloor);
 		return Floors [currentFloor] [index];
 	}
 
