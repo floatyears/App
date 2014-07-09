@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public interface ICheckUIState {
+	bool CheckState();
+}
+
 #region old
 public interface IUIInterface {
     /// <summary>

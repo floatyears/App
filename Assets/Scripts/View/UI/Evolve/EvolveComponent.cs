@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class EvolveComponent : ConcreteComponent {
+public class EvolveComponent : ConcreteComponent, ICheckUIState {
 	public EvolveComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {
@@ -72,6 +72,14 @@ public class EvolveComponent : ConcreteComponent {
 		DataCenter.gameState = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
+	}
+		
+	public bool CheckState () {
+		if (viewComponent.gameObject.activeSelf) {
+			return true;	
+		} else {
+			return false;	
+		}
 	}
 
 	//================================================================================

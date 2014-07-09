@@ -24,9 +24,20 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 		MsgCenter.Instance.RemoveListener(CommandEnum.BackSceneEnable, BackSceneEnable);
 		base.DestoryUI ();
 	}
+		
+	public ICheckUIState checkUiState;
 
 	public void CallbackView (object data) {
-		Debug.LogError ("callbackview : " + UIManager.Instance.baseScene.CurrentScene);
+		if (checkUiState != null) {
+			SceneEnum current = UIManager.Instance.baseScene.CurrentScene;
+			if (current == SceneEnum.LevelUp || current == SceneEnum.Evolve) {
+				if(!checkUiState.CheckState()) {
+					MsgCenter.Instance.Invoke(CommandEnum.FriendBack);
+					return;
+				}
+			}	
+		}
+
 		if (DataCenter.gameState == GameState.Evolve) {
 			if(backScene == SceneEnum.Home) {
 				backScene = SceneEnum.Evolve;
@@ -44,7 +55,6 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	public SceneEnum backScene = SceneEnum.None;
 
 	public void SetBackScene(SceneEnum scene) {
-//		Debug.LogWarning ("sceneinfo SetBackScene : " + scene + " viewComponent : " + viewComponent);
 		if( viewComponent is IUISetBool) {
 			IUISetBool sb = viewComponent as IUISetBool;
 			if(scene == SceneEnum.None) {

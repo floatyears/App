@@ -1,35 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class levelUpOperateUI : ConcreteComponent {
-	public levelUpOperateUI(string uiName) : base(uiName) {
-
-	}
+public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
+	public levelUpOperateUI(string uiName) : base(uiName) { }
 
 	public override void HideUI () {
 		base.HideUI ();
 
 		if (UIManager.Instance.nextScene != SceneEnum.UnitDetail) {
-//			Debug.LogError ("levelup DestoryUI ui : " + UIManager.Instance.nextScene);
 			base.DestoryUI();
-//			UIManager.Instance.RemoveUI ();
 		}
 	}
 	
 	List<TUserUnit> levelUpInfo = null;
+
 	public override void CallbackView (object data) {
 		levelUpInfo = data as List<TUserUnit>;
 		if (levelUpInfo == null) {
-//			Debug.LogError("level up network data is error");
 			return;
 		}
 		
 		LevelUp netBase = new LevelUp ();
 		TUserUnit baseUserUnit = levelUpInfo[0];	
 		TUserUnit friendUserUnit = levelUpInfo[1];
-//		while (levelUpInfo.Count > 0) {
-//			netBase.PartUniqueId.Add(levelUpInfo.Dequeue().ID);
-//		}
 
 		for (int i = levelUpInfo.Count - 1; i > 1; i--) {
 			netBase.PartUniqueId.Add(levelUpInfo[i].ID);
@@ -39,6 +32,14 @@ public class levelUpOperateUI : ConcreteComponent {
 		netBase.HelperUserId = friendUserUnit.ID;
 		netBase.HelperUserUnit = friendUserUnit;
 		netBase.OnRequest (null, NetCallback);
+	}
+	
+	public bool CheckState() {
+		if (viewComponent.gameObject.activeSelf) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	void NetCallback(object data) {
@@ -51,33 +52,25 @@ public class levelUpOperateUI : ConcreteComponent {
 						return;
 				}
 
-
 				levelUpInfo.Clear();
 
-				//			update money
 				DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
-	
-				// update unitlist
 	
 				uint userId = DataCenter.Instance.UserInfo.UserId;
 	
 				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
-	
-//				DataCenter.Instance.UserUnitList.DelMyUnit (rspLevelUp.blendUniqueId);
-//			
+		
 				TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
 				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
-				Debug.LogError("rspLevelUp.baseUnit : " +DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
+				Debug.LogError("rspLevelUp.baseUnit : " + DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
 
-				
-	
 				UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 
 				MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 				
 				MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
-//							Debug.LogError("rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
+
 				MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
 		}
 	}
