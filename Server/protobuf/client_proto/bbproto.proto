@@ -897,6 +897,7 @@ message UserInfoDetail {
 	optional bytes			haveUnitFlag		= 9;	//got unit
 	optional bytes			meetUnitFlag		= 10;	//meet unit
     optional bytes			userGuideFlag		= 11;
+    optional int32          flag                = 12;   //1: system generated user
 }
 
 message MonthCard {
@@ -988,14 +989,12 @@ message BonusInfo {
 message LoginInfo {
 	optional int32		loginTotal				= 1; // login times in total
 	optional int32		loginChain				= 2;
-	optional int32		friendPointGet			= 3;
-	optional int32		friendHelpCount			= 4;
-	optional uint32		lastLoginTime			= 5;
-    optional uint32		lastPlayTime            = 6;
-    repeated BonusInfo  bonus					= 7;
-    optional int32		maxBonusId              = 8;
-    repeated int32      onceBonusId	    		= 9; //accepted bonus id for once bonus
-    optional int32		loginDayTotal			= 10; //login days in total
+    optional int32		loginDayTotal			= 3; //login days in total
+	optional uint32		lastLoginTime			= 4;
+    optional uint32		lastPlayTime            = 5;
+    repeated BonusInfo  bonus					= 6;
+    optional int32		maxBonusId              = 7;
+    repeated int32      onceBonusId	    		= 8; //accepted bonus id for once bonus
 }
 
 message PresentInfo {
@@ -1064,6 +1063,7 @@ message RspAuthUser {
     optional int32			userGuideStep		= 18;
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
+    optional StatHelperCount helpCountInfo      = 21;
 }
 
 //-------------------------------------------------
@@ -1158,4 +1158,19 @@ message ReqAcceptBonus {
 
 message RspAcceptBonus {
     optional ProtoHeader	header				= 1;
+}
+
+message ReqBonusList {
+    optional ProtoHeader    header              = 1;
+}
+
+message RspBonusList {
+    optional ProtoHeader    header              = 1;
+    repeated BonusInfo      bonus               = 2;
+}
+
+message StatHelperCount {
+    optional int32		friendPointGet			= 1; // friend Pt got everyday
+    optional int32		helpFriendCount			= 2; // times of help friend
+    optional int32		helpHelperCount			= 3; // times of help helper
 }

@@ -4609,6 +4609,14 @@ namespace bbproto
       get { return _userGuideFlag; }
       set { _userGuideFlag = value; }
     }
+    private int _flag = default(int);
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"flag", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int flag
+    {
+      get { return _flag; }
+      set { _flag = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5059,24 +5067,16 @@ namespace bbproto
       get { return _loginChain; }
       set { _loginChain = value; }
     }
-    private int _friendPointGet = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"friendPointGet", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    private int _loginDayTotal = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"loginDayTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
-    public int friendPointGet
+    public int loginDayTotal
     {
-      get { return _friendPointGet; }
-      set { _friendPointGet = value; }
-    }
-    private int _friendHelpCount = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"friendHelpCount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int friendHelpCount
-    {
-      get { return _friendHelpCount; }
-      set { _friendHelpCount = value; }
+      get { return _loginDayTotal; }
+      set { _loginDayTotal = value; }
     }
     private uint _lastLoginTime = default(uint);
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"lastLoginTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"lastLoginTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint lastLoginTime
     {
@@ -5084,7 +5084,7 @@ namespace bbproto
       set { _lastLoginTime = value; }
     }
     private uint _lastPlayTime = default(uint);
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"lastPlayTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"lastPlayTime", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(uint))]
     public uint lastPlayTime
     {
@@ -5092,14 +5092,14 @@ namespace bbproto
       set { _lastPlayTime = value; }
     }
     private readonly global::System.Collections.Generic.List<bbproto.BonusInfo> _bonus = new global::System.Collections.Generic.List<bbproto.BonusInfo>();
-    [global::ProtoBuf.ProtoMember(7, Name=@"bonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(6, Name=@"bonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<bbproto.BonusInfo> bonus
     {
       get { return _bonus; }
     }
   
     private int _maxBonusId = default(int);
-    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"maxBonusId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"maxBonusId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int maxBonusId
     {
@@ -5107,20 +5107,12 @@ namespace bbproto
       set { _maxBonusId = value; }
     }
     private readonly global::System.Collections.Generic.List<int> _onceBonusId = new global::System.Collections.Generic.List<int>();
-    [global::ProtoBuf.ProtoMember(9, Name=@"onceBonusId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(8, Name=@"onceBonusId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     public global::System.Collections.Generic.List<int> onceBonusId
     {
       get { return _onceBonusId; }
     }
   
-    private int _loginDayTotal = default(int);
-    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"loginDayTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int loginDayTotal
-    {
-      get { return _loginDayTotal; }
-      set { _loginDayTotal = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5532,6 +5524,14 @@ namespace bbproto
       get { return _eventList; }
     }
   
+    private bbproto.StatHelperCount _helpCountInfo = null;
+    [global::ProtoBuf.ProtoMember(21, IsRequired = false, Name=@"helpCountInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.StatHelperCount helpCountInfo
+    {
+      get { return _helpCountInfo; }
+      set { _helpCountInfo = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5984,6 +5984,83 @@ namespace bbproto
     {
       get { return _header; }
       set { _header = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqBonusList")]
+  public partial class ReqBonusList : global::ProtoBuf.IExtensible
+  {
+    public ReqBonusList() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspBonusList")]
+  public partial class RspBonusList : global::ProtoBuf.IExtensible
+  {
+    public RspBonusList() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private readonly global::System.Collections.Generic.List<bbproto.BonusInfo> _bonus = new global::System.Collections.Generic.List<bbproto.BonusInfo>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"bonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.BonusInfo> bonus
+    {
+      get { return _bonus; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"StatHelperCount")]
+  public partial class StatHelperCount : global::ProtoBuf.IExtensible
+  {
+    public StatHelperCount() {}
+    
+    private int _friendPointGet = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"friendPointGet", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int friendPointGet
+    {
+      get { return _friendPointGet; }
+      set { _friendPointGet = value; }
+    }
+    private int _helpFriendCount = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"helpFriendCount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int helpFriendCount
+    {
+      get { return _helpFriendCount; }
+      set { _helpFriendCount = value; }
+    }
+    private int _helpHelperCount = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"helpHelperCount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int helpHelperCount
+    {
+      get { return _helpHelperCount; }
+      set { _helpHelperCount = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
