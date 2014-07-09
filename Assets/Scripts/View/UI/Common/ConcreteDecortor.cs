@@ -549,6 +549,8 @@ public class LevelUpDecorator : DecoratorBase {
 		levelUpOperateUI luou = CreatComponent<levelUpOperateUI> (UIConfig.levelUpView);
 		luou.SetComponent (sc);
 
+		sceneInfoBar.checkUiState = luou;
+
 		lastDecorator = luou;
 		lastDecorator.CreatUIAsyn (this);
 //		lastDecorator.CreatUI();
@@ -598,11 +600,8 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void ShowScene(){
-//		Debug.LogError ("EvolveDecorator show scene : 1" + sceneInfoBar.backScene);
 		base.ShowScene();
-//		Debug.LogError ("EvolveDecorator show scene : 2" + sceneInfoBar.backScene);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
-//		Debug.LogError ("EvolveDecorator show scene : 3" + sceneInfoBar.backScene);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_EVOLVE));
 	}
 	
@@ -628,12 +627,13 @@ public class EvolveDecorator : DecoratorBase{
 		EvolveComponent evolve = CreatComponent< EvolveComponent >(UIConfig.evolveWindowName);
 		evolve.SetComponent(sc);
 
+		sceneInfoBar.checkUiState = evolve;
+
 		UnitDisplay unitdisplay = CreatComponent< UnitDisplay >(UIConfig.unitDisplay);
 		unitdisplay.SetComponent (evolve);
 
 		lastDecorator = unitdisplay;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 
 		EvolveDecoratorUnity edu = evolve.ViewComponent as EvolveDecoratorUnity;
 		edu.SetUnitDisplay (unitdisplay.ViewComponent.gameObject);

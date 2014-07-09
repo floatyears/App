@@ -33,8 +33,12 @@ public class FriendWindows : FriendHelperView {
 	}
 	
 	protected override void ClickHelperItem (HelperUnitItem item) {
+		Back (item.FriendInfo);
+	}
+
+	public void Back(TFriendInfo item) {
 		if (selectFriend != null) {
-			selectFriend(item.FriendInfo);
+			selectFriend(item);
 		}
 		HideUI ();
 	}

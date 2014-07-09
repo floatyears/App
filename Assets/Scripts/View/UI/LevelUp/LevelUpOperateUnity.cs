@@ -24,12 +24,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearFocus ();
 		ShowData ();
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
+		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true;
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
@@ -284,6 +286,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void SelectFriend(TFriendInfo friendInfo) {
 		gameObject.SetActive (true);
+
+		if (friendInfo == null) {
+			return;	
+		}
+
 		selectedItem [friendItemIndex].UserUnit = friendInfo.UserUnit;
 		selectedItem [friendItemIndex].IsEnable = true;
 		RefreshFriend ();
@@ -604,6 +611,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				pui.IsEnable = true;
 			}
 		}
+	}
+
+	void FriendBack(object data) {
+		if (friendWindow == null) {
+			return;	
+		}
+
+		friendWindow.Back (null);
 	}
 
 	private void ReceiveSortInfo(object msg){

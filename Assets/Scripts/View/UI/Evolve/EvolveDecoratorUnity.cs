@@ -19,11 +19,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 	
 	public override void HideUI () {
-
 		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true; 
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
@@ -34,6 +34,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 	}
 	
 	public override void DestoryUI () {
@@ -180,6 +181,14 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		default:
 				break;
 		}
+	}
+
+	void FriendBack(object data) {
+		if (friendWindow == null) {
+			return;	
+		}
+
+		friendWindow.Back (null);
 	}
 
 	void DisposeMaterial (List<TUserUnit> itemInfo) {
@@ -355,6 +364,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			ClickItem(item.Key);
 			break;
 		}
+
+		if (friendInfo == null) {
+			return;	
+		}
+
 		this.friendInfo = friendInfo;
 		friendItem.Refresh (friendInfo.UserUnit);
 		CheckCanEvolve ();

@@ -21,6 +21,10 @@ public class UnitDisplayUnity : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
+
+		for (int i = 0; i < allData.Count; i++) {
+			allData[i].isEnable = true;
+		}
 	}
 
 	public override void DestoryUI () {
@@ -54,9 +58,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	private TUserUnit selectBase = null;
 	private TUserUnit baseData = null;
-
-//	private UIButton sortButton;
-//	private UILabel sortLabel;
+	
 	private SortRule _sortRule;
 	private SortRule sortRule {
 		set { _sortRule = value; } //sortLabel.text = value.ToString(); }
@@ -153,8 +155,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void UnitMaterialList(object data) {
 		materialInfo = data as List<TUserUnit>;
-//		materialInfo.Clear ();
-//		materialInfo.AddRange (material);
 		ShowMaterial();
 	}
 
@@ -286,6 +286,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 			allData.Clear();
 			if (tuuList != null) {
 				allData.AddRange(tuuList);
+//				for (int i = 0; i < allData.Count; i++) {
+////					Debug.LogError("allData :  " + allData[i].isEnable);
+//				}
 				RefreshView();
 			}
 			RefreshCounter ();
@@ -302,6 +305,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 		foreach (var item in myUnitItem) {
 			EvolveDragItem edi = item as EvolveDragItem;
+		
 			evolveDragItem.Add(edi);
 			edi.callback = ClickItem;
 			if(edi.UserUnit.UnitInfo.evolveInfo != null) {
