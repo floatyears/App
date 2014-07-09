@@ -533,6 +533,14 @@ namespace bbproto
       get { return _level; }
       set { _level = value; }
     }
+    private int _premiumKind = default(int);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"premiumKind", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int premiumKind
+    {
+      get { return _premiumKind; }
+      set { _premiumKind = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

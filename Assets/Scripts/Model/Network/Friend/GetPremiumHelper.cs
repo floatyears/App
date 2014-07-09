@@ -11,6 +11,7 @@ public class GetPremiumHelper: ProtoManager {
 	private EUnitRace race;
 	private EUnitType type;
 	private int level;
+	private int premiumKind;
 
     public GetPremiumHelper() {
     }
@@ -18,11 +19,13 @@ public class GetPremiumHelper: ProtoManager {
     ~GetPremiumHelper() {
     }
     
-    public static void SendRequest(DataListener callback, EUnitRace race, EUnitType type, int level) {
+	//premiumKind: 1= LevelUp 2= evolve 3=battle
+	public static void SendRequest(DataListener callback, EUnitRace race, EUnitType type, int level, int premiumKind) {
         GetPremiumHelper req = new GetPremiumHelper();
 		req.race = race;
 		req.type = type;
 		req.level = level;
+		req.premiumKind = premiumKind;
 		req.OnRequest(null, callback);
     }
     
@@ -40,6 +43,7 @@ public class GetPremiumHelper: ProtoManager {
 		reqGetPremiumHelper.race = this.race;
 		reqGetPremiumHelper.type = this.type;
 		reqGetPremiumHelper.level = this.level;
+		reqGetPremiumHelper.premiumKind = this.premiumKind;
         
         ErrorMsg err = SerializeData(reqGetPremiumHelper); // save to Data for send out
         

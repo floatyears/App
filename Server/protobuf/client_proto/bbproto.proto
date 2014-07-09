@@ -133,6 +133,7 @@ message ReqGetPremiumHelper {
 	optional EUnitRace		race				= 2;
 	optional EUnitType		type				= 3;
 	optional int32			level				= 4;
+    optional int32			premiumKind			= 5; //1: LevelUp 2: evolve 3:battle
 }
 
 message RspGetPremiumHelper {

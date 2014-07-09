@@ -116,7 +116,7 @@ Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Text_Party=使用中
 Text_TapToLogin=点击屏幕进入游戏
-Text_Notice=运营通知
+Text_Notice=游戏公告
 
 Text_Leader_Skill_Colon=队长技能：
 Name_No_LeaderSkil=队长技能:无
