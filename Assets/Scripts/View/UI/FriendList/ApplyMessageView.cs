@@ -23,12 +23,14 @@ public class ApplyMessageView : UIComponentUnity{
 
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowSelf(false);
+//		ShowSelf(false);
+
+//		HideUI ();
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		ShowSelf(false);  
+//		ShowSelf(false);  
 	}
 
 	public override void CallbackView(object data){
@@ -98,14 +100,16 @@ public class ApplyMessageView : UIComponentUnity{
 	}
 
 	void ShowSelf(bool canShow){
-		this.gameObject.SetActive(canShow);
+//		this.gameObject.SetActive(canShow);
 		if (canShow){
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
+			ShowUI();
+//			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
 			rootPanel.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(rootPanel, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
 		}
 		else{
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));        
+//			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));     
+			HideUI();
 		}
 	}
 

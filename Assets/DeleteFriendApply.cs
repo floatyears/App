@@ -47,13 +47,13 @@ public class DeleteFriendApply : ApplyMessage{
 	}
 
 	void CustomizeTitle(){
-		string title = "Delete Your Apply";
+		string title = TextCenter.GetText ("DeleteApply");//"";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeTitle", title);
 		ExcuteCallback(cbdArgs);
 	}
 
 	void CustomizeNote(){
-		string note = "Are you sure to delete your apply?";
+		string note = TextCenter.GetText ("ConfirmDelete");// "Are you sure to delete your apply?";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeNote", note);
 		ExcuteCallback(cbdArgs);
 	}
