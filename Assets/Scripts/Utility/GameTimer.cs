@@ -87,7 +87,7 @@ public class GameTimer : MonoBehaviour {
 	private float addSeconds = 0f;
 	private bool startTime = false;
 
-	public const uint TenMinuteSeconds = 600;
+	public const uint TenMinuteSeconds = 3600;
 
 	public DateTime currentDateTime;
 

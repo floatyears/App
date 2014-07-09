@@ -151,7 +151,7 @@ public class ConfigBattleUseData {
 	public void ResetFromDisk() {
 		ReadFriend ();
 		ReadQuestDungeonData ();
-		Debug.LogError ("ResetFromDisk : " + questDungeonData.currentFloor);
+//		Debug.LogError ("ResetFromDisk : " + questDungeonData.currentFloor);
 		ReadQuestInfo ();
 		ReadStageInfo ();
 		ReadAllBuff ();
