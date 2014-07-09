@@ -59,8 +59,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 			IUISetBool sb = viewComponent as IUISetBool;
 			if(scene == SceneEnum.None) {
 				sb.SetBackBtnActive(false);
-			}
-			else {
+			} else {
 				backScene = scene;
 				sb.SetBackBtnActive(true);
 			}
@@ -68,7 +67,7 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 	}
 
 	private string sceneName;
-	public void SetCurSceneName(string name){
+	public void SetCurSceneName(string name) {
 		sceneName = name;
 		if(viewComponent is IUICallback) {
 			IUICallback uicall = viewComponent as IUICallback;

@@ -130,7 +130,8 @@ public class BattleBackground : UIBaseUnity {
 		if (num > tempNum) {
 			spriteAnimation.Reset();
 		}
-		bloodBar.value = DGTools.IntegerSubtriction(num,initBlood);
+		tempNum = num;
+		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
 	}
 
 	int preBlood = 0;

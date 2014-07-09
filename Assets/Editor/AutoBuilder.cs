@@ -108,7 +108,7 @@ public static class AutoBuilder
     static void PerformAndroidBuild()
     {
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
-        BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Android/Monopoly" + System.DateTime.Now.ToString("MM-dd") + ".apk", BuildTarget.Android, BuildOptions.None);
+		BuildPipeline.BuildPlayer(GetScenePaths(), "/Users/leiliang/Desktop/Android" + System.DateTime.Now.ToString("MM-dd") + ".apk", BuildTarget.Android, BuildOptions.None);
     }
     [MenuItem("File/AutoBuilder/Web/Standard")]
     static void PerformWebBuild()
