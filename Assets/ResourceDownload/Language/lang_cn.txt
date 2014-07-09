@@ -227,6 +227,13 @@ ConfirmRefreshFriend=确定立即更新好友列表吗？
 FriendSearch_Title=查找好友
 FriendSearch_Content=请输入你像查找的用户ID
 
+FriendApply=好友申请
+ConfirmApply=确定要提交好友申请吗？
+ConfirmAccept=确定要接受好友申请？
+AcceptApply=接受申请
+ConfirmDelete=确定要删除好友申请吗？
+DeleteApply=删除申请
+
 #friend
 Text_HP_Colon=血量：
 Text_ATK_Colon=攻击：
@@ -235,6 +242,7 @@ Text_SeeInfo=查看信息
 Text_Exit=退出
 Text_LastLogin_Colon=最近登录：
 ApplyFriendNote=确定要提交好友申请吗？
+
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径

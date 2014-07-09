@@ -64,13 +64,13 @@ public class AccpetFriendApply : ApplyMessage
 	}
 
 	void CustomizeTitle(){
-		string title = "Accept Apply";
+		string title = TextCenter.GetText ("AcceptApply"); //"Accept Apply";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeTitle", title);
 		ExcuteCallback(cbdArgs);
 	}
 
 	void CustomizeNote(){
-		string note = "Are you sure to accept this apply?";
+		string note = TextCenter.GetText ("ConfirmAccept"); //"Are you sure to accept this apply?";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeNote", note);
 		ExcuteCallback(cbdArgs);
 	}

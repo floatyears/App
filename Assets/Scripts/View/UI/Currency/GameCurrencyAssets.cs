@@ -55,9 +55,17 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ms";
 	
-	public const string PID_CHIP_PACK1 = "empireslots.coins.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
+	public const string PID_CHIP_PACK1 = "ms.chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
 	
-	public const string PID_CHIP_PACK2 = "android.test.purchased";//"slotsempire.gems.pack2";
+	public const string PID_CHIP_PACK2 = "ms.chip.pack2";//"android.test.purchased";//"slotsempire.gems.pack2";
+
+	public const string PID_CHIP_PACK3 = "ms.chip.pack3";
+
+	public const string PID_CHIP_PACK4 = "ms.chip.pack4";
+
+	public const string PID_CHIP_PACK5 = "ms.chip.pack5";
+
+	public const string PID_CHIP_PACK6 = "android.test.purchased";
 	
 //	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
 //	
@@ -98,6 +106,42 @@ public class GameCurrencyAssets :  IStoreAssets{
 		"50 Muffins",                                   // name
 		"Test cancellation of an item",                 // description
 		PID_CHIP_PACK2,                                   // item id
+		36,                                             // number of currencies in the pack
+		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		);
+
+	public static VirtualCurrencyPack CHIP_PACK3 = new VirtualCurrencyPack(
+		"50 Muffins",                                   // name
+		"Test cancellation of an item",                 // description
+		PID_CHIP_PACK3,                                   // item id
+		36,                                             // number of currencies in the pack
+		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		);
+
+	public static VirtualCurrencyPack CHIP_PACK4 = new VirtualCurrencyPack(
+		"50 Muffins",                                   // name
+		"Test cancellation of an item",                 // description
+		PID_CHIP_PACK4,                                   // item id
+		36,                                             // number of currencies in the pack
+		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		);
+
+	public static VirtualCurrencyPack CHIP_PACK5 = new VirtualCurrencyPack(
+		"50 Muffins",                                   // name
+		"Test cancellation of an item",                 // description
+		PID_CHIP_PACK5,                                   // item id
+		36,                                             // number of currencies in the pack
+		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		);
+
+	public static VirtualCurrencyPack CHIP_PACK6 = new VirtualCurrencyPack(
+		"50 Muffins",                                   // name
+		"Test cancellation of an item",                 // description
+		PID_CHIP_PACK6,                                   // item id
 		36,                                             // number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
 		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)

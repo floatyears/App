@@ -8,6 +8,8 @@ public class RequestFriendApply : ApplyMessage{
 	public override void CreatUI(){
 		base.CreatUI();
 		CustomizeWindow();
+
+
 	}
 	public override void CallbackView(object data){
 		base.CallbackView(data);
@@ -46,13 +48,13 @@ public class RequestFriendApply : ApplyMessage{
 	}
 	
 	void CustomizeTitle(){
-		string title = "Friend Apply";
+		string title = TextCenter.GetText ("FriendApply"); //"Friend Apply";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeTitle", title);
 		ExcuteCallback(cbdArgs);
 	}
         
 	void CustomizeNote(){
-		string note = "Are you sure to submit your apply?";
+		string note = TextCenter.GetText ("ConfirmApply");// "Are you sure to submit your apply?";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeNote", note);
 		ExcuteCallback(cbdArgs);
 	}

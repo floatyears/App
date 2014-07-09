@@ -7,6 +7,9 @@ public class ApplyMessage : ConcreteComponent{
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCommandListener();
+
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
+		ExcuteCallback(cbdArgs);
 	}
 
 	public override void HideUI(){
