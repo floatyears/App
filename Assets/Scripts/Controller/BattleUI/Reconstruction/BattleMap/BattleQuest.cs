@@ -98,7 +98,7 @@ public class BattleQuest : UIBase {
 	}
 	
 	void InitTopUI () {
-		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Fight/TopUI",CallbackFunc);
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Fight/TopUI", CallbackFunc);
 	}
 
 	private void CallbackFunc(object o){

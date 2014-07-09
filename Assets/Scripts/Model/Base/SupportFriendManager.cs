@@ -6,8 +6,11 @@ public class SupportFriendManager {
 	private List<TFriendInfo> userFriend = new List<TFriendInfo> ();
 
 	private List<TFriendInfo> tempFriend = new List<TFriendInfo> ();
+	private List<TFriendInfo> selectFriend = new List<TFriendInfo>();
 
 	private GameTimer gameTime ;
+
+	private const int selectFriendNumber = 10;
 
 	public SupportFriendManager () {
 		gameTime = GameTimer.GetInstance ();
@@ -22,6 +25,8 @@ public class SupportFriendManager {
 	}
 
 	public List<TFriendInfo> GetSupportFriend () {
+		selectFriend.Clear ();
+
 		for (int i = supportFriend.Count - 1; i >= 0; i--) {
 			uint intervTime = gameTime.GetCurrentSeonds() - supportFriend[i].UseTime;
 			if(intervTime < GameTimer.TenMinuteSeconds) {
@@ -44,7 +49,20 @@ public class SupportFriendManager {
 
 		tempFriend.Clear ();
 
-		return supportFriend;
+		for (int i = 0; i < selectFriendNumber; i++) {
+			int maxNumber = supportFriend.Count;
+			if(maxNumber == 0) {
+				break;
+			}
+			int randomIndex = Random.Range(0, maxNumber);
+			TFriendInfo tfi = supportFriend[randomIndex];
+			selectFriend.Add(tfi);
+			supportFriend.RemoveAt(randomIndex);
+		}
+
+		supportFriend.AddRange (selectFriend);
+
+		return selectFriend;
 	}
 
 	public bool CheckIsMyFriend(TFriendInfo tfi) {
