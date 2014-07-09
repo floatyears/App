@@ -93,12 +93,15 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		}
 		foreach (var item in leadSkill.LeadSkill) {
 			TSkillExtraAttack tsea = item.Value as TSkillExtraAttack;
-//			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
+			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
 			if(tsea == null) {
 				continue;
 			}
 			string id = item.Key;
 			foreach (var item1 in leadSkill.UserUnit) {
+				if(item1.Value == null) {
+					continue;
+				}
 				if(item1.Value.MakeUserUnitKey() == id) {
 					AttackInfo attack = tsea.AttackValue(item1.Value.Attack, item1.Value);
 					ai.Add(attack);

@@ -122,7 +122,7 @@ public class BattleQuest : UIBase {
 		}
 		questDungeonData = configBattleUseData.questDungeonData; 	//GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 		_questData = configBattleUseData.storeBattleData.questData;
-		questDungeonData.currentFloor = _questData.Count;
+		questDungeonData.currentFloor = _questData.Count > 0 ? _questData.Count - 1 : 0;
 	}
 
 	void Init(UIBaseUnity ui, string name) {
@@ -371,6 +371,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void YieldShowAnim() {
+	
 		int count = bud.Els.CheckLeaderSkillCount();
 		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove, count * AttackController.normalAttackInterv);
@@ -474,6 +475,7 @@ public class BattleQuest : UIBase {
 
 	public void RoleCoordinate(Coordinate coor) {
 		if (!battleMap.ReachMapItem (coor)) {
+
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.prevMapItem.HideGridNoAnim ();
 				GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
@@ -735,32 +737,32 @@ public class BattleQuest : UIBase {
 		configBattleUseData.StoreMapData (_questData);
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
+//		Debug.LogError ("battle end index 1 : " + index);
 		if (index == -1) {
 			return;	
 		}
 		uint uIndex = (uint)index;
 		if (questData.hitGrid.Contains (uIndex)) {
 			index = questData.hitGrid.FindIndex(a=>a == uIndex);
-			if(index != questData.hitGrid.Count - 1)
+			if(index != questData.hitGrid.Count - 1) {
+				if(ChainLinkBattle ){
+					ChainLinkBattle = false;
+				}
 				return;		
+			}
 		}
 
 		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
-	
+//		Debug.LogError ("battle end index 2 : " + (tqg == null) + " type : " + (tqg.Type != EQuestGridType.Q_ENEMY));
 		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
 
 		battleMap.AddMapSecuritylevel (currentCoor);
 		chainLikeMapItem = battleMap.AttakAround (currentCoor);	
+//		Debug.LogError ("battle end index 3 chainLikeMapItem : " + chainLikeMapItem);
 		if (chainLikeMapItem.Count == 0) {
-//			if (chainLikeMapItem.Count > 0) {
-//				ChainLinkBattle = true;
-//				role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
-//			}
-//			else{
-				ChainLinkBattle = false;
-//			}
+			ChainLinkBattle = false;
 		} else {
 			ChainLinkBattle = true;
 			role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
