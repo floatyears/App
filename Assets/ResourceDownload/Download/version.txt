@@ -7,7 +7,7 @@ Atlas_Avatar_11|Assets/ResourceDownload/Output/Atlas_Avatar_11.unity3d|1550ee8d9
 Atlas_Avatar_6|Assets/ResourceDownload/Output/Atlas_Avatar_6.unity3d|9824e6248874e6533d296f970f964ada|1|119853
 Atlas_Avatar_7|Assets/ResourceDownload/Output/Atlas_Avatar_7.unity3d|34a44eef015092bfa592693b187b245d|1|99122
 Atlas_Avatar_2|Assets/ResourceDownload/Output/Atlas_Avatar_2.unity3d|361f956f097319d1a0dfbc46ffeef6de|2|82590
-Protobuf|Assets/ResourceDownload/Output/Protobuf.unity3d|bb461dac2d0a19cc8d4bfd75cf595856|7|136274
+Protobuf|Assets/ResourceDownload/Output/Android/Protobuf.unity3d|9f887fe1c1e492f99240eddbb4a238d4|10|28231
 Atlas_Avatar_0|Assets/ResourceDownload/Output/Atlas_Avatar_0.unity3d|cf7f6738a359da7dfbd77bee3d3f34b9|4|70663
 Profile_2|Assets/ResourceDownload/Output/Profile_2.unity3d|1089de70d9808695b7a78f64333fdbbd|1|229479
 Profile_10|Assets/ResourceDownload/Output/Profile_10.unity3d|9015fc2010a9b53896a80e332026afac|1|204887

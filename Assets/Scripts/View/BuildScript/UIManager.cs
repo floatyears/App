@@ -184,7 +184,7 @@ public class UIManager {
 
 	public static bool CheckIsPopUpWindow(SceneEnum sEnum,SceneEnum prevScene = SceneEnum.None){
 		if (prevScene == SceneEnum.None) {
-			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice)
+			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice || sEnum == SceneEnum.Reward)
 				return true;
 			return false;	
 		}else{

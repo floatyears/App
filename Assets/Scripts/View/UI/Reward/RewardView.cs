@@ -15,9 +15,16 @@ public class RewardView : UIComponentUnity {
 
 	private GameObject content;
 
+	private GameObject OKBtn;
+
+	private Dictionary<int,GameObject> Nums;
+
+
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
+
+
 	}
 	
 	public override void ShowUI() {
@@ -44,6 +51,8 @@ public class RewardView : UIComponentUnity {
 		dragPanel.DestoryUI ();
 
 		base.DestoryUI ();
+
+		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
 	}
 
 	private void InitUI(){
@@ -52,23 +61,29 @@ public class RewardView : UIComponentUnity {
 		CreateDragView ();
 		RefreshView ();
 
+		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
+
 		MsgCenter.Instance.AddListener (CommandEnum.TakeAward, OnTakeAward);
 	}
 
 	private void InitData(){
 		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
-			if(item.type <= 3){
+			if(item.type <= 4){
 
 				if(!aList.ContainsKey(item.type))
 					aList[item.type] = new List<BonusInfo>();
 				aList[item.type].Add(item);
 			}else{
 				if(!aList.ContainsKey(4))
-					aList[4] = new List<BonusInfo>();
-				aList[4].Add(item);
+					aList[5] = new List<BonusInfo>();
+				aList[5].Add(item);
 			}
 
 		}
+	}
+
+	void OnClickOK(GameObject obj){
+		UIManager.Instance.ChangeScene (UIManager.Instance.prevScene);
 	}
 
 	void ShowUIAnimation(){
@@ -85,6 +100,22 @@ public class RewardView : UIComponentUnity {
 
 	private void FindUIElement(){
 		content = FindChild ("Content");
+		OKBtn = FindChild ("OkBtn");
+
+		FindChild<UILabel> ("OkBtn/Label").text = TextCenter.GetText("OK");
+		FindChild<UILabel> ("1/Label").text = TextCenter.GetText ("Reward_Tab1");
+		FindChild<UILabel> ("2/Label").text = TextCenter.GetText ("Reward_Tab2");
+		FindChild<UILabel> ("3/Label").text = TextCenter.GetText ("Reward_Tab3");
+		FindChild<UILabel> ("4/Label").text = TextCenter.GetText ("Reward_Tab4");
+		FindChild<UILabel> ("5/Label").text = TextCenter.GetText ("Reward_Tab5");
+
+		Nums = new Dictionary<int, GameObject> ();
+
+		Nums.Add (1, FindChild ("1/Num"));
+		Nums.Add (2, FindChild ("2/Num"));
+	 	Nums.Add (3, FindChild ("3/Num"));
+		Nums.Add (4, FindChild ("4/Num"));
+  		Nums.Add (5, FindChild ("5/Num"));
 	}
 
 	private void RefreshView(){
@@ -126,7 +157,26 @@ public class RewardView : UIComponentUnity {
 			}
 		}
 
+		for (int i = 1; i < 6; i++) {
+			int count = 0;
+			if(aList.ContainsKey(i)){
+				foreach (var item in aList[i]) {
+					if(item.enabled == 1){
+						count++;
+					}
+				}
+			}
+
+			if(count > 0){
+				Nums[i].SetActive(true);
+				Nums[i].transform.Find("Label").gameObject.GetComponent<UILabel>().text = count+"";
+			}else{
+				Nums[i].SetActive(false);
+			}
+		}
+
 		dragPanel.Refresh ();
+		dragPanel.DragPanelView.scrollBar.value = 0;
 	}
 
 

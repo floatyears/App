@@ -14,6 +14,8 @@ public class RewardItemView : MonoBehaviour {
 	private List<GameObject> itemList;
 
 	private static GameObject prefab;
+
+//	private GameObject atlas;
 	public static GameObject Prefab{
 		get{
 			if(prefab == null){
@@ -44,8 +46,12 @@ public class RewardItemView : MonoBehaviour {
 				btn = transform.FindChild("OkBtn").gameObject;
 				mask = transform.FindChild("Mask").gameObject;
 				text = transform.FindChild("Label").GetComponent<UILabel>();
+
+				transform.FindChild("OkBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
 				//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
 				btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
+
+//				atlas = ResourceManager.Instance.LoadLocalAsset("Atlas/Atlas_Login",
 				inited = true;
 			}
 
@@ -66,7 +72,7 @@ public class RewardItemView : MonoBehaviour {
 					itemList[i].SetActive(true);
 					SetItemData(itemList[i], gd);
 //					Debug.Log("is unit: " + (gd.content == (int)EGiftContent.UNIT)+" gd count:" + gd.count);
-					SetUnitClick(itemList[i],gd.content == (int)EGiftContent.UNIT);
+//					SetUnitClick(itemList[i],gd.content == (int)EGiftContent.UNIT);
 					          
 				}else{
 					itemList[i].SetActive(false);
@@ -94,10 +100,59 @@ public class RewardItemView : MonoBehaviour {
 	}
 
 	private void SetItemData(GameObject obj, GiftItem gift){
+//		Debug.Log ("gift count: " + gift.count);
+		if (gift.count <= 0) {
+			obj.SetActive(false);
+			return;
+		}
+		if (gift.content == (int)EGiftContent.UNIT) {
+			UIEventListenerCustom.Get (obj).onClick = ClickUnit;
+			obj.GetComponent<BoxCollider>().enabled = true;// obj.GetComponent<BoxCollider>()
+			obj.GetComponent<UIEventListenerCustom>().enabled = true;
+			obj.GetComponent<UIDragScrollView>().enabled = true;
+
+			GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
+
+		} else {
+			UIEventListenerCustom.Get (obj).onClick = null;
+			obj.GetComponent<BoxCollider>().enabled = false;// obj.GetComponent<BoxCollider>()
+			obj.GetComponent<UIEventListenerCustom>().enabled = false;
+			obj.GetComponent<UIDragScrollView>().enabled = false;
+
+			obj.transform.FindChild("Img").GetComponent<UISprite>().spriteName = gift.content + "";
+		}
+
 		obj.transform.FindChild ("Num").GetComponent<UILabel>().text = "x" + gift.count;
-		ResourceManager.Instance.LoadLocalAsset("Texture/NoviceGuide/Gold", o =>{
-			obj.transform.FindChild ("Img").GetComponent<UITexture>().mainTexture = o as Texture2D; 
-		});
+//		ResourceManager.Instance.LoadLocalAsset("Texture/NoviceGuide/Gold", o =>{
+//			obj.transform.FindChild ("Img").GetComponent<UITexture>().mainTexture = o as Texture2D; 
+//		});
+	}
+
+	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
+		uint index = unitID / DataCenter.AVATAR_ATLAS_CAPACITY;
+		UIAtlas atlas = null;
+		if (!DataCenter.Instance.AvatarAtalsDic.TryGetValue (index, out atlas)) {
+			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
+			ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
+				GameObject source = o as GameObject;
+				atlas = source.GetComponent<UIAtlas> ();
+				if (!DataCenter.Instance.AvatarAtalsDic.ContainsKey (index))
+					DataCenter.Instance.AvatarAtalsDic.Add (index, atlas);
+				
+				//								if (atlas == null) { 
+				//										Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
+				//								}
+				
+				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+				if (resouceCB != null)
+					resouceCB (atlas);
+				//				Debug.LogError ("load avatar atlas success : " + atlas.name);
+			});
+		} else {
+			BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+			if (resouceCB != null)
+				resouceCB (atlas);
+		}
 	}
 
 	private void ClickUnit(GameObject obj){
@@ -106,21 +161,10 @@ public class RewardItemView : MonoBehaviour {
 		int.TryParse(obj.name.Substring (4,1),out i);
 		DGTools.ChangeToUnitDetail ((uint)data.giftItem [i - 1].value);
 	}
-
-	private void SetUnitClick(GameObject obj, bool IsUnit){
-		if (IsUnit) {
-			UIEventListenerCustom.Get (obj).onClick = ClickUnit;
-			obj.GetComponent<BoxCollider>().enabled = true;// obj.GetComponent<BoxCollider>()
-			obj.GetComponent<UIEventListenerCustom>().enabled = true;
-			obj.GetComponent<UIDragScrollView>().enabled = true;
-
-		} else {
-			UIEventListenerCustom.Get (obj).onClick = null;
-			obj.GetComponent<BoxCollider>().enabled = false;// obj.GetComponent<BoxCollider>()
-			obj.GetComponent<UIEventListenerCustom>().enabled = false;
-			obj.GetComponent<UIDragScrollView>().enabled = false;
-		}
-	}
+//
+//	private void SetUnitClick(GameObject obj, bool IsUnit){
+//
+//	}
 
 	public void ClickTakeAward(){
 		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);

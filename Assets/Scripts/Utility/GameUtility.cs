@@ -609,7 +609,7 @@ public class DGTools {
 		TextAsset ta = LoadTextAsset (url);
 //		Debug.Log ("unitID: "+ unitID +" proto len: " +   ta.bytes.Length);
 		if (ta == null) {
-			Debug.LogError( "load unit info fail : " + " url : " + url + "unit id : " + unitID);	
+			Debug.LogError( "load unit info fail : " + " url : " + url + " unit id : " + unitID);	
 			return null;
 		}
 		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
