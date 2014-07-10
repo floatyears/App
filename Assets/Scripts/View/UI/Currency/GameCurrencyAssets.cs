@@ -34,7 +34,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 	/// see parent.
 	/// </summary>
 	public VirtualCurrencyPack[] GetCurrencyPacks() {
-		return new VirtualCurrencyPack[] {CHIP_PACK1, CHIP_PACK2};
+		return new VirtualCurrencyPack[] {CHIP_PACK1, CHIP_PACK2, CHIP_PACK3, CHIP_PACK4, CHIP_PACK5, CHIP_PACK6};
 	}
 	
 	/// <summary>

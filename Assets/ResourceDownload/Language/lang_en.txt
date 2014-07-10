@@ -53,9 +53,9 @@ Btn_SortRule_ID=ID
 Btn_SortRule_Fav=FAVORITE
 Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
-Btn_Level_Up=强化
-Btn_Evolve=进化
-Btn_Fight=开始战斗
+Btn_Level_Up=Power-up
+Btn_Evolve=Evolve
+Btn_Fight=Battle
 
 ##Label Text
 Divided_Line=/
@@ -77,12 +77,12 @@ Text_Name_Colon=Name:
 
 
 ##City Name
-City_Name_1=city_name_1
-City_Name_2=city_name_2
-City_Name_3=city_name_3
-City_Name_4=city_name_4
-City_Name_5=city_name_5
-City_Name_6=city_name_6
+City_Name_1=Misty Mountain
+City_Name_2=Horrific Wilderness
+City_Name_3=Magic Island
+City_Name_4=Ghost Forest
+City_Name_5=Castlevania
+City_Name_6=Coming Soon
 
 Title_YourID=User ID
 ##Game setting options
@@ -92,35 +92,35 @@ Game_Setting_Option_Currency=Test
 Game_Setting_Option_Raider=Help
 Text_ResetData=Reset
 Text_BGM=BGM
-Text_Sound=音量
+Text_Sound=Sound
 
-Text_Leader_Skill=队长技能
-Text_Active_Skill=主动技能
-Text_Normal_Skill_1=技能1
-Text_Normal_Skill_2=技能2
-Text_HP=血量
-Text_ATK=攻击
-Text_COST=统御力
-Text_Level=等级
-Text_Level_Colon=等级：
-Text_RACE=种族
-Text_RACE_Colon=种族：
-Text_EXP=经验
-Text_Coins=金币
-Text_TYPE=属性
-Text_BASE=基础
-Text_Friend=好友
-Text_Reject=移除
-Unit_Detail_Tab_Status=状态
-Unit_Detail_Tab_Normal_Skill=技能
-Unit_Detail_Tab_Prifile=信息
-Text_Party=使用中
-Text_TapToLogin=点击屏幕进入游戏
-Text_Notice=游戏公告
+Text_Leader_Skill=Leader Skill
+Text_Active_Skill=Active Skill
+Text_Normal_Skill_1=Skill1
+Text_Normal_Skill_2=Skill2
+Text_HP=HP
+Text_ATK=ATK
+Text_COST=COST
+Text_Level=Lv
+Text_Level_Colon=Lv:
+Text_RACE=Race
+Text_RACE_Colon=Race:
+Text_EXP=EXP
+Text_Coins=Coins
+Text_TYPE=Type
+Text_BASE=BAsE
+Text_Friend=FRIEND
+Text_Reject=Reject
+Unit_Detail_Tab_Status=Status
+Unit_Detail_Tab_Normal_Skill=Normal Skill
+Unit_Detail_Tab_Prifile=Profile
+Text_Party=Used
+Text_TapToLogin=Touch Screen to Start!
+Text_Notice=Notice
 
-Text_Leader_Skill_Colon=队长技能：
-Name_No_LeaderSkil=队长技能:无
-Description_No_LeaderSkill=技能描述:无
+Text_Leader_Skill_Colon=Leader Skill:
+Name_No_LeaderSkil=Leader Skill:None
+Description_No_LeaderSkill=
 
 ##Scene Name
 SCENE_NAME_APPLY=APPLY
@@ -151,35 +151,35 @@ SCENE_NAME_OPERATION_NOTICE=Operation Notice
 SCENE_NAME_REWARD=Reward
 SCENE_NAME_RAIDER=Raider
 SCENE_NAME_CURRENCY=Currency
-SCENE_NAME_MUSIC=设置
-SCENE_NAME_NICKNAME=修改昵称
-SCENE_NAME_EVENTSTAGE=活动关卡
-SCENE_NAME_EVOLVETAGE=进化关卡
+SCENE_NAME_MUSIC=Settings
+SCENE_NAME_NICKNAME=Change Name
+SCENE_NAME_EVENTSTAGE=Event Dungeon
+SCENE_NAME_EVOLVETAGE=Evolve Dungeon
 
-Stage_Event_Close=活动开始时间：
-Stage_Event_Remain=活动剩余时间：
+Stage_Event_Close=Start in
+Stage_Event_Remain=Remain 
 Stage_Locked=LOCKED
 Stamina=STAMINA
 Floor=FLOOR
 
 ##Race
-RACE_Human=人类
-RACE_Legend=神
-RACE_Monster=魔怪
-RACE_Mythic=幻魔
-RACE_Beast=野兽
-RACE_Undead=亡灵
-RACE_Screamcheese=强化素材
-RACE_Dragon=龙
-RACE_Evolveparts=进化素材
+RACE_Human=HUMAN
+RACE_Legend=LEGEND
+RACE_Monster=MONSTER
+RACE_Mythic=MYTHIC
+RACE_Beast=BEAST
+RACE_Undead=UNDEAD
+RACE_Screamcheese=Enhance Mat.
+RACE_Dragon=DRAGON
+RACE_Evolveparts=Evolve Mat.
 
 ##type
-Type_Fire=火
-Type_Light=光
-Type_Dark=暗
-Type_Water=水
-Type_None=无
-Type_Wind=风
+Type_Fire=Fire
+Type_Light=Light
+Type_Dark=Dark
+Type_Water=Water
+Type_None=None
+Type_Wind=Wind
 
 #Battle
 RedoQuest=Redo
@@ -188,18 +188,18 @@ RedoQuestTitle=Confirm
 RedoQuestContent=Use {0} stones to redo this floor of quest? \n\nYou have {1} stones now.
 ResumeQuestTitle=Resume Confirm
 ResumeQuestContent=Use {0} stones to resume the quest? \n(The SP and HP will be recovered.)
-RetryClearQuestNet=网络异常，请点击确认按钮重试。
-RetryClearQuestTitle=服务器错误
-ExitBattleConfirm=确认退出战斗？
-BattleMenu=菜单
+RetryClearQuestNet=Network error, Please click OK to retry.
+RetryClearQuestTitle=Server error
+ExitBattleConfirm=Are you sure to abort battle?
+BattleMenu=Menu
 
 #Loading
 BattleContinueTitle=Battle Confirm
 BattleContinueContent=Do you want to recover previous battle?
 
-Connecting=连接中...
-HighVersionToLoadTitle=升级程序
-HighVersionToLoad=游戏有新版本，请升级
+Connecting=Connecting...
+HighVersionToLoadTitle=Update
+HighVersionToLoad=A new version is available, please update.
 
 #Friend search
 SearchError=Search Error
@@ -215,17 +215,17 @@ ConfirmRefuseAll=Are you sure to refuse all applied friends?
 RefreshFriend=Friend Update
 ConfirmRefreshFriend=Are you sure to update friend list?
 
-FriendSearch_Title=查找好友
-FriendSearch_Content=请输入你像查找的用户ID
+FriendSearch_Title=Search Friend
+FriendSearch_Content=Enter UserId for Search:
 
 #friend
-Text_HP_Colon=血量：
-Text_ATK_Colon=攻击：
-Text_Select=选择
-Text_SeeInfo=查看信息
-Text_Exit=退出
-Text_LastLogin_Colon=最近登录：
-ApplyFriendNote=确定要提交好友申请吗？
+Text_HP_Colon=HP:
+Text_ATK_Colon=ATK:
+Text_Select=Select
+Text_SeeInfo=View Info.
+Text_Exit=Exit
+Text_LastLogin_Colon=Last Login:
+ApplyFriendNote=Are you sure to apply friend?
 
 # shop
 Btn_Friend_Expand=Friends Expand
@@ -248,7 +248,7 @@ StaminaRecover=Recover your stamina
 StaminaRecoverConfirm=Are you sure to use {0} stones to recover stamina?
 DoStaminaRecover=Recover
 
-StaminaRecoverFailed=Stamina Recovering Failed
+StaminaRecoverFailed=Stamina Recover Failed
 StaminaStillFull=Now your stamina still full, not need to recover it.
 StaminaRecoverStonesNotEnough=Now your stone not enough to recover stamina.
 
