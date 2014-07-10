@@ -24,17 +24,13 @@ public class TSkillRecoverSP : ActiveSkill {
 //	}
 
 	public override object Excute (string userUnitID, int atk = -1) {
-//		Debug.LogError ("RecoverSP excute befoure : " + coolingDone + " skillBase.skillCooling " + skillBase.skillCooling);
 		if (!coolingDone) {
 			return null;	
 		}
 		InitCooling ();
-//		Debug.LogError ("RecoverSP excute end : " + coolingDone + " skillBase.skillCooling " + skillBase.skillCooling);
-//		SkillRecoverSP srs = DeserializeData<SkillRecoverSP> ();
+		AttackController.SetEffectTime(1f);
+		Debug.LogError("tskillrecoversp excute");
 		int step = (int)instance.value;
-//		Debug.LogError ("step : " + step);
-
-		AttackController.activeTime = 1f;
 
 		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
 		return step;

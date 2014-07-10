@@ -74,7 +74,7 @@ public class AudioManager {
 		case AudioEnum.music_dungeon:
 //		case AudioEnum.music_enemy_battle:
 		case AudioEnum.music_home:
-		case AudioEnum.music_victory:
+//		case AudioEnum.music_victory:
 			back = true;
 			break;
 		}

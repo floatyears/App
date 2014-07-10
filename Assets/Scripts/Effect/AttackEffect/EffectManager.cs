@@ -101,15 +101,11 @@ public class EffectManager {
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("as-");
 			Type type = sbi.GetType ();
-//			Debug.LogError("GetSkillEffectObject : " + type + " time : " +Time.realtimeSinceStartup );
 			if (type == typeof(TSkillSingleAttack)) {
-//				AttackController.activeTime = 1f;
 				GetSingleAttackEffectName (sbi as TSkillSingleAttack, sb);
 			} else if (type == typeof(ActiveAttackTargetType)) {
 				GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
-//				AudioManager.Instance.PlayAudio(AudioEnum.sound_as);
-
 				sb.Append ("color");
 			} else if (type == typeof(ActiveDeferAttackRound)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
@@ -137,8 +133,6 @@ public class EffectManager {
 				sb.Append ("single-2-dark");
 			} else if (type == typeof(TSkillRecoverSP)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
-//				AttackController.activeTime = 0.5f;
-//				Debug.LogError("AttackController.activeTime : " + AttackController.activeTime);
 				sb.Append ("sp-recover");
 			} else if (type == typeof(TSkillPoison)) {
 				sb.Append ("poison");
@@ -176,7 +170,7 @@ public class EffectManager {
 					path += "fire";
 					break;
 			}
-		}else if(sbi is TSkillAntiAttack) {
+		} else if(sbi is TSkillAntiAttack) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
 
 			path = "PS-fight-back";
@@ -213,14 +207,14 @@ public class EffectManager {
 
 		switch (aatt.AttackRange) {
 			case 0:
-				if(hurtValue < SingleSkillDangerLevel) {
+				if(aatt.ValueType == bbproto.EValueType.FIXED || hurtValue < SingleSkillDangerLevel) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
 				}else{
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
 				}
 				break;
 			case 1:
-				if(hurtValue < AllSkillDangerLevel) {
+				if(aatt.ValueType == bbproto.EValueType.FIXED || hurtValue < AllSkillDangerLevel) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
 				}else{
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
@@ -231,13 +225,31 @@ public class EffectManager {
 
 	void GetSingleAttackEffectName(TSkillSingleAttack tssa,StringBuilder sb) {
 		sb.Append(GetAttackRanger(tssa.AttackRange));
+
 		if(tssa.ValueType == bbproto.EValueType.FIXED) {
 			sb.Append("1-");
-		}
-		else{
+		} else {
 			sb.Append(GetAttackDanger(tssa.AttackRange, tssa.AttackValue));
 		}
+
 		sb.Append (GetSkillType (tssa.AttackType));
+
+		switch (tssa.AttackRange) {
+		case 0:
+			if(tssa.ValueType == bbproto.EValueType.FIXED || tssa.AttackValue < SingleSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
+			}
+			break;
+		case 1:
+			if(tssa.ValueType == bbproto.EValueType.FIXED || tssa.AttackValue < AllSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
+			}
+			break;
+		}
 	}
 
 	string GetNormalSkillEffectName(TNormalSkill tns) {

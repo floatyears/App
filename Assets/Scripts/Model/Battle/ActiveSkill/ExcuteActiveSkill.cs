@@ -8,6 +8,10 @@ public class ExcuteActiveSkill {
 	private IActiveSkillExcute iase;
 	private TUserUnit userUnit;
 
+	private const float fixEffectTime = 2f;
+
+	public static float singleEffectTime = 2f;
+
 	public ExcuteActiveSkill(ILeaderSkill ils) {
 		leaderSkill = ils;
 		foreach (var item in ils.UserUnit.Values) {
@@ -46,7 +50,6 @@ public class ExcuteActiveSkill {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id, out iase)) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
-//				Debug.LogError("excute active skill : " + userUnit);
 				ai = AttackInfo.GetInstance();
 				ai.UserUnitID = userUnit.MakeUserUnitKey();
 				ai.SkillID = (iase as ActiveSkill).BaseInfo.id;
@@ -75,8 +78,8 @@ public class ExcuteActiveSkill {
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
-
-		GameTimer.GetInstance ().AddCountDown (5f, ActiveSkillEnd);
+		Debug.LogError ("Excute : " + (fixEffectTime + singleEffectTime));
+		GameTimer.GetInstance ().AddCountDown (fixEffectTime + singleEffectTime, ActiveSkillEnd);
 	}
 
 	void ActiveSkillEnd() {

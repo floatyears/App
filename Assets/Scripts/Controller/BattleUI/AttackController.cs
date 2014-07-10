@@ -32,7 +32,7 @@ public class AttackController {
 	/// <summary>
 	/// The active animation time.
 	/// </summary>
-	public static float activeTime = 2f;
+	private static float activeTime = 2f;
 
 	public bool isBoss = false;
 	public AttackController (BattleUseData bud, IExcutePassiveSkill ips, TUnitParty tup) {
@@ -42,7 +42,7 @@ public class AttackController {
 		passiveSkill = ips;
 		RegisterEvent ();
 		configBattleUseData = ConfigBattleUseData.Instance;
-		activeTime = 2f;
+		SetEffectTime (2f);
 	}
 
 	public void RemoveListener () {
@@ -121,24 +121,26 @@ public class AttackController {
 		}
 	}
 
+	public static void SetEffectTime(float time) {
+		activeTime = time;
+		ExcuteActiveSkill.singleEffectTime = time;
+	}
+
 	void ActiveSkillAttack (object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
 			return;	
 		}
-		Debug.LogError ("ActiveSkillAttack : " + Time.realtimeSinceStartup);
 		BeginAttack (ai);
-		Debug.LogError ("ActiveSkillAttack active time : " + activeTime);
 		GameTimer.GetInstance ().AddCountDown (activeTime, ActiveSkillEnd);
 	}
 
 	void ActiveSkillEnd() {
-		Debug.LogError ("ActiveSkillEnd" + Time.realtimeSinceStartup);
 		msgCenter.Invoke(CommandEnum.AttackEnemyEnd, 0);
+
 		CheckBattleSuccess ();
 	}
-
-
+	
 	void AttackTargetTypeEnemy (object data) {
 		AttackTargetType att = data as AttackTargetType;
 		if (att == null) {
