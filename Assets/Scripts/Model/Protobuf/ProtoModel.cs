@@ -533,6 +533,14 @@ namespace bbproto
       get { return _level; }
       set { _level = value; }
     }
+    private int _premiumKind = default(int);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"premiumKind", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int premiumKind
+    {
+      get { return _premiumKind; }
+      set { _premiumKind = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -6378,11 +6386,11 @@ namespace bbproto
       [global::ProtoBuf.ProtoEnum(Name=@"FRIEND_POINT", Value=2)]
       FRIEND_POINT = 2,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"CHIP", Value=3)]
-      CHIP = 3,
+      [global::ProtoBuf.ProtoEnum(Name=@"UNIT", Value=3)]
+      UNIT = 3,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"UNIT", Value=4)]
-      UNIT = 4
+      [global::ProtoBuf.ProtoEnum(Name=@"CHIP", Value=4)]
+      CHIP = 4
     }
   
 }

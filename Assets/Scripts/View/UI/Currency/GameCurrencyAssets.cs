@@ -34,7 +34,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 	/// see parent.
 	/// </summary>
 	public VirtualCurrencyPack[] GetCurrencyPacks() {
-		return new VirtualCurrencyPack[] {CHIP_PACK1, CHIP_PACK2};
+		return new VirtualCurrencyPack[] {CHIP_PACK1, CHIP_PACK2, CHIP_PACK3, CHIP_PACK4, CHIP_PACK5, CHIP_PACK6};
 	}
 	
 	/// <summary>
@@ -117,7 +117,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 		PID_CHIP_PACK3,                                   // item id
 		36,                                             // number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		new PurchaseWithMarket(PID_CHIP_PACK3, 4.99)
 		);
 
 	public static VirtualCurrencyPack CHIP_PACK4 = new VirtualCurrencyPack(
@@ -126,7 +126,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 		PID_CHIP_PACK4,                                   // item id
 		36,                                             // number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		new PurchaseWithMarket(PID_CHIP_PACK4, 4.99)
 		);
 
 	public static VirtualCurrencyPack CHIP_PACK5 = new VirtualCurrencyPack(
@@ -135,7 +135,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 		PID_CHIP_PACK5,                                   // item id
 		36,                                             // number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		new PurchaseWithMarket(PID_CHIP_PACK5, 4.99)
 		);
 
 	public static VirtualCurrencyPack CHIP_PACK6 = new VirtualCurrencyPack(
@@ -144,7 +144,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 		PID_CHIP_PACK6,                                   // item id
 		36,                                             // number of currencies in the pack
 		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
-		new PurchaseWithMarket(PID_CHIP_PACK2, 4.99)
+		new PurchaseWithMarket(PID_CHIP_PACK6, 4.99)
 		);
 	
 //	public static VirtualCurrencyPack FOURHUNDMUFF_PACK = new VirtualCurrencyPack(

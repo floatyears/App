@@ -256,7 +256,7 @@ public class FriendHelperView : UIComponentUnity{
 		EUnitType type = (EUnitType)leader.UnitType;
 		int level = leader.Level;
 
-		GetPremiumHelper.SendRequest(OnRspGetPremium, race, type, level);
+		GetPremiumHelper.SendRequest(OnRspGetPremium, race, type, level, 0);
 	}
 
 	void OnRspGetPremium(object data){

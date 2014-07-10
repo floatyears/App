@@ -133,6 +133,7 @@ message ReqGetPremiumHelper {
 	optional EUnitRace		race				= 2;
 	optional EUnitType		type				= 3;
 	optional int32			level				= 4;
+    optional int32			premiumKind			= 5; //1: LevelUp 2: evolve 3:battle
 }
 
 message RspGetPremiumHelper {
@@ -965,8 +966,8 @@ enum EBonusType{
 enum EGiftContent {
     COIN            = 1;
     FRIEND_POINT    = 2;
-    CHIP            = 3;
-    UNIT            = 4;
+    UNIT            = 3;
+    CHIP            = 4;
 }
 
 message GiftItem {
