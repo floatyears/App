@@ -102,48 +102,45 @@ public class EffectManager {
 			sb.Append ("as-");
 			Type type = sbi.GetType ();
 			if (type == typeof(TSkillSingleAttack)) {
-					GetSingleAttackEffectName (sbi as TSkillSingleAttack, sb);
+				GetSingleAttackEffectName (sbi as TSkillSingleAttack, sb);
 			} else if (type == typeof(ActiveAttackTargetType)) {
-					GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
+				GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
-//				AudioManager.Instance.PlayAudio(AudioEnum.sound_as);
-
-					sb.Append ("color");
+				sb.Append ("color");
 			} else if (type == typeof(ActiveDeferAttackRound)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
 
-					sb.Append ("low");
+				sb.Append ("low");
 			} else if (type == typeof(ActiveDelayTime)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_delay);
 
-					sb.Append ("delay");
+				sb.Append ("delay");
 			} else if (type == typeof(ActiveReduceDefense)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_def_down);
 
-					sb.Append ("reduce-def");
+				sb.Append ("reduce-def");
 			} else if (type == typeof(ActiveReduceHurt)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_damage_down);
 
-					sb.Append ("reduce-injure");
+				sb.Append ("reduce-injure");
 			} else if (type == typeof(TSkillAttackRecoverHP)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1_blood);
 
-					sb.Append ("single-blood-purple");
+				sb.Append ("single-blood-purple");
 			} else if (type == typeof(GravityAttack)) {
-					sb.Append ("all-2-dark");
+				sb.Append ("all-2-dark");
 			} else if (type == typeof(KnockdownAttack)) {
-					sb.Append ("single-2-dark");
+				sb.Append ("single-2-dark");
 			} else if (type == typeof(TSkillRecoverSP)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
-
-					sb.Append ("sp-recover");
+				sb.Append ("sp-recover");
 			} else if (type == typeof(TSkillPoison)) {
-					sb.Append ("poison");
+				sb.Append ("poison");
 			} else if (type == typeof(TSkillSuicideAttack)) {
-					TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
-					sb.Append (GetAttackRanger (tsa.AttackRange));
-					sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
-					sb.Append (GetSkillType (tsa.AttackUnitType));
+				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
+				sb.Append (GetAttackRanger (tsa.AttackRange));
+				sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
+				sb.Append (GetSkillType (tsa.AttackUnitType));
 			}
 			path = sb.ToString ();
 		} else if (sbi is TSkillExtraAttack) {
@@ -173,7 +170,7 @@ public class EffectManager {
 					path += "fire";
 					break;
 			}
-		}else if(sbi is TSkillAntiAttack) {
+		} else if(sbi is TSkillAntiAttack) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
 
 			path = "PS-fight-back";
@@ -210,14 +207,14 @@ public class EffectManager {
 
 		switch (aatt.AttackRange) {
 			case 0:
-				if(hurtValue < SingleSkillDangerLevel) {
+				if(aatt.ValueType == bbproto.EValueType.FIXED || hurtValue < SingleSkillDangerLevel) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
 				}else{
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
 				}
 				break;
 			case 1:
-				if(hurtValue < AllSkillDangerLevel) {
+				if(aatt.ValueType == bbproto.EValueType.FIXED || hurtValue < AllSkillDangerLevel) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
 				}else{
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
@@ -228,13 +225,31 @@ public class EffectManager {
 
 	void GetSingleAttackEffectName(TSkillSingleAttack tssa,StringBuilder sb) {
 		sb.Append(GetAttackRanger(tssa.AttackRange));
+
 		if(tssa.ValueType == bbproto.EValueType.FIXED) {
 			sb.Append("1-");
-		}
-		else{
+		} else {
 			sb.Append(GetAttackDanger(tssa.AttackRange, tssa.AttackValue));
 		}
+
 		sb.Append (GetSkillType (tssa.AttackType));
+
+		switch (tssa.AttackRange) {
+		case 0:
+			if(tssa.ValueType == bbproto.EValueType.FIXED || tssa.AttackValue < SingleSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
+			}
+			break;
+		case 1:
+			if(tssa.ValueType == bbproto.EValueType.FIXED || tssa.AttackValue < AllSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
+			}
+			break;
+		}
 	}
 
 	string GetNormalSkillEffectName(TNormalSkill tns) {

@@ -29,6 +29,11 @@ public class AttackController {
 
 	private ConfigBattleUseData configBattleUseData;
 
+	/// <summary>
+	/// The active animation time.
+	/// </summary>
+	private static float activeTime = 2f;
+
 	public bool isBoss = false;
 	public AttackController (BattleUseData bud, IExcutePassiveSkill ips, TUnitParty tup) {
 		upi = tup;
@@ -37,6 +42,7 @@ public class AttackController {
 		passiveSkill = ips;
 		RegisterEvent ();
 		configBattleUseData = ConfigBattleUseData.Instance;
+		SetEffectTime (2f);
 	}
 
 	public void RemoveListener () {
@@ -90,7 +96,7 @@ public class AttackController {
 
 		if (!isReduce && !BattleQuest.reduceDefense) {
 			reduceInfo.AttackRange = 1;
-			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);	
+			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
 
 		}
 
@@ -115,21 +121,26 @@ public class AttackController {
 		}
 	}
 
+	public static void SetEffectTime(float time) {
+		activeTime = time;
+		ExcuteActiveSkill.singleEffectTime = time;
+	}
+
 	void ActiveSkillAttack (object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
 			return;	
 		}
 		BeginAttack (ai);
-		GameTimer.GetInstance ().AddCountDown (2f, ActiveSkillEnd);
+		GameTimer.GetInstance ().AddCountDown (activeTime, ActiveSkillEnd);
 	}
 
 	void ActiveSkillEnd() {
 		msgCenter.Invoke(CommandEnum.AttackEnemyEnd, 0);
+
 		CheckBattleSuccess ();
 	}
-
-
+	
 	void AttackTargetTypeEnemy (object data) {
 		AttackTargetType att = data as AttackTargetType;
 		if (att == null) {
@@ -286,7 +297,6 @@ public class AttackController {
 			if(tei.Equals(targetEnemy)) {
 				targetEnemy = null;
 			}
-//			Debug.LogError("CheckBattleSuccess : " + deadEnemy.Count);
 			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);

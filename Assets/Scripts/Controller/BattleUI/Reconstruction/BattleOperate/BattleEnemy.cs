@@ -203,7 +203,7 @@ public class BattleEnemy : UIBaseUnity {
 			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
 			DisposeCenterLeft(centerIndex--, enemys);
 			centerRightIndex++;
-			DisposeCenterRight(centerRightIndex , enemys);
+			DisposeCenterRight(centerRightIndex, enemys);
 		}
 	}
 
@@ -337,7 +337,6 @@ public class BattleEnemy : UIBaseUnity {
 					}
 				}
 			} else {
-
 				Vector3 pos = prefab.transform.localPosition;
 				prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
 				prevEffect.transform.localPosition = pos;

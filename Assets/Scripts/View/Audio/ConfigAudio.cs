@@ -32,13 +32,13 @@ public class ConfigAudio {
 		audioItem.type 				= EPlayType.LOOP;
 		audioList.Add(audioItem);
 
-		audioItem= new AudioConfigItem();
-		audioItem.version 			= 1;
-		audioItem.id 					= 2;
-		audioItem.name 				= "bgm_002_enemy_battle";
-		audioItem.resourcePath 	= basePath + audioItem.name;
-		audioItem.type 				= EPlayType.LOOP;
-		audioList.Add(audioItem);
+//		audioItem= new AudioConfigItem();
+//		audioItem.version 			= 1;
+//		audioItem.id 					= 2;
+//		audioItem.name 				= "bgm_002_enemy_battle";
+//		audioItem.resourcePath 	= basePath + audioItem.name;
+//		audioItem.type 				= EPlayType.LOOP;
+//		audioList.Add(audioItem);
 
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
@@ -48,13 +48,13 @@ public class ConfigAudio {
 		audioItem.type 				= EPlayType.LOOP;
 		audioList.Add(audioItem);
 	
-		audioItem= new AudioConfigItem();
-		audioItem.version 			= 1;
-		audioItem.id 					= 4;
-		audioItem.name 				= "bgm_004_victory";
-		audioItem.resourcePath 	= basePath + audioItem.name;
-		audioItem.type 				= EPlayType.LOOP;
-		audioList.Add(audioItem);
+//		audioItem= new AudioConfigItem();
+//		audioItem.version 			= 1;
+//		audioItem.id 					= 4;
+//		audioItem.name 				= "bgm_004_victory";
+//		audioItem.resourcePath 	= basePath + audioItem.name;
+//		audioItem.type 				= EPlayType.LOOP;
+//		audioList.Add(audioItem);
 
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
@@ -72,13 +72,13 @@ public class ConfigAudio {
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
 
-		audioItem= new AudioConfigItem();
-		audioItem.version 			= 1;
-		audioItem.id 					= 102;
-		audioItem.name 				= "se_102_dungeon_ready";
-		audioItem.resourcePath 	= basePath + audioItem.name;
-		audioItem.type 				= EPlayType.ONCE;
-		audioList.Add(audioItem);	
+//		audioItem= new AudioConfigItem();
+//		audioItem.version 			= 1;
+//		audioItem.id 					= 102;
+//		audioItem.name 				= "se_102_dungeon_ready";
+//		audioItem.resourcePath 	= basePath + audioItem.name;
+//		audioItem.type 				= EPlayType.ONCE;
+//		audioList.Add(audioItem);	
 
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
@@ -91,7 +91,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 104;
-		audioItem.name 				= "se_104_quest_go";
+		audioItem.name 				= "se_104_click_invalid";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -107,7 +107,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 106;
-		audioItem.name 				= "se_106_walk_hurt";
+		audioItem.name 				= "se_106_chess_fall";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -148,7 +148,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 111;
-		audioItem.name 				= "se_111_door_open";
+		audioItem.name 				= "se_111_click_success";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -189,7 +189,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 116;
-		audioItem.name 				= "se_116_water_attack";
+		audioItem.name 				= "se_116_card_4";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -197,7 +197,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 117;
-		audioItem.name 				= "se_117_fire_attack";
+		audioItem.name 				= "se_117_title_invalid";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -205,23 +205,23 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 118;
-		audioItem.name 				= "se_118_wind_attack";
+		audioItem.name 				= "se_118_title_success";
 		audioItem.resourcePath 		= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
 			
-		audioItem= new AudioConfigItem();
-		audioItem.version 			= 1;
-		audioItem.id 					= 119;
-		audioItem.name 				= "se_119_light_attack";
-		audioItem.resourcePath 	= basePath + audioItem.name;
-		audioItem.type 				= EPlayType.ONCE;
-		audioList.Add(audioItem);	
+//		audioItem= new AudioConfigItem();
+//		audioItem.version 			= 1;
+//		audioItem.id 					= 119;
+//		audioItem.name 				= "se_119_text";
+//		audioItem.resourcePath 	= basePath + audioItem.name;
+//		audioItem.type 				= EPlayType.ONCE;
+//		audioList.Add(audioItem);	
 
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 120;
-		audioItem.name 				= "se_120_dark_attack";
+		audioItem.name 				= "se_120_text_appear";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -229,7 +229,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 121;
-		audioItem.name 				= "se_121_zero_attack";
+		audioItem.name 				= "se_121_battle_over";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);	
@@ -341,7 +341,255 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 135;
-		audioItem.name 				= "se_135_use_chip";
+		audioItem.name 				= "se_135_attack_increase";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 136;
+		audioItem.name 				= "se_136_as_appear";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 137;
+		audioItem.name 				= "se_137_as_fly";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 138;
+		audioItem.name 				= "se_138_quest_clear";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 139;
+		audioItem.name 				= "se_139_sp_limited_over";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 140;
+		audioItem.name 				= "se_140_rank_up";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 141;
+		audioItem.name 				= "se_141_friend_up";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 142;
+		audioItem.name 				= "se_142_star_appear";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 143;
+		audioItem.name 				= "se_143_sp_recover";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 144;
+		audioItem.name 				= "se_144_tile_overlap";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 145;
+		audioItem.name 				= "se_145_game_over";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 146;
+		audioItem.name 				= "se_146_card_evo";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 147;
+		audioItem.name 				= "se_147_ns_single1";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 148;
+		audioItem.name 				= "se_148_ns_single2";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 149;
+		audioItem.name 				= "se_149_as_all1";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 150;
+		audioItem.name 				= "se_150_as_all2";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 151;
+		audioItem.name 				= "se_151_as_single1";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 152;
+		audioItem.name 				= "se_152_as_single2";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 153;
+		audioItem.name 				= "se_153_ns_all1";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 154;
+		audioItem.name 				= "se_154_ns_all2";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 155;
+		audioItem.name 				= "se_155_as_single1_blood";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 156;
+		audioItem.name 				= "se_156_as_delay";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 157;
+		audioItem.name 				= "se_157_as_slow";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 158;
+		audioItem.name 				= "se_158_as_def_down";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 159;
+		audioItem.name 				= "se_159_as_poison";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 160;
+		audioItem.name 				= "se_160_as_color_change";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 161;
+		audioItem.name 				= "se_161_as_damage_down";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 162;
+		audioItem.name 				= "se_162_ps_counter";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 163;
+		audioItem.name 				= "se_163_ls_chase";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 164;
+		audioItem.name 				= "se_164_ls_activate";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 165;
+		audioItem.name 				= "se_165_as_activate";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 166;
+		audioItem.name 				= "se_166_ps_dodge_trap";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
