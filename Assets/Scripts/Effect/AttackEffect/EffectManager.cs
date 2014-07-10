@@ -101,49 +101,52 @@ public class EffectManager {
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("as-");
 			Type type = sbi.GetType ();
+//			Debug.LogError("GetSkillEffectObject : " + type + " time : " +Time.realtimeSinceStartup );
 			if (type == typeof(TSkillSingleAttack)) {
-					GetSingleAttackEffectName (sbi as TSkillSingleAttack, sb);
+//				AttackController.activeTime = 1f;
+				GetSingleAttackEffectName (sbi as TSkillSingleAttack, sb);
 			} else if (type == typeof(ActiveAttackTargetType)) {
-					GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
+				GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
 //				AudioManager.Instance.PlayAudio(AudioEnum.sound_as);
 
-					sb.Append ("color");
+				sb.Append ("color");
 			} else if (type == typeof(ActiveDeferAttackRound)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
 
-					sb.Append ("low");
+				sb.Append ("low");
 			} else if (type == typeof(ActiveDelayTime)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_delay);
 
-					sb.Append ("delay");
+				sb.Append ("delay");
 			} else if (type == typeof(ActiveReduceDefense)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_def_down);
 
-					sb.Append ("reduce-def");
+				sb.Append ("reduce-def");
 			} else if (type == typeof(ActiveReduceHurt)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_damage_down);
 
-					sb.Append ("reduce-injure");
+				sb.Append ("reduce-injure");
 			} else if (type == typeof(TSkillAttackRecoverHP)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1_blood);
 
-					sb.Append ("single-blood-purple");
+				sb.Append ("single-blood-purple");
 			} else if (type == typeof(GravityAttack)) {
-					sb.Append ("all-2-dark");
+				sb.Append ("all-2-dark");
 			} else if (type == typeof(KnockdownAttack)) {
-					sb.Append ("single-2-dark");
+				sb.Append ("single-2-dark");
 			} else if (type == typeof(TSkillRecoverSP)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
-
-					sb.Append ("sp-recover");
+//				AttackController.activeTime = 0.5f;
+//				Debug.LogError("AttackController.activeTime : " + AttackController.activeTime);
+				sb.Append ("sp-recover");
 			} else if (type == typeof(TSkillPoison)) {
-					sb.Append ("poison");
+				sb.Append ("poison");
 			} else if (type == typeof(TSkillSuicideAttack)) {
-					TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
-					sb.Append (GetAttackRanger (tsa.AttackRange));
-					sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
-					sb.Append (GetSkillType (tsa.AttackUnitType));
+				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
+				sb.Append (GetAttackRanger (tsa.AttackRange));
+				sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
+				sb.Append (GetSkillType (tsa.AttackUnitType));
 			}
 			path = sb.ToString ();
 		} else if (sbi is TSkillExtraAttack) {

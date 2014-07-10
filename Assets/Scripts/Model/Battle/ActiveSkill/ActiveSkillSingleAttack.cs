@@ -64,6 +64,9 @@ public class TSkillSingleAttack : ActiveSkill  {
 		}
 
 		ai.IgnoreDefense = instance.ignoreDefense;
+
+		AttackController.activeTime = 1f;
+
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 		return ai;
 	}

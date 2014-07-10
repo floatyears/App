@@ -33,6 +33,9 @@ public class TSkillRecoverSP : ActiveSkill {
 //		SkillRecoverSP srs = DeserializeData<SkillRecoverSP> ();
 		int step = (int)instance.value;
 //		Debug.LogError ("step : " + step);
+
+		AttackController.activeTime = 1f;
+
 		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
 		return step;
 	}

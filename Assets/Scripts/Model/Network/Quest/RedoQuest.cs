@@ -41,11 +41,26 @@ public class RedoQuest: ProtoManager {
 		reqRedoQuest.questId = this.questId;
 		reqRedoQuest.floor = this.floorNo;
 		
-		ErrorMsg err = SerializeData(reqRedoQuest); // save to Data for send out
+		ErrorMsg err = SerializeData(reqRedoQuest); //save to Data for send out
 		
 		return (err.Code == (int)ErrorCode.SUCCESS);
 	}
-	
+
+
+	protected override void OnResponseEnd (object data) {
+		RspRedoQuest rrq = data as RspRedoQuest;
+		if (rrq == null) {
+			return;	
+		}
+
+		if (rrq.header.code != 0) {
+//			Debug.LogError("rrq.header.code : " + rrq.header.code + rrq.header.error);
+			ViewManager.Instance.ShowTipsLabel(rrq.header.code.ToString() , " : ", rrq.header.error);
+			return;
+		}
+
+		base.OnResponseEnd (rrq);
+	}
 }
 
 

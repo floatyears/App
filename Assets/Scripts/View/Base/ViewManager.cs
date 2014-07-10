@@ -133,6 +133,11 @@ public class ViewManager {
 		tipsLabelUI.ShowInfo (content);
 	}
 
+	public void ShowTipsLabel (string content, params object[] data) {
+		string info = string.Format (content, data);
+		tipsLabelUI.ShowInfo (info);
+	}
+
 	public void ShowTipsLabel(string content, GameObject target) {
 		tipsLabelUI.ShowInfo (content, target);
 	}
