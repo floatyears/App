@@ -6386,11 +6386,11 @@ namespace bbproto
       [global::ProtoBuf.ProtoEnum(Name=@"FRIEND_POINT", Value=2)]
       FRIEND_POINT = 2,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"CHIP", Value=3)]
-      CHIP = 3,
+      [global::ProtoBuf.ProtoEnum(Name=@"UNIT", Value=3)]
+      UNIT = 3,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"UNIT", Value=4)]
-      UNIT = 4
+      [global::ProtoBuf.ProtoEnum(Name=@"CHIP", Value=4)]
+      CHIP = 4
     }
   
 }

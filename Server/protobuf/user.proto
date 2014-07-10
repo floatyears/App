@@ -101,8 +101,8 @@ enum EBonusType{
 enum EGiftContent {
     COIN            = 1;
     FRIEND_POINT    = 2;
-    CHIP            = 3;
-    UNIT            = 4;
+    UNIT            = 3;
+    CHIP            = 4;
 }
 
 message GiftItem {

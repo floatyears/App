@@ -245,6 +245,14 @@ Text_Exit=退出
 Text_LastLogin_Colon=最近登录：
 ApplyFriendNote=确定要提交好友申请吗？
 
+#reward
+Reward_Take=领取
+Reward_Tab1=连续登陆
+Reward_Tab2=累计登陆
+Reward_Tab3=等级
+Reward_Tab4=月卡
+Reward_Tab5=其他
+Reward_Title=奖励
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径

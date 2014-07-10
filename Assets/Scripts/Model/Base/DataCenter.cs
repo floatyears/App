@@ -556,6 +556,8 @@ public class DataCenter {
 	public const uint AVATAR_ATLAS_CAPACITY = 20;
 	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
 
+	public Dictionary<uint, UIAtlas> AvatarAtalsDic{get{return avatarAtalsDic;}}
+
 	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
 				uint index = unitID / AVATAR_ATLAS_CAPACITY;
 				UIAtlas atlas = null;

@@ -1,1 +1,1 @@
-USavePath:Assets/ResourceDownload/Output/Android;Filename:EventAtlas;Extension:unity3dd
+SSavePath:Assets/ResourceDownload/Output/Android;Filename:Protobuf;Extension:unity3dy3d

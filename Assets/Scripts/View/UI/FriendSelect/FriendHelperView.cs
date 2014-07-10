@@ -255,21 +255,8 @@ public class FriendHelperView : UIComponentUnity{
 		EUnitRace race = (EUnitRace)leader.UnitRace;
 		EUnitType type = (EUnitType)leader.UnitType;
 		int level = leader.Level;
-		int kind = 0;
-		switch (UIManager.Instance.baseScene.CurrentScene) {
-		case SceneEnum.LevelUp : 
-			kind = 1;
-			break;
-		case SceneEnum.Evolve:
-			kind = 2;
-			break;
-				
-		}
-		if (kind == 0) {
-			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("NotPremiumFriend"));
-			return;
-		}
-		GetPremiumHelper.SendRequest (OnRspGetPremium, race, type, level, kind);
+
+		GetPremiumHelper.SendRequest(OnRspGetPremium, race, type, level, 0);
 	}
 
 	void OnRspGetPremium(object data){
