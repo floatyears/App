@@ -41,6 +41,8 @@ public class UIManager {
 	/// </summary>
 	public DecoratorBase current;
 
+	private DecoratorBase prev;
+
 	private SceneEnum storePrevScene = SceneEnum.None;
 
 	public SceneEnum prevScene = SceneEnum.None;
@@ -158,6 +160,11 @@ public class UIManager {
 			return;		
 		} else {
 			nextScene = sEnum;
+//
+//			if(CheckIsPopUpWindow(prevScene)){
+//				if(prev != null)
+//					prev.HideScene();
+//			}
 			prevScene = (current != null ? current.CurrentDecoratorScene : SceneEnum.None);
 			if(!CheckIsPopUpWindow(sEnum,prevScene)){
 				InvokeSceneClear(sEnum);
@@ -167,6 +174,8 @@ public class UIManager {
 			}
 			baseScene.SetScene(sEnum);
 			storePrevScene = sEnum;
+
+//			prev = current;
 		}
 
 		if (HasUIObject (sEnum)) {
@@ -184,7 +193,7 @@ public class UIManager {
 
 	public static bool CheckIsPopUpWindow(SceneEnum sEnum,SceneEnum prevScene = SceneEnum.None){
 		if (prevScene == SceneEnum.None) {
-			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice || sEnum == SceneEnum.Reward)
+			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice || sEnum == SceneEnum.Reward || sEnum == SceneEnum.UnitDetail)
 				return true;
 			return false;	
 		}else{

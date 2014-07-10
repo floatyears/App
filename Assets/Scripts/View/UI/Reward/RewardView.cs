@@ -43,6 +43,13 @@ public class RewardView : UIComponentUnity {
 			AcceptBonus.SendRequest(null,bonusIDs);
 		bonusIDs.Clear ();
 
+		int count = dragPanel.ScrollItem.Count;
+		for (int i = 0; i < count; i++) {
+			GameObject go = dragPanel.ScrollItem[i];
+			GameObject.Destroy(go);
+		}
+		dragPanel.ScrollItem.Clear();
+		
 		iTween.Stop (gameObject);
 	}
 	
@@ -53,6 +60,7 @@ public class RewardView : UIComponentUnity {
 		base.DestoryUI ();
 
 		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
+		MsgCenter.Instance.RemoveListener (CommandEnum.TakeAward, OnTakeAward);
 	}
 
 	private void InitUI(){
@@ -116,9 +124,30 @@ public class RewardView : UIComponentUnity {
 	 	Nums.Add (3, FindChild ("3/Num"));
 		Nums.Add (4, FindChild ("4/Num"));
   		Nums.Add (5, FindChild ("5/Num"));
+
+		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Reward_Title");
 	}
 
 	private void RefreshView(){
+
+		for (int i = 1; i < 6; i++) {
+			int count = 0;
+			if(aList.ContainsKey(i)){
+				foreach (var item in aList[i]) {
+					if(item.enabled == 1){
+						count++;
+					}
+				}
+			}
+			
+			if(count > 0){
+				Nums[i].SetActive(true);
+				Nums[i].transform.Find("Label").gameObject.GetComponent<UILabel>().text = count+"";
+			}else{
+				Nums[i].SetActive(false);
+			}
+		}
+
 		if (!aList.ContainsKey (currentContentIndex)) {
 			//Debug.Log("item:" + dragPanel.ScrollItem);
 			int count = dragPanel.ScrollItem.Count;
@@ -157,23 +186,7 @@ public class RewardView : UIComponentUnity {
 			}
 		}
 
-		for (int i = 1; i < 6; i++) {
-			int count = 0;
-			if(aList.ContainsKey(i)){
-				foreach (var item in aList[i]) {
-					if(item.enabled == 1){
-						count++;
-					}
-				}
-			}
 
-			if(count > 0){
-				Nums[i].SetActive(true);
-				Nums[i].transform.Find("Label").gameObject.GetComponent<UILabel>().text = count+"";
-			}else{
-				Nums[i].SetActive(false);
-			}
-		}
 
 		dragPanel.Refresh ();
 		dragPanel.DragPanelView.scrollBar.value = 0;
@@ -194,5 +207,10 @@ public class RewardView : UIComponentUnity {
 
 			RefreshView();
 		}
+	}
+
+	public void ShowTabInfo(object data){
+		UIToggle.GetActiveToggle (3);
+		//Debug.Log ("tab info: " + data);
 	}
 }

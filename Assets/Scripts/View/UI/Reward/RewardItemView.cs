@@ -15,7 +15,7 @@ public class RewardItemView : MonoBehaviour {
 
 	private static GameObject prefab;
 
-//	private GameObject atlas;
+	private UIAtlas atlas;
 	public static GameObject Prefab{
 		get{
 			if(prefab == null){
@@ -43,9 +43,14 @@ public class RewardItemView : MonoBehaviour {
 				itemList.Add (transform.FindChild ("Item1").gameObject);
 				itemList.Add (transform.FindChild ("Item2").gameObject);
 				itemList.Add (transform.FindChild ("Item3").gameObject);
+
+				atlas = transform.FindChild ("Item3/Img").gameObject.GetComponent<UISprite>().atlas;
+
 				btn = transform.FindChild("OkBtn").gameObject;
 				mask = transform.FindChild("Mask").gameObject;
 				text = transform.FindChild("Label").GetComponent<UILabel>();
+
+
 
 				transform.FindChild("OkBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
 				//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
@@ -64,23 +69,23 @@ public class RewardItemView : MonoBehaviour {
 				btn.GetComponent<BoxCollider>().enabled = false;
 			}
 
-			for(int i = 0; i < 3; i++){
 
-				if(data.giftItem.Count > i){
-					GiftItem gd = data.giftItem[i];
-					//Debug.Log("count: " + itemList.Count);
-					itemList[i].SetActive(true);
-					SetItemData(itemList[i], gd);
-//					Debug.Log("is unit: " + (gd.content == (int)EGiftContent.UNIT)+" gd count:" + gd.count);
-//					SetUnitClick(itemList[i],gd.content == (int)EGiftContent.UNIT);
-					          
-				}else{
-					itemList[i].SetActive(false);
+			int index = 0;
+			foreach (var item in data.giftItem) {
+
+				if(item.count > 0){
+
+					GiftItem gd = data.giftItem[index];
+					itemList[index].SetActive(true);
+					SetItemData(itemList[index], gd);
+					index++;
 				}
-				
-				
-//				transform.
+					
 			}
+			for (int i = index; i < 3; i++) {
+				itemList[i].SetActive(false);
+			}
+
 			switch ((EBonusType)data.type) {
 			case EBonusType.CHAIN_LOGIN:
 				text.text = string.Format(TextCenter.GetText("ChainLogin"),data.matchValue);
@@ -119,7 +124,9 @@ public class RewardItemView : MonoBehaviour {
 			obj.GetComponent<UIEventListenerCustom>().enabled = false;
 			obj.GetComponent<UIDragScrollView>().enabled = false;
 
-			obj.transform.FindChild("Img").GetComponent<UISprite>().spriteName = gift.content + "";
+			UISprite sp = obj.transform.FindChild("Img").GetComponent<UISprite>();
+			sp.atlas = atlas;
+			sp.spriteName = "icon_" + gift.content;
 		}
 
 		obj.transform.FindChild ("Num").GetComponent<UILabel>().text = "x" + gift.count;

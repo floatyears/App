@@ -250,6 +250,7 @@ Reward_Tab2=累计登陆
 Reward_Tab3=等级
 Reward_Tab4=月卡
 Reward_Tab5=其他
+Reward_Title=奖励
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径
