@@ -202,15 +202,15 @@ public class ConfigDragPanel{
 	private void ConfigRewardListDragPanel(){
 		RewardListDragPanelArgs.Add("scrollerLocalPos",					-100 * Vector3.up					);
 		RewardListDragPanelArgs.Add("position", 								Vector3.zero								);
-		RewardListDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 640)		);
+		RewardListDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 620)		);
 		RewardListDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Horizontal		);
 		RewardListDragPanelArgs.Add("scrollBarPosition",					new Vector3(-320, -565, 0)			);
-		RewardListDragPanelArgs.Add("cellWidth", 							120											);
-		RewardListDragPanelArgs.Add("cellHeight",							110											);
+		RewardListDragPanelArgs.Add("cellWidth", 							600											);
+		RewardListDragPanelArgs.Add("cellHeight",							120											);
 		RewardListDragPanelArgs.Add("maxPerLine",							1												);
 		RewardListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
 		RewardListDragPanelArgs.Add ("scrollBarDir", 						UIProgressBar.FillDirection.TopToBottom);
-		RewardListDragPanelArgs.Add ("depth",								3												);
+		RewardListDragPanelArgs.Add ("depth",								13												);
 	}
 
 }

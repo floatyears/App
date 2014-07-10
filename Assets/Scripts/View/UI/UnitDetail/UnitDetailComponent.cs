@@ -24,9 +24,7 @@ public class UnitDetailComponent : ConcreteComponent {
 		base.DestoryUI ();
 	}
 
-	void CallBackUnitData (object data) {
-		ExcuteCallback (data);
-	}
+
 
 	void AddMsgCmd () {
 		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
@@ -37,7 +35,11 @@ public class UnitDetailComponent : ConcreteComponent {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUp, LevelUpFunc);
 	}
-        
+
+	void CallBackUnitData (object data) {
+		ExcuteCallback (data);
+	}
+
 	void LevelUpFunc(object data) {
 		ExcuteCallback (data);
 	}

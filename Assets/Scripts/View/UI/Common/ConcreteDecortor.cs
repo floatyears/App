@@ -953,14 +953,14 @@ public class UnitDetailDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 
-		UnitDetailTopComponent unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
-		unitDetailTop.SetComponent(decorator);
-
-		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (UIConfig.unitDetailCenterPanelName);
-		unitDetailCenter.SetComponent (unitDetailTop);
+//		UnitDetailTopComponent unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
+//		unitDetailTop.SetComponent(decorator);
+//
+//		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (UIConfig.unitDetailCenterPanelName);
+//		unitDetailCenter.SetComponent (unitDetailTop);
 
 		unitDetail = CreatComponent< UnitDetailComponent >(UIConfig.unitDetailPanelName);
-		unitDetail.SetComponent(unitDetailCenter);
+//		unitDetail.SetComponent(unitDetailCenter);
 
 		lastDecorator = unitDetail;
 		lastDecorator.CreatUIAsyn (this);
