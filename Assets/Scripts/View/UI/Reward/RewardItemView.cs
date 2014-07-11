@@ -5,7 +5,7 @@ using bbproto;
 
 public class RewardItemView : MonoBehaviour {
 
-	private GameObject mask;
+//	private GameObject mask;
 	private GameObject btn;
 	private UILabel text;
 
@@ -47,7 +47,7 @@ public class RewardItemView : MonoBehaviour {
 				atlas = transform.FindChild ("Item3/Img").gameObject.GetComponent<UISprite>().atlas;
 
 				btn = transform.FindChild("OkBtn").gameObject;
-				mask = transform.FindChild("Mask").gameObject;
+//				mask = transform.FindChild("Mask").gameObject;
 				text = transform.FindChild("Label").GetComponent<UILabel>();
 
 
@@ -62,19 +62,19 @@ public class RewardItemView : MonoBehaviour {
 
 //			Debug.Log("id: " +data.id);
 			if(data.enabled == 1){
-				mask.SetActive(false);
-				btn.GetComponent<BoxCollider>().enabled = true;
+//				mask.SetActive(false);
+//				btn.GetComponent<BoxCollider>().enabled = true;
+				btn.GetComponent<UIButton>().isEnabled = true;
 			}else{
-				mask.SetActive(true);
-				btn.GetComponent<BoxCollider>().enabled = false;
+//				mask.SetActive(true);
+//				btn.GetComponent<BoxCollider>().enabled = false;
+				btn.GetComponent<UIButton>().isEnabled = false;
 			}
 
 
 			int index = 0;
 			foreach (var item in data.giftItem) {
-
 				if(item.count > 0){
-
 					GiftItem gd = data.giftItem[index];
 					itemList[index].SetActive(true);
 					SetItemData(itemList[index], gd);
@@ -145,11 +145,6 @@ public class RewardItemView : MonoBehaviour {
 				atlas = source.GetComponent<UIAtlas> ();
 				if (!DataCenter.Instance.AvatarAtalsDic.ContainsKey (index))
 					DataCenter.Instance.AvatarAtalsDic.Add (index, atlas);
-				
-				//								if (atlas == null) { 
-				//										Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
-				//								}
-				
 				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
 				if (resouceCB != null)
 					resouceCB (atlas);

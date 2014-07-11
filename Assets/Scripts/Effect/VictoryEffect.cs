@@ -46,7 +46,7 @@ public class VictoryEffect : UIComponentUnity {
 
 		UIManager.Instance.HideBaseScene ();
 
-		if (UIManager.Instance.prevScene == SceneEnum.UnitDetail || UIManager.Instance.prevScene == SceneEnum.ShowCardEffect) {
+		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
 			StartShowGetCard();
 		}
 	}

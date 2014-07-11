@@ -12,7 +12,7 @@ public class ShowNewCardView : UIComponentUnity {
 	public override void ShowUI () {
 		UIManager.Instance.HideBaseScene ();
 
-		sEnum = UIManager.Instance.prevScene;
+		sEnum = UIManager.Instance.baseScene.PrevScene;
 		base.ShowUI ();
 		ActiveButton ();
 	}

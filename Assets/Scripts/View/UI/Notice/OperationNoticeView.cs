@@ -102,17 +102,20 @@ public class OperationNoticeView : UIComponentUnity {
 
 	public void ClickOK(){
 		bool backHome = false;
-		if (UIManager.Instance.prevScene == SceneEnum.Others)
+		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.Others)
 			backHome = true;
 		if (!backHome) {
 			UIManager.Instance.ChangeScene (SceneEnum.Home);
 			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
 			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0) {
 				//			Debug.LogError ("show Reward scene... ");
+//				HideUI();
 				UIManager.Instance.ChangeScene (SceneEnum.Reward);
+//				HideUI();
 			}	
 		}else{
 			UIManager.Instance.ChangeScene(SceneEnum.Others);
+//			HideUI();
 		}
 
 
