@@ -26,7 +26,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUIElement();
-		ShowSelf(false);
+//		ShowSelf(false);
 	}
 	public override void ShowUI(){
 		base.ShowUI();
@@ -34,7 +34,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	
 	public override void HideUI(){
 		base.HideUI();
-		ShowSelf(false);
+//		ShowSelf(false);
 	}
 	
 	void InitUIElement(){
@@ -76,14 +76,16 @@ public class UserBriefInfoView : UIComponentUnity{
 	}
 	
 	void ShowSelf(bool canShow){
-		this.gameObject.SetActive(canShow);
+//		this.gameObject.SetActive(canShow);
 		if (canShow){
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
+			ShowUI();
+//			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
 			window.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
 		} 
 		else{
-			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));            
+			HideUI();
+//			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));            
 		}
 	}
 		
@@ -131,6 +133,9 @@ public class UserBriefInfoView : UIComponentUnity{
 				break;
 			case "EnableDeleteFriend": 
 				CallBackDispatcherHelper.DispatchCallBack(EnableDeleteFriend, cbdArgs);
+				break;
+			case "HidePanel":
+				ShowSelf(false);
 				break;
 //			case "Stylize": 
 //				CallBackDispatcherHelper.DispatchCallBack(Stylize, cbdArgs);

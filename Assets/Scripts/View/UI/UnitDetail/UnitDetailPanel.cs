@@ -206,7 +206,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//		Debug.LogError ("unit detail SceneEnum : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
 
-		HideUI ();
+//		HideUI ();
 	}
 
 	void ClickTab(GameObject tab){

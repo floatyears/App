@@ -218,7 +218,13 @@ public class PlayerInfoBar : UIComponentUnity{
 
 	void AddStamina(){
 		if (currentTime > 0) {
-			countDown.text = GameTimer.GetMinSecBySeconds (currentTime);
+			if(DataCenter.Instance.UserInfo.StaminaNow >= DataCenter.Instance.UserInfo.StaminaMax){
+				countDown.text = "";
+			}
+			else{
+				countDown.text = GameTimer.GetMinSecBySeconds (currentTime);
+			}
+
 			currentTime--;
 		}else{
 			currentTime = 600;
