@@ -275,10 +275,47 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			}
 			tempAttack.Clear();
 		}
-
+		CalculateAttackCount ();
         return tempAttackType;
     }
-	
+
+	void CalculateAttackCount() {
+		int attackCount = 0;
+		foreach (var item in attack) {
+			if(item.Value != null) {
+				attackCount += item.Value.Count;
+			}
+		}
+
+		if (attackCount == 0) {
+			return;	
+		}
+
+		switch (attackCount) {
+			case 1:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_1);
+				break;
+			case 2:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_2);
+				break;
+			case 3:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_3);
+				break;
+			case 4:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_4);
+				break;
+			case 5:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_5);
+				break;
+			case 6:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_6);
+				break;
+			default:
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_7);
+				break;
+		}
+	}
+
     public void ClearData() {
         AttackInfo.ClearData();
         alreadyUse.Clear();

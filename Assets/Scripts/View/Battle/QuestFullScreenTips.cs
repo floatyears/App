@@ -37,10 +37,6 @@ public class QuestFullScreenTips : UIBaseUnity {
 			transform.localPosition = initLocalPosition;
 			transform.localScale = initLocalScale;
 		} 
-//		else {
-////			uiCamera.eventReceiverMask = GameLayer.LayerToInt( GameLayer.Default);
-////			MapCamera.IsClick = false;
-//		}
 	}
 	float tempTime = 0f;
 	public void ShowTexture(string name,Callback cb,float time = 0f) {
@@ -72,6 +68,9 @@ public class QuestFullScreenTips : UIBaseUnity {
 		transform.localPosition = initLocalPosition;
 		tweenAlpha.enabled = true;
 		tweenAlpha.ResetToBeginning ();
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_ready);
+
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 

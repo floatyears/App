@@ -475,7 +475,6 @@ public class BattleQuest : UIBase {
 
 	public void RoleCoordinate(Coordinate coor) {
 		if (!battleMap.ReachMapItem (coor)) {
-
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.prevMapItem.HideGridNoAnim ();
 				GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
@@ -498,39 +497,39 @@ public class BattleQuest : UIBase {
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 			switch (currentMapData.Type) {
-			case EQuestGridType.Q_NONE:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim (MapItemNone);
-				break;
-			case EQuestGridType.Q_ENEMY:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim (MapItemEnemy);
-				break;
-			case EQuestGridType.Q_KEY:
-				break;
-			case EQuestGridType.Q_TREATURE:
-				BattleMap.waitMove = true;
-				MsgCenter.Instance.Invoke(CommandEnum.ShowCoin, currentMapData.Coins);
-				GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
-				break;
-			case EQuestGridType.Q_TRAP:
-				BattleMap.waitMove = true;
-				MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
-				GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemTrap);
-				break;
-			case EQuestGridType.Q_QUESTION:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim (MeetQuestion);
-				break;
-			case EQuestGridType.Q_EXCLAMATION:
-				BattleMap.waitMove = true;
-				battleMap.RotateAnim (MapItemExclamation);
-				break;
-			default:
-				BattleMap.waitMove = false;
-				MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-				QuestCoorEnd ();
-				break;
+				case EQuestGridType.Q_NONE:
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemNone);
+					break;
+				case EQuestGridType.Q_ENEMY:
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemEnemy);
+					break;
+				case EQuestGridType.Q_KEY:
+					break;
+				case EQuestGridType.Q_TREATURE:
+					BattleMap.waitMove = true;
+					MsgCenter.Instance.Invoke(CommandEnum.ShowCoin, currentMapData.Coins);
+					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
+					break;
+				case EQuestGridType.Q_TRAP:
+					BattleMap.waitMove = true;
+					MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
+					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemTrap);
+					break;
+				case EQuestGridType.Q_QUESTION:
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MeetQuestion);
+					break;
+				case EQuestGridType.Q_EXCLAMATION:
+					BattleMap.waitMove = true;
+					battleMap.RotateAnim (MapItemExclamation);
+					break;
+				default:
+					BattleMap.waitMove = false;
+					MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+					QuestCoorEnd ();
+					break;
 			}
 		}
 		else {
@@ -611,6 +610,8 @@ public class BattleQuest : UIBase {
 	}
 
 	public void MeetBoss () {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+
 		battle.ShieldInput ( true );
 		BattleMap.waitMove = false;
 		ShowBattle();
@@ -630,6 +631,8 @@ public class BattleQuest : UIBase {
 	}
 
 	public void MapItemEnemy() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_battle);
+
 		BattleMap.waitMove = false;
 		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
@@ -643,7 +646,6 @@ public class BattleQuest : UIBase {
 		configBattleUseData.storeBattleData.isBattle = 1;	// 1 == battle enemy
 		battle.ShowEnemy (temp);
 		ExitFight (false);
-//		AudioManager.Instance.PlayBackgroundAudio( AudioEnum.music_enemy_battle );
 		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 	}
 
@@ -665,17 +667,17 @@ public class BattleQuest : UIBase {
 	public void StartBattleEnemyAttack() {
 		EnemyAttackEnum eae = battleMap.FirstOrBackAttack ();
 		switch (eae) {
-		case EnemyAttackEnum.BackAttack:
-			questFullScreenTips.ShowTexture (QuestFullScreenTips.BackAttack, BackAttack);
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
-			battle.ShieldInput (false);
-			break;
-		case EnemyAttackEnum.FirstAttack:
-			questFullScreenTips.ShowTexture (QuestFullScreenTips.FirstAttack, FirstAttack);
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_first_attack);
-			break;
-		default:
-			break;
+			case EnemyAttackEnum.BackAttack:
+				questFullScreenTips.ShowTexture (QuestFullScreenTips.BackAttack, BackAttack);
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
+				battle.ShieldInput (false);
+				break;
+			case EnemyAttackEnum.FirstAttack:
+				questFullScreenTips.ShowTexture (QuestFullScreenTips.FirstAttack, FirstAttack);
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_first_attack);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -712,7 +714,7 @@ public class BattleQuest : UIBase {
 		battle.ShieldInput (false);
 		BattleBottom.notClick = true;
 
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_clear);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 	}
@@ -737,7 +739,6 @@ public class BattleQuest : UIBase {
 		configBattleUseData.StoreMapData (_questData);
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
-//		Debug.LogError ("battle end index 1 : " + index);
 		if (index == -1) {
 			return;	
 		}
@@ -753,14 +754,12 @@ public class BattleQuest : UIBase {
 		}
 
 		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
-//		Debug.LogError ("battle end index 2 : " + (tqg == null) + " type : " + (tqg.Type != EQuestGridType.Q_ENEMY));
 		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
 			return;	
 		}
 
 		battleMap.AddMapSecuritylevel (currentCoor);
 		chainLikeMapItem = battleMap.AttakAround (currentCoor);	
-//		Debug.LogError ("battle end index 3 chainLikeMapItem : " + chainLikeMapItem);
 		if (chainLikeMapItem.Count == 0) {
 			ChainLinkBattle = false;
 		} else {
@@ -1060,6 +1059,8 @@ public class BattleQuest : UIBase {
 
 	void BattleFail(object data) {
 		battle.ShieldInput (true);
+
+//		AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];

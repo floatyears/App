@@ -301,6 +301,9 @@ public class BattleUseData {
 			isLimit = false;
 		}
         maxEnergyPoint += recover;
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_sp_recover);
+
         if (maxEnergyPoint > DataCenter.maxEnergyPoint) {
             maxEnergyPoint = DataCenter.maxEnergyPoint;	
         }
@@ -329,7 +332,7 @@ public class BattleUseData {
 
     void ConsumeEnergyPoint() {	
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
-//		Debug.LogError ("ConsumeEnergyPoint : " + battleQuest.ChainLinkBattle);
+
 		if(battleQuest.ChainLinkBattle) {
 			return;
 		}
@@ -339,8 +342,7 @@ public class BattleUseData {
 			temp -= ReductionBloodByProportion(0.2f);
 			Blood = temp < 1 ? 1 : temp;
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
-        }
-        else {
+        } else {
             maxEnergyPoint--;
 			configBattleUseData.storeBattleData.sp = maxEnergyPoint;
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);

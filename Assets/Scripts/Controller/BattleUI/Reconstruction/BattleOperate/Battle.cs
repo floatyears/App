@@ -415,6 +415,8 @@ public class Battle : UIBase {
 	}
 
 	public void ExitFight() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
+
 		isShowEnemy = false;
 		ShieldInput (true);
 		HideUI ();
@@ -736,7 +738,7 @@ public class Battle : UIBase {
 			if(selectTarget.Contains(ci))
 				return;
 			if(ci.CanDrag) {
-//				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 				
 				ci.OnPress(true, selectTarget.Count);
 				ci.ActorTexture.depth = ci.InitDepth;
@@ -745,7 +747,7 @@ public class Battle : UIBase {
 				if(selectTarget.Count == 1) { //one select not effect.
 					return;
 				}
-				
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
 				EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.DragCard, returnValue => {
 					GameObject prefab = returnValue as GameObject;
 					GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, prefab);

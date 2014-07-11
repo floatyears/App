@@ -654,13 +654,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUnitInfo unitInfo = data.UnitInfo;
 		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
 			Texture2D target = o as Texture2D;
-			//			unitBodyTex.mainTexture = target;
-			//			if (target == null) {
-			//				return;	
-			//			}
-			//			unitBodyTex.width = target.width;
-			//			unitBodyTex.height = target.height;
 			DGTools.ShowTexture(unitBodyTex, target);
+
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 		});
 		
 	}
@@ -705,28 +701,25 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			}
 			return;	
 		}	
-			
-//		LogHelper.LogError("<<<<<<<<gotExp:{0} expRiseStep:{1} - curExp:{2}  currMaxExp:{3}",gotExp, expRiseStep, curExp, currMaxExp);
 
 		if(gotExp < expRiseStep){
 			curExp += gotExp;
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 			gotExp = 0;
-		} 
-		else {
+		} else {
 			gotExp -= expRiseStep;
 			curExp += expRiseStep;
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 		}
 
-//		Debug.LogError ("gotExp: " + gotExp + " expRiseStep: " + expRiseStep + " curExp: " + curExp + " currMaxExp: " + currMaxExp);
-
 		if(curExp >= currMaxExp) {
-//			LogHelper.LogError("-------gotExp:{0} curExp:{1} - currMaxExp:{2} = {3}",gotExp, curExp, currMaxExp, curExp - currMaxExp);
 			gotExp += curExp - currMaxExp;
 			curExp = 0;
 			if ( curLevel < oldBlendUnit.UnitInfo.MaxLevel ){
-				curLevel++;
-			}
-			else { // reach MaxLevel
+				curLevel ++;
+
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_level_up);
+			} else { // reach MaxLevel
 				//TODO: show MAX on the progress bar
 				curExp = currMaxExp;
 				gotExp = 0;
@@ -737,11 +730,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Calculate();
 		}
 
-
-
 		int needExp = currMaxExp - curExp;
-
-//		LogHelper.LogError(">>>>>>>>>currMaxExp:{0} - curExp:{1} = needExp{2} , curLevel:{3} expRiseStep:{4} ",currMaxExp, curExp, needExp, curLevel, expRiseStep);
 
 		if ((curLevel > oldBlendUnit.UnitInfo.MaxLevel) 
 		    || (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp <= 0) ) {
@@ -757,7 +746,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (progress == 0) {
 			progress = 0.1f;
 		}
-//		Debug.Log ("exp slide progress: " + progress);
 		expSlider.value = progress;
 	}
 
@@ -772,36 +760,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	private void ShowFavState(object msg){
-//		AddUnitLock();
 		UpdateFavView(curUserUnit.IsFavorite);
 	}
-
-//	private void DestoryUnitLock(){
-//		if(unitLock == null){
-//			Debug.LogError("unitLock == null, do noting...");
-//			return;
-//		}
-//		Debug.LogError("unitLock != null, destory it...");
-////		GameObject.Destroy(unitLock);
-//	}
-	
-//	private void AddUnitLock(){
-//		if(unitLock != null){
-//			Debug.LogError("unitLock != null, add one...");
-//			return;
-//		}
-//		string path = "Prefabs/UI/UnitDetail/FavLock";
-//		ResourceManager.Instance.LoadLocalAsset(path, CreateUnitLock);
-//	}
-
-//	private void CreateUnitLock(Object obj){
-//		GameObject prefab = obj as GameObject;
-//		unitLock = GameObject.Instantiate(prefab) as GameObject;
-//		unitLock.transform.parent = transform;
-//		unitLock.transform.localScale = Vector3.one;
-//		unitLock.transform.localPosition = new Vector3(300, -300, 0);
-//		UIEventListener.Get(unitLock).onClick = ClickLock;
-//	}
 
 	private void ClickLock(GameObject go){
 		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
@@ -810,7 +770,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	private void OnRspChangeFavState(object data){
-		//Debug.Log("OnRspChangeFavState(), start...");
 		if(data == null) {Debug.LogError("OnRspChangeFavState(), data is NULL"); return;}
 		bbproto.RspUnitFavorite rsp = data as bbproto.RspUnitFavorite;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
@@ -824,7 +783,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	private void UpdateFavView(int isFav){
-		Debug.LogError("unitLock.name : " + unitLock.name);
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 		Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
@@ -836,7 +794,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}
-
 
 	//center
 	Vector3 targetPosition;
@@ -890,6 +847,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			yield return new WaitForSeconds(0.2f);
 			iTween.MoveTo(linhunqiuIns, iTween.Hash("position", targetPosition, "time", 0.3f, "islocal", true));
 			yield return new WaitForSeconds(0.3f);
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_devour_unit);
+
 			Destroy(linhunqiuIns);
 			swallowEffectIns = NGUITools.AddChild(gameObject, swallowEffect);
 			yield return new WaitForSeconds(0.4f);
@@ -898,23 +858,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		
 		StartCoroutine (CreatEffect ());
 	}
-	
-//	IEnumerator CreatEffect() {
-//		yield return new WaitForSeconds(0.5f);
-//		GameObject go = Instantiate (levelUpEffect) as GameObject;
-//		effectCache.Add (go);
-//		if (effectCache.Count == count) {
-//			yield return new WaitForSeconds(2f);
-//			ClearEffectCache ();
-////			topPanel.ShowPanel();
-//			RecoverEffectCamera();
-//			MsgCenter.Instance.Invoke(CommandEnum.ShowLevelupInfo);
-//		} else {
-//			yield return new WaitForSeconds(1.5f);
-//			StartCoroutine (CreatEffect ());
-//		}
-//	}
-
 	
 	IEnumerator CreatEffect() {
 		yield return new WaitForSeconds(0.5f);
@@ -958,14 +901,4 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			effectCache.Remove(go);
 		}
 	}
-
-	//----------deal with effect----------
-//	void ClearEffectCache(){
-//		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
-//			GameObject go = effectCache[i];
-//			Destroy( go );
-//			effectCache.Remove(go);
-//		}
-//	}
-
 }

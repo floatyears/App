@@ -76,17 +76,15 @@ public class BattleCardArea : UIBaseUnity {
 
 	void StateInfo(object data) {
 		string info = (string)data;
-//		Debug.LogError ("1 StateInfo data : " + info);
 		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
 			HideStateLabel(string.Empty);
-//			Debug.LogError ("2 stateLabel.spriteName  : " + stateLabel.spriteName );
 			return;
 		}			
 
 		if (info == DGTools.stateInfo [0]) {
 			SetBoost();
 		}
-//		Debug.LogError ("3 stateLabel.spriteName : " + stateLabel.spriteName + " info : " + info);
+
 		if (stateLabel.spriteName == info) {
 			return;	
 		}
@@ -123,6 +121,8 @@ public class BattleCardArea : UIBaseUnity {
 	}
 
 	void ShowStateLabel () {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_text_appear);
+
 		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.15f));
 	}	       
 
