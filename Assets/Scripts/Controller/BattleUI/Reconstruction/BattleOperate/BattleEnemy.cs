@@ -196,9 +196,10 @@ public class BattleEnemy : UIBaseUnity {
 			int centerRightIndex = centerIndex + 1;
 			float centerWidth = enemys[centerIndex].texture.width * 0.5f;
 			float centerRightWidth =  enemys[centerRightIndex].texture.width * 0.5f;
-			float Difference = (centerRightWidth - centerWidth) * 0.5f;
-			centerWidth += Difference;
+			float Difference = (centerRightWidth - centerWidth);
+			centerWidth += Difference;	
 			centerRightWidth -= Difference;
+			Debug.LogError("centerWidth:"+centerWidth+" centerRightWidth:"+centerRightWidth+ " Difference"+Difference);
 			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
 			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
 			DisposeCenterLeft(centerIndex--, enemys);
@@ -210,30 +211,33 @@ public class BattleEnemy : UIBaseUnity {
 	float probability;
 	float allWidth;
 	float screenWidth;
-
+	public const int ScreenWidth = 640;
 	void CompressTextureWidth (List<EnemyItem> enemys) {
 		int count = enemys.Count;
 		if (count == 1) {
 			return;	
 		}
 		if (count == 2) {
-			CompressTexture( GetProbability(Screen.width, enemys), enemys);
+			CompressTexture( GetProbability(ScreenWidth, enemys), enemys);
 			return;
 		}
 
-		screenWidth = Screen.width * 0.5f;
+		screenWidth = ScreenWidth * 0.5f;
 		allWidth = 0;
 
 		bool isOdd = DGTools.IsOddNumber (count);
 		int centerIndex = count >> 1;
 		probability = 1.0f;
 		if (isOdd) {
-			float allPro = GetProbability (Screen.width, enemys);
+			float allPro = GetProbability (ScreenWidth, enemys);
 			probability = SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
+//			Debug.LogError("isOddNum  screenWidth="+screenWidth+" allPro:"+allPro+" probability:"+probability);
 			if( probability > allPro ) {
 				probability = allPro;
 			}
+//			Debug.LogError("isOddNum  screenWidth="+screenWidth+" final allPro:"+allPro);
 		} else {
+//			Debug.LogError("isEvenNum  screenWidth="+screenWidth);
 			probability = SetgmentationEnemys(enemys, 0, screenWidth);
 		}
 
@@ -260,7 +264,7 @@ public class BattleEnemy : UIBaseUnity {
 		}
 		float lefrpro = GetProbability (screenWidth, leftEnemys);
 		float rightpro = GetProbability (screenWidth, rightEnemys);
-//		Debug.LogError("leftScale:"+lefrpro+" rightScale:"+rightpro);
+//		Debug.LogError("centerIndex:"+centerIndex+" leftScale:"+lefrpro+" rightScale:"+rightpro);
 //		if (lefrpro > rightpro) {
 //			CompressTexture (rightpro, enemys);
 //		} else {
@@ -275,7 +279,7 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
 			UITexture tex = enemys [i].texture;
 			width += tex.width;
-//			Debug.LogError("screenWidth:"+screenWidth+" totalWidth:"+width+" tex.width:"+tex.width);
+			Debug.LogError("screen.width:"+Screen.width+" CalcScreenWidth:"+screenWidth+" totalWidth:"+width+" tex.width:"+tex.width+" ret pro:"+(screenWidth / width));
 		}
 		if( screenWidth >= width ) {
 			return 1.0f;

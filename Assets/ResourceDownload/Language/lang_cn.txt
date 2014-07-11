@@ -97,7 +97,7 @@ Game_Setting_Option_Contact=联系我们
 Text_ResetData=重置数据
 Text_BGM=背景音乐
 Text_Sound=音量
-ContactUsContent=联系我们
+ContactUsContent=邮箱: MonsterStory@qq.com \n客服QQ: 414200          
 ContactUs=联系我们
 
 Text_Leader_Skill=队长技能
