@@ -194,28 +194,22 @@ public class Role : UIBaseUnity {
 		if (Mathf.FloorToInt(localposition.x) == Mathf.FloorToInt(targetPoint.x) ) {
 			float offsetY = 1.2f;
 			if ( targetPoint.y < localposition.y ) {
-				offsetY = 0.6f;//(float)BattleMap.itemWidth * 0.4f;
-//				Debug.LogError("<<<<< targetPoint.y:"+ targetPoint.y+"  localposition.y:"+ localposition.y);
+				offsetY = 0.6f;					//(float)BattleMap.itemWidth * 0.4f;
 			}
-//			Debug.LogError("-- BattleMap.itemWidth="+BattleMap.itemWidth+" targetPoint.y:"+ targetPoint.y+"  localposition.y:"+ localposition.y);
-
 
 			middlePoint = new Vector3 (localposition.x, localposition.y + BattleMap.itemWidth * 1.4f * offsetY, localposition.z);
-			leftMiddlePoint = localposition; //new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
-			leftMiddlePoint2 = localposition; //new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
+			leftMiddlePoint = localposition; 	//new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
+			leftMiddlePoint2 = localposition; 	//new Vector3(middlePoint.x, middlePoint.y * 0.9f, middlePoint.z);
 			rightMiddlePoint = targetPoint;
 			rightMiddlePoint2 = targetPoint;
 
 			isVerticalMove = true;
 			adjustTime = 0.05f;
 		} else {
-//			Debug.LogError("  localposition: "+ localposition.x+","+localposition.y+ " targetPoint: "+ targetPoint.x+","+targetPoint.y);
-
 			float x = targetPoint.x - localposition.x;
 			leftMiddlePoint = new Vector3 (localposition.x + x * 0.1f , localposition.y + BattleMap.itemWidth* 1.2f * 0.5f, localposition.z);
 			leftMiddlePoint2 = new Vector3 (localposition.x + x * 0.3f , localposition.y + BattleMap.itemWidth* 1.2f * 0.8f, localposition.z);
 			middlePoint = new Vector3 (localposition.x + x * 0.4f , localposition.y + BattleMap.itemWidth * 1.2f, localposition.z);
-//			rightFristMiddlePoint = new Vector3(middlePoint.x + x * 0.1f, middlePoint.y + 10f, middlePoint.z);	
 			rightMiddlePoint = new Vector3(localposition.x + x * 0.6f,localposition.y + BattleMap.itemWidth * 1.0f , localposition.z);
 			rightMiddlePoint2 = new Vector3(localposition.x + x * 0.8f,localposition.y + BattleMap.itemWidth * 0.65f , localposition.z);
 
@@ -236,11 +230,13 @@ public class Role : UIBaseUnity {
 		secondPath [3] = targetPoint;
 //		Debug.LogError ("middlePoint : " + middlePoint + " rightMiddlePoint : " + rightMiddlePoint + " targetPoint : " + targetPoint); 
 
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk);
 		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.13f+adjustTime, "easetype", iTween.EaseType.easeOutSine, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", middlePoint, "islocal", true, "time", 0.25f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 	}
 
 	void MoveRoleSecond() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_chess_fall);
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.18+adjustTime, "easetype", iTween.EaseType.easeInSine, "oncomplete", "MoveRoleBounce", "oncompletetarget", gameObject));
 	}

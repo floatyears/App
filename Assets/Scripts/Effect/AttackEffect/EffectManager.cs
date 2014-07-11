@@ -106,6 +106,8 @@ public class EffectManager {
 			} else if (type == typeof(ActiveAttackTargetType)) {
 				GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_as_color_change);
+
 				sb.Append ("color");
 			} else if (type == typeof(ActiveDeferAttackRound)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
@@ -135,6 +137,7 @@ public class EffectManager {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
 				sb.Append ("sp-recover");
 			} else if (type == typeof(TSkillPoison)) {
+//				AudioManager.Instance.PlayAudio(AudioEnum.sound);
 				sb.Append ("poison");
 			} else if (type == typeof(TSkillSuicideAttack)) {
 				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;

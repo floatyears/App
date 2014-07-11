@@ -107,17 +107,7 @@ public class MapItem : UIBaseUnity {
 					uint unitID = gridItem.Enemy [0].UnitID;
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
-//						mapBackTexture = mapBack.AddComponent<UITexture>();
-//						mapBackTexture.depth = 4;
-//						Destroy(mapBackSprite);
-//						tui.GetAsset (UnitAssetType.Avatar,o=>{
-//							mapBackTexture.mainTexture = o as Texture2D;
-//							mapBackTexture.width = 104;
-//							mapBackTexture.height = 104;
-//						});
-
 						DataCenter.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
-
 					}
 				}
 				break;
@@ -147,8 +137,7 @@ public class MapItem : UIBaseUnity {
 				UISprite temp = FindChild<UISprite>("star" + i);
 				temp.enabled = show;
 				allStarSprite[i - 1] = temp;
-			}
-			else{
+			} else{
 				allStarSprite[i - 1].enabled = show;
 			}
 		}
@@ -181,8 +170,7 @@ public class MapItem : UIBaseUnity {
 			if(spriteIndex.Contains(index)) {
 				tmep.spriteName = spriteName;
 				showStarSprite.Add(tmep);
-			}
-			else {
+			} else {
 				tmep.spriteName = "";
 			}
 		}
@@ -192,16 +180,9 @@ public class MapItem : UIBaseUnity {
 
 	GameObject floorObject = null;
 
-	public void ShowObject(GameObject go) {
-//		GameObject parent = transform.Find("Floor").gameObject;
-//		floorObject = Instantiate (go) as GameObject;
-//		floorObject.transform.parent = parent.transform;
-//		floorObject.transform.localPosition = Vector3.zero;
-//		floorObject.SetActive (true);
-	}
+	public void ShowObject(GameObject go) { }
 
 	void OnDisable () {
-
 	}
 
 	void OnEnable () {

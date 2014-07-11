@@ -56,7 +56,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 	
 	void InitFightCard() {
 		template = FindChild<UISprite> ("BattleCardTemplate");
-//		battleCardTemplate.Add(template);
 		battleCardInitPos = template.transform.localPosition;
 	}
 
@@ -109,11 +108,19 @@ public class BattleCardAreaItem : UIBaseUnity {
 	}
 
 	List <AttackInfo> attackImage = new List<AttackInfo> ();
+
 	void GenerateFightCardImmelity(int id) {
 		if (battleUseData == null) {
 			battleUseData = BattleQuest.bud;	
 		}
 		attackImage = battleUseData.CaculateFight (areaItemID, id, isBoost);
+
+		if (attackImage.Count > 0) {
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_success);
+		} else {
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_invalid);
+		}
+
 		InstnaceCard ();
 	}
 
