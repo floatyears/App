@@ -68,6 +68,7 @@ public class MusicWIndow : UIComponentUnity {
 
 	void ClickOk(GameObject obj){
 		UIManager.Instance.ChangeScene (SceneEnum.Others);
+//		HideUI ();
 	}
 
 	void PressBgmBtn( GameObject btn,bool state ) {

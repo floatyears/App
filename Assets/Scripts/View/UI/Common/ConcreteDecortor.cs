@@ -1105,7 +1105,7 @@ public class RewardDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene (UIManager.Instance.prevScene);//SceneEnum.Home);
+		sceneInfoBar.SetBackScene (UIManager.Instance.baseScene.PrevScene);//SceneEnum.Home);
 		LogHelper.Log ("reward scene name: " + TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
 	}

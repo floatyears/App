@@ -33,7 +33,7 @@ public class GachaWindowView : UIComponentUnity {
         base.ShowUI ();
         AddListener();
 
-		if (UIManager.Instance.prevScene == SceneEnum.UnitDetail || UIManager.Instance.prevScene == SceneEnum.ShowCardEffect) {
+		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
 			ShowUnitGrid();
 		}
     }
