@@ -121,7 +121,6 @@
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
-     <None Include="Assets\External\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\External\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\Resources\Shaders\DepthMask.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
