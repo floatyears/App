@@ -194,6 +194,7 @@ RedoQuestTitle=战斗重打确认
 RedoQuestContent=是否花费 {0} 个魔法石来重打此层战斗？\n\n你当前拥有{1}颗魔法石.
 ResumeQuestTitle=战斗续打确认
 ResumeQuestContent=是否花费 {0} 个魔法石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
+NotEnoughStone=没有足够的魔法石。
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
 RetryClearQuestTitle=服务器错误
 ExitBattleConfirm=确认退出战斗？
@@ -214,6 +215,7 @@ ProgressTotal=总大小：
 SearchError=查找错误
 SearchFriendNotExist=未找到好友: {0} 。
 UserAlreadyFriend=你要添加的用户 {0} 已经是你的好友了!\n请到好友列表中查看。
+NotPremiumFriend=不能选择高级好友。
 
 InputError=输入错误
 InputEmpty=请输入一个好友的ID

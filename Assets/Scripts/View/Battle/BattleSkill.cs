@@ -9,14 +9,10 @@ public class BattleSkill : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-//		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
-//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	}
 
 	public override void DestoryUI () {
@@ -46,12 +42,10 @@ public class BattleSkill : UIBaseUnity {
 	public BattleQuest battleQuest;
 
 	void MeetEnemy(object data) {
-//		Debug.LogError ("battle skill MeetEnemy");
 		boost = true;	
 	}
 
 	void BattleEnd(object data) {
-//		Debug.LogError ("battle skill BattleEnd");
 		boost = false;	
 	}
 
@@ -133,16 +127,6 @@ public class BattleSkill : UIBaseUnity {
 		TUnitInfo tui = userUnitInfo.UnitInfo;
 
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.LeaderSkill, SkillType.LeaderSkill); //GetSkill (tui.LeaderSkill);
-//		if (sbi == null) {
-//			bbproto.SkillBase sb = new bbproto.SkillBase();
-//			sb.id = 0;
-//			sb.description = "-";
-//			sb.name = "-";
-//			sbi = new SkillBaseInfo(sb);
-//		} else if(string.IsNullOrEmpty (sbi.SkillDescribe)) {
-//			sbi .SkillDescribe = "-";
-//		}
-
 		Refresh (0, sbi);
 
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill1, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill1);
@@ -159,28 +143,21 @@ public class BattleSkill : UIBaseUnity {
 		isRecoveSP = notNull && sbi.GetType () == typeof(TSkillRecoverSP);
 		isBattle = battleQuest.battle.GetState == UIState.UIShow;
 
-
 		if (notNull && isCooling) {
 			if(!isRecoveSP && !isBattle) {
 				boostButton.isEnabled = false;
-			}
-			else{
+			} else{
 				boostButton.isEnabled = true;
 			}
-		}
-		else {
+		} else {
 			boostButton.isEnabled = false;
 		}
-
 		if (sbi == null) {
 			roundLabel.text = "";		
-		} 
-		else {
+		}  else {
 			roundLabel.text =  sbi.BaseInfo.skillCooling + "  round";
 		}
-
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);				//.GetSkill (tui.PassiveSkill);
-
 		Refresh (4, sbi);
 	}
 

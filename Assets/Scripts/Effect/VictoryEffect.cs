@@ -84,7 +84,7 @@ public class VictoryEffect : UIComponentUnity {
 		}
 		rspClearQuest = clearQuest;
 
-		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_victory);
+		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 
 		int nextEmp = DataCenter.Instance.UserInfo.NextExp;
 		int maxEmp = clearQuest.exp;

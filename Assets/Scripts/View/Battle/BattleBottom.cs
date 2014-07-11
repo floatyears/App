@@ -30,6 +30,7 @@ public class BattleBottom : MonoBehaviour {
 //			Debug.LogError("o : " + o);
 			GameObject go = o as GameObject;
 			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
+			battleSkillObject.layer = GameLayer.BottomInfo;
 			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 			battleSkill.Init ("BattleSkill");
 			battleSkillObject.transform.localPosition = new Vector3(2f,-110f,0f);

@@ -47,6 +47,7 @@ public class OperationNoticeView : UIComponentUnity {
 		content = this.FindChild ("Content/Table");
 
 		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Text_Notice");
+		FindChild<UILabel> ("OkBtn/Label").text = TextCenter.GetText ("OK");
 //		okBtn = this.FindChild ("OkBtn");
 //		//contents = new Dictionary<string, string> ();
 //		UIokBtn

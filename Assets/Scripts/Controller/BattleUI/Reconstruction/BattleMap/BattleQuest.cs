@@ -818,6 +818,7 @@ public class BattleQuest : UIBase {
 
 	public void Retry () {
 //		GameInput.OnUpdate
+
 		main.GInput.IsCheckInput = false;
 		BattleBottom.notClick = true;
 		MsgWindowParams mwp = new MsgWindowParams ();
@@ -839,6 +840,11 @@ public class BattleQuest : UIBase {
 	}
 	
 	void SureInitiativeRetry(object data) {
+		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
+			viewManager.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			return;
+		}
+
 		battle.ShieldInput (false);
 		if (battle.isShowEnemy) {
 			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
@@ -856,11 +862,13 @@ public class BattleQuest : UIBase {
 
 //	object tempData = null;
 	void SureRetryNetWork(object data) {
+
 		BattleMap.waitMove = false;
 		battleMap.BattleEndRotate(null);
 		RefreshRetryData (data);
 		main.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
+		Debug.LogError ("SureRetryNetWork " + main.GInput.IsCheckInput);
 	}
 
 	void RefreshRetryData(object data) {
@@ -868,6 +876,10 @@ public class BattleQuest : UIBase {
 		if (rrq == null) {
 			return;	
 		}
+
+
+
+		Debug.LogError ("rrq : " + rrq.dungeonData);
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
 		_questData.RemoveAt (_questData.Count - 1);
 		ClearQuestParam cq = new ClearQuestParam ();
@@ -885,6 +897,7 @@ public class BattleQuest : UIBase {
 	}
 
 	void SureRetryPress() {
+		Debug.LogError ("SureRetryPress ");
 		GameInput.OnPressEvent -= SureRetryPress;
 		RetryRefreshUI ();
 	}

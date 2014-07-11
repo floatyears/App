@@ -159,7 +159,7 @@ public class UIManager {
 		}
 
 //		if (!CheckIsPopUpWindow (sEnum, prevScene)) {
-		Debug.Log ("current scene: " + sEnum);
+//		Debug.Log ("current scene: " + sEnum);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		} else {
@@ -178,20 +178,20 @@ public class UIManager {
 			if(CheckIsPopUpWindow(sEnum)){
 				if(currentPopUp != null)
 				{
-					Debug.Log ("current hide: " + currentPopUp.CurrentDecoratorScene);
+//					Debug.Log ("current hide: " + currentPopUp.CurrentDecoratorScene);
 					currentPopUp.HideScene ();
 				}
 			}else{
 				if(currentPopUp != null)
 				{
-					Debug.Log ("current hide: " + currentPopUp.CurrentDecoratorScene);
+//					Debug.Log ("current hide: " + currentPopUp.CurrentDecoratorScene);
 					currentPopUp.HideScene ();
 					currentPopUp = null;
 				}
 				if (current != null) {
 
 					if(current.CurrentDecoratorScene == sEnum){
-						Debug.Log ("current hide: " + current.CurrentDecoratorScene);
+//						Debug.Log ("current hide: " + current.CurrentDecoratorScene);
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
 						return;
