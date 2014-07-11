@@ -73,6 +73,7 @@ public class LoadingLogic : ConcreteComponent {
 
             //save to GlobalData
 			GameTimer.GetInstance().InitDateTime(rspAuthUser.serverTime);
+			GameTimer.GetInstance().recovertime = rspAuthUser.user.staminaRecover - rspAuthUser.serverTime;
 
             if (rspAuthUser.account != null) {
                 DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
