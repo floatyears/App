@@ -231,9 +231,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
-//		path = "Middle/LevelUpBasePanel/SortButton";
-//		sortButton = FindChild<UIButton>(path);
-//		UIEventListener.Get (sortButton.gameObject).onClick = SortCallback;
 		InitDragPanel ();
 	}
 
@@ -278,7 +275,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
-//		Debug.LogError ("friendWindow : " + friendWindow);
 		gameObject.SetActive (false);
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();
@@ -359,9 +355,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// drag panel item click.
 	/// </summary>
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
-//		if (pui.IsFavorite) {
-//			return;		
-//		}
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
 				return;	
@@ -535,7 +528,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	int SetMaterialItem(MyUnitItem pui) {
-		for (int i = 1; i < 5; i++) {	// 1~3 is material item object.
+		for (int i = 1; i < 5; i++) {	// 1~4 is material item object.
 			if(selectedItem[i].UserUnit != null) {
 				continue;
 			}
@@ -547,6 +540,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 			return i;
 		}
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
+
 		return -1;	// -1 == not add to materail list.
 	}
 

@@ -130,8 +130,6 @@ public class VictoryEffect : UIComponentUnity {
 			dropItemList.Add(tuu, go);
 		}
 
-//		parent.GetComponent<UIGrid> ().repositionNow = true;
-
 		StartShowGetCard ();
 	}
 
@@ -147,7 +145,10 @@ public class VictoryEffect : UIComponentUnity {
 	void ShowGetCard () {
 		showUserUnit = getUserUnit.Dequeue ();
 		goAnim = dropItemList [showUserUnit];
+	
 		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 	}
 
 	void RecoverScale () {
@@ -157,6 +158,10 @@ public class VictoryEffect : UIComponentUnity {
 	}
 
 	void AnimEnd () {
+		if (showUserUnit.UnitInfo.Rare >= 4) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_card_4);
+		}
+
 		if (DataCenter.Instance.CatalogInfo.IsHaveUnit (showUserUnit.Object.unitId)) {
 			StartShowGetCard ();
 		} else {

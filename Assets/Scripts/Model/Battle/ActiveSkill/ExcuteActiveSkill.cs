@@ -50,6 +50,9 @@ public class ExcuteActiveSkill {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id, out iase)) {
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
+
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_active_skill);
+
 				ai = AttackInfo.GetInstance();
 				ai.UserUnitID = userUnit.MakeUserUnitKey();
 				ai.SkillID = (iase as ActiveSkill).BaseInfo.id;
@@ -63,6 +66,8 @@ public class ExcuteActiveSkill {
 		MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
 		GameTimer.GetInstance().AddCountDown(1f,Excute);
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_appear);
 	}
 
    
@@ -71,9 +76,6 @@ public class ExcuteActiveSkill {
 			return;	
 		}
 
-//		ai = AttackInfo.GetInstance (); //new AttackInfo();
-//		ai.UserUnitID = userUnit.MakeUserUnitKey();
-//		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 		iase = activeSkill[ai.UserUnitID];
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;
@@ -101,6 +103,7 @@ public class ExcuteActiveSkill {
 //		}
 //	}
 
+	List<IActiveSkillExcute> coolingDoneSkill = new List<IActiveSkillExcute>();
 	public void CoolingSkill () {
 		foreach (var item in activeSkill.Values) {
 			item.RefreashCooling();

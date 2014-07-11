@@ -362,6 +362,8 @@ public class GachaWindowView : UIComponentUnity {
 	List<GameObject> sortedGrids = null;
 
     void ShowUnitByGrid() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
+
 		GameObject grid = sortedGrids[showIndex];
     	ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
 		showIndex += 1;

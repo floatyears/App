@@ -164,11 +164,16 @@ public class AttackController {
 		CheckBattleSuccess ();
 	}
 	int endCount = 0;
+	int extraAttackCount = 0;
 	public void StartAttack (List<AttackInfo> attack) {
 		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
-		if(attack.Count > 0)
-			attack.AddRange (leaderSkilllExtarAttack.ExtraAttack ());
+		if (attack.Count > 0) {
+			List<AttackInfo> extraAttack = leaderSkilllExtarAttack.ExtraAttack ();
+			extraAttackCount = extraAttack.Count;
+			attack.AddRange (extraAttack);
+		}
+			
 		MultipleAttack (attack);
 		foreach (var item in attack) {
 			attackInfoQueue.Enqueue (item);
@@ -256,7 +261,11 @@ public class AttackController {
 	void AttackEnemy () {
 		CheckEnemyDead();
 		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
+		if (attackInfoQueue.Count <= extraAttackCount) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);	
+		}
 		AttackInfo ai = attackInfoQueue.Dequeue();
+
 		BeginAttack (ai);
 		InvokeAttack ();
 	}

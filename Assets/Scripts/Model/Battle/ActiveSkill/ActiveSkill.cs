@@ -43,8 +43,11 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	}
 
 	protected void DisposeCooling () {
+		bool temp = coolingDone;
 		coolingDone = CheckCooling (skillBase);
-
+		if (!temp && coolingDone) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);	
+		}
 		Store ();
 	}
 

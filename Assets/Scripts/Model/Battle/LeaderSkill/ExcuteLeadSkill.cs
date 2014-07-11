@@ -17,7 +17,6 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		foreach (var item in leadSkill.LeadSkill) {
 			temp++;
 			if(item.Value is TSkillBoost) {
-//				Debug.LogError("item.Key : " + item.Key + " item.Value : " + item.Value);
 				leaderSkillQueue.Enqueue(item.Key);
 				GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
 			}
@@ -26,7 +25,6 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
-//		Debug.LogError (" ExcuteStartLeaderSkill key : " + key);
 		DisposeBoostSkill (key, leadSkill.LeadSkill [key]);
 		leadSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
@@ -46,6 +44,9 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
+
 			foreach (var item in leadSkill.UserUnit.Values) {
 				if( item == null) {
 					continue;
@@ -63,11 +64,27 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		if (tst != null) {
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
+
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			MsgCenter.Instance.Invoke(CommandEnum.LeaderSkillDelayTime, tst.DelayTime);
 		}
 	}
-	
+
+	void PlayLeaderSkillAudio() {
+		if(!isPlay) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
+			isPlay = true;
+		}
+	}
+
+	void ResetIsPlay() {
+		isPlay = false;
+	}
+
+	bool isPlay = false;
+
 	public float ReduceHurtValue (float hurt,int type) {
 		if (leadSkill.LeadSkill.Count == 0) {
 			return hurt;	
@@ -75,6 +92,9 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 		foreach (var item in leadSkill.LeadSkill) {
 			TSkillReduceHurt trh = item.Value as TSkillReduceHurt;
 			if(trh != null) {
+
+				PlayLeaderSkillAudio();
+
 				hurt = trh.ReduceHurt(hurt,type);
 				if(trh.CheckUseDone()) {
 					RemoveSkill.Add(item.Key);
@@ -82,21 +102,27 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			}
 		}
 		RemoveLeaderSkill ();
+
+		ResetIsPlay ();
+
 		return hurt;
 	}
 		
 	public List<AttackInfo> ExtraAttack (){
 		List<AttackInfo> ai = new List<AttackInfo>();
-//		Debug.LogError("leadSkill.LeadSkill.Count : " + leadSkill.LeadSkill.Count);
+
 		if (leadSkill.LeadSkill.Count == 0) {
 			return ai;
 		}
 		foreach (var item in leadSkill.LeadSkill) {
 			TSkillExtraAttack tsea = item.Value as TSkillExtraAttack;
-			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
+//			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
 			if(tsea == null) {
 				continue;
 			}
+
+			PlayLeaderSkillAudio();
+
 			string id = item.Key;
 			foreach (var item1 in leadSkill.UserUnit) {
 				if(item1.Value == null) {
@@ -109,6 +135,9 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 				}
 			}
 		}
+
+		ResetIsPlay ();
+
 		return ai;
 	}
 
@@ -124,11 +153,13 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 				continue;
 			}
 
+			PlayLeaderSkillAudio();
+
 			for (int i = 0; i < cardQuene.Count; i++) {
 				cardQuene[i] = tcut.SwitchCard(cardQuene[i]);
 			}
 		}
-
+		ResetIsPlay ();
 		return cardQuene;
 	}
 
@@ -142,8 +173,12 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			if(tcut == null) {
 				continue;
 			}
+
+			PlayLeaderSkillAudio();
+
 			card = tcut.SwitchCard(card);
 		}
+		ResetIsPlay ();
 		return card;
 	}
 	
@@ -163,8 +198,11 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			if(trhp == null) {
 				continue;
 			}
+			PlayLeaderSkillAudio();
+
 			recoverHP = trhp.RecoverHP(blood, type);
 		}
+		ResetIsPlay ();
 		return recoverHP;
 	}
 
@@ -178,8 +216,14 @@ public class ExcuteLeadSkill : ILeadSkillReduceHurt, ILeaderSkillExtraAttack, IL
 			if(trhp == null) {
 				continue;
 			}
+
+			PlayLeaderSkillAudio();
+
 			multipe += trhp.MultipeAttack(attackInfo);
 		}
+
+		ResetIsPlay ();
+
 		return multipe;
 	}
 

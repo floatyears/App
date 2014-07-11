@@ -145,6 +145,9 @@ public class ShowNewCardView : UIComponentUnity {
 			starList.Add(go);
 			go.SetActive(false);
 			go.transform.localPosition = initPosition + Vector3.right * starSprWidth;
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_star_appear);
+
 			iTween.ScaleFrom(go, iTween.Hash("scale", DoubleScale,"time",0.5f,"easetype",iTween.EaseType.easeInQuad));
 			yield return 0.2f;
 		}
