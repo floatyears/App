@@ -183,6 +183,7 @@ message RspGetServerTime {
 }
 
 
+
 //=====================================================
 
 enum RecoveBattleStep {
@@ -770,6 +771,8 @@ message RspLevelUp {
 	optional uint32			blendUniqueId	= 5;
 	optional int32			blendExp		= 6;
 	repeated uint32			partUniqueId	= 7;
+    optional int32			friendPoint	    = 8; // total points
+    optional int32			gotFriendPoint	= 9; // got points
 }
 
 
@@ -971,7 +974,7 @@ enum EGiftContent {
 }
 
 message GiftItem {
-    optional int32      	content				= 1; //coin, friendPoint, chip, unit
+    optional int32      	content				= 1; //coin, friendPoint, unit, chip
     optional int32		    value				= 2; //unitId
     optional int32		    count				= 3; //
 }

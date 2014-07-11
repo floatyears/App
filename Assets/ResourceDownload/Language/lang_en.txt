@@ -57,6 +57,8 @@ Btn_Level_Up=Power-up
 Btn_Evolve=Evolve
 Btn_Fight=Battle
 
+Btn_ToDetail=查看详情
+
 ##Label Text
 Divided_Line=/
 Float_User_ID=User ID:
@@ -75,7 +77,6 @@ Text_Rank=Rank
 Text_Rank_Colon=Rank:
 Text_Name_Colon=Name:
 
-
 ##City Name
 City_Name_1=Misty Mountain
 City_Name_2=Horrific Wilderness
@@ -90,9 +91,14 @@ Game_Setting_Option_Music=Music
 Game_Setting_Option_NickName=NickName
 Game_Setting_Option_Currency=Test
 Game_Setting_Option_Raider=Help
+Game_Setting_Option_Notice=游戏公告
+Game_Setting_Option_Reward=游戏奖励
+Game_Setting_Option_Contact=联系我们
 Text_ResetData=Reset
 Text_BGM=BGM
 Text_Sound=Sound
+ContactUsContent=邮箱: MonsterStory@qq.com \n客服QQ: 414200          
+ContactUs=联系我们
 
 Text_Leader_Skill=Leader Skill
 Text_Active_Skill=Active Skill
@@ -268,17 +274,17 @@ UnitExpansionFinish=Unit Max Expansion Completed
 UnitExpansionResult=Unit Limited Max Reached {0}!
 
 ##### gacha
-FriendGacha=Start Friend Point Scratch
-FriendGachaTitle=Friend Point Scratch
+FriendGacha=Start Pal Point Scratch
+FriendGachaTitle=Pal Point Scratch
 FriendGachaDescription=Use friend Scratch to get units
-FriendGachaStatus=1 gacha: {0} points  {1} gachas: {2} points\nnow friend points {3}
+FriendGachaStatus=1 gacha: {0} points  {1} gachas: {2} points\nnow pal points {3}
 
 ConfirmOneFriendGacha=Gacha 1 time
 ConfirmMaxFriendGacha=Gacha {0} times
 
 FriendGachaFailed=[FF0000]Friend Gacha Failed[-]
 UnitCountReachedMax=Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any gacha.
-GachaFriendPointNotEnough=1 friend gacha need {0} friend points\nYour friend points not enough.
+GachaFriendPointNotEnough=1 friend gacha need {0} pal points\nYour pal points not enough.
 
 RareGacha=Start Rare Scratch
 RareGachaTitle=Rare Scratch
@@ -413,9 +419,9 @@ SelectRole_No=No.
 DeleteNoteTitle=Delete Friend
 DeleteNoteContent=Are you sure to delete this friend?
 
-ZeroFriendPoint=Don't get friend point.
-GotFriendPoint=You have got {0} friend point.
-TotalFriendPoint=Total friend point: {0}.
+ZeroFriendPoint=Don't get pal point.
+GotFriendPoint=You have got {0} pal point.
+TotalFriendPoint=Total pal point: {0}.
 
 ChainLogin=Chain Login {0}
 TotalLogin=Total Login {0}
