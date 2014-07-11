@@ -62,10 +62,21 @@ public class OperationNoticeView : UIComponentUnity {
 					GameObject item = NGUITools.AddChild(content,prefab);
 					
 					LogHelper.Log("------operation notice transform:" + item);
-					
+
+
 					item.transform.FindChild(titleLabel).GetComponent<UILabel>().text = nItem.title;
 					item.transform.FindChild(contentLabel).GetComponent<UILabel>().text = nItem.message;
-				}	
+				}
+
+
+				
+//				LogHelper.Log("------operation notice transform:" + item);
+				bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
+				if(data != null){
+					GameObject item1 = NGUITools.AddChild(content,prefab);
+					item1.transform.FindChild(titleLabel).GetComponent<UILabel>().text = TextCenter.GetText("Notice_HelperTitle");//data.title;
+					item1.transform.FindChild(contentLabel).GetComponent<UILabel>().text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet);//nItem.message;
+				}
 			}
 		});
 		

@@ -258,6 +258,13 @@ Reward_Tab_Info2=累计登陆奖励
 Reward_Tab_Info3=升级奖励
 Reward_Tab_Info4=月卡奖励
 Reward_Tab_Info5=其他奖励
+ChainLogin=连续登录 {0} 天
+TotalLogin=累计登录 {0} 天
+RankReach=等级 {0} 
+
+#notice
+Notice_HelperTitle=友情战报
+Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位朋友和{2}位冒险者，获得{3}友情点数
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径
@@ -455,9 +462,6 @@ ZeroFriendPoint=未获得友情点。
 GotFriendPoint=你获得了 {0} 友情点.
 TotalFriendPoint=你拥有的友情点: {0}.
 
-ChainLogin=连续登录 {0}
-TotalLogin=累计登录 {0}
-RankReach=等级 {0}
 
 ##unit name
 UnitName_1=印第安萨满

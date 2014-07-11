@@ -133,6 +133,8 @@ public class LoadingLogic : ConcreteComponent {
 
 			if( rspAuthUser.notice != null){
 				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
+//				DataCenter.Instance.NoticeInfo.
+				DataCenter.Instance.HelperCount = rspAuthUser.helpCountInfo;
 			}
 
 			if( rspAuthUser.login != null){

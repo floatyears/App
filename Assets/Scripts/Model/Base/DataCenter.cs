@@ -21,6 +21,7 @@ public enum ModelEnum {
 	QuestClearInfo,
 	UnitCatalogInfo,
 	NoticeInfo,
+	HelperInfo,
 	LoginInfo,
 	EventStageList,
 
@@ -184,6 +185,11 @@ public class DataCenter {
 	public TNoticeInfo NoticeInfo { 
 		get { return getData(ModelEnum.NoticeInfo) as TNoticeInfo; }
 		set { setData(ModelEnum.NoticeInfo, value); }
+	}
+
+	public StatHelperCount HelperCount{
+		get { return getData(ModelEnum.HelperInfo) as StatHelperCount; }
+		set { setData(ModelEnum.HelperInfo, value); }
 	}
 
 	public TLoginInfo LoginInfo { 
