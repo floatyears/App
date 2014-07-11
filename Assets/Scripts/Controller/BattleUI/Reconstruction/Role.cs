@@ -255,7 +255,7 @@ public class Role : UIBaseUnity {
 		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + bounceOffset);
 		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, secondPath [3].y);
 //		Debug.LogError(">>>>>>>>>>> bounce...");
-		iTween.MoveTo (gameObject, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBounce, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+		iTween.MoveTo (gameObject, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 	}
 
 	Coordinate tempCoor; 
