@@ -341,7 +341,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 135;
-		audioItem.name 				= "se_135_attack_increase";
+		audioItem.name 				= "se_135_attack_increase1";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -349,7 +349,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 136;
-		audioItem.name 				= "se_136_as_appear";
+		audioItem.name 				= "se_136_attack_increase2";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -357,7 +357,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 137;
-		audioItem.name 				= "se_137_as_fly";
+		audioItem.name 				= "se_137_attack_increase3";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -365,7 +365,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 138;
-		audioItem.name 				= "se_138_quest_clear";
+		audioItem.name 				= "se_138_attack_increase4";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -373,7 +373,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 139;
-		audioItem.name 				= "se_139_sp_limited_over";
+		audioItem.name 				= "se_139_attack_increase5";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -381,7 +381,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 140;
-		audioItem.name 				= "se_140_rank_up";
+		audioItem.name 				= "se_140_attack_increase6";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -389,7 +389,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 141;
-		audioItem.name 				= "se_141_friend_up";
+		audioItem.name 				= "se_141_attack_increase7";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -397,7 +397,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 142;
-		audioItem.name 				= "se_142_star_appear";
+		audioItem.name 				= "se_142_as_appear";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -405,7 +405,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 143;
-		audioItem.name 				= "se_143_sp_recover";
+		audioItem.name 				= "se_143_as_fly";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -413,7 +413,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 144;
-		audioItem.name 				= "se_144_tile_overlap";
+		audioItem.name 				= "se_144_quest_clear";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -421,7 +421,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 145;
-		audioItem.name 				= "se_145_game_over";
+		audioItem.name 				= "se_145_sp_limited_over";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -429,7 +429,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 146;
-		audioItem.name 				= "se_146_card_evo";
+		audioItem.name 				= "se_146_rank_up";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -437,7 +437,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 147;
-		audioItem.name 				= "se_147_ns_single1";
+		audioItem.name 				= "se_147_friend_up";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -445,7 +445,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 148;
-		audioItem.name 				= "se_148_ns_single2";
+		audioItem.name 				= "se_148_star_appear";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -453,7 +453,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 149;
-		audioItem.name 				= "se_149_as_all1";
+		audioItem.name 				= "se_149_sp_recover";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -461,7 +461,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 150;
-		audioItem.name 				= "se_150_as_all2";
+		audioItem.name 				= "se_150_tile_overlap";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -469,7 +469,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 151;
-		audioItem.name 				= "se_151_as_single1";
+		audioItem.name 				= "se_151_game_over";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -477,7 +477,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 152;
-		audioItem.name 				= "se_152_as_single2";
+		audioItem.name 				= "se_152_card_evo";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -485,7 +485,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 153;
-		audioItem.name 				= "se_153_ns_all1";
+		audioItem.name 				= "se_153_ns_single1";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -493,7 +493,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 154;
-		audioItem.name 				= "se_154_ns_all2";
+		audioItem.name 				= "se_154_ns_single2";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -501,7 +501,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 155;
-		audioItem.name 				= "se_155_as_single1_blood";
+		audioItem.name 				= "se_155_as_all1";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -509,7 +509,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 156;
-		audioItem.name 				= "se_156_as_delay";
+		audioItem.name 				= "se_156_as_all2";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -517,7 +517,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 157;
-		audioItem.name 				= "se_157_as_slow";
+		audioItem.name 				= "se_157_as_single1";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -525,7 +525,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 158;
-		audioItem.name 				= "se_158_as_def_down";
+		audioItem.name 				= "se_158_as_single2";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -533,7 +533,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 159;
-		audioItem.name 				= "se_159_as_poison";
+		audioItem.name 				= "se_159_ns_all1";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -541,7 +541,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 160;
-		audioItem.name 				= "se_160_as_color_change";
+		audioItem.name 				= "se_160_ns_all2";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -549,7 +549,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 161;
-		audioItem.name 				= "se_161_as_damage_down";
+		audioItem.name 				= "se_161_as_single1_blood";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -557,7 +557,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 162;
-		audioItem.name 				= "se_162_ps_counter";
+		audioItem.name 				= "se_162_as_delay";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -565,7 +565,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 163;
-		audioItem.name 				= "se_163_ls_chase";
+		audioItem.name 				= "se_163_as_slow";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -573,7 +573,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 164;
-		audioItem.name 				= "se_164_ls_activate";
+		audioItem.name 				= "se_164_as_def_down";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -581,7 +581,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 165;
-		audioItem.name 				= "se_165_as_activate";
+		audioItem.name 				= "se_165_as_poison";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -589,7 +589,55 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 166;
-		audioItem.name 				= "se_166_ps_dodge_trap";
+		audioItem.name 				= "se_166_as_color_change";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 167;
+		audioItem.name 				= "se_167_as_damage_down";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 168;
+		audioItem.name 				= "se_168_ps_counter";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 169;
+		audioItem.name 				= "se_169_ls_chase";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 170;
+		audioItem.name 				= "se_170_ls_activate";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 171;
+		audioItem.name 				= "se_171_as_activate";
+		audioItem.resourcePath 	= basePath + audioItem.name;
+		audioItem.type 				= EPlayType.ONCE;
+		audioList.Add(audioItem);
+
+		audioItem= new AudioConfigItem();
+		audioItem.version 			= 1;
+		audioItem.id 					= 172;
+		audioItem.name 				= "se_172_ps_dodge_trap";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
