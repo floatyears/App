@@ -19,18 +19,20 @@ public class RewardView : UIComponentUnity {
 
 	private Dictionary<int,GameObject> Nums;
 
+	UILabel tabInfo;
+
 
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
-
-
 	}
 	
 	public override void ShowUI() {
 		base.ShowUI();
 
 		bonusIDs.Clear ();
+
+		RefreshView ();
 
 		ShowUIAnimation ();
 	}
@@ -67,7 +69,7 @@ public class RewardView : UIComponentUnity {
 		FindUIElement ();
 		InitData ();
 		CreateDragView ();
-		RefreshView ();
+
 
 		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
 
@@ -76,22 +78,26 @@ public class RewardView : UIComponentUnity {
 
 	private void InitData(){
 		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
-			if(item.type <= 4){
+			if(item.type <= 3){
 
 				if(!aList.ContainsKey(item.type))
 					aList[item.type] = new List<BonusInfo>();
 				aList[item.type].Add(item);
-			}else{
-				if(!aList.ContainsKey(4))
+			}else if(item.type == 4){
+				if(!aList.ContainsKey(5))
 					aList[5] = new List<BonusInfo>();
 				aList[5].Add(item);
+			}else if(item.type >4){
+				if(!aList.ContainsKey(4))
+					aList[4] = new List<BonusInfo>();
+				aList[4].Add(item);
 			}
-
 		}
 	}
 
 	void OnClickOK(GameObject obj){
-		UIManager.Instance.ChangeScene (UIManager.Instance.prevScene);
+		UIManager.Instance.ChangeScene (UIManager.Instance.current.CurrentDecoratorScene);
+//		HideUI ();
 	}
 
 	void ShowUIAnimation(){
@@ -126,6 +132,8 @@ public class RewardView : UIComponentUnity {
   		Nums.Add (5, FindChild ("5/Num"));
 
 		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Reward_Title");
+
+		tabInfo = FindChild<UILabel> ("Info");
 	}
 
 	private void RefreshView(){
@@ -210,7 +218,11 @@ public class RewardView : UIComponentUnity {
 	}
 
 	public void ShowTabInfo(object data){
-		UIToggle.GetActiveToggle (3);
+		UIToggle toggle = UIToggle.GetActiveToggle (3);
 		//Debug.Log ("tab info: " + data);
+//		Debug.Log ("toggle: " + toggle);
+		if (toggle != null) {
+			tabInfo.text = TextCenter.GetText ("Reward_Tab_Info" + toggle.ToString().Substring(0,1));
+		}
 	}
 }
