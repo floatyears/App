@@ -3,6 +3,7 @@ using System.Collections;
 
 public class UserUnitSortPanelView : SortPanelView {
 	protected override void InitBtns(){
+//		Debug.LogError("UserUnitSortPanelView init btns 1");
 		base.InitBtns();
 		UIButton btn;
 		UILabel label;
@@ -12,6 +13,8 @@ public class UserUnitSortPanelView : SortPanelView {
 		sortRuleSelectDic.Add(btn, SortRule.GetTime);
 
 		AddEventListener();
+
+//		Debug.LogError("UserUnitSortPanelView init btns 2");
 	}
 
 }

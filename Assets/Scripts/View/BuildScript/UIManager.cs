@@ -159,39 +159,31 @@ public class UIManager {
 		}
 
 //		if (!CheckIsPopUpWindow (sEnum, prevScene)) {
-//		Debug.Log ("current scene: " + sEnum);
+//		Debug.Log ("baseScene.CurrentScene : " + baseScene.CurrentScene + " current scene: " + sEnum);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		} else {
-
 			nextScene = sEnum;
-			//
-			//			if(CheckIsPopUpWindow(prevScene)){
-			//				if(prev != null)
-			//					prev.HideScene();
-			//			}
-//			prevScene = (current != null ? current.CurrentDecoratorScene : SceneEnum.None);
 
 			InvokeSceneClear (sEnum);
 
-
 			if(CheckIsPopUpWindow(sEnum)){
-				if(currentPopUp != null)
-				{
-//					Debug.Log ("current hide: " + currentPopUp.CurrentDecoratorScene);
+//				Debug.LogError("is pop up window : " + (currentPopUp == null));
+				if(currentPopUp != null) {
+//					Debug.Log ("currentPopUp != null current hide: " + currentPopUp.CurrentDecoratorScene);
 					currentPopUp.HideScene ();
 				}
-			}else{
-				if(currentPopUp != null)
-				{
-//					Debug.Log ("current hide: " + currentPopUp.CurrentDecoratorScene);
+			} else{
+//				Debug.LogError("not pop up window");
+				if(currentPopUp != null) {
+//					Debug.Log ("currentPopUp != null current hide: " + currentPopUp.CurrentDecoratorScene);
 					currentPopUp.HideScene ();
 					currentPopUp = null;
 				}
-				if (current != null) {
 
+				if (current != null) {
 					if(current.CurrentDecoratorScene == sEnum){
-//						Debug.Log ("current hide: " + current.CurrentDecoratorScene);
+//						Debug.Log ("current != null current hide: " + current.CurrentDecoratorScene);
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
 						return;
@@ -202,18 +194,16 @@ public class UIManager {
 
 			baseScene.SetScene (sEnum);
 			storePrevScene = sEnum;
-
-			//			prev = current;
 		}
 
 		if (HasUIObject (sEnum)) {
+//			Debug.Log("HasUIObject : " + sEnum);
 			if(CheckIsPopUpWindow(sEnum)){
 				currentPopUp = GetUI (sEnum);	
 				if (currentPopUp != null) {
 					currentPopUp.ShowScene ();
 				}
-			}
-			else{
+			} else{
 				current = GetUI (sEnum);	
 				if (current != null) {
 					current.ShowScene ();
@@ -221,28 +211,17 @@ public class UIManager {
 			}
 
 		} else {
+//			Debug.Log("not HasUIObject : " + sEnum);
 			DecoratorBase db = CreatScene (sEnum);
 			if(CheckIsPopUpWindow(sEnum)){
 				currentPopUp = db;
 			}else{
 				current = db;
 			}
-
 		}
-
+		if(current != null)
+//		Debug.LogError ("change scene end current : " + current.CurrentDecoratorScene);
 		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
-//		} else {
-//			DecoratorBase temp;
-//			if (HasUIObject (sEnum)) {
-//				temp = GetUI (sEnum);	
-//				if (temp != null) {
-//					temp.ShowScene ();
-//				}
-//			} else {
-//				temp = CreatScene (sEnum);
-//			}
-//		}
-
 	}
 
 	public static bool CheckIsPopUpWindow(SceneEnum sEnum){
@@ -259,7 +238,7 @@ public class UIManager {
 	}
 	
 	DecoratorBase CreatScene(SceneEnum sEnum) {
-//		Debug.LogError ("senum : " + sEnum);
+//		Debug.LogError ("CreatScene senum : " + sEnum);
 		DecoratorBase temp = null;
 		switch (sEnum)
 		{
@@ -410,10 +389,13 @@ public class UIManager {
         }
 
 		if (temp != null) {
+//			Debug.LogError ("CreatScene temp 1" );
 			temp.SetDecorator (baseScene);
+//			Debug.LogError ("CreatScene temp 2" );
 			temp.DecoratorScene ();
-
+//			Debug.LogError ("CreatScene temp 3" );
 			AddUIObject (sEnum, temp);
+//			Debug.LogError ("CreatScene temp 4" );
 		}
 		return temp;
 	}

@@ -9,6 +9,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 	
 	public override void ShowUI () {
+//		Debug.Log("EvolveDecoratorUnity showui 1");
 		bool b = friendWindow != null && friendWindow.isShow;
 		if (b) {
 			friendWindow.gameObject.SetActive (true);
@@ -21,9 +22,11 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+//		Debug.Log("EvolveDecoratorUnity showui 2");
 	}
 	
 	public override void HideUI () {
+//		Debug.Log("EvolveDecoratorUnity showui 2");
 		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true; 
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
@@ -33,6 +36,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			friendWindow.HideUI ();
 		}
 		base.HideUI ();
+//		Debug.LogError ("EvolveDecoratorUnity HideUI");
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 	}

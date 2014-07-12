@@ -51,8 +51,7 @@ public class ItemCounterView : UIComponentUnity{
 			maxLabel.text = TextCenter.GetText("CounterMax" , max);
 			if(current > max){
 				curLabel.color = Color.red;
-			}
-			else{
+			} else{
 				curLabel.color = Color.white;
 			}
 		}
@@ -62,5 +61,4 @@ public class ItemCounterView : UIComponentUnity{
 		transform.localPosition = new Vector3(1000, -792, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 213, "time", 0.4f, "islocal", true));
 	}
-	
 }

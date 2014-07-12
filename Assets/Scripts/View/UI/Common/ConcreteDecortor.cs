@@ -600,9 +600,12 @@ public class EvolveDecorator : DecoratorBase{
 	}
 	
 	public override void ShowScene(){
+//		Debug.Log("EvolveDecorator ShowScene 1");
 		base.ShowScene();
+//		Debug.Log("EvolveDecorator ShowScene 2 sceneInfoBar : " + sceneInfoBar);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_EVOLVE));
+//		Debug.Log("EvolveDecorator ShowScene 3");
 	}
 	
 	public override void HideScene(){
@@ -618,11 +621,11 @@ public class EvolveDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
-		counter.SetComponent (sceneInfoBar);
+//		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+//		counter.SetComponent (sceneInfoBar);
 
 		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
-		sc.SetComponent (counter);
+		sc.SetComponent (sceneInfoBar);
 
 		EvolveComponent evolve = CreatComponent< EvolveComponent >(UIConfig.evolveWindowName);
 		evolve.SetComponent(sc);
@@ -631,12 +634,11 @@ public class EvolveDecorator : DecoratorBase{
 
 		UnitDisplay unitdisplay = CreatComponent< UnitDisplay >(UIConfig.unitDisplay);
 		unitdisplay.SetComponent (evolve);
-
 		lastDecorator = unitdisplay;
 		lastDecorator.CreatUIAsyn (this);
-
 		EvolveDecoratorUnity edu = evolve.ViewComponent as EvolveDecoratorUnity;
 		edu.SetUnitDisplay (unitdisplay.ViewComponent.gameObject);
+
 	}
 
 	void EvolveSaveState(object data) {

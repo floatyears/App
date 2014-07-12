@@ -31,8 +31,11 @@ public partial class TextCenter {
 
 	public static string GetText(string key, params object[] args){
 		string result = Instance.InnerGetText( key );
-		if( result!=null && result.Length > 0 ) {
-			result = string.Format(result, args);
+		if (!string.IsNullOrEmpty (result)) {
+//			Debug.LogError ("result : " + result);
+			result = string.Format (result, args);
+		} else {
+			result = string.Format(" ",args);		
 		}
 		if(result == null) {
 			result = "";
