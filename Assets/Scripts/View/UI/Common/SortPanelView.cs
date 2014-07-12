@@ -16,8 +16,10 @@ public class SortPanelView : UIComponentUnity {
 	}
 
 	public override void ShowUI(){
+//		Debug.LogError("SortPanelView show ui 1");
 		base.ShowUI();
 		ShowUIAnimation();
+//		Debug.LogError("SortPanelView show ui 2");
 	}
 
 	public override void HideUI(){

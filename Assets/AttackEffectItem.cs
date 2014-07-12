@@ -77,7 +77,7 @@ public class AttackEffectItem : MonoBehaviour {
 	}
 	
 	void MoveComplete() {
-		iTween.RotateFrom (gameObject, iTween.Hash ("z", 10, "time", 0.15f, "easetype", iTween.EaseType.easeOutBounce, "oncomplete", "RotateComplete", "oncompletetarget", gameObject));
+		iTween.RotateFrom (gameObject, iTween.Hash ("z", 10, "time", 0.15f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "RotateComplete", "oncompletetarget", gameObject));
 	}
 	
 	void RotateComplete() {

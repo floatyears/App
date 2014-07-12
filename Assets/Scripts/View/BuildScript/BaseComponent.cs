@@ -85,31 +85,36 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		this.decoratorBase = decoratorBase;
 		CreatUI ();
 	}
-
-
-
+	
 	public virtual void CreatUI() {
+//		if(this is UnitDisplay)
+//		Debug.Log ("ConcreteComponent CreatUI  " + this + " component : " + component);
 		if (component != null){
 			component.CreatUI();
 		}
 		CreatViewComponent();
+//		if(this is UnitDisplay)
+//		Debug.Log ("ConcreteComponent CreatUI 2 " + this);
 	}
 
 	public virtual void ShowUI() {
+//		if(this is ItemCounterController)
+//			Debug.LogError ("ConcreteComponent ShowUI 1  " + this + " component : " + component);
 		if (component != null) {
 			component.ShowUI();		
 		}
-//		Debug.LogError("ConcreteComponent  component ShowUI : " + component + "  this : " + this + " viewComponent : " + viewComponent);
+
 		if (viewComponent != null) {
 			viewComponent.ShowUI();
 		}
+//		if(this is ItemCounterController)
+//		Debug.LogError ("ConcreteComponent ShowUI 2  " + this);
 	}
 
 	public virtual void HideUI() {
 		if (component != null) {
 			component.HideUI();		
 		}
-//		Debug.LogError("viewComponent : " + viewComponent);
 
 		if (viewComponent != null) {
 			viewComponent.HideUI ();
@@ -117,10 +122,6 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	}
 
 	public virtual void DestoryUI() {
-//		if (component != null) {
-//			component.DestoryUI();
-//		}
-
 		if (viewComponent != null) {
 			viewComponent.DestoryUI();
 		}
@@ -159,13 +160,20 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 	}
 
 	private void CreateCallback(Object o){
+//		if(this is ItemCounterController)
+//		Debug.LogError ("ConcreteComponent CreateCallback 1 " + this + " o : " + o);
+
 		if (o == null){
 			LogHelper.LogError("there is no ui with the path:" + uiConfig.resourcePath);
 			return;
 		}
-//		Debug.LogError ("o : " +  o.name + "type : " + o.GetType() );
+
 		GameObject go = GameObject.Instantiate(o) as GameObject;
 		viewComponent = go.GetComponent<UIComponentUnity>();
+
+//		if(this is ItemCounterController)
+//		Debug.LogError ("ConcreteComponent CreateCallback 2 " + this + " viewComponent : " + viewComponent);
+
 		if (viewComponent == null){
 			LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
 			return;
@@ -174,9 +182,17 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		viewCallback = viewComponent;
 		viewComponent.Init(uiConfig, this);
 
+//		if(this is ItemCounterController)
+//		Debug.LogError ("ConcreteComponent CreateCallback 3 " + this + " decoratorBase : " + decoratorBase);
+
 		if (decoratorBase != null) {
+//			Debug.LogError("start ConcreteComponent : " + this + " decoratorBase != null : " + decoratorBase);
 			decoratorBase.ShowScene();
+//			Debug.LogError("end ConcreteComponent : " + this + " decoratorBase != null : " + decoratorBase);
 		}
+
+//		if(this is ItemCounterController)
+//		Debug.LogError ("ConcreteComponent CreateCallback 4 " + this);
 	}
 
 	protected IUIComponent component;

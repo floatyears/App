@@ -36,24 +36,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	UILabel profileLabel;
 	UILabel profileTitle;
-
-
-//	UIButton favBtn;
-//	GameObject tabSkill1;
+	
 	GameObject tabSkill2;
 	GameObject tabStatus;
 	GameObject tabProfile;
 
 	UIToggle statusToggle;
-//	UITexture unitBodyTex;
-
-	GameObject levelUpEffect;
+	
 	Material unitMaterial;
 
 	List<UISprite> blockLsit1 = new List<UISprite>();
 	List<UISprite> blockLsit2 = new List<UISprite>();
-        
-//	public bool fobidClick = false;
 
 	int currMaxExp, curExp, gotExp, expRiseStep;
 
@@ -85,7 +78,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	//center
 	UITexture unitBodyTex;
-//	UnitDetailTopPanel topPanel;
 	GameObject materilItem;
 	GameObject parent;
 	
@@ -94,11 +86,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		GetUnitMaterial();
 		InitEffect();
 		InitUI();
-
-//		topPanel = GameObject.Find ("UnitDetailTopPanel(Clone)").GetComponent<UnitDetailTopPanel> ();
 	}
 	
 	public override void ShowUI () {
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);	
+		}
+
 		base.ShowUI ();
 		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
@@ -108,46 +102,31 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//TODO:
 		//StartCoroutine ("nextState");
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
-
-		//top
-//		MsgCenter.Instance.AddListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
 		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
-//		MsgCenter.Instance.AddListener(CommandEnum.LevelUp, CallBackUnitData);
-
-		//center
-//		MsgCenter.Instance.AddListener (CommandEnum.LevelUp, LevelUpFunc);
 	}
 
-//	IEnumerator nextState()
-//	{
-//		yield return new WaitForSeconds (1);
-//		NoviceGuideStepEntityManager.Instance ().NextState ();
-//	}
+ 
 
 	public override void HideUI () {
 		base.HideUI ();
 		if (IsInvoking ("CreatEffect")) {
 			CancelInvoke("CreatEffect");
 		}
-		ClearEffectCache();
+
 		UIManager.Instance.ShowBaseScene();
 
-		//top
-//		MsgCenter.Instance.RemoveListener(CommandEnum.ShowUnitDetail, CallBackUnitData);
-//		MsgCenter.Instance.RemoveListener(CommandEnum.LevelUp, CallBackUnitData);
+ 
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 
-		//center
-//		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUp, LevelUpFunc);
+		ClearEffectCache();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-
-//		DestoryUnitLock();
 	}
+
 
 
 	//----------Init functions of UI Elements----------
@@ -155,7 +134,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		//center
 		unitBodyTex = FindChild< UITexture >("Bottom/detailSprite");
-//		topPanel = GameObject.Find ("Center/UnitDetailTopPanel(Clone)").GetComponent<UnitDetailTopPanel> ();
 		materilItem = FindChild<Transform>("Center/MaterialItem").gameObject;
 		parent = FindChild<UIGrid> ("Center/UIGrid").gameObject;
 		
@@ -166,8 +144,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UIEventListener.Get(unitLock).onClick = ClickLock;
 
 		unitInfoTabs = transform.Find("Bottom/UnitInfoTabs").gameObject;
-//		tabSkill1 = transform.Find("UnitInfoTabs/Tab_Skill1").gameObject;
-//		UIEventListener.Get(tabSkill1).onClick = ClickTab;
 
 		tabSkill2 = transform.Find("Bottom/UnitInfoTabs/Tab_Skill2").gameObject;
 		UIEventListener.Get(tabSkill2).onClick = ClickTab;
@@ -190,23 +166,16 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		InitTabSkill();
 		InitTabStatus ();
-//		InitTexture ();
 		InitProfile();
 		InitTextLabel();
 	}
 
 	void ClickTexture( GameObject go ){
-		//		if (fobidClick) {
-		//			return;	
-		//		}
 		StopAllCoroutines ();
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-		//		Debug.LogError ("unit detail SceneEnum : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
-
-//		HideUI ();
 	}
 
 	void ClickTab(GameObject tab){
@@ -224,26 +193,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if(rlu ==null) {
 			return;
 		}
-		//		Debug.LogError("RspLevelUp ; " + rlu);
 		PlayLevelUp(rlu);
 	} 
-
-//	void InitTexture(){
-////		unitBodyTex = FindChild< UITexture >("detailSprite");
-////		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
-//	}
 
 	void InitTabStatus() {
 		string rootPath = "Bottom/UnitInfoTabs/Content_Status/";
 
-//		noLabel			= FindChild<UILabel> (rootPath + "InputFrame_No"	);
-//		nameLabel		= FindChild<UILabel> (rootPath + "InputFrame_Name"	);
 		levelLabel		= FindChild<UILabel> (rootPath + "InputFrame_Lv"	);
-//		typeLabel		= FindChild<UILabel> (rootPath + "InputFrame_Type"	);
 		raceLabel		= FindChild<UILabel> (rootPath + "InputFrame_Race"	);
 		hpLabel			= FindChild<UILabel> (rootPath + "InputFrame_HP"	);
-//		costLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Cost"	);
-//		rareLabel 		= FindChild<UILabel> (rootPath + "InputFrame_Rare"	);
 		atkLabel 		= FindChild<UILabel> (rootPath + "InputFrame_ATK"	);
 		needExpLabel	= FindChild<UILabel>( rootPath + "Label_Exp_Need"	);
 		expSlider		= FindChild<UISlider>	(rootPath + "ExperenceBar"	);
@@ -302,61 +260,34 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void LevelUp( object data){
-		//Get BaseUnitInfo
 		TUserUnit baseUnitData = data as TUserUnit;
 		ExpRise();
 	}
 
-
-
-//	void InitEffect(){
-//		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
-//		string path = "Effect/HelixHealingYellow";
-//		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-//			levelUpEffect = o as GameObject;
-//		});
-//	}
-
-//	void ClickTexture( GameObject go ){
-//		if (fobidClick) {
-//			return;	
-//		}
-//		StopAllCoroutines ();
-//		ClearEffectCache ();
-//		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-//		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-////		Debug.LogError ("unit detail SceneEnum : " + preScene);
-//		UIManager.Instance.ChangeScene( preScene );
-//	}
-
-//	void PlayLevelUp(RspLevelUp rlu) {
-//
-//	}
-
 	void PlayCheckRoleAudio(){
-		//Debug.LogError("callWhenFinished...PlayCheckRoleAudio()");
+		PlayEvolveEffect ();
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 		
+	void PlayEvolveEffect () {
+		Debug.LogError ("DataCenter.gameState : " + DataCenter.gameState);
+
+		if (DataCenter.gameState != GameState.Evolve) {
+			return;
+		}
+
+		evolveEffectIns = NGUITools.AddChild(gameObject, evolveEffect);
+		evolveEffectIns.layer = GameLayer.EffectLayer;
+	}
+
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
-
-//		noLabel.text = data.UnitID.ToString();
 		
 		//hp
 		hpLabel.text = data.Hp.ToString();
 		
 		//atk
-		atkLabel.text = data.Attack.ToString();
-		
-		//name
-//		nameLabel.text = unitInfo.Name;
-		
-		//type
-//		typeLabel.text = unitInfo.UnitType;
-		
-		//cost
-//		costLabel.text = unitInfo.Cost.ToString();
+		atkLabel.text = data.Attack.ToString ();
 		
 		//race  
 		raceLabel.text = unitInfo.UnitRace;
@@ -482,7 +413,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			ShowInfo (oldBlendUnit);
 		}
 		else if (userUnit != null) {
-//			Debug.LogError("CallbackView :: ShowInfo for currentUnit...");
+			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " + userUnit.UnitInfo.ID);
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
@@ -513,6 +444,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			
 			DataCenter.Instance.UserUnitList.DelMyUnit (rlu.partUniqueId[i]);
 		}
+
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
@@ -522,19 +454,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			targetPosition = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f, localposition.z) - parent.transform.localPosition; //unitBodyTex.transform.localPosition + Vector3.up * (unitBodyTex.height * 0.5f);
 			ShowUnitScale();
 			SetEffectCamera();
-			//			wfs = new WaitForSeconds();
 			StartCoroutine(SwallowUserUnit());
 		});
-
-//		ShowInfo (newBlendUnit);
-//		SetEffectCamera ();
-
-
-//		StartCoroutine (CreatEffect ());
-//
-//		AudioManager.Instance.PlayAudio (AudioEnum.sound_devour_unit);
-
-
 	}
 
 	void ShowLevelupInfo(object data) {
@@ -565,8 +486,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			ShowLevelupInfo(rlu);
 			PlayLevelUp(rlu);
 		}
-
-
 	}
 
 
@@ -655,8 +574,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
 			Texture2D target = o as Texture2D;
 			DGTools.ShowTexture(unitBodyTex, target);
-
-//			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 		});
 		
 	}
@@ -808,29 +725,47 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	List<GameObject> effectCache = new List<GameObject>();
-	GameObject swallowEffect;
-	GameObject linhunqiuEffect;
+	GameObject levelUpEffect = null;
+	GameObject swallowEffect = null;
+	GameObject linhunqiuEffect = null;
+	GameObject evolveEffect = null;
 	
 	void InitEffect(){
-		string path = "Effect/effect/LevelUpEffect";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			levelUpEffect = o as GameObject;
-		});
-		
-		path = "Effect/effect/level_up01";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			swallowEffect = o as GameObject;
-		});
-		
-		path = "Effect/effect/linhunqiu1";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			linhunqiuEffect = o as GameObject;
-		});
+		string path = "";
+
+		if (levelUpEffect == null) {
+			path = "Effect/effect/LevelUpEffect";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				levelUpEffect = o as GameObject;
+			});	
+		}
+	
+		if (swallowEffect == null) {
+			path = "Effect/effect/level_up01";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				swallowEffect = o as GameObject;
+			});
+		}
+
+		if (linhunqiuEffect == null) {
+			path = "Effect/effect/linhunqiu1";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				linhunqiuEffect = o as GameObject;
+			});	
+		}
+
+		if (evolveEffect == null) {
+			path = "Effect/effect/evolve";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				evolveEffect = o as GameObject;
+			});	
+		}
 	}
 	
 	GameObject materilUse = null;
 	GameObject linhunqiuIns = null;
 	GameObject swallowEffectIns = null;
+	GameObject evolveEffectIns = null;
 	
 	IEnumerator SwallowUserUnit () {
 		yield return new WaitForSeconds(1f);
@@ -863,11 +798,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		yield return new WaitForSeconds(0.5f);
 		GameObject go = Instantiate (levelUpEffect) as GameObject;
 		effectCache.Add (go);
-		yield return new WaitForSeconds(0.1f);
-		go = Instantiate (levelUpEffect) as GameObject;
-		effectCache.Add (go);
+//		yield return new WaitForSeconds(0.1f);
+//		go = Instantiate (levelUpEffect) as GameObject;
+//		effectCache.Add (go);
 		
-		if (effectCache.Count == 6) {
+		if (effectCache.Count == count) {
 			yield return new WaitForSeconds(2f);
 			
 			ClearEffectCache ();
@@ -889,16 +824,19 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	void ClearEffectCache(){
-		StopAllCoroutines ();
+
 		
 		DGTools.SafeDestory (materilUse);
 		DGTools.SafeDestory (linhunqiuIns);
 		DGTools.SafeDestory (swallowEffectIns);
-		
+		DGTools.SafeDestory (evolveEffectIns);
+
 		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
 			GameObject go = effectCache[i];
 			Destroy( go );
 			effectCache.Remove(go);
 		}
+
+		gameObject.SetActive (false);
 	}
 }

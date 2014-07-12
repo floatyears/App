@@ -443,6 +443,7 @@ public class TUserUnit : ProtobufDataBase {
 	}
 
 	public int CalculateHP(TUnitInfo tui) {
+		Debug.LogError ("CalculateHP tui : " + tui);
 		return instance.addHp * 10 + tui.GetCurveValue (Level, tui.Object.powerType.hpType);
 	}
 

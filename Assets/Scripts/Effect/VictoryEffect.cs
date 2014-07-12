@@ -186,11 +186,9 @@ public class VictoryEffect : UIComponentUnity {
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
-//				battleQuest.battle.ShieldInput(false);
 
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
 
-//				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.RankUp, RankUp);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return new WaitForSeconds(0.1f);
@@ -198,7 +196,7 @@ public class VictoryEffect : UIComponentUnity {
 	}
 
 				                                  
-	void RankUp() {
+	void RankUp () {
 //		battleQuest.battle.ShieldInput(true);
 	}
 	
@@ -295,8 +293,8 @@ public class VictoryEffect : UIComponentUnity {
 	
 	void StartRotateWing () {
 		canPlayAnimation = true;
-		iTween.RotateTo(leftWing.gameObject,iTween.Hash("rotation",leftWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"delay",0.3f));
-		iTween.RotateTo(rightWing.gameObject,iTween.Hash("rotation",rightWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"oncomplete","PlayNext","oncompletetarget",gameObject,"delay",0.3f));
+		iTween.RotateTo(leftWing.gameObject,iTween.Hash("rotation", leftWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"delay",0.3f));
+		iTween.RotateTo(rightWing.gameObject,iTween.Hash("rotation", rightWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"oncomplete","PlayNext","oncompletetarget",gameObject,"delay",0.3f));
 	}
 
 	void PlayNext () {

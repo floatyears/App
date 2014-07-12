@@ -8,15 +8,20 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
+//		Debug.Log("UnitDisplayUnity showui 1");
 		base.ShowUI ();
+		itemCounterEvolve.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
+//		Debug.Log("UnitDisplayUnity showui 2");
 	}
 
 	public override void HideUI () {
+//		Debug.Log("UnitDisplayUnity HideUI 1");
 		base.HideUI ();
+		itemCounterEvolve.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
@@ -25,10 +30,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 		for (int i = 0; i < allData.Count; i++) {
 			allData[i].isEnable = true;
 		}
+//		Debug.Log("UnitDisplayUnity HideUI 2");
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		itemCounterEvolve.DestoryUI ();
 		unitItemDragPanel.DestoryDragPanel ();
 	}
 
@@ -48,6 +55,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 	public const string SelectBase = "selectBase";
 	public const string SelectMaterial = "selectMaterial";
 	//========================================== interface end ==========================
+
+	private ItemCounterEvolve itemCounterEvolve;
 
 	private GameObject unitItem;
 
@@ -239,10 +248,10 @@ public class UnitDisplayUnity : UIComponentUnity {
 	
 	void InitUI () {
 		CreatPanel ();
-//		sortButton = FindChild<UIButton> ("sort_bar");
-//		UIEventListener.Get (sortButton.gameObject).onClick = SortButtoCallback;
-//		sortLabel = FindChild<UILabel>("sort_bar/SortLabel");
 		sortRule = SortRule.HP;
+
+		itemCounterEvolve = FindChild<ItemCounterEvolve> ("ItemCounterBar");
+		itemCounterEvolve.Init ();
 	}
 
 	void CreatPanel () {
@@ -327,7 +336,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+//		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
+//		Debug.LogError ("DataCenter.Instance.UserInfo.UnitMax : " + DataCenter.Instance.UserInfo.UnitMax);
+		itemCounterEvolve.UpdateView (countArgs);
 	}
 
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
