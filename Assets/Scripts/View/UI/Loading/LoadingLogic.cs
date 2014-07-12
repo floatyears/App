@@ -73,6 +73,7 @@ public class LoadingLogic : ConcreteComponent {
 
             //save to GlobalData
 			GameTimer.GetInstance().InitDateTime(rspAuthUser.serverTime);
+			GameTimer.GetInstance().recovertime = rspAuthUser.user.staminaRecover - rspAuthUser.serverTime;
 
             if (rspAuthUser.account != null) {
                 DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
@@ -133,6 +134,8 @@ public class LoadingLogic : ConcreteComponent {
 
 			if( rspAuthUser.notice != null){
 				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
+//				DataCenter.Instance.NoticeInfo.
+				DataCenter.Instance.HelperCount = rspAuthUser.helpCountInfo;
 			}
 
 			if( rspAuthUser.login != null){

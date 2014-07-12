@@ -47,7 +47,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UIToggle statusToggle;
 //	UITexture unitBodyTex;
 
-	GameObject levelUpEffect;
+
 	Material unitMaterial;
 
 	List<UISprite> blockLsit1 = new List<UISprite>();
@@ -150,6 +150,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 
+
 	//----------Init functions of UI Elements----------
 	void InitUI() {
 
@@ -206,7 +207,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//		Debug.LogError ("unit detail SceneEnum : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
 
-		HideUI ();
+//		HideUI ();
 	}
 
 	void ClickTab(GameObject tab){
@@ -227,11 +228,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//		Debug.LogError("RspLevelUp ; " + rlu);
 		PlayLevelUp(rlu);
 	} 
-
-//	void InitTexture(){
-////		unitBodyTex = FindChild< UITexture >("detailSprite");
-////		UIEventListener.Get( unitBodyTex.gameObject ).onClick = ClickTexture;
-//	}
 
 	void InitTabStatus() {
 		string rootPath = "Bottom/UnitInfoTabs/Content_Status/";
@@ -302,42 +298,23 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void LevelUp( object data){
-		//Get BaseUnitInfo
 		TUserUnit baseUnitData = data as TUserUnit;
 		ExpRise();
 	}
 
-
-
-//	void InitEffect(){
-//		string path = "Prefabs/UI/UnitDetail/LevelUpEffect";
-//		string path = "Effect/HelixHealingYellow";
-//		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-//			levelUpEffect = o as GameObject;
-//		});
-//	}
-
-//	void ClickTexture( GameObject go ){
-//		if (fobidClick) {
-//			return;	
-//		}
-//		StopAllCoroutines ();
-//		ClearEffectCache ();
-//		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-//		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-////		Debug.LogError ("unit detail SceneEnum : " + preScene);
-//		UIManager.Instance.ChangeScene( preScene );
-//	}
-
-//	void PlayLevelUp(RspLevelUp rlu) {
-//
-//	}
-
 	void PlayCheckRoleAudio(){
-		//Debug.LogError("callWhenFinished...PlayCheckRoleAudio()");
+		PlayEvolveEffect ();
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 		
+	void PlayEvolveEffect () {
+		if (DataCenter.gameState != GameState.Evolve) {
+			return;
+		}
+
+		evolveEffectIns = NGUITools.AddChild(parent, evolveEffect);
+	}
+
 	void ShowStatusContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
 
@@ -347,16 +324,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		hpLabel.text = data.Hp.ToString();
 		
 		//atk
-		atkLabel.text = data.Attack.ToString();
-		
-		//name
-//		nameLabel.text = unitInfo.Name;
-		
-		//type
-//		typeLabel.text = unitInfo.UnitType;
-		
-		//cost
-//		costLabel.text = unitInfo.Cost.ToString();
+		atkLabel.text = data.Attack.ToString ();
 		
 		//race  
 		raceLabel.text = unitInfo.UnitRace;
@@ -482,7 +450,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			ShowInfo (oldBlendUnit);
 		}
 		else if (userUnit != null) {
-//			Debug.LogError("CallbackView :: ShowInfo for currentUnit...");
+			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " + userUnit.UnitInfo.ID);
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
@@ -513,6 +481,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			
 			DataCenter.Instance.UserUnitList.DelMyUnit (rlu.partUniqueId[i]);
 		}
+
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
@@ -522,19 +491,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			targetPosition = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f, localposition.z) - parent.transform.localPosition; //unitBodyTex.transform.localPosition + Vector3.up * (unitBodyTex.height * 0.5f);
 			ShowUnitScale();
 			SetEffectCamera();
-			//			wfs = new WaitForSeconds();
 			StartCoroutine(SwallowUserUnit());
 		});
-
-//		ShowInfo (newBlendUnit);
-//		SetEffectCamera ();
-
-
-//		StartCoroutine (CreatEffect ());
-//
-//		AudioManager.Instance.PlayAudio (AudioEnum.sound_devour_unit);
-
-
 	}
 
 	void ShowLevelupInfo(object data) {
@@ -655,8 +613,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
 			Texture2D target = o as Texture2D;
 			DGTools.ShowTexture(unitBodyTex, target);
-
-//			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 		});
 		
 	}
@@ -808,29 +764,47 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	List<GameObject> effectCache = new List<GameObject>();
-	GameObject swallowEffect;
-	GameObject linhunqiuEffect;
+	GameObject levelUpEffect = null;
+	GameObject swallowEffect = null;
+	GameObject linhunqiuEffect = null;
+	GameObject evolveEffect = null;
 	
 	void InitEffect(){
-		string path = "Effect/effect/LevelUpEffect";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			levelUpEffect = o as GameObject;
-		});
-		
-		path = "Effect/effect/level_up01";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			swallowEffect = o as GameObject;
-		});
-		
-		path = "Effect/effect/linhunqiu1";
-		ResourceManager.Instance.LoadLocalAsset( path , o =>{
-			linhunqiuEffect = o as GameObject;
-		});
+		string path = "";
+
+		if (levelUpEffect == null) {
+			path = "Effect/effect/LevelUpEffect";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				levelUpEffect = o as GameObject;
+			});	
+		}
+	
+		if (swallowEffect == null) {
+			path = "Effect/effect/level_up01";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				swallowEffect = o as GameObject;
+			});
+		}
+
+		if (linhunqiuEffect == null) {
+			path = "Effect/effect/linhunqiu1";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				linhunqiuEffect = o as GameObject;
+			});	
+		}
+
+		if (evolveEffect == null) {
+			path = "Effect/effect/evolve";
+			ResourceManager.Instance.LoadLocalAsset( path , o =>{
+				evolveEffect = o as GameObject;
+			});	
+		}
 	}
 	
 	GameObject materilUse = null;
 	GameObject linhunqiuIns = null;
 	GameObject swallowEffectIns = null;
+	GameObject evolveEffectIns = null;
 	
 	IEnumerator SwallowUserUnit () {
 		yield return new WaitForSeconds(1f);
@@ -894,7 +868,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		DGTools.SafeDestory (materilUse);
 		DGTools.SafeDestory (linhunqiuIns);
 		DGTools.SafeDestory (swallowEffectIns);
-		
+		DGTools.SafeDestory (evolveEffectIns);
+
 		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
 			GameObject go = effectCache[i];
 			Destroy( go );

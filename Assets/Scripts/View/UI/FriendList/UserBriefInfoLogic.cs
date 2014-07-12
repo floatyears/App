@@ -9,6 +9,9 @@ public class UserBriefInfoLogic : ConcreteComponent{
 	public override void ShowUI(){
 		base.ShowUI();
 		AddEventListener();
+
+		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
+		ExcuteCallback(cbdArgs);
 	}
 
 	public override void HideUI(){

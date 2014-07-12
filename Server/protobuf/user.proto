@@ -106,7 +106,7 @@ enum EGiftContent {
 }
 
 message GiftItem {
-    optional int32      	content				= 1; //coin, friendPoint, chip, unit
+    optional int32      	content				= 1; //coin, friendPoint, unit, chip
     optional int32		    value				= 2; //unitId
     optional int32		    count				= 3; //
 }

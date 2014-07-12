@@ -154,6 +154,8 @@ message RspLevelUp {
 	optional uint32			blendUniqueId	= 5;
 	optional int32			blendExp		= 6;
 	repeated uint32			partUniqueId	= 7;
+    optional int32			friendPoint	    = 8; // total points
+    optional int32			gotFriendPoint	= 9; // got points
 }
 
 

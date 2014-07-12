@@ -112,6 +112,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 			transform.localPosition = config.localPosition;
 
 			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
+				Debug.Log("hide pop mask: true");
 				ViewManager.Instance.TogglePopUpWindow(true);
 			}
 		}
@@ -121,16 +122,17 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	public virtual void HideUI() {
 		InitHide();
+
+		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
+			Debug.Log("hide pop mask: false");
+			ViewManager.Instance.TogglePopUpWindow(false);
+		}
 	}
 
     public virtual void ResetUIState() {}
 
 	private void InitHide() {
 		transform.localPosition = ViewManager.HidePos;
-
-		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-			ViewManager.Instance.TogglePopUpWindow(false);
-		}
 	}
 
 	public virtual void DestoryUI() {

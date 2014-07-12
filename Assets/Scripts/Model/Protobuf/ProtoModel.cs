@@ -3843,6 +3843,22 @@ namespace bbproto
       get { return _partUniqueId; }
     }
   
+    private int _friendPoint = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"friendPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int friendPoint
+    {
+      get { return _friendPoint; }
+      set { _friendPoint = value; }
+    }
+    private int _gotFriendPoint = default(int);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"gotFriendPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int gotFriendPoint
+    {
+      get { return _gotFriendPoint; }
+      set { _gotFriendPoint = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

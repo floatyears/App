@@ -67,6 +67,11 @@ public class FriendDecoratorUnity : UIComponentUnity {
         foreach (var btn in btns.Keys) {
             UIEventListener.Get(btn).onClick = ClickBtn;
         }
+
+		bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
+		if(data != null){
+			FindChild<UILabel>("Top/Info").text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet);//nItem.message;
+		}
     }
 
     void ClickBtn(GameObject btn) {
