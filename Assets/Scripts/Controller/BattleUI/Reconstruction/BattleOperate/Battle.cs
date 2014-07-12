@@ -799,7 +799,7 @@ public class Battle : UIBase {
 
 	public bool showCountDown = false;
 	float time = 5f;
-	float countDownTime = 1f;
+	float countDownTime = 1.0000001f;
 	float activeDelay = 0f;
 	public void YieldStartBattle () {
 		if (showCountDown) {
@@ -820,11 +820,10 @@ public class Battle : UIBase {
 			showCountDown = true;
 			time -= countDownTime;
 			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
-		} 
-		else {
-			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
+		} else {
 			ResetClick();
 			ShieldInput (false);
+			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
 			showCountDown = false;
 			battleCardArea.ShowCountDown (false, (int)time);
 			ShieldNGUIInput (true);

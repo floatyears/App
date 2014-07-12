@@ -220,19 +220,15 @@ public class Role : UIBaseUnity {
 		Vector3[] path = new Vector3[3];
 		path [0] = transform.localPosition;
 		path [1] = leftMiddlePoint;
-//		path [2] = leftMiddlePoint2;
 		path [2] = middlePoint;
 
 		secondPath [0] = middlePoint;
-//		secondPath [1] = rightFristMiddlePoint;
 		secondPath [1] = rightMiddlePoint;
 		secondPath [2] = rightMiddlePoint2;
 		secondPath [3] = targetPoint;
-//		Debug.LogError ("middlePoint : " + middlePoint + " rightMiddlePoint : " + rightMiddlePoint + " targetPoint : " + targetPoint); 
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk);
 		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.13f+adjustTime, "easetype", iTween.EaseType.easeOutSine, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
-//		iTween.MoveTo (gameObject, iTween.Hash ("position", middlePoint, "islocal", true, "time", 0.25f, "easetype", iTween.EaseType.easeOutQuad, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 	}
 
 	void MoveRoleSecond() {
