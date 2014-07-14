@@ -39,9 +39,11 @@ public class AudioManager {
 	public void CloseBackground(bool close) {
 		isCloseBackground = close;
 		if (isCloseBackground) {
-			prevBackground.Pause ();
+			if(prevBackground)
+				prevBackground.Pause ();
 		} else {
-			prevBackground.Play ();	
+			if(prevBackground)
+				prevBackground.Play ();	
 		}
 	}
 
@@ -54,7 +56,7 @@ public class AudioManager {
 	}
 
 	public void PlayBackgroundAudio (AudioEnum audioEnum) {
-		if (!IsBackgroundAuido(audioEnum)) {
+		if (!IsBackgroundAuido(audioEnum) || isCloseBackground) {
 			return;	
 		}
 		if (prevBackground != null) {

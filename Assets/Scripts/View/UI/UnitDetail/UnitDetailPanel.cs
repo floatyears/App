@@ -80,7 +80,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UITexture unitBodyTex;
 	GameObject materilItem;
 	GameObject parent;
-	
+
+//	private bool isOwnUnit = false;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		GetUnitMaterial();
@@ -94,7 +96,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 
 		base.ShowUI ();
-		UIManager.Instance.HideBaseScene();
+//		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
@@ -113,7 +115,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			CancelInvoke("CreatEffect");
 		}
 
-		UIManager.Instance.ShowBaseScene();
+//		UIManager.Instance.ShowBaseScene();
 
  
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
@@ -406,6 +408,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 
+		if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
+			unitLock.SetActive(true);
+		} else {
+			unitLock.SetActive(false);
+		}
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
@@ -473,20 +480,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	TUserUnit newBlendUnit = null;
 	
 	private TUserUnit curUserUnit;
-	private void CallBackUnitData(object d){
-		TUserUnit userUnit = d as TUserUnit;
-
-		if (userUnit != null) {
-			ShowInfo (userUnit);
-		} else {
-			RspLevelUp rlu = d as RspLevelUp;
-			if(rlu ==null) {
-				return;
-			}
-			ShowLevelupInfo(rlu);
-			PlayLevelUp(rlu);
-		}
-	}
+//	private void CallBackUnitData(object d){
+//		TUserUnit userUnit = d as TUserUnit;
+//
+//		if (userUnit != null) {
+//			ShowInfo (userUnit);
+//		} else {
+//			RspLevelUp rlu = d as RspLevelUp;
+//			if(rlu ==null) {
+//				return;
+//			}
+//			ShowLevelupInfo(rlu);
+//			PlayLevelUp(rlu);
+//		}
+//	}
 
 
 
@@ -805,7 +812,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (effectCache.Count == count) {
 			yield return new WaitForSeconds(2f);
 			
-			ClearEffectCache ();
+//			ClearEffectCache ();
+//			HideUI();
+			UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 			
 			ShowLevelInfo (newBlendUnit);
 			curLevel = oldBlendUnit.Level;
@@ -837,6 +846,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			effectCache.Remove(go);
 		}
 
-		gameObject.SetActive (false);
+//		gameObject.SetActive (false);
+//		HideUI ();
 	}
 }
