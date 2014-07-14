@@ -80,7 +80,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UITexture unitBodyTex;
 	GameObject materilItem;
 	GameObject parent;
-	
+
+//	private bool isOwnUnit = false;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		GetUnitMaterial();
@@ -406,6 +408,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 
+		if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
+			unitLock.SetActive(true);
+		} else {
+			unitLock.SetActive(false);
+		}
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
@@ -473,20 +480,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	TUserUnit newBlendUnit = null;
 	
 	private TUserUnit curUserUnit;
-	private void CallBackUnitData(object d){
-		TUserUnit userUnit = d as TUserUnit;
-
-		if (userUnit != null) {
-			ShowInfo (userUnit);
-		} else {
-			RspLevelUp rlu = d as RspLevelUp;
-			if(rlu ==null) {
-				return;
-			}
-			ShowLevelupInfo(rlu);
-			PlayLevelUp(rlu);
-		}
-	}
+//	private void CallBackUnitData(object d){
+//		TUserUnit userUnit = d as TUserUnit;
+//
+//		if (userUnit != null) {
+//			ShowInfo (userUnit);
+//		} else {
+//			RspLevelUp rlu = d as RspLevelUp;
+//			if(rlu ==null) {
+//				return;
+//			}
+//			ShowLevelupInfo(rlu);
+//			PlayLevelUp(rlu);
+//		}
+//	}
 
 
 

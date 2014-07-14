@@ -16,7 +16,7 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 
 	public override void CallbackView (object data) {
 		levelUpInfo = data as List<TUserUnit>;
-		if (levelUpInfo == null) {
+		if (levelUpInfo == null || levelUpInfo.Count <= 0) {
 			return;
 		}
 		

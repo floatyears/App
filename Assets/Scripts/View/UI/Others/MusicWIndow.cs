@@ -100,6 +100,7 @@ public class MusicWIndow : UIComponentUnity {
 		} else{
 			AudioManager.Instance.CloseBackground (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
+			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 		}
 	}
 }
