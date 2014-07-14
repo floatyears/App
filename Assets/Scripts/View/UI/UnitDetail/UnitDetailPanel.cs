@@ -94,7 +94,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 
 		base.ShowUI ();
-		UIManager.Instance.HideBaseScene();
+//		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
@@ -113,7 +113,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			CancelInvoke("CreatEffect");
 		}
 
-		UIManager.Instance.ShowBaseScene();
+//		UIManager.Instance.ShowBaseScene();
 
  
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
@@ -805,7 +805,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		if (effectCache.Count == count) {
 			yield return new WaitForSeconds(2f);
 			
-			ClearEffectCache ();
+//			ClearEffectCache ();
+//			HideUI();
+			UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 			
 			ShowLevelInfo (newBlendUnit);
 			curLevel = oldBlendUnit.Level;
@@ -837,6 +839,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			effectCache.Remove(go);
 		}
 
-		gameObject.SetActive (false);
+//		gameObject.SetActive (false);
+//		HideUI ();
 	}
 }
