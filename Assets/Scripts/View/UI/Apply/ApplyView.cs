@@ -53,6 +53,7 @@ public class ApplyView : UIComponentUnity{
 		countArgs.Add("title", title);
 		countArgs.Add("current", current);
 		countArgs.Add("max", max);
+		countArgs.Add("posy", -772);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 

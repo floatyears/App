@@ -161,6 +161,7 @@ public class FriendListView : UIComponentUnity{
 		countArgs.Add("title", title);
 		countArgs.Add("current", current);
 		countArgs.Add("max", max);
+		countArgs.Add("posy", -774);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 

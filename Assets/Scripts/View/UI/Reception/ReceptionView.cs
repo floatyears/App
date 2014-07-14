@@ -104,6 +104,7 @@ public class ReceptionView : UIComponentUnity {
 		countArgs.Add("title", title);
 		countArgs.Add("current", current);
 		countArgs.Add("max", max);
+		countArgs.Add("posy", -766);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 

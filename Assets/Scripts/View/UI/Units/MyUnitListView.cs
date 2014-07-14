@@ -76,6 +76,7 @@ public class MyUnitListView : UIComponentUnity {
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		countArgs.Add("posy", -740);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
