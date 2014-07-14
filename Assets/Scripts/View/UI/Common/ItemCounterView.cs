@@ -40,12 +40,12 @@ public class ItemCounterView : UIComponentUnity{
 		int max = (int)viewInfo["max"];
 		curLabel.text = TextCenter.GetText("CounterCurrent" , current);
 
+		Vector3 pos = this.gameObject.transform.localPosition;
 		if (viewInfo.ContainsKey ("posy")) {
-			Vector3 pos = this.gameObject.transform.localPosition;
-			pos.y = (int)viewInfo["posy"];
-			this.gameObject.transform.localPosition = pos;	
+			pos.y = (int)viewInfo["posy"];	
 		}
-
+//		pos.y = (int)viewInfo["posy"];
+		this.gameObject.transform.localPosition = pos;
 		
 		if(max == 0){
 			maxLabel.text = string.Empty;
