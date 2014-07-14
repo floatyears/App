@@ -868,9 +868,13 @@ public class ReceptionDecorator : DecoratorBase{
 	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
+//		Debug.LogError ("ReceptionDecorator ShowScene 1");
 		base.ShowScene();
+//		Debug.LogError ("ReceptionDecorator ShowScene 2");
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
+//		Debug.LogError ("ReceptionDecorator ShowScene 3");
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RECEPTION));
+//		Debug.LogError ("ReceptionDecorator ShowScene 4");
 	}
 	
 	public override void HideScene(){

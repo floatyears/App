@@ -41,8 +41,7 @@ public class ItemCounterEvolve : MonoBehaviour {
 	
 		if(max == 0){
 			maxLabel.text = string.Empty;
-		}
-		else{
+		} else{
 			maxLabel.text = TextCenter.GetText("CounterMax" , max);
 			if(current > max){
 				curLabel.color = Color.red;
