@@ -64,13 +64,21 @@ public class MaskView : UIComponentUnity {
 		FindChild<UILabel> ("Tips/Sprite_Connect/Label_Text").text = TextCenter.GetText ("Connecting");
 		bool isActive = (bool)args;
 
-		if(isActive)
+		if (isActive) {
+			NGUITools.AdjustDepth (gameObject, 5);
 			InvokeRepeating ("ShowTipText", 0, 3.0f);
-		else
+		}
+			
+		else{
+			NGUITools.AdjustDepth (gameObject, -5);
 			CancelInvoke ("ShowTipText");
+		}
+			
 
 		connecting.SetActive(isActive);
 		gameObject.SetActive(isActive);
+
+
 	}
 
 	

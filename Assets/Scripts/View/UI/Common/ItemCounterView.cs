@@ -41,7 +41,10 @@ public class ItemCounterView : UIComponentUnity{
 		curLabel.text = TextCenter.GetText("CounterCurrent" , current);
 
 		Vector3 pos = this.gameObject.transform.localPosition;
-		pos.y = (int)viewInfo["posy"];
+		if (viewInfo.ContainsKey ("posy")) {
+			pos.y = (int)viewInfo["posy"];	
+		}
+//		pos.y = (int)viewInfo["posy"];
 		this.gameObject.transform.localPosition = pos;
 		
 		if(max == 0){
