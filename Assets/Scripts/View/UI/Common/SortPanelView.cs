@@ -10,9 +10,13 @@ public class SortPanelView : UIComponentUnity {
 	private GameObject sortRuleSelectPanel;
 
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
+//		Debug.LogError("SortPanelView init 1");
 		base.Init(config, origin);
+//		Debug.LogError("SortPanelView init 3");
 		InitBtns();
+//		Debug.LogError("SortPanelView init 2");
 	}
 
 	public override void ShowUI(){
