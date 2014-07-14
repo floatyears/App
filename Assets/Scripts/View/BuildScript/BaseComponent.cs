@@ -92,6 +92,7 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		if (component != null){
 			component.CreatUI();
 		}
+
 		CreatViewComponent();
 //		if(this is UnitDisplay)
 //		Debug.Log ("ConcreteComponent CreatUI 2 " + this);
@@ -155,7 +156,9 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 
 	protected void CreatViewComponent() {
 		if (viewComponent == null) {
-			ResourceManager.Instance.LoadLocalAsset(uiConfig.resourcePath, CreateCallback);
+			ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath, CreateCallback);
+		} else if (decoratorBase != null){
+				decoratorBase.ShowScene();	
 		}
 	}
 
@@ -185,10 +188,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent CreateCallback 3 " + this + " decoratorBase : " + decoratorBase);
 
-		if (decoratorBase != null) {
-//			Debug.LogError("start ConcreteComponent : " + this + " decoratorBase != null : " + decoratorBase);
-			decoratorBase.ShowScene();
-//			Debug.LogError("end ConcreteComponent : " + this + " decoratorBase != null : " + decoratorBase);
+		if (decoratorBase != null){
+			decoratorBase.ShowScene();	
 		}
 
 //		if(this is ItemCounterController)

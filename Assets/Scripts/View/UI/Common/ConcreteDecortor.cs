@@ -868,9 +868,13 @@ public class ReceptionDecorator : DecoratorBase{
 	public ReceptionDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
+//		Debug.LogError ("ReceptionDecorator ShowScene 1");
 		base.ShowScene();
+//		Debug.LogError ("ReceptionDecorator ShowScene 2");
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
+//		Debug.LogError ("ReceptionDecorator ShowScene 3");
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RECEPTION));
+//		Debug.LogError ("ReceptionDecorator ShowScene 4");
 	}
 	
 	public override void HideScene(){
@@ -883,20 +887,19 @@ public class ReceptionDecorator : DecoratorBase{
 	
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
 		ReceptionController recptionWin = CreatComponent< ReceptionController >(UIConfig.receptionWindowName);
 		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
-		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		counter.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(sceneInfoBar);
+		counter.SetComponent(sortPanel);
 		recptionWin.SetComponent(counter);
 		acceptApply.SetComponent(recptionWin);
-		sortPanel.SetComponent(acceptApply);
 
 		lastDecorator = sortPanel;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 

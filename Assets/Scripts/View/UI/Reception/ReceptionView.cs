@@ -10,18 +10,28 @@ public class ReceptionView : UIComponentUnity {
 	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
 
 	public override void Init(UIInsConfig config, IUICallback origin){
+//		Debug.LogError("ReceptionView Init 1");
 		base.Init(config, origin);
+//		Debug.LogError("ReceptionView Init 2");
 		InitUIElement();
+//		Debug.LogError("ReceptionView Init 3");
 	}
 
 	public override void ShowUI(){
+		Debug.LogError("ReceptionView 1");
 		base.ShowUI();
+		Debug.LogError("ReceptionView 2");
 		AddCmdListener();
+		Debug.LogError("ReceptionView 3");
 		Debug.LogError("ReceptionView.ShowUI()...");
 		CreateDragView();
+		Debug.LogError("ReceptionView 4");
 		SortUnitByCurRule();
+		Debug.LogError("ReceptionView 5");
 		RefreshCounter();
+		Debug.LogError("ReceptionView 6");
 		ShowUIAnimation();
+		Debug.LogError("ReceptionView 7");
 	}
 
 	public override void HideUI(){
