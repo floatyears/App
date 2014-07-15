@@ -57,7 +57,7 @@ Btn_Level_Up=Power-up
 Btn_Evolve=Evolve
 Btn_Fight=Battle
 
-Btn_ToDetail=查看详情
+Btn_ToDetail=View Info.
 
 ##Label Text
 Divided_Line=/
@@ -67,7 +67,7 @@ Float_TotalExp=Total Exp:
 
 LeaderSkillText=Leader Skill: 
 PARTY=PARTY
-Text_None=无
+Text_None=None
 Text_Sell_Price=Price
 Text_Next=Next
 Text_Max=MAX
@@ -91,14 +91,14 @@ Game_Setting_Option_Music=Music
 Game_Setting_Option_NickName=NickName
 Game_Setting_Option_Currency=Test
 Game_Setting_Option_Raider=Help
-Game_Setting_Option_Notice=游戏公告
-Game_Setting_Option_Reward=游戏奖励
-Game_Setting_Option_Contact=联系我们
+Game_Setting_Option_Notice=Notice
+Game_Setting_Option_Reward=Bonus
+Game_Setting_Option_Contact=Contact
 Text_ResetData=Reset
 Text_BGM=BGM
 Text_Sound=Sound
-ContactUsContent=邮箱: MonsterStory@qq.com \n客服QQ: 414200          
-ContactUs=联系我们
+ContactUsContent=Support Email: MonsterStory@yeedion.com
+ContactUs=Contact us
 
 Text_Leader_Skill=Leader Skill
 Text_Active_Skill=Active Skill
@@ -246,18 +246,18 @@ Text_LastLogin_Colon=Last Login:
 ApplyFriendNote=Are you sure to apply friend?
 
 #reward
-Reward_Take=领取
-Reward_Tab1=连续登陆
-Reward_Tab2=累计登陆
-Reward_Tab3=等级
-Reward_Tab4=月卡
-Reward_Tab5=其他
-Reward_Title=奖励
-Reward_Tab_Info1=连续登陆奖励
-Reward_Tab_Info2=累计登陆奖励
-Reward_Tab_Info3=升级奖励
-Reward_Tab_Info4=月卡奖励
-Reward_Tab_Info5=其他奖励
+Reward_Take=Collect
+Reward_Tab1=Chain Login
+Reward_Tab2=Daily Login
+Reward_Tab3=Rank
+Reward_Tab4=Month
+Reward_Tab5=Others
+Reward_Title=Bonus
+Reward_Tab_Info1=Login game every day continuously, you can got these bonus.
+Reward_Tab_Info2=Login days in total, 
+Reward_Tab_Info3=Rank up to theses level, you can got bonus.
+Reward_Tab_Info4=Month card give you bonus every day.
+Reward_Tab_Info5=Other bonus
 ChainLogin=Chain Login {0}
 TotalLogin=Total Login {0}
 RankReach=Rank {0}
@@ -267,8 +267,8 @@ Notice_HelperTitle=友情战报
 Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位朋友和{2}位冒险者，获得{3}友情点数
 
 #unit detail
-UnitDetail_EvolveTitle=获得途径
-UnitDetail_LevelUpTitle=合成经验
+UnitDetail_EvolveTitle=Get Way
+UnitDetail_LevelUpTitle=Power-up Exp
 UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
 UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
 
@@ -294,7 +294,7 @@ StaminaRecoverConfirm=Are you sure to use {0} Magic Stones to recover stamina?
 DoStaminaRecover=Recover
 
 StaminaRecoverFailed=Stamina Recover
-StaminaStillFull=Your Stamina is already full. No Magic Stones were spent.
+StaminaStillFull=Your Stamina is already full.\n No Magic Stones were spent.
 StaminaRecoverStonesNotEnough=Magic Stones are not enough.
 
 StaminaRecoverFinish=Stamina Recovered
