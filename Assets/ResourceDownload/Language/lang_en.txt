@@ -88,12 +88,12 @@ City_Name_6=Coming Soon
 Title_YourID=User ID
 ##Game setting options
 Game_Setting_Option_Music=Music
-Game_Setting_Option_NickName=NickName
+Game_Setting_Option_NickName=Change Name
 Game_Setting_Option_Currency=Test
 Game_Setting_Option_Raider=Help
 Game_Setting_Option_Notice=Notice
 Game_Setting_Option_Reward=Bonus
-Game_Setting_Option_Contact=Contact
+Game_Setting_Option_Contact=Contact Us
 Text_ResetData=Reset
 Text_BGM=BGM
 Text_Sound=Sound
@@ -114,9 +114,9 @@ Text_RACE_Colon=Race:
 Text_EXP=EXP
 Text_Coins=Coins
 Text_TYPE=Type
-Text_BASE=BAsE
+Text_BASE=BASE
 Text_Friend=FRIEND
-Text_Reject=Reject
+Text_Reject=REJECT
 Unit_Detail_Tab_Status=Status
 Unit_Detail_Tab_Normal_Skill=Normal Skill
 Unit_Detail_Tab_Prifile=Profile
@@ -144,7 +144,7 @@ SCENE_NAME_PARTY=PARTY
 SCENE_NAME_QUEST_SELECT=QUEST SELECT
 SCENE_NAME_RECEPTION=RECEPTION
 SCENE_NAME_ROLE_SELECT=ROLE SELECT
-SCENE_NAME_SCRATCH=SCRATCH
+SCENE_NAME_SCRATCH=SUMMON
 SCENE_NAME_FRIEND_SEARCH=SEARCH FRIEND
 SCENE_NAME_SHOP=SHOP
 SCENE_NAME_STAGE_SELECT=STAGE SELECT
@@ -250,10 +250,10 @@ Reward_Take=Collect
 Reward_Tab1=Chain Login
 Reward_Tab2=Daily Login
 Reward_Tab3=Rank
-Reward_Tab4=Month
+Reward_Tab4=Month Card
 Reward_Tab5=Others
 Reward_Title=Bonus
-Reward_Tab_Info1=Login game every day continuously, you can got these bonus.
+Reward_Tab_Info1=Login game day-by-day continuously, you can got these bonus.
 Reward_Tab_Info2=Login days in total, 
 Reward_Tab_Info3=Rank up to theses level, you can got bonus.
 Reward_Tab_Info4=Month card give you bonus every day.
@@ -313,44 +313,44 @@ UnitExpansionFinish=Unit Max Expansion Completed
 UnitExpansionResult=Unit Limited Max Reached {0}!
 
 ##### gacha
-FriendGacha=Start Pal Point Scratch
-FriendGachaTitle=Pal Point Scratch
-FriendGachaDescription=Use friend Scratch to get units
-FriendGachaStatus=1 gacha: {0} points  {1} gachas: {2} points\nnow pal points {3}
+FriendGacha=Start Pal Point Summons
+FriendGachaTitle=Pal Point Summon
+FriendGachaDescription=Pal Summon to get usefull cards
+FriendGachaStatus=1 Summon: {0} points  {1} Summons: {2} points\nnow pal points {3}
 
-ConfirmOneFriendGacha=Gacha 1 time
-ConfirmMaxFriendGacha=Gacha {0} times
+ConfirmOneFriendGacha=Summon 1 time
+ConfirmMaxFriendGacha=Summon {0} times
 
-FriendGachaFailed=[FF0000]Friend Gacha Failed[-]
-UnitCountReachedMax=Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any gacha.
-GachaFriendPointNotEnough=1 friend gacha need {0} pal points\nYour pal points not enough.
+FriendGachaFailed=[FF0000]Friend Summon Failed[-]
+UnitCountReachedMax=Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any Summon.
+GachaFriendPointNotEnough=1 friend Summon need {0} pal points\nYour pal points not enough.
 
-RareGacha=Start Rare Scratch
-RareGachaTitle=Rare Scratch
+RareGacha=Start Rare Summon
+RareGachaTitle=Rare Summon
 RareGachaDescription=Use Magic Stones to get units
-RareGachaStatus=1 gacha: {0} Magic Stones {1} gachas: {2} Magic Stones\n\nYou have {3} Magic Stones now.
+RareGachaStatus=1 Summon: {0} Magic Stones {1} Summons: {2} Magic Stones\n\nYou have {3} Magic Stones now.
 
-ConfirmOneRareGacha=Gacha Once
-ConfirmMaxRareGacha=Gacha {0} times
+ConfirmOneRareGacha=Summon Once
+ConfirmMaxRareGacha=Summon {0} times
 
 RareGachaFailed=[FF0000]Rare Gacha Failed[-]
-RareGachaStoneNotEnough=1 rare gacha need {0} Magic Stones\nYour Magic Stones not enough.
+RareGachaStoneNotEnough=1 rare Summon need {0} Magic Stones\nYour Magic Stones not enough.
 
 EventGacha=Start Event Scratch
 EventGachaTitle=Event Scratch
 EventGachaDescription=Use Magic Stones to get units
-EventGachaStatus=1 gacha: {0} Magic Stones {1} gachas: {2} Magic Stones\n\nYou have {3} Magic Stones now.
+EventGachaStatus=1 Summon: {0} Magic Stones {1} Summons: {2} Magic Stones\n\nYou have {3} Magic Stones now.
 
 ConfirmOneEventGacha=Gacha 1 time
 ConfirmMaxEventGacha=Gacha {0} times
 
 EventGachaFailed=[FF0000]Event Gacha Failed[-]
-EventGachaNotOpen=Our next event gacha will coming soon, please wait it!
-EventGachaStoneNotEnough=1 event gacha need {0} Magic Stones\nYour do not have enough Magic Stones.
+EventGachaNotOpen=Our next event Summon will coming soon, please wait it!
+EventGachaStoneNotEnough=1 event Summon need {0} Magic Stones\nYour do not have enough Magic Stones.
 
-FriendScratch=Friend Scratch
-RareScratch=Rare Scratch
-EventScratch=Event Scratch
+FriendScratch=Friend Summon
+RareScratch=Rare Summon
+EventScratch=Event Summon
 
 GachaChances=chances {0}/{1}
 Lv=Lv {0}
