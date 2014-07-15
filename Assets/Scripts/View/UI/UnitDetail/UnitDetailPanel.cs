@@ -71,7 +71,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	UISprite grayStar;
 	
 	private int grayWidth = 28;
-	private int lightWidth = 30;
+	private int lightWidth = 29;
 	
 	public bool fobidClick = false;
 	GameObject unitLock;
