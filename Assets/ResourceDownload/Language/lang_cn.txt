@@ -245,6 +245,12 @@ Text_Exit=退出
 Text_LastLogin_Colon=最近登录：
 ApplyFriendNote=确定要提交好友申请吗？
 
+#sell
+Sell_EnsureTitle=提交卖出
+Sell_EnsureContent=下列是将要卖出的卡牌
+Sell_GetCoin=获得金币
+Sell_Ensure=确定要卖出？
+
 #reward
 Reward_Take=领取
 Reward_Tab1=连续登陆
