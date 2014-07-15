@@ -42,7 +42,8 @@ public class ItemCounterView : UIComponentUnity{
 
 		Vector3 pos = this.gameObject.transform.localPosition;
 		if (viewInfo.ContainsKey ("posy")) {
-			pos.y = (int)viewInfo["posy"];	
+			pos.y = (int)viewInfo["posy"];
+			pos.z = 0;
 		}
 //		pos.y = (int)viewInfo["posy"];
 		this.gameObject.transform.localPosition = pos;
@@ -62,6 +63,6 @@ public class ItemCounterView : UIComponentUnity{
 
 	private void ShowUIAnimation(){
 		transform.localPosition = new Vector3(1000, -792, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 213, "time", 0.4f, "islocal", true));
+		iTween.MoveTo(gameObject, iTween.Hash("x", 210, "time", 0.4f, "islocal", true));
 	}
 }

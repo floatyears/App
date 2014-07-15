@@ -7,6 +7,8 @@ public class FriendWindows : FriendHelperView {
 	public override void Init (UIInsConfig config, IUICallback origin) {
 		base.Init (config, origin);
 //		transform.localPosition -= transform.parent.localPosition;
+
+		premiumBtn.gameObject.SetActive (true);
 	}
 
 	public override void ShowUI () {

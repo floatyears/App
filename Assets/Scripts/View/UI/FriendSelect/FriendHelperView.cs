@@ -18,6 +18,8 @@ public class FriendHelperView : UIComponentUnity{
 		base.Init(config, origin);
 		InitUI();
 		transform.localPosition -= transform.parent.localPosition;
+
+		premiumBtn.gameObject.SetActive (false);
 	}
 
 	public override void ShowUI() {

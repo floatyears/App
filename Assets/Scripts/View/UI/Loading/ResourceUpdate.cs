@@ -24,7 +24,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	public static string localResPath = 
 #if UNITY_EDITOR
-	"file://"+ Application.dataPath + "/ResourceDownload/Download/";
+		"file:///Users/Resource/";
 #elif UNITY_IOS
 	"file://" + Application.persistentDataPath + "/";
 #elif UNITY_ANDROID
@@ -36,7 +36,7 @@ public class ResourceUpdate : MonoBehaviour {
 	public static string localResFullPath = 
 
 #if UNITY_EDITOR
-	"Assets/ResourceDownload/Download/";
+		"/Users/Resource/";
 #elif UNITY_IOS
 	Application.persistentDataPath + "/";
 #elif UNITY_ANDROID

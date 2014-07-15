@@ -111,7 +111,7 @@ public class RewardItemView : MonoBehaviour {
 			return;
 		}
 		if (gift.content == (int)EGiftContent.UNIT) {
-			UIEventListenerCustom.Get (obj).onClick = ClickUnit;
+			UIEventListenerCustom.Get (obj).LongPress = ClickUnit;
 			obj.GetComponent<BoxCollider>().enabled = true;// obj.GetComponent<BoxCollider>()
 			obj.GetComponent<UIEventListenerCustom>().enabled = true;
 			obj.GetComponent<UIDragScrollView>().enabled = true;
@@ -119,7 +119,7 @@ public class RewardItemView : MonoBehaviour {
 			GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
 
 		} else {
-			UIEventListenerCustom.Get (obj).onClick = null;
+			UIEventListenerCustom.Get (obj).LongPress = null;
 			obj.GetComponent<BoxCollider>().enabled = false;// obj.GetComponent<BoxCollider>()
 			obj.GetComponent<UIEventListenerCustom>().enabled = false;
 			obj.GetComponent<UIDragScrollView>().enabled = false;
@@ -158,10 +158,13 @@ public class RewardItemView : MonoBehaviour {
 	}
 
 	private void ClickUnit(GameObject obj){
-		Debug.Log ("Click Item To Detail");
-		int i; 
-		int.TryParse(obj.name.Substring (4,1),out i);
-		DGTools.ChangeToUnitDetail ((uint)data.giftItem [i - 1].value);
+
+			Debug.Log ("Click Item To Detail");
+			int i; 
+			int.TryParse(obj.name.Substring (4,1),out i);
+			DGTools.ChangeToUnitDetail ((uint)data.giftItem [i - 1].value);
+
+
 	}
 //
 //	private void SetUnitClick(GameObject obj, bool IsUnit){

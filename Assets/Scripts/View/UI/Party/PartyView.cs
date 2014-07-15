@@ -573,7 +573,7 @@ public class PartyView : UIComponentUnity{
 		leaderSkillNameLabel = topRoot.transform.FindChild("Label_Leader_Skill_Name").GetComponent<UILabel>();
 		leaderSkillDscpLabel = topRoot.transform.FindChild("Label_Leader_Skill_Dscp").GetComponent<UILabel>();
 
-		topRoot.transform.FindChild ("Bgs/ATK").GetComponent<UILabel>().text = TextCenter.GetText("Text_ATK");
+		topRoot.transform.FindChild ("Bgs/ATK").GetComponent<UILabel>().text = TextCenter.GetText("Text_HP");
 		topRoot.transform.FindChild ("Bgs/COST").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_COST");;
 	}
 

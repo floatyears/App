@@ -64,7 +64,7 @@ public class CatalogView : UIComponentUnity {
 		countArgs.Add("title", TextCenter.GetText("CatalogCounterTitle"));
 		countArgs.Add("current", GetCurGotUnitCount());
 		countArgs.Add("max", TOTAL_CATALOG_COUNT);
-		countArgs.Add("posy", -720);
+		countArgs.Add("posy", -736);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
