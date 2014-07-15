@@ -91,11 +91,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	public override void ShowUI () {
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive(true);	
-		}
+//		if (!gameObject.activeSelf) {
+//			gameObject.SetActive(true);	
+//		}
 
 		base.ShowUI ();
+
+		//clear the last texture 
+		DGTools.ShowTexture (unitBodyTex, null);
+
 //		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
