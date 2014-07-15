@@ -63,9 +63,7 @@ public class OperationNoticeView : UIComponentUnity {
 					
 					LogHelper.Log("------operation notice transform:" + item);
 
-
-					item.transform.FindChild(titleLabel).GetComponent<UILabel>().text = nItem.title;
-					item.transform.FindChild(contentLabel).GetComponent<UILabel>().text = nItem.message;
+					SetItemContent(item,nItem.title,nItem.message);
 				}
 
 
@@ -74,8 +72,9 @@ public class OperationNoticeView : UIComponentUnity {
 				bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
 				if(data != null){
 					GameObject item1 = NGUITools.AddChild(content,prefab);
-					item1.transform.FindChild(titleLabel).GetComponent<UILabel>().text = TextCenter.GetText("Notice_HelperTitle");//data.title;
-					item1.transform.FindChild(contentLabel).GetComponent<UILabel>().text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet);//nItem.message;
+					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet));
+//					item1.transform.FindChild(titleLabel).GetComponent<UILabel>().text = ;//data.title;
+//					item1.transform.FindChild(contentLabel).GetComponent<UILabel>().text = ;//nItem.message;
 				}
 			}
 		});
@@ -105,6 +104,27 @@ public class OperationNoticeView : UIComponentUnity {
 		
 		//curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		//sortRuleLabel.text = curSortRule.ToString();
+	}
+
+	private void SetItemContent(GameObject obj, string titleS, string contentS){
+		GameObject title = obj.transform.FindChild("Title").gameObject;
+		GameObject contentL = obj.transform.FindChild("Content/Text").gameObject;
+		GameObject content = obj.transform.FindChild("Content").gameObject;
+		
+		title.GetComponent<UILabel>().text = titleS;//nItem.title;
+		contentL.GetComponent<UILabel>().text = contentS;//nItem.message;
+		
+		obj.transform.FindChild("TitleBg").GetComponent<UIDragScrollView>().scrollView = content.GetComponent<UIDragScrollView>().scrollView = FindChild<UIScrollView>("Content");
+
+		Vector3 size = contentL.GetComponent<UILabel> ().localSize;
+		Vector3 tempS = content.GetComponent<BoxCollider> ().size;
+
+		tempS.y = size.y;
+		content.GetComponent<BoxCollider> ().size = tempS;
+		Vector3 tempS2 = content.GetComponent<BoxCollider> ().center;
+		tempS2.y = -size.y/2;
+
+		content.GetComponent<BoxCollider> ().center = tempS2;
 	}
 
 	void ShowUIAnimation(){
