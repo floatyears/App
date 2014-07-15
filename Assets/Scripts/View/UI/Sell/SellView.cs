@@ -241,6 +241,14 @@ public class SellView : UIComponentUnity{
 		FindChild ("MainWindow/Button_Clear/Label").GetComponent<UILabel>().text = TextCenter.GetText ("Btn_Clear_PickedToSell");
 		FindChild ("MainWindow/Button_Sell/Label").GetComponent<UILabel>().text = TextCenter.GetText ("Btn_Submit_Sell");
 		FindChild ("MainWindow/SellCount/Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Sell_Price");
+
+		FindChild ("EnsureWindow/Label_Title").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_EnsureTitle");
+		FindChild ("EnsureWindow/Label_Content").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_EnsureContent");
+		FindChild ("EnsureWindow/Label_Ensure").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_Ensure");
+		FindChild ("EnsureWindow/Label_GetCoin").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_GetCoin");
+
+		FindChild ("EnsureWindow/Button_Ok/Label").GetComponent<UILabel>().text = TextCenter.GetText ("OK");
+		FindChild ("EnsureWindow/Button_Cancel/Label").GetComponent<UILabel>().text = TextCenter.GetText ("CANCEL");
 	}
 
 	void ClickSellBtn(GameObject btn){
