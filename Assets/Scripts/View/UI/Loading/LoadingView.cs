@@ -60,6 +60,19 @@ public class LoadingView : UIComponentUnity {
 		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
 
 		tapLogin.enabled = false;
+
+		ResourceManager.Instance.Init (o => {
+			EffectManager em = EffectManager.Instance;
+			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
+			
+			TextCenter.Instance.Init (o1=>{
+				
+				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
+				ModelManager.Instance.Init();
+				
+
+			});
+		});
     }
 
 	private void CouldLogin(){
@@ -70,20 +83,8 @@ public class LoadingView : UIComponentUnity {
 //			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
 //			guideWindow.CreatUI();
 //		}
+		tapLogin.text = TextCenter.GetText("Text_TapToLogin");
 
-
-		ResourceManager.Instance.Init (o => {
-			EffectManager em = EffectManager.Instance;
-			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
-
-			TextCenter.Instance.Init (o1=>{
-
-				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
-				ModelManager.Instance.Init();
-
-				tapLogin.text = TextCenter.GetText("Text_TapToLogin");
-			});
-		});
 	}
 
 	protected T CreatComponent<T>(string name) where T : ConcreteComponent {

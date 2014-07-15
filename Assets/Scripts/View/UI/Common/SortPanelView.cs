@@ -93,8 +93,13 @@ public class SortPanelView : UIComponentUnity {
 	}
 
 	protected void ActivateSortRuleWindow(){
+		if (sortRuleSelectPanel.GetComponent<iTween> () != null) {
+			Debug.Log("the object is tweening!");
+			return;	
+		}
+			
 		sortBtnMask.enabled = true;
-		sortBtn.isEnabled = false;
+//		sortBtn.isEnabled = false;
 		if(sortBtn.gameObject.layer ==  0){
 			sortBtn.gameObject.layer =  GameLayer.blocker;
 		}
