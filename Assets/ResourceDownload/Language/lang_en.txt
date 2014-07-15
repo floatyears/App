@@ -23,8 +23,8 @@ Btn_JumpScene_UserID=YOUR ID
 
 Btn_JumpScene_Party=PARTY
 Btn_JumpScene_Sell=SELL
-Btn_JumpScene_LevelUp=LEVEL UP
-Btn_JumpScene_UnitList=UNIT LIST
+Btn_JumpScene_LevelUp=POWER-UP
+Btn_JumpScene_UnitList=MONSTER BOX
 Btn_JumpScene_Evolve=EVOLVE
 Btn_JumpScene_Catalog=CATALOG
 
@@ -33,11 +33,11 @@ Btn_SORT=SORT
 Btn_Premium=PREMIUM
 Btn_Sell_Picked=SELL
 Btn_Clear_PickedToSell=CLEAR
-Btn_Submit_Sell=SUBMIT
+Btn_Submit_Sell=SELL
 Btn_Cancel_Sell=CANCEL
 Btn_RejectUnit=REJECT
 Btn_Submit_Evolve=EVOLVE
-Btn_Submit_LevelUp=LEVEL UP
+#Btn_Submit_LevelUp=START FUSION
 
 Btn_FriendList_Update=UPDATE
 Btn_Reception_RefuseAll=REFUSE
@@ -53,9 +53,9 @@ Btn_SortRule_ID=ID
 Btn_SortRule_Fav=FAVORITE
 Btn_SortRule_AddPoint=ADD POINT
 Btn_SortRule_Rank=RANK
-Btn_Level_Up=Power-up
-Btn_Evolve=Evolve
-Btn_Fight=Battle
+Btn_Level_Up=START FUSION
+Btn_Evolve=EVOLVE
+Btn_Fight=BATTLE
 
 Btn_ToDetail=View Info.
 
@@ -124,35 +124,35 @@ Text_Party=Used
 Text_TapToLogin=Touch Screen to Start!
 Text_Notice=Notice
 
-Text_Leader_Skill_Colon=Leader Skill:
-Name_No_LeaderSkil=Leader Skill:None
+Text_Leader_Skill_Colon=Leader Skill: 
+Name_No_LeaderSkil=Leader Skill: None
 Description_No_LeaderSkill=
 
 ##Scene Name
-SCENE_NAME_APPLY=APPLY
-SCENE_NAME_CATALOG=CATALOG
-SCENE_NAME_EVOLVE=EVOLVE
-SCENE_NAME_FIGHTREADY=FIGHT READY
-SCENE_NAME_FRIEND=FRIEND
-SCENE_NAME_FRIEND_LIST=FRIEND LIST
-SCENE_NAME_FRIEND_SELECT=FRIEND SELECT
+SCENE_NAME_APPLY=Apply
+SCENE_NAME_CATALOG=Catalog
+SCENE_NAME_EVOLVE=Evolve
+SCENE_NAME_FIGHTREADY=Battle Ready
+SCENE_NAME_FRIEND=Friend
+SCENE_NAME_FRIEND_LIST=Friend List
+SCENE_NAME_FRIEND_SELECT=Friend Select
 SCENE_NAME_HOME=HOME
-SCENE_NAME_INFORMATION=INFORMATION
-SCENE_NAME_LEVEL_UP=LEVEL UP
-SCENE_NAME_OTHERS=OTHERS
-SCENE_NAME_PARTY=PARTY
-SCENE_NAME_QUEST_SELECT=QUEST SELECT
-SCENE_NAME_RECEPTION=RECEPTION
-SCENE_NAME_ROLE_SELECT=ROLE SELECT
-SCENE_NAME_SCRATCH=SUMMON
-SCENE_NAME_FRIEND_SEARCH=SEARCH FRIEND
-SCENE_NAME_SHOP=SHOP
-SCENE_NAME_STAGE_SELECT=STAGE SELECT
-SCENE_NAME_UNITS=MONSTER
-SCENE_NAME_UNIT_SELL=UNIT SELL
+SCENE_NAME_INFORMATION=Information
+SCENE_NAME_LEVEL_UP=Power-up Fusion
+SCENE_NAME_OTHERS=Others
+SCENE_NAME_PARTY=Party
+SCENE_NAME_QUEST_SELECT=Quest Select
+SCENE_NAME_RECEPTION=Reception
+SCENE_NAME_ROLE_SELECT=Role Select
+SCENE_NAME_SCRATCH=Summon
+SCENE_NAME_FRIEND_SEARCH=Search Friend
+SCENE_NAME_SHOP=Shop
+SCENE_NAME_STAGE_SELECT=Stage Select
+SCENE_NAME_UNITS=Monster
+SCENE_NAME_UNIT_SELL=Sell Monsters
 SCENE_NAME_YOUR_ID=YOUR ID
-SCENE_NAME_UNIT_RESULT=RESULT
-SCENE_NAME_UNIT_LIST=UNIT LIST
+SCENE_NAME_UNIT_RESULT=Result
+SCENE_NAME_UNIT_LIST=Monster Box
 SCENE_NAME_OPERATION_NOTICE=Operation Notice
 SCENE_NAME_REWARD=Reward
 SCENE_NAME_RAIDER=Raider
@@ -169,14 +169,14 @@ Stamina=STAMINA
 Floor=FLOOR
 
 ##Race
-RACE_Human=HUMAN
-RACE_Legend=LEGEND
-RACE_Monster=MONSTER
-RACE_Mythic=MYTHIC
-RACE_Beast=BEAST
-RACE_Undead=UNDEAD
+RACE_Human=Human
+RACE_Legend=Legend
+RACE_Monster=Monster
+RACE_Mythic=Mythic
+RACE_Beast=Beast
+RACE_Undead=Undead
 RACE_Screamcheese=Enhance Mat.
-RACE_Dragon=DRAGON
+RACE_Dragon=Dragon
 RACE_Evolveparts=Evolve Mat.
 
 ##type
@@ -213,17 +213,17 @@ ProgressTotal=Total：
 
 #Friend search
 SearchError=Search Error
-SearchFriendNotExist=The Friend {0} is not exist.
-UserAlreadyFriend=The ID {0} you searched is already your friend!
+SearchFriendNotExist=The userid {0} is not exist.
+UserAlreadyFriend=The ID {0} you searched is already your pal!
 NotPremiumFriend=You cannot choose premium pals.
 
 InputError=Input Error
-InputEmpty=Could not Input empty ID!
+InputEmpty=Please input a valid ID!
 
 RefuseAll=Refuse All
-ConfirmRefuseAll=Are you sure to refuse all applied friends?
+ConfirmRefuseAll=Are you sure to refuse all friends requests?
 
-RefreshFriend=Friend Update
+RefreshFriend=Friend List Update
 ConfirmRefreshFriend=Are you sure to update friend list?
 
 FriendSearch_Title=Search Friend
@@ -273,80 +273,80 @@ UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
 UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
 
 # shop
-Btn_Friend_Expand=Friends Expand
-Btn_Unit_Expand=Monsters Expand
-Btn_Stamina_Recover=Stamina Recover
+Btn_Friend_Expand=Extend Friends
+Btn_Unit_Expand=Extend Monsters
+Btn_Stamina_Recover=Recover Stamina
 
-FriendExpand=Friend Capacity Expansion
-FriendExpansionConfirm=Are you sure to use {0} Magic Stones to expand {1} friends?
-FriendExpansionInfo=Now friends {0}/{1}
-DoFriendExpand=Expand
+FriendExpand=Extend Friend Capacity
+FriendExpansionConfirm=Spend {0} magic stones to expand {1} friends?
+FriendExpansionInfo=Now friends: {0}/{1}
+DoFriendExpand=Extend
 
 FriendExpansionFailed=Friend Max Expansion Failed
-FriendCountLimitReachedMax=Now your friend limit has reached max.
-FriendExpandStonesNotEnough=Now your Magic Stone not enough to expand friend limit.
+FriendCountLimitReachedMax=Now your friend capacity has reached max.
+FriendExpandStonesNotEnough=Now your magic stone not enough to expand friend limit.
 
 FriendExpansionFinish=Expansion Success
 FriendExpansionResult=Friend Limited Max reached {0}!
 
 StaminaRecover=Recover your stamina
-StaminaRecoverConfirm=Are you sure to use {0} Magic Stones to recover stamina?
+StaminaRecoverConfirm=Spend {0} magic stones to recover stamina?
 DoStaminaRecover=Recover
 
 StaminaRecoverFailed=Stamina Recover
-StaminaStillFull=Your Stamina is already full.\n No Magic Stones were spent.
-StaminaRecoverStonesNotEnough=Magic Stones are not enough.
+StaminaStillFull=Your stamina is already full.\n No magic stones were spent.
+StaminaRecoverStonesNotEnough=Magic stones are not enough.
 
 StaminaRecoverFinish=Stamina Recovered
 StaminaRecoverResult=Your stamina recovered to {0}.
 
-UnitExpand=Units count limit expand
-UnitExpansionConfirm=Are you sure to use {0} Magic Stones to expand unit limit?
-UnitExpansionInfo=Now Units {0}/{1}
-DoUnitExpansion=Expand
+UnitExpand=Extend Monster Box
+UnitExpansionConfirm=Spend {0} Magic Stones to extend monster box capacity?
+UnitExpansionInfo=Now capacity: {0}/{1}
+DoUnitExpansion=Extend
 
-UnitExpansionFailed=Unit Max Expansion Failed
-UnitCountLimitReachedMax=Now your unit limit has reached max.
+UnitExpansionFailed=Monster Box Extension Failed
+UnitCountLimitReachedMax=Now your monster box capacity has reached max.
 UnitExpandStonesNotEnough=Magic Stones not enough.
 
-UnitExpansionFinish=Unit Max Expansion Completed
-UnitExpansionResult=Unit Limited Max Reached {0}!
+UnitExpansionFinish=Monster Box Extension Completed
+UnitExpansionResult=Monster box capacity reached {0}!
 
 ##### gacha
 FriendGacha=Start Pal Point Summons
 FriendGachaTitle=Pal Point Summon
-FriendGachaDescription=Pal Summon to get usefull cards
-FriendGachaStatus=1 Summon: {0} points  {1} Summons: {2} points\nnow pal points {3}
+FriendGachaDescription=Spend pal points to summon usefull cards?
+FriendGachaStatus=1 Summon: {0} points \n{1} Summons: {2} points\n\nYou have {3} pal points now.
 
-ConfirmOneFriendGacha=Summon 1 time
+ConfirmOneFriendGacha=Summon once
 ConfirmMaxFriendGacha=Summon {0} times
 
 FriendGachaFailed=[FF0000]Friend Summon Failed[-]
-UnitCountReachedMax=Now your units owned overed unit limit:[FF0000]{0}/[-]{1}, can't do any Summon.
-GachaFriendPointNotEnough=1 friend Summon need {0} pal points\nYour pal points not enough.
+UnitCountReachedMax=Now your cards owned overed limit:[FF0000]{0}/[-]{1}, can't do any summon.
+GachaFriendPointNotEnough=One summon need {0} pal points\nYour pal points not enough.
 
 RareGacha=Start Rare Summon
 RareGachaTitle=Rare Summon
-RareGachaDescription=Use Magic Stones to get units
-RareGachaStatus=1 Summon: {0} Magic Stones {1} Summons: {2} Magic Stones\n\nYou have {3} Magic Stones now.
+RareGachaDescription=Spend magic stones to summon strong cards?
+RareGachaStatus=1 Summon: {0} Magic Stones\n{1} Summons: {2} Magic Stones\n\nYou have {3} magic stones now.
 
-ConfirmOneRareGacha=Summon Once
+ConfirmOneRareGacha=Summon once
 ConfirmMaxRareGacha=Summon {0} times
 
-RareGachaFailed=[FF0000]Rare Gacha Failed[-]
-RareGachaStoneNotEnough=1 rare Summon need {0} Magic Stones\nYour Magic Stones not enough.
+RareGachaFailed=[FF0000]Rare Summon Failed[-]
+RareGachaStoneNotEnough=Rare summon need {0} Magic Stones\nYour Magic Stones not enough.
 
-EventGacha=Start Event Scratch
-EventGachaTitle=Event Scratch
-EventGachaDescription=Use Magic Stones to get units
-EventGachaStatus=1 Summon: {0} Magic Stones {1} Summons: {2} Magic Stones\n\nYou have {3} Magic Stones now.
+EventGacha=Start Event Summon
+EventGachaTitle=Event Summon
+EventGachaDescription=Spend magic stones to summon rare cards?
+EventGachaStatus=1 Summon: {0} magic stones\n {1} Summons: {2} magic stones\n\nYou have {3} magic stones now.
 
-ConfirmOneEventGacha=Gacha 1 time
-ConfirmMaxEventGacha=Gacha {0} times
+ConfirmOneEventGacha=Summon once
+ConfirmMaxEventGacha=Summon {0} times
 
-EventGachaFailed=[FF0000]Event Gacha Failed[-]
-EventGachaNotOpen=Our next event Summon will coming soon, please wait it!
-EventGachaStoneNotEnough=1 event Summon need {0} Magic Stones\nYour do not have enough Magic Stones.
+EventGachaFailed=[FF0000]Event Summon Failed[-]
+EventGachaNotOpen=Our next event summon will coming soon, please wait.
+EventGachaStoneNotEnough=1 event summon need {0} Magic Stones\nYour do not have enough magic stones.
 
 FriendScratch=Friend Summon
 RareScratch=Rare Summon
@@ -356,11 +356,11 @@ GachaChances=chances {0}/{1}
 Lv=Lv {0}
 
 
-LevelUpMoneyNotEnough=It's need {0} Coins for Level Up, your have not enough Coins.
+LevelUpMoneyNotEnough=It's need {0} coins for Power-up, your have not enough coins.
 MoneyNotEnoughTitle=Coins Not Enough
 
 ###
-StartQuestFail=Start quest request failed
+StartQuestFail=Start quest failed
 
 #resource download
 DownloadErrorTitle=Download Error
@@ -1228,7 +1228,7 @@ guide3_title=determine your partner
 guide3_content=角色介绍。\n确定和xxx冒险么？
 guide4_title=start adventure
 guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
-guide5_title=about scratch card
+guide5_title=about summon card
 guide5_content=接下来就是重中之重的抽卡！\n抽卡可是能得到各种各样的强卡哦！
 guide6_title=about rare card
 guide6_content=这次就来一次稀有抽卡吧。\n友情抽卡咱放后面再说。
