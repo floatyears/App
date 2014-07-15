@@ -412,11 +412,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
 
-		if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
-			unitLock.SetActive(true);
-		} else {
-			unitLock.SetActive(false);
-		}
+
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
@@ -425,6 +421,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 		else if (userUnit != null) {
 			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " + userUnit.UnitInfo.ID);
+			if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
+				unitLock.SetActive(true);
+			} else {
+				unitLock.SetActive(false);
+			}
+
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;

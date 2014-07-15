@@ -11,7 +11,7 @@ public class PlayerInfoBar : UIComponentUnity{
 	//outside panel 
 	UILabel dividedLineLabel;
 	UILabel chipNumValueLabel;
-	UILabel stamMaxValueLabel;
+//	UILabel stamMaxValueLabel;
 	UILabel cionNumValueLabel;
 	UILabel userNameValueLabel;
 	UILabel outRankValueLabel;
@@ -108,7 +108,7 @@ public class PlayerInfoBar : UIComponentUnity{
 	/// </summary>
 	private void InitValueLabelOutside(){
 		chipNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_Icon").GetComponent<UILabel>();
-		stamMaxValueLabel = transform.FindChild("InfoBar/Label_Vaule_CurStamina").GetComponent<UILabel>();
+//		stamMaxValueLabel = transform.FindChild("InfoBar/Label_Vaule_CurStamina").GetComponent<UILabel>();
 		stamNowValueLabel = transform.FindChild("InfoBar/Label_Vaule_TotalStamina").GetComponent<UILabel>();
 		cionNumValueLabel = transform.FindChild("InfoBar/Label_Vaule_ChipNum").GetComponent<UILabel>();
 		userNameValueLabel = transform.FindChild("InfoBar/Label_Vaule_PlayerName").GetComponent<UILabel>();
@@ -158,8 +158,8 @@ public class PlayerInfoBar : UIComponentUnity{
 		//Stamina
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
 		int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
-		stamMaxValueLabel.text = staminaNow.ToString();
-		stamNowValueLabel.text = staminaMax.ToString();
+//		stamMaxValueLabel.text = staminaNow.ToString();
+		stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
 		stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
 
 		//Evo
@@ -211,8 +211,8 @@ public class PlayerInfoBar : UIComponentUnity{
     void SyncStamina(object args){
         int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
         int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
-        stamMaxValueLabel.text = staminaNow.ToString();
-        stamNowValueLabel.text = staminaMax.ToString();
+//        stamMaxValueLabel.text = staminaNow.ToString();
+		stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
         stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
     }
 
@@ -232,8 +232,8 @@ public class PlayerInfoBar : UIComponentUnity{
 				DataCenter.Instance.UserInfo.StaminaNow++;
 			int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
 			int staminaMax = DataCenter.Instance.UserInfo.StaminaMax;
-			stamMaxValueLabel.text = staminaNow.ToString();
-			stamNowValueLabel.text = staminaMax.ToString();
+//			stamMaxValueLabel.text = staminaNow.ToString();
+			stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
 			stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
 		}
 
