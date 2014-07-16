@@ -162,18 +162,19 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	protected virtual void ClickHelperItem(HelperUnitItem item){
-		Debug.Log("ClickHelperItem..." + item);
-		
 		if(pickedQuestInfo == null){
-//			Debug.LogError("FriendHelerpView.ClickHelperItem(), pickedQuestInfo is NULL, return!!!");
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			return;
 		}
 
 		if(CheckStaminaEnough()){
 			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
 			return;
 		}
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_success);
 
 		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);

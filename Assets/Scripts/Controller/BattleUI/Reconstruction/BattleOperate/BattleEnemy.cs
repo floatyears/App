@@ -44,7 +44,6 @@ public class BattleEnemy : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.DropBoss, DropBoss);
 		count --;
 		battleAttackInfo.HideUI ();
 		gameObject.SetActive (false);
@@ -58,7 +57,6 @@ public class BattleEnemy : UIBaseUnity {
 		count ++;
 		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
-//		MsgCenter.Instance.AddListener (CommandEnum.DropBoss, DropBoss);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
@@ -74,7 +72,6 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void AttackEnemyEnd(object data) {
-//		Debug.LogError ("AttackEnemyEnd : " + data);
 		int count = (int)data;
 		DestoryEffect ();
 		prevAttackInfo = null;
@@ -155,14 +152,6 @@ public class BattleEnemy : UIBaseUnity {
 			monster.Remove (posSymbol);	
 		}
 	}
-
-//	void DropBoss(object data) {
-//		TDropUnit dropUnit = data as TDropUnit;
-//		if (dropUnit == null) {
-//			return;	
-//		}
-//
-//	}
 
 	void Clear() {
 		foreach (var item in monster) {
@@ -262,14 +251,9 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = rightStartIndex; i < enemys.Count; i++) {
 			rightEnemys.Add (enemys [i]);
 		}
+
 		float lefrpro = GetProbability (screenWidth, leftEnemys);
 		float rightpro = GetProbability (screenWidth, rightEnemys);
-//		Debug.LogError("centerIndex:"+centerIndex+" leftScale:"+lefrpro+" rightScale:"+rightpro);
-//		if (lefrpro > rightpro) {
-//			CompressTexture (rightpro, enemys);
-//		} else {
-//			CompressTexture (lefrpro, enemys);	
-//		}
 
 		return (lefrpro < rightpro ? lefrpro : rightpro);
 	}
@@ -279,7 +263,6 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
 			UITexture tex = enemys [i].texture;
 			width += tex.width;
-//			Debug.LogError("screen.width:"+Screen.width+" CalcScreenWidth:"+screenWidth+" totalWidth:"+width+" tex.width:"+tex.width+" ret pro:"+(screenWidth / width));
 		}
 		if( screenWidth >= width ) {
 			return 1.0f;
@@ -320,19 +303,24 @@ public class BattleEnemy : UIBaseUnity {
 
 	GameObject prevEffect;
 	List<GameObject> extraEffect = new List<GameObject> ();
+
 	public void PlayerEffect(EnemyItem ei, AttackInfo ai) {
 		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
 			if(ei != null)
 				ei.InjuredShake();
+
 			if(returnValue == null) {
 				return;
 			}
 
 			GameObject prefab = returnValue as GameObject;
-		
+
 			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
+
 			ProtobufDataBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
+
 			System.Type t = pdb.GetType();
+
 			if(t == typeof(TSkillExtraAttack)) {
 				foreach (var item in monster.Values) {
 					if(item != null) {
@@ -347,7 +335,10 @@ public class BattleEnemy : UIBaseUnity {
 				prevEffect.transform.localPosition = pos;
 				if(ai.AttackRange == 0) {
 					UITexture tex = ei.texture;
-					prevEffect.transform.localPosition = tex.transform.localPosition + (tex.height * 0.5f * Vector3.up);
+					float x = ei.transform.localPosition.x;
+					float y = tex.height * 0.5f;
+
+					prevEffect.transform.localPosition =  new Vector3(x, y, 0f);
 				}
 			}
 		});
