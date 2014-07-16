@@ -20,8 +20,8 @@ public class TLoginInfo : ProtobufDataBase {
 	//// property ////
 	public	List<BonusInfo> Bonus { get { return instance.bonus; }  }
 
-	public int LoginTotal { get {return instance.loginTotal; } }
-	public int LoginChain { get {return instance.loginTotal; } }
+	public int LoginDayTotal { get {return instance.loginDayTotal; } }
+	public int LoginChain { get {return instance.loginChain; } }
 	public uint LastLoginTime { get {return instance.lastLoginTime; } }
 }
 
