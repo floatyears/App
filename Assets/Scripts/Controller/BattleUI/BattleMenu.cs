@@ -58,24 +58,20 @@ public class BattleMenu : UIBaseUnity {
 		okButton = FindChild<UIButton> ("BattleMenuWindow/OkBtn");
 		okButtonLabel = FindChild<UILabel> ("BattleMenuWindow/OkBtn/Label");
 		returnButton = FindChild<UIButton> ("BattleMenuWindow/CancleButton");
-		returnButtonLabel = FindChild<UILabel> ("BattleMenuWindow/OkBtn/Label");
+		returnButtonLabel = FindChild<UILabel> ("BattleMenuWindow/CancleButton/Label");
 		menuTitleLabel = FindChild <UILabel>("BattleMenuWindow/Title");
 		SetEvent ();
-
 		confirmWindow = FindChild<Transform> ("RetireWindow").gameObject;
-
 		confirmButton = FindChild<UIButton> ("RetireWindow/Button_Left");
 		cancelButton = FindChild<UIButton> ("RetireWindow/Button_Right");
 		confirmButtonLabel = FindChild<UILabel> ("RetireWindow/Button_Left/Label");
 		cancelButtonLabel = FindChild<UILabel> ("RetireWindow/Button_Right/Label");
-//		confirmTitleLabel = FindChild<UILabel> ("BattleMenuWindow/RetireWindow/Label_Title");
 		confirmContentLabel = FindChild<UILabel> ("RetireWindow/Label_Msg_Center");
 
 		UIEventListener.Get (confirmButton.gameObject).onClick = CancelFight;
 		UIEventListener.Get (cancelButton.gameObject).onClick = CancelMenu;
-
 		confirmButtonLabel.text = TextCenter.GetText ("OK");
-		cancelButtonLabel.text = TextCenter.GetText ("CANCEL");
+		cancelButtonLabel.text = TextCenter.GetText ("Cancel");
 		returnButtonLabel.text = TextCenter.GetText ("Resume");
 		okButtonLabel.text = TextCenter.GetText("Exit");
 		confirmContentLabel.text = TextCenter.GetText ("ExitBattleConfirm");

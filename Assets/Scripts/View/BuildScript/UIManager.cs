@@ -157,33 +157,24 @@ public class UIManager {
 		if (forbidChangeScene) {
 			return;		
 		}
-
-//		if (!CheckIsPopUpWindow (sEnum, prevScene)) {
-//		Debug.Log ("baseScene.CurrentScene : " + baseScene.CurrentScene + " current scene: " + sEnum);
+//		Debug.LogError ("ChangeScene : " + sEnum + " gamestate : " + DataCenter.gameState);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		} else {
 			nextScene = sEnum;
-
 			InvokeSceneClear (sEnum);
-
 			if(CheckIsPopUpWindow(sEnum)){
-//				Debug.LogError("is pop up window : " + (currentPopUp == null));
 				if(currentPopUp != null) {
-//					Debug.Log ("currentPopUp != null current hide: " + currentPopUp.CurrentDecoratorScene);
 					currentPopUp.HideScene ();
 				}
 			} else{
-//				Debug.LogError("not pop up window");
 				if(currentPopUp != null) {
-//					Debug.Log ("currentPopUp != null current hide: " + currentPopUp.CurrentDecoratorScene);
 					currentPopUp.HideScene ();
 					currentPopUp = null;
 				}
 
 				if (current != null) {
 					if(current.CurrentDecoratorScene == sEnum){
-//						Debug.Log ("current != null current hide: " + current.CurrentDecoratorScene);
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
 						return;

@@ -81,6 +81,7 @@ public class DataCenter {
     public const int minNeedCard = 2;
     public const int maxNeedCard = 5;
     public const int maxFriendLimit = 200;
+
     public const int maxUnitLimit = 400;
 
 	public const int friendsExpandCount = 5; //每次扩充好友数量

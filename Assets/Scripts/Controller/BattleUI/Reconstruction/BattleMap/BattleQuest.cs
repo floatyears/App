@@ -286,7 +286,7 @@ public class BattleQuest : UIBase {
 	bool battleEnemy = false;
 
 	public void ClickDoor () {
-		Debug.LogError ("questDungeonData.Floors.Count : " + questDungeonData.Floors.Count);
+//		Debug.LogError ("questDungeonData.Floors.Count : " + questDungeonData.Floors.Count);
 		if( questDungeonData.currentFloor == questDungeonData.Floors.Count - 1 ) {
 			QuestStop ();
 		} else {
@@ -371,7 +371,6 @@ public class BattleQuest : UIBase {
 	}
 
 	void YieldShowAnim() {
-	
 		int count = bud.Els.CheckLeaderSkillCount();
 		battle.ShieldInput (false);
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.ReadyMove, ReadyMove, count * AttackController.normalAttackInterv);
@@ -385,13 +384,12 @@ public class BattleQuest : UIBase {
 
 	public void ContineBattle () {
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
+//		Debug.LogError ("coor : " + coor.x + " y : " + coor.y);
 		InitContinueData ();
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
 		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 			return;	
 		}
-
-		Debug.LogError ("questDungeonData : " + questDungeonData.currentFloor);
 
 		currentMapData = questDungeonData.GetSingleFloor (coor);
 		battleMap.ChangeStyle (coor);
@@ -478,6 +476,7 @@ public class BattleQuest : UIBase {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.prevMapItem.HideGridNoAnim ();
 				GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
+				configBattleUseData.StoreMapData(null);
 				return;
 			}
 
@@ -816,14 +815,13 @@ public class BattleQuest : UIBase {
 	}
 
 	public void Retry () {
-//		GameInput.OnUpdate
-
 		main.GInput.IsCheckInput = false;
 		BattleBottom.notClick = true;
+
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
 		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
-		mwp.contentText = TextCenter.GetText("RedoQuestContent",DataCenter.redoQuestStone, 
+		mwp.contentText = TextCenter.GetText("RedoQuestContent", DataCenter.redoQuestStone, 
 		                                     DataCenter.Instance.AccountInfo.Stone);
 		BtnParam sure = new BtnParam ();
 		sure.callback = SureInitiativeRetry;

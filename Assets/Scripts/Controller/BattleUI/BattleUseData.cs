@@ -89,9 +89,12 @@ public class BattleUseData {
 		els = new ExcuteLeadSkill(upi);
 		skillRecoverHP = els;
 	}
-
+	bool isInit = false;
 	public void InitBattleUseData (TStoreBattleData sbd) {
-//		Debug.LogError ("InitBattleUseData : " + sbd);  
+		if (isInit) {
+			return;	
+		}
+		isInit = true;
 		els.Excute();
 		if (sbd == null) {
 			blood = maxBlood = upi.GetInitBlood ();
