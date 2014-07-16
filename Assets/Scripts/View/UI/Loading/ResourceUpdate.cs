@@ -80,6 +80,33 @@ public class ResourceUpdate : MonoBehaviour {
 	private List<DownloadItemInfo> retryItemList = new List<DownloadItemInfo>();
 
 
+	private string appVersion = 
+#if LANGUAGE_CN
+	"版本：";
+#elif LANGUAGE_EN
+	"AppVersion:";
+#else
+	"";
+#endif
+
+	private string currentDownload = 
+#if LANGUAGE_CN
+	"已下载：";
+#elif LANGUAGE_EN
+	"Downloaded: ";
+#else
+	"";
+#endif
+
+	private string totalDownload = 
+#if LANGUAGE_CN
+	"总大小：";
+#elif LANGUAGE_EN
+	"Total: ";
+#else
+	"";
+#endif
+
 	// Use this for initialization
 	void Start () {
 
@@ -145,10 +172,10 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = TextCenter.GetText("ProgressCurrent") + ((1-pro.value)*100).ToString("F2") + "%(" + TextCenter.GetText("ProgressTotal") + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
+			proText.text = currentDownload + ((1-pro.value)*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
 		}
 
-		versionTxt.text = TextCenter.GetText ("AppVersion") + version;
+		versionTxt.text = appVersion + version;
 
 	}
 
@@ -540,6 +567,8 @@ public class DownloadItemInfo {
 		DownloadItemInfo item = new DownloadItemInfo ();
 //		string[] records = info.Split (new string[]{"\n"},System.StringSplitOptions.RemoveEmptyEntries);
 //		foreach (string record in records) {
+//		Debug.Log ("dowload item: " + info);
+
 		string[] items = info.Split('|');
 		item.name = items[0];
 		item.path = items[1];

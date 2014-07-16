@@ -83,7 +83,15 @@ public class LoadingView : UIComponentUnity {
 //			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
 //			guideWindow.CreatUI();
 //		}
-		tapLogin.text = TextCenter.GetText("Text_TapToLogin");
+		tapLogin.text = 
+#if LANGUAGE_CN
+	ServerConfig.touchToLogin;
+#elif LANGUAGE_EN
+	"TAP SCREEN TO START";
+#else
+	"";
+#endif
+		//TextCenter.GetText("Text_TapToLogin");
 
 	}
 

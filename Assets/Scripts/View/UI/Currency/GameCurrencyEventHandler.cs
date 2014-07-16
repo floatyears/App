@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Soomla;
+using System.Collections.Generic;
 
 public class GameCurrencyEventHandler {
 
@@ -45,10 +46,19 @@ public class GameCurrencyEventHandler {
 
 		//update user's account
 		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+
+//		rsp.
+		GetBonusList.SendRequest (OnBonusList);
+	}
+
+	private void OnBonusList(object data){
+//		bbproto.BonusInfo bsInfo = 
+		DataCenter.Instance.LoginInfo.Bonus = data as List<bbproto.BonusInfo>;
+		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 	}
 
 	public void onItemPurchased(PurchasableVirtualItem pvi){
-		Debug.Log ("onItemPurchased: productId="+pvi.ItemId);
+		Debug.Log ("onItemPurchased: productId=" + pvi.ItemId);
 		ShopBuy.SendRequest(OnRspShopBuy, pvi.ItemId);
 	}
 

@@ -117,6 +117,7 @@ Text_TYPE=Type
 Text_BASE=BASE
 Text_Friend=FRIEND
 Text_Reject=REJECT
+Text_Material=MATERIAL
 Unit_Detail_Tab_Status=Status
 Unit_Detail_Tab_Normal_Skill=Normal Skill
 Unit_Detail_Tab_Prifile=Profile

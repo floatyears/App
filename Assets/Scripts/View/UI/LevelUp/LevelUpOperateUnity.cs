@@ -207,6 +207,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				pui.PartyLabel.text = TextCenter.GetText("Text_BASE");
 				continue;
 			}
+			if(i == 5){		//friend item ui.
+//				pui.callback = SelectedFriendCallback;
+				pui.PartyLabel.text = TextCenter.GetText("Text_Material");
+				continue;
+			}
 			if(i == 6){		//friend item ui.
 				pui.callback = SelectedFriendCallback;
 				pui.PartyLabel.text = TextCenter.GetText("Text_Friend");

@@ -14,7 +14,7 @@ public class ApplyMessageView : UIComponentUnity{
 	UIButton sureButton;
 	UIButton cancelButton;
 
-	UITexture avatarTexture;
+//	UITexture avatarTexture;
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -68,7 +68,7 @@ public class ApplyMessageView : UIComponentUnity{
 		rankLabel = FindChild<UILabel>("Window/Label_Vaule/Rank");
 		timeLabel = FindChild<UILabel>("Window/Label_Vaule/LastLogin");
 		idLabel = FindChild<UILabel>("Window/Label_Vaule/ID");
-		avatarTexture = FindChild<UITexture>("Window/Avatar/Texture");
+//		avatarTexture = FindChild<UITexture>("Window/Avatar/Texture");
 		sureButton = FindChild<UIButton>("Window/Button_Sure");
 		cancelButton = FindChild<UIButton>("Window/Button_Cancel");
 	
@@ -124,9 +124,9 @@ public class ApplyMessageView : UIComponentUnity{
 	void ShowCenterContent(object args){
 		TFriendInfo tfi = args as TFriendInfo;
 
-		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-			avatarTexture.mainTexture = o as Texture2D;
-		});
+//		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+//			avatarTexture.mainTexture = o as Texture2D;
+//		});
 		if(tfi.NickName == string.Empty)
 			nameLabel.text = "NoName";
 		else
@@ -135,6 +135,16 @@ public class ApplyMessageView : UIComponentUnity{
 		rankLabel.text = tfi.Rank.ToString();
 		timeLabel.text = TimeHelper.GetLatestPlayTime(tfi.LastPlayTime);
 		idLabel.text = tfi.UserId.ToString();
+
+		FriendUnitItem fuv = FriendUnitItem.Inject(FindChild("Window/Avatar"));
+		fuv.Init(tfi);
+
+		UIEventListenerCustom.Get (FindChild("Window/Avatar")).LongPress = null;
+//		fuv.callback = ClickItem;
 	}
-        
+      
+//	private void ClickItem(FriendUnitItem item){
+//		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+//		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, item.FriendInfo);
+//	}
 }

@@ -187,7 +187,7 @@ public class ResourceManager : MonoBehaviour{
 
 		string url = 
 #if UNITY_EDITOR
-	"file://" + Application.dataPath + "/ResourceDownload/Output/Android/" + GetBundleUrlByKey(key);
+			"file:///Users/Resource/" + GetBundleUrlByKey(key);
 #elif UNITY_IOS
 	"file://" + Application.persistentDataPath + "/"+ GetBundleUrlByKey(key);
 #elif UNITY_ANDROID
@@ -308,6 +308,24 @@ public class ResourceManager : MonoBehaviour{
 		return ResourceAssetBundle.NONE;
 	}
 
+	private string langStr = 
+	#if LANGUAGE_CN
+	 "Language_cn.unity3d";
+	#elif LANGUAGE_EN
+	 "Language_en.unity3d";
+	#else
+	"Language_en.unity3d";
+	#endif
+
+	private string protoStr = 
+	#if LANGUAGE_CN
+	 "Protobuf_cn.unity3d";
+	#elif LANGUAGE_EN
+	 "Protobuf_en.unity3d";
+	#else
+	"Protobuf.unity3d";
+	#endif
+
 	private string GetBundleUrlByKey(ResourceAssetBundle key){
 		switch (key) {
 			case ResourceAssetBundle.UI:
@@ -315,9 +333,9 @@ public class ResourceManager : MonoBehaviour{
 			case ResourceAssetBundle.UI_ATLAS:
 				return "UI_Atlas.unity3d";
 			case ResourceAssetBundle.LANGUAGE:
-				return "Language_en.unity3d";
+				return langStr;
 			case ResourceAssetBundle.PROTOBUF:
-				return "Protobuf.unity3d";
+				return protoStr;
 			case ResourceAssetBundle.PROFILE_0:
 				return "Profile_0.unity3d";
 			case ResourceAssetBundle.PROFILE_1:
