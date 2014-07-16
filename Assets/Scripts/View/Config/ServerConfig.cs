@@ -9,6 +9,8 @@ public sealed class ServerConfig {
 
 	public const int AppVersion = 10;
 
+	public const string touchToLogin = "点击进入";
+
 	public const string Channel = 
 #if UNITY_ANDROID
 	"GooglePlay";

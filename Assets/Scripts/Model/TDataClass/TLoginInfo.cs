@@ -18,7 +18,7 @@ public class TLoginInfo : ProtobufDataBase {
 	}
 
 	//// property ////
-	public	List<BonusInfo> Bonus { get { return instance.bonus; }  }
+	public	List<BonusInfo> Bonus { get { return instance.bonus; } set{instance.bonus.Clear();instance.bonus.AddRange(value);} }
 
 	public int LoginDayTotal { get {return instance.loginDayTotal; } }
 	public int LoginChain { get {return instance.loginChain; } }
