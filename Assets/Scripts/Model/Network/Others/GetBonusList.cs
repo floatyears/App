@@ -5,42 +5,39 @@ using System.Collections.Generic;
 using bbproto;
 
 
-public class AcceptBonus: ProtoManager {
+public class GetBonusList: ProtoManager {
 	// req && rsp
-	private bbproto.ReqAcceptBonus reqAcceptBonus;
-	private bbproto.RspAcceptBonus rspAcceptBonus;
+	private bbproto.ReqBonusList reqBonusList;
+	private bbproto.RspBonusList rspBonusList;
 	// state for req
 	// data
 	public List<int> bonusId;
 	
-	public AcceptBonus() {
+	public GetBonusList() {
 	}
 	
-	~AcceptBonus () {
+	~GetBonusList () {
 	}
 	
-	public static void SendRequest(DataListener callBack, List<int> bonusId) {
+	public static void SendRequest(DataListener callBack) {
 		
-		AcceptBonus req = new AcceptBonus();
-		req.bonusId = new List<int> ();
-		req.bonusId.AddRange( bonusId );
+		GetBonusList req = new GetBonusList();
 		req.OnRequest(null, callBack);
 	}
 	
 	public override bool MakePacket() {
-		Proto = Protocol.ACCEPT_BONUS;
-		reqType = typeof(ReqAcceptBonus);
-		rspType = typeof(RspAcceptBonus);
+		Proto = Protocol.GET_BONUS_LIST;
+		reqType = typeof(ReqBonusList);
+		rspType = typeof(RspBonusList);
 		
-		reqAcceptBonus = new ReqAcceptBonus();
-		reqAcceptBonus.header = new ProtoHeader();
-		reqAcceptBonus.header.apiVer = Protocol.API_VERSION;
-		reqAcceptBonus.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqBonusList = new ReqBonusList();
+		reqBonusList.header = new ProtoHeader();
+		reqBonusList.header.apiVer = Protocol.API_VERSION;
+		reqBonusList.header.userId = DataCenter.Instance.UserInfo.UserId;
 		
 		//request params
-		reqAcceptBonus.bonusId.AddRange( this.bonusId );
-		
-		ErrorMsg err = SerializeData(reqAcceptBonus); // save to Data for send out
+
+		ErrorMsg err = SerializeData(reqBonusList); // save to Data for send out
 		
 		return (err.Code == (int)ErrorCode.SUCCESS);
 	}
