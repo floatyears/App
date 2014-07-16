@@ -124,10 +124,12 @@ public class UIManager {
 	}
 
 	public void HideBaseScene () {
+		Debug.LogError ("HideBaseScene : ");
 		baseScene.HideBase ();
 	}
 
 	public void ShowBaseScene () {
+		Debug.LogError ("ShowBaseScene : ");
 		baseScene.ShowBase ();
 	}
 
@@ -157,7 +159,6 @@ public class UIManager {
 		if (forbidChangeScene) {
 			return;		
 		}
-//		Debug.LogError ("ChangeScene : " + sEnum + " gamestate : " + DataCenter.gameState);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		} else {
@@ -174,6 +175,7 @@ public class UIManager {
 				}
 
 				if (current != null) {
+//					Debug.LogError(" current : " + current + "current.CurrentDecoratorScene : " + current.CurrentDecoratorScene + " sEnum : " + sEnum);
 					if(current.CurrentDecoratorScene == sEnum){
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
@@ -188,21 +190,18 @@ public class UIManager {
 		}
 
 		if (HasUIObject (sEnum)) {
-//			Debug.Log("HasUIObject : " + sEnum);
 			if(CheckIsPopUpWindow(sEnum)){
 				currentPopUp = GetUI (sEnum);	
 				if (currentPopUp != null) {
 					currentPopUp.ShowScene ();
 				}
-			} else{
+			} else {
 				current = GetUI (sEnum);	
 				if (current != null) {
 					current.ShowScene ();
 				}
 			}
-
 		} else {
-//			Debug.Log("not HasUIObject : " + sEnum);
 			DecoratorBase db = CreatScene (sEnum);
 			if(CheckIsPopUpWindow(sEnum)){
 				currentPopUp = db;
@@ -210,8 +209,10 @@ public class UIManager {
 				current = db;
 			}
 		}
-		if(current != null)
+
+//		if(current != null)
 //		Debug.LogError ("change scene end current : " + current.CurrentDecoratorScene);
+
 		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
 	}
 

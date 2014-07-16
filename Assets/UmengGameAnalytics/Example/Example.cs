@@ -11,14 +11,14 @@ public class Example : MonoBehaviour {
 	void Start () {
 
 				//请到 http://www.umeng.com/analytics 获取app key
-				GA.StartWithAppKeyAndChannelId ("app key" , "App Store");
+//				GA.StartWithAppKeyAndChannelId ("app key" , "App Store");
 
 				//调试时开启日志
-				GA.SetLogEnabled (true);
+//				GA.SetLogEnabled (true);
 		
 
 				//触发统计事件 开始关卡
-				GA.StartLevel ("your level name");
+//				GA.StartLevel ("your level name");
 		}
 
 

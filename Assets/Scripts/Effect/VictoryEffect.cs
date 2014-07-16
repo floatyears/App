@@ -55,9 +55,9 @@ public class VictoryEffect : UIComponentUnity {
 		base.HideUI ();
 		gameObject.SetActive (false);
 
-		UIManager.Instance.ShowBaseScene ();
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.VictoryData, VictoryData);
+
+		UIManager.Instance.ShowBaseScene ();
 	}
 
 	public override void DestoryUI () {
@@ -145,9 +145,7 @@ public class VictoryEffect : UIComponentUnity {
 	void ShowGetCard () {
 		showUserUnit = getUserUnit.Dequeue ();
 		goAnim = dropItemList [showUserUnit];
-	
 		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
-
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 	}
 
@@ -186,9 +184,7 @@ public class VictoryEffect : UIComponentUnity {
 			if(currentExp >= currentTotalExp) {
 				currentExp -= currentTotalExp;
 				rank++;
-
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
-
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 			}
 			yield return new WaitForSeconds(0.1f);
@@ -237,9 +233,11 @@ public class VictoryEffect : UIComponentUnity {
 	void Sure(GameObject go) {
 		DestoryUI ();
 		if (DataCenter.gameState == GameState.Evolve) {
-			UIManager.Instance.baseScene.CurrentScene = SceneEnum.Home;
+			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
+
+			HideUI();
 			DataCenter.gameState = GameState.Normal;
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else {
@@ -248,7 +246,7 @@ public class VictoryEffect : UIComponentUnity {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
 			} else {
-				UIManager.Instance.ExitBattle ();
+				UIManager.Instance.ChangeScene(SceneEnum.Home);
 			}
 		}
 	}
