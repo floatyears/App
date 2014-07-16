@@ -3016,21 +3016,29 @@ namespace bbproto
       get { return _stone; }
       set { _stone = value; }
     }
-    private bbproto.BonusInfo _MonthBonus = null;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"MonthBonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private bbproto.BonusInfo _monthBonus = null;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"monthBonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.BonusInfo MonthBonus
+    public bbproto.BonusInfo monthBonus
     {
-      get { return _MonthBonus; }
-      set { _MonthBonus = value; }
+      get { return _monthBonus; }
+      set { _monthBonus = value; }
     }
-    private bbproto.BonusInfo _WeekBonus = null;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"WeekBonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    private bbproto.BonusInfo _weekBonus = null;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"weekBonus", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.BonusInfo WeekBonus
+    public bbproto.BonusInfo weekBonus
     {
-      get { return _WeekBonus; }
-      set { _WeekBonus = value; }
+      get { return _weekBonus; }
+      set { _weekBonus = value; }
+    }
+    private string _productId = "";
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"productId", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string productId
+    {
+      get { return _productId; }
+      set { _productId = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4406,6 +4414,57 @@ namespace bbproto
       get { return _unitUniqueId; }
       set { _unitUniqueId = value; }
     }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqUserGuideEvolveUnit")]
+  public partial class ReqUserGuideEvolveUnit : global::ProtoBuf.IExtensible
+  {
+    public ReqUserGuideEvolveUnit() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private uint _unitId = default(uint);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"unitId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(uint))]
+    public uint unitId
+    {
+      get { return _unitId; }
+      set { _unitId = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspUserGuideEvolveUnit")]
+  public partial class RspUserGuideEvolveUnit : global::ProtoBuf.IExtensible
+  {
+    public RspUserGuideEvolveUnit() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private readonly global::System.Collections.Generic.List<uint> _unitUniqueId = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"unitUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> unitUniqueId
+    {
+      get { return _unitUniqueId; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

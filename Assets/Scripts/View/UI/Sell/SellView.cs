@@ -189,11 +189,11 @@ public class SellView : UIComponentUnity{
 		FindTextureWithPosition(poolPos, pickItemList).spriteName = "";
 		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
 
-//		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
-//		border.spriteName = "avatar_border_6";
+		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+		border.spriteName = "avatar_border_6";
 		
-//		UISprite bg = pickItemList[ poolPos ].transform.FindChild("Background").GetComponent<UISprite>();
-//		bg.spriteName = "unit_empty_bg";
+		UISprite bg = pickItemList[ poolPos ].transform.FindChild("Background").GetComponent<UISprite>();
+		bg.spriteName = "unit_empty_bg";
 
 		CancelMarkDragItem(clickPos);
 	}

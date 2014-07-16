@@ -38,6 +38,7 @@ class Protocol {
 	public const string GET_SERVER_TIME = "get_server_time";
 	public const string UPLOAD_STAT = "upload_stat";
 	public const string ACCEPT_BONUS = "accept_bonus";
+	public const string GET_BONUS_LIST = "get_bonus_list";
 
 	//shop
 	public const string SHOP_BUY = "shop_buy";
