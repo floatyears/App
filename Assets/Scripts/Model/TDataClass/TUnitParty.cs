@@ -58,10 +58,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             if (userUnit == null) {
                 userUnit = new Dictionary<int,TUserUnit>();
                 for (int i = 0; i < partyItem.Count; i++) {
-//					Debug.LogError("i : " + i + "partyitem : " + partyItem[i].unitUniqueId);
-
                     TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
-//					Debug.LogError("partyItem[i].unitUniqueId : " + partyItem[i].unitUniqueId);
                     userUnit.Add(partyItem[i].unitPos, uui);
                 }
             }
@@ -70,10 +67,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 
 	void EnterBattle(object data) {
-//		string name = DataCenter.Instance.BattleFriend.UserUnit.MakeUserUnitKey ();
-//		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (name);
-//		Debug.LogError (DataCenter.friendPos + " EnterBattle " + ConfigBattleUseData.Instance.BattleFriend);
-//		Debug.LogError ("id : " + ID + " tunitparty : " + DataCenter.friendPos);
 		if (ConfigBattleUseData.Instance.BattleFriend == null) {
 			UserUnit.Add(DataCenter.friendPos, null);
 			return;
@@ -90,14 +83,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				cardCount ++;
 			}
 		}
-//		foreach (var item in UserUnit) {
-//			if(item.Value != null){
-//				Debug.LogError("pos : " + item.Key + " value : " + item.Value.MakeUserUnitKey);
-//			}
-//			else{
-//				Debug.LogError("pos : " + item.Key + " value is null");
-//			}
-//		}
 	}
 
 	void LeftBattle (object data) {
@@ -286,7 +271,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				attackCount += item.Value.Count;
 			}
 		}
-
+		Debug.LogError ("CalculateAttackCount attackCount : " + attackCount);
 		if (attackCount == 0) {
 			return;	
 		}
