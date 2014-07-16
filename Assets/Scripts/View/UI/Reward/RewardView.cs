@@ -150,6 +150,7 @@ public class RewardView : UIComponentUnity {
 			
 			if(count > 0){
 				Nums[i].SetActive(true);
+//				UIToggle.
 				Nums[i].transform.Find("Label").gameObject.GetComponent<UILabel>().text = count+"";
 			}else{
 				Nums[i].SetActive(false);

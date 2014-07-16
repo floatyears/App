@@ -613,8 +613,9 @@ message RspShopBuy {
     optional int32	        stonePay			= 2;
     optional int32	        stoneFree			= 3;
     optional int32	        stone				= 4;
-    optional BonusInfo      MonthBonus          = 5;
-    optional BonusInfo      WeekBonus           = 6;
+    optional BonusInfo      monthBonus          = 5;
+    optional BonusInfo      weekBonus           = 6;
+    optional string			productId			= 7;
 }
 
 
@@ -728,7 +729,21 @@ message GachaConfig {
 	optional EGachaType		gachaType	= 2; //by friendPoint, by chip， by chip(event)
 	optional uint32			beginTime	= 3; 
 	optional uint32			endTime		= 4; 
-	optional int32			eventId		= 5; 	
+	optional int32			eventId		= 5;
+    repeated GachaStarInfo  starList    = 6;
+}
+
+message GachaUnitList {
+    optional int32          minMatch    = 1;
+    optional int32          maxMatch    = 2;
+    repeated uint32         unitId      = 3;
+}
+
+message GachaStarInfo {
+    optional int32          starVal     = 1;
+    optional int32          minMatch    = 2;
+    optional int32          maxMatch    = 3;
+    repeated GachaUnitList  unitList    = 4;
 }
 
 //=================================================================================================//

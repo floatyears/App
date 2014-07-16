@@ -117,6 +117,7 @@ Text_TYPE=属性
 Text_BASE=基础
 Text_Friend=好友
 Text_Reject=移除
+Text_Material=材料
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
