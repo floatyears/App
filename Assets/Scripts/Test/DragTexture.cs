@@ -53,12 +53,16 @@ public class DragTexture : MonoBehaviour {
 	private bool onlyDragState = true;
 
 	private string switchState = "OnlyDrag";
+
+	private float probabilityUITexture = 1f;
 	
 	void Awake() {
 //		UIEventListener.Get (uiTexture.gameObject).onKey = OnKey;
 		UIEventListener.Get (uiTexture.gameObject).onDrag = OnDragTexture;
 		UIEventListener.Get (uiTexture.gameObject).onScroll = OnScrollTexture;
 		prevRect = new Rect (0f, 0f, 1f, 1f);
+
+		probabilityUITexture = (float)uiTexture.width / (float)uiTexture.height;
 	}
 
 	void Start() {
@@ -168,11 +172,12 @@ public class DragTexture : MonoBehaviour {
 		Rect rect;
 		if (!texConfig.TryGetValue (name, out rect)) {
 			rect = uiTexture.uvRect;
-			if (tex.width > tex.height) {
+
+			if (tex.width >  tex.height) {
 				probability = (float)tex.width / (float)tex.height;
 				probabilityState = EProbability.WidthBigger;
-				rect.width = 1f;
-				rect.height = probability;
+				rect.width = 1f; //1f;//1f;
+				rect.height = probability * probabilityUITexture;
 			} else if (tex.height > tex.width) {
 				probability = (float)tex.height / (float)tex.width;
 				probabilityState = EProbability.HeightBigger;
@@ -181,7 +186,7 @@ public class DragTexture : MonoBehaviour {
 			} else {
 				probabilityState = EProbability.WHEqual;
 				rect.width = 1f;
-				rect.height = 1f;
+				rect.height = probabilityUITexture;
 				probability = 1f;
 			}	
 			texConfig.Add(name, rect);
@@ -190,9 +195,10 @@ public class DragTexture : MonoBehaviour {
 	}
 
 	void LoadFiles() {
-		if (!File.Exists (path)) {
-			return;	
-		}
+//		Debug.LogError (File.Exists (path));
+//		if (!File.Exists (path)) {
+//			return;	
+//		}
 
 		string[] files = Directory.GetFiles (path);
 		filesName.Clear ();

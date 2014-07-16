@@ -51,12 +51,10 @@ public class GachaWindowView : UIComponentUnity {
 
     public void AddListener(){
         MsgCenter.Instance.AddListener(CommandEnum.EnterGachaWindow, Enter);
-//		MsgCenter.Instance.AddListener (CommandEnum.GachaWindowInfo, GachaWindow);
     }
 
     public void RemoveListener(){
         MsgCenter.Instance.RemoveListener(CommandEnum.EnterGachaWindow, Enter);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.GachaWindowInfo, GachaWindow);
     }
 
     public override void CallbackView(object data) {
@@ -72,10 +70,6 @@ public class GachaWindowView : UIComponentUnity {
 	            break;
         }
     }
-
-//	void GachaWindow(object data) {
-//
-//	}
 
     private void InitUI() {
         titleLabel = FindChild<UILabel>("TitleBackground/TitleLabel");
@@ -105,7 +99,6 @@ public class GachaWindowView : UIComponentUnity {
     }
     
     private void SetMenuBtnEnable(bool enable){
-//		Debug.LogError ("SetMenuBtnEnable : " + enable);
         MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
     }
 
@@ -119,7 +112,6 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void Enter(object args){
-//        Debug.Log("Enter invoke SyncGachaInfos()");
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(false);
         SetActive(true);
