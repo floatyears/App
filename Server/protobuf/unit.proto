@@ -46,7 +46,14 @@ message UnitInfo {
     repeated UnitGetWay		getWay			= 18;
 	optional int32			maxActiveSkillLv= 19;
 	optional int32			maxStar			= 20; //max star to be evolved
-    optional Position		showPos			= 21; //offset for show position
+    optional UVPosition		showPos			= 21; //offset for show position
+}
+
+message UVPosition {
+    optional float			x = 1;
+    optional float			y = 2;
+    optional float			w = 3;
+    optional float			h = 4;
 }
 
 message UnitGetWay {
@@ -111,7 +118,21 @@ message GachaConfig {
 	optional EGachaType		gachaType	= 2; //by friendPoint, by chip， by chip(event)
 	optional uint32			beginTime	= 3; 
 	optional uint32			endTime		= 4; 
-	optional int32			eventId		= 5; 	
+	optional int32			eventId		= 5;
+    repeated GachaStarInfo  starList    = 6;
+}
+
+message GachaUnitList {
+    optional int32          minMatch    = 1;
+    optional int32          maxMatch    = 2;
+    repeated uint32         unitId      = 3;
+}
+
+message GachaStarInfo {
+    optional int32          starVal     = 1;
+    optional int32          minMatch    = 2;
+    optional int32          maxMatch    = 3;
+    repeated GachaUnitList  unitList    = 4;
 }
 
 //=================================================================================================//
@@ -250,4 +271,14 @@ message ReqUnitFavorite {
 message RspUnitFavorite {
 	optional ProtoHeader		header			= 1;
 	optional uint32				unitUniqueId	= 2;
+}
+
+message ReqUserGuideEvolveUnit {
+    optional ProtoHeader        header          = 1;
+    optional uint32             unitId          = 2;
+}
+
+message RspUserGuideEvolveUnit {
+    optional ProtoHeader        header          = 1;
+    repeated uint32             unitUniqueId    = 2;
 }

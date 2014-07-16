@@ -11,8 +11,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public UILabel normalSkillTextLabel;
 	public UILabel profileTextLabel;
 
-//	UnitDetailTopPanel topPanel;
-
 	GameObject unitInfoTabs;
 
 	UILabel hpLabel;
@@ -60,8 +58,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			}
 		}
 	}
-
-
+	
 	//top
 	UISprite type;
 	UILabel cost;
@@ -91,16 +88,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	public override void ShowUI () {
-//		if (!gameObject.activeSelf) {
-//			gameObject.SetActive(true);	
-//		}
-
 		base.ShowUI ();
 
 		//clear the last texture 
 		DGTools.ShowTexture (unitBodyTex, null);
 
-//		UIManager.Instance.HideBaseScene();
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
@@ -121,20 +113,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 //		UIManager.Instance.ShowBaseScene();
 
- 
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
-
 		ClearEffectCache();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-
-
-
+	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
 
@@ -181,6 +168,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
+		Debug.LogError ("ClickTexture : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
 	}
 

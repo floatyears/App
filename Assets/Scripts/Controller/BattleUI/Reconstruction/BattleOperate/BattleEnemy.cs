@@ -279,7 +279,7 @@ public class BattleEnemy : UIBaseUnity {
 		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
 			UITexture tex = enemys [i].texture;
 			width += tex.width;
-			Debug.LogError("screen.width:"+Screen.width+" CalcScreenWidth:"+screenWidth+" totalWidth:"+width+" tex.width:"+tex.width+" ret pro:"+(screenWidth / width));
+//			Debug.LogError("screen.width:"+Screen.width+" CalcScreenWidth:"+screenWidth+" totalWidth:"+width+" tex.width:"+tex.width+" ret pro:"+(screenWidth / width));
 		}
 		if( screenWidth >= width ) {
 			return 1.0f;
@@ -327,6 +327,7 @@ public class BattleEnemy : UIBaseUnity {
 			if(returnValue == null) {
 				return;
 			}
+
 			GameObject prefab = returnValue as GameObject;
 		
 			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
@@ -345,7 +346,8 @@ public class BattleEnemy : UIBaseUnity {
 				prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
 				prevEffect.transform.localPosition = pos;
 				if(ai.AttackRange == 0) {
-					prevEffect.transform.localPosition = ei.transform.localPosition;
+					UITexture tex = ei.texture;
+					prevEffect.transform.localPosition = tex.transform.localPosition + (tex.height * 0.5f * Vector3.up);
 				}
 			}
 		});

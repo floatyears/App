@@ -248,30 +248,30 @@ ApplyFriendNote=Are you sure to apply friend?
 
 #reward
 Reward_Take=Collect
-Reward_Tab1=Chain Login
+Reward_Tab1=Cont. Login
 Reward_Tab2=Daily Login
 Reward_Tab3=Rank
 Reward_Tab4=Month Card
 Reward_Tab5=Others
 Reward_Title=Bonus
-Reward_Tab_Info1=Login game day-by-day continuously, you can got these bonus.
-Reward_Tab_Info2=Login days in total, 
-Reward_Tab_Info3=Rank up to theses level, you can got bonus.
+Reward_Tab_Info1=Login game day-by-day continuously, you will get following bonus.
+Reward_Tab_Info2=Cumulative logins reach certain days, you will get following bonus.
+Reward_Tab_Info3=Rank up to a certain level, you will get following bonus.
 Reward_Tab_Info4=Month card give you bonus every day.
 Reward_Tab_Info5=Other bonus
-ChainLogin=Chain Login {0}
-TotalLogin=Total Login {0}
+ChainLogin=Cumulative Login {0} Days
+TotalLogin=Total Login {0} Days
 RankReach=Rank {0}
 
 #notice
-Notice_HelperTitle=友情战报
-Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位朋友和{2}位冒险者，获得{3}友情点数
+Notice_HelperTitle=Welcome Back!
+Notice_HelperContent=You have logined for {0} days, helped {1} Friends and {2} Adventurers, got {3} pals points.
 
 #unit detail
 UnitDetail_EvolveTitle=Get Way
-UnitDetail_LevelUpTitle=Power-up Exp
-UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
-UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
+UnitDetail_LevelUpTitle=Power-up Fusion Exp
+UnitDetail_LevelUpContent=Power-up for normal monsters, will provide {0} exp.
+UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide {1} exp.
 
 # shop
 Btn_Friend_Expand=Extend Friends
@@ -1354,15 +1354,17 @@ Tips_A_1=MonsterStory is a game of collecting monster cards.
 Tips_A_2=You can move by clicking the blinking grid on the map.
 Tips_A_3=Every move will cost 1 SP.
 Tips_A_4=When SP becomes 0, the HP will be losed when you continue moving.
-Tips_A_5=踩上格子后，可能获得宝箱或遭遇敌人或踩中陷阱。
-Tips_A_6=一般情况下，将≥2个与己方某张卡牌属性颜色相同的方块放入同一个战斗槽后即可攻击。
-Tips_A_7=战斗槽共5个，一个战斗槽中最多放入5个方块。
-Tips_A_8=滑动方块的时间只有5s，5s后即发动攻击。
-Tips_A_9=只要方块没进入战斗槽，倒计时就不会开始。
-Tips_A_10=将≥2个的心方块放入同一个战斗槽后即可回复HP。
+Tips_A_5=Moving on the quest board, you will meet monsters, trap, or treasure chest.
+Tips_A_6=Generally, you can attack the monsters by putting two or more of Panels with same color into one Action Board.
+
+
+Tips_A_7=There are 5 Action Boards in total, you can put up to 5 Panels into one Action Board.
+Tips_A_8=You only have 5 seconds to move Panels, after that the Attack will start.
+Tips_A_9=Countdown 5 seconds will not start until you begin putting Panels into Action Board.
+Tips_A_10=HP will be recovered by putting two or more Heart Panels into Action Board.
 Tips_A_11=走到钥匙格子上即可获得钥匙，这是与Boss战斗的通行证。
-Tips_A_12=拿到钥匙并走到红眼下方的格子处点击红眼即可开始Boss战。
-Tips_A_13=击倒Boss后，点击Boss所在位置即为闯关胜利。
+Tips_A_12=After you got the Key, move to the top of Quest Board, click the door to enter Boss Battle.
+Tips_A_13=After killing Boss, you should click the location of Boss to pass the quest.
 
 Tips_B_1=蓝色→黄色→红色格子，危险程度逐渐上升。
 Tips_B_2=格子上的骷髅数量越多，代表金币或者敌人越多。
@@ -1422,7 +1424,7 @@ Tips_E_6=若没有合适的帮手时，花费1颗魔法石后即可获得超级�
 Tips_E_7=上一次战斗结束时的方块，将自动成为下一场战斗的开局，所以无用的方块可趁早扔掉。
 Tips_E_8=当战斗槽内已填满方块，再次拖上去的方块会被弹回，不仅操作无效也浪费时间。
 Tips_E_9=可轻点敌人作为攻击目标，也可长按查看敌人详情。
-Tips_E_10战斗中点击menu后可选择退出当前关卡。
+Tips_E_10=战斗中点击menu后可选择退出当前关卡。
 Tips_E_11=考虑到越多的攻击条会带来越高的加成，有时候普通技能1会更有效。
 Tips_E_12=若一个战斗槽内的方块配置满足了普通技能1和2，则优先发动需求方块数较多的技能。
 Tips_E_13=若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，则优先发动回复HP技能。

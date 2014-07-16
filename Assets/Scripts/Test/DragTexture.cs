@@ -52,13 +52,17 @@ public class DragTexture : MonoBehaviour {
 
 	private bool onlyDragState = true;
 
-	private string switchState = "OnlyDrag";
+	private string switchState = "拖动";
+
+	private float probabilityUITexture = 1f;
 	
 	void Awake() {
 //		UIEventListener.Get (uiTexture.gameObject).onKey = OnKey;
 		UIEventListener.Get (uiTexture.gameObject).onDrag = OnDragTexture;
 		UIEventListener.Get (uiTexture.gameObject).onScroll = OnScrollTexture;
 		prevRect = new Rect (0f, 0f, 1f, 1f);
+
+		probabilityUITexture = (float)uiTexture.width / (float)uiTexture.height;
 	}
 
 	void Start() {
@@ -90,35 +94,39 @@ public class DragTexture : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.DownArrow)) {
 			DownArrow();
 		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			OnlyDrag();		
+		}
 	}
 
 	void OnGUI() {
 		GUILayout.BeginHorizontal ();
 
-		GUILayout.BeginVertical (GUILayout.Width(200f),GUILayout.Height(400f));
+		GUILayout.BeginVertical (GUILayout.Width(200f),GUILayout.Height(300f));
 		path = GUILayout.TextArea (path, GUILayout.Width (200f), GUILayout.Height (50f));
-		GUILayout.Space (20f);
+		GUILayout.Space (5f);
 		exportPath = GUILayout.TextArea (exportPath, GUILayout.Width (240f), GUILayout.Height (50f));
-		GUILayout.Space (20f);
-		if(GUILayout.Button("加载目录下所有文件",GUILayout.Width(200f),GUILayout.Height(80f))) {
+		GUILayout.Space (5f);
+		if(GUILayout.Button("加载目录下所有文件",GUILayout.Width(200f),GUILayout.Height(50f))) {
 			LoadFiles();
 		}
-		GUILayout.Space (20f);
-		if (GUILayout.Button ("使用上一个卡牌数据", GUILayout.Width(200f), GUILayout.Height(80f))) {
+		GUILayout.Space (5f);
+		if (GUILayout.Button ("使用上一个卡牌数据", GUILayout.Width(200f), GUILayout.Height(50f))) {
 			uiTexture.uvRect = prevRect;		
 		}
-		GUILayout.Space (20f);
-		if (GUILayout.Button ("保存数据", GUILayout.Width (200f), GUILayout.Height (80f))) {
+		GUILayout.Space (5f);
+		if (GUILayout.Button ("保存数据", GUILayout.Width (200f), GUILayout.Height (50f))) {
 			SaveToFile();
 		}
 		GUILayout.EndVertical();
 
-		if (GUILayout.Button (switchState, GUILayout.Width (80f), GUILayout.Height (80f))) {
+		if (GUILayout.Button (switchState ,GUILayout.Width (100f), GUILayout.Height (100f))) {
 			OnlyDrag();
 		}
 
 		GUILayout.EndHorizontal ();
-		scrollView = GUILayout.BeginScrollView(scrollView,GUILayout.Width(350f),GUILayout.Height(500f));
+		scrollView = GUILayout.BeginScrollView(scrollView,GUILayout.Width(350f),GUILayout.Height(400f));
 		for (int i = 0; i < filesName.Count; i++) {
 			string fileName = filesName[i];
 			if(GUILayout.Button(fileName)) {
@@ -131,10 +139,10 @@ public class DragTexture : MonoBehaviour {
 	void OnlyDrag() {
 		if (onlyDragState) {
 			onlyDragState = false;
-			switchState = "OnlyScale";
+			switchState = "缩放";
 		} else {
 			onlyDragState = true;
-			switchState = "OnlyDrag";
+			switchState = "拖动";
 		}
 	}
 
@@ -168,10 +176,11 @@ public class DragTexture : MonoBehaviour {
 		Rect rect;
 		if (!texConfig.TryGetValue (name, out rect)) {
 			rect = uiTexture.uvRect;
-			if (tex.width > tex.height) {
-				probability = (float)tex.width / (float)tex.height;
+
+			if (tex.width >  tex.height) {
+				probability = ((float)tex.width / (float)tex.height) / probabilityUITexture;
 				probabilityState = EProbability.WidthBigger;
-				rect.width = 1f;
+				rect.width = 1f; //1f;//1f;
 				rect.height = probability;
 			} else if (tex.height > tex.width) {
 				probability = (float)tex.height / (float)tex.width;
@@ -181,18 +190,19 @@ public class DragTexture : MonoBehaviour {
 			} else {
 				probabilityState = EProbability.WHEqual;
 				rect.width = 1f;
-				rect.height = 1f;
+				rect.height = probabilityUITexture;
 				probability = 1f;
 			}	
 			texConfig.Add(name, rect);
 		}
 		uiTexture.uvRect = rect;
 	}
-
+	// /Users/leiliang/Work/myapp/Profile
 	void LoadFiles() {
-		if (!File.Exists (path)) {
-			return;	
-		}
+//		Debug.LogError (File.Exists (path));
+//		if (!File.Exists (path)) {
+//			return;	
+//		}
 
 		string[] files = Directory.GetFiles (path);
 		filesName.Clear ();

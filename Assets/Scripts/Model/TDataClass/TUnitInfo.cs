@@ -63,7 +63,7 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	public Position ShowPos {
+	public UVPosition ShowPos {
 		get {
 			return instance.showPos;
 		}
@@ -98,6 +98,7 @@ public class TUnitInfo : ProtobufDataBase {
 			return instance.leaderSkill;
 		}
 	}
+
 
 /// <summary>
 /// SSS

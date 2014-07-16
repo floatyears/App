@@ -118,7 +118,7 @@ message BonusInfo {
     optional uint32         validTime           = 4;
     optional string         message				= 5; //optional
     repeated GiftItem       giftItem            = 6;
-    optional int32		    enabled 			= 7; //
+    optional int32		    enabled 			= 7; // 1:enable 0 disable
     optional int32		    tag					= 8; //
 }
 
