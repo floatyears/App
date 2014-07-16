@@ -958,6 +958,7 @@ public class BattleQuest : UIBase {
 			return;
 		}
 		configBattleUseData.gameState = (byte)GameState.Normal;
+//		DataCenter.Instance.RefreshUserInfo(rsp)
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;
 		DataCenter.Instance.UserInfo.Exp = rsp.exp;
 		DataCenter.Instance.AccountInfo.Money = rsp.money;
@@ -965,7 +966,7 @@ public class BattleQuest : UIBase {
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
-
+//
 		TUnitParty tup = configBattleUseData.party;
 		foreach (var item in tup.UserUnit.Values) {
 			if(item == null) {
@@ -1005,7 +1006,11 @@ public class BattleQuest : UIBase {
 		if (data != null) {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
+//			Debug.LogError("exp : " + DataCenter.Instance.UserInfo.Exp);
+
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
+
+//			Debug.LogError("exp : " + DataCenter.Instance.UserInfo.Exp + " clearQuest : " + clearQuest.exp);
 //			End (clearQuest, QuestEnd);
 			End();
 			QuestEnd(clearQuest);
