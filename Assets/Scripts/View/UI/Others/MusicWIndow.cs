@@ -94,7 +94,7 @@ public class MusicWIndow : UIComponentUnity {
 	IEnumerator SetValue(UISlider slider, float value ){
 		yield return 0; 
 		slider.value = value;
-		if (slider == soundSlider) {
+		if (slider.Equals(soundSlider)) {
 			AudioManager.Instance.CloseSound (value == 0 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
 		} else{

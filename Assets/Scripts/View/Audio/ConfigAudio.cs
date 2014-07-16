@@ -341,7 +341,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 135;
-		audioItem.name 				= "se_135_attack_increase1";
+		audioItem.name 				= "se_135_attack_increase_1";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -349,7 +349,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 136;
-		audioItem.name 				= "se_136_attack_increase2";
+		audioItem.name 				= "se_136_attack_increase_2";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -357,7 +357,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 137;
-		audioItem.name 				= "se_137_attack_increase3";
+		audioItem.name 				= "se_137_attack_increase_3";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -365,7 +365,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 138;
-		audioItem.name 				= "se_138_attack_increase4";
+		audioItem.name 				= "se_138_attack_increase_4";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -373,7 +373,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 139;
-		audioItem.name 				= "se_139_attack_increase5";
+		audioItem.name 				= "se_139_attack_increase_5";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -381,7 +381,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 140;
-		audioItem.name 				= "se_140_attack_increase6";
+		audioItem.name 				= "se_140_attack_increase_6";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
@@ -389,7 +389,7 @@ public class ConfigAudio {
 		audioItem= new AudioConfigItem();
 		audioItem.version 			= 1;
 		audioItem.id 					= 141;
-		audioItem.name 				= "se_141_attack_increase7";
+		audioItem.name 				= "se_141_attack_increase_7";
 		audioItem.resourcePath 	= basePath + audioItem.name;
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
