@@ -3353,13 +3353,55 @@ namespace bbproto
       get { return _maxStar; }
       set { _maxStar = value; }
     }
-    private bbproto.Position _showPos = null;
+    private bbproto.UVPosition _showPos = null;
     [global::ProtoBuf.ProtoMember(21, IsRequired = false, Name=@"showPos", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.Position showPos
+    public bbproto.UVPosition showPos
     {
       get { return _showPos; }
       set { _showPos = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UVPosition")]
+  public partial class UVPosition : global::ProtoBuf.IExtensible
+  {
+    public UVPosition() {}
+    
+    private float _x = default(float);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float x
+    {
+      get { return _x; }
+      set { _x = value; }
+    }
+    private float _y = default(float);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float y
+    {
+      get { return _y; }
+      set { _y = value; }
+    }
+    private float _w = default(float);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"w", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float w
+    {
+      get { return _w; }
+      set { _w = value; }
+    }
+    private float _h = default(float);
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"h", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    [global::System.ComponentModel.DefaultValue(default(float))]
+    public float h
+    {
+      get { return _h; }
+      set { _h = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -3622,6 +3664,87 @@ namespace bbproto
       get { return _eventId; }
       set { _eventId = value; }
     }
+    private readonly global::System.Collections.Generic.List<bbproto.GachaStarInfo> _starList = new global::System.Collections.Generic.List<bbproto.GachaStarInfo>();
+    [global::ProtoBuf.ProtoMember(6, Name=@"starList", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.GachaStarInfo> starList
+    {
+      get { return _starList; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"GachaUnitList")]
+  public partial class GachaUnitList : global::ProtoBuf.IExtensible
+  {
+    public GachaUnitList() {}
+    
+    private int _minMatch = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"minMatch", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int minMatch
+    {
+      get { return _minMatch; }
+      set { _minMatch = value; }
+    }
+    private int _maxMatch = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"maxMatch", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int maxMatch
+    {
+      get { return _maxMatch; }
+      set { _maxMatch = value; }
+    }
+    private readonly global::System.Collections.Generic.List<uint> _unitId = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"unitId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> unitId
+    {
+      get { return _unitId; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"GachaStarInfo")]
+  public partial class GachaStarInfo : global::ProtoBuf.IExtensible
+  {
+    public GachaStarInfo() {}
+    
+    private int _starVal = default(int);
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"starVal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int starVal
+    {
+      get { return _starVal; }
+      set { _starVal = value; }
+    }
+    private int _minMatch = default(int);
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"minMatch", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int minMatch
+    {
+      get { return _minMatch; }
+      set { _minMatch = value; }
+    }
+    private int _maxMatch = default(int);
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"maxMatch", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int maxMatch
+    {
+      get { return _maxMatch; }
+      set { _maxMatch = value; }
+    }
+    private readonly global::System.Collections.Generic.List<bbproto.GachaUnitList> _unitList = new global::System.Collections.Generic.List<bbproto.GachaUnitList>();
+    [global::ProtoBuf.ProtoMember(4, Name=@"unitList", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.GachaUnitList> unitList
+    {
+      get { return _unitList; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
