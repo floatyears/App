@@ -85,7 +85,7 @@ public class FriendHelperView : UIComponentUnity{
 	private void CreateGeneralListView(){
 //		Debug.Log("Create General ListView(), start...");
 
-		List<TFriendInfo> newest = DataCenter.Instance.SupportFriends;
+		List<TFriendInfo> newest = DataCenter.Instance.supportFriendManager.GetSupportFriend ();//SupportFriends;
 
 		if(generalFriendList == null){
 //			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");

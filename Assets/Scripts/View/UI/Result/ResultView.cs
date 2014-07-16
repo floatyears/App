@@ -11,7 +11,7 @@ public class ResultView : UIComponentUnity {
 	UIButton checkBtn;
 	UIButton okBtn;
 	UIButton cancelBtn;
-	UITexture avatarTex;
+	UISprite avatarTex;
 	UISprite avatarBorderSpr;
 	UISprite avatarBgSpr;
 	GameObject rootTop;
@@ -36,7 +36,7 @@ public class ResultView : UIComponentUnity {
 		gotFriPointLabel = rootCenter.transform.FindChild("Label_Top").GetComponent<UILabel>();
 		totalFriPointLabel = rootCenter.transform.FindChild("Label_Bottom").GetComponent<UILabel>();
 
-		avatarTex = rootTop.transform.FindChild("Avatar/Texture").GetComponent<UITexture>();
+		avatarTex = rootTop.transform.FindChild("Avatar/Texture").GetComponent<UISprite>();
 		avatarBgSpr = rootTop.transform.FindChild("Avatar/Background").GetComponent<UISprite>();
 		avatarBorderSpr = rootTop.transform.FindChild("Avatar/Sprite_Avatar_Border").GetComponent<UISprite>();
 
@@ -103,10 +103,11 @@ public class ResultView : UIComponentUnity {
 	void ShowTopView(object msg){
 		Debug.Log("ResultView.ShowTopView(), start...");
 		TFriendInfo viewData = msg as TFriendInfo;
-
-		viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-			avatarTex.mainTexture = o as Texture2D;
-		});
+		TUnitInfo tui = viewData.UserUnit.UnitInfo;
+		DataCenter.Instance.GetAvatarAtlas (tui.ID, avatarTex);
+//		viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+//			avatarTex.mainTexture = o as Texture2D;
+//		});
 		avatarBgSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBackgroundName();
 		avatarBorderSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBorderSprName();
 

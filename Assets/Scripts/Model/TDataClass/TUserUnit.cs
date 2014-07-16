@@ -439,11 +439,18 @@ public class TUserUnit : ProtobufDataBase {
     }
 
 	public int CalculateATK(TUnitInfo tui) {
+		if (tui == null) {
+			return 0;	
+		}
 		return instance.addHp * 5 + tui.GetCurveValue (Level, tui.Object.powerType.attackType );
 	}
 
 	public int CalculateHP(TUnitInfo tui) {
 		Debug.LogError ("CalculateHP tui : " + tui);
+		if (tui == null) {
+			return 0;
+		}
+
 		return instance.addHp * 10 + tui.GetCurveValue (Level, tui.Object.powerType.hpType);
 	}
 

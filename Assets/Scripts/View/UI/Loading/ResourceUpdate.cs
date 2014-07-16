@@ -11,7 +11,7 @@ public class ResourceUpdate : MonoBehaviour {
 	public const string serverHost = "http://61.153.100.131";
 
 	public const string serverResURL =
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE
 		serverHost+"/resource/android/";
 #elif UNITY_ANDROID
 	serverHost+"/resource/android/";
