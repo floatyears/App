@@ -308,13 +308,13 @@ public class ExportResource : EditorWindow {
 			Debug.Log("the select folder is not valid.");
 			return;		
 		}
-		int index = fullPath.IndexOf (projPath);
-		if (index < 0) {
-			Debug.Log("the path is valid, please reselect it!");
-		} else {
-			savePath = fullPath.Substring(projPath.Length);
-			Debug.Log(index + savePath);
-		}
+//		int index = fullPath.IndexOf (projPath);
+//		if (index < 0) {
+//			Debug.Log("the path is valid, please reselect it!");
+//		} else {
+		savePath = fullPath;//.Substring(projPath.Length);
+			Debug.Log("save path: " + savePath);
+//		}
 
 	}
 
@@ -325,17 +325,17 @@ public class ExportResource : EditorWindow {
 			Debug.Log("the select file is not valid.");
 			return;		
 		}
-		int index = fullPath.IndexOf (projPath);
-		if (index < 0) {
-			Debug.Log("the path is valid, please reselect it!");
-		} else {
+//		int index = fullPath.IndexOf (projPath);
+//		if (index < 0) {
+//			Debug.Log("the path is valid, please reselect it!");
+//		} else {
 			dependencyFullFileList.Add(fullPath);
-			if(dependencyFile == null || dependencyFile.Length == 0)
-				dependencyFile = fullPath.Substring(fullPath.LastIndexOf('/')+1);
+			if (dependencyFile == null || dependencyFile.Length == 0)
+						dependencyFile = fullPath;//.Substring(fullPath.LastIndexOf('/')+1);
 			else
-				dependencyFile += " ," + fullPath.Substring(fullPath.LastIndexOf('/')+1);
-			Debug.Log(index + savePath);
-		}
+						dependencyFile += " ," + fullPath;//.Substring(fullPath.LastIndexOf('/')+1);
+			Debug.Log("save path: " + savePath);
+//		}
 		
 	}
 

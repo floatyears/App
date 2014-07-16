@@ -45,10 +45,12 @@ public class GameCurrencyEventHandler {
 
 		//update user's account
 		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+
+
 	}
 
 	public void onItemPurchased(PurchasableVirtualItem pvi){
-		Debug.Log ("onItemPurchased: productId="+pvi.ItemId);
+		Debug.Log ("onItemPurchased: productId=" + pvi.ItemId);
 		ShopBuy.SendRequest(OnRspShopBuy, pvi.ItemId);
 	}
 

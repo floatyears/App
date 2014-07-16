@@ -540,6 +540,8 @@ public class DownloadItemInfo {
 		DownloadItemInfo item = new DownloadItemInfo ();
 //		string[] records = info.Split (new string[]{"\n"},System.StringSplitOptions.RemoveEmptyEntries);
 //		foreach (string record in records) {
+		Debug.Log ("dowload item: " + info);
+
 		string[] items = info.Split('|');
 		item.name = items[0];
 		item.path = items[1];

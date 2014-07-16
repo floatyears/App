@@ -1,1 +1,1 @@
-USavePath:Assets/ResourceDownload/Output/Android;Filename:Profile_11;Extension:unity3dd
+JSavePath:/Users/Resource/Output;Filename:Atlas_Avatar_11;Extension:unity3dion:unity3dd
