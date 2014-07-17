@@ -77,6 +77,13 @@ public class BattleMenu : UIBaseUnity {
 		confirmContentLabel.text = TextCenter.GetText ("ExitBattleConfirm");
 		menuTitleLabel.text = TextCenter.GetText("BattleMenu");
 		confirmWindow.SetActive (false);
+
+		InitAudioSliderState ();
+	}
+
+	void InitAudioSliderState() {
+		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("sound") == 0 ? 1 : 0;
+		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("bgm") == 0 ? 1 : 0;
 	}
 
 	void SetEvent() {

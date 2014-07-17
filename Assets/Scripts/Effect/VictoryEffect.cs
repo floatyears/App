@@ -54,9 +54,7 @@ public class VictoryEffect : UIComponentUnity {
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
-
 		MsgCenter.Instance.RemoveListener (CommandEnum.VictoryData, VictoryData);
-
 		UIManager.Instance.ShowBaseScene ();
 	}
 

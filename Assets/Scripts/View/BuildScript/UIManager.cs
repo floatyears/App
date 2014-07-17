@@ -45,12 +45,8 @@ public class UIManager {
 
 	private SceneEnum storePrevScene = SceneEnum.None;
 
-//	public SceneEnum prevScene = SceneEnum.None;
-
 	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
 
-//	private Dictionary<SceneEnum,DecoratorBase> showedPopUpWindow = new Dictionary<SceneEnum, DecoratorBase>();
-	
 	/// <summary>
 	/// add ui to uimanager
 	/// </summary>
@@ -124,12 +120,10 @@ public class UIManager {
 	}
 
 	public void HideBaseScene () {
-		Debug.LogError ("HideBaseScene : ");
 		baseScene.HideBase ();
 	}
 
 	public void ShowBaseScene () {
-		Debug.LogError ("ShowBaseScene : ");
 		baseScene.ShowBase ();
 	}
 
@@ -175,7 +169,6 @@ public class UIManager {
 				}
 
 				if (current != null) {
-//					Debug.LogError(" current : " + current + "current.CurrentDecoratorScene : " + current.CurrentDecoratorScene + " sEnum : " + sEnum);
 					if(current.CurrentDecoratorScene == sEnum){
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
@@ -209,9 +202,6 @@ public class UIManager {
 				current = db;
 			}
 		}
-
-//		if(current != null)
-//		Debug.LogError ("change scene end current : " + current.CurrentDecoratorScene);
 
 		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
 	}
