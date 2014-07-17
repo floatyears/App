@@ -92,7 +92,7 @@ public class MusicWIndow : UIComponentUnity {
 		yield return 0; 
 		slider.value = value;
 		if (slider.Equals(soundSlider)) {
-			AudioManager.Instance.CloseSound (value == 0 ? true : false);
+			AudioManager.Instance.CloseSound (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
 		} else{
 			AudioManager.Instance.CloseBackground (value == 1 ? true : false);

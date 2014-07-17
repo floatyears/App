@@ -64,6 +64,15 @@ public partial class TextCenter {
 		return result;
 	}
 
+	private string langStr = 
+	#if LANGUAGE_CN
+	"Language/lang_cn";
+	#elif LANGUAGE_EN
+	"Language/lang_en";
+	#else
+	"Language/lang_en";
+	#endif
+
     public void Init(ResourceCallback callback){
         textDict = new Dictionary<string, string>();
 
@@ -71,7 +80,7 @@ public partial class TextCenter {
         //
 //		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
 //		ResourceManager.Instance.LoadLocalAsset ("Language/lang_en", o => {
-		ResourceManager.Instance.LoadLocalAsset ("Language/lang_cn", o => {
+		ResourceManager.Instance.LoadLocalAsset (langStr, o => {
 			string readData = (o as TextAsset).text;
 			string[] data = readData.Split ('\n');
 

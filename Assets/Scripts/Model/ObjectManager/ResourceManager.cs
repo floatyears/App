@@ -53,33 +53,33 @@ public class ResourceManager : MonoBehaviour{
 #if UNITY_EDITOR
 			
 
-//			ResourceAssetBundle key = GetBundleKeyByPath(path);
-//			
-//			if(!assetBundles.ContainsKey(key)){
-//							assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
-//				StartCoroutine(DownloadResource(key));
-//			}else{
-//				if(assetBundles[key].isLoading){
-//					Debug.Log("======path: " + path);
-//					if(assetBundles[key].callbackList.ContainsKey(path)){
-//						Debug.Log("add callback1: " + path + " " + callback);
-//						assetBundles[key].callbackList[path].Add(callback);
-//					}else {
-//						Debug.Log("add callback2: " + path + " " + callback);
-//						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
-//					}
-//				}else{
-//					if(callback != null){
-//						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
-//						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
-//						return null;
-//					}else{
-//						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
-//					}
-//				}
-//				
-//			}
-//			return null;
+			ResourceAssetBundle key = GetBundleKeyByPath(path);
+			
+			if(!assetBundles.ContainsKey(key)){
+							assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
+				StartCoroutine(DownloadResource(key));
+			}else{
+				if(assetBundles[key].isLoading){
+					Debug.Log("======path: " + path);
+					if(assetBundles[key].callbackList.ContainsKey(path)){
+						Debug.Log("add callback1: " + path + " " + callback);
+						assetBundles[key].callbackList[path].Add(callback);
+					}else {
+						Debug.Log("add callback2: " + path + " " + callback);
+						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
+					}
+				}else{
+					if(callback != null){
+						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
+						return null;
+					}else{
+						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+					}
+				}
+				
+			}
+			return null;
 
 			string ext = null;
 			if(path.IndexOf ("Prefabs") == 0){
@@ -323,7 +323,7 @@ public class ResourceManager : MonoBehaviour{
 	#elif LANGUAGE_EN
 	 "Protobuf_en.unity3d";
 	#else
-	"Protobuf.unity3d";
+	"Protobuf_en.unity3d";
 	#endif
 
 	private string GetBundleUrlByKey(ResourceAssetBundle key){
