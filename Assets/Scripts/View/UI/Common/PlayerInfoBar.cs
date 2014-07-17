@@ -145,6 +145,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		int nextExp = DataCenter.Instance.UserInfo.NextExp;
 		int totalExp = DataCenter.Instance.UserInfo.Exp;
 		int curRankExp = totalExp - DataCenter.Instance.UserInfo.CurRankExp;
+//		UnityEngine.Debug.LogError("totalExp:"+totalExp+" - CurRankExp:" + DataCenter.Instance.UserInfo.CurRankExp + " = " +curRankExp+"/"+DataCenter.Instance.UserInfo.CurRankExpMax);
 
 		floatNextExpValueLabel.text = nextExp.ToString();
 		floatTotalExpValueLabel.text = totalExp.ToString();

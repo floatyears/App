@@ -60,17 +60,17 @@ public class ResourceManager : MonoBehaviour{
 				StartCoroutine(DownloadResource(key));
 			}else{
 				if(assetBundles[key].isLoading){
-					Debug.Log("======path: " + path);
+//					Debug.Log("======path: " + path);
 					if(assetBundles[key].callbackList.ContainsKey(path)){
-						Debug.Log("add callback1: " + path + " " + callback);
+//						Debug.Log("add callback1: " + path + " " + callback);
 						assetBundles[key].callbackList[path].Add(callback);
 					}else {
-						Debug.Log("add callback2: " + path + " " + callback);
+//						Debug.Log("add callback2: " + path + " " + callback);
 						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
 					}
 				}else{
 					if(callback != null){
-						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+//						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
 						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
 						return null;
 					}else{
@@ -268,6 +268,8 @@ public class ResourceManager : MonoBehaviour{
 				return ResourceAssetBundle.AVATAR_9;
 			case 10:
 				return ResourceAssetBundle.AVATAR_10;
+			case 11:
+				return ResourceAssetBundle.AVATAR_11;
 			default:
 				return ResourceAssetBundle.NONE;
 			}
@@ -298,7 +300,9 @@ public class ResourceManager : MonoBehaviour{
 					return ResourceAssetBundle.PROFILE_9;
 				case 10:
 					return ResourceAssetBundle.PROFILE_10;
-				default:
+			case 11:
+				return ResourceAssetBundle.PROFILE_11;
+			default:
 					return ResourceAssetBundle.NONE;
 			}
 		}
@@ -358,8 +362,10 @@ public class ResourceManager : MonoBehaviour{
 				return "Profile_9.unity3d";
 			case ResourceAssetBundle.PROFILE_10:
 				return "Profile_10.unity3d";
-
-
+		case ResourceAssetBundle.PROFILE_11:
+			return "Profile_11.unity3d";
+			
+			
 			case ResourceAssetBundle.AVATAR_0:
 			return "Atlas_Avatar_0.unity3d";
 			case ResourceAssetBundle.AVATAR_1:
@@ -382,7 +388,9 @@ public class ResourceManager : MonoBehaviour{
 			return "Atlas_Avatar_9.unity3d";
 			case ResourceAssetBundle.AVATAR_10:
 			return "Atlas_Avatar_10.unity3d";
-			case ResourceAssetBundle.EventAtlas:
+		case ResourceAssetBundle.AVATAR_11:
+			return "Atlas_Avatar_11.unity3d";
+		case ResourceAssetBundle.EventAtlas:
 			return "EventAtlas.unity3d";
 			default:
 				break;
@@ -462,18 +470,18 @@ public class ResourceManager : MonoBehaviour{
 				allComplete = false;
 				assetBundles[item] = new AssetBundleObj(item,RelyOnSource,new List<ResourceCallback>(){o=>{
 					if(checkRelies(aObj)){
-						Debug.Log("rely resource complete");
+//						Debug.Log("rely resource complete");
 						aObj.ExeCallback();
 					}
 					}});
-				Debug.Log(aObj.name + " rely on: " + item);
+//				Debug.Log(aObj.name + " rely on: " + item);
 				StartCoroutine(DownloadResource(item));
 			}else if(ResourceManager.assetBundles[item].isLoading){
 				allComplete = false;
 			}
 
 		}
-		Debug.Log ("resource reply: " + allComplete);
+//		Debug.Log ("resource reply: " + allComplete);
 		return allComplete;
 	}
 }
@@ -495,6 +503,7 @@ public enum ResourceAssetBundle{
 	PROFILE_8,
 	PROFILE_9,
 	PROFILE_10,
+	PROFILE_11,
 
 	AVATAR_0,
 	AVATAR_1,
@@ -507,6 +516,7 @@ public enum ResourceAssetBundle{
 	AVATAR_8,
 	AVATAR_9,
 	AVATAR_10,
+	AVATAR_11,
 
 	EventAtlas
 }
@@ -534,7 +544,7 @@ public class AssetBundleObj{
 		callbackList = new Dictionary<string,List<ResourceCallback>>();
 		if (path != null) {
 			callbackList.Add (path,callback);
-			Debug.Log("======path: " + path);
+//			Debug.Log("======path: " + path);
 		}
 			
 		name = rName;
@@ -558,7 +568,7 @@ public class AssetBundleObj{
 					Debug.Log("no callback: " + item.Key);
 				}else{
 					foreach(var c1 in item.Value){
-//						Debug.Log("callback item: " + item.Key);
+						Debug.Log("callback item: " + item.Key);
 						c1(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
 					}
 				}
