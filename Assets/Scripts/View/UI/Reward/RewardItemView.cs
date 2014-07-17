@@ -75,10 +75,11 @@ public class RewardItemView : MonoBehaviour {
 			int index = 0;
 			foreach (var item in data.giftItem) {
 				if(item.count > 0){
-					GiftItem gd = data.giftItem[index];
+//					GiftItem gd = item//data.giftItem[index];
 					itemList[index].SetActive(true);
-					SetItemData(itemList[index], gd);
+					SetItemData(itemList[index], item);
 					index++;
+//					Debug.Log("foreach item: " + item);
 				}
 					
 			}
@@ -101,6 +102,7 @@ public class RewardItemView : MonoBehaviour {
 			break;
 			}
 
+//			Debug.Log("reward item: " + data.id + " gift: " + data.giftItem.Count);
 		}
 	}
 
@@ -117,6 +119,10 @@ public class RewardItemView : MonoBehaviour {
 			obj.GetComponent<UIDragScrollView>().enabled = true;
 
 			GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
+			int type = (int)DataCenter.Instance.GetUnitInfo((uint)gift.value).Type;
+			obj.transform.FindChild("Bg").GetComponent<UISprite>().spriteName = GetAvatarBgSpriteName(type);
+			obj.transform.FindChild("Border").GetComponent<UISprite>().spriteName = GetBorderSpriteName(type);
+
 
 		} else {
 			UIEventListenerCustom.Get (obj).LongPress = null;
@@ -127,6 +133,9 @@ public class RewardItemView : MonoBehaviour {
 			UISprite sp = obj.transform.FindChild("Img").GetComponent<UISprite>();
 			sp.atlas = atlas;
 			sp.spriteName = "icon_" + gift.content;
+
+			obj.transform.FindChild("Bg").GetComponent<UISprite>().spriteName = "";
+			obj.transform.FindChild("Border").GetComponent<UISprite>().spriteName = "";
 		}
 
 		obj.transform.FindChild ("Num").GetComponent<UILabel>().text = "x" + gift.count;
@@ -135,6 +144,46 @@ public class RewardItemView : MonoBehaviour {
 //		});
 	}
 
+	string GetBorderSpriteName (int unitType) {
+		switch (unitType) {
+		case 1:
+			return "avatar_border_fire";
+		case 2:
+			return "avatar_border_water";
+		case 3:
+			return "avatar_border_wind";
+		case 4:
+			return "avatar_border_light";
+		case 5:
+			return "avatar_border_dark";
+		case 6:
+			return "avatar_border_none";
+		default:
+			return "avatar_border_none";
+			break;
+		}
+	}
+
+	string GetAvatarBgSpriteName(int unitType) {
+		switch (unitType) {
+		case 1:
+			return "avatar_bg_fire";
+		case 2:
+			return "avatar_bg_water";
+		case 3:
+			return "avatar_bg_wind";
+		case 4:
+			return "avatar_bg_light";
+		case 5:
+			return "avatar_bg_dark";
+		case 6:
+			return "avatar_bg_none";
+		default:
+			return "avatar_bg_none";
+			break;
+		}
+	}
+	
 	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
 		uint index = unitID / DataCenter.AVATAR_ATLAS_CAPACITY;
 		UIAtlas atlas = null;
@@ -159,10 +208,10 @@ public class RewardItemView : MonoBehaviour {
 
 	private void ClickUnit(GameObject obj){
 
-			Debug.Log ("Click Item To Detail");
-			int i; 
-			int.TryParse(obj.name.Substring (4,1),out i);
-			DGTools.ChangeToUnitDetail ((uint)data.giftItem [i - 1].value);
+		Debug.Log ("Click Item To Detail");
+		uint i = 0; 
+		uint.TryParse(obj.transform.FindChild("Img").GetComponent<UISprite>().spriteName,out i);
+		DGTools.ChangeToUnitDetail (i);
 
 
 	}
@@ -172,8 +221,8 @@ public class RewardItemView : MonoBehaviour {
 //	}
 
 	public void ClickTakeAward(){
-		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
 		RewardView.bonusIDs.Add (data.id);
+		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
 	}
 
 }
