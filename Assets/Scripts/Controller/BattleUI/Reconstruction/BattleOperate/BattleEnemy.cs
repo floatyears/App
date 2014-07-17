@@ -336,7 +336,7 @@ public class BattleEnemy : UIBaseUnity {
 				if(ai.AttackRange == 0) {
 					UITexture tex = ei.texture;
 					float x = ei.transform.localPosition.x;
-					float y = tex.height * 0.5f;
+					float y = tex.transform.localPosition.y +  tex.height * 0.5f;
 
 					prevEffect.transform.localPosition =  new Vector3(x, y, 0f);
 				}

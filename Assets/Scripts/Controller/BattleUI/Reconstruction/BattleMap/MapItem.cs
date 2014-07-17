@@ -93,6 +93,7 @@ public class MapItem : UIBaseUnity {
 					spriteName = "";
 					break;
 			}
+
 			DGTools.ShowSprite(mapItemSprite, spriteName);
 			backSpriteName = "";
 			switch (gridItem.Type) {
@@ -182,8 +183,7 @@ public class MapItem : UIBaseUnity {
 
 	public void ShowObject(GameObject go) { }
 
-	void OnDisable () {
-	}
+	void OnDisable () { }
 
 	void OnEnable () {
 		if (gridItemSprite == null) {
@@ -237,9 +237,9 @@ public class MapItem : UIBaseUnity {
 			GridAnim (rotateSingleEnd);	
 			yield break;
 		}
-//		Object obj = DataCenter.Instance.GetMapEffect (gridItem.Type.ToString ());
+
 		if (obj == null) {
-			yield return 0;
+//			yield return 0;
 			GridAnim (rotateSingleEnd);	
 		} else {
 			GameObject effect = obj as GameObject;
@@ -285,13 +285,14 @@ public class MapItem : UIBaseUnity {
 	}
 
 	Callback animEnd;
+
 	List<GameObject> gridAnim = new List<GameObject> ();
+
 	public void GridAnim(string function) {
 		if (isOld) {
 			if(animEnd != null) {
 				Invoke(function, 0.5f);
-			}	
-			
+			}
 			return;
 		}
 			
@@ -345,15 +346,18 @@ public class MapItem : UIBaseUnity {
 		tws.eventReceiver = gameObject;
 
 		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
-			flyCoin = NGUITools.AddChild (mapBackSprite.transform.parent.gameObject, mapBackSprite.gameObject);
+			UILabel coinLabel = FindChild<UILabel>("CoinLabel");
+			coinLabel.text = gridItem.Coins.ToString();
+			flyCoin = coinLabel.gameObject;
+			flyCoin.SetActive(true);
 			flyCoin.SetActive (true);
 			Destroy (flyCoin.GetComponent<TweenScale> ());
 			Destroy (flyCoin.GetComponent<TweenAlpha> ());
 			Vector3 endPosition = battleMap.bQuest.GetTopUITarget ().position;
 			callBack = function;
 			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 1.5f; // 1f = fly speed.
-			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd","time",flyTime,"easetype",iTween.EaseType.easeInQuad));
-			} else {
+			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd", "time", flyTime, "easetype", iTween.EaseType.easeInQuad));
+		} else {
 			tws.callWhenFinished = function;
 		}
 	}     
