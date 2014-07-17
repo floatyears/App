@@ -335,25 +335,30 @@ public class SellView : UIComponentUnity{
 
 	void ClickItem(SellUnitItem item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+
 		int clickPos = saleUnitViewList.IndexOf(item);
 		int poolPos = 0;
 		int index = CheckHaveBeenPicked(item);
 		if(index == -1) {
 			//not exist and add to picked list
 			index = SearchFirstEmptyPosition(item);
-				if(index == -1) {
-				//conditin 1 : not exist empty slot in current picked list and add in the end of the list
-					poolPos = pickUnitViewList.Count;
-					pickUnitViewList.Add(item);
-				} else{
-				//conditin 2 : exist empty slot and insert it
-					poolPos = index;
-					pickUnitViewList[index] = item;
-				}
+			if(index == -1) {
+				if (pickUnitViewList.Count >= 12)
+					return;
+			//conditin 1 : not exist empty slot in current picked list and add in the end of the list
+				poolPos = pickUnitViewList.Count;
+				pickUnitViewList.Add(item);
+			} else{
+			//conditin 2 : exist empty slot and insert it
+				poolPos = index;
+				pickUnitViewList[index] = item;
+			}
+
 			ChangeTotalSaleValue(item.UserUnit.UnitInfo.SaleValue);
 			Dictionary<string,object> temp = new Dictionary<string, object>();
 			temp.Add("poolPos", poolPos);
 			temp.Add("clickPos", clickPos);
+
 
 			GameObject targetItem = pickItemList[ poolPos ];
 			UISprite sprite = targetItem.transform.Find("Texture").GetComponent<UISprite>();
@@ -371,6 +376,8 @@ public class SellView : UIComponentUnity{
 		}
 		else{
 			poolPos = index;
+			if(poolPos > 11)
+				return;
 			SellUnitItem suv = pickUnitViewList[ index ];
 			pickUnitViewList[ index ] = null;
 			Dictionary<string, int> temp = new Dictionary<string, int>();

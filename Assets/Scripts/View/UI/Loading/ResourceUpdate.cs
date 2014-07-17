@@ -169,10 +169,10 @@ public class ResourceUpdate : MonoBehaviour {
 //		Debug.Log (globalWWW);
 //		Debug.Log ("============progress1: " + current + " already: " + alreadyDone);
 		if (total > 0) {
-			pro.value = 1 -  (total >0 ? (current+alreadyDone)/ (float)total: 1);
+			pro.value = (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = currentDownload + ((1-pro.value)*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
+			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
 		}
 
 		versionTxt.text = appVersion + version;
