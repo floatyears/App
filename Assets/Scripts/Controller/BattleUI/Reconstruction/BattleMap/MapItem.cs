@@ -93,6 +93,7 @@ public class MapItem : UIBaseUnity {
 					spriteName = "";
 					break;
 			}
+
 			DGTools.ShowSprite(mapItemSprite, spriteName);
 			backSpriteName = "";
 			switch (gridItem.Type) {
@@ -182,8 +183,7 @@ public class MapItem : UIBaseUnity {
 
 	public void ShowObject(GameObject go) { }
 
-	void OnDisable () {
-	}
+	void OnDisable () { }
 
 	void OnEnable () {
 		if (gridItemSprite == null) {
@@ -237,9 +237,9 @@ public class MapItem : UIBaseUnity {
 			GridAnim (rotateSingleEnd);	
 			yield break;
 		}
-//		Object obj = DataCenter.Instance.GetMapEffect (gridItem.Type.ToString ());
+
 		if (obj == null) {
-			yield return 0;
+//			yield return 0;
 			GridAnim (rotateSingleEnd);	
 		} else {
 			GameObject effect = obj as GameObject;
@@ -290,7 +290,7 @@ public class MapItem : UIBaseUnity {
 		if (isOld) {
 			if(animEnd != null) {
 				Invoke(function, 0.5f);
-			}	
+			}
 			
 			return;
 		}

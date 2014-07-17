@@ -55,7 +55,9 @@ public class DragTexture : MonoBehaviour {
 	private string switchState = "拖动";
 
 	private float probabilityUITexture = 1f;
-	
+
+	///Users/leiliang/Work/Profile
+
 	void Awake() {
 //		UIEventListener.Get (uiTexture.gameObject).onKey = OnKey;
 		UIEventListener.Get (uiTexture.gameObject).onDrag = OnDragTexture;
@@ -120,10 +122,16 @@ public class DragTexture : MonoBehaviour {
 			SaveToFile();
 		}
 		GUILayout.EndVertical();
-
+		GUILayout.BeginVertical ();
 		if (GUILayout.Button (switchState ,GUILayout.Width (100f), GUILayout.Height (100f))) {
 			OnlyDrag();
 		}
+		GUILayout.Space (5f);
+		if (GUILayout.Button ("Reset" ,GUILayout.Width (100f), GUILayout.Height (100f))) {
+			Reset();
+		}
+
+		GUILayout.EndVertical ();
 
 		GUILayout.EndHorizontal ();
 		scrollView = GUILayout.BeginScrollView(scrollView,GUILayout.Width(350f),GUILayout.Height(400f));
@@ -134,6 +142,12 @@ public class DragTexture : MonoBehaviour {
 			}
 		}
 		GUILayout.EndScrollView();
+	}
+
+	void Reset() {
+		Rect rect = new Rect (0f, 0f, 1f, 1f);
+		InitRect (ref rect, uiTexture.mainTexture);
+		uiTexture.uvRect = rect;
 	}
 	
 	void OnlyDrag() {
@@ -150,7 +164,6 @@ public class DragTexture : MonoBehaviour {
 		string[] s = fileName.Split('/');
 		string name = s[s.Length - 1];
 		name = name.Replace (".png", "");
-//		Debug.LogError ("LoadTextureFromPath : " + name);
 		if (filesDic.ContainsKey (name)) {
 			Texture2D tex = filesDic[name];
 			SetTexture(tex, name);
@@ -170,34 +183,27 @@ public class DragTexture : MonoBehaviour {
 		}
 	}
 
-
+	// /Users/leiliang/Work/Profile
 	public void SetTexture(Texture tex,string name) {
 		uiTexture.mainTexture = tex;
 		Rect rect;
 		if (!texConfig.TryGetValue (name, out rect)) {
-			rect = uiTexture.uvRect;
-
-			if (tex.width >  tex.height) {
-				probability = ((float)tex.width / (float)tex.height) / probabilityUITexture;
-				probabilityState = EProbability.WidthBigger;
-				rect.width = 1f; //1f;//1f;
-				rect.height = probability;
-			} else if (tex.height > tex.width) {
-				probability = (float)tex.height / (float)tex.width;
-				probabilityState = EProbability.HeightBigger;
-				rect.width = probability;
-				rect.height = 1f;
-			} else {
-				probabilityState = EProbability.WHEqual;
-				rect.width = 1f;
-				rect.height = probabilityUITexture;
-				probability = 1f;
-			}	
+			InitRect(ref rect, tex);
 			texConfig.Add(name, rect);
 		}
+
 		uiTexture.uvRect = rect;
 	}
-	// /Users/leiliang/Work/myapp/Profile
+
+	void InitRect (ref Rect rect, Texture tex) {
+		float whProbability = (float)tex.width / (float)tex.height;
+		probability = whProbability / probabilityUITexture;
+//		Debug.LogError("WidthBigger probabilityUITexture : " + probabilityUITexture + " probability : " + probability + "  (float)tex.width / (float)tex.height) : " +  ((float)tex.width / (float)tex.height));
+		probabilityState = EProbability.WidthBigger;
+		rect.width = 1f; //1f;//1f;
+		rect.height = probability;
+	}
+
 	void LoadFiles() {
 //		Debug.LogError (File.Exists (path));
 //		if (!File.Exists (path)) {

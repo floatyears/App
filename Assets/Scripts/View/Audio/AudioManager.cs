@@ -27,7 +27,8 @@ public class AudioManager {
 	/// background audio close
 	/// </summary>
 	private bool isCloseBackground = false;
-		/// <summary>
+
+	/// <summary>
 	/// sound audio close
 	/// </summary>
 	private bool isCloseSound = false;
@@ -113,7 +114,7 @@ public class AudioManager {
 	
 	public void PlayAudio(AudioEnum audioEnum){
 		if (IsBackgroundAuido (audioEnum) || isCloseSound) {
-			return;	
+			return;
 		}
 
 		if (!CheckAudio (audioEnum)) {
