@@ -66,11 +66,8 @@ public class LoadingView : UIComponentUnity {
 			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
 			
 			TextCenter.Instance.Init (o1=>{
-				
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 				ModelManager.Instance.Init();
-				
-
 			});
 		});
     }

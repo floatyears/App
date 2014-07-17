@@ -34,7 +34,7 @@ public class ConfigSkill  {
 			if(DataCenter.Instance.Skill.ContainsKey(ns.baseInfo.id)) {
 				DataCenter.Instance.Skill[ns.baseInfo.id] = tns;
 			}else{
-				DataCenter.Instance.Skill.Add(ns.baseInfo.id,tns);
+				DataCenter.Instance.Skill.Add(ns.baseInfo.id, tns);
 			}
 		}
 	}
