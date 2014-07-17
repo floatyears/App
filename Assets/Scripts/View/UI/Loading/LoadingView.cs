@@ -16,6 +16,8 @@ using bbproto;
 public class LoadingView : UIComponentUnity {
 	private UILabel tapLogin;
 
+	private bool initComplete = false;
+
     public override void Init ( UIInsConfig config, IUICallback origin ) {
         base.Init (config, origin);
         InitUI();
@@ -24,22 +26,23 @@ public class LoadingView : UIComponentUnity {
     public override void ShowUI () {
 //		GameDataStore.Instance.StoreData (GameDataStore.UUID, "");
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
-        base.ShowUI ();
-#if UNITY_ANDROID
+
+		base.ShowUI ();
+		#if UNITY_ANDROID
 		Debug.Log ("Umeng.Start('android')...");
 		string channelId = "android";
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", channelId);
-//		Umeng.GA.Bonus.
-#elif UNITY_IPHONE
+		//		Umeng.GA.Bonus.
+		#elif UNITY_IPHONE
 		Debug.Log ("Umeng.Start('ios')...");
 		string channelId = "ios";
 		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094", channelId);
-#endif
-
-#if !UNITY_EDITOR
+		#endif
+		
+		#if !UNITY_EDITOR
 		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
-//		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
-#endif
+		//		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
+		#endif
 
 //		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
 //		Debug.LogError ("nis.Length : " + nis.Length);
@@ -69,7 +72,9 @@ public class LoadingView : UIComponentUnity {
 				
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 				ModelManager.Instance.Init();
-				
+
+				initComplete = true;
+//				Debug.Log("init complete: " + initComplete);
 
 			});
 		});
@@ -89,7 +94,7 @@ public class LoadingView : UIComponentUnity {
 #elif LANGUAGE_EN
 	"TAP SCREEN TO START";
 #else
-	"";
+	"TAP SCREEN TO START";
 #endif
 		//TextCenter.GetText("Text_TapToLogin");
 
@@ -117,7 +122,8 @@ public class LoadingView : UIComponentUnity {
     private void ClickToLogin(GameObject btn){
 //		if (checkResourceUpdate ()) {
 //		Debug.LogError("click to login");
-			Login();		
+		if(initComplete)
+			Login();
 //		}
 //		UIEventListener.Get(this.gameObject).onClick = null;
 //		GameObject.Find ("LoadProgress").GetComponent<ResourceUpdate>().StartDownload();
