@@ -115,7 +115,8 @@ public class DragTexture : MonoBehaviour {
 		}
 		GUILayout.Space (5f);
 		if (GUILayout.Button ("使用上一个卡牌数据", GUILayout.Width(200f), GUILayout.Height(50f))) {
-			uiTexture.uvRect = prevRect;		
+			uiTexture.uvRect = prevRect;
+			SetStringValue (prevRect);
 		}
 		GUILayout.Space (5f);
 		if (GUILayout.Button ("保存数据", GUILayout.Width (200f), GUILayout.Height (50f))) {
@@ -123,17 +124,46 @@ public class DragTexture : MonoBehaviour {
 		}
 		GUILayout.EndVertical();
 		GUILayout.BeginVertical ();
-		if (GUILayout.Button (switchState ,GUILayout.Width (100f), GUILayout.Height (100f))) {
+		if (GUILayout.Button (switchState ,GUILayout.Width (80f), GUILayout.Height (80f))) {
 			OnlyDrag();
 		}
 		GUILayout.Space (5f);
-		if (GUILayout.Button ("Reset" ,GUILayout.Width (100f), GUILayout.Height (100f))) {
+		if (GUILayout.Button ("Reset" ,GUILayout.Width (80f), GUILayout.Height (80f))) {
 			Reset();
 		}
 
+		GUILayout.Space (5f);
+		GUILayout.BeginHorizontal ();
+		GUILayout.Box("X :");
+		xValue =  GUILayout.TextField (xValue);
+
+		GUILayout.EndHorizontal ();
+//	
+		GUILayout.Space (5f);
+		GUILayout.BeginHorizontal ();
+		GUILayout.Box("y :");
+		yValue = GUILayout.TextField (yValue);
+		GUILayout.EndHorizontal ();
+//
+		GUILayout.Space (5f);
+		GUILayout.BeginHorizontal ();
+		GUILayout.Box("w :");
+		wValue = GUILayout.TextField (wValue);
+		GUILayout.EndHorizontal ();
+//
+		GUILayout.Space (5f);
+		GUILayout.BeginHorizontal ();
+		GUILayout.Box("h :");
+
+		hValue = GUILayout.TextField (hValue);
+		Rect rect = new Rect (StringToFloat (xValue,uiTexture.uvRect.x), StringToFloat (yValue, uiTexture.uvRect.y), StringToFloat (wValue, uiTexture.uvRect.width), StringToFloat (hValue, uiTexture.uvRect.height));
+		SetRect (rect);
+
+		GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
 
 		GUILayout.EndHorizontal ();
+
 		scrollView = GUILayout.BeginScrollView(scrollView,GUILayout.Width(350f),GUILayout.Height(400f));
 		for (int i = 0; i < filesName.Count; i++) {
 			string fileName = filesName[i];
@@ -144,10 +174,18 @@ public class DragTexture : MonoBehaviour {
 		GUILayout.EndScrollView();
 	}
 
+	float StringToFloat(string value, float reValue) {
+		float temp = reValue;
+		float.TryParse (value, out temp);
+//		Debug.LogError ("value : " + value + "temp : " + temp);
+		return temp;
+	}
+
 	void Reset() {
 		Rect rect = new Rect (0f, 0f, 1f, 1f);
 		InitRect (ref rect, uiTexture.mainTexture);
 		uiTexture.uvRect = rect;
+		SetStringValue (rect);
 	}
 	
 	void OnlyDrag() {
@@ -193,12 +231,20 @@ public class DragTexture : MonoBehaviour {
 		}
 
 		uiTexture.uvRect = rect;
+
+		SetStringValue (rect);
+	}
+
+	void SetStringValue(Rect rect) {
+		xValue = rect.x.ToString (endNumber);
+		yValue = rect.y.ToString (endNumber);
+		wValue = rect.width.ToString (endNumber);
+		hValue = rect.height.ToString (endNumber);
 	}
 
 	void InitRect (ref Rect rect, Texture tex) {
 		float whProbability = (float)tex.width / (float)tex.height;
 		probability = whProbability / probabilityUITexture;
-//		Debug.LogError("WidthBigger probabilityUITexture : " + probabilityUITexture + " probability : " + probability + "  (float)tex.width / (float)tex.height) : " +  ((float)tex.width / (float)tex.height));
 		probabilityState = EProbability.WidthBigger;
 		rect.width = 1f; //1f;//1f;
 		rect.height = probability;
@@ -289,6 +335,11 @@ public class DragTexture : MonoBehaviour {
 	private string exportPath = "/Users/leiliang/Desktop/TextureUVConfig.csv";
 	private const string endNumber = "0.00";
 
+	private string xValue = "0.00";
+	private string yValue = "0.00";
+	private string wValue = "1.00";
+	private string hValue = "1.00";
+
 	void SaveToFile() {
 		try {
 			File.Delete (exportPath);
@@ -296,6 +347,7 @@ public class DragTexture : MonoBehaviour {
 
 		try {
 			FileStream fs = new FileStream(exportPath,FileMode.Create,FileAccess.ReadWrite);
+//			StreamReader streamReader = new StreamReader(fs);
 			StreamWriter sr = new StreamWriter(fs);
 		
 			foreach (var item in texConfig) {
@@ -311,6 +363,7 @@ public class DragTexture : MonoBehaviour {
 				sb.Append(rect.width.ToString(endNumber));
 				sb.Append(",");
 				sb.Append(rect.height.ToString(endNumber));
+
 				sr.WriteLine(sb.ToString());
 			}
 
@@ -324,6 +377,7 @@ public class DragTexture : MonoBehaviour {
 	void SetRect(Rect rect) {
 		prevRect = rect;
 		uiTexture.uvRect = rect;
+		SetStringValue (rect);
 		Texture tex = uiTexture.mainTexture;
 		foreach (var item in filesDic) {
 			if (item.Value.Equals (tex)) {
@@ -331,6 +385,8 @@ public class DragTexture : MonoBehaviour {
 			}
 		}
 	}
+
+
 
 	void LeftMouseClick() {
 		if (onlyDragState) {
