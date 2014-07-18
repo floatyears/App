@@ -9,6 +9,8 @@ public class PrefaceView : UIComponentUnity {
 
 	private int i;
 
+	private TweenAlpha ta;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
@@ -17,7 +19,8 @@ public class PrefaceView : UIComponentUnity {
 	public override void ShowUI(){
 		base.ShowUI();
 
-		InvokeRepeating ("ShowContent",0,2);
+		ShowContent ();
+//		InvokeRepeating ("ShowContent",0,3);
 		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
 	
@@ -31,14 +34,19 @@ public class PrefaceView : UIComponentUnity {
 		text = FindChild ("Text").GetComponent<UILabel> ();
 		speak = FindChild ("Speak").GetComponent<UILabel> ();
 		speak.enabled = false;
+
+		ta = text.GetComponent<TweenAlpha> ();
 	}
 
-	void ShowContent()
+	public void ShowContent()
 	{
 		if(i > 6){
 			UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
 			return;
 		}
+		ta.ResetToBeginning ();
+		ta.enabled = true;
+//		text.GetComponent<TweenScale> ().ResetToBeginning ();
 		text.text = TextCenter.GetText ("Preface_Content" + i);
 		Debug.Log("content: " + TextCenter.GetText ("Preface_Content" + i) + "index: " + i);
 		i++;

@@ -240,7 +240,7 @@ public class NoviceGuideStepD_StateFour:NoviceGuidState
 		
 		GameObject leader = GameObject.FindWithTag ("battle_leader");
 		NoviceGuideUtil.ShowArrow (new GameObject[]{leader}, new Vector3[]{new Vector3(0,140,1)});
-		NoviceGuideUtil.ForceOneBtnClick (leader);
+//		NoviceGuideUtil.ForceOneBtnClick (leader);
 	}
 	
 	private void ClickOk3(object data){
