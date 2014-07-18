@@ -8,18 +8,15 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	public override void ShowUI () {
-//		Debug.Log("UnitDisplayUnity showui 1");
 		base.ShowUI ();
 		itemCounterEvolve.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
-//		Debug.Log("UnitDisplayUnity showui 2");
 	}
 
 	public override void HideUI () {
-//		Debug.Log("UnitDisplayUnity HideUI 1");
 		base.HideUI ();
 		itemCounterEvolve.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
@@ -30,7 +27,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 		for (int i = 0; i < allData.Count; i++) {
 			allData[i].isEnable = true;
 		}
-//		Debug.Log("UnitDisplayUnity HideUI 2");
 	}
 
 	public override void DestoryUI () {
@@ -80,23 +76,33 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void ClickItem (EvolveDragItem evolveItem) {
 		if (evolveItem == null) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			return;	
 		}
+
 		if (evolveItem.CanEvolve && state == 1) {
 			selectBase = evolveItem.UserUnit;
 			TranferData.Clear();
 			TranferData.Add(SelectBase, selectBase);
 			ExcuteCallback(TranferData);
+
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
+
 			return;
 		}
 
 		bool normalItem = !evolveItem.IsParty && !evolveItem.IsFavorite;
 		bool b = state != 1 && state != 5;
+
 		if (normalItem && b) {
 			if (CheckBaseNeedMaterial (evolveItem.UserUnit, state)) {
 				MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, evolveItem.UserUnit);
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
+				return;
 			}
 		} 
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
 	}
 
 	void UnitDisplayBaseData (object data) {
@@ -295,9 +301,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 			allData.Clear();
 			if (tuuList != null) {
 				allData.AddRange(tuuList);
-//				for (int i = 0; i < allData.Count; i++) {
-////					Debug.LogError("allData :  " + allData[i].isEnable);
-//				}
 				RefreshView();
 			}
 			RefreshCounter ();
@@ -314,7 +317,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 		foreach (var item in myUnitItem) {
 			EvolveDragItem edi = item as EvolveDragItem;
-		
 			evolveDragItem.Add(edi);
 			edi.callback = ClickItem;
 			if(edi.UserUnit.UnitInfo.evolveInfo != null) {
@@ -337,8 +339,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
 		countArgs.Add ("posy",-295);
-//		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
-//		Debug.LogError ("DataCenter.Instance.UserInfo.UnitMax : " + DataCenter.Instance.UserInfo.UnitMax);
 		itemCounterEvolve.UpdateView (countArgs);
 	}
 

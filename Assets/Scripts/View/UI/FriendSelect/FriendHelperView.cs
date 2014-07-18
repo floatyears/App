@@ -18,20 +18,16 @@ public class FriendHelperView : UIComponentUnity{
 		base.Init(config, origin);
 		InitUI();
 		transform.localPosition -= transform.parent.localPosition;
-
 		premiumBtn.gameObject.SetActive (false);
 	}
 
 	public override void ShowUI() {
-
 		base.ShowUI();
 		AddCmdListener();
-
 		CreateGeneralListView();
 //		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
-
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 
@@ -61,30 +57,22 @@ public class FriendHelperView : UIComponentUnity{
 	}
 	
 	private void CreatePremiumListView(){
-//		Debug.Log("Create Premium ListView(), start...");
-
 		List<TFriendInfo> newest = GetPremiumData();
 
 		if(premiumFriendList == null){
-//			Debug.LogError("CreatePremiumListView(), FIRST step in, create drag panel view...");
 			premiumFriendList = newest;
 			premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
-		}
-		else{
-//			Debug.Log("CreatePremiumListView(), NOT FIRST step into FriendHelper scene...");
+		} else {
 			if(!premiumFriendList.Equals(newest)){
 				premiumFriendList = newest;
 				premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
-			}
-			else{
+			} else {
 //				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
 			}
 		}
 	}
 
 	private void CreateGeneralListView(){
-//		Debug.Log("Create General ListView(), start...");
-
 		List<TFriendInfo> newest = DataCenter.Instance.supportFriendManager.GetSupportFriend ();//SupportFriends;
 
 		if(generalFriendList == null){
@@ -173,7 +161,7 @@ public class FriendHelperView : UIComponentUnity{
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
 			return;
 		}
-
+//		Debug.LogError("friend ClickHelperItem");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_success);
 
 		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();

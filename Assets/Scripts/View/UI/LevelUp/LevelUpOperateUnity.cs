@@ -23,14 +23,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		base.ShowUI ();
 		ClearFocus ();
 		ShowData ();
-//		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true;
@@ -52,6 +50,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		myUnitDragPanel.DestoryDragPanel ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
+
 	bool clear = true;
 	public override void ResetUIState () {
 		clear = true;
@@ -282,6 +281,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			}
 		}
 		gameObject.SetActive (false);
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 //		sor
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();
@@ -320,6 +321,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		} else {
 			DisposeByPreMaterial(piv);
 		}
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 		RefreshMaterial ();
 		CheckLevelUp ();
 	}
@@ -364,12 +368,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
-				return;	
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
+				return;
 			}
 			
 			int index = SetMaterialItem (pui);
 
 			if (index > -1) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 				RefreshMaterial();
 				return;	
 			}
@@ -384,8 +390,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			CheckLevelUp ();
 		} else {
 			if (SetBaseItem (pui)) {
+//				Debug.LogError("SetBaseItem");
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 				return;	
 			}
+//			Debug.LogError("else");
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 
 			EnabledItem(prevSelectedItem.UserUnit);
 			prevSelectedItem.IsFocus = false;
@@ -399,6 +409,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void RejectCallback(GameObject go) {
 		if (prevSelectedItem != null) {
+			if(prevSelectedItem.UserUnit == null) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
+			} else {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
+			}
+
 			bool isBase = prevSelectedItem.Equals(selectedItem[baseItemIndex]);
 			EnabledItem (prevSelectedItem.UserUnit);
 			prevSelectedItem.UserUnit = null;
@@ -410,11 +426,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				RefreshMaterial();
 			}
 		} else {
+			bool success = false;
 			for (int i = 4; i >= 0; i--) {
 				LevelUpItem lui = selectedItem[i];
 				if(lui.UserUnit == null) {
 					continue;
 				}
+				success = true;
 				EnabledItem(lui.UserUnit);
 				lui.UserUnit = null;
 				lui.IsEnable = true;
@@ -426,6 +444,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 					RefreshMaterial();
 				}
 				break;
+			}
+
+			if(success) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
+			} else {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			}
 		}
 

@@ -373,6 +373,7 @@ public class UIScrollView : MonoBehaviour
 				Vector3 pos = mTrans.localPosition + constraint;
 				pos.x = Mathf.Round(pos.x);
 				pos.y = Mathf.Round(pos.y);
+
 				SpringPanel.Begin(mPanel.gameObject, pos, 13f);
 			}
 			else

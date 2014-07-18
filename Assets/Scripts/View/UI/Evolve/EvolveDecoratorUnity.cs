@@ -9,34 +9,31 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 	
 	public override void ShowUI () {
-//		Debug.Log("EvolveDecoratorUnity showui 1");
 		bool b = friendWindow != null && friendWindow.isShow;
 		if (b) {
 			friendWindow.gameObject.SetActive (true);
-	
 		} else {
 			SetObjectActive(true);
 		}
 
 		base.ShowUI ();
+
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
-//		Debug.Log("EvolveDecoratorUnity showui 2");
 	}
 	
 	public override void HideUI () {
-//		Debug.Log("EvolveDecoratorUnity showui 2");
 		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true; 
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
 			}
-		}else if (friendWindow != null) {
+		} else if (friendWindow != null) {
 			friendWindow.HideUI ();
 		}
+
 		base.HideUI ();
-//		Debug.LogError ("EvolveDecoratorUnity HideUI");
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 	}
@@ -74,8 +71,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		if (materialUnit != null) 
 			materialUnit.Clear ();	
 		prevItem = null;
-
-
 	}
 	
 	public void SetUnitDisplay(GameObject go) {
@@ -300,22 +295,35 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 	int state = 0;
 	void ClickItem (GameObject go) {
-		if (baseItem.userUnit == null) {
-			return;	
-		}
-		ClickIndex = System.Int32.Parse (go.name);
-		if (state == ClickIndex) {
+		if ( baseItem.userUnit == null) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			return;
 		}
-		state = ClickIndex;
-		if (state == 5) {
-			ShieldEvolveButton(true);
+
+		ClickIndex = System.Int32.Parse (go.name);
+
+		if (state != 1 && state == ClickIndex) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
+			return;
 		}
-		CheckCanEvolve();
-		HighLight (go);
-		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, state);
+
+		state = ClickIndex;
+
 		if (state == 5) {
+			ShieldEvolveButton (true);
+		}
+
+		CheckCanEvolve();
+
+		HighLight (go);
+
+		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, state);
+
+		if (state == 5) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			EnterFriend();	
+		} else {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 		}
 	}
 

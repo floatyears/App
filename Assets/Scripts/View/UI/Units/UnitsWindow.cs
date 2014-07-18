@@ -17,7 +17,6 @@ public class UnitsWindow : UIComponentUnity{
 		InitChildScenes();
 		iuiCallback = origin as IUICallback;
 		InitPagePanel();
-//		Debug.LogError ("units window  initui ");
 	}
 	
 	public override void ShowUI(){
@@ -26,7 +25,6 @@ public class UnitsWindow : UIComponentUnity{
 		RefreshParty(curParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 		ShowUIAnimation();
-//		Debug.LogError ("units window  showui ");
 	}
 	
 	public override void HideUI(){
@@ -118,21 +116,22 @@ public class UnitsWindow : UIComponentUnity{
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 
-		//Debug.Log("Current party's member count is : " + partyMemberList.Count);
 		for (int i = 0; i < partyMemberList.Count; i++){
-//			Debug.LogError(i + " partyMemberList [ i ] : " + partyMemberList [ i ].ID);
-//			partyItems[ i ].Init(partyMemberList [ i ]); 
 			partyItems[i].UserUnit = partyMemberList[i];
 		}
 	}
 
 	void PrevPage(GameObject go){
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, preParty);         
 	}
 	
 	void NextPage(GameObject go){
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, nextParty);

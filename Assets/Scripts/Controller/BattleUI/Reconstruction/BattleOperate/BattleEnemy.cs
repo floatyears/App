@@ -188,7 +188,7 @@ public class BattleEnemy : UIBaseUnity {
 			float Difference = (centerRightWidth - centerWidth);
 			centerWidth += Difference;	
 			centerRightWidth -= Difference;
-			Debug.LogError("centerWidth:"+centerWidth+" centerRightWidth:"+centerRightWidth+ " Difference"+Difference);
+//			Debug.LogError("centerWidth:"+centerWidth+" centerRightWidth:"+centerRightWidth+ " Difference"+Difference);
 			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
 			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
 			DisposeCenterLeft(centerIndex--, enemys);

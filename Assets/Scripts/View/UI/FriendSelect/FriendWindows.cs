@@ -35,6 +35,7 @@ public class FriendWindows : FriendHelperView {
 	}
 	
 	protected override void ClickHelperItem (HelperUnitItem item) {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_success);
 		Back (item.FriendInfo);
 	}
 
