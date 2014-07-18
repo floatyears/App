@@ -189,6 +189,13 @@ public class MapItem : UIBaseUnity {
 		if (gridItemSprite == null) {
 			return;		
 		}
+
+		if (isOld) {
+			return;	
+		}
+
+//		Debug.LogError ("gameobject : " + gameObject);
+
 		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
 		ta.ResetToBeginning ();
 		ShowFootTips ();
@@ -441,9 +448,12 @@ public class MapItem : UIBaseUnity {
 		if (!footTips.gameObject.activeSelf) {
 			return;		
 		}
+
 		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha> ();
 		TweenAlpha currentTa = footTips.GetComponent<TweenAlpha> ();
-		ta.ResetToBeginning ();
+
+		currentTa.ResetToBeginning ();
+
 		currentTa.alpha = ta.alpha;
 		currentTa.duration = ta.duration;
 		currentTa.from = ta.from;
