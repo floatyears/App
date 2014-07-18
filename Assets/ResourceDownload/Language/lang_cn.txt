@@ -427,7 +427,7 @@ BigRareWarning=高星级提示
 BigRareWarningText=你将卖出的卡牌中含有3星以上的卡牌，你确定卖出吗？
 
 UnitOverflow=卡牌容量超限
-UnitOverflowText=你当前的卡牌数量已超限：[ff0000]{0}[-]/{1}. 是否扩充你的卡牌容量?
+UnitOverflowText=你当前的卡牌数量已超限：[ff0000]{0}[-]/{1}. 你需要扩充卡牌容量上限或者卖出一些无用的卡牌。
 
 FirendOverflow=好友容量超限
 FriendOverflowText=你当前的好友数量已超限：{0}/{1}. 是否扩充你的好友容量?
