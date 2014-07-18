@@ -79,6 +79,8 @@ public enum SceneEnum
 	ShowCardEffect,
 
 	Victory,
+
+	Preface,
 }
 
 public enum CommandEnum{
