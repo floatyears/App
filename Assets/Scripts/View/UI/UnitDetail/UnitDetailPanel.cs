@@ -264,13 +264,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 		
 	void PlayEvolveEffect () {
-		Debug.LogError ("DataCenter.gameState : " + DataCenter.gameState);
-
 		if (DataCenter.gameState != GameState.Evolve) {
 			return;
 		}
 
-		evolveEffectIns = NGUITools.AddChild(gameObject, evolveEffect);
+		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
+		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
+		evolveEffectIns.transform.localPosition = pos;
 		evolveEffectIns.layer = GameLayer.EffectLayer;
 	}
 
@@ -399,15 +399,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //	private TUserUnit curUserUnit;
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-
-
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
 			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
 			ShowInfo (oldBlendUnit);
-		}
-		else if (userUnit != null) {
+		} else if (userUnit != null) {
 			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " + userUnit.UnitInfo.ID);
 			if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
 				unitLock.SetActive(true);

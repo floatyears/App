@@ -109,6 +109,9 @@ public class StageItemView : MonoBehaviour{
 	}
 
 	private void StepIntoNextScene(GameObject item){
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //do before
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
@@ -119,6 +122,8 @@ public class StageItemView : MonoBehaviour{
 
 	private void ShowTip(GameObject item){
 		Debug.Log("StageItemView.ShowTip(), this stage is not accessible...");
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
 	
 		for (int i = 0; i < gameObject.transform.childCount; i++)
 			if(transform.GetChild(i).name == "Tip") return;

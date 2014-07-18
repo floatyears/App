@@ -27,7 +27,6 @@ public class BattleBottom : MonoBehaviour {
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
-//			Debug.LogError("o : " + o);
 			GameObject go = o as GameObject;
 			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 			battleSkillObject.layer = GameLayer.BottomInfo;
@@ -40,6 +39,7 @@ public class BattleBottom : MonoBehaviour {
 		if (upi == null) {
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
+
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		Transform actorTrans = transform.Find ("Actor");
 		for (int i = 0; i < 5; i++) {
@@ -55,9 +55,7 @@ public class BattleBottom : MonoBehaviour {
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
 				skillSpr.enabled = false;
-//				continue;
-			}
-			else{
+			} else{
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 //				Debug.LogError("tui :  " + tui);
 				tui.GetAsset(UnitAssetType.Profile, o=>{
@@ -139,7 +137,6 @@ public class BattleBottom : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown (0)) {
-//			Debug.LogError("battle bottom : " + notClick + " time : " + Time.realtimeSinceStartup);
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
 			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
 			int receiveMask = 0;

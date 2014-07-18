@@ -481,6 +481,7 @@ public class BattleQuest : UIBase {
 			}
 
 			int index = questDungeonData.GetGridIndex (coor);
+
 			if (index != -1) {
 				questData.hitGrid.Add ((uint)index);
 			}
@@ -530,8 +531,7 @@ public class BattleQuest : UIBase {
 					QuestCoorEnd ();
 					break;
 			}
-		}
-		else {
+		} else {
 			QuestCoorEnd ();
 			configBattleUseData.StoreMapData(null);
 		}
@@ -865,7 +865,7 @@ public class BattleQuest : UIBase {
 		RefreshRetryData (data);
 		main.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
-		Debug.LogError ("SureRetryNetWork " + main.GInput.IsCheckInput);
+//		Debug.LogError ("SureRetryNetWork " + main.GInput.IsCheckInput);
 	}
 
 	void RefreshRetryData(object data) {
@@ -873,10 +873,8 @@ public class BattleQuest : UIBase {
 		if (rrq == null) {
 			return;	
 		}
-
-
-
-		Debug.LogError ("rrq : " + rrq.dungeonData);
+	
+//		Debug.LogError ("rrq : " + rrq.dungeonData);
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
 		_questData.RemoveAt (_questData.Count - 1);
 		ClearQuestParam cq = new ClearQuestParam ();
@@ -888,13 +886,13 @@ public class BattleQuest : UIBase {
 		questDungeonData.Floors [floor] = reQuestGrid;
 		questDungeonData.Boss = tqdd.Boss;
 		configBattleUseData.roleInitCoordinate =  new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
-		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate ;
+		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate;
 		configBattleUseData.storeBattleData.questData = _questData;
 		configBattleUseData.StoreMapData (_questData);
 	}
 
 	void SureRetryPress() {
-		Debug.LogError ("SureRetryPress ");
+//		Debug.LogError ("SureRetryPress ");
 		GameInput.OnPressEvent -= SureRetryPress;
 		RetryRefreshUI ();
 	}

@@ -372,6 +372,8 @@ public class FightReadyView : UIComponentUnity {
 	}
 
 	private void ClickPageLight(GameObject lightObj){
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 		int newPartyPos = pageLightList.IndexOf(lightObj);
 		Debug.Log("ClickPageLight(), newPartyPos is : " + newPartyPos);
 		Debug.Log("ChangeParty before :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);

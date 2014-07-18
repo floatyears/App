@@ -446,7 +446,7 @@ public class TUserUnit : ProtobufDataBase {
 	}
 
 	public int CalculateHP(TUnitInfo tui) {
-		Debug.LogError ("CalculateHP tui : " + tui);
+//		Debug.LogError ("CalculateHP tui : " + tui);
 		if (tui == null) {
 			return 0;
 		}

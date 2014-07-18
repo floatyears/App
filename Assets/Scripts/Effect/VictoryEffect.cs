@@ -236,7 +236,7 @@ public class VictoryEffect : UIComponentUnity {
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
 
 			HideUI();
-			DataCenter.gameState = GameState.Normal;
+//			DataCenter.gameState = GameState.Normal;
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
@@ -289,8 +289,8 @@ public class VictoryEffect : UIComponentUnity {
 	
 	void StartRotateWing () {
 		canPlayAnimation = true;
-		iTween.RotateTo(leftWing.gameObject,iTween.Hash("rotation", leftWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"delay",0.3f));
-		iTween.RotateTo(rightWing.gameObject,iTween.Hash("rotation", rightWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"oncomplete","PlayNext","oncompletetarget",gameObject,"delay",0.3f));
+		iTween.RotateTo(leftWing.gameObject, iTween.Hash("rotation", leftWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"delay",0.3f));
+		iTween.RotateTo(rightWing.gameObject, iTween.Hash("rotation", rightWingAngle1,"time", 1f,"easetype",iTween.EaseType.easeInOutQuart,"oncomplete","PlayNext","oncompletetarget",gameObject,"delay",0.3f));
 	}
 
 	void PlayNext () {

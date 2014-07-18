@@ -126,8 +126,12 @@ public class BaseUnitItem : MonoBehaviour {
 		if (IsEnable) {
 			listener.onClick = ClickItem;
 		} else {
-			listener.onClick = null;
+			listener.onClick = PlayClickAudio;
 		}
+	}
+
+	void PlayClickAudio(GameObject go) {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
 	}
 
 	private void UpdateCrossFadeState(){

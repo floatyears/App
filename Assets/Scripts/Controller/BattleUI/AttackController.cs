@@ -88,16 +88,16 @@ public class AttackController {
 
 	AttackInfo reduceInfo = null;
 	bool isReduce = false;
+
 	void ReduceDefense(object data) {
 		reduceInfo = data as AttackInfo;
 		if (reduceInfo == null) {
-			return;		
+			return;
 		}
 
 		if (!isReduce && !BattleQuest.reduceDefense) {
 			reduceInfo.AttackRange = 1;
 			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
-
 		}
 
 		if (BattleQuest.reduceDefense == true) {
