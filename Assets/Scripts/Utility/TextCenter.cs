@@ -58,7 +58,7 @@ public partial class TextCenter {
 		if(textDict != null)
 		textDict.TryGetValue(key, out result);
 		if(result == null || result == "") {
-			result = key;
+			result = "";
 		}
 
 		return result;

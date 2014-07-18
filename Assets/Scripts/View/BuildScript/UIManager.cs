@@ -369,6 +369,10 @@ public class UIManager {
 		case SceneEnum.Victory:
 			temp = new VictoryDecorator(sEnum);
 			break;
+
+		case SceneEnum.Preface:
+			temp = new PrefaceDecorator(sEnum);
+			break;
         }
 
 		if (temp != null) {

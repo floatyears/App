@@ -1265,3 +1265,31 @@ public class NicknameDecorator : DecoratorBase{
 		//		lastDecorator.CreatUI();
 	}
 }
+
+	//--------------------------------Raider------------------------------------------
+public class PrefaceDecorator : DecoratorBase{
+	//	private SceneInfoComponent sceneInfoBar;
+	public PrefaceDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		PrefaceComponent preface = CreatComponent<PrefaceComponent>(UIConfig.prefaceWindowName);
+
+		preface.SetComponent (decorator);
+		
+		lastDecorator = preface;
+		lastDecorator.CreatUIAsyn (this);
+	}
+}

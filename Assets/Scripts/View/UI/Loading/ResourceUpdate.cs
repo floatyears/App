@@ -70,6 +70,10 @@ public class ResourceUpdate : MonoBehaviour {
 	private UIProgressBar pro;
 	private UILabel tipText;
 	private UILabel proText;
+
+	private UISprite bg;
+	private UISprite fg;
+
 	private UILabel versionTxt;
 	private string version;
 
@@ -116,6 +120,9 @@ public class ResourceUpdate : MonoBehaviour {
 		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
 
+		bg = GameObject.Find ("Background").GetComponent<UISprite>();
+		fg = GameObject.Find ("Foreground").GetComponent<UISprite>();
+
 		versionTxt = GameObject.Find ("Version").GetComponent<UILabel> ();
 
 		InvokeRepeating ("ShowTipText", 0, 5);
@@ -123,6 +130,8 @@ public class ResourceUpdate : MonoBehaviour {
 		pro.enabled = false;
 		proText.enabled = false;
 		tipText.enabled = false;
+		bg.enabled = false;
+		fg.enabled = false;
 
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
@@ -472,6 +481,8 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.enabled = true;
 			proText.enabled = true;
 			tipText.enabled = true;
+			fg.enabled = true;
+			bg.enabled = true;
 		}
 	}
 
