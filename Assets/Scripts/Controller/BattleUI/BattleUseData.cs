@@ -90,8 +90,10 @@ public class BattleUseData {
 		els = new ExcuteLeadSkill(upi);
 		skillRecoverHP = els;
 	}
+
 	bool isInit = false;
 	public void InitBattleUseData (TStoreBattleData sbd) {
+		Debug.LogError ("InitBattleUseData");
 		if (isInit) {
 			return;	
 		}

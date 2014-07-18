@@ -8,7 +8,7 @@ public class GachaWindowView : UIComponentUnity {
 
     private UILabel chancesLabel;
     private UILabel titleLabel;
-    private bool displayingResult = false; // when 
+    private bool displayingResult = false; //when
     private uint currentUid = 0;
     private int tryCount = 0;
     private GachaWindowInfo gachaInfo;

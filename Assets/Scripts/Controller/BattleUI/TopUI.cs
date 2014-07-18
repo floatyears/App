@@ -79,11 +79,13 @@ public class TopUI : UIBaseUnity {
 	}
 
 	public void SetFloor (int currentFloor, int maxFloor) {
+		Debug.LogError ("top ui set floor : " + currentFloor);
 		if(floorLabel != null)
 			floorLabel.text = currentFloor + "/" + maxFloor + "F";
 	}
 
 	public void RefreshTopUI(TQuestDungeonData questData, List<TClearQuestParam> questGet) {
+		Debug.LogError ("questData current floor : " + questData.currentFloor);
 		int coin = 0;
 		int drop = 0;
 		foreach (var item in questGet) {
