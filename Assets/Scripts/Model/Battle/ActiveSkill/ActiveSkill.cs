@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 
 public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
-	protected int initSkillCooling = 0;
+
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) { 
 		configBattleUseData = ConfigBattleUseData.Instance;

@@ -14,48 +14,48 @@ Retry=Retry
 Error=Error
 
 ##Button Label Text
-Btn_JumpScene_FriendList=FRIEND LIST
-Btn_JumpScene_Apply=APPLY
-Btn_JumpScene_Information=INFORMATION
-Btn_JumpScene_Reception=RECEPETION
-Btn_JumpScene_Search=SEARCH
-Btn_JumpScene_UserID=YOUR ID
+Btn_JumpScene_FriendList=Friend List
+Btn_JumpScene_Apply=Apply
+Btn_JumpScene_Information=Information
+Btn_JumpScene_Reception=Recepetion
+Btn_JumpScene_Search=Search
+Btn_JumpScene_UserID=Your ID
 
-Btn_JumpScene_Party=PARTY
-Btn_JumpScene_Sell=SELL
-Btn_JumpScene_LevelUp=POWER-UP
-Btn_JumpScene_UnitList=MONSTER BOX
-Btn_JumpScene_Evolve=EVOLVE
-Btn_JumpScene_Catalog=CATALOG
+Btn_JumpScene_Party=Party
+Btn_JumpScene_Sell=Sell
+Btn_JumpScene_LevelUp=Power-up
+Btn_JumpScene_UnitList=Monster box
+Btn_JumpScene_Evolve=Evolve
+Btn_JumpScene_Catalog=Catalog
 
-Btn_SceneBack=BACK
-Btn_SORT=SORT
-Btn_Premium=PREMIUM
-Btn_Sell_Picked=SELL
-Btn_Clear_PickedToSell=CLEAR
-Btn_Submit_Sell=SELL
-Btn_Cancel_Sell=CANCEL
+Btn_SceneBack=Back
+Btn_SORT=Sort
+Btn_Premium=Premium
+Btn_Sell_Picked=Sell
+Btn_Clear_PickedToSell=Clear
+Btn_Submit_Sell=Sell
+Btn_Cancel_Sell=Cancel
 Btn_RejectUnit=REJECT
-Btn_Submit_Evolve=EVOLVE
-#Btn_Submit_LevelUp=START FUSION
+Btn_Submit_Evolve=Evolve
+#Btn_Submit_LevelUp=Start Fusion
 
-Btn_FriendList_Update=UPDATE
-Btn_Reception_RefuseAll=REFUSE
-Btn_Submit_SearchFriend=SEARCH
-Btn_UserID_OK=BACK
+Btn_FriendList_Update=Update
+Btn_Reception_RefuseAll=Refuse
+Btn_Submit_SearchFriend=Search
+Btn_UserID_OK=Back
 
 Btn_SortRule_HP=HP
 Btn_SortRule_Atk=ATTACK
-Btn_SortRule_GetTime=GET TIME
-Btn_SortRule_Race=RACE
-Btn_SortRule_Attribute=ATTRIBUTE
+Btn_SortRule_GetTime=Get Time
+Btn_SortRule_Race=Race
+Btn_SortRule_Attribute=Type
 Btn_SortRule_ID=ID
-Btn_SortRule_Fav=FAVORITE
-Btn_SortRule_AddPoint=ADD POINT
-Btn_SortRule_Rank=RANK
-Btn_Level_Up=START FUSION
-Btn_Evolve=EVOLVE
-Btn_Fight=BATTLE
+Btn_SortRule_Fav=Favorite
+Btn_SortRule_AddPoint=Add Point
+Btn_SortRule_Rank=Rank
+Btn_Level_Up=Start Fusion
+Btn_Evolve=Evolve
+Btn_Fight=Battle
 
 Btn_ToDetail=View Info.
 
@@ -165,7 +165,7 @@ SCENE_NAME_EVOLVETAGE=Evolve Dungeon
 
 Stage_Event_Close=Start in
 Stage_Event_Remain=Remain 
-Stage_Locked=LOCKED
+Stage_Locked=Locked
 Stamina=STAMINA
 Floor=FLOOR
 
@@ -246,6 +246,12 @@ Text_Exit=Exit
 Text_LastLogin_Colon=Last Login:
 ApplyFriendNote=Are you sure to apply friend?
 
+#sell
+Sell_EnsureTitle=提交卖出
+Sell_EnsureContent=下列是将要卖出的卡牌
+Sell_GetCoin=获得金币
+Sell_Ensure=确定要卖出？
+
 #reward
 Reward_Take=Collect
 Reward_Tab1=Cont. Login
@@ -260,12 +266,12 @@ Reward_Tab_Info3=Rank up to a certain level, you will get following bonus.
 Reward_Tab_Info4=Month card give you bonus every day.
 Reward_Tab_Info5=Other bonus
 ChainLogin=Cumulative Login {0} Days
-TotalLogin=Total Login {0} Days
+TotalLogin=Login {0} Days
 RankReach=Rank {0}
 
 #notice
 Notice_HelperTitle=Welcome Back!
-Notice_HelperContent=You have logined for {0} days, helped {1} Friends and {2} Adventurers, got {3} pals points.
+Notice_HelperContent=You have logined for [3BB482]{0}[-] days, helped [3BB482]{1}[-] Friends and [3BB482]{2}[-] Adventurers, got [3BB482]{3}[-] pals points.
 
 #unit detail
 UnitDetail_EvolveTitle=Get Way
@@ -279,7 +285,7 @@ Btn_Unit_Expand=Extend Monsters
 Btn_Stamina_Recover=Recover Stamina
 
 FriendExpand=Extend Friend Capacity
-FriendExpansionConfirm=Spend {0} magic stones to expand {1} friends?
+FriendExpansionConfirm=Spend [3BB482]{0}[-] magic stones to expand [3BB482]{1}[-] friends?
 FriendExpansionInfo=Now friends: {0}/{1}
 DoFriendExpand=Extend
 
@@ -288,7 +294,7 @@ FriendCountLimitReachedMax=Now your friend capacity has reached max.
 FriendExpandStonesNotEnough=Now your magic stone not enough to expand friend limit.
 
 FriendExpansionFinish=Expansion Success
-FriendExpansionResult=Friend Limited Max reached {0}!
+FriendExpansionResult=Friend Limited Max reached [3BB482]{0}[-]!
 
 StaminaRecover=Recover your stamina
 StaminaRecoverConfirm=Spend {0} magic stones to recover stamina?
@@ -311,13 +317,13 @@ UnitCountLimitReachedMax=Now your monster box capacity has reached max.
 UnitExpandStonesNotEnough=Magic Stones not enough.
 
 UnitExpansionFinish=Monster Box Extension Completed
-UnitExpansionResult=Monster box capacity reached {0}!
+UnitExpansionResult=Monster box capacity reached [3BB482]{0}[-]!
 
 ##### gacha
 FriendGacha=Start Pal Point Summons
 FriendGachaTitle=Pal Point Summon
 FriendGachaDescription=Spend pal points to summon usefull cards?
-FriendGachaStatus=1 Summon: {0} points \n{1} Summons: {2} points\n\nYou have {3} pal points now.
+FriendGachaStatus=1 Summon: {0} Pal Points \n{1} Summons: {2} Pal Points\n\nYou have {3} Pal Points now.
 
 ConfirmOneFriendGacha=Summon once
 ConfirmMaxFriendGacha=Summon {0} times
@@ -459,8 +465,8 @@ SelectRole_No=No.
 DeleteNoteTitle=Delete Friend
 DeleteNoteContent=Are you sure to delete this friend?
 
-ZeroFriendPoint=Don't get pal point.
-GotFriendPoint=You have got {0} pal point.
+ZeroFriendPoint=You got pal 0 point from this quest.
+GotFriendPoint=You have got {0} pal point from this quest.
 TotalFriendPoint=Total pal point: {0}.
 
 
@@ -1338,7 +1344,7 @@ guide57_content=1.find the key;2.goto the door
 guide58_title=evolve success
 guide58_content=excelent,your charactor evovles.
 guide59_title=evolve time
-guide59_content=1.find the key;2.goto the door
+guide59_content=1. find the key  2. goto the door
 
 ##quest
 guide61_title=准备结束
@@ -1346,7 +1352,7 @@ guide61_content=那么准备完毕了。\n嘛，再陪你一会，走到最初�
 guide62_title=Guide Completed
 guide62_content=Click start.\nGuide is over, welcome to monster world!
 
-notmaxleveltips=The level of base unit must reach MAX.
+notmaxleveltips=The level of Base monster must reach MAX to evolve.
 clearQuest=Cleared
 
 ##Tips
@@ -1356,83 +1362,77 @@ Tips_A_3=Every move will cost 1 SP.
 Tips_A_4=When SP becomes 0, the HP will be losed when you continue moving.
 Tips_A_5=Moving on the quest board, you will meet monsters, trap, or treasure chest.
 Tips_A_6=Generally, you can attack the monsters by putting two or more of Panels with same color into one Action Board.
-
-
 Tips_A_7=There are 5 Action Boards in total, you can put up to 5 Panels into one Action Board.
 Tips_A_8=You only have 5 seconds to move Panels, after that the Attack will start.
 Tips_A_9=Countdown 5 seconds will not start until you begin putting Panels into Action Board.
 Tips_A_10=HP will be recovered by putting two or more Heart Panels into Action Board.
-Tips_A_11=走到钥匙格子上即可获得钥匙，这是与Boss战斗的通行证。
+Tips_A_11=You should move to grid where is the Key, it's necessary for Boss Battle.
 Tips_A_12=After you got the Key, move to the top of Quest Board, click the door to enter Boss Battle.
 Tips_A_13=After killing Boss, you should click the location of Boss to pass the quest.
 
-Tips_B_1=蓝色→黄色→红色格子，危险程度逐渐上升。
-Tips_B_2=格子上的骷髅数量越多，代表金币或者敌人越多。
-Tips_B_3=感叹号格子兼顾最高的风险和最多的金币。
-Tips_B_4=敌人下方的数字代表回合数，为0后即发动攻击。
-Tips_B_5=卡牌有6个属性，火克风，风克水，水克火；光暗互克；无为独立。
-Tips_B_6=每队一个队长，3个队员，最多可以编排5队。
-Tips_B_7=编入队伍的卡牌Cost之和必须≤Cost上限，否则无法编入。
-Tips_B_8=卡牌可吞噬其他卡牌来获得Exp，从而升级变得更强。
-Tips_B_9=卡牌的强化离不开帮手的协助。
-Tips_B_10=强化帮手若能与基础卡牌同属性或同种族，则Exp可获得加成。
+Tips_B_1=Blue -> Yellow -> Red, dangers rise up gradually.
+Tips_B_2=The more the skull on the grid represents the more dangerous or more coins.
+Tips_B_3=The grid of exclamation mark means it's the most dangerous also maybe most coins.
+Tips_B_4=The number below the Monster, e.g.: "Next 2" represents the enemy will attack you after 2 turns.
+Tips_B_5=There are 6 types of Monster Card: Fire restrains Wind, Wind restrains Water, Water restrains Fire, Light restrains Dark, Dark restrains Light, Void restrains none.
+Tips_B_6=Each team has a Leader and three members, you can set up 5 teams.
+Tips_B_7=The sum of team members' cost should be less than your Cost MAX. \nThe Cost MAX will grow with your Rank up.
+Tips_B_8=Card can fuse other cards to get Exp, then it become more strong.
+Tips_B_9=Power-up Card need one friend involved in.
+Tips_B_10=If Power-up Pal's card type is same as the Base Card, you can got 1.5x Exp.
 
-Tips_C_1=Rank提升后，耐力不仅会max，且耐力、好友或Cost上限也会逐步提升。
-Tips_C_2=耐力每10分钟自动回复1点，也可花费1魔法石瞬间让耐力max。
-Tips_C_3=按住方块并左右滑动即可变换到任一方块位置。
-Tips_C_4=按住方块并左右滑动即可与相邻同色方块重叠。
-Tips_C_5=带有BOOST字样的战斗槽可以让攻击或回复变成1.5倍。
-Tips_C_6=卡牌可吞噬特定卡牌来进化，外形和能力都将获得巨大改变。
-Tips_C_7=卡牌必须Lv Max后才能进化。
-Tips_C_8=卡牌的进化同样离不开帮手的协助，且帮手必须满足协助条件。
-Tips_C_9=卡牌必须在帮手的协助下闯过特定任务才能成功进化。
-Tips_C_10=同一个战斗槽里的心方块数量越多，HP回复得越多。
-Tips_C_11=卡牌技能：总共4种，分别为队长技能、主动技能、普通技能、被动技能。
-Tips_C_12=队长技能：当拥有队长技能的卡牌处于队长位置时，该技能于战斗时生效。
-Tips_C_13=只有将援军加为好友后，援军的队长技能才可生效。
-Tips_C_14=主动技能：该技能有回合数限制，回合冷却为0后，下方角色头像旁会有闪烁标志，此时点击头像即可准备发动。
-Tips_C_15=普通技能：该技能决定了卡牌攻击需要的方块颜色和数量。
-Tips_C_16=方块形成的攻击有强弱和属性之分，均由卡牌的普通技能决定。
-Tips_C_17=普通技能效果可分为3类，单体攻击、全体攻击、回复HP。
-Tips_C_18=被动技能：拥有该技能的卡牌可反击敌人或回避陷阱等。
+Tips_C_1=After Rank up, Stamina will be recovered to full, meanwhile Cost limit, Friend Capacity will be increased.
+Tips_C_2=Stamina recovers 1 every 10 minutes. \nYou can spend 6 Magic Stones to recover Stamina to full.
+Tips_C_3=Hold down the color Panels and move it around to make same Panels together.
+Tips_C_4=Hold down the color Panels and move it around to make same Panels together.
+Tips_C_5=The Action Board of "BOOST" can make the attack power become 1.5x
+Tips_C_6=Some Card can fuse specific material Cards to evolve, then it becomes more strong.
+Tips_C_7=In order to evolve, Card must reach MAX Lv.
+Tips_C_8=You need friend to evolve Card, and the friend must match specific conditions.
+Tips_C_9=You need friend to evolve Card, and the friend must match specific conditions.
+Tips_C_10=The more Heart Panels putting togther, the more HP will be recovered.
+Tips_C_11=The are 4 type of Card skills: Leader Skill, Active Skill, Passive Skill, Normal Skill.
+Tips_C_12=Leader Skill: it works When the Card is set as Leader.
+Tips_C_13=Pal's Leader Skill only works after you add him as your friend.
+Tips_C_14=Active Skill: it's Cool Down for specific turns, when the flash mark is showing, you can click it to launch Active Skill.
+Tips_C_15=Normal Skill: it's most commonly used, by putting specific Panels into one Action Board.
+Tips_C_16=The normal attack to enemy is made by Normal Skill, each Skill has a different power.
+Tips_C_17=There are 3 type of Normal Skills: Single Attack, All Attack, Recover HP.
+Tips_C_18=Passive Skills: it usually counter the enemy or avoid traps.
 
-Tips_D_1=若己方卡牌和好友的队长技能作用相同，则效果可相乘叠加。
-Tips_D_2=每形成一次普通技能攻击，对应的战斗槽上方即会出现一个攻击条。
-Tips_D_3=1个三角的攻击条为单体攻击，3个三角的攻击条则为全体。
-Tips_D_4=若一个战斗槽内的方块数是普通技能需求的2倍，则可发动2次攻击。
-Tips_D_5=当战斗槽内的方块只再需1个方块即可让技能生效时，系统会出现连线提示。
-Tips_D_6=每个攻击条都会带来加成，攻击条越多加成越高。
-Tips_D_7=心方块的HP回复也能计入攻击加成，请积极利用！
-Tips_D_8=战斗中点击下方卡牌头像，即可查看技能详情。
-Tips_D_9=友情点数：该点数可用来友情抽卡，有可能获得主角卡！
-Tips_D_10=将玩家加为好友后，可获得更多的友情点数。
-Tips_D_11=非战斗情况下，长按卡牌头像即可查看卡牌详情。
-Tips_D_12=在卡牌详情界面，点击锁图标即可收藏卡牌，防止因失误而强化或卖出。
-Tips_D_13=若属性克制敌人，则伤害x2，反之则伤害x0.5。
-Tips_D_14=周末是攒钱的绝好时机，请及早存够耐力。
-Tips_D_15=尖叫奶酪是强化专用的材料卡牌，可让卡牌等级飞速提升。
-Tips_D_16=尖叫奶酪主要出现在每日限时开放的活动关卡里，系统会提前公告通知。
-Tips_D_17=只有进化成功时，材料卡牌才会消耗。
-Tips_D_18=可花费魔法石扩张好友和卡牌仓库的上限。
+Tips_D_1=If your Leader Skill is same as your Friend's, then the effect will be multiplied.
+Tips_D_2=Whenever a Normal Skill is formed by putting Panels into a Action Board, there will display a Attack Bar above that Action Board.
+Tips_D_3=One triangle on the Attack Bar means Single Attack, and 3 triangles means All Attack.
+Tips_D_4=If Panels in a Action Board match the skill needed Panels duplicately, then attack will be formed duplicately.
+Tips_D_5=When a Action Board only missing one Panel to form attack, it will display a Line to prompt you.
+Tips_D_6=The more Attack Bars you formed, the more addtional attack power will give.
+Tips_D_7=Heart Panels also can make Attack Bar to get additional attack power.
+Tips_D_8=You can click the Card profile in battle to see the Skill information.
+Tips_D_9=Pal Point: it can be used for Pal Summon to get usefull Cards.
+Tips_D_10=You can get more Pal Point after you add player as your friend.
+Tips_D_11=You can see Card information by holding down Card avarta.
+Tips_D_12=In Card information page, you can click the Lock icon to add the Card to favorite, avoiding the Card was sold by mistake.
+Tips_D_13=If your Card type restrains the enemy's type, the damage becomes 2x ATK, and vice versa the damage becomes 0.5x ATK.
+Tips_D_14=You can get a lot of Coins in the Weekend Battle, please enjoy!
+Tips_D_15=Mushroom Monster is the specified Enhance Material, it provide a lot of Exp for Power-up Cards.
+Tips_D_16=Mushroom Monster appears in Instant Battle every day, please note the Game Notice.
+Tips_D_17=Only when Card evolve sucessfully, the Evo. materials will be consumed.
+Tips_D_18=You can spend magic stones to extend Monster Box Capacity and Friend Capacity.
 
-Tips_E_1=基础卡牌的等级每多1级，强化价格就多100.
-Tips_E_2=试着先用较弱的卡牌去提升材料卡牌的等级后再进行强化，不仅有可能获得更高的Exp，也能减少强化所需的金币。
-Tips_E_3=系统会不定期开启限定抽卡，届时超强力卡牌中奖率将极大提升！
-Tips_E_4=首次闯过一个大关，即可获得魔法石1颗，请积极攻略！
-Tips_E_5=将具有相同主动技能的卡牌强化合成后，基础卡牌的技能等级有可能提升，从而减少冷却回合。
-Tips_E_6=若没有合适的帮手时，花费1颗魔法石后即可获得超级帮手。不仅条件达标，且能获得50点友情点数！
-Tips_E_7=上一次战斗结束时的方块，将自动成为下一场战斗的开局，所以无用的方块可趁早扔掉。
-Tips_E_8=当战斗槽内已填满方块，再次拖上去的方块会被弹回，不仅操作无效也浪费时间。
-Tips_E_9=可轻点敌人作为攻击目标，也可长按查看敌人详情。
-Tips_E_10=战斗中点击menu后可选择退出当前关卡。
-Tips_E_11=考虑到越多的攻击条会带来越高的加成，有时候普通技能1会更有效。
-Tips_E_12=若一个战斗槽内的方块配置满足了普通技能1和2，则优先发动需求方块数较多的技能。
-Tips_E_13=若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，则优先发动回复HP技能。
-Tips_E_14=若一个战斗槽内的方块配置满足了普通技能1和2，且1和2的需求方块数相同，并都为攻击技能，则优先发动技能1。
-Tips_E_15=当战斗结束后，周围格子的骷髅颜色会提升一个等级。若变为红色了，则极有可能连战。
-Tips_E_16=感叹号格子容易出进化材料和尖叫奶酪。
-Tips_E_17=感叹号格子里偶尔会乱入超稀有卡牌，掉率令人期待！届时系统会公告通知，请做好万全准备！
-Tips_E_18=单色队伍不仅能在敌人只有一种属性的关卡里游刃有余，而且容易形成很高的攻击加成。
+Tips_E_1=Higher Lv. of Cards need more coins for Power-up fusion.
+Tips_E_2=Try to use weak Card to Power-up material, then use material to Power-up your main Card, So you can get more Exp and less Coins spent.
+Tips_E_3=There is time limited Summon Event occasionally, you can get powerful Card more easily.
+Tips_E_4=You will get magic stones as bonus when first time you clear the Quest.
+Tips_E_5=If no suitable Pals, spend Magic Stones to get super helper. Not only criteria are satisfied, but also get a lot of friendship points!
+Tips_E_6=Remained Panels of last battle, will resume in next battle, so you'd better throw away unuseful Panels as more as possible.
+Tips_E_7=When a Action Board is full of Panels, you cannot move Panels to that Action Board.
+Tips_E_8=You can click the top right button on screen to exit current battle.
+Tips_E_9=Due to reason of more Attack Bars bring more additional attack power, Normal Skill 1 will be more effective.
+Tips_E_10=If a Action Board match Normal Skill1 and Skill2 meanwhile,  it's prior to launch the skill which need more Panels.
+Tips_E_11=If a Action Board match Normal Skill1 and Skill2 meanwhile,  and they need same Panels, it's prior to launch Skill 2.
+Tips_E_12=After one battle finished, color of the surrounding grids will become one grade. If the grid turns red, then it's possible to automatically trigger a continuous battle.
+Tips_E_13=The grid of exclamation mark occasionally has rare Card into chaos, drop rate is exciting! Please note the announcement when login game!
+Tips_E_14=It's easier to make a higher attack if your teams formed by members of same Card Type (color).
 
 ## raider
 Raider_0=<p align=center>游戏帮助<br></p><p align=center>基础<br></p><p><a href='Raider_1'>背景介绍</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_2'>战场介绍</a><br></p><p><a href='Raider_3'>战场格子</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_4'>战斗介绍</a><br></p><p><a href='Raider_5'>技能</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_6'>卡牌</a><br></p><p><a href='Raider_7'>强化</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='Raider_8'>抽卡</a><br></p>

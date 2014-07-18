@@ -26,6 +26,12 @@ public class TPartyInfo : ProtobufDataBase {
     public TPartyInfo(PartyInfo inst) : base (inst) { 
         instance = inst;
 
+		for (int i = 0; i < inst.partyList.Count; i++) {
+			for (int j = 0; j < inst.partyList[i].items.Count; j++) {
+				Debug.LogError(i + " j : " + j + " nst.partyList[i].item : " + inst.partyList[i].items[j].unitUniqueId);
+			}
+		}
+
         assignParty();
     }
 

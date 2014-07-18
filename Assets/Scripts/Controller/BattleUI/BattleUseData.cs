@@ -82,6 +82,7 @@ public class BattleUseData {
 
 	public void Reset () {
 		ListenEvent();
+		isInit = false;
 		errorMsg = new ErrorMsg();
 		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		upi.GetSkillCollection();
@@ -99,16 +100,16 @@ public class BattleUseData {
 		if (sbd == null) {
 			blood = maxBlood = upi.GetInitBlood ();
 			maxEnergyPoint =DataCenter.maxEnergyPoint;
-//			Debug.LogError ("InitBattleUseData  :  upi.GetInitBlood () : " + upi.GetInitBlood () );
 		} else {
 			maxBlood = upi.GetInitBlood ();
 			blood = sbd.hp;
-//			Debug.LogError ("InitBattleUseData  : " + sbd + " sbd.hp  : " + sbd.hp );
 			maxEnergyPoint = sbd.sp;
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 		GetBaseData (null);
-		
+
+//		Debug.LogError ("InitBattleUseData ");
+
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);
 		ac = new AttackController(this, eps, upi);
@@ -255,14 +256,12 @@ public class BattleUseData {
 		Blood += System.Convert.ToInt32 (ai.AttackValue);
     }
 
-//    public void RecoverHP(int recoverBlood) {
-//        if (blood < recoverBlood) {
-//			AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-//            Blood = recoverBlood > maxBlood ? maxBlood : recoverBlood;
-//        }
-//    }
-
     public void InitEnemyInfo(TQuestGrid grid) {
+		if (ac == null || grid == null) {
+			Debug.LogError(" ac : " + ac + " grid : " + grid);
+			return;
+		}
+
         ac.Grid = grid;
     }
 
@@ -291,7 +290,6 @@ public class BattleUseData {
 
     public void GetBaseData(object data) {
         BattleBaseData bbd = new BattleBaseData();
-//		Debug.LogError ("GetBaseData : " + blood + " Blood : " + Blood);
 		bbd.Blood = Blood;
 		bbd.maxBlood = maxBlood;
 		bbd.EnergyPoint = maxEnergyPoint;

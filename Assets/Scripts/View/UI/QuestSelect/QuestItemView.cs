@@ -120,6 +120,9 @@ public class QuestItemView : MonoBehaviour {
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;
 //		Debug.LogError ("DataCenter.gameState : " + DataCenter.gameState);
+
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {

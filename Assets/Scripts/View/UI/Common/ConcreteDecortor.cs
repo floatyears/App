@@ -898,7 +898,7 @@ public class ReceptionDecorator : DecoratorBase{
 		recptionWin.SetComponent(counter);
 		acceptApply.SetComponent(recptionWin);
 
-		lastDecorator = sortPanel;
+		lastDecorator = acceptApply;
 		lastDecorator.CreatUIAsyn (this);
 	}
 }

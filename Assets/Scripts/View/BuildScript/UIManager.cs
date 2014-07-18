@@ -153,6 +153,7 @@ public class UIManager {
 		if (forbidChangeScene) {
 			return;		
 		}
+		SwitchGameState (sEnum);
 		if (baseScene.CurrentScene == sEnum) {
 			return;		
 		} else {
@@ -375,13 +376,9 @@ public class UIManager {
         }
 
 		if (temp != null) {
-//			Debug.LogError ("CreatScene temp 1" );
 			temp.SetDecorator (baseScene);
-//			Debug.LogError ("CreatScene temp 2" );
 			temp.DecoratorScene ();
-//			Debug.LogError ("CreatScene temp 3" );
 			AddUIObject (sEnum, temp);
-//			Debug.LogError ("CreatScene temp 4" );
 		}
 		return temp;
 	}
@@ -390,18 +387,19 @@ public class UIManager {
 		if (DataCenter.gameState == GameState.Normal) {
 			return;	
 		}
-
+//		Debug.LogError("DataCenter.gameState 1 : " + DataCenter.gameState + " nextScene : " + nextScene);
 		if (nextScene == SceneEnum.QuestSelect ||
 			nextScene == SceneEnum.FightReady || 
 			nextScene == SceneEnum.StageSelect || 
 			nextScene == SceneEnum.Evolve || 
 			nextScene == SceneEnum.UnitDetail ||
 		    nextScene == SceneEnum.Victory ||
-		    nextScene == SceneEnum.ShowCardEffect)  {
+		    nextScene == SceneEnum.ShowCardEffect ||
+		    nextScene == SceneEnum.Start)  {
 			return;
 		}
-
 		DataCenter.gameState = GameState.Normal;
+//		Debug.LogError ("DataCenter.gameState 2 : " + DataCenter.gameState + " nextScene : " + nextScene);
 	}
 
     private void InvokeSceneClear(SceneEnum nextScene){

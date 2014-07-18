@@ -398,7 +398,7 @@
         "resoucePath": "Prefabs/UI/Result/",
         "parent": 0,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": -50,
         "positionz": 0
     },
      "PartyWindow": {

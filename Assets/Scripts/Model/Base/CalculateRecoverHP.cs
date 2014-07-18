@@ -6,11 +6,15 @@ public class CalculateRecoverHP {
 	private TNormalSkill[] recoverHPSkill = new TNormalSkill[4];
 
 	public CalculateRecoverHP() {
+		SkillBaseInfo recoverHP;
 		for (int i = 1; i <= 4; i++) {
-			TNormalSkill tns = DataCenter.Instance.Skill [ConfigSkill.RECOVER_HP_ID+i] as TNormalSkill;
-			recoverHPSkill[i-1] = tns;
+			if(DataCenter.Instance.Skill.TryGetValue(ConfigSkill.RECOVER_HP_ID + i, out recoverHP)) {
+				TNormalSkill tns = recoverHP as TNormalSkill;
+				recoverHPSkill[i-1] = tns;
+			} else {
+				Debug.LogError("recover hp not init : " + (ConfigSkill.RECOVER_HP_ID + i));
+			}
 		}
-
 	}
 
 	public AttackInfo RecoverHP (List<uint> card, List<int> ignorSkillID,int blood) {

@@ -50,12 +50,27 @@ public class SpringPanel : MonoBehaviour
 		mTrans = transform;
 	}
 
+	private bool CanSpring = true;
+	/// <summary>
+	/// by leiliang. disabel spring
+	/// </summary>
+	/// <param name="canSpring">If set to <c>true</c> can spring.</param>
+	public void SetCanSpring(bool canSpring) {
+		CanSpring = canSpring;
+	}
+
 	/// <summary>
 	/// Advance toward the target position.
 	/// </summary>
 
 	void Update ()
 	{
+		if (!CanSpring) 
+		{
+			enabled = false;
+			return;
+		}
+
 	    AdvanceTowardsPosition();
 	}
 
@@ -95,12 +110,16 @@ public class SpringPanel : MonoBehaviour
 		}
     }
 
+
+//	public void SetCanSpring(bool canSpring) {
+//
+//	}
+
 	/// <summary>
 	/// Start the tweening process.
 	/// </summary>
 
-	static public SpringPanel Begin (GameObject go, Vector3 pos, float strength)
-	{
+	static public SpringPanel Begin (GameObject go, Vector3 pos, float strength) {
 		SpringPanel sp = go.GetComponent<SpringPanel>();
 		if (sp == null) sp = go.AddComponent<SpringPanel>();
 		sp.target = pos;

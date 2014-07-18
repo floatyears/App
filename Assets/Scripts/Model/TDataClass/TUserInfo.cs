@@ -42,15 +42,16 @@ public class TUserInfo : ProtobufDataBase
 		}
 	} 
 
-	//return the user's exp of current rank
+	//return the user's exp of current rank (in total)
 	public int CurRankExp { 
 		get { 
 			int curLevel = Rank;
 			int totalExp = 0;
-			for (int i = 0; i <= curLevel; i++) {
+			for (int i = 1; i < curLevel; i++) {
 				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, i);
 			}
 
+//			UnityEngine.Debug.LogError(curLevel+" => CurRankExp:" + totalExp);
 			return totalExp;
 		}
 	} 

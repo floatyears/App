@@ -26,7 +26,7 @@ public class LoadingLogic : ConcreteComponent {
     }
     
     public override void ShowUI () {
-//		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
+//		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");StartLogin
 //      GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 
         base.ShowUI ();
@@ -80,14 +80,11 @@ public class LoadingLogic : ConcreteComponent {
             }
             
             if (rspAuthUser.user != null) {
-//				Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
-
 				DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
                 if (rspAuthUser.evolveType != null) {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
-            }
-            else {
+            } else {
 				Debug.LogError("authUser response rspAuthUser.user == null");
             }
             
@@ -99,8 +96,7 @@ public class LoadingLogic : ConcreteComponent {
 					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
                 }
 				DataCenter.Instance.SupportFriends = supportFriends;
-            }
-            else {
+            } else {
                 Debug.LogError("rsp.friends==null");
             }
             

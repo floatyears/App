@@ -3,7 +3,12 @@ using System.Collections;
 using bbproto;
 
 public class SkillBaseInfo : ProtobufDataBase {
-	protected SkillBase skillBase;
+	protected int initSkillCooling = 0;
+	private SkillBase _skillBase;
+	protected SkillBase skillBase {
+		set { _skillBase = value;  initSkillCooling = _skillBase.skillCooling;}
+		get { return _skillBase; }
+	}
 	public SkillBase BaseInfo {
 		get {
 			return skillBase;
