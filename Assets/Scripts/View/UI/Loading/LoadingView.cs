@@ -63,6 +63,10 @@ public class LoadingView : UIComponentUnity {
 		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
 
 		tapLogin.enabled = false;
+    }
+
+	private void CouldLogin(){
+		Debug.Log ("load complete, could login");
 
 		ResourceManager.Instance.Init (o => {
 			EffectManager em = EffectManager.Instance;
@@ -72,18 +76,15 @@ public class LoadingView : UIComponentUnity {
 				
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 				ModelManager.Instance.Init();
-
+				
 				initComplete = true;
-//				Debug.Log("init complete: " + initComplete);
+				//				Debug.Log("init complete: " + initComplete);
 
+				UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+				tapLogin.enabled = true;
 			});
 		});
-    }
 
-	private void CouldLogin(){
-		Debug.Log ("load complete, could login");
-		UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
-		tapLogin.enabled = true;
 //		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
 //			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
 //			guideWindow.CreatUI();
@@ -121,7 +122,7 @@ public class LoadingView : UIComponentUnity {
 
     private void ClickToLogin(GameObject btn){
 //		if (checkResourceUpdate ()) {
-//		Debug.LogError("click to login");
+		Debug.LogError("click to login: " + initComplete);
 		if(initComplete)
 			Login();
 //		}
@@ -151,7 +152,7 @@ public class LoadingView : UIComponentUnity {
 //		UIManager.Instance.ChangeScene(SceneEnum.Start);
 //		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.Preface;
 //		NoviceGuideStepEntityManager.Instance ().StartStep ();
-        UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
+		UIManager.Instance.ChangeScene (SceneEnum.Preface);
     }
 
 //	private void checkResourceUpdate(){

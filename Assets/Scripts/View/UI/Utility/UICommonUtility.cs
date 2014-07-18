@@ -135,6 +135,7 @@ public class TouchEventBlocker{
 		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
 //		Debug.Log ("ui camera: " + nguiCamera.eventReceiverMask.value + " origin: " + camObj.originLayer.value + " isblocked: " + camObj.isBlocked.ToString() + " reason: " + camObj.reason);
 		if (camObj.isBlocked){
+
 			if(camObj.reason != BlockerReason.NoviceGuide){
 				nguiCamera.eventReceiverMask = 1 << LayerMask.NameToLayer(blockerLayerName);
 			}else{
@@ -142,6 +143,10 @@ public class TouchEventBlocker{
 			}
 		}
 		else{
+//			foreach (var item in remainChanges) {
+//				if(item.reason == camObj.reason)
+//					return;
+//			}
 			nguiCamera.eventReceiverMask = camObj.originLayer;
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
