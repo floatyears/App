@@ -469,6 +469,13 @@ ZeroFriendPoint=You got pal 0 point from this quest.
 GotFriendPoint=You have got {0} pal point from this quest.
 TotalFriendPoint=Total pal point: {0}.
 
+##preface
+Preface_Content1=大小姐！小心有刺客！
+Preface_Content2=话音未落，护卫已挡在了正在地下格斗会场观看比赛的吸血鬼伯爵之女——mavis的身前……
+Preface_Content3=会场顿时一片混乱，刺客想趁机发动第二次袭击，却幸运地被在场格斗家们合力击退！
+Preface_Content4=护卫不幸牺牲，但终究完成了前来救主的使命，不过也带来了更大的噩耗！
+Preface_Content5=伯爵被昔日部下——食人厨师陷害绑架了！
+Preface_Content6=mavis救父心切，但毕竟势单力薄，遂向在场格斗家们发出请求，并成功说服数人相助，一起拯救伯爵！
 
 ##unit name
 UnitName_1=Indian Shaman
