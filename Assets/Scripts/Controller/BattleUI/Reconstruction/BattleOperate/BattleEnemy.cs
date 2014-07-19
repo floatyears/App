@@ -9,6 +9,8 @@ public class BattleEnemy : UIBaseUnity {
 		}
 	}
 
+
+
 	private GameObject effectPanel;
 
 	private GameObject effectParent;
@@ -124,10 +126,13 @@ public class BattleEnemy : UIBaseUnity {
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 		attackInfoLabel.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
 	}
-		                                 
+
+	private List<EnemyItem> enemys = new List<EnemyItem> ();	 
+
 	public void Refresh(List<TEnemyInfo> enemy) {
 		Clear();
-		List<EnemyItem> temp = new List<EnemyItem> ();
+		sortCount = 0;
+		enemys.Clear ();
 		for (int i = 0; i < enemy.Count; i++) {
 			TEnemyInfo tei = enemy[i];
 			tei.AddListener();
@@ -135,11 +140,25 @@ public class BattleEnemy : UIBaseUnity {
 			go.SetActive(true);
 			EnemyItem ei = go.AddComponent<EnemyItem>();
 			ei.battleEnemy = this;
-			ei.Init(tei);
-			temp.Add(ei);
+			sortCount++;
+			ei.Init(tei, BeginSort);
+			enemys.Add(ei);
 			monster.Add(tei.EnemySymbol,ei);
 		}
-		SortEnemyItem (temp);
+
+		if (sortCount == 0) {
+			sortCount++;
+			BeginSort();
+		}
+	}
+
+	int sortCount = 0;
+
+	void BeginSort() {
+		sortCount--;
+		if (sortCount == 0) {
+			SortEnemyItem(enemys);
+		}
 	}
 
 	void DropItem(object data) {
@@ -188,7 +207,6 @@ public class BattleEnemy : UIBaseUnity {
 			float Difference = (centerRightWidth - centerWidth);
 			centerWidth += Difference;	
 			centerRightWidth -= Difference;
-//			Debug.LogError("centerWidth:"+centerWidth+" centerRightWidth:"+centerRightWidth+ " Difference"+Difference);
 			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
 			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
 			DisposeCenterLeft(centerIndex--, enemys);

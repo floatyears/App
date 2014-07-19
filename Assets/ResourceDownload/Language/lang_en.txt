@@ -426,8 +426,8 @@ SERVER_500=The server is busy now.Please wait for a moment and try again later.
 BigRareWarning=Rare Warning
 BigRareWarningText=Include the unit whose rare bigger than 3. Are you sure to sell?
 
-UnitOverflow=Unit Overflow
-UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.Would you like to do unit expansion?
+UnitOverflow=Monster Box Overflow
+UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.\nYou should extend Monster Box capacity before battle.
 
 FirendOverflow=Firend Overflow
 FriendOverflowText=Your current unit capacity is {0}/{1}.Would you like to do friend expansion?

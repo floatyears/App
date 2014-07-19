@@ -172,7 +172,7 @@ public class EnemyItem : UIBaseUnity {
 //        Debug.Log("posion round : " + ai.AttackRound);
     }
 	
-    public void Init(TEnemyInfo te) {
+    public void Init(TEnemyInfo te, Callback callBack) {
 		stateLabel = FindChild<UILabel>("SateLabel");
 
         texture = FindChild<UITexture>("Texture");
@@ -198,18 +198,14 @@ public class EnemyItem : UIBaseUnity {
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
 		enemyUnitInfo.GetAsset(UnitAssetType.Profile,o=>{
 			Texture2D tex = o as Texture2D;
+			callBack();
 			if (tex == null) {
 				texture.mainTexture = null;
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
 				ResetHurtLabelPosition();
 			} else {
-				//			texture.mainTexture = tex;
-				//			texture.width = //DGTools.GetEnemyWidthByRare(enemyUnitInfo.Rare);
-				//			texture.height = DGTools.GetEnemyHeightByRare(enemyUnitInfo.Rare);
-				//			Debug.LogError("tex.name : " + tex.name + " tex.width : " + tex.width + " tex.height : " + tex.height);
 				DGTools.ShowTexture(texture,tex);
 				SetBloodSpriteWidth ();
-				
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 				ResetHurtLabelPosition();
 			}

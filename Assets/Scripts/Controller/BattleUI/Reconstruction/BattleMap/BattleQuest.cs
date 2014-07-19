@@ -286,7 +286,6 @@ public class BattleQuest : UIBase {
 	bool battleEnemy = false;
 
 	public void ClickDoor () {
-//		Debug.LogError ("questDungeonData.Floors.Count : " + questDungeonData.Floors.Count);
 		if( questDungeonData.currentFloor == questDungeonData.Floors.Count - 1 ) {
 			QuestStop ();
 		} else {
@@ -299,8 +298,9 @@ public class BattleQuest : UIBase {
 		ClearQuestParam clear = new ClearQuestParam ();
 		TClearQuestParam cqp = new TClearQuestParam (clear);
 		_questData.Add (cqp);
+		Debug.LogError ("questDungeonData.currentFloor : " + questDungeonData.currentFloor);
 		topUI.SetFloor (questDungeonData.currentFloor + 1, questDungeonData.Floors.Count);
-		Reset ();
+
 		if (BattleUseData.maxEnergyPoint >= 10) {
 			BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
 		} else {
@@ -309,6 +309,8 @@ public class BattleQuest : UIBase {
 		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate;
 //		configBattleUseData.StoreQuestDungeonData (questDungeonData);
 		configBattleUseData.StoreMapData (_questData);
+
+		Reset ();
 	}
 
 	void QuestStop () {
@@ -322,7 +324,7 @@ public class BattleQuest : UIBase {
 
 	public void NoFriendExit() {
 		ControllerManager.Instance.ExitBattle ();
-		UIManager.Instance.ExitBattle ();
+//		UIManager.Instance.ExitBattle ();
 	}
 
 	public void Retire(bool gameOver) {
@@ -332,6 +334,7 @@ public class BattleQuest : UIBase {
 
 	void RetireQuestCallback(object data) {
 		NoFriendExit ();
+		UIManager.Instance.ExitBattle ();
 	}
 
 	public void HaveFriendExit() {
@@ -472,6 +475,8 @@ public class BattleQuest : UIBase {
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
+		Debug.LogError ("battleMap.ReachMapItem (coor) : " + battleMap.ReachMapItem (coor) + " coor : " + coor.x + " coor y : " + coor.y);
+
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.prevMapItem.HideGridNoAnim ();

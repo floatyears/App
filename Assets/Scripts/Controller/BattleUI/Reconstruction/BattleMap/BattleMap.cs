@@ -62,8 +62,11 @@ public class BattleMap : UIBaseUnity {
 					temp.battleMap = this;
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
+
+					Debug.LogError("item null : " + i + " j : " + j + " temp.isold : " + temp.IsOld);
 				} else {
 					map[i,j].ShowUI();
+					Debug.LogError("item not null : " + i + " j : " + j + " temp.isold : " + temp.IsOld);
 				}
 			}
 		}
@@ -145,6 +148,7 @@ public class BattleMap : UIBaseUnity {
 //			return true;	
 //		}
 		prevMapItem = map[coor.x,coor.y];
+		Debug.LogError ("prevMapItem : " + prevMapItem + " prevMapItem.IsOld : " + prevMapItem.IsOld);
 		return prevMapItem.IsOld;
 	}
 	private Callback callback = null;
@@ -233,7 +237,7 @@ public class BattleMap : UIBaseUnity {
 			prevAround.Clear();
 		}
 
-		//map grid Priority : right > left > bottom > top 
+		//map grid Priority : right > left > bottom > top
 		if(coor.x < map.GetLength(0) - 1)				//right map grid 
 			DisposeAround(map[coor.x + 1, coor.y]);
 
