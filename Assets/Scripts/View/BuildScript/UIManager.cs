@@ -158,6 +158,7 @@ public class UIManager {
 			return;		
 		} else {
 			nextScene = sEnum;
+//			Debug.LogError("clear data : " + sEnum);
 			InvokeSceneClear (sEnum);
 			if(CheckIsPopUpWindow(sEnum)){
 				if(currentPopUp != null) {
