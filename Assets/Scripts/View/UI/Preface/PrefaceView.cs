@@ -40,7 +40,7 @@ public class PrefaceView : UIComponentUnity {
 
 	public void ShowContent()
 	{
-		if(i > 6){
+		if(i > 5){
 			UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
 			return;
 		}
