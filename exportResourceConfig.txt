@@ -1,1 +1,1 @@
-JSavePath:/Users/Resource/Output;Filename:Atlas_Avatar_11;Extension:unity3dion:unity3dd
+DSavePath:/Users/Resource/Output;Filename:Profile_2;Extension:unity3dnity3dion:unity3dd
