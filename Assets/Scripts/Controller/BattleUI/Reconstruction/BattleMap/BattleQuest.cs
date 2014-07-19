@@ -347,7 +347,7 @@ public class BattleQuest : UIBase {
 		if (configBattleUseData.currentStageInfo != null) {
 			if ( configBattleUseData.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
 				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
-			}else { 
+			} else { 
 				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (configBattleUseData.currentStageInfo.ID, configBattleUseData.currentQuestInfo.ID);
 			}	
 		}
