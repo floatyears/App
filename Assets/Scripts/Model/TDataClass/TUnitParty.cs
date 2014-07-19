@@ -69,20 +69,23 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	void EnterBattle(object data) {
 		if (ConfigBattleUseData.Instance.BattleFriend == null) {
 			UserUnit.Add(DataCenter.friendPos, null);
-			return;
 		}
-		if (ID == DataCenter.Instance.PartyInfo.CurrentPartyId) {
-			TUserUnit tuu = ConfigBattleUseData.Instance.BattleFriend.UserUnit;
-			DataCenter.Instance.UserUnitList.Add(tuu.userID, tuu.ID, tuu);
-			UserUnit.Add(DataCenter.friendPos, tuu);
+		else {
+			if (ID == DataCenter.Instance.PartyInfo.CurrentPartyId) {
+				TUserUnit tuu = ConfigBattleUseData.Instance.BattleFriend.UserUnit;
+				DataCenter.Instance.UserUnitList.Add(tuu.userID, tuu.ID, tuu);
+				UserUnit.Add(DataCenter.friendPos, tuu);
+				
+				cardCount ++;
+			}
+		}
 
-			cardCount ++;
-		}
 		for (int i = 0; i < partyItem.Count; i++) {
 			if(partyItem[i].unitUniqueId > 0) {
 				cardCount ++;
 			}
 		}
+
 	}
 
 	void LeftBattle (object data) {
@@ -178,17 +181,20 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		float Proportion = 1f / cardCount;
         float attackV = attackValue * Proportion;
         float hurtValue = 0;
+
 		foreach (var item in UserUnit.Values) {
 			if(item != null) {
+//				Debug.LogError("attackType:"+attackType+" attackV:"+attackV+" hurtValue += "+item.CalculateInjured(attackType, attackV));
 				hurtValue += item.CalculateInjured(attackType, attackV);
 			}
 		}
-		
+
         if (reduceHurt != null) {
             float value = hurtValue * reduceHurt.AttackValue;
             hurtValue -= value;
         }
-		
+
+
         return System.Convert.ToInt32(hurtValue);
     }
 
