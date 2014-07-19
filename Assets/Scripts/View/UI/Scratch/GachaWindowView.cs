@@ -44,7 +44,9 @@ public class GachaWindowView : UIComponentUnity {
         RemoveListener();
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
-		Reset();
+
+		if(UIManager.Instance.nextScene != SceneEnum.ShowCardEffect)
+			Reset();
     }
     
     public override void DestoryUI () {

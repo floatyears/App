@@ -78,8 +78,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	GameObject materilItem;
 	GameObject parent;
 
-//	private bool isOwnUnit = false;
-
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		GetUnitMaterial();
@@ -90,15 +88,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	public override void ShowUI () {
 		base.ShowUI ();
 
-		//clear the last texture 
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);	
+		}
+
 		DGTools.ShowTexture (unitBodyTex, null);
 
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
 		MsgCenter.Instance.AddListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
-		//TODO:
-		//StartCoroutine ("nextState");
+
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
 	}
@@ -107,15 +107,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public override void HideUI () {
 		base.HideUI ();
-		if (IsInvoking ("CreatEffect")) {
-			CancelInvoke("CreatEffect");
-		}
-
-//		UIManager.Instance.ShowBaseScene();
-
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 		ClearEffectCache();
+
+		if (gameObject.activeSelf) {
+			gameObject.SetActive(false);	
+		}
 	}
 
 	public override void DestoryUI () {
@@ -124,8 +122,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	
 	//----------Init functions of UI Elements----------
 	void InitUI() {
-
-		//center
 		unitBodyTex = FindChild< UITexture >("Bottom/detailSprite");
 		materilItem = FindChild<Transform>("Center/MaterialItem").gameObject;
 		parent = FindChild<UIGrid> ("Center/UIGrid").gameObject;
@@ -167,9 +163,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		StopAllCoroutines ();
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-		Debug.LogError ("ClickTexture : " + preScene);
-		UIManager.Instance.ChangeScene( preScene );
+		LevelUpEnd ();
+
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -403,7 +398,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
-			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
+//			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
 			ShowInfo (oldBlendUnit);
 		} else if (userUnit != null) {
 			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " + userUnit.UnitInfo.ID);
@@ -427,6 +422,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	RspLevelUp levelUpData;
 
 	void PlayLevelUp(RspLevelUp rlu) {
+//		Debug.LogError ("PlayLevelUp");
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
@@ -440,17 +436,17 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.Type);
 			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.Type);
 			material.Enqueue(go);
-			
 			DataCenter.Instance.UserUnitList.DelMyUnit (rlu.partUniqueId[i]);
 		}
 
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
-		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o =>{
+		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
-			Vector3 localposition = unitBodyTex.transform.localPosition;
-			targetPosition = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f, localposition.z) - parent.transform.localPosition; //unitBodyTex.transform.localPosition + Vector3.up * (unitBodyTex.height * 0.5f);
+			Vector3 localposition = unitBodyTex.transform.localPosition; 
+			Vector3 tPos = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f - 480f, localposition.z);
+			targetPosition = tPos - parent.transform.localPosition; 
 			ShowUnitScale();
 			SetEffectCamera();
 			StartCoroutine(SwallowUserUnit());
@@ -472,23 +468,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	TUserUnit newBlendUnit = null;
 	
 	private TUserUnit curUserUnit;
-//	private void CallBackUnitData(object d){
-//		TUserUnit userUnit = d as TUserUnit;
-//
-//		if (userUnit != null) {
-//			ShowInfo (userUnit);
-//		} else {
-//			RspLevelUp rlu = d as RspLevelUp;
-//			if(rlu ==null) {
-//				return;
-//			}
-//			ShowLevelupInfo(rlu);
-//			PlayLevelUp(rlu);
-//		}
-//	}
-
-
-
+	
 	bool levelDone = false;
 
 	public void SetEffectCamera() {
@@ -497,10 +477,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		camera.orthographicSize = 1.3f;
 	}
 
+	public void RecoverEffectCamera() {
+		Camera camera = Main.Instance.effectCamera;
+		camera.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
+		camera.orthographicSize = 1f;
+	}
+
 	
 	//------------------end-----------------------------------------
 	void ShowInfo(TUserUnit userUnit) {
-//		ShowFavView(curUserUnit.IsFavorite);
 		ShowBodyTexture( userUnit ); 
 		ShowUnitScale();
 		ShowTopPanel (userUnit);
@@ -603,17 +588,32 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 	
 	//---------Exp increase----------
-	
+
+	void PlayLevelupEffect () {
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_level_up);
+		GameObject go = Instantiate (levelUpEffect) as GameObject;
+		effectCache.Add (go);
+	}
+
 	void Update(){
 		ExpRise();
 	} 
+
+	void LevelUpEnd() {
+		oldBlendUnit = null;
+		RecoverEffectCamera ();
+		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
+	}
 
 	void ExpRise () {
 		if (gotExp <= 0) {
 			if(levelDone) {
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
+
 				levelDone = false;
-				oldBlendUnit = null;
+			
+
+				GameTimer.GetInstance().AddCountDown(1f, LevelUpEnd);
 			}
 			return;	
 		}	
@@ -633,8 +633,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			curExp = 0;
 			if ( curLevel < oldBlendUnit.UnitInfo.MaxLevel ){
 				curLevel ++;
-
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_level_up);
+				PlayLevelupEffect();
 			} else { // reach MaxLevel
 				//TODO: show MAX on the progress bar
 				curExp = currMaxExp;
@@ -717,11 +716,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	Queue<GameObject> material = new Queue<GameObject> ();
 	int count = 0;
 	
-	public void RecoverEffectCamera() {
-		Camera camera = Main.Instance.effectCamera;
-		camera.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
-		camera.orthographicSize = 1f;
-	}
+
 	
 	List<GameObject> effectCache = new List<GameObject>();
 	GameObject levelUpEffect = null;
@@ -789,44 +784,26 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			yield return new WaitForSeconds(0.4f);
 			Destroy(swallowEffectIns);
 		}
-		
-		StartCoroutine (CreatEffect ());
+
+		LevelUpAnim ();
 	}
-	
-	IEnumerator CreatEffect() {
-		yield return new WaitForSeconds(0.5f);
-		GameObject go = Instantiate (levelUpEffect) as GameObject;
-		effectCache.Add (go);
-//		yield return new WaitForSeconds(0.1f);
-//		go = Instantiate (levelUpEffect) as GameObject;
-//		effectCache.Add (go);
+
+	void LevelUpAnim() {
+		ShowLevelInfo (newBlendUnit);
+		curLevel = oldBlendUnit.Level;
+		gotExp = levelUpData.blendExp;
 		
-		if (effectCache.Count == count) {
-			yield return new WaitForSeconds(2f);
-			
-//			ClearEffectCache ();
-//			HideUI();
-			UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
-			
-			ShowLevelInfo (newBlendUnit);
-			curLevel = oldBlendUnit.Level;
-			gotExp = levelUpData.blendExp;
-			
-			levelDone = gotExp > 0;
-			
-			curExp = oldBlendUnit.CurExp;
-			Calculate ();
-			
-			RecoverEffectCamera();
-		} else {
-			yield return new WaitForSeconds(1.5f);
-			StartCoroutine (CreatEffect ());
-		}
+		levelDone = gotExp > 0;
+		
+		curExp = oldBlendUnit.CurExp;
+		Calculate ();
 	}
 	
 	void ClearEffectCache(){
+		while (material.Count > 0) {
+			Destroy(material.Dequeue());
+		}
 
-		
 		DGTools.SafeDestory (materilUse);
 		DGTools.SafeDestory (linhunqiuIns);
 		DGTools.SafeDestory (swallowEffectIns);

@@ -25,7 +25,6 @@ public class FriendHelperView : UIComponentUnity{
 		base.ShowUI();
 		AddCmdListener();
 		CreateGeneralListView();
-//		Debug.LogError ("generalDragPanel : " + generalDragPanel);
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
@@ -33,7 +32,6 @@ public class FriendHelperView : UIComponentUnity{
 
 	public override void HideUI() {
 		base.HideUI();
-		//generalDragPanel.DestoryUI();
 		RmvCmdListener();
 	}
 
@@ -151,18 +149,18 @@ public class FriendHelperView : UIComponentUnity{
 
 	protected virtual void ClickHelperItem(HelperUnitItem item){
 		if(pickedQuestInfo == null){
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			return;
 		}
 
 		if(CheckStaminaEnough()){
 			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
 			return;
 		}
 //		Debug.LogError("friend ClickHelperItem");
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_success);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 
 		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);
