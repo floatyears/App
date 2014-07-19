@@ -50,6 +50,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	public void SetBackBtnActive (bool canBack){
+//		Debug.LogError ("SetBackBtnActive : " + canBack);
 		backBtn.gameObject.SetActive( canBack );
 	}
 

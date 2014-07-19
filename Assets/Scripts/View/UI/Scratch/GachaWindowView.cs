@@ -26,23 +26,25 @@ public class GachaWindowView : UIComponentUnity {
     public override void ResetUIState() {
         base.ResetUIState();
         SetActive(false);
-        Reset();
+      
     }
     
     public override void ShowUI () {
         base.ShowUI ();
         AddListener();
-
+//		Debug.LogError ("show ui : " + UIManager.Instance.baseScene.PrevScene);
 		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
+			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
 			ShowUnitGrid();
 		}
-    }
+	}
     
     public override void HideUI () {
         base.HideUI ();
         RemoveListener();
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
+		Reset();
     }
     
     public override void DestoryUI () {
@@ -178,7 +180,7 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void Reset(){
-		Debug.LogError (" reset ");
+//		Debug.LogError (" reset ");
         displayingResult = false;
         clickedGrids.Clear();
         gridUnitDict.Clear();

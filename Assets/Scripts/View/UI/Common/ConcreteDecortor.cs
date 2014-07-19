@@ -259,7 +259,10 @@ public class GachaWindowDecorator : DecoratorBase{
     
     public override void ShowScene(){
         base.ShowScene();
-        sceneInfoBar.SetBackScene(SceneEnum.Scratch);
+
+		if (UIManager.Instance.baseScene.PrevScene != SceneEnum.UnitDetail && UIManager.Instance.baseScene.PrevScene != SceneEnum.ShowCardEffect) {
+			sceneInfoBar.SetBackScene(SceneEnum.Scratch);
+		}
 	
 		//LogHelper.Log ("gacha window decorator:" + currentDecoratorScene);
 		if(currentDecoratorScene == SceneEnum.Scratch)
@@ -278,7 +281,6 @@ public class GachaWindowDecorator : DecoratorBase{
     public override void DecoratorScene(){ 
         sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
         sceneInfoBar.SetComponent(decorator);
-
         GachaWindowLogic gachaWin;
         switch (currentDecoratorScene) {
         case SceneEnum.FriendScratch:
@@ -297,8 +299,6 @@ public class GachaWindowDecorator : DecoratorBase{
         gachaWin.SetComponent(sceneInfoBar);
         lastDecorator = gachaWin;
 		lastDecorator.CreatUIAsyn (this);
-//        lastDecorator.CreatUI();
-        
     }
 }
 

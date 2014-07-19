@@ -75,8 +75,9 @@ public class SceneInfoComponent : ConcreteComponent, IUICallback {
 		}
 	}
 
-    public void BackSceneEnable(object args){
+    public void BackSceneEnable(object args) {
         IUISetBool sb = viewComponent as IUISetBool;
+//		Debug.LogError ("BackSceneEnable args : " + args);
         sb.SetBackBtnActive((bool)args);
     }
 }
