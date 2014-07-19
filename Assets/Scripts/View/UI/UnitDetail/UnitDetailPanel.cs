@@ -170,6 +170,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
 		Debug.LogError ("ClickTexture : " + preScene);
 		UIManager.Instance.ChangeScene( preScene );
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	void ClickTab(GameObject tab){
