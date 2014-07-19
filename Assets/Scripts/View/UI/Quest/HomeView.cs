@@ -138,7 +138,7 @@ public class HomeView : UIComponentUnity{
 				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
 				continue;
 			}
-			UIEventListener.Get(cityItem).onPress = PressStoryDoor;
+			UIEventListener.Get(cityItem).onClick = PressStoryDoor;
 			cityViewInfo.Add(cityItem, data[ i ]);
 		}
 
@@ -156,17 +156,17 @@ public class HomeView : UIComponentUnity{
 			return;
 		}
 
-		foreach (var item in cityViewInfo){
-			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
-			bgSpr.enabled = false;
-		}
+//		foreach (var item in cityViewInfo){
+//			UISprite bgSpr = item.Key.transform.FindChild("Background").GetComponent<UISprite>();
+//			bgSpr.enabled = false;
+//		}
 	}
 
 	/// <summary>
 	/// change scene to quest select with picked cityInfo
 	/// </summary>
 	/// <param name="item">Item.</param>
-	private void PressStoryDoor(GameObject item, bool isPressed){
+	private void PressStoryDoor(GameObject item){
 		if(CheckUnitsLimit()){
 			return;
 		}
@@ -175,14 +175,14 @@ public class HomeView : UIComponentUnity{
 			ViewManager.Instance.ShowTipsLabel (TextCenter.GetText ("Stage_Locked"), item);
 		} else {
 	
-			UISprite bgSpr = item.transform.FindChild ("Background").GetComponent<UISprite> ();
-			bgSpr.enabled = isPressed;
-			if (!isPressed) {
+//			UISprite bgSpr = item.transform.FindChild ("Background").GetComponent<UISprite> ();
+//			bgSpr.enabled = isPressed;
+//			if (!isPressed) {
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 					UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
 					MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 					Debug.Log ("CityID is : " + cityViewInfo [item].ID);
-			}
+//			}
 		}
 	}
 
@@ -196,6 +196,7 @@ public class HomeView : UIComponentUnity{
 	}
 
 	private bool CheckUnitsLimit(){
+		Debug.Log ("click-------------");
 		int userUnitMaxCount = DataCenter.Instance.UserInfo.UnitMax;
 		//Debug.Log("userUnitMaxCount : " + userUnitMaxCount);
 		int userCurrGotUnitCount = DataCenter.Instance.UserUnitList.GetAllMyUnit().Count;

@@ -89,6 +89,7 @@ public class CatalogUnitItem : MyUnitItem {
 			return state;
 		}
 		set{
+			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 			state = value;
 //			Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID);
 			switch (state) {
