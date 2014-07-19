@@ -324,7 +324,7 @@ public class BattleQuest : UIBase {
 
 	public void NoFriendExit() {
 		ControllerManager.Instance.ExitBattle ();
-		UIManager.Instance.ExitBattle ();
+//		UIManager.Instance.ExitBattle ();
 	}
 
 	public void Retire(bool gameOver) {
@@ -334,6 +334,7 @@ public class BattleQuest : UIBase {
 
 	void RetireQuestCallback(object data) {
 		NoFriendExit ();
+		UIManager.Instance.ExitBattle ();
 	}
 
 	public void HaveFriendExit() {
