@@ -219,6 +219,7 @@ public class HomeView : UIComponentUnity{
 		                                           DataCenter.Instance.UserInfo.UnitMax);
 		msgParams.btnParam = new BtnParam();
 		msgParams.btnParam.callback = TurnScene;
+		msgParams.fullScreenClick = true;
 		return msgParams;
 	}
 

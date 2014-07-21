@@ -116,12 +116,20 @@ public class QuestItemView : MonoBehaviour {
 	}
 
 	private void ClickItem(GameObject item){
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+		if(CheckStaminaEnough()){
+			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+			return;
+		}
+
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;
 //		Debug.LogError ("DataCenter.gameState : " + DataCenter.gameState);
 
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+
 
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
@@ -131,4 +139,17 @@ public class QuestItemView : MonoBehaviour {
 		}
 	}
 
+	private bool CheckStaminaEnough(){
+		int staminaNeed = Data.Stamina;
+		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		if(staminaNeed > staminaNow) return true;
+		else return false;
+	}
+	private MsgWindowParams GetStaminaLackMsgParams(){
+		MsgWindowParams msgParams = new MsgWindowParams();
+		msgParams.titleText = TextCenter.GetText("StaminaLackNoteTitle");
+		msgParams.contentText = TextCenter.GetText("StaminaLackNoteContent");
+		msgParams.btnParam = new BtnParam();
+		return msgParams;
+	}
 }
