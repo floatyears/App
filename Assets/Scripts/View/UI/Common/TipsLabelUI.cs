@@ -17,8 +17,19 @@ public class TipsLabelUI : MonoBehaviour {
 		cacheParent = panel.transform.parent;
 	}
 
-	public void ShowInfo(string text) {
+	void OnEnable() {
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
+	}
 
+	void OnDisable() {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
+	}
+
+	void ChangeSceneComplete(object data) {
+		AlphaEnd ();
+	}
+
+	public void ShowInfo(string text) {
 		showInfoLabel.text = text;
 		tweenScale.enabled = true;
 		tweenScale.ResetToBeginning ();
@@ -44,18 +55,17 @@ public class TipsLabelUI : MonoBehaviour {
 		showInfoLabel.alpha = 1;
 		showInfoLabel.transform.localScale = Vector3.zero;
 		tweenAlpha.enabled = false;
+
 		if (!cacheParent.Equals (panel.transform.parent)) {
 			SetParent(cacheParent);
 		}
 	}
 	void SetParent(Transform trans) {
-		Debug.LogError ("SetParent : " + panel);
-		if (trans) {
-			Debug.Log("trans: " + trans);
-			panel.transform.parent = trans;		
+		if (trans != null) {
+			panel.transform.position = trans.position;		
+		} else {
+			panel.transform.localPosition = Vector3.zero;
 		}
-			
-		panel.transform.localPosition = Vector3.zero;
-		panel.transform.localScale = Vector3.one;
+		panel.transform.localScale = Vector3.one;			
 	}
 }

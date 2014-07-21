@@ -31,6 +31,8 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 		netBase.BaseUniqueId = baseUserUnit.ID;
 		netBase.HelperUserId = friendUserUnit.ID;
 		netBase.HelperUserUnit = friendUserUnit;
+		DataCenter.Instance.levelUpFriend = friendUserUnit;
+
 		netBase.OnRequest (null, NetCallback);
 	}
 	
@@ -45,33 +47,33 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 	void NetCallback(object data) {
 		//TODO: moving to logic
 		if (data != null) {
-				bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
-				if (rspLevelUp.header.code != (int)ErrorCode.SUCCESS) {
-//						Debug.LogError ("Rsp code: " + rspLevelUp.header.code + ", error:" + rspLevelUp.header.error);
-						ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow (rspLevelUp.header.code);
-						return;
-				}
+			bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
+			if (rspLevelUp.header.code != (int)ErrorCode.SUCCESS) {
+					ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow (rspLevelUp.header.code);
+					DataCenter.Instance.levelUpFriend = null;
+					return;
+			}
 
-				levelUpInfo.Clear();
+			levelUpInfo.Clear();
 
-				DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
+			DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
+
+			uint userId = DataCenter.Instance.UserInfo.UserId;
+
+			DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 	
-				uint userId = DataCenter.Instance.UserInfo.UserId;
-	
-				DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
-		
-				TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
+			TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
 //				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
 //				Debug.LogError("rspLevelUp.baseUnit : " + DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
 
-				UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 
-				MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
-				
-				MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
+			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
+			
+//			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 
-				MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
+			MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
 		}
 	}
 }

@@ -137,6 +137,13 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	protected T FindChild<T> (string path) where T : Component {
 		if (!string.IsNullOrEmpty (path)) {
+			Transform trans = transform.Find(path);
+
+			if(trans == null) {
+				Debug.LogError("find child is not exist . path is " + path);
+				return default(T);
+			}
+
 			return transform.Find(path).GetComponent<T>();
 		}
 

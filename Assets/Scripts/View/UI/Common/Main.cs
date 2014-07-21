@@ -75,7 +75,6 @@ public class Main : MonoBehaviour {
 		SetResolution();
 
 		ModelManager.Instance.InitConfigData ();
-
 		UIManager.Instance.ChangeScene(SceneEnum.Loading);
     }
 

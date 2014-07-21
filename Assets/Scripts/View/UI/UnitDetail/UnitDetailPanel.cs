@@ -103,16 +103,19 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
 	}
 
- 
-
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 		ClearEffectCache();
+		iTween.Stop ();
+
+		if (friendEffect.gameObject.activeSelf) {
+			friendEffect.gameObject.SetActive(false);
+		}
 
 		if (gameObject.activeSelf) {
-			gameObject.SetActive(false);	
+			gameObject.SetActive(false);
 		}
 	}
 
@@ -152,6 +155,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		lightStar = transform.FindChild ("Top/Star2/Star1").GetComponent<UISprite> ();
 
 		//center
+		friendEffect = FindChild<UISprite>("Center/AE");
+		friendSprite = FindChild<UISprite>("Center/AE/Avatar");
+		friendEffect.gameObject.SetActive (false);
+
+		initPos = FindChild<Transform> ("Center/InitPosition").localPosition;;
+		endPos = FindChild<Transform> ("Center/EndPosition").localPosition;
 
 		InitTabSkill();
 		InitTabStatus ();
@@ -401,34 +410,67 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
 			ShowInfo (oldBlendUnit);
 		} else if (userUnit != null) {
-			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " + userUnit.UnitInfo.ID);
+//			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " );
 			if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
 				unitLock.SetActive(true);
 			} else {
 				unitLock.SetActive(false);
 			}
-
+//			Debug.LogError(" userUnit != null show info " );
 			ShowInfo (userUnit);
 		} else {
+//			Debug.LogError("CallbackView :: ShowInfo for RspLevelUp... : ");
 			RspLevelUp rlu = data as RspLevelUp;
+
 			if(rlu ==null) {
 				return;
 			}
+
 			PlayLevelUp(rlu);
 		}
 	}
 
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
+	UISprite friendEffect;
+	UISprite friendSprite;
+	Vector3 initPos;
+	Vector3 endPos;
+	Vector3 downEndPos;
+	private const float yCoor = -142;
 
 	void PlayLevelUp(RspLevelUp rlu) {
-//		Debug.LogError ("PlayLevelUp");
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-		
-		for (int i = 0; i < rlu.partUniqueId.Count; i++) {
-			TUnitInfo tui = DataCenter.Instance.UserUnitList.Get(rlu.partUniqueId[i]).UnitInfo;
+		TUserUnit tuu = DataCenter.Instance.levelUpFriend;
+		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
+
+		friendEffect.gameObject.SetActive (true);
+		friendEffect.spriteName = tuu.UnitType.ToString ();
+		Transform effectTrans = friendEffect.transform;
+		effectTrans.localPosition = initPos;
+		downEndPos = endPos + (-100f * Vector3.up);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_friend_up);
+		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",endPos,"time",0.35f,"easetype",iTween.EaseType.easeInQuart,"islocal",true,"oncomplete","MoveComplete","oncompletetarget",gameObject));
+	}
+
+	void MoveComplete() {
+		iTween.RotateFrom (friendEffect.gameObject, iTween.Hash ("z", 10, "time", 0.15f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "RotateComplete", "oncompletetarget", gameObject));
+	}
+
+	void RotateComplete() {
+		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",downEndPos,"time", 0.15f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","DropComplete","oncompletetarget",gameObject));
+	}
+
+	void DropComplete() {
+		friendEffect.gameObject.SetActive (false);
+		ShowLevelup ();
+	}
+
+	void ShowLevelup() {
+		for (int i = 0; i < levelUpData.partUniqueId.Count; i++) {
+			TUnitInfo tui = DataCenter.Instance.UserUnitList.Get(levelUpData.partUniqueId[i]).UnitInfo;
 			GameObject go = NGUITools.AddChild(parent, materilItem);
 			go.SetActive(true);
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
@@ -436,13 +478,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.Type);
 			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.Type);
 			material.Enqueue(go);
-			DataCenter.Instance.UserUnitList.DelMyUnit (rlu.partUniqueId[i]);
+			DataCenter.Instance.UserUnitList.DelMyUnit (levelUpData.partUniqueId[i]);
 		}
-
+		
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
+//			Debug.LogError("o : " + o + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.ID);
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
 			Vector3 localposition = unitBodyTex.transform.localPosition; 
 			Vector3 tPos = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f - 480f, localposition.z);

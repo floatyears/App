@@ -28,17 +28,6 @@ public class AttackEffect : MonoBehaviour {
 		AttackEffectItem aei = GetAttackEffectItem ();
 		int atkShow = (int)atk;
 		aei.RefreshInfo(userUnitID, skillID, End, atkShow, recoverHP);
-//		if (inactiveEffect.Count == 0) {
-//			GameObject go = NGUITools.AddChild (gameObject, effect);
-//			aei = go.GetComponent<AttackEffectItem> ();
-//		} else {
-//			aei = inactiveEffect.Dequeue();
-//		}
-//
-//		aei.gameObject.SetActive (true);
-//		aei.RefreshInfo(userUnitID, skillID, End, atk, recoverHP);
-//		attackEffectQueue.Enqueue(aei);
-	
 	}
 
 	void End() {
