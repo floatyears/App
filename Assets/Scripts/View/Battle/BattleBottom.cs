@@ -5,7 +5,7 @@ public class BattleBottom : MonoBehaviour {
 	private Camera bottomCamera;
 	private RaycastHit rch;
 	private TUnitParty upi;
-	private Dictionary<int, GameObject> actorObject = new Dictionary<int, GameObject>();
+	private Dictionary<int, UITexture> actorObject = new Dictionary<int, UITexture>();
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
 
@@ -48,6 +48,9 @@ public class BattleBottom : MonoBehaviour {
 			UISprite bgSpr = actorTrans.Find(i.ToString() + "_bg").GetComponent<UISprite>();
 			UISprite skillBGSpr = actorTrans.Find(i.ToString()+ "_skillBg").GetComponent<UISprite>();
 			UISprite skillSpr = actorTrans.Find(i.ToString() + "_skill").GetComponent<UISprite>();
+			UITexture texture = temp.GetComponent<UITexture>();
+
+			actorObject.Add(i, texture);
 
 			if(userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
@@ -57,30 +60,23 @@ public class BattleBottom : MonoBehaviour {
 				skillSpr.enabled = false;
 			} else{
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
-//				Debug.LogError("tui :  " + tui);
 				tui.GetAsset(UnitAssetType.Profile, o=>{
-//					Debug.LogError("tui.GetAsset : " + o);
 					if(o != null)
-						temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
+						texture.mainTexture = o as Texture2D;
 				});
-				
-				//			DataCenter.Instance.GetProfile(tui.ID, o=>{
-				//				temp.GetComponent<UITexture>().mainTexture = o as Texture2D;
-				//			});
 				
 				tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
 				bgSpr.spriteName = GetBGSpriteName(i, tui.Type);
 				skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 			}
-
 		}
 
-		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
-		for (int i = 0; i < 5; i++) {
-			if(!haveInfo.Contains(i)) {
-				actorObject[i].SetActive(false);
-			}
-		}
+//		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
+//		for (int i = 0; i < 5; i++) {
+//			if(!haveInfo.Contains(i)) {
+//				actorObject[i].SetActive(false);
+//			}
+//		}
 	}
 
 	string GetSkillSpriteName( bbproto.EUnitType type) {
@@ -156,22 +152,29 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	TUserUnit tuu;
+	int prevID = -1;
 	void CheckCollider (string name) {
-//		Debug.LogError ("name : " + name);
 		if (upi == null || battleQuest.role.isMove) {
-//			Debug.LogError("upi is null");
 			return;	
 		}
-		try{
+
+		try {
 			int id = System.Int32.Parse (name);
 			if (upi.UserUnit.ContainsKey (id)) {
-				foreach (var item in actorObject.Values) {
-					if(item.name == name) {
-						item.renderer.material.color = Color.white;
-						continue;
-					}
-					item.renderer.material.color = Color.gray;
+				if(id == prevID) {
+					CloseSkillWindow();
+					prevID = -1;
+					return;
 				}
+				prevID = id;
+				MaskCard (name, true);
+//				foreach (var item in actorObject.Values) {
+//					if(item.name == name) {
+//						item.renderer.material.color = Color.white;
+//						continue;
+//					}
+//					item.renderer.material.color = Color.gray;
+//				}
 				if(IsUseLeaderSkill && id == 0) {
 					LogHelper.Log("--------use leader skill command");
 					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
@@ -183,8 +186,7 @@ public class BattleBottom : MonoBehaviour {
 				BattleMap.waitMove = true;
 				battleQuest.battle.ShieldGameInput(false);
 			}
-		}
-		catch(System.Exception ex) {
+		} catch(System.Exception ex) {
 //			Debug.LogError("exception : " + ex.Message + " name : " + name);
 		}
 	}
@@ -198,10 +200,20 @@ public class BattleBottom : MonoBehaviour {
 		CloseSkillWindow ();
 	}
 
-	void CloseSkillWindow () {
+	void MaskCard(string name,bool mask) {
 		foreach (var item in actorObject.Values) {
-			item.renderer.material.color = Color.white;
-		}
+			if(name == item.name) {
+				item.color = !mask ? Color.gray : Color.white;
+			}
+			else{
+				item.color = mask ? Color.gray : Color.white;
+			}
+		}	
+	}
+
+	void CloseSkillWindow () {
+		MaskCard ("", false);
+
 		battleQuest.topUI.SheildInput(true);
 		BattleMap.waitMove = false;
 		if (battleQuest.battle.isShowEnemy) {
