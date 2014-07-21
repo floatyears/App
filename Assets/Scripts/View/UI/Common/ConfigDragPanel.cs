@@ -88,7 +88,7 @@ public class ConfigDragPanel{
 		HelperListDragPanelArgs.Add("gridArrange", 				 UIGrid.Arrangement.Horizontal		);
 		HelperListDragPanelArgs.Add("scrollMovement", 			 UIScrollView.Movement.Vertical		);
 		HelperListDragPanelArgs.Add("maxPerLine", 					 1													);
-		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, -30, 640, manualHeight - 290));
+		HelperListDragPanelArgs.Add("clipRange", 					 new Vector4(0, -15, 640, 630/*manualHeight - 290*/));
 		HelperListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(1280, 1350, 0)				);
 		HelperListDragPanelArgs.Add("cellWidth", 					 0													);
 		HelperListDragPanelArgs.Add("cellHeight", 					 120												);
@@ -169,7 +169,7 @@ public class ConfigDragPanel{
 		QuestSelectDragPanelArgs.Add("clipRange", 					 	new Vector4(0, -30, 640, manualHeight - 290));
 		QuestSelectDragPanelArgs.Add("scrollBarPosition",			 	new Vector3(1280, 1350, 0)			);
 		QuestSelectDragPanelArgs.Add("cellWidth", 					 	0												);
-		QuestSelectDragPanelArgs.Add("cellHeight", 					 	130											);
+		QuestSelectDragPanelArgs.Add("cellHeight", 					 	122											);
 		QuestSelectDragPanelArgs.Add("depth",							2												);
 	}
 

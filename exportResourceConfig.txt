@@ -1,1 +1,1 @@
-DSavePath:/Users/Resource/Output;Filename:Profile_2;Extension:unity3dnity3dion:unity3dd
+FSavePath:/Users/Resource/Output;Filename:Event_Atlas;Extension:unity3dty3dion:unity3dd

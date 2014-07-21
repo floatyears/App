@@ -47,7 +47,7 @@ public class ApplyView : UIComponentUnity{
 
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
-		string title = TextCenter.GetText("ReceptionCounterTitle");
+		string title = TextCenter.GetText("ApplyCounterTitle");
 		int current = DataCenter.Instance.FriendList.FriendOut.Count;
 		int max = 0;
 		countArgs.Add("title", title);

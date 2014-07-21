@@ -19,6 +19,7 @@ public class SearchFriendWindow : UIComponentUnity{
 		UIEventListener.Get(buttonSearch.gameObject).onClick = ClickButton;
 		input = FindChild< UIInput >("Input");
 		input.value = string.Empty;
+		input.validation = UIInput.Validation.Integer;
 
 		FindChild<UILabel> ("Label_Title").text = TextCenter.GetText ("FriendSearch_Title");
 		FindChild<UILabel> ("Label_Introduction").text = TextCenter.GetText ("FriendSearch_Content");
