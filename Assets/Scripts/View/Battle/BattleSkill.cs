@@ -121,7 +121,7 @@ public class BattleSkill : UIBaseUnity {
 	bool boost = false;
 	bool isRecoveSP = false;
 	bool isBattle = false ;
-	public void Refresh(TUserUnit userUnitInfo, Callback boostSKill,Callback close) {
+	public void Refresh(TUserUnit userUnitInfo, Callback boostSKill, Callback close) {
 		boostAcitveSkill = boostSKill;
 		CloseSkill = close;
 		TUnitInfo tui = userUnitInfo.UnitInfo;
