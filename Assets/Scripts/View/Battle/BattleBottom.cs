@@ -70,13 +70,6 @@ public class BattleBottom : MonoBehaviour {
 				skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 			}
 		}
-
-//		List<int> haveInfo = new List<int> (userUnitInfo.Keys);
-//		for (int i = 0; i < 5; i++) {
-//			if(!haveInfo.Contains(i)) {
-//				actorObject[i].SetActive(false);
-//			}
-//		}
 	}
 
 	string GetSkillSpriteName( bbproto.EUnitType type) {
@@ -139,8 +132,7 @@ public class BattleBottom : MonoBehaviour {
 
 			if(IsUseLeaderSkill) {
 				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
-			}
-			else{
+			} else {
 				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
 			}
 
