@@ -49,9 +49,12 @@ public class TipsLabelUI : MonoBehaviour {
 		}
 	}
 	void SetParent(Transform trans) {
-//		Debug.LogError ("SetParent : " + panel);
-		if(trans)
+		Debug.LogError ("SetParent : " + panel);
+		if (trans) {
+			Debug.Log("trans: " + trans);
 			panel.transform.parent = trans;		
+		}
+			
 		panel.transform.localPosition = Vector3.zero;
 		panel.transform.localScale = Vector3.one;
 	}

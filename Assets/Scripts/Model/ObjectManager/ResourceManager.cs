@@ -230,7 +230,7 @@ public class ResourceManager : MonoBehaviour{
 			return ResourceAssetBundle.UI;
 
 		}else if(path.IndexOf ("Atlas") == 0){
-			if(path.IndexOf("EventAtlas") >0){
+			if(path.IndexOf("Event_Atlas") >= 0){
 				return ResourceAssetBundle.EventAtlas;
 			}
 		}else if(path.IndexOf ("Language") == 0){
@@ -391,7 +391,7 @@ public class ResourceManager : MonoBehaviour{
 		case ResourceAssetBundle.AVATAR_11:
 			return "Atlas_Avatar_11.unity3d";
 		case ResourceAssetBundle.EventAtlas:
-			return "EventAtlas.unity3d";
+			return "Event_Atlas.unity3d";
 			default:
 				break;
 		}

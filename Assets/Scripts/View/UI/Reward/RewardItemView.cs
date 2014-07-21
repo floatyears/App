@@ -221,6 +221,8 @@ public class RewardItemView : MonoBehaviour {
 //	}
 
 	public void ClickTakeAward(){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+
 		RewardView.bonusIDs.Add (data.id);
 		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
 	}

@@ -66,8 +66,14 @@ public class StageSelectView : UIComponentUnity{
 			Destroy(stageItem);
 		}
 
+//		GetData((uint)data);
 		storyStageRoot.gameObject.SetActive(false);
 		eventStageRoot.gameObject.SetActive(true);
+
+
+		ResourceManager.Instance.LoadLocalAsset("Stage/1", o =>{
+			FindChild<UITexture>("Background").mainTexture = o as Texture2D;
+		});
 
 		for (int i = 0; i < eventStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(eventStageRoot, EventItemView.Prefab);
@@ -196,7 +202,7 @@ public class StageSelectView : UIComponentUnity{
 	/// <param name="count">Count.</param>
 	private void GenerateStages(List<TStageInfo> accessStageList){
 		background = FindChild<UITexture>("Background");
-		ResourceManager.Instance.LoadLocalAsset("Stage/" + currPickedCityInfo.ID, o =>{
+		ResourceManager.Instance.LoadLocalAsset("Stage/1" /*+ currPickedCityInfo.ID*/, o =>{
 			background.mainTexture = o as Texture2D;
 		});
 
