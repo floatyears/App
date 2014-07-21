@@ -19,12 +19,11 @@ public class ShopView : UIComponentUnity {
 
 		handler = new GameCurrencyEventHandler ();
 
-//		try{
-
+		try{
 			StoreController.Initialize (new GameCurrencyAssets ());
-//		}catch({
-//				
-//		}
+		}catch(System.Exception e){
+			Debug.LogException(e);
+		}
 
 	}
 	
