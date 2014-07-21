@@ -81,10 +81,14 @@ public class SortPanelView : UIComponentUnity {
 	}
 
 	private void ClickSortBtn(GameObject btn){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+
 		ActivateSortRuleWindow();
 	}
 
 	protected void SelectSortRule(GameObject item){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+
 		//Debug.Log("SortPanelView.SelectSortRule(), click item : " + item.name);
 		UIButton btn = item.transform.GetComponent<UIButton>();
 		SortRule targetRule = sortRuleSelectDic[ btn ];

@@ -64,6 +64,8 @@ public class MusicWIndow : UIComponentUnity {
 	}
 
 	void ClickOk(GameObject obj){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+
 		UIManager.Instance.ChangeScene (SceneEnum.Others);
 //		HideUI ();
 	}

@@ -133,6 +133,8 @@ public class OperationNoticeView : UIComponentUnity {
 	}
 
 	public void ClickOK(){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+
 		bool backHome = false;
 		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.Others)
 			backHome = true;

@@ -96,6 +96,8 @@ public class RewardView : UIComponentUnity {
 	}
 
 	void OnClickOK(GameObject obj){
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+
 		UIManager.Instance.ChangeScene (UIManager.Instance.current.CurrentDecoratorScene);
 //		HideUI ();
 	}
@@ -203,6 +205,7 @@ public class RewardView : UIComponentUnity {
 
 
 	private void OnTakeAward(object data){
+
 		aList [currentContentIndex].Remove (data as BonusInfo);
 		RefreshView ();
 	}
