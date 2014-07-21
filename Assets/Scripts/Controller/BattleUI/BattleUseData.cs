@@ -106,15 +106,13 @@ public class BattleUseData {
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 		GetBaseData (null);
-
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);
 		ac = new AttackController(this, eps, upi);
 		Config.Instance.SwitchCard(els);
 	}
 
-    ~BattleUseData() {
-    }
+    ~BattleUseData() { }
 
     void ListenEvent() {
         MsgCenter.Instance.AddListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
@@ -205,7 +203,6 @@ public class BattleUseData {
 
     void Sucide(object data) {
         Blood = 1;
-//        RefreshBlood();
     }
 
     List<AttackInfo> SortAttackSequence() {
@@ -308,6 +305,7 @@ public class BattleUseData {
 		configBattleUseData.storeBattleData.sp = maxEnergyPoint;
         MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
     }
+
     void TrapTargetPoint(object coordinate) {
         currentCoor = (Coordinate)coordinate;
         ConsumeEnergyPoint();
@@ -347,9 +345,7 @@ public class BattleUseData {
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
 				battleQuest.battle.ShieldInput(false);
-
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_sp_limited_over);
-
 				battleQuest.questFullScreenTips.ShowTexture(QuestFullScreenTips.SPLimit, SPLimit);
 			}
         }

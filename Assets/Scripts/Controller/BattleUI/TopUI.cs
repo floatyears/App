@@ -85,7 +85,6 @@ public class TopUI : UIBaseUnity {
 	}
 
 	public void RefreshTopUI(TQuestDungeonData questData, List<TClearQuestParam> questGet) {
-//		Debug.LogError ("questData current floor : " + questData.currentFloor);
 		int coin = 0;
 		int drop = 0;
 		foreach (var item in questGet) {
@@ -102,7 +101,6 @@ public class TopUI : UIBaseUnity {
 		dropLabel.text = "";
 		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
 		retryButton.isEnabled = true;
-
 	}
 
 	public void SheildInput(bool b) {
