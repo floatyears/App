@@ -16,6 +16,7 @@ public class MsgWindowParams {
     public string contentText;
     public string[] contentTexts;
     public bool inputEnable = false;
+	public bool fullScreenClick = false;
 }
 
 public class MsgWindowView : UIComponentUnity{
@@ -35,6 +36,8 @@ public class MsgWindowView : UIComponentUnity{
     BtnParam btnCenterParam;
     BtnParam btnLeftParam;
     BtnParam btnRightParam;
+
+	BoxCollider clider;
 
     MsgWindowParams msgWindowParams = new MsgWindowParams();
     
@@ -67,10 +70,12 @@ public class MsgWindowView : UIComponentUnity{
 
         msgLabelTop = FindChild<UILabel>("Window/Label_Msg_Top");
         msgLabelBottom = FindChild<UILabel>("Window/Label_Msg_Bottom");
+		clider = GetComponent<BoxCollider> ();
 
         UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
         UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
         UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
+
     }
 	
     void ShowSelf(bool canShow){
@@ -220,12 +225,16 @@ public class MsgWindowView : UIComponentUnity{
     }
 
     void UpdateBtnCenterCallback(BtnParam btnParam){
+		UIEventListener.Get (gameObject).onClick = ClickCenterButton;
+
         btnCenter.gameObject.SetActive(true);
         btnCenterParam = btnParam;
         SetButtonLabelText(btnCenter, btnParam.text);
     }
     
     void ResetBtnCallback(){
+		UIEventListener.Get (gameObject).onClick = null;
+
         btnCenter.gameObject.SetActive(false);
         btnLeft.gameObject.SetActive(false);
         btnRight.gameObject.SetActive(false);
@@ -236,6 +245,8 @@ public class MsgWindowView : UIComponentUnity{
 
 
     void UpdateBtnLeftRightCallback(BtnParam[] btnParam){
+		UIEventListener.Get (gameObject).onClick = ClickLeftButton;
+
         btnLeft.gameObject.SetActive(true);
         btnRight.gameObject.SetActive(true);
 
@@ -283,6 +294,11 @@ public class MsgWindowView : UIComponentUnity{
             return;
         }
         msgWindowParams = nextMsgWindowParams;
+		if (msgWindowParams.fullScreenClick) {
+			clider.enabled = true;
+		} else {
+			clider.enabled = false;
+		}
         ShowSelf(true);  
         LogHelper.Log("UpdateNotePanel() start");
         titleLabel.text = msgWindowParams.titleText;

@@ -150,6 +150,8 @@ public class ShopComponent : ConcreteComponent {
         if (paramsDict.ContainsKey(buyType)){
             return paramsDict[buyType];
         }
+//	//-------------------------
+//		msgWindowParam.fullScreenClick = true;
         return msgWindowParam;
     }
 
