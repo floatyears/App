@@ -62,11 +62,8 @@ public class BattleMap : UIBaseUnity {
 					temp.battleMap = this;
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
-
-					Debug.LogError("item null : " + i + " j : " + j + " temp.isold : " + temp.IsOld);
 				} else {
 					map[i,j].ShowUI();
-					Debug.LogError("item not null : " + i + " j : " + j + " temp.isold : " + temp.IsOld);
 				}
 			}
 		}
@@ -144,11 +141,7 @@ public class BattleMap : UIBaseUnity {
 	}
 
 	public bool ReachMapItem(Coordinate coor) {
-//		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-//			return true;	
-//		}
 		prevMapItem = map[coor.x,coor.y];
-		Debug.LogError ("prevMapItem : " + prevMapItem + " prevMapItem.IsOld : " + prevMapItem.IsOld);
 		return prevMapItem.IsOld;
 	}
 	private Callback callback = null;

@@ -71,8 +71,6 @@ public class BattleUseData {
 		battleQuest = bq;
 		configBattleUseData = ConfigBattleUseData.Instance;
 		Reset ();
-
-//		InitBattleUseData (null);
     }
 
 	public void ResetBlood () {
@@ -93,7 +91,6 @@ public class BattleUseData {
 
 	bool isInit = false;
 	public void InitBattleUseData (TStoreBattleData sbd) {
-		Debug.LogError ("InitBattleUseData");
 		if (isInit) {
 			return;	
 		}
@@ -109,8 +106,6 @@ public class BattleUseData {
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 		GetBaseData (null);
-
-//		Debug.LogError ("InitBattleUseData ");
 
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);

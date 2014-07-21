@@ -569,22 +569,17 @@ public class DataCenter {
 				uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
 				UIAtlas atlas = null;
 				if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
-						string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
-						ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
-								GameObject source = o as GameObject;
-								atlas = source.GetComponent<UIAtlas> ();
-								if (!avatarAtalsDic.ContainsKey (index))
-										avatarAtalsDic.Add (index, atlas);
+					string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
+					ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
+					GameObject source = o as GameObject;
+					atlas = source.GetComponent<UIAtlas> ();
+					if (!avatarAtalsDic.ContainsKey (index))
+						avatarAtalsDic.Add (index, atlas);
 
-//								if (atlas == null) { 
-//										Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
-//								}
-
-								BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-								if (resouceCB != null)
-										resouceCB (atlas);
-//				Debug.LogError ("load avatar atlas success : " + atlas.name);
-						});
+					BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+					if (resouceCB != null)
+							resouceCB (atlas);
+				});
 				} else {
 						BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
 						if (resouceCB != null)
