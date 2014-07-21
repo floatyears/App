@@ -42,11 +42,11 @@ public class BattleSkill : UIBaseUnity {
 	public BattleQuest battleQuest;
 
 	void MeetEnemy(object data) {
-		boost = true;	
+		boost = true;
 	}
 
 	void BattleEnd(object data) {
-		boost = false;	
+		boost = false;
 	}
 
 	void InitUI () {
@@ -105,11 +105,11 @@ public class BattleSkill : UIBaseUnity {
 
 	void Boost(GameObject go) {
 		if (boostAcitveSkill == null) {
-			return;	
+			return;
 		}
 		if (isBattle || isRecoveSP) {
-			boostAcitveSkill ();	
-		} 
+			boostAcitveSkill ();
+		}
 	}
 
 	public void Close(GameObject go) {
@@ -126,16 +126,16 @@ public class BattleSkill : UIBaseUnity {
 		CloseSkill = close;
 		TUnitInfo tui = userUnitInfo.UnitInfo;
 
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.LeaderSkill, SkillType.LeaderSkill); //GetSkill (tui.LeaderSkill);
+		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.LeaderSkill, SkillType.LeaderSkill);
 		Refresh (0, sbi);
 
-		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill1, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill1);
+		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill1, SkillType.NormalSkill);
 		Refresh (1, sbi);
 
-		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill2, SkillType.NormalSkill); 				//.GetSkill (tui.NormalSkill2);
+		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill2, SkillType.NormalSkill);
 		Refresh (2, sbi);
 
-		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill); 
+		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);
 		Refresh (3, sbi);
 
 		bool notNull = sbi != null;
@@ -153,11 +153,11 @@ public class BattleSkill : UIBaseUnity {
 			boostButton.isEnabled = false;
 		}
 		if (sbi == null) {
-			roundLabel.text = "";		
+			roundLabel.text = "";
 		}  else {
-			roundLabel.text =  sbi.BaseInfo.skillCooling + "  round";
+			roundLabel.text = sbi.BaseInfo.skillCooling + "  round";
 		}
-		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);				//.GetSkill (tui.PassiveSkill);
+		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);	
 		Refresh (4, sbi);
 	}
 
@@ -183,11 +183,9 @@ public class SkillItem {
 		if (sbi == null) {
 			if(isPassiveSkill) {
 				ClearPassiveSkill();
-			}
-			else{
+			} else{
 				Clear();
 			}
-//			Clear();
 			return;
 		}
 		skillTypeLabel.enabled = true;
@@ -203,7 +201,6 @@ public class SkillItem {
 	}
 
 	void Clear() {
-//		skillTypeLabel.enabled = false;
 		skillName.text = "-";
 		skillDescribeLabel.text = "-";
 		ShowSprite (null);
@@ -230,8 +227,8 @@ public class SkillItem {
 
 		for (int i = 0; i < blocks.Count; i++) {
 			skillSprite[i].spriteName = blocks[i].ToString();
-//			Debug.LogError(" i : " + i + "  skillSprite[i] : " + skillSprite[i] + " name : " + skillSprite[i].spriteName);
 		}
+
 		for (int i = blocks.Count; i < skillSprite.Count; i++) {
 			skillSprite[i].spriteName = string.Empty;	
 		}
