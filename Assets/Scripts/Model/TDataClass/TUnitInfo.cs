@@ -230,8 +230,6 @@ public class TUnitInfo : ProtobufDataBase {
 
 		// growCurve = 0.7, 1.0, 1.5
 		float result = pi.min + (pi.max-pi.min) * Mathf.Pow( (float)(level-1)/(MaxLevel-1) , (pi.growCurve) );
-
-//		Debug.LogError("id : " + ID +"Unit.GetCurveValue("+level+") min:"+pi.min+" max:"+pi.max+" maxLv:"+MaxLevel+" grow:"+pi.growCurve+" result:"+ Mathf.FloorToInt(result));
 		return Mathf.FloorToInt(result);
 	}
 
@@ -261,9 +259,7 @@ public class TUnitInfo : ProtobufDataBase {
 	public int GetLevelByExp(int totalExp) {
 		int level = 1;
 		while (level < MaxLevel) {
-
 			int exp = GetCurveValue(level+1, instance.powerType.expType);
-//			Debug.LogError(">>>> level:"+level+" totalExp:"+totalExp+" exp:"+exp);
 			if ( totalExp < exp ){
 				break;
 			}
@@ -296,24 +292,6 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
-//	public int HPType {
-//		get{
-//			return TPowerTableInfo.UnitInfoHPType;
-//		}
-//	}
-//	
-//	public int AttackType {
-//		get{
-//			return TPowerTableInfo.UnitInfoAttackType;
-//		}
-//	}
-//	
-//	public int ExpType {
-//		get{
-//			return TPowerTableInfo.UnitInfoExpType;
-//		}
-//	}
-
 	public int DevourExp {
 		get {
 			return instance.devourValue;
@@ -338,15 +316,6 @@ public class TUnitInfo : ProtobufDataBase {
 			}
 		} else {
 			DataCenter.Instance.GetProfile(ID, null, callback);
-//			if(profileTexture == null) {
-//				path = string.Format("Profile/{0}", ID) ;
-//				ResourceManager.Instance.LoadLocalAsset(path,o=>{
-//					profileTexture = o as Texture2D;
-//					callback(o);
-//				});
-//			}else{
-//				callback(profileTexture);
-//			}
 		}
 	}
 
