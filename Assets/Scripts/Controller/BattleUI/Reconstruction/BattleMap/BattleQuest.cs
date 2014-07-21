@@ -409,13 +409,12 @@ public class BattleQuest : UIBase {
 		TStoreBattleData sbd = configBattleUseData.storeBattleData;
 
 		// 0 is not in fight.
-		if (sbd.isBattle == 0) { 
+		if (sbd.isBattle == 0) {
 			if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
 				BossDead();
 				return;
 			}
-
-			return;	
+			return;
 		}
 
 		BattleMap.waitMove = false;
@@ -428,14 +427,13 @@ public class BattleQuest : UIBase {
 			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
 
-		if (sbd.isBattle == 1) { // 1 == battle enemy
+		if (sbd.isBattle == 1) {		// 1 == battle enemy
 			currentMapData.Enemy = temp;
 			bud.InitEnemyInfo (currentMapData);
-			if(sbd.attackRound == 0) { // 0 == first attack
+			if(sbd.attackRound == 0) {	// 0 == first attack
 				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 			}
-		}
-		else if (sbd.isBattle == 2) {	// 2 == battle boss
+		} else if (sbd.isBattle == 2) {	// 2 == battle boss
 			battleEnemy = true;
 			battle.ShieldInput (true);
 			questDungeonData.Boss= temp;

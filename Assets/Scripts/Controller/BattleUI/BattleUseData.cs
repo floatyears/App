@@ -98,7 +98,7 @@ public class BattleUseData {
 		els.Excute();
 		if (sbd == null) {
 			blood = maxBlood = upi.GetInitBlood ();
-			maxEnergyPoint =DataCenter.maxEnergyPoint;
+			maxEnergyPoint = DataCenter.maxEnergyPoint;
 		} else {
 			maxBlood = upi.GetInitBlood ();
 			blood = sbd.hp;
