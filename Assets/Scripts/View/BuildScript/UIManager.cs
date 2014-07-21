@@ -128,26 +128,7 @@ public class UIManager {
 	}
 
 	public SceneEnum nextScene;
-
-//	public void ShowPopUpWindow(SceneEnum sEnum){
-//		ConcreteComponent component = null;
-//		switch(sEnum){
-//			case SceneEnum.Music:
-//			component = CreatComponent<MusicComponent>(UIConfig.otherMusicSettingName);
-//				break;
-//
-//		}
-//		component.CreatUI ();
-//	}
-//
-//	private T CreatComponent<T>(string name) where T : ConcreteComponent {
-//		T component = ViewManager.Instance.GetComponent (name) as T;
-//		if (component == null) {
-//			component = Activator.CreateInstance(typeof(T), name) as T;
-//		}
-//		LogHelper.Log ("component: " + component);
-//		return component;
-//	}
+	
 
 	public void ChangeScene(SceneEnum sEnum) {
 		if (forbidChangeScene) {
