@@ -282,7 +282,7 @@ public class FightReadyView : UIComponentUnity {
 		TUnitInfo unitInfo = pickedHelperInfo.UserUnit.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
 		if(skillId == 0){
-			Debug.LogError("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
+			Debug.Log("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		}
 		else{

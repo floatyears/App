@@ -99,12 +99,6 @@ public class ViewManager {
 	private TipsLabelUI tipsLabelUI;
 
 	private GameObject popUpBg;
-//	private UILabel trapLabel;
-//	public UILabel TrapLabel{
-//		get {
-//			return trapLabel;
-//		}
-//	}
 
 	public void Init(GameObject ui){
 		mainUIRoot = ui;		

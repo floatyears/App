@@ -209,6 +209,11 @@ public class DataCenter {
 	/// </summary>
 	public TUserUnit oldUserUnitInfo = null;
 
+	/// <summary>
+	/// store levelup helper info.
+	/// </summary>
+	public TUserUnit levelUpFriend = null;
+
     public UserUnitList UserUnitList {
         get { 
             UserUnitList ret = getData(ModelEnum.UserUnitList) as UserUnitList;
@@ -569,22 +574,17 @@ public class DataCenter {
 				uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
 				UIAtlas atlas = null;
 				if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
-						string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
-						ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
-								GameObject source = o as GameObject;
-								atlas = source.GetComponent<UIAtlas> ();
-								if (!avatarAtalsDic.ContainsKey (index))
-										avatarAtalsDic.Add (index, atlas);
+					string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
+					ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
+					GameObject source = o as GameObject;
+					atlas = source.GetComponent<UIAtlas> ();
+					if (!avatarAtalsDic.ContainsKey (index))
+						avatarAtalsDic.Add (index, atlas);
 
-//								if (atlas == null) { 
-//										Debug.LogError ("LoadAvatarAtlas(), atlas is NULL");
-//								}
-
-								BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-								if (resouceCB != null)
-										resouceCB (atlas);
-//				Debug.LogError ("load avatar atlas success : " + atlas.name);
-						});
+					BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+					if (resouceCB != null)
+							resouceCB (atlas);
+				});
 				} else {
 						BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
 						if (resouceCB != null)
@@ -597,19 +597,35 @@ public class DataCenter {
 	public void GetProfile(uint unitID, UITexture uiTexture = null, ResourceCallback resouceCB = null) {
 		Texture2D profile = null;
 		if (!profileCache.TryGetValue (unitID, out profile)) {
-			string path = string.Format("Profile/{0}", unitID);
-			ResourceManager.Instance.LoadLocalAsset(path,o=>{
-				profileCache.Add(unitID, profile);
-				profile = o as Texture2D;		
+			string path = string.Format ("Profile/{0}", unitID);
+			ResourceManager.Instance.LoadLocalAsset (path, o => {
+//				Debug.Log ("GetProfile : " + path + " o : " + o);
+				profile = o as Texture2D;	
+				profileCache.Add (unitID, profile );
+					
+				if (uiTexture != null) {
+					uiTexture.mainTexture = profile;
+				}
+
+				if (resouceCB != null) {
+					resouceCB (profile);
+				}
 			});
-		}
+		} else {
+//			Debug.Log ("GetProfile : " + unitID + " profile : " + profile);
+//			if(unitID == 1) {
+//				foreach (var item in profileCache) {
+//					Debug.LogError("item.key : " + item.Key + " item.value : " + item.Value);
+//				}
+//			}
 
-		if(uiTexture != null) {
-			uiTexture.mainTexture = profile;
-		}
-
-		if(resouceCB != null) {
-			resouceCB (profile);
+			if (uiTexture != null) {
+				uiTexture.mainTexture = profile;
+			}
+			
+			if (resouceCB != null) {
+				resouceCB (profile);
+			}
 		}
 	}
 }

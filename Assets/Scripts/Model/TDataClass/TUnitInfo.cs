@@ -337,15 +337,16 @@ public class TUnitInfo : ProtobufDataBase {
 				callback(avatarTexture);
 			}
 		} else {
-			if(profileTexture == null) {
-				path = string.Format("Profile/{0}", ID) ;
-				ResourceManager.Instance.LoadLocalAsset(path,o=>{
-					profileTexture = o as Texture2D;
-					callback(o);
-				});
-			}else{
-				callback(profileTexture);
-			}
+			DataCenter.Instance.GetProfile(ID, null, callback);
+//			if(profileTexture == null) {
+//				path = string.Format("Profile/{0}", ID) ;
+//				ResourceManager.Instance.LoadLocalAsset(path,o=>{
+//					profileTexture = o as Texture2D;
+//					callback(o);
+//				});
+//			}else{
+//				callback(profileTexture);
+//			}
 		}
 	}
 

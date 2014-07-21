@@ -13,6 +13,9 @@ public class VictoryEffect : UIComponentUnity {
 	private UISprite frontCircle;
 	private UISprite backCircle;
 
+	private TweenScale rankUpScale;
+	private UISprite rankUpSprite;
+
 	private UIButton sureButton;
 	private GameObject parent;
 	private GameObject dropItem;
@@ -169,7 +172,7 @@ public class VictoryEffect : UIComponentUnity {
 
 	IEnumerator UpdateLevelNumber () {
 		yield return new WaitForSeconds (1f);
-		while (gotExp > 0) {	
+		while (gotExp > 0) {
 			if(gotExp - add<= 0) {
 				add = gotExp;
 			}
@@ -184,12 +187,20 @@ public class VictoryEffect : UIComponentUnity {
 				rank++;
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+				SetRankUpEnable(true);
+				yield return new WaitForSeconds(0.5f);
+				rankUpScale.ResetToBeginning();
+				SetRankUpEnable(false);
 			}
 			yield return new WaitForSeconds(0.1f);
 		}
 	}
 
-				                                  
+	void SetRankUpEnable(bool enable) {
+		rankUpSprite.enabled = enable;
+		rankUpScale.enabled = enable;
+	}
+	
 	void RankUp () {
 //		battleQuest.battle.ShieldInput(true);
 	}
@@ -226,6 +237,8 @@ public class VictoryEffect : UIComponentUnity {
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
 		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
+		rankUpScale = FindChild<TweenScale>("RankUp");
+		rankUpSprite = rankUpScale.GetComponent<UISprite> ();
 	}
 
 	void Sure(GameObject go) {
