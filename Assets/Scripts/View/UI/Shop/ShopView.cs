@@ -18,8 +18,14 @@ public class ShopView : UIComponentUnity {
 		InitUI();
 
 		handler = new GameCurrencyEventHandler ();
-		
-		StoreController.Initialize (new GameCurrencyAssets ());
+
+//		try{
+
+			StoreController.Initialize (new GameCurrencyAssets ());
+//		}catch({
+//				
+//		}
+
 	}
 	
 	public override void ShowUI () {
