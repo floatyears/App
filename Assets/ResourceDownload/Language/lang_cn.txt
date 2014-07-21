@@ -17,7 +17,7 @@ Error=错误
 Btn_JumpScene_FriendList=好友列表
 Btn_JumpScene_Apply=申请好友
 Btn_JumpScene_Information=通知信息
-Btn_JumpScene_Reception=好友请求
+Btn_JumpScene_Reception=接受请求
 Btn_JumpScene_Search=查找好友
 Btn_JumpScene_UserID=用户ID
 
@@ -143,7 +143,7 @@ SCENE_NAME_LEVEL_UP=强化
 SCENE_NAME_OTHERS=其它
 SCENE_NAME_PARTY=编队
 SCENE_NAME_QUEST_SELECT=战场选择
-SCENE_NAME_RECEPTION=好友请求
+SCENE_NAME_RECEPTION=接受请求
 SCENE_NAME_ROLE_SELECT=选择主角
 SCENE_NAME_SCRATCH=抽卡
 SCENE_NAME_FRIEND_SEARCH=查找好友
