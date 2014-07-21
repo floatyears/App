@@ -244,6 +244,7 @@ Text_Select=选择
 Text_SeeInfo=查看信息
 Text_Exit=退出
 Text_LastLogin_Colon=最近登录：
+Text_LastLogin=最近登录
 ApplyFriendNote=确定要提交好友申请吗？
 
 #sell
