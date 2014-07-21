@@ -76,6 +76,15 @@ Text_Point=Pt
 Text_Rank=Rank
 Text_Rank_Colon=Rank:
 Text_Name_Colon=Name:
+Text_Name=Name
+
+#result view
+Support_Friend=Support Friend
+NO_NAME=No Name
+Last_LoginTimeD={0} days ago
+Last_LoginTimeH={0} hours ago
+Last_LoginTimeM={0} minutes ago
+Less_OneMin=Less Than One Minute
 
 ##City Name
 City_Name_1=Misty Mountain

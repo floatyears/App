@@ -30,19 +30,19 @@ public sealed class TimeHelper {
 		int minutes = (System.DateTime.Now - latestPlayTime).Minutes;
 		
 		if(days > 0){
-			text = string.Format("{0} days ago", days);
+			text = string.Format(TextCenter.GetText("Last_LoginTimeD"), days);
 			return text;
 		}
 		else if(hours > 0){
-			text = string.Format("{0} hours ago", hours);
+			text = string.Format(TextCenter.GetText("Last_LoginTimeH"), hours);
 			return text;
 		}
 		else if(minutes >= 1){
-			text = string.Format("{0} minutes ago", minutes);      
+			text = string.Format(TextCenter.GetText("Last_LoginTimeM"), minutes);      
 			return text;
 		}
 		else{
-			text = "Less than 1 minutes";
+			text = TextCenter.GetText("Less_OneMin");
 			return text;
 		}
 	}

@@ -119,7 +119,7 @@ public class ResultView : UIComponentUnity {
 		avatarBgSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBackgroundName();
 		avatarBorderSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBorderSprName();
 
-		nameLabel.text = (viewData.NickName == string.Empty) ? "NO NAME" : viewData.NickName;
+		nameLabel.text = (viewData.NickName == string.Empty) ? TextCenter.GetText("NO_NAME") : viewData.NickName;
 		rankLabel.text = viewData.Rank.ToString();
 		latestPlayLabel.text = TimeHelper.GetLatestPlayTime(viewData.LastPlayTime);
 		idLabel.text = viewData.UserId.ToString();

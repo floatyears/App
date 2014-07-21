@@ -91,10 +91,10 @@ public class CatalogUnitItem : MyUnitItem {
 		set{
 			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 			state = value;
-//			Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID);
+
 			switch (state) {
 				case CatalogState.Got : 
-
+//				Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID + " state: " + state);
 //				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
 //					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
