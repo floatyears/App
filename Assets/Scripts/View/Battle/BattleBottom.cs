@@ -32,7 +32,7 @@ public class BattleBottom : MonoBehaviour {
 			battleSkillObject.layer = GameLayer.BottomInfo;
 			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
 			battleSkill.Init ("BattleSkill");
-			battleSkillObject.transform.localPosition = new Vector3(2f,-110f,0f);
+			battleSkillObject.transform.localPosition = new Vector3(2f, -110f, 0f);
 			battleSkillObject.SetActive (false);
 		});
 
