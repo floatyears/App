@@ -26,23 +26,27 @@ public class GachaWindowView : UIComponentUnity {
     public override void ResetUIState() {
         base.ResetUIState();
         SetActive(false);
-        Reset();
+      
     }
     
     public override void ShowUI () {
         base.ShowUI ();
         AddListener();
-
+//		Debug.LogError ("show ui : " + UIManager.Instance.baseScene.PrevScene);
 		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
+			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
 			ShowUnitGrid();
 		}
-    }
+	}
     
     public override void HideUI () {
         base.HideUI ();
         RemoveListener();
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
+
+		if(UIManager.Instance.nextScene != SceneEnum.ShowCardEffect)
+			Reset();
     }
     
     public override void DestoryUI () {
@@ -89,7 +93,7 @@ public class GachaWindowView : UIComponentUnity {
 		});
     }
 
-    private Texture2D GetChessStarTextureByRareLevel(int rare){
+    private Texture2D GetChessStarTextureByRareLevel(int rare) {
 		if (rare >= 4) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_card_4);
 		}
@@ -98,11 +102,11 @@ public class GachaWindowView : UIComponentUnity {
         return texture;
     }
     
-    private void SetMenuBtnEnable(bool enable){
+    private void SetMenuBtnEnable(bool enable) {
         MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
     }
 
-    private void SetTitleLabel(object args){
+    private void SetTitleLabel(object args) {
         string titleText = args as string;
         titleLabel.text = titleText;
     }
@@ -178,13 +182,13 @@ public class GachaWindowView : UIComponentUnity {
     }
 
     private void Reset(){
+//		Debug.LogError (" reset ");
         displayingResult = false;
         clickedGrids.Clear();
         gridUnitDict.Clear();
         currentUid = 0;
         tryCount = 0;
         pickedGridIdList.Clear();
-
         foreach (var item in gridDict) {
             ResetOneGrid(item.Key as GameObject);
         }

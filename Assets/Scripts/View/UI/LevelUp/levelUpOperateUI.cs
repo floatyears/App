@@ -47,7 +47,7 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 		if (data != null) {
 				bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
 				if (rspLevelUp.header.code != (int)ErrorCode.SUCCESS) {
-						Debug.LogError ("Rsp code: " + rspLevelUp.header.code + ", error:" + rspLevelUp.header.error);
+//						Debug.LogError ("Rsp code: " + rspLevelUp.header.code + ", error:" + rspLevelUp.header.error);
 						ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow (rspLevelUp.header.code);
 						return;
 				}
@@ -62,8 +62,8 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 		
 				TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
-				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
-				Debug.LogError("rspLevelUp.baseUnit : " + DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
+//				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
+//				Debug.LogError("rspLevelUp.baseUnit : " + DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
 
 				UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 
