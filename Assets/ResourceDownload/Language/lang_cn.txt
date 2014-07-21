@@ -76,6 +76,15 @@ Text_Point=点
 Text_Rank=等级
 Text_Rank_Colon=等级：
 Text_Name_Colon=名称：
+Text_Name=名称
+
+#result view
+Support_Friend=添加好友
+NO_NAME=暂无名称
+Last_LoginTimeD={0}天前
+Last_LoginTimeH={0}小时前
+Last_LoginTimeM={0}分钟前
+Less_OneMin=少于一分钟
 
 ##City Name
 City_Name_1=雾隐山脉

@@ -76,7 +76,7 @@ public class MyUnitItem : BaseUnitItem {
 		lockSpr = transform.FindChild("Sprite_Lock").GetComponent<UISprite>();
 		partyLabel = transform.FindChild("Label_Party").GetComponent<UILabel>();
 		partyLabel.enabled = false;
-		partyLabel.text = "Party";
+		partyLabel.text = TextCenter.GetText("Text_Party");
 		partyLabel.color = Color.red;
 
 		mWidget = GetComponent<UIWidget> ();
