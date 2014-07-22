@@ -240,7 +240,7 @@ public class TFriendUnitSortAttribute : TFriendUnitSortBase{
 		base.Compare(x,y);
 		int firstType = (int)firstFriendUnit.UserUnit.UnitInfo.Type;
 		int secondType = (int)secondFriendUnit.UserUnit.UnitInfo.Type;
-		return firstType.CompareTo(secondType);
+		return -firstType.CompareTo(secondType);
 	}		
 }
 

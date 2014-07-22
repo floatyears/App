@@ -66,10 +66,8 @@ public class StageSelectView : UIComponentUnity{
 			Destroy(stageItem);
 		}
 
-//		GetData((uint)data);
 		storyStageRoot.gameObject.SetActive(false);
 		eventStageRoot.gameObject.SetActive(true);
-
 
 		ResourceManager.Instance.LoadLocalAsset("Stage/1", o =>{
 			FindChild<UITexture>("Background").mainTexture = o as Texture2D;

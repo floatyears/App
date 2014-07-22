@@ -298,16 +298,13 @@ public class BattleQuest : UIBase {
 		ClearQuestParam clear = new ClearQuestParam ();
 		TClearQuestParam cqp = new TClearQuestParam (clear);
 		_questData.Add (cqp);
-		Debug.LogError ("questDungeonData.currentFloor : " + questDungeonData.currentFloor);
 		topUI.SetFloor (questDungeonData.currentFloor + 1, questDungeonData.Floors.Count);
-
 		if (BattleUseData.maxEnergyPoint >= 10) {
 			BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
 		} else {
 			BattleUseData.maxEnergyPoint += 10;
 		}
 		configBattleUseData.storeBattleData.roleCoordinate = configBattleUseData.roleInitCoordinate;
-//		configBattleUseData.StoreQuestDungeonData (questDungeonData);
 		configBattleUseData.StoreMapData (_questData);
 
 		Reset ();
