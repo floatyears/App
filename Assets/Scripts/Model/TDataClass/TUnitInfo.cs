@@ -8,8 +8,7 @@ public class TUnitInfo : ProtobufDataBase {
 	public TUnitInfo (object instance) : base (instance) {
 		this.instance = instance as UnitInfo;
 	}
-	
-//	public int unitBaseInfoID = 0;
+
 	public UnitInfo Object{
 		get{
 			return instance;
@@ -120,45 +119,43 @@ public class TUnitInfo : ProtobufDataBase {
 	}
 		
 	public string UnitRace{
-			get{
-				EUnitRace race = instance.race;
-				switch ( race ){
-				case EUnitRace.HUMAN : 
-					return TextCenter.GetText("RACE_Human");
-					break;
-				case EUnitRace.LEGEND : 
-					return TextCenter.GetText("RACE_Legend");
-					break;
-				case EUnitRace.MONSTER : 
-					return TextCenter.GetText("RACE_Monster");
-					break;
-				case EUnitRace.MYTHIC : 
-					return TextCenter.GetText("RACE_Mythic");
-					break;
-				case EUnitRace.BEAST : 
-					return TextCenter.GetText("RACE_Beast");
-					break;
-				case EUnitRace.UNDEAD : 
-					return TextCenter.GetText("RACE_Undead");
-					break;
-				case EUnitRace.SCREAMCHEESE: 
-					return TextCenter.GetText("RACE_Screamcheese");
-					break;
-				case EUnitRace.DRAGON:
-					return TextCenter.GetText("RACE_Dragon");
-					break;
-				case EUnitRace.EVOLVEPARTS:
-					return TextCenter.GetText("RACE_Evolveparts");
-					break;
-				default:
-					return string.Empty;
-					break;
-				}
+		get{
+			EUnitRace race = instance.race;
+			switch ( race ){
+			case EUnitRace.HUMAN : 
+				return TextCenter.GetText("RACE_Human");
+				break;
+			case EUnitRace.LEGEND : 
+				return TextCenter.GetText("RACE_Legend");
+				break;
+			case EUnitRace.MONSTER : 
+				return TextCenter.GetText("RACE_Monster");
+				break;
+			case EUnitRace.MYTHIC : 
+				return TextCenter.GetText("RACE_Mythic");
+				break;
+			case EUnitRace.BEAST : 
+				return TextCenter.GetText("RACE_Beast");
+				break;
+			case EUnitRace.UNDEAD : 
+				return TextCenter.GetText("RACE_Undead");
+				break;
+			case EUnitRace.SCREAMCHEESE: 
+				return TextCenter.GetText("RACE_Screamcheese");
+				break;
+			case EUnitRace.DRAGON:
+				return TextCenter.GetText("RACE_Dragon");
+				break;
+			case EUnitRace.EVOLVEPARTS:
+				return TextCenter.GetText("RACE_Evolveparts");
+				break;
+			default:
+				return string.Empty;
+				break;
 			}
 		}
-
-
-
+	}
+	
 	public string UnitType {
 		get{
 			EUnitType unitType =  instance.type;
@@ -230,8 +227,6 @@ public class TUnitInfo : ProtobufDataBase {
 
 		// growCurve = 0.7, 1.0, 1.5
 		float result = pi.min + (pi.max-pi.min) * Mathf.Pow( (float)(level-1)/(MaxLevel-1) , (pi.growCurve) );
-
-//		Debug.LogError("id : " + ID +"Unit.GetCurveValue("+level+") min:"+pi.min+" max:"+pi.max+" maxLv:"+MaxLevel+" grow:"+pi.growCurve+" result:"+ Mathf.FloorToInt(result));
 		return Mathf.FloorToInt(result);
 	}
 
@@ -261,9 +256,7 @@ public class TUnitInfo : ProtobufDataBase {
 	public int GetLevelByExp(int totalExp) {
 		int level = 1;
 		while (level < MaxLevel) {
-
 			int exp = GetCurveValue(level+1, instance.powerType.expType);
-//			Debug.LogError(">>>> level:"+level+" totalExp:"+totalExp+" exp:"+exp);
 			if ( totalExp < exp ){
 				break;
 			}
@@ -296,24 +289,6 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
-//	public int HPType {
-//		get{
-//			return TPowerTableInfo.UnitInfoHPType;
-//		}
-//	}
-//	
-//	public int AttackType {
-//		get{
-//			return TPowerTableInfo.UnitInfoAttackType;
-//		}
-//	}
-//	
-//	public int ExpType {
-//		get{
-//			return TPowerTableInfo.UnitInfoExpType;
-//		}
-//	}
-
 	public int DevourExp {
 		get {
 			return instance.devourValue;
@@ -338,15 +313,6 @@ public class TUnitInfo : ProtobufDataBase {
 			}
 		} else {
 			DataCenter.Instance.GetProfile(ID, null, callback);
-//			if(profileTexture == null) {
-//				path = string.Format("Profile/{0}", ID) ;
-//				ResourceManager.Instance.LoadLocalAsset(path,o=>{
-//					profileTexture = o as Texture2D;
-//					callback(o);
-//				});
-//			}else{
-//				callback(profileTexture);
-//			}
 		}
 	}
 

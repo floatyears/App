@@ -57,7 +57,7 @@ public class ItemCounterView : UIComponentUnity{
 				maxLabel.text = viewInfo["title"] + "[FF0000]" + TextCenter.GetText("CounterCurrent" , current) + "[-]" + TextCenter.GetText("CounterMax" , max);
 //				curLabel.color = Color.red;
 			} else{
-				maxLabel.text = viewInfo["title"] + "[FF0000]" + TextCenter.GetText("CounterCurrent" , current) + "[-]" + TextCenter.GetText("CounterMax" , max);
+				maxLabel.text = viewInfo["title"] + "[000000]" + TextCenter.GetText("CounterCurrent" , current) + "[-]" + TextCenter.GetText("CounterMax" , max);
 //				curLabel.color = Color.white;
 			}
 		}
