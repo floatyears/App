@@ -37,7 +37,7 @@ public class FightReadyView : UIComponentUnity {
 		InitUI();
 	}
 
-	public override void ShowUI(){
+	public override void ShowUI() {
 		base.ShowUI();
 		AddCmdLisenter();
 		ShowUIAnimation();
