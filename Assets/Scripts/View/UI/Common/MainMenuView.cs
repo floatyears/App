@@ -115,8 +115,9 @@ public class MainMenuView : UIComponentUnity{
 //			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
 			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile,o=>{
 				leaderAvatarTex.mainTexture = o as Texture2D;
-				SetUVByConfig();
+
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
+				SetUVByConfig(leaderUnitInfo.ShowPos);
 			} );
 
 			return;
@@ -128,8 +129,9 @@ public class MainMenuView : UIComponentUnity{
 //			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED." + newestLeaderUnit.UnitInfo.ID + " leaderUnitInfo: " + leaderUnitInfo.ID);
 			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile, o =>{
 				leaderAvatarTex.mainTexture = o as Texture2D;
-				SetUVByConfig();
+
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
+				SetUVByConfig(leaderUnitInfo.ShowPos);
 			});
  
 
@@ -141,13 +143,13 @@ public class MainMenuView : UIComponentUnity{
 		}
 	}
 
-	private void SetUVByConfig(){
+	private void SetUVByConfig(bbproto.UVPosition pos){
 		//Debug.Log("SetUVByConfig()...");
 		//TODO read from uv config file
-		float x = 0.21f;
-		float y = 0.35f;
-		float w = 0.52f;
-		float h = 0.55f;
+		float x = pos.x;//0.21f;
+		float y = pos.y;//0.35f;
+		float w = pos.w;//0.52f;
+		float h = pos.h;//0.55f;
 		leaderAvatarTex.uvRect = new Rect(x, y, w, h);
 	}
 }

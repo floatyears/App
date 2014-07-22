@@ -32,7 +32,6 @@ public class GachaWindowView : UIComponentUnity {
     public override void ShowUI () {
         base.ShowUI ();
         AddListener();
-//		Debug.LogError ("show ui : " + UIManager.Instance.baseScene.PrevScene);
 		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
 			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
 			ShowUnitGrid();
@@ -122,6 +121,7 @@ public class GachaWindowView : UIComponentUnity {
         MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);
         SetMenuBtnEnable(false);
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
+//		Debug.LogError ("Enter gachaWindowInfo : " + gachaWindowInfo.unitList.Count);
         if (gachaWindowInfo != null){
             gachaInfo = gachaWindowInfo;
             SyncGachaInfosAtStart();
@@ -178,6 +178,7 @@ public class GachaWindowView : UIComponentUnity {
         if (GetTryCount() >= gachaInfo.totalChances){
             return;
         }
+//		Debug.LogError ("gachaInfo.unitList[GetTryCount()]  : " + gachaInfo.unitList.Count + "  [GetTryCount ()] ; " + GetTryCount ());
         StartShowGachaGridResult(grid, gachaInfo.unitList[GetTryCount()]);
     }
 

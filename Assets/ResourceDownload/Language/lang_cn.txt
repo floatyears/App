@@ -17,7 +17,7 @@ Error=错误
 Btn_JumpScene_FriendList=好友列表
 Btn_JumpScene_Apply=申请好友
 Btn_JumpScene_Information=通知信息
-Btn_JumpScene_Reception=好友请求
+Btn_JumpScene_Reception=接受请求
 Btn_JumpScene_Search=查找好友
 Btn_JumpScene_UserID=用户ID
 
@@ -40,7 +40,7 @@ Btn_Submit_Evolve=进化
 Btn_Submit_LevelUp=强化
 
 Btn_FriendList_Update=更新
-Btn_Reception_RefuseAll=拒绝
+Btn_Reception_RefuseAll=全部拒绝
 Btn_Submit_SearchFriend=查找
 Btn_UserID_OK=返回
 
@@ -152,7 +152,7 @@ SCENE_NAME_LEVEL_UP=强化
 SCENE_NAME_OTHERS=其它
 SCENE_NAME_PARTY=编队
 SCENE_NAME_QUEST_SELECT=战场选择
-SCENE_NAME_RECEPTION=好友请求
+SCENE_NAME_RECEPTION=接受请求
 SCENE_NAME_ROLE_SELECT=选择主角
 SCENE_NAME_SCRATCH=抽卡
 SCENE_NAME_FRIEND_SEARCH=查找好友
@@ -240,7 +240,7 @@ FriendSearch_Title=查找好友
 FriendSearch_Content=请输入你像查找的用户ID
 
 FriendApply=好友申请
-ConfirmApply=确定要提交好友申请吗？
+ConfirmApply=确定要申请添加他为好友吗？
 ConfirmAccept=确定要接受好友申请？
 AcceptApply=接受申请
 ConfirmDelete=确定要删除好友申请吗？

@@ -612,13 +612,6 @@ public class DataCenter {
 				}
 			});
 		} else {
-//			Debug.Log ("GetProfile : " + unitID + " profile : " + profile);
-//			if(unitID == 1) {
-//				foreach (var item in profileCache) {
-//					Debug.LogError("item.key : " + item.Key + " item.value : " + item.Value);
-//				}
-//			}
-
 			if (uiTexture != null) {
 				uiTexture.mainTexture = profile;
 			}

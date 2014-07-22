@@ -7,7 +7,7 @@ public class TopUI : UIBaseUnity {
 	public UILabel coinLabel;
 	private UILabel dropLabel;
 	private UILabel floorLabel;
-	private UISprite menuButton;
+	private UIButton menuButton;
 
 //	private UIAnchor leftAnchor;
 //	private UIAnchor rightAnchor;
@@ -28,7 +28,7 @@ public class TopUI : UIBaseUnity {
 		retryButton = FindChild<UIButton>("Top/RetryButton");
 		UIEventListener.Get (retryButton.gameObject).onClick = Retry;
 
-		menuButton = FindChild<UISprite>("Top/MenuButton");
+		menuButton = FindChild<UIButton>("Top/MenuButton");
 		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
 
 //		leftAnchor = transform.Find ("Topleft").gameObject.AddComponent<UIAnchor> ();
@@ -99,17 +99,12 @@ public class TopUI : UIBaseUnity {
 	public void Reset() {
 		coinLabel.text = "";
 		dropLabel.text = "";
-		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
-		retryButton.isEnabled = true;
+		SheildInput (true);
 	}
 
 	public void SheildInput(bool b) {
 		retryButton.isEnabled = b;
-		if (b) {
-			UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
-		} else {
-			UIEventListener.Get (menuButton.gameObject).onClick = null;
-		}
+		menuButton.isEnabled = b;
 	}
 
 	void Retry(GameObject go) {

@@ -95,6 +95,15 @@ public class ScratchLogic : ConcreteComponent {
             return;
         }
         
+		if(rsp.unitList.Count == 0) {
+//			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow("No Card Return",ClickOK);
+
+//			Debug.LogError("server return data is null");
+			UIManager.Instance.ChangeScene(UIManager.Instance.baseScene.PrevScene);
+			ViewManager.Instance.ShowTipsLabel("server return data is null");
+			return;
+		}
+
         DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
         DataCenter.Instance.AccountInfo.Stone = rsp.stone;
         
@@ -110,30 +119,9 @@ public class ScratchLogic : ConcreteComponent {
         // delete unit;
 
         List<uint> newUnitIdList = DataCenter.Instance.UserUnitList.FirstGetUnits(unitList);
-//        DataCenter.Instance.MyUnitList.AddMyUnitList(unitList);
         DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
-
-		//update catalog
-//		foreach (UserUnit unit in unitList) {
-//			DataCenter.Instance.CatalogInfo.AddHaveUnit( unit.unitId );
-//		}
         
         LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-
-//        SceneEnum nextScene = SceneEnum.FriendScratch;
-//        if (gachaType == GachaType.FriendGacha){
-//            nextScene = SceneEnum.FriendScratch;
-//        }
-//        else if (gachaType == GachaType.RareGacha){
-//            nextScene = SceneEnum.RareScratch;
-//        }
-//        else if (gachaType == GachaType.EventGacha){
-//            nextScene = SceneEnum.EventScratch;
-//        }
-//        else {
-//            return;
-//        }
-//        UIManager.Instance.ChangeScene(nextScene);
 
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
         MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow, GetGachaWindowInfo(gachaType, gachaCount, rsp.unitUniqueId, blankList, newUnitIdList));
