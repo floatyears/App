@@ -28,7 +28,7 @@ public class NoviceGuideUtil {
 			foreach (GameObject parent in parents) {
 				//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
 				GameObject arrow = NGUITools.AddChild (parent, obj);
-				TweenPosition tPos = arrow.GetComponent<TweenPosition> ();
+				TweenPosition tPos = arrow.transform.FindChild("Sprite").GetComponent<TweenPosition> ();
 
 				Vector3 size = Vector3.zero;
 				try {
@@ -79,7 +79,7 @@ public class NoviceGuideUtil {
 					break;
 				}
 
-				arrow.transform.Rotate (dir);
+				arrow.transform.FindChild("Sprite").transform.Rotate (dir);
 				NGUITools.AdjustDepth (arrow, 1000);
 				//			if(obj.transform.parent != null)
 				//			{
