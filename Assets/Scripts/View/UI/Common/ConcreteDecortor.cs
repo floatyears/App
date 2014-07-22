@@ -906,7 +906,7 @@ public class ReceptionDecorator : DecoratorBase{
 //--------------------------------YourID------------------------------------------
 public class UserIDDecorator : DecoratorBase{
 	private SceneInfoComponent sceneInfoBar;
-	public UserIDDecorator(SceneEnum sEnum) : base(sEnum){}
+	public UserIDDecorator(SceneEnum sEnum) : base(sEnum){ }
 	
 	public override void ShowScene(){
 		base.ShowScene();
