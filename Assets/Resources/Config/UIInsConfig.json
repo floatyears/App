@@ -366,7 +366,7 @@
         "resoucePath": "Prefabs/UI/FriendList/",
         "parent": 4,
         "positionx": 0,
-        "positiony": -565,
+        "positiony": 0,
         "positionz": 0
     },
          "GachaWindow": {

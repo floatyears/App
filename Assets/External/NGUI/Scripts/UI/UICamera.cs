@@ -593,6 +593,14 @@ public class UICamera : MonoBehaviour
 
 			// Raycast into the screen
 			int mask = currentCamera.cullingMask & (int)cam.eventReceiverMask;
+
+			//--------add begin--------- if in novice guide, add novice event mask .
+			if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
+				mask = mask | GameLayer.LayerToInt( GameLayer.NoviceGuide);
+			}
+
+			//--------add end
+
 			float dist = (cam.rangeDistance > 0f) ? cam.rangeDistance : currentCamera.farClipPlane - currentCamera.nearClipPlane;
 
 			if (cam.eventType == EventType.World_3D)

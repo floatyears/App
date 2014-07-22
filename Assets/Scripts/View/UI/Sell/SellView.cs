@@ -143,7 +143,7 @@ public class SellView : UIComponentUnity{
 
 	void UpdateCoinLabel(int coin){
 		coinLabel.text = coin.ToString();
-		readyCoinLabel.text = coin.ToString();
+		readyCoinLabel.text = TextCenter.GetText ("Sell_GetCoin") + ":" + coin.ToString();
 	}
 
 	void MarkDragItem(int clickPos ,int poolPos){
@@ -245,7 +245,7 @@ public class SellView : UIComponentUnity{
 		FindChild ("EnsureWindow/Label_Title").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_EnsureTitle");
 		FindChild ("EnsureWindow/Label_Content").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_EnsureContent");
 		FindChild ("EnsureWindow/Label_Ensure").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_Ensure");
-		FindChild ("EnsureWindow/Label_GetCoin").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_GetCoin");
+//		FindChild ("EnsureWindow/Label_GetCoin").GetComponent<UILabel>().text = TextCenter.GetText ("Sell_GetCoin");
 
 		FindChild ("EnsureWindow/Button_Ok/Label").GetComponent<UILabel>().text = TextCenter.GetText ("OK");
 		FindChild ("EnsureWindow/Button_Cancel/Label").GetComponent<UILabel>().text = TextCenter.GetText ("CANCEL");
