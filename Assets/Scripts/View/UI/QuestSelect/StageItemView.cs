@@ -4,23 +4,23 @@ using System.Collections.Generic;
 
 public class StageItemView : MonoBehaviour{
 	public string[] stageOrderList1 = new string[7] {
-		{"icon_stage_special"},
-		{"icon_stage_fire"},
-		{"icon_stage_water"},
-		{"icon_stage_wind"},
-		{"icon_stage_light"},
-		{"icon_stage_dark"},
-		{"icon_stage_none"}
+		"icon_stage_special",
+		"icon_stage_fire",
+		"icon_stage_water",
+		"icon_stage_wind",
+		"icon_stage_light",
+		"icon_stage_dark",
+		"icon_stage_none"
 	};
 
 	public string[] stageOrderList2 = new string[7] {
-		{"icon_stage_fire"},
-		{"icon_stage_water"},
-		{"icon_stage_wind"},
-		{"icon_stage_light"},
-		{"icon_stage_dark"},
-		{"icon_stage_none"},
-		{"icon_stage_special"}
+		"icon_stage_fire",
+		"icon_stage_water",
+		"icon_stage_wind",
+		"icon_stage_light",
+		"icon_stage_dark",
+		"icon_stage_none",
+		"icon_stage_special"
 	};
 
 	public Font myFont;

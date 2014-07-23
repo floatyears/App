@@ -69,7 +69,7 @@ public class DGTools {
 		}
 		TCityInfo tci = dataCenter.GetCityInfo (cityInitIndex);
 
-		int stageInitIndex = 0;
+		uint stageInitIndex = 0;
 		while (dataCenter.QuestClearInfo.GetStoryStageState(stageInitIndex) != StageState.NEW) {
 			stageInitIndex ++;	
 		}
