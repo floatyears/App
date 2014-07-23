@@ -3,17 +3,25 @@ using System.Collections;
 using bbproto;
 
 public class SkillBaseInfo : ProtobufDataBase {
-	protected int initSkillCooling = 0;
+	private int _initSkillCooling = 0;
+
+	public int initSkillCooling {
+		set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
+		get { return _initSkillCooling; }
+	}
+
 	private SkillBase _skillBase;
-	protected SkillBase skillBase {
-		set { _skillBase = value;  initSkillCooling = _skillBase.skillCooling;}
+
+	public SkillBase skillBase {
+		set { _skillBase = value; initSkillCooling = _skillBase.skillCooling; }
 		get { return _skillBase; }
 	}
-	public SkillBase BaseInfo {
-		get {
-			return skillBase;
-		}
-	}
+
+//	public SkillBase BaseInfo {
+//		get {
+//			return skillBase;
+//		}
+//	}
 
 	public SkillBaseInfo(object instance) : base (instance) {
 		

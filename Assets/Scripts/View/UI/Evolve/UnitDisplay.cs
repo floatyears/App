@@ -79,4 +79,5 @@ public class DragPanelSetInfo {
 	public int cellWidth = 100;
 	public int cellHeight = 100;
 	public int depth = 0;
+//	UIScrollView.Movement scrollMovement = UIScrollView.Movement.Horizontal;
 }

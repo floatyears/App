@@ -60,6 +60,26 @@ public class DGTools {
 		}
 	}
 
+	public static void ChangeToQuest() {
+		DataCenter dataCenter = DataCenter.Instance;
+
+		uint cityInitIndex = 0;
+		while (dataCenter.QuestClearInfo.GetStoryCityState(cityInitIndex) != StageState.NEW) {
+			cityInitIndex ++;
+		}
+		TCityInfo tci = dataCenter.GetCityInfo (cityInitIndex);
+
+		uint stageInitIndex = 0;
+		while (dataCenter.QuestClearInfo.GetStoryStageState(stageInitIndex) != StageState.NEW) {
+			stageInitIndex ++;	
+		}
+
+		TStageInfo tsi = tci.GetStage (cityInitIndex);
+
+		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
+		MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, tsi);
+	}
+
 	public static int GetEnemyHeightByRare(int rare) {
 		switch (rare) {
 		case 1:

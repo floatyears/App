@@ -528,14 +528,19 @@ public class PartyView : UIComponentUnity{
 		}
 	}
 
-	private void ShowUIAnimation(){
+	private void ShowUIAnimation() {
 		gameObject.transform.localPosition = new Vector3(0, -476, 0);
 
 		topRoot.transform.localPosition = 1000 * Vector3.up;
 		bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
 
 		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f,"islocal", true));
+		iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject));
+	}
+
+	void BottomRootMoveEnd() {
+		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (false);
+		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (true);
 	}
 
 	private void RefreshItemCounter(){

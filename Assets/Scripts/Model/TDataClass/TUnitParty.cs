@@ -275,7 +275,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		}
 //		Debug.LogError ("CalculateAttackCount attackCount : " + attackCount);
 
-
 		if (attackCount == 0 || attackCount == prevAttackCount) {
 			return;	
 		}

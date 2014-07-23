@@ -3,24 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class StageItemView : MonoBehaviour{
-	public List<string> stageOrderList1 = new List<string>(){
-		{"icon_stage_special"},
-		{"icon_stage_fire"},
-		{"icon_stage_water"},
-		{"icon_stage_wind"},
-		{"icon_stage_light"},
-		{"icon_stage_dark"},
-		{"icon_stage_none"}
+	public string[] stageOrderList1 = new string[7] {
+		"icon_stage_special",
+		"icon_stage_fire",
+		"icon_stage_water",
+		"icon_stage_wind",
+		"icon_stage_light",
+		"icon_stage_dark",
+		"icon_stage_none"
 	};
 
-	public List<string> stageOrderList2 = new List<string>(){
-		{"icon_stage_fire"},
-		{"icon_stage_water"},
-		{"icon_stage_wind"},
-		{"icon_stage_light"},
-		{"icon_stage_dark"},
-		{"icon_stage_none"},
-		{"icon_stage_special"}
+	public string[] stageOrderList2 = new string[7] {
+		"icon_stage_fire",
+		"icon_stage_water",
+		"icon_stage_wind",
+		"icon_stage_light",
+		"icon_stage_dark",
+		"icon_stage_none",
+		"icon_stage_special"
 	};
 
 	public Font myFont;
@@ -113,6 +113,7 @@ public class StageItemView : MonoBehaviour{
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //do before
+
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {

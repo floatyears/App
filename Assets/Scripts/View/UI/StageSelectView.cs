@@ -86,14 +86,13 @@ public class StageSelectView : UIComponentUnity{
 	private List<TStageInfo> FilterEventCityData(List<TStageInfo> eventCityData){
 		Dictionary<uint,TStageInfo> cityData = new Dictionary<uint,TStageInfo> ();
 		foreach (var item in eventCityData) {
-			if(cityData.ContainsKey(item.CityId)){
+			if(cityData.ContainsKey(item.CityId)) {
 				if(cityData[item.CityId].StartTime	< item.StartTime){
 					cityData[item.CityId] = item;
 				}
-			}else{
+			} else {
 				cityData[item.CityId] = item;
 			}
-		//	item.StartTime 
 		}
 		return new List<TStageInfo> (cityData.Values);
 	}

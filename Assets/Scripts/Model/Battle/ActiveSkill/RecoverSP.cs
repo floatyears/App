@@ -7,7 +7,7 @@ public class TSkillRecoverSP : ActiveSkill {
 	public TSkillRecoverSP (object instance) : base (instance) { 
 		this.instance = instance as SkillRecoverSP;
 		skillBase = this.instance.baseInfo;	
-		initSkillCooling = skillBase.skillCooling;
+//		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}

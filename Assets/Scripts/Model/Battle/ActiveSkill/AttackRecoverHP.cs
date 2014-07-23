@@ -14,7 +14,7 @@ public class TSkillAttackRecoverHP : ActiveSkill {
 //		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
 		this.instance = instance as SkillAttackRecoverHP;
 		skillBase = this.instance.baseInfo;
-		initSkillCooling = skillBase.skillCooling;
+//		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}

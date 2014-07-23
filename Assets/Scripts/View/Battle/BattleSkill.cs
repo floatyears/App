@@ -139,10 +139,9 @@ public class BattleSkill : UIBaseUnity {
 		Refresh (3, sbi);
 
 		bool notNull = sbi != null;
-		bool isCooling = notNull && (sbi.BaseInfo.skillCooling == 0);
+		bool isCooling = notNull && (sbi.skillBase.skillCooling == 0);
 		isRecoveSP = notNull && sbi.GetType () == typeof(TSkillRecoverSP);
 		isBattle = battleQuest.battle.GetState == UIState.UIShow;
-
 		if (notNull && isCooling) {
 			if(!isRecoveSP && !isBattle) {
 				boostButton.isEnabled = false;
@@ -155,8 +154,9 @@ public class BattleSkill : UIBaseUnity {
 		if (sbi == null) {
 			roundLabel.text = "";
 		}  else {
-			roundLabel.text = sbi.BaseInfo.skillCooling + "  round";
+			roundLabel.text = sbi.skillBase.skillCooling + "  round";
 		}
+
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);	
 		Refresh (4, sbi);
 	}
