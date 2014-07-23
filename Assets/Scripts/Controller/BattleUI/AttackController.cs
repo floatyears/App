@@ -346,7 +346,7 @@ public class AttackController {
 
 	public void BattleEnd() {
 		configBattleUseData.ClearActiveSkill ();
-
+		reduceInfo = null;
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
 		bud.ClearData();
