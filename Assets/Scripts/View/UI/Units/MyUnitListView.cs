@@ -28,7 +28,7 @@ public class MyUnitListView : UIComponentUnity {
 	}
 
 	private void InitUIElement(){
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.MyUnitListView);//DEFAULT_SORT_RULE;
 	}
 
 	private void CreateDragPanel(){
@@ -63,6 +63,7 @@ public class MyUnitListView : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
+		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.MyUnitListView);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			MyUnitItem muv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitItem>();

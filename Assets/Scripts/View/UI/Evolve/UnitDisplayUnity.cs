@@ -254,7 +254,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 	
 	void InitUI () {
 		CreatPanel ();
-		sortRule = SortRule.HP;
+		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.UnitDisplayUnity);//SortRule.HP;
 
 		itemCounterEvolve = FindChild<ItemCounterEvolve> ("ItemCounterBar");
 		itemCounterEvolve.Init ();
@@ -291,6 +291,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(sortRule, allData);
+		SortUnitTool.StoreSortRule (sortRule, SortRuleByUI.UnitDisplayUnity);
 		unitItemDragPanel.RefreshItem (allData);
 	}
 

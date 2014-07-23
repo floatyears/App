@@ -18,6 +18,16 @@ public enum SortRule {
 	Rank				= 10
 }
 
+public enum SortRuleByUI{
+	ApplyView,
+	SellView,
+	FriendListView,
+	PartyView,
+	ReceptionView,
+	UnitDisplayUnity,
+	MyUnitListView,
+}
+
 public class SortUnitTool{
 	public const SortRule DEFAULT_SORT_RULE = SortRule.ID;
 	public const int RULE_KIND_COUNT = 8;
@@ -97,7 +107,22 @@ public class SortUnitTool{
 				break;
 		}
 	}
+
+	public static SortRule GetSortRule(SortRuleByUI srui){
+		int data = GameDataStore.Instance.GetIntDataNoEncypt ("SortRule_" + srui.ToString ());
+
+		if (data == 0) {
+			return SortRule.ID;
+		}
+		return (SortRule)data;
+	} 
+
+	public static void StoreSortRule(SortRule value, SortRuleByUI srui){
+		GameDataStore.Instance.StoreIntDatNoEncypt ("SortRule_" + srui.ToString (), (int)value);
+	} 
 }
+
+
 
 //------------------------------TUserUnit-------------------------------
 public class TUserUnitSortBase : IComparer {
@@ -261,3 +286,4 @@ public class TFriendUnitSortRank : TFriendUnitSortBase{
 		return firstRank.CompareTo(secondRank);
 	}
 }
+

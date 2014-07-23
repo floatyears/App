@@ -395,7 +395,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	string GetWayString(List<bbproto.UnitGetWay> getway){
 		string gw = "";
 		foreach (var item in getway) {
-			gw += item.getPath;
+			if ( item.getType ==  EUnitGetType.E_NORMAL_QUEST || item.getType ==  EUnitGetType.E_EVENT_QUEST ) {
+				uint questId = item.getPath;
+				uint stageId =  questId/10;
+				uint cityId = stageId/10;
+				TCityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
+				TStageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
+				gw += cityInfo.CityName+"-"+stageInfo.StageName;
+			}
 		}
 		return gw;
 	}
