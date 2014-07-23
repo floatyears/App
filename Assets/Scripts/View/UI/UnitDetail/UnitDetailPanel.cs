@@ -265,6 +265,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void PlayCheckRoleAudio(){
 		PlayEvolveEffect ();
+//		Debug.LogError ("PlayEvolveEffect sound_check_role");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 		
@@ -491,7 +492,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
+//			Debug.LogError ("PlayEvolveEffect sound_check_role");
+//			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 //			Debug.LogError("o : " + o + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.ID);
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
 			Vector3 localposition = unitBodyTex.transform.localPosition; 

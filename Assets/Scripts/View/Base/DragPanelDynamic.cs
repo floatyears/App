@@ -99,6 +99,7 @@ public class DragPanelDynamic {
 			lastIndex++;
 		}
 		sourceObject.SetActive (false);
+
 		dragPanelView.grid.Reposition ();
 	}
 

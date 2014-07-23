@@ -528,7 +528,7 @@ public class PartyView : UIComponentUnity{
 		}
 	}
 
-	private void ShowUIAnimation(){
+	private void ShowUIAnimation() {
 		gameObject.transform.localPosition = new Vector3(0, -476, 0);
 
 		topRoot.transform.localPosition = 1000 * Vector3.up;
@@ -539,7 +539,6 @@ public class PartyView : UIComponentUnity{
 	}
 
 	void BottomRootMoveEnd() {
-//		Debug.LogError ("BottomRootMoveEnd");
 		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (false);
 		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (true);
 	}
