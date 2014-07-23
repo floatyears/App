@@ -63,7 +63,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 						if(unitItem.MakeUserUnitKey() == item.Key) {
 							AttackInfo ai = AttackInfo.GetInstance();
 							ai.UserUnitID = unitItem.MakeUserUnitKey();
-							ai.SkillID = item.Value.skillBaseInfo.BaseInfo.id;
+							ai.SkillID = item.Value.skillBaseInfo.skillBase.id;
 							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, ai);
 						}
 					}
@@ -82,7 +82,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 				AttackInfo ai = item.Value.Excute(AttackType, this) as AttackInfo;
 //				Debug.LogError("dispose attackinfo : " + ai);
 				if(ai != null) {
-					ai.SkillID = item.Value.skillBaseInfo.BaseInfo.id;
+					ai.SkillID = item.Value.skillBaseInfo.skillBase.id;
 					ai.UserUnitID = item.Key;
 					ai.AttackValue *= attack;
 					ai.AttackValue *= multipe[item.Key];

@@ -15,8 +15,8 @@ public class TActiveSkillData : ProtobufDataBase {
 	public void InitActiveSkill(IActiveSkillExcute activeSkillExcte) {
 		ActiveSkill activeSkill = activeSkillExcte as ActiveSkill;
 
-		instance.skillId = activeSkill.BaseInfo.id;
-		instance.round = activeSkill.BaseInfo.skillCooling;
+		instance.skillId = activeSkill.skillBase.id;
+		instance.round = activeSkill.skillBase.skillCooling;
 	}
 
 	public void RefreshData() {

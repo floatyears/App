@@ -17,7 +17,7 @@ public class TSkillSuicideAttack : ActiveSkill {
 	public TSkillSuicideAttack (object instance) : base(instance) {
 		this.instance = instance as SkillSuicideAttack;
 		skillBase = this.instance.baseInfo;	
-		initSkillCooling = skillBase.skillCooling;
+//		initSkillCooling = skillBase.skillCooling;
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}

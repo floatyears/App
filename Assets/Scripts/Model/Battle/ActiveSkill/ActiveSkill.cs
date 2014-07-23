@@ -14,6 +14,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	}
 
 	public void RefreashCooling () {
+		Debug.LogError ("ActiveSkill ReadSkillCooling");
 		DisposeCooling ();
 	}
 
@@ -39,7 +40,10 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	}
 
 	void ReadSkillCooling () {
-		skillBase.skillCooling = GameDataStore.Instance.GetIntDataNoEncypt (skillStoreID);
+		int skillCooling = GameDataStore.Instance.GetIntDataNoEncypt (skillStoreID);
+		Debug.LogError ("ReadSkillCooling 1 : " + skillCooling + "skillStoreID : " + skillStoreID);
+		skillBase.skillCooling = skillCooling;
+		Debug.LogError ("ReadSkillCooling 2 : " + skillBase.skillCooling + " this : " + this);
 	}
 
 	protected void DisposeCooling () {
