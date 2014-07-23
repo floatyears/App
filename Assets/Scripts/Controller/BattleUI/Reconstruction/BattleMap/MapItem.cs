@@ -194,8 +194,6 @@ public class MapItem : UIBaseUnity {
 			return;	
 		}
 
-//		Debug.LogError ("gameobject : " + gameObject);
-
 		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
 		ta.ResetToBeginning ();
 		ShowFootTips ();
@@ -207,9 +205,8 @@ public class MapItem : UIBaseUnity {
 
 	public void HideEnvirment(bool b) {
 		if (!isOld) {
-			HideStarSprite(!b);
 			if(b && mapItemSprite.spriteName != TrapBase.environmentSpriteName) {
-				DGTools.ShowSprite(mapItemSprite, TrapBase.environmentSpriteName); 
+				DGTools.ShowSprite(mapItemSprite, TrapBase.environmentSpriteName);
 				return;
 			}
 
