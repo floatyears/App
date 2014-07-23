@@ -138,7 +138,6 @@ public class BattleEnemy : UIBaseUnity {
 			BeginSort ();
 		} else {
 			sortCount = enemy.Count;
-//			Debug.LogError("sortCount : " + sortCount);
 			for (int i = 0; i < enemy.Count; i++) {
 				TEnemyInfo tei = enemy[i];
 				tei.AddListener();
