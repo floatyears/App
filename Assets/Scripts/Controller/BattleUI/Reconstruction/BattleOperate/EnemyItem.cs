@@ -198,7 +198,7 @@ public class EnemyItem : UIBaseUnity {
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
 		enemyUnitInfo.GetAsset(UnitAssetType.Profile,o=>{
 			Texture2D tex = o as Texture2D;
-			callBack();
+
 			if (tex == null) {
 				texture.mainTexture = null;
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
@@ -209,6 +209,8 @@ public class EnemyItem : UIBaseUnity {
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 				ResetHurtLabelPosition();
 			}
+
+			callBack();
 		});
 
     }

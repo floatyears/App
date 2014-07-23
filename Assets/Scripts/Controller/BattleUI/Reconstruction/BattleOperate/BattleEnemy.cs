@@ -133,22 +133,23 @@ public class BattleEnemy : UIBaseUnity {
 		Clear();
 		sortCount = 0;
 		enemys.Clear ();
-		for (int i = 0; i < enemy.Count; i++) {
-			TEnemyInfo tei = enemy[i];
-			tei.AddListener();
-			GameObject go = NGUITools.AddChild(effectParent, effectItemPrefab);
-			go.SetActive(true);
-			EnemyItem ei = go.AddComponent<EnemyItem>();
-			ei.battleEnemy = this;
+		if (enemy.Count == 0) {
 			sortCount++;
-			ei.Init(tei, BeginSort);
-			enemys.Add(ei);
-			monster.Add(tei.EnemySymbol,ei);
-		}
-
-		if (sortCount == 0) {
-			sortCount++;
-			BeginSort();
+			BeginSort ();
+		} else {
+			sortCount = enemy.Count;
+//			Debug.LogError("sortCount : " + sortCount);
+			for (int i = 0; i < enemy.Count; i++) {
+				TEnemyInfo tei = enemy[i];
+				tei.AddListener();
+				GameObject go = NGUITools.AddChild(effectParent, effectItemPrefab);
+				go.SetActive(true);
+				EnemyItem ei = go.AddComponent<EnemyItem>();
+				enemys.Add(ei);
+				monster.Add(tei.EnemySymbol,ei);
+				ei.battleEnemy = this;
+				ei.Init(tei, BeginSort);
+			}
 		}
 	}
 
@@ -156,9 +157,11 @@ public class BattleEnemy : UIBaseUnity {
 
 	void BeginSort() {
 		sortCount--;
+
 		if (sortCount == 0) {
-			SortEnemyItem(enemys);
-		}
+//			Debug.LogError("SortEnemyItem : " + enemys.Count);
+			SortEnemyItem (enemys);
+		} 
 	}
 
 	void DropItem(object data) {
@@ -290,7 +293,9 @@ public class BattleEnemy : UIBaseUnity {
 
 	void CompressTexture(float probability, List<EnemyItem> enemys) {
 		for (int i = 0; i < enemys.Count; i++) {
+//			Debug.LogError("befoure compress i : " + i + " size width : " + enemys[i].texture.width + " size height : " + enemys[i].texture.height + " probability : " + probability);
 			enemys[i].CompressTextureSize(probability);
+//			Debug.LogError("behind compress i : " + i + " size width : " + enemys[i].texture.width + " size height : " + enemys[i].texture.height);
 		}
 	}
 
