@@ -557,7 +557,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		TUnitInfo unitInfo = data.UnitInfo;
 		number.text = data.UnitID.ToString();
 		
-		name.text = TextCenter.GetText ("UnitName_" + unitInfo.ID);//unitInfo.Name;
+		name.text = unitInfo.Name; //TextCenter.GetText ("UnitName_" + unitInfo.ID);//
 		
 		type.spriteName = "type_" + unitInfo.UnitType;
 		

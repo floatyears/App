@@ -40,7 +40,7 @@ Btn_Submit_Evolve=Evolve
 #Btn_Submit_LevelUp=Start Fusion
 
 Btn_FriendList_Update=Update
-Btn_Reception_RefuseAll=Refuse
+Btn_Reception_RefuseAll=Refuse All
 Btn_Submit_SearchFriend=Search
 Btn_UserID_OK=Back
 
