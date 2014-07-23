@@ -27,7 +27,7 @@ public class FriendComponent : ConcreteComponent{
 
 	public void SyncFriendList(object args){
 		if (DataCenter.Instance.FriendList != null){
-			Debug.Log("SyncFriendList().FriendList not null, not need to sync friend list from server");
+//			Debug.Log("SyncFriendList().FriendList not null, not need to sync friend list from server");
 			CallTurnToNextScene();
 			return;
 		}
