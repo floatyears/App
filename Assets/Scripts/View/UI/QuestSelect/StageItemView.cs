@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class StageItemView : MonoBehaviour{
-	public List<string> stageOrderList1 = new List<string>(){
+	public string[] stageOrderList1 = new string[7] {
 		{"icon_stage_special"},
 		{"icon_stage_fire"},
 		{"icon_stage_water"},
@@ -13,7 +13,7 @@ public class StageItemView : MonoBehaviour{
 		{"icon_stage_none"}
 	};
 
-	public List<string> stageOrderList2 = new List<string>(){
+	public string[] stageOrderList2 = new string[7] {
 		{"icon_stage_fire"},
 		{"icon_stage_water"},
 		{"icon_stage_wind"},
@@ -113,6 +113,7 @@ public class StageItemView : MonoBehaviour{
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 
 		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect); //do before
+
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {

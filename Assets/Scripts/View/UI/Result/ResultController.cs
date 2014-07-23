@@ -115,6 +115,7 @@ public class ResultController : ConcreteComponent {
 		LogHelper.Log("OnAddFriend(), rsp.friends {0}", inst);
 		LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendList, DataCenter.Instance.FriendList == null);
 		DataCenter.Instance.SetFriendList(inst);
+
 		UIManager.Instance.ChangeScene(SceneEnum.Home);
 	}
 

@@ -247,9 +247,7 @@ public class VictoryEffect : UIComponentUnity {
 			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
-
 			HideUI();
-//			DataCenter.gameState = GameState.Normal;
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
