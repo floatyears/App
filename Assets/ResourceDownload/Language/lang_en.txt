@@ -479,7 +479,7 @@ GotFriendPoint=You have got {0} pal point from this quest.
 TotalFriendPoint=Total pal point: {0}.
 
 ##preface
-Preface_Content1=“大小姐！小心刺客！”
+Preface_Content1=Look out! Assassin!
 Preface_Content2=这是地下格斗会场，话音未落，护卫已闪身出现，\n挡在了吸血鬼伯爵之女——Mavis身前……
 Preface_Content3=护卫拼命救主，Mavis幸免于难，不过也带来了更大的噩耗！
 Preface_Content4=伯爵被绑架走了！
