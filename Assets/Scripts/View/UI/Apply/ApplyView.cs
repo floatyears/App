@@ -28,7 +28,8 @@ public class ApplyView : UIComponentUnity{
 	}
 	
 	private void InitUIElement(){
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+
+		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.ApplyView);//DEFAULT_SORT_RULE;
 	}
 
 	private void CreateDragView(){
@@ -93,7 +94,8 @@ public class ApplyView : UIComponentUnity{
 	
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(curSortRule, friendOutDataList);
-		
+		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.ApplyView);
+
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
 			fuv.UserUnit = friendOutDataList[ i ].UserUnit;

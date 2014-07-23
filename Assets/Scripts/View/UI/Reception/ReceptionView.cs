@@ -47,7 +47,7 @@ public class ReceptionView : UIComponentUnity {
 		refuseBtnLabel.text = TextCenter.GetText("Btn_Reception_RefuseAll");
 		UIEventListener.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
 
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		curSortRule = SortUnitTool.GetSortRule(SortRuleByUI.ReceptionView);
 	}
 
 	private void CreateDragView(){
@@ -210,7 +210,8 @@ public class ReceptionView : UIComponentUnity {
 
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(curSortRule, friendInDataList);
-		
+		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.ReceptionView);
+
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
 			fuv.UserUnit = friendInDataList[ i ].UserUnit;

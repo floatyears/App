@@ -204,7 +204,7 @@ public class ConfigDragPanel{
 		RewardListDragPanelArgs.Add("position", 								Vector3.zero								);
 		RewardListDragPanelArgs.Add("clipRange", 							new Vector4(0, -235, 640, 620)		);
 		RewardListDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Horizontal		);
-		RewardListDragPanelArgs.Add("scrollBarPosition",					new Vector3(-320, -565, 0)			);
+		RewardListDragPanelArgs.Add("scrollBarPosition",					new Vector3(307, 70, 0)			);
 		RewardListDragPanelArgs.Add("cellWidth", 							600											);
 		RewardListDragPanelArgs.Add("cellHeight",							120											);
 		RewardListDragPanelArgs.Add("maxPerLine",							1												);

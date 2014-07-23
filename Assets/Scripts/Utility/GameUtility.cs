@@ -602,7 +602,14 @@ public class DGTools {
 	}
 
 	//============load unitinfo====================================================
-	private const string path = "Protobuf/";
+	private const string path = 
+#if LANGUAGE_CN
+	"Protobuf/";
+#elif LANGUAGE_EN
+	"ProtobufEn/";
+#else
+	"Protobuf/";
+#endif
 	private const string unitInfoPath = "Unit/unit_";
 	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;

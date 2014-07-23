@@ -43,7 +43,7 @@ public class FriendListView : UIComponentUnity{
 	void InitUIElement(){
 		updateBtn = FindChild<UIButton>("Button_Update");
 		UIEventListener.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		curSortRule = SortUnitTool.GetSortRule(SortRuleByUI.FriendListView);
 	}
 
 	void CreateDragView(){
@@ -170,7 +170,9 @@ public class FriendListView : UIComponentUnity{
 	}
 
 	private void SortUnitByCurRule(){
+
 		SortUnitTool.SortByTargetRule(curSortRule, friendDataList);
+		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.FriendListView);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();

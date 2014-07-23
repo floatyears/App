@@ -402,7 +402,7 @@ public class PartyView : UIComponentUnity{
 			partyUnitViewList.Add(puv);
 		}
 
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.PartyView);//DEFAULT_SORT_RULE;
 		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
@@ -519,6 +519,8 @@ public class PartyView : UIComponentUnity{
 	private void SortUnitByCurRule(){
 		//sortRuleLabel.text = curSortRule.ToString();
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
+		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.PartyView);
+
 		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
 			puv.UserUnit = myUnitDataList[ i - 1 ];
