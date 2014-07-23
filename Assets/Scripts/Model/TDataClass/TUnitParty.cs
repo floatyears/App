@@ -9,9 +9,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     private UnitParty instance;
 	public TUnitParty(object ins) : base (ins) { 
 		this.instance = ins as UnitParty;
-//		for (int i = 0; i < instance.items.Count; i++) {
-//			Debug.LogError("UnitParty : " + instance.items[i].unitUniqueId);
-//		}
 		AddListener ();
         reAssignData();
         GetSkillCollection();
@@ -268,7 +265,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 		CalculateAttackCount ();
         return tempAttackType;
     }
-
+	int prevAttackCount = 0;
 	void CalculateAttackCount() {
 		int attackCount = 0;
 		foreach (var item in attack) {
@@ -277,9 +274,13 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 			}
 		}
 //		Debug.LogError ("CalculateAttackCount attackCount : " + attackCount);
-		if (attackCount == 0) {
+
+
+		if (attackCount == 0 || attackCount == prevAttackCount) {
 			return;	
 		}
+
+		prevAttackCount = attackCount;
 
 		switch (attackCount) {
 			case 1:
