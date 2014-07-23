@@ -722,9 +722,13 @@ public class FriendListDecorator : DecoratorBase{
 	public FriendListDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
+//		Debug.LogError("ShowScene 1");
 		base.ShowScene();
+//		Debug.LogError("ShowScene 2");
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
+//		Debug.LogError("ShowScene 3");
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND_LIST));
+//		Debug.LogError("ShowScene 4");
 	}
 	
 	public override void HideScene(){
@@ -738,19 +742,21 @@ public class FriendListDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent<SceneInfoComponent>(UIConfig.sceneInfoBarName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
-		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
-		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
+
+		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+
+		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
-		briefInfo.SetComponent(counter);
-		sortPanel.SetComponent(briefInfo);
-		friendList.SetComponent(sortPanel);
+		sortPanel.SetComponent(counter);
+		briefInfo.SetComponent(sortPanel);
+		friendList.SetComponent(briefInfo);
 
 		lastDecorator = friendList;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 
@@ -893,9 +899,10 @@ public class ReceptionDecorator : DecoratorBase{
 		AccpetFriendApply acceptApply = CreatComponent<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
-		sortPanel.SetComponent(sceneInfoBar);
-		counter.SetComponent(sortPanel);
-		recptionWin.SetComponent(counter);
+
+		counter.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(counter);
+		recptionWin.SetComponent(sortPanel);
 		acceptApply.SetComponent(recptionWin);
 
 		lastDecorator = acceptApply;
