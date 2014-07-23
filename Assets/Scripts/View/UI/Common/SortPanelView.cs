@@ -8,7 +8,7 @@ public class SortPanelView : UIComponentUnity {
 	private UISprite sortBtnMask;
 	private bool isShow = false;
 	private GameObject sortRuleSelectPanel;
-
+	SortRule targetRule = SortRule.None;
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -91,7 +91,7 @@ public class SortPanelView : UIComponentUnity {
 
 		//Debug.Log("SortPanelView.SelectSortRule(), click item : " + item.name);
 		UIButton btn = item.transform.GetComponent<UIButton>();
-		SortRule targetRule = sortRuleSelectDic[ btn ];
+		targetRule = sortRuleSelectDic[ btn ];
 		MsgCenter.Instance.Invoke(CommandEnum.SortByRule, targetRule);
 		ActivateSortRuleWindow();
 	}
@@ -102,6 +102,21 @@ public class SortPanelView : UIComponentUnity {
 			return;	
 		}
 			
+		SortRuleByUI sr;
+		switch(UIManager.Instance.baseScene.CurrentScene) {
+		case SceneEnum.Apply:
+			sr = SortRuleByUI.ApplyView;
+			break;
+		case SceneEnum.Sell:
+			sr = SortRuleByUI.SellView;
+			break;
+		case SceneEnum.FriendList:
+			sr = SortRuleByUI.FriendListView;
+			break;
+//		case SceneEnum.Party:
+//			sr = SortRuleByUI.
+		}
+
 		sortBtnMask.enabled = true;
 //		sortBtn.isEnabled = false;
 		if(sortBtn.gameObject.layer ==  0){

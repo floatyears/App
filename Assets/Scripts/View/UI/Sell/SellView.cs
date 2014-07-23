@@ -236,7 +236,7 @@ public class SellView : UIComponentUnity{
 		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 		InitCells();
 
-		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
+		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.SellView);//DEFAULT_SORT_RULE;
 
 		FindChild ("MainWindow/Button_Clear/Label").GetComponent<UILabel>().text = TextCenter.GetText ("Btn_Clear_PickedToSell");
 		FindChild ("MainWindow/Button_Sell/Label").GetComponent<UILabel>().text = TextCenter.GetText ("Btn_Submit_Sell");
@@ -471,6 +471,8 @@ public class SellView : UIComponentUnity{
 	}
 
 	private void SortUnitByCurRule(){
+		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.SellView);
+
 		List<TUserUnit> unitList = new List<TUserUnit>();
 		for (int i = 0; i < saleUnitViewList.Count; i++){
 			unitList.Add(saleUnitViewList[ i ].UserUnit);
