@@ -235,9 +235,7 @@ public class DragPanelDynamic {
 		movedWidget.Widget.cachedTransform.localPosition = pos;
 		int dataIndex = nowIndex - 1;
 
-//		scrollItemData [dataIndex].isEnable = scrollItem [targetIndex].IsEnable;
 		scrollItem [targetIndex].UserUnit = scrollItemData [dataIndex];
-//		scrollItem [targetIndex].IsEnable = scrollItemData [dataIndex].isEnable;
 	}
 
 	void CreatItem(List<TUserUnit> data) {

@@ -535,7 +535,13 @@ public class PartyView : UIComponentUnity{
 		bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
 
 		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f,"islocal", true));
+		iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject));
+	}
+
+	void BottomRootMoveEnd() {
+//		Debug.LogError ("BottomRootMoveEnd");
+		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (false);
+		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (true);
 	}
 
 	private void RefreshItemCounter(){

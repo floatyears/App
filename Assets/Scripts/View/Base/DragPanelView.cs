@@ -140,16 +140,30 @@ public class DragPanelView : UIBaseUnity {
 		grid.cellWidth = dpsi.cellWidth;
 		grid.cellHeight = dpsi.cellHeight;
 		grid.enabled = true;
+
+		Transform fg = scrollBar.transform.FindChild ("Foreground");
+		if (dpsi.gridArrange == UIGrid.Arrangement.Horizontal) {
+			scrollView.horizontalScrollBar = null;	
+			scrollView.verticalScrollBar = scrollBar;
+			fg.Rotate (0, 0, -90);
+			fg.GetComponent<UISprite> ().alpha = 1;
+			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
+		} else {
+			scrollView.horizontalScrollBar = scrollBar;	
+			scrollView.verticalScrollBar = null;
+			fg.Rotate (0, 0, 0);
+			fg.GetComponent<UISprite> ().alpha = 1;
+			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
+		}
+
 		grid.Reposition ();
 
+//		scrollBar.alpha = 1;
 	}
 
 	public const string ScrollViewDepth = "ScrollViewDepth";
-//	public const string 
 
 	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
-//		Debug.LogError ("gameobject befoure : " + transform.localScale);
-
 		Vector3 scrollerLocalPos = Vector3.zero;
 		Vector3 position = Vector3.zero;
 		Vector4 clipRange = Vector4.zero;
@@ -160,7 +174,6 @@ public class DragPanelView : UIBaseUnity {
 		int maxPerLine = 0;
 		int cellWidth = 100;
 		int cellHeight = 100;
-//		object depth = null;
 
 		if( argsDic.ContainsKey( "scrollBarDir"))
 			scrollBarDir = (UIScrollBar.FillDirection)argsDic["scrollBarDir"];
@@ -185,17 +198,8 @@ public class DragPanelView : UIBaseUnity {
 		if (argsDic.ContainsKey ("depth")) {
 			scrollBar.GetComponent<UIPanel>().depth = scrollView.GetComponent<UIPanel>().depth = (int)argsDic["depth"];
 		}
-			
 
-		//argsDic.TryGetValue (ScrollViewDepth,out depth);
-//		scrollBar.fillDirection = scrollBarDir;
 		scrollView.movement = scrollMovement;
-//		if (depth != null) {
-//			scrollView.GetComponent<UIPanel> ().depth = (int)depth;
-//		}
-
-//		Debug.LogError ("set drag panel dictionary : " + scrollView.transform.localPosition);
-//		Debug.LogError ("gameobject end aa : " + transform.localScale + " parent : " + parent.transform.localScale);
 		gameObject.transform.parent = parent;
 		transform.localScale = Vector3.one;
         gameObject.transform.localPosition = scrollerLocalPos;
@@ -210,24 +214,21 @@ public class DragPanelView : UIBaseUnity {
 
 		Transform fg = scrollBar.transform.FindChild ("Foreground");
 		if (scrollMovement == UIScrollView.Movement.Vertical) {
-						scrollView.horizontalScrollBar = null;	
-						scrollView.verticalScrollBar = scrollBar;
-						fg.Rotate (0, 0, -90);
-//			scrollBar.transform.FindChild ("Background").Rotate (0, 0, -90);
-						fg.GetComponent<UISprite> ().width = (int)clipRange.w;
-				} else {
-						scrollView.horizontalScrollBar = scrollBar;	
-						scrollView.verticalScrollBar = null;
-						fg.Rotate (0, 0, 0);
-//			scrollBar.transform.FindChild ("Background").Rotate (0, 0, 0);
-						fg.GetComponent<UISprite> ().width = (int)clipRange.z;
-				}
+				scrollView.horizontalScrollBar = null;	
+				scrollView.verticalScrollBar = scrollBar;
+				fg.Rotate (0, 0, -90);
+			fg.GetComponent<UISprite> ().alpha = 1;
+				fg.GetComponent<UISprite> ().width = (int)clipRange.w;
+		} else {
+				scrollView.horizontalScrollBar = scrollBar;	
+				scrollView.verticalScrollBar = null;
+				fg.Rotate (0, 0, 0);
+			fg.GetComponent<UISprite> ().alpha = 1;
+				fg.GetComponent<UISprite> ().width = (int)clipRange.z;
+		}
 
 		scrollView.ResetPosition ();
-//		scrollBar.value = 0;
-//		scrollView.gameObject.AddComponent<SpringPanel> ();
-//		
-		//Debug.LogError( "  " + gameObject.name + " have finlished SetScrollView(dic)");
+//		scrollBar.alpha = 1;
 	}
 	
 }

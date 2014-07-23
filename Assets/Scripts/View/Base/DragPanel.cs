@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 public class DragPanel : UIBase  {
-
 	public event UICallback DragCallback;
 
 	protected DragPanelView dragPanelView;
