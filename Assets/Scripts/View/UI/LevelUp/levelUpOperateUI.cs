@@ -55,23 +55,24 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 			}
 
 			levelUpInfo.Clear();
+			DataCenter dataCenter = DataCenter.Instance;
 
-			DataCenter.Instance.AccountInfo.Money = (int)rspLevelUp.money;
-
+			dataCenter.AccountInfo.Money = (int)rspLevelUp.money;
 			uint userId = DataCenter.Instance.UserInfo.UserId;
-
-			DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
+			dataCenter.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
+			dataCenter.levelUpMaterials.Clear();
+			for (int i = 0; i < rspLevelUp.partUniqueId.Count; i++) {
+				uint uniqueID = rspLevelUp.partUniqueId[i];
+				TUserUnit tuu = dataCenter.UserUnitList.Get(uniqueID);
+				dataCenter.levelUpMaterials.Add(tuu);
+				dataCenter.UserUnitList.DelMyUnit(uniqueID);
+			}
 	
-			TUserUnit tuu = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
-
-//				Debug.LogError("rspLevelUp.baseUnit : " + rspLevelUp.baseUnit.uniqueId + " rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
-//				Debug.LogError("rspLevelUp.baseUnit : " + DataCenter.Instance.UserUnitList.GetMyUnit(rspLevelUp.blendUniqueId).Level);
+			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
-			
-//			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
 		}

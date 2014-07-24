@@ -6,7 +6,6 @@ using System.IO;
 using bbproto;
 
 public class DGTools {
-
 	private static float TWO_Sprite_Interv = 2f;
 	public static void SortStateItem(Dictionary<StateEnum,GameObject> dic, Transform target, float width) {
 		foreach (var item in dic.Values) {
@@ -108,6 +107,7 @@ public class DGTools {
 	public static int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);
 	}
+
 	/// <summary>
 	/// return a float number between 0 and 1.
 	/// </summary>

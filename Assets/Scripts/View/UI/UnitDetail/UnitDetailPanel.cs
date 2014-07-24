@@ -255,7 +255,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			if( unitMaterial == null )
 				Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
 		});
-
 	}
 
 	void LevelUp( object data){
@@ -265,7 +264,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void PlayCheckRoleAudio(){
 		PlayEvolveEffect ();
-//		Debug.LogError ("PlayEvolveEffect sound_check_role");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 		
@@ -355,7 +353,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
         }
 	}
 
-	void ShowLeaderSkillContent( TUserUnit data){
+	void ShowLeaderSkillContent( TUserUnit data ){
 		TUnitInfo unitInfo = data.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
 		if (skillId == 0) {
@@ -415,19 +413,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
-//			Debug.LogError("CallbackView :: ShowInfo for oldBlendUnit...");
 			ShowInfo (oldBlendUnit);
 		} else if (userUnit != null) {
-//			Debug.LogError("CallbackView :: ShowInfo for currentUnit... : " );
 			if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
 				unitLock.SetActive(true);
 			} else {
 				unitLock.SetActive(false);
 			}
-//			Debug.LogError(" userUnit != null show info " );
 			ShowInfo (userUnit);
 		} else {
-//			Debug.LogError("CallbackView :: ShowInfo for RspLevelUp... : ");
 			RspLevelUp rlu = data as RspLevelUp;
 
 			if(rlu ==null) {
@@ -477,8 +471,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void ShowLevelup() {
-		for (int i = 0; i < levelUpData.partUniqueId.Count; i++) {
-			TUnitInfo tui = DataCenter.Instance.UserUnitList.Get(levelUpData.partUniqueId[i]).UnitInfo;
+		DataCenter dataCenter = DataCenter.Instance;
+		for (int i = 0; i < dataCenter.levelUpMaterials.Count; i++) {
+			TUnitInfo tui = dataCenter.levelUpMaterials[i].UnitInfo;
 			GameObject go = NGUITools.AddChild(parent, materilItem);
 			go.SetActive(true);
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
@@ -492,9 +487,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {
-//			Debug.LogError ("PlayEvolveEffect sound_check_role");
-//			AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
-//			Debug.LogError("o : " + o + " newBlendUnit.UnitInfo : " + newBlendUnit.UnitInfo.ID);
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
 			Vector3 localposition = unitBodyTex.transform.localPosition; 
 			Vector3 tPos = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f - 480f, localposition.z);
