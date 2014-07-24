@@ -23,7 +23,7 @@ public class SellController : ConcreteComponent {
 	
 	public override void HideUI () {
 		base.HideUI ();
-		//base.DestoryUI ();
+		base.DestoryUI ();
 	}
 
 	public override void CallbackView(object data){

@@ -105,8 +105,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
 //	private EvolveItem highLightItem;
-
-
+	
 	void PickFriendUnitInfo(object data) {
 		TFriendInfo tuu = data as TFriendInfo;
 		friendInfo = tuu;
@@ -297,6 +296,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	void ClickItem (GameObject go) {
 		if ( baseItem.userUnit == null) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
+			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("base_Item_Null"));
 			return;
 		}
 
@@ -353,6 +353,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 				return;
 			}
 		}
+
+		friendWindow.evolveItem = baseItem;
 		SetObjectActive (false);
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();

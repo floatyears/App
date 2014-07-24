@@ -290,6 +290,7 @@ public class StageSelectView : UIComponentUnity{
 	
 	//===========evolve==============================================
 	void EvolveStartQuest (object data) {
+		Debug.LogError ("EvolveStartQuest");
 		evolveStageInfo = data as TEvolveStart;
 		GetData(evolveStageInfo.StageInfo.CityId);
 		FillViewEvolve();

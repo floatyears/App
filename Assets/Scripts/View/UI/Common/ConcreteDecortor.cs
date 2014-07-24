@@ -562,7 +562,9 @@ public class SellDecorator : DecoratorBase{
 	public SellDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
+		Debug.LogError ("SellDecorator ShowScene 1");
 		base.ShowScene();
+		Debug.LogError ("SellDecorator ShowScene 2");
         MsgCenter.Instance.AddListener(CommandEnum.SellUnitSaveState, SetKeepState);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_UNIT_SELL));	}
@@ -588,7 +590,6 @@ public class SellDecorator : DecoratorBase{
 
 		lastDecorator = sell;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 

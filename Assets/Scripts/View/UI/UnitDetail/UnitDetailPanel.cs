@@ -78,6 +78,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	GameObject materilItem;
 	GameObject parent;
 
+	public static bool isEvolve = false;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		GetUnitMaterial();
@@ -92,7 +94,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			gameObject.SetActive(true);	
 		}
 
-		DGTools.ShowTexture (unitBodyTex, null);
+//		DGTools.ShowTexture (unitBodyTex, null);
 
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
@@ -168,7 +170,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		InitTextLabel();
 	}
 
+	bool ShowTexture = false;
+
 	void ClickTexture( GameObject go ){
+		if (!ShowTexture) {
+			return;	
+		}
+
+		ShowTexture = false;
+
 		StopAllCoroutines ();
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
@@ -268,9 +278,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 		
 	void PlayEvolveEffect () {
-		if (DataCenter.gameState != GameState.Evolve) {
+		if (DataCenter.gameState != GameState.Evolve && !isEvolve) {
 			return;
 		}
+
+		isEvolve = false;
 
 		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
 		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
@@ -488,6 +500,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
+			ShowTexture = true;
+
 			Vector3 localposition = unitBodyTex.transform.localPosition; 
 			Vector3 tPos = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f - 480f, localposition.z);
 			targetPosition = tPos - parent.transform.localPosition; 
@@ -602,6 +616,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
 			Texture2D target = o as Texture2D;
 			DGTools.ShowTexture(unitBodyTex, target);
+			ShowTexture = true;
 		});
 		
 	}

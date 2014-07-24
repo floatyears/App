@@ -275,8 +275,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
-		gameObject.SetActive (false);
 
+		gameObject.SetActive (false);
+		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 //		sor
 		friendWindow.selectFriend = SelectFriend;
