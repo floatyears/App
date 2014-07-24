@@ -87,7 +87,9 @@ public class ResultView : UIComponentUnity {
 	void ClickCheck(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
-		UIManager.Instance.ChangeScene(SceneEnum.Home);
+//		UIManager.Instance.ChangeScene(SceneEnum.Home);
+
+		DGTools.ChangeToQuest();
 	}
 
 	void ClickOk(GameObject btn){
@@ -100,7 +102,9 @@ public class ResultView : UIComponentUnity {
 
 	void ClickCancel(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene(SceneEnum.Home);
+//		UIManager.Instance.ChangeScene(SceneEnum.Home);
+
+		DGTools.ChangeToQuest();
 	}
 
 	void Stylize(object msg){

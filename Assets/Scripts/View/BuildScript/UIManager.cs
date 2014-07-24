@@ -116,7 +116,8 @@ public class UIManager {
 
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
-		ChangeScene (SceneEnum.Home);
+		DGTools.ChangeToQuest();
+//		ChangeScene (SceneEnum.Home);
 	}
 
 	public void HideBaseScene () {

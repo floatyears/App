@@ -61,22 +61,71 @@ public class DGTools {
 
 	public static void ChangeToQuest() {
 		DataCenter dataCenter = DataCenter.Instance;
+		UIManager manager = UIManager.Instance;
+		MsgCenter msgCenter = MsgCenter.Instance;
 
-		uint cityInitIndex = 0;
-		while (dataCenter.QuestClearInfo.GetStoryCityState(cityInitIndex) != StageState.NEW) {
-			cityInitIndex ++;
+		TStageInfo tsi = ConfigBattleUseData.Instance.currentStageInfo;
+		TQuestInfo tqi = ConfigBattleUseData.Instance.currentQuestInfo;
+
+		uint cityID = tsi.CityId;
+
+		StageState questStage = dataCenter.QuestClearInfo.GetStoryStageState (tsi.ID);
+
+		if (questStage == StageState.NEW) {
+			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
+			manager.ChangeScene (SceneEnum.StageSelect);
+			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
+
+			manager.ChangeScene(SceneEnum.QuestSelect);
+			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, tsi);
+			return;
 		}
-		TCityInfo tci = dataCenter.GetCityInfo (cityInitIndex);
 
-		uint stageInitIndex = 0;
-		while (dataCenter.QuestClearInfo.GetStoryStageState(stageInitIndex) != StageState.NEW) {
-			stageInitIndex ++;	
+		StageState stageClearStage = dataCenter.QuestClearInfo.GetStoryCityState (cityID);
+		TCityInfo tci = dataCenter.GetCityInfo (cityID);
+
+		if (questStage == StageState.CLEAR) { 	
+
+			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].ID != tqi.ID) { // current quest not the last quest.
+				MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
+				manager.ChangeScene (SceneEnum.StageSelect);
+				MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
+
+				manager.ChangeScene (SceneEnum.QuestSelect);
+				msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
+
+			} else {
+
+				if (stageClearStage == StageState.CLEAR) {
+
+					if (tci.cityInfo.stages [tci.cityInfo.stages.Count - 1].id != tsi.ID) {	// current stage not the last stage
+						MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
+						manager.ChangeScene (SceneEnum.StageSelect);
+						MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
+					} else {
+						manager.ChangeScene (SceneEnum.Home);
+					}
+
+				} else {
+					MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
+					manager.ChangeScene (SceneEnum.StageSelect);
+					MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
+
+				}
+
+			}
+
+		} else {
+
+			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
+
+			manager.ChangeScene (SceneEnum.StageSelect);
+			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
+
+			manager.ChangeScene (SceneEnum.QuestSelect);
+			msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
+
 		}
-
-		TStageInfo tsi = tci.GetStage (cityInitIndex);
-
-		UIManager.Instance.ChangeScene(SceneEnum.QuestSelect);
-		MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, tsi);
 	}
 
 	public static int GetEnemyHeightByRare(int rare) {
