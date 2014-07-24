@@ -48,6 +48,7 @@ public class Role : UIBaseUnity {
 	}
 
 	void RoleStart() {
+//		Debug.LogError ("role start ");
 		prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
 		TargetPoint = bQuest.GetPosition(currentCoor);
 		jump.Init (GetInitPosition());

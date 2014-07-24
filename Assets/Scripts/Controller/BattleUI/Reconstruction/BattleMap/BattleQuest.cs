@@ -37,6 +37,8 @@ public class BattleQuest : UIBase {
 	private ConfigBattleUseData configBattleUseData; 
 	private RoleStateException roleStateException;
 
+	public static int battleData = 0;
+
 	public BattleQuest (string name) : base(name) {
 		configBattleUseData = ConfigBattleUseData.Instance;
 		InitData ();
@@ -85,6 +87,7 @@ public class BattleQuest : UIBase {
 		battle.HideUI ();
 		CreatEffect ();
 		bud = new BattleUseData (this);
+//		bud.battleData = battleData;
 	}
 
 	void CreatEffect () {
@@ -123,6 +126,7 @@ public class BattleQuest : UIBase {
 		questDungeonData = configBattleUseData.questDungeonData; 	//GetData (ModelEnum.MapConfig,new ErrorMsg()) as TQuestDungeonData;
 		_questData = configBattleUseData.storeBattleData.questData;
 		questDungeonData.currentFloor = _questData.Count > 0 ? _questData.Count - 1 : 0;
+		battleData = configBattleUseData.hasBattleData ();
 	}
 
 	void Init(UIBaseUnity ui, string name) {
@@ -138,7 +142,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
-		InitData ();
+//		InitData ();
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		base.ShowUI ();
 		AddListener ();
@@ -150,7 +154,9 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
 
-		if (configBattleUseData.hasBattleData() > 0) {
+//		Debug.LogError ("battle quest show ui ");
+//		int battleData = configBattleUseData.hasBattleData ();
+		if (battleData > 0) {
 			ContineBattle ();
 		} else {
 			configBattleUseData.StoreData(questDungeonData.QuestId);
@@ -461,7 +467,7 @@ public class BattleQuest : UIBase {
 			if (iase != null) {
 				excute = true;
 				iase.ExcuteByDisk (ai);
-			}else{
+			} else { 
 				excute = false;
 			}
 		} else {
