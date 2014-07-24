@@ -47,7 +47,7 @@ public class ConfigDragPanel{
 		UnitListDragPanelArgs.Add("position",							Vector3.zero									);
 		UnitListDragPanelArgs.Add("clipRange",						new Vector4(0, -210, 640, 600)			);
 		UnitListDragPanelArgs.Add("gridArrange",						UIGrid.Arrangement.Vertical			);
-		UnitListDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -540, 0)				);
+		UnitListDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -464, 0)				);
 		UnitListDragPanelArgs.Add("cellWidth",							100												);
 		UnitListDragPanelArgs.Add("cellHeight",						100												);
 		UnitListDragPanelArgs.Add("maxPerLine",						 5													);
@@ -138,7 +138,7 @@ public class ConfigDragPanel{
 		PartyListDragPanelArgs.Add("position", 							 Vector3.zero								);
 		PartyListDragPanelArgs.Add("clipRange", 						 new Vector4(0, -100, 640, 315)				);
 		PartyListDragPanelArgs.Add("gridArrange", 					 UIGrid.Arrangement.Vertical			);
-		PartyListDragPanelArgs.Add("scrollBarPosition",				 new Vector3(-320, -272, 0)				);
+		PartyListDragPanelArgs.Add("scrollBarPosition",				 new Vector3(-320, -251, 0)				);
 		PartyListDragPanelArgs.Add("cellWidth", 						 100												);
 		PartyListDragPanelArgs.Add("cellHeight",						 100												);
 		PartyListDragPanelArgs.Add("maxPerLine",					 3													);
@@ -180,7 +180,7 @@ public class ConfigDragPanel{
 		OnSaleUnitDragPanelArgs.Add("position", 						Vector3.zero								);
 		OnSaleUnitDragPanelArgs.Add("clipRange", 						new Vector4(0, -100, 640, 350)		);
 		OnSaleUnitDragPanelArgs.Add("gridArrange", 					UIGrid.Arrangement.Vertical		);
-		OnSaleUnitDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -275, 0)			);
+		OnSaleUnitDragPanelArgs.Add("scrollBarPosition",				new Vector3(-320, -248, 0)			);
 		OnSaleUnitDragPanelArgs.Add("cellWidth", 						100											);
 		OnSaleUnitDragPanelArgs.Add("cellHeight",						100											);
 		OnSaleUnitDragPanelArgs.Add("maxPerLine",					3												);

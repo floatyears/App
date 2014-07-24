@@ -296,7 +296,7 @@ public class CatalogView : UIComponentUnity {
 		setter.parentTrans = transform;
 		setter.clipRange = new Vector4 (0, -200, 640, 560);
 		setter.gridArrange = UIGrid.Arrangement.Vertical;
-		setter.scrollBarPosition = new Vector3 (-320, -480, 0);
+		setter.scrollBarPosition = new Vector3 (-320, -460, 0);
 		setter.maxPerLine = 5;
 		setter.depth = 2;	
 		dynamicDragPanel.SetDragPanel (setter);
