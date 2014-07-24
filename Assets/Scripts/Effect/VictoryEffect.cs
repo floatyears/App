@@ -255,7 +255,8 @@ public class VictoryEffect : UIComponentUnity {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
 			} else {
-				UIManager.Instance.ChangeScene(SceneEnum.Home);
+//				UIManager.Instance.ChangeScene(SceneEnum.Home);
+				DGTools.ChangeToQuest();
 			}
 		}
 	}

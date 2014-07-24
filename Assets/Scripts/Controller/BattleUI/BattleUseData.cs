@@ -64,6 +64,7 @@ public class BattleUseData {
     public static float CountDown {
         get { return countDown; }
     }
+	
 
 	private ConfigBattleUseData configBattleUseData;
 

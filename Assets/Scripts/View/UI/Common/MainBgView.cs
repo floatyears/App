@@ -38,13 +38,8 @@ public class MainBgView : UIComponentUnity {
 
 	private void ShowMask(object msg){
 		bool isMask = (bool)msg;
-		if(isMask){
-			otherBg.enabled = true;
-			background.enabled = false;
-		}
-		else{
-			otherBg.enabled = false;
-			background.enabled = true;
-		}
+
+		otherBg.enabled = isMask;
+		background.enabled = !isMask;
 	}
 }
