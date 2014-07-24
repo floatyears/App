@@ -14,7 +14,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	}
 
 	public void RefreashCooling () {
-		Debug.LogError ("ActiveSkill ReadSkillCooling");
+//		Debug.LogError ("ActiveSkill ReadSkillCooling");
 		DisposeCooling ();
 	}
 
@@ -28,7 +28,8 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	private ConfigBattleUseData configBattleUseData;
 	public void StoreSkillCooling (string id) {
 		skillStoreID = id;
-		if (configBattleUseData.hasBattleData() > 0) {
+
+		if (BattleQuest.battleData > 0) {
 				ReadSkillCooling ();
 		} else {
 			Store();
@@ -41,9 +42,9 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 
 	void ReadSkillCooling () {
 		int skillCooling = GameDataStore.Instance.GetIntDataNoEncypt (skillStoreID);
-		Debug.LogError ("ReadSkillCooling 1 : " + skillCooling + "skillStoreID : " + skillStoreID);
+//		Debug.LogError ("ReadSkillCooling 1 : " + skillCooling + "skillStoreID : " + skillStoreID);
 		skillBase.skillCooling = skillCooling;
-		Debug.LogError ("ReadSkillCooling 2 : " + skillBase.skillCooling + " this : " + this);
+//		Debug.LogError ("ReadSkillCooling 2 : " + skillBase.skillCooling + " this : " + this);
 	}
 
 	protected void DisposeCooling () {

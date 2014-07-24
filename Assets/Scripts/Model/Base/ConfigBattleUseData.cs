@@ -193,10 +193,12 @@ public class ConfigBattleUseData {
 	public void StoreData (uint questID) {
 		int id = (int)questID;
 		GameDataStore.Instance.StoreIntDatNoEncypt (GameDataStore.battleStore, id);
+//		Debug.LogError ("StoreData : " + id);
 	}
 
 	public void ClearData () {
 		GameDataStore.Instance.StoreIntDatNoEncypt (GameDataStore.battleStore, 0);
+//		Debug.LogError ("ClearData : " + GameDataStore.Instance.GetIntDataNoEncypt (GameDataStore.battleStore));
 	}
 
 	public int hasBattleData () {

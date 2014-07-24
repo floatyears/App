@@ -69,7 +69,6 @@ public class ExcuteActiveSkill {
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_appear);
 	}
-
    
 	void Excute() {
 		if (iase == null || userUnit == null) {
@@ -80,7 +79,7 @@ public class ExcuteActiveSkill {
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
-		Debug.LogError ("Excute : " + (fixEffectTime + singleEffectTime));
+//		Debug.LogError ("Excute : " + (fixEffectTime + singleEffectTime));
 		GameTimer.GetInstance ().AddCountDown (fixEffectTime + singleEffectTime, ActiveSkillEnd);
 	}
 
@@ -96,16 +95,9 @@ public class ExcuteActiveSkill {
 		CoolingSkill ();
 	}
 
-//	void ShowHands(object data) {
-//		int count = (int)data;
-//		for (int i = 0; i < count; i++) {
-//			CoolingSkill ();
-//		}
-//	}
-
 	List<IActiveSkillExcute> coolingDoneSkill = new List<IActiveSkillExcute>();
 	public void CoolingSkill () {
-		Debug.LogError ("CoolingSkill ");
+//		Debug.LogError ("CoolingSkill ");
 		foreach (var item in activeSkill.Values) {
 			item.RefreashCooling();
 		}

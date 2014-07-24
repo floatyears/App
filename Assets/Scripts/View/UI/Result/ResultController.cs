@@ -107,7 +107,8 @@ public class ResultController : ConcreteComponent {
 			if ( (rsp.header.code != (int)ErrorCode.EF_IS_ALREADY_FRIEND) && (rsp.header.code != (int)ErrorCode.EF_IS_ALREADY_FRIENDOUT) ) {
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			}	
-			UIManager.Instance.ChangeScene(SceneEnum.Home);
+//			UIManager.Instance.ChangeScene(SceneEnum.Home);
+			DGTools.ChangeToQuest();
 			return;
 		}
 
@@ -116,7 +117,8 @@ public class ResultController : ConcreteComponent {
 		LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendList, DataCenter.Instance.FriendList == null);
 		DataCenter.Instance.SetFriendList(inst);
 
-		UIManager.Instance.ChangeScene(SceneEnum.Home);
+//		UIManager.Instance.ChangeScene(SceneEnum.Home);
+		DGTools.ChangeToQuest();
 	}
 
 	private void ClearData(){

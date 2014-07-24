@@ -102,19 +102,43 @@ public class SortPanelView : UIComponentUnity {
 			return;	
 		}
 			
-		SortRuleByUI sr;
+		SortRuleByUI srui = 0;
+
 		switch(UIManager.Instance.baseScene.CurrentScene) {
-		case SceneEnum.Apply:
-			sr = SortRuleByUI.ApplyView;
+			case SceneEnum.Apply:
+				srui = SortRuleByUI.ApplyView;
+				break;
+			case SceneEnum.Sell:
+				srui = SortRuleByUI.SellView;
+				break;
+			case SceneEnum.FriendList:
+				srui = SortRuleByUI.FriendListView;
+				break;
+			case SceneEnum.Party:
+				srui = SortRuleByUI.PartyView;
+				break;
+			case SceneEnum.LevelUp:
+				srui = SortRuleByUI.LevelUp;
+				break;
+			case SceneEnum.Evolve:
+				srui = SortRuleByUI.Evolve;
+				break;
+			case SceneEnum.UnitList:
+				srui = SortRuleByUI.MyUnitListView;
 			break;
-		case SceneEnum.Sell:
-			sr = SortRuleByUI.SellView;
-			break;
-		case SceneEnum.FriendList:
-			sr = SortRuleByUI.FriendListView;
-			break;
-//		case SceneEnum.Party:
-//			sr = SortRuleByUI.
+//		case SceneEnum.UnitCatalog:
+//			srui = SortRuleByUI.
+			default:
+				break;
+		}
+
+		SortRule sr = SortUnitTool.GetSortRule (srui);
+		foreach (var item in sortRuleSelectDic) {
+			if(item.Value == sr){
+				item.Key.defaultColor = Color.grey;
+			}else {
+				item.Key.defaultColor = Color.white;
+			}
 		}
 
 		sortBtnMask.enabled = true;
