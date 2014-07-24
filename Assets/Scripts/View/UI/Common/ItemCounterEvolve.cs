@@ -20,12 +20,14 @@ public class ItemCounterEvolve : MonoBehaviour {
 	void InitUIElement(){
 		titleLabel = transform.Find("Label_Title").GetComponent<UILabel>(); //FindChild<UILabel>("Label_Title");
 		curLabel = transform.Find("Label_Current").GetComponent<UILabel>(); //FindChild<UILabel>("Label_Current");
-		maxLabel = transform.Find("Label_Max").GetComponent<UILabel>(); //FindChild<UILabel>("Label_Max");
+		maxLabel = transform.Find("Label_Max").GetComponent<UILabel>(); 	//FindChild<UILabel>("Label_Max");
 	}
 	
 	public void UpdateView(object msg){
 		Dictionary<string, object> viewInfo = msg as Dictionary<string, object>;
-
+//		foreach (var item in viewInfo) {
+////			Debug.LogError(item.Key);
+//				}
 		titleLabel.text = viewInfo["title"] as string;
 
 		int current = (int)viewInfo["current"];
