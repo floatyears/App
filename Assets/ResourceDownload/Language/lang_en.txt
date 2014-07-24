@@ -480,10 +480,10 @@ TotalFriendPoint=Total pal point: {0}.
 
 ##preface
 Preface_Content1=Look out! Assassin!
-Preface_Content2=这是地下格斗会场，话音未落，护卫已闪身出现，\n挡在了吸血鬼伯爵之女——Mavis身前……
-Preface_Content3=护卫拼命救主，Mavis幸免于难，不过也带来了更大的噩耗！
-Preface_Content4=伯爵被绑架走了！
-Preface_Content5=Mavis救父心切，向在场格斗家们发出请求，一起去营救伯爵！
+Preface_Content2=Underground Fighting Venue, a guard jumping in front of Mavis who is Dracula's daughter.
+Preface_Content3=The guard tried to save Mavis, even survived, but worse news came!
+Preface_Content4=Dracula has been kidnapped!
+Preface_Content5=Mavis was very anxious, gathering a lots of fighters,\n decided to go to Monsters World to rescue Dracula!
 
 ##unit name
 UnitName_1=Indian Shaman

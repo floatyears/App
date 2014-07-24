@@ -480,11 +480,11 @@ GotFriendPoint=你获得了 {0} 友情点.
 TotalFriendPoint=你拥有的友情点: {0}.
 
 ##preface
-Preface_Content1=“大小姐！小心刺客！”
-Preface_Content2=这是地下格斗会场，话音未落，护卫已闪身出现，\n挡在了吸血鬼伯爵之女——Mavis身前……
-Preface_Content3=护卫拼命救主，Mavis幸免于难，不过也带来了更大的噩耗！
-Preface_Content4=伯爵被绑架走了！
-Preface_Content5=Mavis救父心切，向在场格斗家们发出请求，一起去营救伯爵！
+Preface_Content1=大小姐！小心刺客！
+Preface_Content2=地下格斗会场，话音未落，护卫已闪身出现，\n挡在了吸血鬼伯爵之女——Mavis身前……
+Preface_Content3=护卫拼命救主，Mavis幸免于难，不过...带来了更大的噩耗...
+Preface_Content4=伯爵被绑架了！
+Preface_Content5=Mavis救父心切，集结了在场的格斗家们，决定勇闯怪物世界，营救伯爵！
 
 ##unit name
 UnitName_1=印第安萨满
