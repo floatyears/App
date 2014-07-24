@@ -6526,7 +6526,10 @@ namespace bbproto
       E_BUY = 5,
             
       [global::ProtoBuf.ProtoEnum(Name=@"E_BONUS", Value=6)]
-      E_BONUS = 6
+      E_BONUS = 6,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"E_STAGE", Value=7)]
+      E_STAGE = 7
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EGachaType")]

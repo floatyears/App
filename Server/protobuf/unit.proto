@@ -69,6 +69,7 @@ enum EUnitGetType {
 	E_GACHA_EVENT		= 4;
 	E_BUY				= 5;
     E_BONUS				= 6;
+    E_STAGE             = 7;
 }
 
 /////////unsed///////////////////////////////////////////////////////////////////

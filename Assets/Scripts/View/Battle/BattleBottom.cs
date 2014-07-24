@@ -52,7 +52,7 @@ public class BattleBottom : MonoBehaviour {
 
 			actorObject.Add(i, texture);
 
-			if(userUnitInfo[i] == null) {
+			if(!userUnitInfo.ContainsKey(i) || userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
 				bgSpr.enabled = false;
