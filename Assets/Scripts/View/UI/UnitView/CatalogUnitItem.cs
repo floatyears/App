@@ -90,6 +90,7 @@ public class CatalogUnitItem : MyUnitItem {
 		}
 		set{
 			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
+			UIEventListenerCustom.Get(this.gameObject).onClick = null;
 			state = value;
 
 			switch (state) {
@@ -103,6 +104,7 @@ public class CatalogUnitItem : MyUnitItem {
 					maskSprite.enabled = false;
 					//translucentMaskSpr.enabled = false;
 					UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
+					UIEventListenerCustom.Get(this.gameObject).onClick = PressItem;
 					break;
 				case CatalogState.Meet : 
 //					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);

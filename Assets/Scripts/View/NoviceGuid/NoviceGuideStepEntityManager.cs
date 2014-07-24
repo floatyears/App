@@ -210,13 +210,14 @@ public class NoviceGuideStepEntityManager {
 //			CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
 //			break;
 				case NoviceGuideStage.INPUT_NAME://InputName
+						CreateStepEntityByID (NoviceGuideStepEntityID.INPUT_NAME, NoviceGuideStepE_StateOne.Instance ());
 						break;
-				case NoviceGuideStage.QUEST_SELECT://QuestSelect
-						CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepE_StateOne.Instance ());
-						break;
-
-				case NoviceGuideStage.EVOVLE_BATTLE://EvovlveBattle
-						break;
+//				case NoviceGuideStage.QUEST_SELECT://QuestSelect
+//						CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepE_StateOne.Instance ());
+//						break;
+//
+//				case NoviceGuideStage.EVOVLE_BATTLE://EvovlveBattle
+//						break;
 //			case novi
 //		case 19://selectRole
 //			break;
@@ -339,6 +340,7 @@ public enum NoviceGuideStepEntityID{
 	FIGHT_BOSS,
 	LEVEL_UP,
 	EVOLVE,
+	INPUT_NAME,
 }
 
 public enum NoviceGuideStartType{
@@ -378,7 +380,7 @@ public enum NoviceGuideStage{
 	SCRATCH,
 	INPUT_NAME,
 	FRIEND_SELECT,
-	QUEST_SELECT,
+//	QUEST_SELECT,
 	EVOLVE,
 	EVOVLE_BATTLE,
 	EVOVLE_QUEST

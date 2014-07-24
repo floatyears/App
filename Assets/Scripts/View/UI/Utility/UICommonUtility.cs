@@ -68,11 +68,16 @@ public class TouchEventBlocker{
 //			stateDic.Add(reason, isBlocked);
 //		}
 
-//		Debug.Log ("blocker reason: " +reason +" block: " + isBlocked);
+		Debug.Log ("blocker reason: " +reason +" block: " + isBlocked);
 
 		CameraLayerObj camLayerObj = new CameraLayerObj ();
 		camLayerObj.reason = reason;
-		camLayerObj.originLayer = nguiCamera.eventReceiverMask;
+//		if (reason == BlockerReason.Connecting) {
+//			camLayerObj.originLayer = nguiCamera.eventReceiverMask;
+//		} else {
+			camLayerObj.originLayer = nguiCamera.eventReceiverMask;
+//		}
+
 		camLayerObj.isBlocked = isBlocked;
 
 		if (isBlocked) {

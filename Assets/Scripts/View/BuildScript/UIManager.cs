@@ -156,6 +156,7 @@ public class UIManager {
 					if(current.CurrentDecoratorScene == sEnum){
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
+						MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
 						return;
 					}
 					current.HideScene ();
