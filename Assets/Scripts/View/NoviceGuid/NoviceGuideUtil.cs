@@ -42,8 +42,8 @@ public class NoviceGuideUtil {
 				//point to the top
 				case 3:
 					dir = new Vector3 (0.0f, 0.0f, 180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
-					tPos.to.y = -size.y / 2 - 32 + posAndDir [i].y;
-					tPos.from.y = -size.y / 2 - 62.0f + posAndDir [i].y;
+					tPos.to.y = -size.y / 2 - 12 + posAndDir [i].y;
+					tPos.from.y = -size.y / 2 - 32.0f + posAndDir [i].y;
 					tPos.to.x = posAndDir [i].x;
 					tPos.from.x = posAndDir [i].x;
 					break;
@@ -51,8 +51,8 @@ public class NoviceGuideUtil {
 				case 4:
 					dir = new Vector3 (0f, 0f, 90f);
 //					dir = Quaternion.FromToRotation(new Vector3(-1,0,0),Vector3.zero);
-					tPos.to.x = -size.x / 2 - 32 + posAndDir [i].x;
-					tPos.from.x = -size.x / 2 - 62.0f + posAndDir [i].x;
+					tPos.to.x = -size.x / 2 - 12 + posAndDir [i].x;
+					tPos.from.x = -size.x / 2 - 32.0f + posAndDir [i].x;
 					tPos.to.y = posAndDir [i].y;
 					tPos.from.y = posAndDir [i].y;
 					break;
@@ -60,8 +60,8 @@ public class NoviceGuideUtil {
 				case 1:
 //					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
 					dir = new Vector3 (0f, 0f, 0f);
-					tPos.to.y = size.y / 2 + 32 + posAndDir [i].y;
-					tPos.from.y = size.y / 2 + 62.0f + posAndDir [i].y;
+					tPos.to.y = size.y / 2 + 12 + posAndDir [i].y;
+					tPos.from.y = size.y / 2 + 32.0f + posAndDir [i].y;
 					tPos.to.x = posAndDir [i].x;
 					tPos.from.x = posAndDir [i].x;
 					break;
@@ -69,8 +69,8 @@ public class NoviceGuideUtil {
 	//point to the left
 //					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
 					dir = new Vector3 (0f, 0f, 270f);
-					tPos.to.x = size.x / 2 + 32 + posAndDir [i].x;
-					tPos.from.x = size.x / 2 + 62.0f + posAndDir [i].x;
+					tPos.to.x = size.x / 2 + 12 + posAndDir [i].x;
+					tPos.from.x = size.x / 2 + 32.0f + posAndDir [i].x;
 					tPos.to.y = posAndDir [i].y;
 					tPos.from.y = posAndDir [i].y;
 					break;
@@ -257,7 +257,9 @@ public class NoviceGuideUtil {
 		
 		oneBtnClickLayer = obj.layer;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
-		mainCam.eventReceiverMask = mask;
+//		mainCam.eventReceiverMask = mask;
+		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, true);
+
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
 		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
 	}
@@ -266,8 +268,10 @@ public class NoviceGuideUtil {
 	{
 		UIEventListenerCustom.Get (btn).LongPress -= BtnPress;
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-		mainCam.eventReceiverMask = camLastLayer;
-		
+//		mainCam.eventReceiverMask = camLastLayer;
+
+		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, false);
+
 		btn.layer = oneBtnClickLayer;
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
 		

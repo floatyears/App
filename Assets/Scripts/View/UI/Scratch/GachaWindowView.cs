@@ -400,7 +400,12 @@ public class GachaWindowView : UIComponentUnity {
     IEnumerator LastOperation(){
         yield return new WaitForSeconds(1f);
 		showIndex = 0;
-        UIManager.Instance.ChangeScene(SceneEnum.Scratch);
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
+			UIManager.Instance.ChangeScene (SceneEnum.Home);	
+		} else {
+			UIManager.Instance.ChangeScene (SceneEnum.Scratch);	
+		}
+        
         yield return null;
     }
     

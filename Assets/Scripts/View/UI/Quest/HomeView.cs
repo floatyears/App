@@ -35,6 +35,8 @@ public class HomeView : UIComponentUnity{
 				UIManager.Instance.ChangeScene(SceneEnum.Scratch);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT){
 				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.QUEST);
+			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.INPUT_NAME){
+				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.OTHERS);
 			}
 		}
 	}
