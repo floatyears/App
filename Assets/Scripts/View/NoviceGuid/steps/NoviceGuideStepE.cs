@@ -7,7 +7,7 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 
 	private int btnLastLayer;
 
-	private bool isCityTapped;
+	private bool changeEnd = false;
 
 	private static NoviceGuideStepE_StateOne instance;
 	
@@ -30,14 +30,26 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		NoviceGuideUtil.ForceOneBtnClick (cityObj);
 //
 //		UIEventListener.Get (cityObj).onClick += TapCityItem;
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
+		UIManager.Instance.ChangeScene (SceneEnum.Others);
 	}
-	
-	private void TapCityItem(GameObject btn)
-	{
-		UIEventListener.Get (btn).onClick -= TapCityItem;
-		
-		isCityTapped = true;
+
+	void OnChange(object data){
+		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.Others) {
+			if (!changeEnd) {
+				UIManager.Instance.ChangeScene (SceneEnum.NickName);
+			}else{
+				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
+				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
+			}
+
+		} else if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.NickName) {
+			GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = false;
+			changeEnd = true;
+		}
+
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)

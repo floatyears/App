@@ -213,7 +213,7 @@ public class NoviceGuideStepM_StateFive:NoviceGuidState{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_five");
 		
 		GameObject first = GameObject.FindWithTag ("fight_btn");
-		NoviceGuideUtil.ForceOneBtnClick (first);
+		NoviceGuideUtil.ForceOneBtnClick (first,true);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
 	}
@@ -222,7 +222,7 @@ public class NoviceGuideStepM_StateFive:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.INPUT_NAME;
 	}
 	
 	

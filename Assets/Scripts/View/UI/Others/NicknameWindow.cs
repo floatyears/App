@@ -56,9 +56,11 @@ public class NicknameWindow : UIComponentUnity {
 		LogHelper.Log("ClickOkButton to rename");
 //		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
 		if (nickNameInput.value == null || nickNameInput.value == "") {
-				
+
+		} else {
+			ChangeName (nickNameInput.value);
 		}
-		ChangeName (nickNameInput.value);
+
 	}
 
 	void ClickCancelButton(GameObject go){

@@ -155,7 +155,7 @@ public class NoviceGuideStepC_StateThree:NoviceGuidState
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.INPUT_NAME;
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FRIEND_SELECT;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
