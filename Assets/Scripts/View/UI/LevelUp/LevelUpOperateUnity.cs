@@ -155,7 +155,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
-//		Debug.LogError ("show data : " + clear);
 		if (!clear) {
 			return;	
 		}
@@ -167,10 +166,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 
 		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
-
-//		if (_sortRule != SortRule.None) {
-//			SortUnitTool.SortByTargetRule(_sortRule, myUnit);
-//		}
 
 		myUnitDragPanel.RefreshItem (myUnit);
 

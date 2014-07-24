@@ -210,6 +210,11 @@ public class DataCenter {
 	public TUserUnit oldUserUnitInfo = null;
 
 	/// <summary>
+	/// store levelup's materials
+	/// </summary>
+	public List<TUserUnit> levelUpMaterials = new List<TUserUnit> ();
+
+	/// <summary>
 	/// store levelup helper info.
 	/// </summary>
 	public TUserUnit levelUpFriend = null;
