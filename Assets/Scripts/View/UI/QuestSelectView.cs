@@ -98,12 +98,8 @@ public class QuestSelectView : UIComponentUnity {
 		for (int i = 0; i < questInfoList.Count; i++){
 			accessQuestList.Add(questInfoList[ i ]);
 
-////			Debug.Log("QuestSelectView, stageID = " + pickedStage.ID 
-//			          + ", questID = " + questInfoList[ i ].ID 
-//			          + ", isClear = " + DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(pickedStage.ID, questInfoList[ i ].ID));
-
-			if(!CheckQuestIsClear(pickedStage, questInfoList[ i ].ID)) break;
-
+			if(!CheckQuestIsClear(pickedStage, questInfoList[ i ].ID)) 
+				break;
 		}
 		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessQuestList.Count);
 		return accessQuestList;

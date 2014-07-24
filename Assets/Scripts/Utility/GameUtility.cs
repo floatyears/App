@@ -108,6 +108,7 @@ public class DGTools {
 	public static int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);
 	}
+
 	/// <summary>
 	/// return a float number between 0 and 1.
 	/// </summary>
