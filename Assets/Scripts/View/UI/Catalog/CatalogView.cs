@@ -19,17 +19,12 @@ public class CatalogView : UIComponentUnity {
        
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
-		//InitConfig();
-		//InitPooler();
-		//InitDragPanel();
 		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		//CreateDragPanel();
 		RefreshItemCounter();
-		//RefreshCatalogView();
 		StartCoroutine("InitDragPanel");
 	}
 	
@@ -70,7 +65,7 @@ public class CatalogView : UIComponentUnity {
 
 	private int GetTotalUnitCount(){
 		//TODO LOAD FORM CONFIG FILE
-		int totalUnitCount = 300;
+		int totalUnitCount = 226;
 		return totalUnitCount;
 	}
 

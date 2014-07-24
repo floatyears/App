@@ -137,8 +137,9 @@ public class LoadingLogic : ConcreteComponent {
 			if( rspAuthUser.login != null){
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
-			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.INPUT_NAME;
+
+//			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
@@ -276,7 +277,6 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
 	void SureRetry(object data) {
-//		Debug.LogError("SureRetry : ");
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
 		UIManager.Instance.EnterBattle();
@@ -284,7 +284,6 @@ public class LoadingLogic : ConcreteComponent {
 
 	void RecoverParty() {
 		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
-//		Debug.LogError ("gs : " + gs);
 		if (gs == GameState.Evolve) {
 			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
 			tpi.CurrentPartyId = tpi.AllParty.Count;

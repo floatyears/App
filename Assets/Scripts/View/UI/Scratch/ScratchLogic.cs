@@ -269,6 +269,7 @@ public class ScratchLogic : ConcreteComponent {
 
     private void CallbackEventGacha(object args){
         gachaType = GachaType.EventGacha;
+//		Debug.LogError ("gachaType");
         gachaCount = (int)args;
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
@@ -326,11 +327,6 @@ public class ScratchLogic : ConcreteComponent {
                                       GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaStoneNotEnough));
             return;
         }
-//		else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
-//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-//                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaUnitCountReachedMax));
-//            return;
-//        }
         // TODO eventGacha
         SceneEnum nextScene = SceneEnum.EventScratch;
         UIManager.Instance.ChangeScene(nextScene);

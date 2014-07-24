@@ -1343,6 +1343,7 @@ guide46_title=合成结束
 guide46_content=LV已达max，接下来开始进化吧。
 
 ##evolve
+base_Item_Null=基础卡牌数据为空。
 guide51_title=选择进化用基础卡牌
 guide51_content=选择想要进化的卡牌。\n点击lv-max的角色试试吧。
 guide52_title=选择帮手

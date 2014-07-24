@@ -155,7 +155,7 @@ public class StageItemView : MonoBehaviour{
 		GameObject.Destroy(transform.FindChild("Tip").gameObject);
 	}
 
-
+	GameObject insPrefab = null;
 	public void ShowIconByState(StageState state){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 
@@ -165,10 +165,12 @@ public class StageItemView : MonoBehaviour{
 		}
 		else if(state == StageState.NEW){
 			ShowIconAccessState(icon);
+			if(insPrefab == null) {
+				string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
+				GameObject prefab = Resources.Load(sourcePath) as GameObject;
+				insPrefab = NGUITools.AddChild(gameObject, prefab);
+			}
 
-			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
-			GameObject prefab = Resources.Load(sourcePath) as GameObject;
-			NGUITools.AddChild(gameObject, prefab);
 			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 		}
 		else if(state == StageState.CLEAR){
