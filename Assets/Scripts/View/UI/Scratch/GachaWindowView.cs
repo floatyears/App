@@ -472,6 +472,7 @@ public class GachaWindowView : UIComponentUnity {
         yield return new WaitForSeconds(1f);
 		showIndex = 0;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
+			Debug.Log("goto home view==================");
 			UIManager.Instance.ChangeScene (SceneEnum.Home);	
 		} else {
 			UIManager.Instance.ChangeScene (SceneEnum.Scratch);	

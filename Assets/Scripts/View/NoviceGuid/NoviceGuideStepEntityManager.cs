@@ -179,7 +179,7 @@ public class NoviceGuideStepEntityManager {
 								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateThree.Instance ());
 								break;
 						case NoviceGuideStage.PARTY://Party
-								CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepF_StateOne.Instance ());
+								CreateStepEntityByID (NoviceGuideStepEntityID.PARTY, NoviceGuideStepF_StateOne.Instance ());
 								break;
 						case NoviceGuideStage.LEVEL_UP://LevelUp
 								CreateStepEntityByID (NoviceGuideStepEntityID.LEVEL_UP, NoviceGuideStepI_StateOne.Instance ());
@@ -292,7 +292,7 @@ public class NoviceGuideStepEntityManager {
 			//NextState();
 			//return stepEntityDic[id];
 			if(stepEntityDic[id].StartState != state){
-				LogHelper.Log("the start state isn't the same, start: " + stepEntityDic[id].StartState+" next is: " + state);
+				Debug.Log("the start state isn't the same, start: " + stepEntityDic[id].StartState+" next is: " + state);
 				stepEntityDic[id].GetStateMachine().CurrentState = state;
 				stepEntityDic[id].GetStateMachine().IsRunning = true;
 			} else{
