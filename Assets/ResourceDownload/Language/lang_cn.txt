@@ -115,6 +115,7 @@ Text_Leader_Skill=队长技能
 Text_Active_Skill=主动技能
 Text_Normal_Skill_1=技能1
 Text_Normal_Skill_2=技能2
+Text_Passive_Skill=被动技能
 Text_HP=血量
 Text_ATK=攻击
 Text_COST=统御力

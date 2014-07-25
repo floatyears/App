@@ -115,6 +115,7 @@ Text_Leader_Skill=Leader Skill
 Text_Active_Skill=Active Skill
 Text_Normal_Skill_1=Skill1
 Text_Normal_Skill_2=Skill2
+Text_Passive_Skill=Passive Skill
 Text_HP=HP
 Text_ATK=ATK
 Text_COST=COST
