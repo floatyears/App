@@ -318,17 +318,17 @@ public class DataCenter {
         set { setData(ModelEnum.EnemyInfo, value); } 
     }
 
-    public Dictionary<int, UnitBaseInfo> UnitBaseInfo {
-        get { 
-            Dictionary<int, UnitBaseInfo> ret = getData(ModelEnum.UnitBaseInfo) as Dictionary<int, UnitBaseInfo>;
-            if (ret == null) {
-                ret = new Dictionary<int, UnitBaseInfo>();
-                setData(ModelEnum.UnitBaseInfo, ret);
-            }
-            return ret; 
-        }
-        set { setData(ModelEnum.UnitBaseInfo, value); } 
-    }
+//    public Dictionary<int, UnitBaseInfo> UnitBaseInfo {
+//        get { 
+//            Dictionary<int, UnitBaseInfo> ret = getData(ModelEnum.UnitBaseInfo) as Dictionary<int, UnitBaseInfo>;
+//            if (ret == null) {
+//                ret = new Dictionary<int, UnitBaseInfo>();
+//                setData(ModelEnum.UnitBaseInfo, ret);
+//            }
+//            return ret; 
+//        }
+//        set { setData(ModelEnum.UnitBaseInfo, value); } 
+//    }
 
 	//new add by Lynn
 	public List<TCityInfo> CityListInfo{
@@ -372,18 +372,18 @@ public class DataCenter {
         set { setData(ModelEnum.TrapInfo, value); } 
     }
 
-    public UnitBaseInfo FriendBaseInfo {
-        get {
-            UnitBaseInfo ret = getData(ModelEnum.FriendBaseInfo) as UnitBaseInfo;
-
-            if (ret == null) {
-                ret = UnitBaseInfo[195];
-                setData(ModelEnum.FriendBaseInfo, ret);
-            }
-            return ret;
-        }
-        set { setData(ModelEnum.FriendBaseInfo, value); } 
-    }
+//    public UnitBaseInfo FriendBaseInfo {
+//        get {
+//            UnitBaseInfo ret = getData(ModelEnum.FriendBaseInfo) as UnitBaseInfo;
+//
+//            if (ret == null) {
+//                ret = UnitBaseInfo[195];
+//                setData(ModelEnum.FriendBaseInfo, ret);
+//            }
+//            return ret;
+//        }
+//        set { setData(ModelEnum.FriendBaseInfo, value); } 
+//    }
 
     public List<int> HaveCard {
         get {

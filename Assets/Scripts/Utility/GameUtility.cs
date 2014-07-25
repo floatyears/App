@@ -67,7 +67,15 @@ public class DGTools {
 		TStageInfo tsi = ConfigBattleUseData.Instance.currentStageInfo;
 		TQuestInfo tqi = ConfigBattleUseData.Instance.currentQuestInfo;
 
+
+
 		uint cityID = tsi.CityId;
+		TCityInfo tci = dataCenter.GetCityInfo (cityID);
+
+		if (tsi == null || tqi == null || tci == null) {
+			manager.ChangeScene (SceneEnum.Home);
+			return;
+		}
 
 		StageState questStage = dataCenter.QuestClearInfo.GetStoryStageState (tsi.ID);
 
@@ -82,10 +90,9 @@ public class DGTools {
 		}
 
 		StageState stageClearStage = dataCenter.QuestClearInfo.GetStoryCityState (cityID);
-		TCityInfo tci = dataCenter.GetCityInfo (cityID);
+
 
 		if (questStage == StageState.CLEAR) { 	
-
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].ID != tqi.ID) { // current quest not the last quest.
 				MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 				manager.ChangeScene (SceneEnum.StageSelect);
