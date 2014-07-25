@@ -562,9 +562,9 @@ public class SellDecorator : DecoratorBase{
 	public SellDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
-		Debug.LogError ("SellDecorator ShowScene 1");
+//		Debug.LogError ("SellDecorator ShowScene 1");
 		base.ShowScene();
-		Debug.LogError ("SellDecorator ShowScene 2");
+//		Debug.LogError ("SellDecorator ShowScene 2");
         MsgCenter.Instance.AddListener(CommandEnum.SellUnitSaveState, SetKeepState);
 		sceneInfoBar.SetBackScene(SceneEnum.Units);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_UNIT_SELL));	}
@@ -852,20 +852,18 @@ public class ApplyDecorator : DecoratorBase{
 	public override void DecoratorScene(){
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 		ApplyController applyWindow = CreatComponent< ApplyController >(UIConfig.applyWindowName);
 		DeleteFriendApply deleteApply = CreatComponent<DeleteFriendApply>(UIConfig.applyMessageWindowName);
-		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
 		sceneInfoBar.SetComponent(decorator);
-		sortPanel.SetComponent(sceneInfoBar);
-		counter.SetComponent(sortPanel);
+		counter.SetComponent(sceneInfoBar);
+		sortPanel.SetComponent(counter);
 		applyWindow.SetComponent(counter);
 		deleteApply.SetComponent(applyWindow);
-		//sortPanel.SetComponent(deleteApply);
 
 		lastDecorator = deleteApply;
 		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
 	}
 }
 

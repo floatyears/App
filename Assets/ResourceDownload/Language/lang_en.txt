@@ -92,7 +92,9 @@ City_Name_2=Horrific Wilderness
 City_Name_3=Magic Island
 City_Name_4=Ghost Forest
 City_Name_5=Castlevania
-City_Name_6=Coming Soon
+City_Name_100=Evolve Magic Land
+City_Name_101=Instant Battle
+City_Name_102=Weekend Battle
 
 Title_YourID=User ID
 ##Game setting options
@@ -187,7 +189,7 @@ RACE_Beast=Beast
 RACE_Undead=Undead
 RACE_Screamcheese=Enhance Mat.
 RACE_Dragon=Dragon
-RACE_Evolveparts=Evolve Mat.
+RACE_Evolveparts=Evo. Material
 
 ##type
 Type_Fire=Fire
@@ -1244,18 +1246,18 @@ SkillDesc_4070=Recovers 35% of total HP
 
 guide1_title=Welcome!
 guide1_content=Are you going to get into the saint gate?
-guide2_title=choose your partner
-guide2_content=选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！
-guide3_title=determine your partner
-guide3_content=角色介绍。\n确定和xxx冒险么？
-guide4_title=start adventure
-guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
-guide5_title=about summon card
-guide5_content=接下来就是重中之重的抽卡！\n抽卡可是能得到各种各样的强卡哦！
-guide6_title=about rare card
-guide6_content=这次就来一次稀有抽卡吧。\n友情抽卡咱放后面再说。
-guide7_title=a rare card need something
-guide7_content=a rare card need something!
+guide2_title=Choose your partner
+guide2_content=Choose Partner
+#guide3_title=Determine your partner
+#guide3_content=角色介绍。\n确定和xxx冒险么？
+guide4_title=Start Quest
+guide4_content=Hi, I am Angela, I will guide you to adventure.
+guide5_title=About Summon
+guide5_content=Summon is the most important in the game.\nYou will get powerful cards by Summon.
+guide6_title=About Rare Summon
+guide6_content=Let's do a Rare Summon.
+#guide7_title=a rare card need something
+#guide7_content=a rare card need something!
 guide8_title=choose a card
 guide8_content=Please feel free to pick a card!
 guide9_title=get a card
