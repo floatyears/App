@@ -243,6 +243,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 	int GetDepth(int sortID) {
 		if(sortID == -1)
 			return 0;
-		return sortID == 4 ? 6 : 5;
+		return sortID == 4 ? 7 : 6;
 	}
 }
