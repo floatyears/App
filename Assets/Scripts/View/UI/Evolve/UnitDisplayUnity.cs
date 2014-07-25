@@ -272,7 +272,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		dpsi.clipRange = new Vector4 (0, -120, 640, 400);
 		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
 		dpsi.maxPerLine = 3;
-		dpsi.scrollBarPosition = new Vector3 (-320, -303, 0);
+		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
 		dpsi.cellWidth = 100;
 		dpsi.cellHeight = 100;
 		dpsi.depth = 2;

@@ -215,13 +215,13 @@ public class DragPanelView : UIBaseUnity {
 				scrollView.horizontalScrollBar = null;	
 				scrollView.verticalScrollBar = scrollBar;
 				fg.Rotate (0, 0, -90);
-			fg.GetComponent<UISprite> ().alpha = 1;
+				fg.GetComponent<UISprite> ().alpha = 1;
 				fg.GetComponent<UISprite> ().width = (int)clipRange.w;
 		} else {
 				scrollView.horizontalScrollBar = scrollBar;	
 				scrollView.verticalScrollBar = null;
 				fg.Rotate (0, 0, 0);
-			fg.GetComponent<UISprite> ().alpha = 1;
+				fg.GetComponent<UISprite> ().alpha = 1;
 				fg.GetComponent<UISprite> ().width = (int)clipRange.z;
 		}
 

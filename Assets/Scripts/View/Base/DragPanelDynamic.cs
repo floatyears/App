@@ -271,6 +271,21 @@ public class DragPanelDynamic {
 		grid.enabled = true;
 		grid.Reposition ();
 
+		Transform fg = dragPanelView.scrollBar.transform.FindChild ("Foreground");
+		if (dpsi.gridArrange == UIGrid.Arrangement.Horizontal) {
+			dragPanelView.scrollView.horizontalScrollBar = null;	
+			dragPanelView.scrollView.verticalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;
+			fg.Rotate (0, 0, -90);
+			fg.GetComponent<UISprite> ().alpha = 1;
+			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
+		} else {
+			dragPanelView.scrollView.horizontalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;	
+			dragPanelView.scrollView.verticalScrollBar = null;
+			fg.Rotate (0, 0, 0);
+			fg.GetComponent<UISprite> ().alpha = 1;
+			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
+		}
+
 		OffsetPos = new Vector4 (dpsi.cellWidth, -dpsi.cellHeight, 0f, 0f);
 	}
 }
