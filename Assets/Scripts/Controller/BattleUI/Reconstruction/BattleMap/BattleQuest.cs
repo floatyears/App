@@ -390,7 +390,6 @@ public class BattleQuest : UIBase {
 
 	public void ContineBattle () {
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
-//		Debug.LogError ("coor : " + coor.x + " y : " + coor.y);
 		InitContinueData ();
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
 		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {

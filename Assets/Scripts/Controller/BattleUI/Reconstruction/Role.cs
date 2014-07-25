@@ -233,6 +233,7 @@ public class Role : UIBaseUnity {
 	}
 
 	void MoveRoleSecond() {
+//		Debug.LogError ("MoveRoleSecond");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_chess_fall);
 //		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.18+adjustTime, "easetype", iTween.EaseType.easeInSine, "oncomplete", "MoveRoleBounce", "oncompletetarget", gameObject));

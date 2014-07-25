@@ -253,11 +253,6 @@ public class LoadingLogic : ConcreteComponent {
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
 
-//			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
-//			    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-//				UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
-//			}
-			//LogHelper.Log ("notice list: " + DataCenter.Instance.NoticeInfo.NoticeList);
 			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.NONE) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
