@@ -52,7 +52,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	UIButton btnLeft;
 	UIButton btnRight;
 	
-	UITexture mask;
+	UISprite mask;
 	
 	BtnParam btnCenterParam;
 	BtnParam btnLeftParam;
@@ -83,7 +83,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	
 	void FindUIElement(){
 		window = FindChild("Window");
-		mask = FindChild<UITexture>("Mask");
+		mask = FindChild<UISprite>("Mask");
 
 		guidePicTex = FindChild<UISprite> ("Window/TipPic");
 
@@ -104,26 +104,28 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	void ShowSelf(bool canShow){
 		this.gameObject.SetActive(canShow);
 		if (canShow){
-			if (!msgWindowParams.inputEnable){
-				LogHelper.Log("open msgWindow and block input");
-				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
-				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
-			}
-			else {
-				SetLayerToBlocker(false);
-			}
+//			if (!msgWindowParams.inputEnable){
+//				LogHelper.Log("open msgWindow and block input");
+//				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
+//				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
+				TouchEventBlocker.Instance.SetState(BlockerReason.NoviceGuide,true);
+//			}
+//			else {
+//				SetLayerToBlocker(false);
+//			}
 			LogHelper.Log("open msgWindow showSelf true");
 			window.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
 		} 
 		else{
 			Reset();
-			if (!msgWindowParams.inputEnable){
-				LogHelper.Log("close msgWindow and resume input");
-				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, 
-				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
-			}
-			SetLayerToBlocker(true);
+//			if (!msgWindowParams.inputEnable){
+//				LogHelper.Log("close msgWindow and resume input");
+//				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, 
+//				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
+				TouchEventBlocker.Instance.SetState(BlockerReason.NoviceGuide,false);
+//			}
+//			SetLayerToBlocker(true);
 			LogHelper.Log("open msgWindow showSelf false");
 		}
 	}
@@ -182,15 +184,15 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		LogHelper.Log("SetLayerToBlocker(), {0}", toBlocker);
 		if (toBlocker){
 			mask.gameObject.SetActive(true);
-			btnLeft.gameObject.layer = TouchEventBlocker.blockerLayer;
-			btnRight.gameObject.layer = TouchEventBlocker.blockerLayer;
-			btnCenter.gameObject.layer = TouchEventBlocker.blockerLayer;
+//			btnLeft.gameObject.layer = TouchEventBlocker.blockerLayer;
+//			btnRight.gameObject.layer = TouchEventBlocker.blockerLayer;
+//			btnCenter.gameObject.layer = TouchEventBlocker.blockerLayer;
 		}
 		else {
 			mask.gameObject.SetActive(false);
-			btnLeft.gameObject.layer = TouchEventBlocker.defaultLayer;
-			btnRight.gameObject.layer = TouchEventBlocker.defaultLayer;
-			btnCenter.gameObject.layer = TouchEventBlocker.defaultLayer;
+//			btnLeft.gameObject.layer = TouchEventBlocker.defaultLayer;
+//			btnRight.gameObject.layer = TouchEventBlocker.defaultLayer;
+//			btnCenter.gameObject.layer = TouchEventBlocker.defaultLayer;
 		}
 	}
 	

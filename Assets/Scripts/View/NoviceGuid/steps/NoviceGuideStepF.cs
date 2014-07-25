@@ -114,7 +114,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 //stationary guide(to the detail panel)
 public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 
-	private UIEventListener.VoidDelegate click;
+	private UIEventListenerCustom.VoidDelegate click;
 
 	private static NoviceGuideStepF_StateTwo instance;
 	
@@ -132,8 +132,8 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 
 		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (3);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
-		click = UIEventListener.Get(unit).onClick;
-		UIEventListener.Get (unit).onClick = null;
+		click = UIEventListenerCustom.Get(unit).onClick;
+		UIEventListenerCustom.Get (unit).onClick = null;
 		NoviceGuideUtil.ForceOneBtnPress (unit);
 		UIEventListenerCustom.Get (unit).LongPress += OnUnitPress;
 		NoviceGuideUtil.showTipText ("press the unit item to view the detail.",new Vector2(0,-200));
@@ -144,7 +144,7 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 		NoviceGuideUtil.HideTipText ();
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListenerCustom.Get (btn).LongPress -= OnUnitPress;
-		UIEventListener.Get (btn).onClick = click;
+		UIEventListenerCustom.Get (btn).onClick = click;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
