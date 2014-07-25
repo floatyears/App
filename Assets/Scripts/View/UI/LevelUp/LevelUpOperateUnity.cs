@@ -24,14 +24,18 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ClearFocus ();
 		ShowData ();
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
+		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
+		SortUnitByCurRule();
 //		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, OnLevelUp);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
 			fromUnitDetail = true;
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
@@ -667,8 +671,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return;	
 		}
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
+		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.LevelUp);
 		myUnitDragPanel.RefreshItem (myUnit);
-//		List<GameObject> scrollList = myUnitDragPanel.scrollItem;
+//		List<MyUnitItem> scrollList = myUnitDragPanel.scrollItem;
 //		for (int i = 1; i < scrollList.Count; i++){
 //			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];
 //			TUserUnit tuu = myUnit[ i - 1 ];
@@ -809,4 +814,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return myUnitList [i];
 		}
 	}
+
+//	private void AddCmdListener(){
+//		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+////		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
+//	}
+//	
+//	private void RmvCmdListener(){
+//		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
+////		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
+//	}
 }
