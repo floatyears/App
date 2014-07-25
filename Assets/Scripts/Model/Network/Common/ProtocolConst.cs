@@ -33,6 +33,7 @@ class Protocol {
     public const string UNIT_MAX_EXPAND = "unit_max_expand";
 	public const string UNIT_FAVORITE = "unit_favorite";
 	public const string UNIT_GET_LIST = "unit_get_list";
+	public const string USERGUIDE_EVOLVE_UNIT = "userguide_evolve_unit";
 
 	//others
 	public const string GET_SERVER_TIME = "get_server_time";

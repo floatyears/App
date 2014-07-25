@@ -122,13 +122,13 @@ public class EvolveComponent : ConcreteComponent, ICheckUIState {
 			return stageID;	
 		}
 		switch (unitType) {
-			case bbproto.EUnitType.UWIND:
+			case bbproto.EUnitType.UFIRE:
 				stageID = 1;
 				break;
-			case bbproto.EUnitType.UFIRE:
+			case bbproto.EUnitType.UWATER:
 				stageID = 2;
 				break;
-			case bbproto.EUnitType.UWATER:
+			case bbproto.EUnitType.UWIND:
 				stageID = 3;
 				break;
 			case bbproto.EUnitType.ULIGHT:
@@ -143,8 +143,8 @@ public class EvolveComponent : ConcreteComponent, ICheckUIState {
 			default:
 				stageID = 0;
 				break;
-		}
-		stageID += 1000;
+		} 
+		stageID += 1000; //cityId=100; stageId += cityId*10
 		return stageID;
 	}
 	 
