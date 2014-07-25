@@ -487,6 +487,8 @@ public enum AudioEnum{
 	sound_ls_activate			= 170,
 	sound_as_activate			= 170,
 	sound_ps_dodge_trap			= 172,
+
+	None = 1000,
 }
 
 public enum SkillType {

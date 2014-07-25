@@ -138,8 +138,7 @@ public class DataCenter {
             if (getData(ModelEnum.InEventGacha) == null){
                 setData(ModelEnum.InEventGacha, true);
                 ret = true;
-            }
-            else {
+            } else {
                 ret = (bool)getData(ModelEnum.InEventGacha);
             }
             return ret;

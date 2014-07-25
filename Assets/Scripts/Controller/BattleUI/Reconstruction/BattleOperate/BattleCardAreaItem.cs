@@ -34,9 +34,16 @@ public class BattleCardAreaItem : UIBaseUnity {
 	private BattleUseData battleUseData;
 	private bool _isBoost = false;
 	public bool isBoost {
-		set { _isBoost = value; if(_isBoost) boostObject = gameObject; }
+		set { _isBoost = value; 
+			SetBoost(value);
+			if(_isBoost)  {
+				boostObject = gameObject;
+			}
+		}
 		get { return _isBoost; }
 	}
+
+	private UILabel boostLabel;
 
 	public override void Init(string name) {
 		base.Init(name);
@@ -45,6 +52,9 @@ public class BattleCardAreaItem : UIBaseUnity {
 		pos = transform.localPosition;
 		parentObject = transform.parent.gameObject;
 		InitFightCard ();
+
+		boostLabel = FindChild<UILabel> ("Label");
+
 		for (int i = 1; i < 7; i++) {
 			UISprite sprite = FindChild<UISprite>(i.ToString());
 			if(i != 6)
@@ -52,6 +62,11 @@ public class BattleCardAreaItem : UIBaseUnity {
 
 			cardList.Add(sprite);
 		}
+	}
+
+	void SetBoost(bool show) {
+//		Debug.LogError ("gameobject : " + gameObject + " show : " + show);
+		boostLabel.enabled = show;
 	}
 	
 	void InitFightCard() {
@@ -243,6 +258,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 	int GetDepth(int sortID) {
 		if(sortID == -1)
 			return 0;
-		return sortID == 4 ? 6 : 5;
+		return sortID == 4 ? 7 : 6;
 	}
 }

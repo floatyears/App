@@ -672,7 +672,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.LevelUp);
+//		Debug.LogError ("_sortRule : " + _sortRule + " myUnit ; " + myUnit.Count);
 		myUnitDragPanel.RefreshItem (myUnit);
+
+//		SortUnitTool.SortByTargetRule(sortRule, allData);
+//		SortUnitTool.StoreSortRule (sortRule, SortRuleByUI.UnitDisplayUnity);
+//		unitItemDragPanel.RefreshItem (allData);
+
 //		List<MyUnitItem> scrollList = myUnitDragPanel.scrollItem;
 //		for (int i = 1; i < scrollList.Count; i++){
 //			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];

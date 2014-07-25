@@ -201,13 +201,10 @@ public class ShopComponent : ConcreteComponent {
     }
 
     void OnStaminaRecover(object args){
-//        LogHelper.Log("start OnStaminaRecover()");
-
         if (DataCenter.Instance.UserInfo.StaminaNow >= DataCenter.Instance.UserInfo.StaminaMax) {
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.NoNeedToBuy));
             return;
-        }
-        else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.staminaRecoverStone){
+        } else if (DataCenter.Instance.AccountInfo.Stone < DataCenter.staminaRecoverStone){
             MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.StoneNotEnough));
             return;
         }

@@ -94,8 +94,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			gameObject.SetActive(true);	
 		}
 
-//		DGTools.ShowTexture (unitBodyTex, null);
-
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
@@ -181,9 +179,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		StopAllCoroutines ();
 		ClearEffectCache ();
-		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+
 		LevelUpEnd ();
 
+		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -274,6 +275,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void PlayCheckRoleAudio(){
 		PlayEvolveEffect ();
+//		Debug.LogError ("AudioEnum.sound_check_role");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 		
@@ -679,30 +681,31 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void LevelUpEnd() {
 		oldBlendUnit = null;
 		RecoverEffectCamera ();
-		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
+		unitBodyTex.mainTexture = null;
 	}
 
 	void ExpRise () {
 		if (gotExp <= 0) {
 			if(levelDone) {
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
-
 				levelDone = false;
-			
-
 				GameTimer.GetInstance().AddCountDown(1f, LevelUpEnd);
 			}
 			return;	
 		}	
-
+//		Debug.LogError (gotExp + " expRiseStep : " + expRiseStep);
 		if(gotExp < expRiseStep){
 			curExp += gotExp;
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 			gotExp = 0;
+
+			if(AudioManager.Instance.GetPlayAuioInfo() != AudioEnum.sound_get_exp)
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 		} else {
 			gotExp -= expRiseStep;
 			curExp += expRiseStep;
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
+
+			if(AudioManager.Instance.GetPlayAuioInfo() != AudioEnum.sound_get_exp)
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 		}
 
 		if(curExp >= currMaxExp) {
@@ -891,8 +894,5 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Destroy( go );
 			effectCache.Remove(go);
 		}
-
-//		gameObject.SetActive (false);
-//		HideUI ();
 	}
 }

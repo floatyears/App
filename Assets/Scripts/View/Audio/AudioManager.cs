@@ -26,6 +26,8 @@ public class AudioManager {
 
 	AudioSource prevBackground = null;
 
+	AudioSource currentSoundAudio = null;
+
 	/// <summary>
 	/// background audio close
 	/// </summary>
@@ -114,6 +116,15 @@ public class AudioManager {
 			return false;	
 		}
 	}
+
+	AudioEnum currentEnum = AudioEnum.None;
+	public AudioEnum GetPlayAuioInfo() {
+		if (currentSoundAudio.isPlaying) {
+			return currentEnum;	
+		} else {
+			return AudioEnum.None;	
+		}
+	}
 	
 	public void PlayAudio(AudioEnum audioEnum){
 		if (IsBackgroundAuido (audioEnum) || isCloseSound) {
@@ -123,8 +134,10 @@ public class AudioManager {
 		if (!CheckAudio (audioEnum)) {
 			return;	
 		}
-//		Debug.LogError ("play audio : " + audioEnum);
-		Play (audioEnum);
+
+		currentEnum = audioEnum;
+
+		currentSoundAudio = Play (audioEnum);
 	}
 
 	AudioSource Play(AudioEnum audioEnum) {

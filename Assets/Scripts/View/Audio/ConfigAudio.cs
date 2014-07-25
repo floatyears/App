@@ -311,7 +311,7 @@ public class ConfigAudio {
 		audioItem.id 					= 131;
 		audioItem.name 				= "se_131_get_exp";
 		audioItem.resourcePath 	= basePath + audioItem.name;
-		audioItem.type 				= EPlayType.ONCE;
+		audioItem.type 				= EPlayType.LOOP;
 		audioList.Add(audioItem);	
 
 		audioItem= new AudioConfigItem();
