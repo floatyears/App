@@ -45,7 +45,7 @@ public class HomeView : UIComponentUnity{
 		base.HideUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
 	}
 	
 	public override void CallbackView(object data){

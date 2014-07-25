@@ -17,7 +17,7 @@ public class NoviceGuideStepM_StateOne:NoviceGuidState{
 		
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_one");
+		Debug.Log (stepEntity.GetType () + " is execute stepM state_one");
 		
 		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];
@@ -36,6 +36,8 @@ public class NoviceGuideStepM_StateOne:NoviceGuidState{
 	
 	private void ClickOK(object data){
 		GameObject first = GameObject.FindWithTag ("city_one");
+		if (first == null)
+						return;
 		NoviceGuideUtil.ForceOneBtnClick (first);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
