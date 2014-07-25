@@ -69,7 +69,7 @@ public class BattleBackground : UIBaseUnity {
 		TUnitParty upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		for (int i = 0; i < userUnitInfo.Count; i++) {
-			TUserUnit tuu = userUnitInfo[i];
+			TUserUnit tuu = (userUnitInfo.ContainsKey(i) ? userUnitInfo[i] : null);
 			if(tuu == null) {
 				continue;
 			}

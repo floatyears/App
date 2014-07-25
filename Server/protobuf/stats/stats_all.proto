@@ -664,7 +664,14 @@ message UnitInfo {
     repeated UnitGetWay		getWay			= 18;
 	optional int32			maxActiveSkillLv= 19;
 	optional int32			maxStar			= 20; //max star to be evolved
-    optional Position		showPos			= 21; //offset for show position
+    optional UVPosition		showPos			= 21; //offset for show position
+}
+
+message UVPosition {
+    optional float			x = 1;
+    optional float			y = 2;
+    optional float			w = 3;
+    optional float			h = 4;
 }
 
 message UnitGetWay {

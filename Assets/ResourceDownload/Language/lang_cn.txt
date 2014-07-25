@@ -92,7 +92,9 @@ City_Name_2=尖叫荒野
 City_Name_3=千岛魔湖
 City_Name_4=鬼影森林
 City_Name_5=恶魔外城
-City_Name_6=即将开放
+City_Name_100=进化魔境
+City_Name_101=紧急任务
+City_Name_102=周末任务
 
 Title_YourID=用户ID
 ##Game setting options

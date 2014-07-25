@@ -406,13 +406,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	string GetWayString(List<bbproto.UnitGetWay> getway){
 		string gw = "";
 		foreach (var item in getway) {
-			if ( item.getType ==  EUnitGetType.E_NORMAL_QUEST || item.getType ==  EUnitGetType.E_EVENT_QUEST ) {
+			if ( item.getType ==  EUnitGetType.E_NORMAL_QUEST || item.getType ==  EUnitGetType.E_EVENT_QUEST || item.getType == EUnitGetType.E_STAGE ) {
 				uint questId = item.getPath;
 				uint stageId =  questId/10;
+				if ( item.getType == EUnitGetType.E_STAGE ) {
+					stageId = item.getPath;
+				}					
 				uint cityId = stageId/10;
-				TCityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
-				TStageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
-				gw += cityInfo.CityName+"-"+stageInfo.StageName;
+				if ( cityId>0 && stageId>0 ) {
+					TCityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
+					TStageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
+					if ( cityInfo!=null && stageInfo!= null) {
+						gw += cityInfo.CityName+"-"+stageInfo.StageName;
+					}
+				}
 			}
 		}
 		return gw;
