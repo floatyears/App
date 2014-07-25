@@ -143,11 +143,12 @@ public class GachaWindowView : UIComponentUnity {
 	int autoShowIndex = 0;
 
 	void AutoShowOneCard() {
-		if (autoShowIndex == gachaInfo.totalChances) {
+		if (autoShowIndex == gachaInfo.totalChances || autoShowIndex == gachaInfo.unitList.Count) {
 			FinishShowGachaWindow();
 			return;
 		}
 
+		chancesLabel.text = (gachaInfo.totalChances - autoShowIndex - 1).ToString () + "/" + gachaInfo.totalChances;
 		uint uniqueID = gachaInfo.unitList [autoShowIndex];
 
 		foreach (var item in gridDict) {
