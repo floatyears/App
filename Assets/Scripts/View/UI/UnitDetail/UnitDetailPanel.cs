@@ -179,8 +179,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		StopAllCoroutines ();
 		ClearEffectCache ();
-		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+
 		LevelUpEnd ();
+
+		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
@@ -272,6 +275,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void PlayCheckRoleAudio(){
 		PlayEvolveEffect ();
+//		Debug.LogError ("AudioEnum.sound_check_role");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 		
@@ -689,15 +693,19 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			}
 			return;	
 		}	
-
+//		Debug.LogError (gotExp + " expRiseStep : " + expRiseStep);
 		if(gotExp < expRiseStep){
 			curExp += gotExp;
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 			gotExp = 0;
+
+			if(AudioManager.Instance.GetPlayAuioInfo() != AudioEnum.sound_get_exp)
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 		} else {
 			gotExp -= expRiseStep;
 			curExp += expRiseStep;
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
+
+			if(AudioManager.Instance.GetPlayAuioInfo() != AudioEnum.sound_get_exp)
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
 		}
 
 		if(curExp >= currMaxExp) {
