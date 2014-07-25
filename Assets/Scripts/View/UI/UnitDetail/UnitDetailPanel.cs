@@ -181,7 +181,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ClearEffectCache ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		LevelUpEnd ();
-
+		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -677,7 +677,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void LevelUpEnd() {
 		oldBlendUnit = null;
 		RecoverEffectCamera ();
-//		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
+		unitBodyTex.mainTexture = null;
 	}
 
 	void ExpRise () {
