@@ -5,7 +5,7 @@ using bbproto;
 
 public class GachaWindowView : UIComponentUnity {
 	private const int rareAudioLevel = 4;
-
+	
     private UILabel chancesLabel;
     private UILabel titleLabel;
     private bool displayingResult = false; //when
@@ -26,7 +26,6 @@ public class GachaWindowView : UIComponentUnity {
     public override void ResetUIState() {
         base.ResetUIState();
         SetActive(false);
-      
     }
     
     public override void ShowUI () {
@@ -34,7 +33,12 @@ public class GachaWindowView : UIComponentUnity {
         AddListener();
 		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
 			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
-			ShowUnitGrid();
+			SetMenuBtnEnable(false);
+			if(gachaInfo.totalChances == 1) {
+				ShowUnitGrid();
+			} else {
+				AutoShowOneCard();
+			}
 		}
 	}
     
@@ -87,7 +91,6 @@ public class GachaWindowView : UIComponentUnity {
 				GameObject go = NGUITools.AddChild (bg.gameObject, gachaGrid);
 				go.transform.localPosition = new Vector3 (-width + (i % 3) * width, height - (i / 3) * height, 0);
 				gridDict.Add (go, i);
-				UIEventListener.Get (go).onClick = ClickButton;
 			}
 		});
     }
@@ -119,16 +122,81 @@ public class GachaWindowView : UIComponentUnity {
 		SetMenuBtnEnable(false);
         SetActive(true);
         MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);
-        SetMenuBtnEnable(false);
         GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
-//		Debug.LogError ("Enter gachaWindowInfo : " + gachaWindowInfo.unitList.Count);
-        if (gachaWindowInfo != null){
+
+        if (gachaWindowInfo != null) {
             gachaInfo = gachaWindowInfo;
             SyncGachaInfosAtStart();
         }
 
+		if (gachaInfo.totalChances == 1) { //1 == user only can gacha ones
+			foreach (var item in gridDict) {
+				UIEventListener.Get (item.Key).onClick = ClickButton;
+			}
+		} else {
+			AutoShowOneCard();
+		}
+
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.SCRATCH);
     }
+
+	int autoShowIndex = 0;
+
+	void AutoShowOneCard() {
+		if (autoShowIndex == gachaInfo.totalChances) {
+			FinishShowGachaWindow();
+			return;
+		}
+
+		uint uniqueID = gachaInfo.unitList [autoShowIndex];
+
+		foreach (var item in gridDict) {
+			if(item.Value == autoShowIndex) {
+				ShowInfo(item.Key, uniqueID);
+			}
+		}
+	}
+
+	void ShowInfo(GameObject grid, uint uniqueID) {
+		currentUserUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
+		currentGrid = grid;
+		sprite = currentGrid.transform.Find ("Cell/Texture").GetComponent<UISprite> ();
+		TUnitInfo tui = currentUserUnit.UnitInfo;
+		DataCenter.Instance.GetAvatarAtlas(tui.ID, sprite, o => {
+			sprite.enabled = false;
+		});
+
+		ShowUnitScale ();
+	}
+
+	GameObject currentGrid = null;
+	UISprite sprite = null;
+	TUserUnit currentUserUnit = null;
+
+	void ShowUnitScale() {
+		iTween.ScaleTo (currentGrid, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
+	}
+	
+	void RecoverScale() {
+		currentGrid.transform.Find ("Label").GetComponent<UILabel> ().text = "";
+		sprite.enabled = true;
+		iTween.ScaleTo (currentGrid, iTween.Hash ("y", 1f, "time", 0.3f, "oncomplete", "AnimEnd", "oncompletetarget", gameObject));
+	}
+
+	void AnimEnd() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
+		GameTimer.GetInstance ().AddCountDown (0.3f, () => {
+			autoShowIndex += 1;
+			bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserUnit.UnitID);
+			if (have) {
+				AutoShowOneCard ();
+			} else {
+				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.UnitID);
+				UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
+				MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserUnit);
+			}
+		});
+	}
 
     private void SyncGachaInfosAtStart(){
         chancesLabel.text = TextCenter.GetText("GachaChances", 0, gachaInfo.totalChances);
@@ -215,7 +283,7 @@ public class GachaWindowView : UIComponentUnity {
         clickedGrids.Add(grid);
         currentUid = uniqueId;
         LogHelper.Log("StartCoroutine, ShowUnitRareById(), currentUid {0}, currenGrid", currentUid);
-        StartCoroutine(ShowUnitRareById(grid));
+		StartCoroutine(ShowUnitRareById(grid, uniqueId));
     }
 
     private void EndShowGachaGridResult(){
@@ -233,10 +301,12 @@ public class GachaWindowView : UIComponentUnity {
         DealAfterShowUnit(gridDict[btn]);
     }
 
-    IEnumerator ShowUnitRareById(GameObject grid){
+    IEnumerator ShowUnitRareById(GameObject grid, uint uniqueID){
         LogHelper.Log("ShowUnitRareById(), currentUid {0}", currentUid);
+
         yield return new WaitForSeconds(0.5f);
-        TUserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(currentUid);
+//		Debug.LogError ("ShowUnitRareById : " + grid);
+		TUserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;

@@ -82,8 +82,8 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	void InitAudioSliderState() {
-		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("sound") == 0 ? 1 : 0;
-		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("bgm") == 0 ? 1 : 0;
+		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt (AudioManager.soundName) == 0 ? 1 : 0;
+		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt (AudioManager.bgmName) == 0 ? 1 : 0;
 	}
 
 	void SetEvent() {
@@ -133,12 +133,13 @@ public class BattleMenu : UIBaseUnity {
 	IEnumerator SetValue(UISlider slider, float value ){
 		yield return 0; 
 		slider.value = value;
-		if (slider == soundSlider) {
+		if (slider.Equals(soundSlider)) {
 			AudioManager.Instance.CloseSound (value == 1 ? true : false);
-			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
+			GameDataStore.Instance.StoreIntDatNoEncypt(AudioManager.soundName, (int)value);
 		} else{
-			AudioManager.Instance.CloseBackground (value == 0 ? true : false);
-			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
+			AudioManager.Instance.CloseBackground (value == 1 ? true : false);
+			GameDataStore.Instance.StoreIntDatNoEncypt(AudioManager.bgmName, (int)value);
+			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 		}
 	}
 }

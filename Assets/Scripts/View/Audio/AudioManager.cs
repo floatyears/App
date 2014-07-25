@@ -13,10 +13,13 @@ public class AudioManager {
 		}
 	}
 	private AudioManager(){
-		Debug.Log ("data store: " + GameDataStore.Instance.GetIntDataNoEncypt ("sound"));
-		isCloseSound = GameDataStore.Instance.GetIntDataNoEncypt ("sound")  == 0 ? false : true;
-		isCloseBackground = GameDataStore.Instance.GetIntDataNoEncypt ("bgm") == 0 ? false : true;
+		Debug.Log ("data store: " + GameDataStore.Instance.GetIntDataNoEncypt (soundName));
+		isCloseSound = GameDataStore.Instance.GetIntDataNoEncypt (soundName)  == 0 ? false : true;
+		isCloseBackground = GameDataStore.Instance.GetIntDataNoEncypt (bgmName) == 0 ? false : true;
 	}
+
+	public const string soundName = "sound";
+	public const string bgmName = "bgm";
 
 	//AudioSource Cache
 	private Dictionary< int, AudioSource> audioPlayerCache = new Dictionary<int, AudioSource>();
