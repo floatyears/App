@@ -95,7 +95,7 @@ public class BattleQuest : UIBase {
 			ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect", o => {
 				GameObject go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, o as GameObject);
 				go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
-				attackEffect = go.GetComponent<AttackEffect> ();	
+				attackEffect = go.GetComponent<AttackEffect> ();
 			});
 		}
 	}
@@ -155,7 +155,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
 
 //		Debug.LogError ("battle quest show ui ");
-//		int battleData = configBattleUseData.hasBattleData ();
+
 		if (battleData > 0) {
 			ContineBattle ();
 		} else {
@@ -390,7 +390,6 @@ public class BattleQuest : UIBase {
 
 	public void ContineBattle () {
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
-//		Debug.LogError ("coor : " + coor.x + " y : " + coor.y);
 		InitContinueData ();
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
 		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {

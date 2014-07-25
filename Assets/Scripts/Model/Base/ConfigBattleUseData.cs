@@ -186,6 +186,7 @@ public class ConfigBattleUseData {
 	}
 
 	void StoreRuntimData () {
+//		Debug.LogError ("StoreRuntimData : " + _storeBattleData.instance.hp);
 		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData.instance);
 		WriteToFile (battleData, storeBattleName);
 	}
@@ -345,7 +346,7 @@ public class ConfigBattleUseData {
 
 	//dungeonData
 	public void WriteQuestDungeonData () {
-//		Debug.LogError("WriteQuestDungeonData  : " + questDungeonData.Instance.)
+//		Debug.LogError("WriteQuestDungeonData  : " + questDungeonData.Instance.hp)
 		
 		byte[] tdd = ProtobufSerializer.SerializeToBytes<QuestDungeonData> (questDungeonData.Instance);
 		WriteToFile (tdd, questDungeonDataName);
