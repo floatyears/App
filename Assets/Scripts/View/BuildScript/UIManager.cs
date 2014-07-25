@@ -21,6 +21,7 @@ public class UIManager {
 
 	private UIManager () {
 //		InitUIManager ();
+		camera = Main.Instance.NguiCamera;
 		baseScene = new StartScene ("Game Start");
 	}
 
@@ -117,7 +118,6 @@ public class UIManager {
 	public void ExitBattle () {
 		Resources.UnloadUnusedAssets ();
 		DGTools.ChangeToQuest();
-//		ChangeScene (SceneEnum.Home);
 	}
 
 	public void HideBaseScene () {
@@ -128,21 +128,28 @@ public class UIManager {
 		baseScene.ShowBase ();
 	}
 
-	public SceneEnum nextScene;
-	
+	public SceneEnum nextScene;	
+	private UICamera camera;
 
 	public void ChangeScene(SceneEnum sEnum) {
+		camera.enabled = false;
+
 		if (forbidChangeScene) {
+			camera.enabled = true;
+
 			return;		
 		}
+
 		SwitchGameState (sEnum);
+
 		if (baseScene.CurrentScene == sEnum) {
-			return;		
+			camera.enabled = true;
+
+			return;
 		} else {
 			nextScene = sEnum;
-//			Debug.LogError("clear data : " + sEnum);
 			InvokeSceneClear (sEnum);
-			if(CheckIsPopUpWindow(sEnum)){
+			if(CheckIsPopUpWindow(sEnum)) {
 				if(currentPopUp != null) {
 					currentPopUp.HideScene ();
 				}
@@ -157,6 +164,8 @@ public class UIManager {
 						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
 						MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
+
+						camera.enabled = true;
 						return;
 					}
 					current.HideScene ();
@@ -189,6 +198,8 @@ public class UIManager {
 		}
 
 		MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
+
+		camera.enabled = true;
 	}
 
 	public static bool CheckIsPopUpWindow(SceneEnum sEnum){
