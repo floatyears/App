@@ -259,10 +259,10 @@ Text_LastLogin_Colon=Last Login:
 ApplyFriendNote=Are you sure to apply friend?
 
 #sell
-Sell_EnsureTitle=提交卖出
-Sell_EnsureContent=下列是将要卖出的卡牌
-Sell_GetCoin=获得金币
-Sell_Ensure=确定要卖出？
+Sell_EnsureTitle=Sell Cards
+Sell_EnsureContent=Following cards will be sold out:
+Sell_GetCoin=Get coins
+Sell_Ensure=Are you sure to sell?
 
 #reward
 Reward_Take=Collect
@@ -286,7 +286,7 @@ Notice_HelperTitle=Welcome Back!
 Notice_HelperContent=You have logined for [3BB482]{0}[-] days, helped [3BB482]{1}[-] Friends and [3BB482]{2}[-] Adventurers, got [3BB482]{3}[-] pals points.
 
 #unit detail
-UnitDetail_EvolveTitle=Get Way
+UnitDetail_EvolveTitle=Acquired from following Quests:
 UnitDetail_LevelUpTitle=Power-up Fusion Exp
 UnitDetail_LevelUpContent=Power-up for normal monsters, will provide {0} exp.
 UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide {1} exp.
@@ -799,7 +799,7 @@ SkillName_1079=Heartless: Wind
 SkillName_1080=Heartless: Light
 SkillName_1081=Heartless: Dark
 SkillName_1082=Heartless: Void
-SkillName_1083=Aqualess: Fire=
+SkillName_1083=Aqualess: Fire
 SkillName_1084=Windless: Aqua
 SkillName_1085=Fireless: Wind
 SkillName_1086=Darkless: Light
@@ -1250,7 +1250,7 @@ guide1_content=Are you going to get into the saint gate?
 guide2_title=Choose your partner
 guide2_content=Choose Partner
 #guide3_title=Determine your partner
-#guide3_content=角色介绍。\n确定和xxx冒险么？
+#guide3_content=Role Intro.\nAre you sure to adventure with me?
 guide4_title=Start Quest
 guide4_content=Hi, I am Angela, I will guide you to adventure.
 guide5_title=About Summon
@@ -1259,29 +1259,29 @@ guide6_title=About Rare Summon
 guide6_content=Let's do a Rare Summon.
 #guide7_title=a rare card need something
 #guide7_content=a rare card need something!
-guide8_title=choose a card
+guide8_title=Choose a card
 guide8_content=Please feel free to pick a card!
-guide9_title=get a card
-guide9_content=运气不错，卡牌很强！\n后别忘了编入队伍中哦。
+guide9_title=Get a card
+guide9_content=Good luck, the card is very powerful!\nDon't forget to in the team.
 guide10_title=party method
-guide10_content=choose a party
+guide10_content=Choose a party
 guide11_title=party complete
-guide11_content=complete a party
+guide11_content=Complete a party
 
-guide12_title=start mission
-guide12_content=find the key to open the door
-guide13_title=move method
-guide13_content=click the direction to move
-guide14_title=gold box
-guide14_content=you get some gold.
-guide15_title=movement and sp
-guide15_content=every move costs one sp.so don't let the sp goto 0.
-guide16_title=enemy floor
-guide16_content=Five star means dangerous. Be careful to move. Then we'll be in battle!
-guide17_title=xxx will teach you
-guide17_content=let me give you a lesson!
-guide18_title=xxx teacher do the work himself
-guide18_content=do you see my excellent work!
+guide12_title=Start mission
+guide12_content=Find the key to open the door.
+guide13_title=How to Move?
+guide13_content=Click the direction to move.
+guide14_title=Treasure Box
+guide14_content=You can get a lot of Coins from treasure box.
+guide15_title=Movement and SP
+guide15_content=Every move costs one SP. After SP becomes 0, every move will cost HP. \nSo be careful!
+guide16_title=Enemy floor
+guide16_content=Five stars means dangerous. Be careful to move. Then we'll be in battle!
+guide17_title=Angela Guide
+guide17_content=Let me give you a lesson!
+guide18_title=Angela Guide
+guide18_content=Have you seen my excellent work?
 guide18_once_again=See again
 
 ##attack once
