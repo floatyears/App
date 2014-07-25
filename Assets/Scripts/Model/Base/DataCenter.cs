@@ -372,18 +372,18 @@ public class DataCenter {
         set { setData(ModelEnum.TrapInfo, value); } 
     }
 
-    public UnitBaseInfo FriendBaseInfo {
-        get {
-            UnitBaseInfo ret = getData(ModelEnum.FriendBaseInfo) as UnitBaseInfo;
-
-            if (ret == null) {
-                ret = UnitBaseInfo[195];
-                setData(ModelEnum.FriendBaseInfo, ret);
-            }
-            return ret;
-        }
-        set { setData(ModelEnum.FriendBaseInfo, value); } 
-    }
+//    public UnitBaseInfo FriendBaseInfo {
+//        get {
+//            UnitBaseInfo ret = getData(ModelEnum.FriendBaseInfo) as UnitBaseInfo;
+//
+//            if (ret == null) {
+//                ret = UnitBaseInfo[195];
+//                setData(ModelEnum.FriendBaseInfo, ret);
+//            }
+//            return ret;
+//        }
+//        set { setData(ModelEnum.FriendBaseInfo, value); } 
+//    }
 
     public List<int> HaveCard {
         get {
