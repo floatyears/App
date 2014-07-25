@@ -428,7 +428,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 					TCityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
 					TStageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
 					if ( cityInfo!=null && stageInfo!= null) {
-						gw += cityInfo.CityName+"-"+stageInfo.StageName;
+						gw += cityInfo.CityName+"-"+stageInfo.StageName+"\n";
 					}
 				}
 			}
