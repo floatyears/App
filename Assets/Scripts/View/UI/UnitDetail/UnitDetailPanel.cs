@@ -835,7 +835,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			iTween.ScaleTo(materilUse, iTween.Hash("y", 0f, "time", 0.2f));
 			yield return new WaitForSeconds(0.2f);
 			Destroy(materilUse);
-			GameObject linhunqiuIns = NGUITools.AddChild(parent, linhunqiuEffect);
+			linhunqiuIns = NGUITools.AddChild(parent, linhunqiuEffect);
 			linhunqiuIns.transform.localPosition = materilUse.transform.localPosition;
 			linhunqiuIns.transform.localScale = Vector3.zero;
 			iTween.ScaleTo(linhunqiuIns, iTween.Hash("y", 1f, "time", 0.2f));

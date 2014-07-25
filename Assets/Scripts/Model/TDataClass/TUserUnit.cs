@@ -93,7 +93,7 @@ public class TUserUnit : ProtobufDataBase {
     }
 
     void SetAttackMultipeByRace(float value, int race) {
-        UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[unitBaseInfo];
+//        UnitBaseInfo ubi = DataCenter.Instance.UnitBaseInfo[unitBaseInfo];
 		if ((int)UnitInfo.Race == race || UnitInfo.Race == EUnitRace.ALL) {
             attackMultiple *= value;
         }
