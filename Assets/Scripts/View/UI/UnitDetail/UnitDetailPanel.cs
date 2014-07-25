@@ -94,8 +94,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			gameObject.SetActive(true);	
 		}
 
-//		DGTools.ShowTexture (unitBodyTex, null);
-
 		ResetStartToggle (statusToggle);
 		ClearBlock( blockLsit1 );
 		ClearBlock( blockLsit2 );
@@ -668,17 +666,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void LevelUpEnd() {
 		oldBlendUnit = null;
 		RecoverEffectCamera ();
-		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
+//		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 	}
 
 	void ExpRise () {
 		if (gotExp <= 0) {
 			if(levelDone) {
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
-
 				levelDone = false;
-			
-
 				GameTimer.GetInstance().AddCountDown(1f, LevelUpEnd);
 			}
 			return;	
