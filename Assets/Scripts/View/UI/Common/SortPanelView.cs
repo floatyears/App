@@ -135,7 +135,7 @@ public class SortPanelView : UIComponentUnity {
 		SortRule sr = SortUnitTool.GetSortRule (srui);
 		foreach (var item in sortRuleSelectDic) {
 			if(item.Value == sr){
-				item.Key.defaultColor = Color.grey;
+				item.Key.defaultColor = new Color(0.88f,0.78f,0.59f,1.0f);
 			}else {
 				item.Key.defaultColor = Color.white;
 			}
