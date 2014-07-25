@@ -14,6 +14,8 @@ public class FriendHelperView : UIComponentUnity{
 	protected List<TFriendInfo> generalFriendList;
 	protected List<TFriendInfo> premiumFriendList;
 
+	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
+
 	public override void Init(UIInsConfig config, IUICallback origin) {
 		base.Init(config, origin);
 		InitUI();
@@ -99,18 +101,18 @@ public class FriendHelperView : UIComponentUnity{
 			}
 		}
 	}
-	enum FriendInfoType{
+	public enum FriendInfoType{
 		General,
 		Premium
 	}
 
-	DragPanel RefreshDragView(FriendInfoType friendInfoType){
+	DragPanel RefreshDragView(FriendInfoType fType){
 		DragPanel dragPanel = null;
-
+		friendInfoTyp = fType;
 		string dragPanelName;
 		List<TFriendInfo> dataList;
 
-		if(friendInfoType == FriendInfoType.General){
+		if(fType == FriendInfoType.General){
 			dragPanelName = "GeneralDragPanel";
 			dataList = generalFriendList;
 		}

@@ -25,6 +25,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		ShowData ();
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+
+//		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, OnLevelUp);
 	}
 
 	public override void HideUI () {
@@ -40,6 +42,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				friendWindow.HideUI();
 			}
 		}
+
+//		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, OnLevelUp);
 	}
 
 	public override void DestoryUI () {
@@ -61,6 +65,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
 	}
+
+//	private void OnLevelUp(object data)
+//	{
+////		ResetUIState ();
+//		CheckLevelUp ();
+//	}
+
 
 	private static SortRule _sortRule = SortRule.None;
 	public static SortRule sortRule {
@@ -266,6 +277,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		myUnitDragPanel.RefreshItem (tuu);
 		ShieldParty (false, null);
+
+		CheckLevelUp ();
 	}
 
 	void SelectedFriendCallback(LevelUpItem piv) {
@@ -275,8 +288,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
-		gameObject.SetActive (false);
 
+		gameObject.SetActive (false);
+		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 //		sor
 		friendWindow.selectFriend = SelectFriend;
@@ -643,25 +657,25 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		friendWindow.Back (null);
 	}
 
-//	private void ReceiveSortInfo(object msg){
-//		sortRule = (SortRule)msg;
-//		SortUnitByCurRule();
-//	}
+	private void ReceiveSortInfo(object msg){
+		sortRule = (SortRule)msg;
+		SortUnitByCurRule();
+	}
 
-//	private void SortUnitByCurRule(){
-//		if (_sortRule == SortRule.None) {
-//			return;	
+	private void SortUnitByCurRule(){
+		if (_sortRule == SortRule.None) {
+			return;	
+		}
+		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
+		myUnitDragPanel.RefreshItem (myUnit);
+//		List<GameObject> scrollList = myUnitDragPanel.scrollItem;
+//		for (int i = 1; i < scrollList.Count; i++){
+//			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];
+//			TUserUnit tuu = myUnit[ i - 1 ];
+//			puv.UserUnit = tuu;
+//			puv.CurrentSortRule = sortRule;
 //		}
-//		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
-//		myUnitDragPanel.RefreshItem (myUnit);
-////		List<GameObject> scrollList = myUnitDragPanel.ScrollItem;
-////		for (int i = 1; i < scrollList.Count; i++){
-////			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];
-////			TUserUnit tuu = myUnit[ i - 1 ];
-////			puv.UserUnit = tuu;
-////			puv.CurrentSortRule = sortRule;
-////		}
-//	}
+	}
 
 	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
 	void CheckLevelUp() {
