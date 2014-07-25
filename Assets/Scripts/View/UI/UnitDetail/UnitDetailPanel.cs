@@ -345,24 +345,35 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void ShowSkill2Content( TUserUnit data){
 		TUnitInfo unitInfo = data.UnitInfo;
-		int skillId = unitInfo.NormalSkill2;
+		int skillId = unitInfo.PassiveSkill == 0 ? unitInfo.NormalSkill2 : unitInfo.PassiveSkill;
 		if (skillId == 0) {
 			normalSkill2NameLabel.text = TextCenter.GetText("Text_None");
 			normalSkill2DscpLabel.text = "";
 			return;	
 		}
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill);//Skill[ skillId ];
-		SkillBase skill = sbi.GetSkillInfo();
-                
+
+		SkillBaseInfo sbi = null;//Skill[ skillId ];
+		SkillBase skill = null;
+
+		if (unitInfo.PassiveSkill == 0) {
+			sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.NormalSkill);
+			skill = sbi.GetSkillInfo();
+			FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Normal_Skill_2");
+			TNormalSkill ns = sbi as TNormalSkill;
+			List<uint> sprNameList2 = ns.Object.activeBlocks;
+			for( int i = 0; i < sprNameList2.Count; i++ ){
+				blockLsit2[ i ].enabled = true;
+				blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
+			}
+		}else{
+			sbi = DataCenter.Instance.GetSkill (data.MakeUserUnitKey (), skillId, SkillType.PassiveSkill);
+			skill = sbi.GetSkillInfo();
+			FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Passive_Skill");
+		}
 		normalSkill2NameLabel.text = TextCenter.GetText ("SkillName_"+skill.id); //skill.name;
 		normalSkill2DscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill.id);//skill.description;
 
-		TNormalSkill ns = sbi as TNormalSkill;
-		List<uint> sprNameList2 = ns.Object.activeBlocks;
-		for( int i = 0; i < sprNameList2.Count; i++ ){
-			blockLsit2[ i ].enabled = true;
-			blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
-        }
+
 	}
 
 	void ShowLeaderSkillContent( TUserUnit data ){
