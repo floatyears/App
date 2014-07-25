@@ -30,7 +30,7 @@ public class TStoreBattleData : ProtobufDataBase {
 
 	public int hp {
 		get { return instance.hp; }
-		set { instance.hp = value; Debug.LogError("store battle data : " + instance.hp); }
+		set { instance.hp = value; }//Debug.LogError("store battle data : " + instance.hp); }
 	}
 
 	public int sp {

@@ -67,11 +67,12 @@ public class BattleCardArea : UIBaseUnity {
 	int boostIndex = -1;
 
 	void SetBoost () {
-		if (boostIndex > -1) {
+		if (boostIndex > -1 && boostIndex < 5) {
 			battleCardAreaItem[boostIndex].isBoost = false;
 		}
-		boostIndex = Random.Range (0, 5);
-		battleCardAreaItem[boostIndex].isBoost = true;
+		boostIndex = Random.Range (0, 10);
+		if(boostIndex < 5) 
+			battleCardAreaItem[boostIndex].isBoost = true;
 	}
 
 	void StateInfo(object data) {
