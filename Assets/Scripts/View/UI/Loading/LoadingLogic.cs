@@ -237,11 +237,6 @@ public class LoadingLogic : ConcreteComponent {
 	uint recoverQuestID = 0;
 
 	void EnterGame () {
-//		
-
-
-
-
 
 		//		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 

@@ -105,12 +105,15 @@ public class BattleUseData {
 			blood = sbd.hp;
 			maxEnergyPoint = sbd.sp;
 		}
+
+		configBattleUseData.storeBattleData.hp = blood;
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 		GetBaseData (null);
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);
 		ac = new AttackController(this, eps, upi);
 		Config.Instance.SwitchCard(els);
+		configBattleUseData.StoreMapData (null);
 	}
 
     ~BattleUseData() { }

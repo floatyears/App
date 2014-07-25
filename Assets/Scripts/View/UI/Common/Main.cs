@@ -90,8 +90,7 @@ public class Main : MonoBehaviour {
 			int height = System.Convert.ToInt32( DefaultHeight * sizePropotion );
 			root.manualHeight = height;
 			rootPanel.clipRange = new Vector4(0, 0, height / currentSize, height);
-		}
-		else{
+		} else {
 			root.manualHeight = DefaultHeight;
 			rootPanel.clipRange = new Vector4(0, 0, 640, root.manualHeight);
 		}
