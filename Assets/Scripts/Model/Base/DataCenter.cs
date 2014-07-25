@@ -318,17 +318,17 @@ public class DataCenter {
         set { setData(ModelEnum.EnemyInfo, value); } 
     }
 
-    public Dictionary<int, UnitBaseInfo> UnitBaseInfo {
-        get { 
-            Dictionary<int, UnitBaseInfo> ret = getData(ModelEnum.UnitBaseInfo) as Dictionary<int, UnitBaseInfo>;
-            if (ret == null) {
-                ret = new Dictionary<int, UnitBaseInfo>();
-                setData(ModelEnum.UnitBaseInfo, ret);
-            }
-            return ret; 
-        }
-        set { setData(ModelEnum.UnitBaseInfo, value); } 
-    }
+//    public Dictionary<int, UnitBaseInfo> UnitBaseInfo {
+//        get { 
+//            Dictionary<int, UnitBaseInfo> ret = getData(ModelEnum.UnitBaseInfo) as Dictionary<int, UnitBaseInfo>;
+//            if (ret == null) {
+//                ret = new Dictionary<int, UnitBaseInfo>();
+//                setData(ModelEnum.UnitBaseInfo, ret);
+//            }
+//            return ret; 
+//        }
+//        set { setData(ModelEnum.UnitBaseInfo, value); } 
+//    }
 
 	//new add by Lynn
 	public List<TCityInfo> CityListInfo{
