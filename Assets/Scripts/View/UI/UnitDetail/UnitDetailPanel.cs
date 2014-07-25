@@ -886,8 +886,5 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Destroy( go );
 			effectCache.Remove(go);
 		}
-
-//		gameObject.SetActive (false);
-//		HideUI ();
 	}
 }
