@@ -144,6 +144,7 @@ public class GachaWindowView : UIComponentUnity {
 
 	void AutoShowOneCard() {
 		if (autoShowIndex == gachaInfo.totalChances || autoShowIndex == gachaInfo.unitList.Count) {
+			autoShowIndex = 0;
 			FinishShowGachaWindow();
 			return;
 		}
