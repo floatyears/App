@@ -60,8 +60,8 @@ public class TipText : MonoBehaviour {
 
 				LogHelper.Log("--------border: "+border+ "mSize: "+mSize);
 
-				background.width = Mathf.RoundToInt(mSize.x+40);
-				background.height = Mathf.RoundToInt(mSize.y+25);
+//				background.width = Mathf.RoundToInt(mSize.x+40);
+//				background.height = Mathf.RoundToInt(mSize.y+25);
 			}
 		}
 	}

@@ -63,7 +63,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	}
 
 	private void ClickOK1(object data){
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(3).gameObject;
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(-1).gameObject;
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;

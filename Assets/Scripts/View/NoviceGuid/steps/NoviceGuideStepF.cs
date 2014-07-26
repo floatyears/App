@@ -53,7 +53,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListenerCustom.Get (btn).onClick -= EmptyClick;
 
-		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (2);
+		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (4);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
 		NoviceGuideUtil.ForceOneBtnClick (unit);
 		UIEventListenerCustom.Get (unit).onClick += OnUnitClick;
