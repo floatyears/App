@@ -59,8 +59,9 @@ public class GameInput : MonoBehaviour  {
 
 	void ShiledInput(object data) {
 		bool sInput = (bool)data;
+
+		Debug.LogError ("noviceGuideShileInput : " + sInput);
 		noviceGuideShileInput = !sInput;
-//		Debug.LogError ("noviceGuideShileInput : " + noviceGuideShileInput);
 		BattleBottom.noviceGuideNotClick = sInput;
 	}
 
@@ -75,11 +76,16 @@ public class GameInput : MonoBehaviour  {
 		if(OnUpdate != null)
 			OnUpdate();
 
-//		Debug.LogError ("noviceGuideShileInput : " + noviceGuideShileInput + " time : " + Time.realtimeSinceStartup);
+		if (!noviceGuideShileInput && DGTools.IsNoviceGuide ()) {
+//			Debug.LogError("!noviceGuideShileInput && DGTools.IsNoviceGuide () ");
+			return;	
+		}
 
-		if( !noviceGuideShileInput || !isCheckInput)
+		if (!isCheckInput) {
+//			Debug.LogError ("game input update : " + noviceGuideShileInput + " isCheckInput : " + isCheckInput);
 			return;
-
+		}
+//		Debug.LogError ("game input update ");
 //#if UNITY_IPHONE || UNITY_ANDROID
        	//ProcessTouch();
 //#elif UNITY_EDITOR 
@@ -122,10 +128,6 @@ public class GameInput : MonoBehaviour  {
 
 	void ProcessMouse() {
 		if(Input.GetMouseButtonDown(0)) {
-//			lastPosition = Input.mousePosition;
-//			
-//			currentPosition = Input.mousePosition;
-			
 			OnPress();
 		} else if(Input.GetMouseButtonUp(0)) {
 			OnRelease();

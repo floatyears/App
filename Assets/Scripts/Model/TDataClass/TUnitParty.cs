@@ -190,7 +190,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             hurtValue -= value;
         }
 
-
         return System.Convert.ToInt32(hurtValue);
     }
 
