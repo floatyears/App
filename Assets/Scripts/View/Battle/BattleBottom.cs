@@ -25,11 +25,17 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	private static int setPos = -1;
+	private static bool storeShiedInput = false;
+
 	public static void SetClickItem(int pos) {
-		if (pos < 0 || pos > 4 || pos == setPos) {
-			setPos = -1;	
+		if (pos < 0 || pos > 4 || pos == setPos || pos == -1) {
+			setPos = -1;
+			notClick = storeShiedInput;
+			return;
 		}
 
+		storeShiedInput = notClick;
+		notClick = false;
 		setPos = pos;
 	}
 
