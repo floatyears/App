@@ -53,7 +53,7 @@ public class GameInput : MonoBehaviour  {
 
 	void ShiledInput(object data) {
 		if (data == null) {
-			shieldInput = !ShiledInput;
+			shieldInput = !shieldInput;
 				} else {
 			shieldInput = (bool)data;
 		}

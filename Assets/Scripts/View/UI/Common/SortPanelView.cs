@@ -126,7 +126,7 @@ public class SortPanelView : UIComponentUnity {
 			case SceneEnum.UnitList:
 				srui = SortRuleByUI.MyUnitListView;
 			break;
-//		case SceneEnum.UnitCatalog:
+//		case SceneEnum.Evolve:
 //			srui = SortRuleByUI.
 			default:
 				break;

@@ -36,7 +36,7 @@ public class SelectRoleView : UIComponentUnity {
 	}
 
 	void InitUI(){
-		FindChild<UILabel>("Button_Select/Label").text = TextCenter.GetText ("SelectRoleTitle");
+		FindChild<UILabel>("Button_Select/Label").text = TextCenter.GetText ("SelectRoleBtn");
 		FindChild<UILabel>("Label_Note").text = TextCenter.GetText ("SelectRoleContent");
 
 		FindChild<UILabel> ("Text/Label_No").text = TextCenter.GetText ("SelectRole_No");

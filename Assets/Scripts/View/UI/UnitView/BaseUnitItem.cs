@@ -14,6 +14,8 @@ public class BaseUnitItem : MonoBehaviour {
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
 
+	public static bool canShowUnitDetail = true;
+
 	public static BaseUnitItem Inject(GameObject item){
 		BaseUnitItem view = item.GetComponent<BaseUnitItem>();
 		if (view == null) view = item.AddComponent<BaseUnitItem>();

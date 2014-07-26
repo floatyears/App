@@ -223,6 +223,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		bbs.SetLeaderToNoviceGuide (true);
 		bbs.IsUseLeaderSkill = true;
 		MsgCenter.Instance.AddListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
+		BattleBottom.SetClickItem (0);
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -249,7 +250,8 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
-		
+
+		BattleBottom.SetClickItem (-1);
 //		nmw = GameObject.Find ("NoviceGuideWindow(Clone)");
 //		UIPanel up = nmw.AddComponent<UIPanel>();
 //		up.depth = 4;
