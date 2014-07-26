@@ -410,19 +410,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 	
     public int GetInitBlood() {
-//		UnitParty up = DeserializeData<UnitParty> ();
         int bloodNum = 0;
-//        for (int i = 0; i < instance.items.Count; i++) {
-//            uint unitUniqueID = instance.items[i].unitUniqueId;
-//			if ( unitUniqueID == 0 ) {
-//				continue;
-//			}
-//			TUserUnit uu = DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID);
-//			if (uu != null ) {
-//				bloodNum += uu.InitBlood;
-//			}
-//        }
-
 		foreach (var item in UserUnit.Values) {
 			if(item != null)
 			bloodNum += item.InitBlood;
@@ -431,12 +419,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     }
 	
     public int GetBlood() {
-//		UnitParty up = DeserializeData<UnitParty> ();
         int bloodNum = 0;
-//        for (int i = 0; i < instance.items.Count; i++) {
-//            uint unitUniqueID = instance.items[i].unitUniqueId;
-//            bloodNum += DataCenter.Instance.UserUnitList.GetMyUnit(unitUniqueID).Blood;
-//        }
 		foreach (var item in UserUnit.Values) {
 			bloodNum += item.Blood;
 		}
@@ -445,11 +428,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	
     public Dictionary<int,uint> GetPartyItem() {
         Dictionary<int,uint> temp = new Dictionary<int, uint>();
-//		UnitParty up = DeserializeData<UnitParty> ();
         for (int i = 0; i < instance.items.Count; i++) {
             PartyItem pi = instance.items[i];
             temp.Add(pi.unitPos, pi.unitUniqueId);
-//			Debug.LogError("pi.unitPos : " + pi.unitPos + " pi.unitUniqueId : " + pi.unitUniqueId);
         }
         return temp;
     }
@@ -520,13 +501,4 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             return null;
         return sbi.GetSkillInfo();
     }
-
-//    public Dictionary<int, TUserUnit> GetPosUnitInfo() {
-//        Dictionary<int,TUserUnit> temp = new Dictionary<int,TUserUnit>();
-//        foreach (var item in instance.items) {
-//            TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
-//            temp.Add(item.unitPos, uui);
-//        }
-//        return temp;
-//    }
 }

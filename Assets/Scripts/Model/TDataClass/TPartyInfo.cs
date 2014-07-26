@@ -10,14 +10,12 @@ public class TPartyInfo : ProtobufDataBase {
     private bool isPartyItemModified = false;
     private bool isPartyGroupModified = false;
 	public bool IsPartyGroupModified{
-		get{
+		get {
 			return isPartyGroupModified;
 		}
-		set{
+		set {
 			isPartyGroupModified = value;
-//			Debug.LogError("IsPartyGroupModified : " + isPartyGroupModified);
-//			if(isPartyGroupModified)
-				MsgCenter.Instance.Invoke(CommandEnum.ModifiedParty, null);
+			MsgCenter.Instance.Invoke(CommandEnum.ModifiedParty, null);
 		}
 	}
 
@@ -25,13 +23,6 @@ public class TPartyInfo : ProtobufDataBase {
 
     public TPartyInfo(PartyInfo inst) : base (inst) { 
         instance = inst;
-
-//		for (int i = 0; i < inst.partyList.Count; i++) {
-//			for (int j = 0; j < inst.partyList[i].items.Count; j++) {
-////				Debug.LogError(i + " j : " + j + " nst.partyList[i].item : " + inst.partyList[i].items[j].unitUniqueId);
-//			}
-//		}
-
         assignParty();
     }
 
@@ -41,8 +32,9 @@ public class TPartyInfo : ProtobufDataBase {
 
 	public bool UnitIsInCurrentParty(TUserUnit tuu) {
 		if (tuu.userID != DataCenter.Instance.UserInfo.UserId) {
-			return false;	
+			return false;
 		}
+
 		return CurrentParty.HasUnit(tuu.ID);
 	}
 
@@ -69,10 +61,6 @@ public class TPartyInfo : ProtobufDataBase {
 
         foreach (UnitParty party in instance.partyList) {
             Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int>();
-
-//			foreach(PartyItem item in party.items) {
-//				LogHelper.Log("--before sort ==> item{0}: {1}", item.unitPos, item.unitUniqueId);
-//			}
 			
             party.items.Sort(SortParty);
 			

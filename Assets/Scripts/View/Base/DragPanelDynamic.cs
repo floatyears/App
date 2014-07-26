@@ -31,6 +31,14 @@ public class DragPanelDynamic {
 
 	public event UICallback callback;
 
+
+	/// <summary>
+	/// maxline must Redundancy > 3 lines.
+	/// </summary>
+	/// <param name="parent">Parent.</param>
+	/// <param name="sourObject">Sour object.</param>
+	/// <param name="maxLine">Max line.</param>
+	/// <param name="maxPerLine">Max per line.</param>
 	public DragPanelDynamic (GameObject parent, GameObject sourObject, int maxLine, int maxPerLine) {
 	 	this.maxLine = maxLine;
 		this.maxPerLine= maxPerLine;
@@ -121,10 +129,8 @@ public class DragPanelDynamic {
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 
 		if (scrollItemData.Count == tuuList.Count) {	
-//			Debug.LogError("realStartIndex : " + realStartIndex + " realEndIndex : " + realEndIndex);
 			for (int i = realStartIndex; i <= realEndIndex; i++) {
 				scrollItem[i - realStartIndex].UserUnit = tuuList[i];
-//				Debug.LogError(scrollItem[i - realStartIndex] + " tuuList[i] : " + tuuList[i].isEnable);
 			}	
 			scrollItemData = tuuList;
 			return scrollItem;
@@ -183,8 +189,8 @@ public class DragPanelDynamic {
 		if (firstItemVisible == endItemVisible) {
 			return;
 		}
-
-		for (int i = 0; i < maxPerLine; i++) {
+		int maxEndIndex = maxPerLine * 4;
+		for (int i = 0; i < maxEndIndex; i++) {
 			if (firstItemVisible) {
 				sourceIndex = scrollItem.Count - 1;
 				targetIndex = 0;
