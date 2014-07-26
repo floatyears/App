@@ -135,13 +135,17 @@ public class Battle : UIBase {
 		} else {
 			bool b = (bool)data;
 
-			ShieldInput(false);
+
 
 			ShowGuideAnim(b);
 		}
 	}
 
+	bool shileInputByNoviceGuide = false;
 	public void ShowGuideAnim(bool rePlay = false) {
+		ShieldInput (false);
+		shileInputByNoviceGuide = true;
+
 		if (rePlay) {
 			battleData.storeBattleData.colorIndex -= 19;
 			GenerateShowCard();
@@ -231,6 +235,7 @@ public class Battle : UIBase {
 	}
 
 	void AnimEnd() {
+		shileInputByNoviceGuide = false;
 		ShieldInput (true);
 //		ConfigBattleUseData.Instance.NotDeadEnemy = false;
 
@@ -406,8 +411,6 @@ public class Battle : UIBase {
 	void EnemyAttckEnd (object data) {
 		battleCard.StartBattle (true);
 		ShieldInput (true);
-
-//		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 	}
 
 	void EnemyAttackEnd() {
@@ -587,6 +590,10 @@ public class Battle : UIBase {
 	}
 
 	public void ShieldInput (bool isShield) {
+//		Debug.LogError ("ShieldInput : " + isShield);
+		if (shileInputByNoviceGuide) {
+			return;	
+		}
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}
