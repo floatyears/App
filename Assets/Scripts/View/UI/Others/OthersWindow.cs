@@ -62,8 +62,10 @@ public class OthersWindow : UIComponentUnity {
 		FindChild<UILabel> ("OptionItems/Reward/Label").text = TextCenter.GetText ("Game_Setting_Option_Reward");
 		FindChild<UILabel> ("OptionItems/Contact/Label").text = TextCenter.GetText ("Game_Setting_Option_Contact");
 
-#if UNITY_ANDROID
+#if UNITY_EDITOR
 		FindChild<UILabel> ("OptionItems/ResetData/Label").text = TextCenter.GetText ("Text_ResetData");
+#elif UNITY_ANDROID
+		FindChild("OptionItems/ResetData").SetActive(false);
 #else
 		FindChild("OptionItems/ResetData").SetActive(false);
 #endif

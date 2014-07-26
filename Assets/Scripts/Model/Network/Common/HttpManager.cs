@@ -50,8 +50,10 @@ public class HttpManager : INetSendPost {
     }
 	
     public void SendHttpPost(IWWWPost post) {
+		Debug.LogError("SendHttpPost : " + post.Url + " post.wwwinfo != null : " + (post.WwwInfo != null));
         if (post.WwwInfo != null) {
-            wwwRequst.Add(post);	
+            wwwRequst.Add(post);
+			Debug.LogWarning("SendHttpPost:" + post.Url + " wwwRequst.count : " + wwwRequst.Count);
         }
     }
 	
@@ -67,28 +69,30 @@ public class HttpManager : INetSendPost {
         }
         for (int i = wwwRequst.Count - 1; i >= 0; i--) {
             WWW www = wwwRequst[i].WwwInfo;
-			if (www==null) {
-				UnityEngine.Debug.LogError("remove null www["+i+"]. wwwRequst.Count="+wwwRequst.Count);	
+			Debug.LogWarning("HttpUpdate() TRACE www["+i+"]. wwwRequst.Count="+wwwRequst.Count + " url : " + www.url);	
+
+			if (www == null) {
+				UnityEngine.Debug.LogError("remove null www["+i+"]. wwwRequst.Count="+ wwwRequst.Count);	
 				wwwRequst.RemoveAt(i);
 				continue;
 			}
+
             if (www.isDone && string.IsNullOrEmpty(www.error)) {
+				Debug.LogError("www is done : [" + i + "] wwwRequest.Count = " + wwwRequst.Count + " url : " + www.url);
                 RequestDone(wwwRequst[i]);
-            }
-            else if (!string.IsNullOrEmpty(www.error)) {
+            } else if (!string.IsNullOrEmpty(www.error)) {
                 IWWWPost post = wwwRequst[i];
                 wwwRequst.RemoveAt(i);
-                OpenMsgWindowByError(www.error, post);
-                //LogHelper.Log("HttpUpdate(), received error, {0}", www.error);
-            }
-            else {
-				//LogHelper.Log("HttpUpdate(), not done or done and error");
+				Debug.LogError("HttpUpdate(), remove this httpconnect received www error: " + www.error + " url : " + www.url);
+				OpenMsgWindowByError(www.error, post);
+            } else {
+				//Debug.LogError("HttpUpdate(), www["+i+"] not done or done and error.  wwwRequst.Count="+wwwRequst.Count+ " www.error:"+www.error);
             }
         }
     }
 
     void RequestDone(IWWWPost wwwPost) {
-//		Debug.LogError (wwwPost.WwwInfo.url);
+		Debug.LogError ("RequestDone:"+wwwPost.WwwInfo.url);
         wwwRequst.Remove(wwwPost);
         wwwPost.ExcuteCallback();
     }

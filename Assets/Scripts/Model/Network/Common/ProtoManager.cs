@@ -31,7 +31,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
     }
 	
     public void Receive(IWWWPost post) {
-//		Debug.LogError ("receive : " + post.Url);
+		Debug.LogError ("receive : " + post.Url);
         instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
         if (instObj != null) {
             OnResponse(true);
@@ -46,8 +46,8 @@ public class ProtoManager: ProtobufDataBase, INetBase {
     }
 
     public void SetBlockMask(bool flag){
-//        LogHelper.LogError("SetBlockMask(), {0}", flag);
-        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, flag));
+		Debug.LogError("SetBlockMask(), " + flag);
+		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, flag));
         MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, flag);
     }
 

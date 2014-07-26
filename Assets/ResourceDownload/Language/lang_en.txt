@@ -464,6 +464,7 @@ StaminaLackNoteContent=Current Stamina is not enough to battle!
 
 ##select role
 SelectRoleTitle=Select Role
+SelectRoleBtn=OK
 SelectRoleContent=Are you sure to select this role to adventure with you?
 SelectRole_ATK=ATK
 SelectRole_Fav=Fav.
