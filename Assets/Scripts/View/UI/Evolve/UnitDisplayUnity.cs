@@ -263,7 +263,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 	void CreatPanel () {
 		GameObject go = Instantiate (EvolveDragItem.ItemPrefab) as GameObject;
 		EvolveDragItem.Inject (go);
-		unitItemDragPanel = new DragPanelDynamic (gameObject, go, 9, 3);
+		unitItemDragPanel = new DragPanelDynamic (gameObject, go, 12, 3);
 
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
 		dpsi.parentTrans = transform;

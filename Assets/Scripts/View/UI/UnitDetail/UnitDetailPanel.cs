@@ -180,7 +180,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		ClearEffectCache ();
 		LevelUpEnd ();
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-//		Debug.LogError ("UIManager.Instance.baseScene.PrevScene : " + UIManager.Instance.baseScene.PrevScene);
 		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 		unitBodyTex.mainTexture = null;
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
@@ -317,7 +316,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			expSlider.value = 1f;
 		} else {
 			needExpLabel.text = TextCenter.GetText("Text_Next")+": " + data.NextExp.ToString();
-//			Debug.LogError("ShowInfo ->  needExpLabel.text="+needExpLabel.text);
 			expSlider.value = data.CurExp*1.0f / (data.CurExp + data.NextExp);
 		}
 	}
@@ -477,9 +475,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+
+		ShowLevelInfo (newBlendUnit);
+
 		TUserUnit tuu = DataCenter.Instance.levelUpFriend;
 		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
-
 		friendEffect.gameObject.SetActive (true);
 		friendEffect.spriteName = tuu.UnitType.ToString ();
 		Transform effectTrans = friendEffect.transform;
@@ -867,7 +867,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	void LevelUpAnim() {
-		ShowLevelInfo (newBlendUnit);
+
 		curLevel = oldBlendUnit.Level;
 		gotExp = levelUpData.blendExp;
 		

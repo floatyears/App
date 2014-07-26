@@ -285,7 +285,7 @@ public class CatalogView : UIComponentUnity {
 	IEnumerator InitDragPanel() {
 		GameObject go = Instantiate(CatalogUnitItem.ItemPrefab) as GameObject;
 		CatalogUnitItem.Inject(go);
-		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 9, 5);
+		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 12, 5);
 
 		DragPanelSetInfo setter = new DragPanelSetInfo();
 		setter.parentTrans = transform;
