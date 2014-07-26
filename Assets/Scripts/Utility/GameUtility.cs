@@ -38,6 +38,14 @@ public class DGTools {
 	}
 
 
+	public static bool IsNoviceGuide () {
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.NONE) {
+			return false;		
+		} else {
+			return true;	
+		}
+	}
+
 	public static int GetEnemyWidthByRare(int rare) {
 		switch (rare) {
 		case 1:
