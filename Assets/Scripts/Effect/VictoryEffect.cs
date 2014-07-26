@@ -244,10 +244,10 @@ public class VictoryEffect : UIComponentUnity {
 	void Sure(GameObject go) {
 		DestoryUI ();
 		if (DataCenter.gameState == GameState.Evolve) {
-			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
 			UnitDetailPanel.isEvolve = true;
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
+			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
 			HideUI();
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else {

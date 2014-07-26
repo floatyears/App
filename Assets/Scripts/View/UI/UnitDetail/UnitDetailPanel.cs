@@ -176,15 +176,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 
 		ShowTexture = false;
-
 		StopAllCoroutines ();
 		ClearEffectCache ();
-
 		LevelUpEnd ();
-
-		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+//		Debug.LogError ("UIManager.Instance.baseScene.PrevScene : " + UIManager.Instance.baseScene.PrevScene);
 		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
+		unitBodyTex.mainTexture = null;
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 
@@ -683,7 +681,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void LevelUpEnd() {
 		oldBlendUnit = null;
 		RecoverEffectCamera ();
-		unitBodyTex.mainTexture = null;
+		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
+//		unitBodyTex.mainTexture = null;
 	}
 
 	void ExpRise () {
@@ -695,7 +694,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			}
 			return;	
 		}	
-//		Debug.LogError (gotExp + " expRiseStep : " + expRiseStep);
+
 		if(gotExp < expRiseStep){
 			curExp += gotExp;
 			gotExp = 0;

@@ -11,9 +11,11 @@ public class GameInput : MonoBehaviour  {
 	public static event System.Action OnPressContinued;
 	private bool isCheckInput = false;
 	public bool IsCheckInput {
-		set{ isCheckInput = value; }//Debug.LogError("isCheckInput : " + value + " time : "+Time.realtimeSinceStartup);}
+		set{ isCheckInput = value; }
 		get{ return isCheckInput; }
 	}
+
+	private bool noviceGuideShileInput = false;
 
 	/// <summary>
 	/// shield all custom input.
@@ -53,7 +55,7 @@ public class GameInput : MonoBehaviour  {
 
 	void ShiledInput(object data) {
 		bool sInput = (bool)data;
-		isCheckInput = !sInput;
+		noviceGuideShileInput = !sInput;
 		BattleBottom.notClick = sInput;
 	}
 
@@ -68,7 +70,7 @@ public class GameInput : MonoBehaviour  {
 		if(OnUpdate != null)
 			OnUpdate();
 
-		if(!isCheckInput)
+		if( !noviceGuideShileInput && !isCheckInput)
 			return;
 //#if UNITY_IPHONE || UNITY_ANDROID
        	//ProcessTouch();
