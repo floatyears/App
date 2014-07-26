@@ -119,7 +119,7 @@ public class AudioManager {
 
 	AudioEnum currentEnum = AudioEnum.None;
 	public AudioEnum GetPlayAuioInfo() {
-		if (currentSoundAudio.isPlaying) {
+		if (currentSoundAudio != null && currentSoundAudio.isPlaying) {
 			return currentEnum;	
 		} else {
 			return AudioEnum.None;	
