@@ -181,7 +181,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 
 		foreach (var item in UserUnit.Values) {
 			if(item != null) {
-//				Debug.LogError("attackType:"+attackType+" attackV:"+attackV+" hurtValue += "+item.CalculateInjured(attackType, attackV));
 				hurtValue += item.CalculateInjured(attackType, attackV);
 			}
 		}
