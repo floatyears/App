@@ -66,11 +66,16 @@ public class BattleCardArea : UIBaseUnity {
 
 	int boostIndex = -1;
 
+	int maxBoostRandom = 0;
+
 	void SetBoost () {
+		maxBoostRandom = DGTools.IsNoviceGuide() ? 5 : 10;
+
 		if (boostIndex > -1 && boostIndex < 5) {
 			battleCardAreaItem[boostIndex].isBoost = false;
 		}
-		boostIndex = Random.Range (0, 10);
+
+		boostIndex = Random.Range (0, maxBoostRandom);
 		if(boostIndex < 5) 
 			battleCardAreaItem[boostIndex].isBoost = true;
 	}

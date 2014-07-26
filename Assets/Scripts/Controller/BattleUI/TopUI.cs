@@ -9,9 +9,6 @@ public class TopUI : UIBaseUnity {
 	private UILabel floorLabel;
 	private UIButton menuButton;
 
-//	private UIAnchor leftAnchor;
-//	private UIAnchor rightAnchor;
-
 	private UIButton retryButton;
 
 	[HideInInspector]
@@ -30,25 +27,7 @@ public class TopUI : UIBaseUnity {
 
 		menuButton = FindChild<UIButton>("Top/MenuButton");
 		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
-
-//		leftAnchor = transform.Find ("Topleft").gameObject.AddComponent<UIAnchor> ();
-//		leftAnchor.side = UIAnchor.Side.TopLeft;
-//		leftAnchor.runOnlyOnce = false;
-//		leftAnchor.enabled = true;
-
-//		rightAnchor = transform.Find ("TopRight").gameObject.AddComponent<UIAnchor> ();
-//		rightAnchor.side = UIAnchor.Side.TopRight;
-//		rightAnchor.runOnlyOnce = false;
-//		rightAnchor.enabled = true;
-
-//		StartCoroutine (Set ());
 	}
-	
-//	IEnumerator Set () {
-//		yield return 0;
-//		leftAnchor.runOnlyOnce = true;
-//		rightAnchor.runOnlyOnce = true;
-//	}
 
 	public override void HideUI () {
 		if(gameObject.activeSelf)
@@ -108,10 +87,18 @@ public class TopUI : UIBaseUnity {
 	}
 
 	void Retry(GameObject go) {
+		if (DGTools.IsNoviceGuide ()) {
+			return;	
+		}
+
 		battleQuest.Retry ();
 	}
 
 	void ShowMenu (GameObject go) {
+		if (DGTools.IsNoviceGuide ()) {
+			return;	
+		}
+
 		if (battleMenu == null) {
 			CreatBattleMenu ();
 			return;

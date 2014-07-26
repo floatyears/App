@@ -65,7 +65,6 @@ public class BattleCardAreaItem : UIBaseUnity {
 	}
 
 	void SetBoost(bool show) {
-//		Debug.LogError ("gameobject : " + gameObject + " show : " + show);
 		boostLabel.enabled = show;
 	}
 	
