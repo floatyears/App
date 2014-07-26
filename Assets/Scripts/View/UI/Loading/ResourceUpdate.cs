@@ -160,11 +160,11 @@ public class ResourceUpdate : MonoBehaviour {
 				if(!string.IsNullOrEmpty(www.error)) {
 					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
 					//retryItemList.Add(item);
-					if(item.retryCount >0)
-					{
+//					if(item.retryCount >0)
+//					{
 						item.StartDownload();
-						item.retryCount--;
-					}
+//						item.retryCount--;
+//					}
 					continue;
 				}
 				if(www.isDone) {
@@ -191,7 +191,7 @@ public class ResourceUpdate : MonoBehaviour {
 	void LateUpdate() {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
-			if(!string.IsNullOrEmpty( item.www.error) && item.retryCount <=0){
+			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
 			}else if(item.www.isDone) {
@@ -262,7 +262,7 @@ public class ResourceUpdate : MonoBehaviour {
 		total = 0;
 		alreadyDone =  0;
 		foreach (var item in retryItemList) {
-			item.retryCount = 3;
+//			item.retryCount = 3;
 			downLoadItemList.Add(item);
 			total += item.size;
 			item.StartDownload();
@@ -293,7 +293,7 @@ public class ResourceUpdate : MonoBehaviour {
 					LoadVersionConfig(localVersion.text,localVersionDic);
 				}
 				CompareVersion();
-			}));
+			},true));
 		}));
 	}
 
@@ -377,11 +377,11 @@ public class ResourceUpdate : MonoBehaviour {
 			Debug.Log("load res again: server-version.txt-md5:"+serverVersionDic [downloadItem.name].md5+" != downloaded filehash:"+hash);
 //			LoadRes(serverVersionDic[name][1],name);
 //			retryItemList.Add(downloadItem);
-			if(downloadItem.retryCount >0)
-			{
+//			if(downloadItem.retryCount >0)
+//			{
 				downloadItem.StartDownload();
-				downloadItem.retryCount--;
-			}
+//				downloadItem.retryCount--;
+//			}
 		}
 	}
 
@@ -486,7 +486,7 @@ public class ResourceUpdate : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Download(string url, CompleteDownloadCallback callback)
+	IEnumerator Download(string url, CompleteDownloadCallback callback,bool ignoreErr = false)
 	{
 		WWW www = new WWW (url);
 		globalWWW = www;
@@ -494,15 +494,55 @@ public class ResourceUpdate : MonoBehaviour {
 		yield return www;
 
 
-		if (!string.IsNullOrEmpty (www.error)) {
-			Debug.Log(www.error+" : " + url);
+		if (!string.IsNullOrEmpty (www.error) && !ignoreErr) {
+			Debug.Log (www.error + " : " + url);
+
+			MsgWindowParams mwp = new MsgWindowParams ();
+			mwp.btnParam = new BtnParam();
+
+			mwp.titleText = 
+#if LANGUAGE_CN
+			"下载错误";
+#else
+			"File Download Error";
+#endif
+			mwp.contentText = 
+#if LANGUAGE_CN
+	"此文件下载错误：" + url;
+#else
+			"Network error.Please check your network connection and try again later.";
+#endif
+			
+			BtnParam sure = new BtnParam ();
+			sure.callback = DownloadAgain;
+			sure.text = 
+			#if LANGUAGE_CN
+				"确定";
+			#else
+				"OK";
+			#endif
+//			mwp.btnParam = null;
+			
+//			sure = new BtnParam ();
+//			sure.callback = ExitGame;
+//			sure.text = 
+//			#if LANGUAGE_CN
+//				"重试";
+//			#else
+//				"Retry";
+//			#endif
+//			mwp.btnParams[1] = sure;
+			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+
+		} else {
+			//call the callback nomatter what errors.
+			if (callback != null) {
+				callback(www);		
+			}
+			www.Dispose ();
+			globalWWW = null;
 		}
-		//call the callback nomatter what errors.
-		if (callback != null) {
-			callback(www);		
-		}
-		www.Dispose ();
-		globalWWW = null;
+
 	}
 
 	void LoadRes(string url,string name){
@@ -562,7 +602,7 @@ public class DownloadItemInfo {
 	/// </summary>
 	public int size;
 
-	public int retryCount = 3;
+//	public int retryCount = 3;
 
 	public WWW www;
 
