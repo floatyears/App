@@ -143,7 +143,6 @@ public class Battle : UIBase {
 
 	bool shileInputByNoviceGuide = false;
 	public void ShowGuideAnim(bool rePlay = false) {
-//		ShieldInput (false);
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
 
 		shileInputByNoviceGuide = true;
@@ -591,9 +590,9 @@ public class Battle : UIBase {
 
 	public void ShieldInput (bool isShield) {
 //		Debug.LogError ("ShieldInput : " + isShield);
-		if (shileInputByNoviceGuide) {
-			return;	
-		}
+//		if (shileInputByNoviceGuide) {
+//			return;	
+//		}
 		nguiMainCamera.enabled = isShield;
 		main.GInput.IsCheckInput = isShield;
 	}

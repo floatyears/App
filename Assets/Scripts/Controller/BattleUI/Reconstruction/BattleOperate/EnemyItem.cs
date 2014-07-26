@@ -13,6 +13,7 @@ public class EnemyItem : UIBaseUnity {
     private UISprite dropTexture;
     private UILabel bloodLabel;
     private UISprite bloodSprite;
+	private UISprite bloodBgSprite;
     private UILabel nextLabel;
 	private UISprite stateSprite;
 
@@ -72,7 +73,6 @@ public class EnemyItem : UIBaseUnity {
     Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
     void Attack(object data) {
         AttackInfo ai = data as AttackInfo;
-//		Debug.LogError("attack enemy");
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
@@ -150,9 +150,9 @@ public class EnemyItem : UIBaseUnity {
 		if (posionAttack == null) {
             return;	
         }
+
         Debug.Log("play posion animation");
 		Debug.Log("posion round : " + posionAttack.AttackRound);
-//		stateLabel.text = "positon : " + posionAttack.AttackRound;
 
 		ShowStateException (StateEnum.Poison);
     }
@@ -163,13 +163,10 @@ public class EnemyItem : UIBaseUnity {
             return;	
         }
 		if (ai.AttackRound == 0) {
-//			stateLabel.text = "";
 			ShowStateException (StateEnum.Poison,true);
 		} else {
-//			stateLabel.text = "positon : " + posionAttack.AttackRound;
 			ShowStateException (StateEnum.Poison);
 		}
-//        Debug.Log("posion round : " + ai.AttackRound);
     }
 	
     public void Init(TEnemyInfo te, Callback callBack) {
@@ -182,6 +179,7 @@ public class EnemyItem : UIBaseUnity {
         localPosition = texture.transform.localPosition;
         attackPosition = new Vector3(localPosition.x, BattleBackground.ActorPosition.y, localPosition.z);
         bloodSprite = FindChild<UISprite>("BloodSprite");
+		bloodBgSprite = FindChild<UISprite>("BloodSpriteBG");
         nextLabel = FindChild<UILabel>("NextLabel");
         effect = FindChild<UIPanel>("Effect");
 		hurtValueLabel = FindChild<UILabel>("HurtLabel");
@@ -227,7 +225,6 @@ public class EnemyItem : UIBaseUnity {
 
 	public void CompressTextureSize(float proportion) {
 		if (proportion < 1f) {
-//			Debug.LogError("CompressTexture: width:"+texture.width+" => "+(int)(texture.width * proportion));
 			texture.width = (int)(texture.width * proportion);
 			texture.height = (int)(texture.height * proportion);
 			SetBloodSpriteWidth ();
@@ -243,10 +240,12 @@ public class EnemyItem : UIBaseUnity {
 	void SetBloodSpriteWidth() {
 		float width = texture.width * 0.6f;
 		bloodSprite.width = (int)width;
+		bloodBgSprite.width = (int)width + 4;
 		float x = texture.transform.localPosition.x;
 		float bloodX = x - width * 0.5f;
 		Vector3 pos = bloodSprite.transform.localPosition;
 		bloodSprite.transform.localPosition = new Vector3 (bloodX, pos.y, pos.z);
+		bloodBgSprite.transform.localPosition = new Vector3 (bloodX - 2, pos.y, pos.z);
 	}
 	
     public void DropItem(object data) {
@@ -265,7 +264,6 @@ public class EnemyItem : UIBaseUnity {
     }
 
 	void TargetEnemy(GameObject go) {
-//		Debug.LogError ("TargetEnemy : " + enemyInfo);
 		MsgCenter.Instance.Invoke (CommandEnum.TargetEnemy, enemyInfo);
 	}
 	
@@ -280,7 +278,7 @@ public class EnemyItem : UIBaseUnity {
         }
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
         texture.enabled = false;
-//		Debug.LogError ("enemydead next label clear ");
+		bloodBgSprite.enabled = false;
         nextLabel.text = "";
     }
 
@@ -301,6 +299,7 @@ public class EnemyItem : UIBaseUnity {
     void RefreshData() {
         enemyInfo = tempQue.Dequeue();
         float value = (float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
+		Debug.LogError ("RefreshData : " + value);
         SetBlood(value);
 		SetNextLabel(enemyInfo.initAttackRound);
     }
@@ -329,9 +328,11 @@ public class EnemyItem : UIBaseUnity {
 
     IEnumerator CountBloodValue(float fillAmount) {
 		float value = (bloodSprite.fillAmount - fillAmount) / 5f;
+
         while (bloodSprite.fillAmount > fillAmount) {
 			bloodSprite.fillAmount -= value;
-            yield return 0;
+//			Debug.LogError("CountBloodValue : " + bloodSprite.fillAmount);
+            yield return 1;
         }
 
         bloodSprite.fillAmount = fillAmount;
