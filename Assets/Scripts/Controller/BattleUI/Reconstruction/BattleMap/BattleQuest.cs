@@ -543,6 +543,7 @@ public class BattleQuest : UIBase {
 	void GridEnd(object data) {
 		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
+
 			topUI.Drop = questData.getUnit.Count;
 		}
 	}
@@ -713,6 +714,12 @@ public class BattleQuest : UIBase {
 	}
 
 	void BossDead() {
+
+		TDropUnit bossDrop = questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		if (bossDrop != null) {
+			questData.getUnit.Add(bossDrop.DropId);
+		}
+
 		battle.ShieldInput (false);
 		BattleBottom.notClick = true;
 
@@ -930,6 +937,7 @@ public class BattleQuest : UIBase {
 			cqp.getUnit.AddRange(item.getUnit);
 			cqp.hitGrid.AddRange(item.hitGrid);
 		}
+
 		return cqp;
 	}
 

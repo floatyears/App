@@ -113,7 +113,7 @@ public class BattleCardArea : UIBaseUnity {
 		bool b = (bool)data;
 		if (!b) {
 			StateInfo (prevInfo);
-			prevInfo = "";	
+			prevInfo = "";
 		}
 	}
 

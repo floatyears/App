@@ -28,14 +28,11 @@ public class BattleCard : UIBaseUnity {
 	public override void Init (string name) {
 		base.Init (name);
 		InitParameter();
-//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 		gameObject.SetActive(true);
-
-
 	}
 
 	public override void HideUI () {
@@ -50,12 +47,7 @@ public class BattleCard : UIBaseUnity {
 		}
 		cardItemArray = null;
 		moveItem.Clear ();
-//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 	}
-
-//	void UserGuideCard(object data) {
-//		
-//	}
 
 	void InitParameter() {
 		templateItemCard = FindChild<UISprite>("Texture");
@@ -98,7 +90,6 @@ public class BattleCard : UIBaseUnity {
 	}
 
 	public void RefreshLine() {
-//		Debug.LogError ("RefreshLine ");
 		foreach (var item in cardItemArray) {
 			GenerateLinkSprite (item, item.itemID);
 		}
@@ -132,13 +123,6 @@ public class BattleCard : UIBaseUnity {
 			RefreshLine();
 		}
 	}
-
-//	void CheckNeedSprite(List<int> haveSprite) {
-//
-//		for (int i = 0; i < normalSkill.Count; i++) {
-//
-//		}
-//	}
 
 	bool CheckGenerationAttack (int index) {
 		if (index == 7) {
