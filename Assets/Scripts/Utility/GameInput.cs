@@ -60,7 +60,7 @@ public class GameInput : MonoBehaviour  {
 	void ShiledInput(object data) {
 		bool sInput = (bool)data;
 
-		Debug.LogError ("noviceGuideShileInput : " + sInput);
+//		Debug.LogError ("noviceGuideShileInput : " + sInput);
 		noviceGuideShileInput = !sInput;
 		BattleBottom.noviceGuideNotClick = sInput;
 	}
@@ -95,7 +95,7 @@ public class GameInput : MonoBehaviour  {
 
 	void LateUpdate() {
 		if (OnLateUpdate != null) {
-			OnLateUpdate();	
+			OnLateUpdate();
 		}
 	}
 
