@@ -24,6 +24,16 @@ public class BattleBottom : MonoBehaviour {
 		}
 	}
 
+	private static int setPos = -1;
+	public static void SetClickItem(int pos) {
+		if (pos < 0 || pos > 4 || pos == setPos) {
+			setPos = -1;	
+		}
+
+		setPos = pos;
+	}
+
+
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
@@ -152,6 +162,11 @@ public class BattleBottom : MonoBehaviour {
 
 		try {
 			int id = System.Int32.Parse (name);
+
+			if(setPos != -1 && id != setPos) {
+				return;
+			}
+
 			if (upi.UserUnit.ContainsKey (id)) {
 				if(id == prevID) {
 					CloseSkillWindow();
