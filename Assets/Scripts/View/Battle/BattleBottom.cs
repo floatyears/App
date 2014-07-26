@@ -181,13 +181,6 @@ public class BattleBottom : MonoBehaviour {
 				}
 				prevID = id;
 				MaskCard (name, true);
-//				foreach (var item in actorObject.Values) {
-//					if(item.name == name) {
-//						item.renderer.material.color = Color.white;
-//						continue;
-//					}
-//					item.renderer.material.color = Color.gray;
-//				}
 				if(IsUseLeaderSkill && id == 0) {
 					LogHelper.Log("--------use leader skill command");
 					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
