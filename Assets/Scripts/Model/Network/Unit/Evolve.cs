@@ -195,7 +195,7 @@ public class TEvolveStart : ProtobufDataBase {
 	
 	public int evolvePartyID = 0;
 	TUnitParty tup;
-	private int currentPartyID = 0;
+
 	public void StoreData () {
 		DataCenter.evolveInfo = this;
 		UnitParty up = new UnitParty ();
@@ -238,7 +238,9 @@ public class TEvolveStart : ProtobufDataBase {
 //		Debug.LogError (DataCenter.Instance.PartyInfo.AllParty.Count + " id : " + tup.ID);
 	}
 
-	public void ClearData () {
+	private int currentPartyID = 0;
+
+	public  void ClearData () {
 		DataCenter.Instance.PartyInfo.CurrentPartyId = currentPartyID;
 		DataCenter.Instance.PartyInfo.AllParty.Remove (tup);
 		DataCenter.evolveInfo = null;

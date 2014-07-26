@@ -15,6 +15,11 @@ public class GameInput : MonoBehaviour  {
 		get{ return isCheckInput; }
 	}
 
+	/// <summary>
+	/// shield all custom input.
+	/// </summary>
+	private bool shieldInput = false;
+
 	private Vector2 lastPosition = Vector2.zero;
 
 	private Vector2 currentPosition = Vector2.zero;
@@ -28,11 +33,13 @@ public class GameInput : MonoBehaviour  {
 	void OnEnable () {
 		Application.RegisterLogCallback (CatchException);
 		MsgCenter.Instance.AddListener (CommandEnum.StopInput, StopInput);
+		MsgCenter.Instance.AddListener (CommandEnum.ShiledInput, ShiledInput);
 	}
 
 	void OnDisable () {
 		Application.RegisterLogCallback (null);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StopInput, StopInput);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShiledInput, ShiledInput);
 	}
 
 	void StopInput(object data) {
@@ -44,12 +51,20 @@ public class GameInput : MonoBehaviour  {
 		IsCheckInput = b;
 	}
 
+	void ShiledInput(object data) {
+		if (data == null) {
+			shieldInput = !ShiledInput;
+				} else {
+			shieldInput = (bool)data;
+		}
+	}
+
 	void CatchException(string condition, string stackInfo, LogType lt) {
 		Debug.LogError ("DG : " + " " + lt +  " " + condition + " " + stackInfo + "    " + TimeHelper.FormattedTimeNow ());
 	}
 
 	void Update() {
-		if(Time.timeScale < 0.5f)
+		if(Time.timeScale < 0.5f || shieldInput)
 			return;
 
 		if(OnUpdate != null)

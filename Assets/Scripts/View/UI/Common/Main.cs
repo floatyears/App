@@ -28,7 +28,9 @@ public class Main : MonoBehaviour {
     private GameInput gInput;
 
     public GameInput GInput {
-        get{ return gInput;}
+        get{ 
+			return gInput;
+		}
     }
 
     private GameTimer gTimer;
