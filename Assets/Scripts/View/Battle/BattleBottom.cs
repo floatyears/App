@@ -79,8 +79,12 @@ public class BattleBottom : MonoBehaviour {
 			} else{
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 				tui.GetAsset(UnitAssetType.Profile, o=>{
-					if(o != null)
+					if(o != null) {
 						texture.mainTexture = o as Texture2D;
+						Rect rect = new Rect(tui.ShowPos.x, tui.ShowPos.y, tui.ShowPos.w, tui.ShowPos.h);
+						texture.uvRect = rect;
+					}
+
 				});
 				
 				tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
