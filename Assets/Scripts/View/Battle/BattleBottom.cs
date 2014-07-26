@@ -11,6 +11,8 @@ public class BattleBottom : MonoBehaviour {
 
 	public bool IsUseLeaderSkill = false;
 
+	public static bool noviceGuideNotClick = false;
+
 	public static bool notClick = false;
 
 	private BattleQuest _battleQuest;
@@ -137,7 +139,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
-		if (notClick) {
+		if (notClick || noviceGuideNotClick) {
 			return;	
 		}
 

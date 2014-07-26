@@ -143,7 +143,9 @@ public class Battle : UIBase {
 
 	bool shileInputByNoviceGuide = false;
 	public void ShowGuideAnim(bool rePlay = false) {
-		ShieldInput (false);
+//		ShieldInput (false);
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
+
 		shileInputByNoviceGuide = true;
 
 		if (rePlay) {
@@ -235,8 +237,9 @@ public class Battle : UIBase {
 	}
 
 	void AnimEnd() {
-		shileInputByNoviceGuide = false;
-		ShieldInput (true);
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false);
+//		shileInputByNoviceGuide = false;
+//		ShieldInput (true);
 //		ConfigBattleUseData.Instance.NotDeadEnemy = false;
 
 //		Debug.LogError("GuideAnimEnd");
@@ -327,10 +330,7 @@ public class Battle : UIBase {
 			GenerateCardEnd();		
 			return;
 		}
-
-//		Debug.LogError ("cardindex : " + cardIndex + " battleCard.cardItemArray [fromIndexCache [cardIndex]] : " + battleCard.cardItemArray [fromIndexCache [cardIndex]]);
 		ClickCardItem (battleCard.cardItemArray [fromIndexCache [cardIndex]]);
-
 		MoveAll ();
 	}
 		                 
