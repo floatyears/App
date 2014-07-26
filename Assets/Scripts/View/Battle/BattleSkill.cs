@@ -162,8 +162,11 @@ public class BattleSkill : UIBaseUnity {
 	}
 
 	void Refresh(int index, SkillBaseInfo sbi) {
-		if (index == 4 && sbi == null) {
-			skillDic [SKill [index]].ShowSkillInfo (sbi, true);
+		if (index == 4 ) {
+			if(sbi == null)
+				skillDic [SKill [index]].ShowSkillInfo (sbi, true);
+			else
+				skillDic [SKill [ 2 ]].ShowSkillInfo (null, true); 	//2 == normalskill2.
 		} else {
 			skillDic [SKill [index]].ShowSkillInfo (sbi);
 		}
@@ -189,8 +192,10 @@ public class SkillItem {
 			return;
 		}
 		skillTypeLabel.enabled = true;
-		skillName.text = sbi.SkillName;
-		skillDescribeLabel.text = sbi.SkillDescribe;
+		string id = sbi.skillBase.id.ToString ();
+
+		skillName.text = TextCenter.GetText ("SkillName_" + id);
+		skillDescribeLabel.text = TextCenter.GetText ("SkillDesc_" + id);
 
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {
@@ -201,8 +206,8 @@ public class SkillItem {
 	}
 
 	void Clear() {
-		skillName.text = "-";
-		skillDescribeLabel.text = "-";
+		skillName.text = "";
+		skillDescribeLabel.text = "";
 		ShowSprite (null);
 	}
 

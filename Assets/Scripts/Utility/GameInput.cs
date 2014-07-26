@@ -11,7 +11,7 @@ public class GameInput : MonoBehaviour  {
 	public static event System.Action OnPressContinued;
 	private bool isCheckInput = false;
 	public bool IsCheckInput {
-		set{ isCheckInput = value; Debug.LogError("set ischeck input : " + isCheckInput); }
+		set{ isCheckInput = value; }//Debug.LogError("set ischeck input : " + isCheckInput); }
 		get{ return isCheckInput; }
 	}
 
