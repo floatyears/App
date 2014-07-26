@@ -14,6 +14,8 @@ public class NoviceGuideUtil {
 
 	private static UIEventListenerCustom.VoidDelegate clickDelegate;
 
+	private static UIEventListenerCustom.LongPressDelegate longPressDelegate;
+
 	private static UIEventListenerCustom.LongPressDelegate pressDelegate;
 
 	private static GameObject[] multiBtns;
@@ -173,7 +175,9 @@ public class NoviceGuideUtil {
 			UIEventListenerCustom.Get (obj).onClick += BtnClick;	
 		}
  		
-		
+		longPressDelegate = UIEventListenerCustom.Get (obj).LongPress;
+		UIEventListenerCustom.Get (obj).LongPress = null;
+
 		oneBtnClickLayer = obj.layer;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
 //		mainCam.eventReceiverMask = mask;
@@ -189,6 +193,8 @@ public class NoviceGuideUtil {
 	private static void BtnClick(GameObject btn)
 	{
 		UIEventListener.Get (btn).onClick -= BtnClick;
+		UIEventListenerCustom.Get (btn).LongPress = longPressDelegate;
+		longPressDelegate = null;
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 //		mainCam.eventReceiverMask = camLastLayer;
 

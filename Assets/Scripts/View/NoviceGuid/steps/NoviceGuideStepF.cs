@@ -43,32 +43,33 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{empty},new Vector3[]{new Vector3(0,0,3)});
 
 
-		UIEventListener.Get (empty).onClick += EmptyClick;
+		UIEventListenerCustom.Get (empty).onClick += EmptyClick;
+
 
 	}
 		
 	private void EmptyClick(GameObject btn)
 	{
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= EmptyClick;
+		UIEventListenerCustom.Get (btn).onClick -= EmptyClick;
 
 		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (2);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
 		NoviceGuideUtil.ForceOneBtnClick (unit);
-		UIEventListener.Get (unit).onClick += OnUnitClick;
+		UIEventListenerCustom.Get (unit).onClick += OnUnitClick;
 	}
 
 	private void OnUnitClick(GameObject btn)
 	{
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= OnUnitClick;
+		UIEventListenerCustom.Get (btn).onClick -= OnUnitClick;
 
 
 		GameObject unit2 = GameObject.FindWithTag ("party_unit2");
 		NoviceGuideUtil.ForceOneBtnClick (unit2);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit2},new Vector3[]{new Vector3(0,0,3)});
 		
-		UIEventListener.Get (unit2).onClick += OnUnit2Click;
+		UIEventListenerCustom.Get (unit2).onClick += OnUnit2Click;
 		NoviceGuideUtil.showTipText ("choose a unit to change the position",new Vector2(50.0f,100.0f));
 
 		//JumpToNextState = true;
@@ -77,20 +78,20 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 	private void OnUnit2Click(GameObject btn){
 
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= OnUnit2Click;
+		UIEventListenerCustom.Get (btn).onClick -= OnUnit2Click;
 		
 		GameObject unit1 = GameObject.FindWithTag ("party_unit1");
 		NoviceGuideUtil.ForceOneBtnClick (unit1);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit1},new Vector3[]{new Vector3(0,0,3)});
 		
 		
-		UIEventListener.Get (unit1).onClick += OnUnit1Click;
+		UIEventListenerCustom.Get (unit1).onClick += OnUnit1Click;
 		NoviceGuideUtil.showTipText ("choose the position to change to ",new Vector2(100.0f,100.0f));
 	}
 
 	private void OnUnit1Click(GameObject btn){
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= OnUnit1Click;
+		UIEventListenerCustom.Get (btn).onClick -= OnUnit1Click;
 
 		NoviceGuideUtil.HideTipText ();
 

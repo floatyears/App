@@ -147,8 +147,8 @@ public class TouchEventBlocker{
 				nguiCamera.eventReceiverMask = 1 << LayerMask.NameToLayer(guideLayerName);
 
 //				BattleBottom.notClick = true;
-				MsgCenter.Instance.Invoke(CommandEnum.ShiledInput);
-				BaseUnitItem.canShowUnitDetail = false;
+				MsgCenter.Instance.Invoke(CommandEnum.ShiledInput,true);
+//				BaseUnitItem.canShowUnitDetail = false;
 			}
 		}
 		else{
@@ -159,8 +159,8 @@ public class TouchEventBlocker{
 			nguiCamera.eventReceiverMask = camObj.originLayer;
 
 			if(camObj.reason == BlockerReason.NoviceGuide){
-				BattleBottom.notClick = false;
-				BaseUnitItem.canShowUnitDetail = true;
+				MsgCenter.Instance.Invoke(CommandEnum.ShiledInput,false);
+//				BaseUnitItem.canShowUnitDetail = true;
 			}
 //			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
 
