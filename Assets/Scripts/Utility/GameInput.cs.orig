@@ -52,10 +52,17 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void ShiledInput(object data) {
+<<<<<<< HEAD
+		if (data == null) {
+			shieldInput = !shieldInput;
+				} else {
+			shieldInput = (bool)data;
+		}
+=======
 		bool sInput = (bool)data;
 		isCheckInput = !sInput;
-//		Debug.LogError("ShiledInput : " )
 		BattleBottom.notClick = sInput;
+>>>>>>> bb6da2b04312d449370afbd1644e411fd9e5ec7e
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {
