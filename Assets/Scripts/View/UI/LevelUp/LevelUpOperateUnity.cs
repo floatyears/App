@@ -253,7 +253,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
 		LevelUpUnitItem.Inject (go);
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
-		myUnitDragPanel = new DragPanelDynamic (parent, go, 9, 3);
+		myUnitDragPanel = new DragPanelDynamic (parent, go, 12, 3);
 
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
 		dpsi.parentTrans = parent.transform;
