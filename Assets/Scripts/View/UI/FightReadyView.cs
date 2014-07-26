@@ -210,7 +210,7 @@ public class FightReadyView : UIComponentUnity {
 	private void RspEvolveStartQuest (object data) {
 		if (data == null){ return; }
 		evolveStart.StoreData ();
-		
+//		DataCenter.Instance.
 		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);

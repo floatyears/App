@@ -200,6 +200,7 @@ public enum CommandEnum{
 	UserGuideCard,
 	VictoryData,
 	FriendBack,
+	ShiledInput,
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

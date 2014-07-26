@@ -284,6 +284,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			return;
 		}
 
+		DataCenter.evolveInfo.ClearData ();
+
 		isEvolve = false;
 
 		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
@@ -795,9 +797,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	
 	Queue<GameObject> material = new Queue<GameObject> ();
 	int count = 0;
-	
-
-	
 	List<GameObject> effectCache = new List<GameObject>();
 	GameObject levelUpEffect = null;
 	GameObject swallowEffect = null;
