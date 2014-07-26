@@ -16,7 +16,12 @@ public class NetworkBase  {
 public class HttpNetBase : IWWWPost {
 	private WWW www;
 	public WWW WwwInfo {
-		get { return www; }
+		get { 	
+			if(www == null) {
+				www = new WWW(Url, requestForm);
+			}
+			return www; 
+		}
 		set {www = value;}
 	}
 
@@ -35,9 +40,12 @@ public class HttpNetBase : IWWWPost {
 
 	private NetCallback callback;
 
+	private WWWForm requestForm;
+
 	public void Send (ProtoManager nettemp,WWWForm wf)	{
 		callback = nettemp.Receive;
-		www = new WWW (Url, wf);
+		requestForm = wf;
+//		www = new WWW (Url, wf);
 		HttpManager.Instance.SendHttpPost (this);
 	}
 

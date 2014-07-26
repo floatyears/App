@@ -31,6 +31,10 @@ public class NoviceGuideStepEntityManager {
 		return instance;
 	}
 
+	static void ServerCallback(object data){
+		Debug.LogWarning ("Novice ServerCallback..");
+	}
+
 	public static NoviceGuideStage CurrentNoviceGuideStage
 	{
 		get{return currentNoviceGuideStage;Debug.Log("current novice guide stage(get): " + currentNoviceGuideStage);}
@@ -42,7 +46,7 @@ public class NoviceGuideStepEntityManager {
 			// the following three stage don't send to server
 			if(currentNoviceGuideStage == NoviceGuideStage.EVOLVE || currentNoviceGuideStage == NoviceGuideStage.PARTY || currentNoviceGuideStage == NoviceGuideStage.LEVEL_UP)
 				return;
-			FinishUserGuide.SendRequest(null,(int)currentNoviceGuideStage);
+			FinishUserGuide.SendRequest(ServerCallback, (int)currentNoviceGuideStage);
 
 		}
 	}
@@ -59,7 +63,7 @@ public class NoviceGuideStepEntityManager {
 	}
 //	
 	public static void FinishCurrentStep(){
-		FinishUserGuide.SendRequest (null, (int)currentNoviceGuideStage);
+		FinishUserGuide.SendRequest (ServerCallback, (int)currentNoviceGuideStage);
 		//currentNoviceGuideStage++;
 	}
 
