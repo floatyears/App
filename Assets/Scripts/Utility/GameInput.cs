@@ -52,11 +52,9 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void ShiledInput(object data) {
-		if (data == null) {
-			shieldInput = !ShiledInput;
-				} else {
-			shieldInput = (bool)data;
-		}
+		bool sInput = (bool)data;
+		isCheckInput = !sInput;
+		BattleBottom.notClick = sInput;
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {
@@ -64,7 +62,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void Update() {
-		if(Time.timeScale < 0.5f || shieldInput)
+		if(Time.timeScale < 0.5f)
 			return;
 
 		if(OnUpdate != null)
