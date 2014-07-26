@@ -248,17 +248,18 @@ public class VictoryEffect : UIComponentUnity {
 			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
 			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
-			HideUI();
+			HideUI ();
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
-		} else {
+		} else if (!DGTools.IsNoviceGuide ()) {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
 			if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
 			} else {
-//				UIManager.Instance.ChangeScene(SceneEnum.Home);
 				DGTools.ChangeToQuest();
 			}
+		} else {
+			UIManager.Instance.ChangeScene (SceneEnum.Home);
 		}
 	}
 
