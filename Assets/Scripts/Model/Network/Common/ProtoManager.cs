@@ -31,7 +31,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
     }
 	
     public void Receive(IWWWPost post) {
-		Debug.LogError ("receive : " + post.Url);
+//		Debug.LogError ("receive : " + post.Url);
         instObj = ProtobufSerializer.ParseFormBytes(post.WwwInfo.bytes, rspType);
         if (instObj != null) {
             OnResponse(true);

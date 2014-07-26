@@ -310,6 +310,7 @@ public class AttackController {
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			} else if(dropUnit != null){
+				Debug.LogError("boss drop : " + dropUnit.DropPos);
 				msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 			}
 		}

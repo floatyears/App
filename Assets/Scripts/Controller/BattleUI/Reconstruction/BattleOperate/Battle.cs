@@ -134,6 +134,9 @@ public class Battle : UIBase {
 			ShowGuideAnim ();
 		} else {
 			bool b = (bool)data;
+
+			ShieldInput(false);
+
 			ShowGuideAnim(b);
 		}
 	}
@@ -228,6 +231,7 @@ public class Battle : UIBase {
 	}
 
 	void AnimEnd() {
+		ShieldInput (true);
 //		ConfigBattleUseData.Instance.NotDeadEnemy = false;
 
 //		Debug.LogError("GuideAnimEnd");
