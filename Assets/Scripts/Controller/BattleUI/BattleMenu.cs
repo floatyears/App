@@ -68,6 +68,8 @@ public class BattleMenu : UIBaseUnity {
 		cancelButtonLabel = FindChild<UILabel> ("RetireWindow/Button_Right/Label");
 		confirmContentLabel = FindChild<UILabel> ("RetireWindow/Label_Msg_Center");
 
+		FindChild<UILabel> ("RetireWindow/Label_Title").text = TextCenter.GetText ("ExitBattleConfirmTitle");
+
 		UIEventListener.Get (confirmButton.gameObject).onClick = CancelFight;
 		UIEventListener.Get (cancelButton.gameObject).onClick = CancelMenu;
 		confirmButtonLabel.text = TextCenter.GetText ("OK");

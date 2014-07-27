@@ -211,6 +211,7 @@ NotEnoughStone=没有足够的魔法石。
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
 RetryClearQuestTitle=服务器错误
 ExitBattleConfirm=确认退出战斗？
+ExitBattleConfirmTitle=退出战斗
 BattleMenu=菜单
 
 #Loading

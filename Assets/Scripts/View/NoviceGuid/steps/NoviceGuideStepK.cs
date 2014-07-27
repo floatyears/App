@@ -375,7 +375,7 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 	}
 
 	private void Again(object data){
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GOLD_BOX;
+//		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GOLD_BOX;
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)
