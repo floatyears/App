@@ -292,6 +292,11 @@ UnitDetail_LevelUpContent=Power-up for normal monsters, will provide {0} exp.
 UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide {1} exp.
 
 # shop
+BillingNotSupported_Title=Billing Not Supported
+BillingNotSupported_Content=Error: purchase is not available now. Please check that and try again later.
+PurchaseSuccess_Title=Purchase Success
+PurchaseSuccess_Content=Your purchase has been processed successfully. Please check your balance.
+
 Btn_Friend_Expand=Extend Friends
 Btn_Unit_Expand=Extend Monsters
 Btn_Stamina_Recover=Recover Stamina

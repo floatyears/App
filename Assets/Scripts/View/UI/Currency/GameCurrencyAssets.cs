@@ -34,7 +34,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 	/// see parent.
 	/// </summary>
 	public VirtualCurrencyPack[] GetCurrencyPacks() {
-		return new VirtualCurrencyPack[] {CHIP_PACK1, CHIP_PACK2, CHIP_PACK3, CHIP_PACK4, CHIP_PACK5, CHIP_PACK6};
+		return new VirtualCurrencyPack[] {MONTH_CARD, WEEK_CARD, CHIP_PACK1, CHIP_PACK2, CHIP_PACK3, CHIP_PACK4, CHIP_PACK5, CHIP_PACK6};
 	}
 	
 	/// <summary>
@@ -54,7 +54,10 @@ public class GameCurrencyAssets :  IStoreAssets{
 	/** Static Final Members **/
 	
 	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ms";
-	
+
+	public const string PID_MONTH_CARD = "ms.chip.monthcard";
+	public const string PID_WEEK_CARD = "ms.chip.weekcard";
+
 	public const string PID_CHIP_PACK1 = "ms.chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
 	
 	public const string PID_CHIP_PACK2 = "ms.chip.pack2";//"android.test.purchased";//"slotsempire.gems.pack2";
@@ -92,7 +95,24 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	
 	/** Virtual Currency Packs **/
-	
+	public static VirtualCurrencyPack MONTH_CARD = new VirtualCurrencyPack(
+		"MonthCard",                                   // name
+		"",                       // description
+		PID_MONTH_CARD,                                   // item id
+		6,												// number of currencies in the pack
+		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+		new PurchaseWithMarket(PID_MONTH_CARD, 5.99)
+		);
+
+	public static VirtualCurrencyPack WEEK_CARD = new VirtualCurrencyPack(
+		"WeekCard",                                   // name
+		"",                       // description
+		PID_WEEK_CARD,                                   // item id
+		6,												// number of currencies in the pack
+		MUFFIN_CURRENCY_ITEM_ID,                        // the currency associated with this pack
+		new PurchaseWithMarket(PID_WEEK_CARD, 1.99)
+		);
+
 	public static VirtualCurrencyPack CHIP_PACK1 = new VirtualCurrencyPack(
 		"10 Muffins",                                   // name
 		"Test refund of an item",                       // description
