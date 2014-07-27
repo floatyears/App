@@ -57,6 +57,8 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 			levelUpInfo.Clear();
 			DataCenter dataCenter = DataCenter.Instance;
 
+			dataCenter.supportFriendManager.useFriend.UseTime = GameTimer.GetInstance().GetCurrentSeonds();
+			Debug.LogError("dataCenter.supportFriendManager.useFriend.userid : " + dataCenter.supportFriendManager.useFriend.UserId);
 			dataCenter.AccountInfo.Money = (int)rspLevelUp.money;
 			uint userId = DataCenter.Instance.UserInfo.UserId;
 			dataCenter.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);

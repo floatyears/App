@@ -41,6 +41,14 @@ public class BattleBottom : MonoBehaviour {
 		setPos = pos;
 	}
 
+	/// <summary>
+	/// novice guide active skill cooling done.
+	/// </summary>
+	public static void CoolingDoneLeaderActiveSkill() {
+		TUserUnit tuu = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit [0];
+		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.ActiveSkill, SkillType.ActiveSkill);
+		sbi.skillBase.skillCooling = 0;
+	}
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
