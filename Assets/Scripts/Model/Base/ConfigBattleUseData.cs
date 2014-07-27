@@ -355,8 +355,8 @@ public class ConfigBattleUseData {
 	}
 
 	void ReadQuestDungeonData() {
-		byte[] friend = ReadFile (questDungeonDataName);
-		QuestDungeonData qdd = ProtobufSerializer.ParseFormBytes<QuestDungeonData> (friend);
+		byte[] questData = ReadFile (questDungeonDataName);
+		QuestDungeonData qdd = ProtobufSerializer.ParseFormBytes<QuestDungeonData> (questData);
 		questDungeonData = new TQuestDungeonData (qdd);
 	}
 	//end
@@ -371,6 +371,9 @@ public class ConfigBattleUseData {
 
 	void ReadFriend() {
 		byte[] friend = ReadFile (friendFileName);
+		if (friend == null) {
+			return;	
+		}
 		FriendInfo fi = ProtobufSerializer.ParseFormBytes<FriendInfo> (friend);
 		BattleFriend = new TFriendInfo (fi);
 	}
