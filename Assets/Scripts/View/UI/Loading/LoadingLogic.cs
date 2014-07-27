@@ -165,7 +165,7 @@ public class LoadingLogic : ConcreteComponent {
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
-				if(DGTools.IsNoviceGuide()){
+				if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE){
 					SureRetry(null);
 				}else{
 					MsgWindowParams mwp = new MsgWindowParams ();
@@ -248,7 +248,7 @@ public class LoadingLogic : ConcreteComponent {
 			
 			UIManager.Instance.ChangeScene(SceneEnum.Home);
 
-			if (!DGTools.IsNoviceGuide()) {
+			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.NONE) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
 					UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	

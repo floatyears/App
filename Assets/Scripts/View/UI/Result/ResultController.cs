@@ -55,7 +55,7 @@ public class ResultController : ConcreteComponent {
 			SupportApplyFriend(false);
 
 		ShowFriendBriefInfo(friendInfo);
-		ShowFriendPoint(friendInfo.FriendPoint);
+		ShowFriendPoint(ConfigBattleUseData.Instance.gotFriendPoint);
 	}
 
 	private bool CheckIsFriend(TFriendInfo friendInfo){
@@ -85,7 +85,7 @@ public class ResultController : ConcreteComponent {
 	}
 
 	private void ShowFriendPoint(int friPoint){
-		Debug.Log("ResultController.ShowFriendPoint(), start...");
+		Debug.Log("ResultController.ShowFriendPoint(), start...  friPoint="+friPoint);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowCenterView", friPoint);
 		ExcuteCallback(call);
 		Debug.Log("ResultController.ShowFriendPoint(), end...");	

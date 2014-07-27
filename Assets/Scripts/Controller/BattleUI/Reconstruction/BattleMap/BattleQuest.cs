@@ -978,17 +978,22 @@ public class BattleQuest : UIBase {
 //
 		TUnitParty tup = configBattleUseData.party;
 		foreach (var item in tup.UserUnit.Values) {
-			if(item == null) {
+			if(item == null ) {
 				continue;
 			}
-			DataCenter.Instance.UserUnitList.DelMyUnit(item.ID);
+			if ( item.ID != rsp.evolvedUnit.uniqueId ) { //only delete Evo Materials, not delete BaseUnit
+				DataCenter.Instance.UserUnitList.DelMyUnit(item.ID);
+			}
 		}
 		configBattleUseData.party = null;
 
 		for (int i = 0; i < rsp.gotUnit.Count; i++) {
 			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
 		}
+
+		//update the evolved unit
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
+
 //		evolveUser = 
 
 		TRspClearQuest trcq = new TRspClearQuest ();

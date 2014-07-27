@@ -34,6 +34,8 @@ public class ConfigBattleUseData {
 
 	public TFriendInfo BattleFriend;
 
+	public int gotFriendPoint;  //After ClearQuest response from server, gotFriendPoint will be assigned.
+
 	public bool NotDeadEnemy = false;
 
 	private TUnitParty _party;
