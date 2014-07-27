@@ -355,19 +355,19 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
 		
 		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParams = new BtnParam[2];
+		mwp.btnParam = new BtnParam();
 		mwp.titleText = TextCenter.GetText("guide34_title");
 		mwp.contentText = TextCenter.GetText("guide34_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
 		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
+		mwp.btnParam = sure;
 
-		sure = new BtnParam ();
-		sure.callback = Again;
-		sure.text = TextCenter.GetText("Again");
-		mwp.btnParams[1] = sure;
+//		sure = new BtnParam ();
+//		sure.callback = Again;
+//		sure.text = TextCenter.GetText("Again");
+//		mwp.btnParams[1] = sure;
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
