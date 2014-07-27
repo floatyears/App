@@ -81,7 +81,7 @@ public class FriendHelperView : UIComponentUnity{
 //			generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
 //			generalDragPanel.CreatUI();
 //			generalDragPanel.AddItem(1);
-//			Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
+//			Debug.LogError("generalDragPanel 1 generalFriendList == null : " + generalDragPanel);
 			generalDragPanel = RefreshDragView(FriendInfoType.General);
 //			Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 		}
@@ -98,6 +98,8 @@ public class FriendHelperView : UIComponentUnity{
 			}
 			else{
 //				Debug.Log("CreateGeneralListView(), the friend info list is NOT CHANGED, do nothing...");
+				generalFriendList = newest;
+				RefreshData(generalDragPanel);
 			}
 		}
 	}
@@ -135,13 +137,17 @@ public class FriendHelperView : UIComponentUnity{
 		CustomDragPanel(dragPanel);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			HelperUnitItem huv = HelperUnitItem.Inject(dragPanel.ScrollItem[ i ]);
+		RefreshData (dragPanel);
+
+		return dragPanel;
+	}
+
+	void RefreshData (DragPanel dragP) {
+		for (int i = 0; i < dragP.ScrollItem.Count; i++){
+			HelperUnitItem huv = HelperUnitItem.Inject(dragP.ScrollItem[ i ]);
 			huv.Init(generalFriendList[ i ]);
 			huv.callback = ClickHelperItem;
 		}
-
-		return dragPanel;
 	}
 
 	private QuestItemView pickedQuestInfo;
