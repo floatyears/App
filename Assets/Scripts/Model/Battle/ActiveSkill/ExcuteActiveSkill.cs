@@ -79,7 +79,6 @@ public class ExcuteActiveSkill {
 		iase.Excute(ai.UserUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
-//		Debug.LogError ("Excute : " + (fixEffectTime + singleEffectTime));
 		GameTimer.GetInstance ().AddCountDown (fixEffectTime + singleEffectTime, ActiveSkillEnd);
 	}
 
@@ -97,7 +96,6 @@ public class ExcuteActiveSkill {
 
 	List<IActiveSkillExcute> coolingDoneSkill = new List<IActiveSkillExcute>();
 	public void CoolingSkill () {
-//		Debug.LogError ("CoolingSkill ");
 		foreach (var item in activeSkill.Values) {
 			item.RefreashCooling();
 		}
