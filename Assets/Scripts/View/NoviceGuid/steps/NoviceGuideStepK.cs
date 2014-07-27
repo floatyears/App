@@ -223,7 +223,11 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		bbs.SetLeaderToNoviceGuide (true);
 		bbs.IsUseLeaderSkill = true;
 		MsgCenter.Instance.AddListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
+
+		Debug.Log ("battle leader skill");
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
 		BattleBottom.SetClickItem (0);
+		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -237,6 +241,8 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	}
 	
 	private void OnUseLeaderSkill(object btn){
+
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false);
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 		GuideWindowParams mwp = new GuideWindowParams();

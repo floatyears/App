@@ -306,7 +306,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//rare
 //		rareLabel.text = unitInfo.Rare.ToString();
 
-		levelLabel.text = data.Level.ToString();
+		levelLabel.text = data.Level.ToString() + "/" + unitInfo.MaxLevel.ToString();
 
 		//next level need
 		if ((data.Level > unitInfo.MaxLevel ) 
