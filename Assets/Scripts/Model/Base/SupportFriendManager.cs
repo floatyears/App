@@ -12,9 +12,13 @@ public class SupportFriendManager {
 
 	private const int selectFriendNumber = 10;
 
+	public TFriendInfo useFriend = null;
+
 	public SupportFriendManager () {
 		gameTime = GameTimer.GetInstance ();
 	}
+
+
 
 	public void AddSupportFriend(List<TFriendInfo> friendInfo) {
 		supportFriend.AddRange (friendInfo);
@@ -28,20 +32,27 @@ public class SupportFriendManager {
 		selectFriend.Clear ();
 
 		for (int i = supportFriend.Count - 1; i >= 0; i--) {
-			uint intervTime = gameTime.GetCurrentSeonds() - supportFriend[i].UseTime;
+			TFriendInfo tfi = supportFriend[i];
+			uint intervTime = gameTime.GetCurrentSeonds() - tfi.UseTime;
+//			Debug.LogWarning("Remove support friend name : " + tfi.NickName + " support friend id : " + tfi.UserId + " intervTime : " + intervTime);
 			if(intervTime < GameTimer.TenMinuteSeconds) {
-				TFriendInfo tfi = supportFriend[i];
 				tempFriend.Add(tfi);
 				supportFriend.Remove(tfi);
+
+//				Debug.LogError("Remove support friend name : " + tfi.NickName + " support friend id : " + tfi.UserId + " intervTime : " + intervTime);
 			}
 		}
 
 		for (int i = userFriend.Count - 1; i >= 0; i--) {
 			TFriendInfo tfi = userFriend[i];
 			uint intervTime = gameTime.GetCurrentSeonds() - tfi.UseTime;
+
+//			Debug.LogWarning("Remove use friend name : " + userFriend[i].NickName + " support friend id : " + userFriend[i].UserId + " intervTime : " + intervTime);
 			if( intervTime >= GameTimer.TenMinuteSeconds ) {
 				supportFriend.Add(tfi);
 				userFriend.Remove(tfi);
+
+//				Debug.LogError("Add support friend name : " + supportFriend[i].NickName + " support friend id : " + supportFriend[i].UserId + " intervTime : " + intervTime);
 			}
 		}
 
@@ -56,6 +67,7 @@ public class SupportFriendManager {
 			}
 			int randomIndex = Random.Range(0, maxNumber);
 			TFriendInfo tfi = supportFriend[randomIndex];
+//			Debug.LogError("selectFriendNumber : " + tfi.UserId + " name : " + tfi.NickName);
 			selectFriend.Add(tfi);
 			supportFriend.RemoveAt(randomIndex);
 		}

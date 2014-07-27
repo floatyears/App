@@ -29,7 +29,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
-//		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, OnLevelUp);
 	}
 
 	public override void HideUI () {
@@ -46,8 +45,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				friendWindow.HideUI();
 			}
 		}
-
-//		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, OnLevelUp);
 	}
 
 	public override void DestoryUI () {
@@ -69,13 +66,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
 	}
-
-//	private void OnLevelUp(object data)
-//	{
-////		ResetUIState ();
-//		CheckLevelUp ();
-//	}
-
 
 	private static SortRule _sortRule = SortRule.None;
 	public static SortRule sortRule {
@@ -134,7 +124,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			TUnitInfo tu = baseInfo.UnitInfo;
 			int toLevel = tu.GetLevelByExp (expGot + baseInfo.Exp);
-//			Debug.LogError("toLevel: " + toLevel+ " expGot:"+expGot +" baseExp:"+ baseInfo.Exp+" totalExp:"+(expGot + baseInfo.Exp));
 			if (expGot == 0) {
 				Hp = baseInfo.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
 				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
@@ -301,13 +290,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		friendWindow.ShowUI ();
 	}
 
+	TFriendInfo levelUpUerFriend;
 	void SelectFriend(TFriendInfo friendInfo) {
 		gameObject.SetActive (true);
 
 		if (friendInfo == null) {
 			return;	
 		}
-
+		levelUpUerFriend = friendInfo;
 		selectedItem [friendItemIndex].UserUnit = friendInfo.UserUnit;
 		selectedItem [friendItemIndex].IsEnable = true;
 		RefreshFriend ();
@@ -493,7 +483,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			ViewManager.Instance.ShowTipsLabel("not enough money");
 			return;
 		}
-
+		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;
 		ExcuteCallback (levelUpInfo);
 	}
 
