@@ -158,14 +158,23 @@ public class BattleBackground : UIBaseUnity {
 		}
 	}
 
+	void RecoverHP(object data) {
+		AttackInfo ai = data as AttackInfo;
+
+		if (ai.AttackRange == 2) {
+			spriteAnimation.Reset();
+		}
+	}
+
 	void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, ListenUnitBlood);
 		MsgCenter.Instance.AddListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
-//		Debug.LogError("listen energy point");
+		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RecoverHP);
 	}
 
 	void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, ListenUnitBlood);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RecoverHP);
 	}
 }

@@ -9,7 +9,8 @@ public class BattleUseData {
     private int blood = 0;
     public int Blood {
 		set {
-			Debug.LogError("value : " + value + " blood : " + blood);
+
+
 			if(value == 0) {
 				blood = value;
 				PlayerDead();
@@ -17,10 +18,13 @@ public class BattleUseData {
 				if(blood == 0) 
 					return;
 				blood = 0;
+//				Debug.LogError("value < 0 : " + value + " blood : " + blood);
 				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				PlayerDead();
 			} else if(value > maxBlood) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+//				Debug.LogError("value > maxBlood: " + value + " blood : " + (blood < maxBlood));
+
 				if(blood < maxBlood) {
 					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				}
