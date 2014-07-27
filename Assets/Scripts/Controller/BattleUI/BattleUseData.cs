@@ -9,6 +9,7 @@ public class BattleUseData {
     private int blood = 0;
     public int Blood {
 		set {
+			Debug.LogError("value : " + value + " blood : " + blood);
 			if(value == 0) {
 				blood = value;
 				PlayerDead();

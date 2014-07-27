@@ -107,9 +107,9 @@ public class BattleBackground : UIBaseUnity {
 
 	public void InitData (int blood, int maxBlood, int energyPoint) {
 		initBlood = maxBlood;
-		tempNum = blood;
+		currentBlood = blood;
 		currentEnergyPoint = initEnergyPoint = energyPoint;
-		SetBlood (tempNum); 
+		SetBlood (currentBlood); 
 		InitSP ();
 	}
 
@@ -123,21 +123,23 @@ public class BattleBackground : UIBaseUnity {
 		}
 	}
 
-	private int tempNum = 0;
+	private int currentBlood = 0;
 	void SetBlood (int num) {
+		Debug.LogError ("SetBlood  num : " + num + " currentBlood : " + currentBlood);
 		string info = num + "/" + initBlood;
 		label.text = info;
-		if (num > tempNum) {
+		if (num > currentBlood) {
 			spriteAnimation.Reset();
 		}
-		tempNum = num;
+		currentBlood = num;
 		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
 	}
 
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {
-		int currentBlood = (int)data;
-		SetBlood (currentBlood);
+		int blood = (int)data;
+		Debug.LogError ("ListenUnitBlood blood : " + blood);
+		SetBlood (blood);
 	}
 
 	void ListenEnergyPoint (object data) {
