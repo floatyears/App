@@ -196,6 +196,9 @@ public class FightReadyView : UIComponentUnity {
 			return;
 		}
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
+			TFriendInfo tfi = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+			tfi.UseTime = GameTimer.GetInstance().GetCurrentSeonds();
+
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
@@ -217,6 +220,8 @@ public class FightReadyView : UIComponentUnity {
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
+
+		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
