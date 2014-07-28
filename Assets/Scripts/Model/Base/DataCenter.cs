@@ -603,8 +603,8 @@ public class DataCenter {
 		if (!profileCache.TryGetValue (unitID, out profile)) {
 			string path = string.Format ("Profile/{0}", unitID);
 			ResourceManager.Instance.LoadLocalAsset (path, o => {
-//				Debug.Log ("GetProfile : " + path + " o : " + o);
 				profile = o as Texture2D;	
+				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
 				profileCache.Add (unitID, profile );
 					
 				if (uiTexture != null) {

@@ -150,6 +150,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
+//		Debug.LogError ("noviceGuideNotClick : " + noviceGuideNotClick + " DGTools.IsNoviceGuide () : " + DGTools.IsNoviceGuide () + " notClick : " + notClick);
 		if (noviceGuideNotClick && DGTools.IsNoviceGuide ()) {
 			return;	
 		}
@@ -157,6 +158,8 @@ public class BattleBottom : MonoBehaviour {
 		if (notClick) {
 			return;	
 		}
+
+//		Debug.LogError ("OnRealease ");
 
 		if (Input.GetMouseButtonDown (0)) {
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
@@ -169,6 +172,7 @@ public class BattleBottom : MonoBehaviour {
 				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
 			}
 
+//			Debug.LogError("IsUseLeaderSkill : " + IsUseLeaderSkill);
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
@@ -185,7 +189,7 @@ public class BattleBottom : MonoBehaviour {
 
 		try {
 			int id = System.Int32.Parse (name);
-
+//			Debug.LogError("CheckCollider id : " + id);
 			if(setPos != -1 && id != setPos) {
 				return;
 			}
