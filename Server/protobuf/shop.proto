@@ -17,5 +17,6 @@ message RspShopBuy {
     optional BonusInfo      monthBonus          = 5;
     optional BonusInfo      weekBonus           = 6;
     optional string			productId			= 7;
+    optional int32			payTotal			= 8;
 }
 

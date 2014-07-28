@@ -1275,78 +1275,78 @@ guide11_title=party complete
 guide11_content=Complete a party
 
 guide12_title=Start mission
-guide12_content=Find the key to open the door.
+guide12_content=You need to find the Key on a grid to open the door.
 guide13_title=How to Move?
-guide13_content=Click the direction to move.
+guide13_content=Click on the grid where you want to move forward. \nThe count of Skeletons on the grid represents how dangerous it is.
 guide14_title=Treasure Box
 guide14_content=You can get a lot of Coins from treasure box.
 guide15_title=Movement and SP
 guide15_content=Every move costs 1 SP. After SP becomes 0, every move will cost HP. Be careful!
 guide16_title=Enemy floor
-guide16_content=Five stars means dangerous. Be careful to move. Then we'll be in battle!
+guide16_content=Five Skeletons means very dangerous, be careful to move. \nThen let's enter battle!
 guide17_title=Angela Guide
 guide17_content=Let me give you a lesson!
 guide18_title=Angela Guide
-guide18_content=Have you seen my excellent work?
+guide18_content=Have you seen my operation clearly?
 guide18_once_again=See again
 
 ##attack once
-guide19_title=attack method
-guide19_content=the same gird has 2 or more same color will attack.
-guide20_title=your turn
-guide20_content=try to put the blue color in one grid.
+guide19_title=Attack method
+guide19_content=Putting 2 or more Panels with same color into one grid of the Action Board, the attack will be triggered.
+guide20_title=Your turn now!
+guide20_content=Try to put the blue Panels into one grid of the Action Board.
 
 ##attack twice
-guide21_title=attack successed
-guide21_content=try to drag the same color with the left corner
-guide22_title=attack key point
-guide22_content=1.same color in one grid.\n 2.2 or more same color will attack.\n 3.one grid will take 5 color at most. then start fight!
-guide23_title=Conquer the enemy
-guide23_content=Congratulations! then take the key!
-guide24_title=key floor
-guide24_content=then you have the key, the door is open. Advance to there!
-guide25_title=arrive at the door
-guide25_content=boss is waiting.click the door to open it.
+guide21_title=Attack successfully
+guide21_content=Try to drag the Panels together with same color as the bottom cards.\nClick the bottom cards to see the required Panels color.
+guide22_title=Attack key point
+guide22_content=1. Putting Panels with same color into one grid.\n2. Tow or more Panels with same color will trigger attack.\n3. One grid takes 5 Panels at most. \n\nThen start fighting!
+guide23_title=The enemy was defeated
+guide23_content=Congratulations! Then you need to take the key!
+guide24_title=Key Grid
+guide24_content=You got the key, the door is open now. Advance to there!
+guide25_title=Arrive at the door
+guide25_content=Boss must be there waiting for you.\nDon't be afraid, just click the door to fight against the Boss!
 
 ##boss attck
-guide26_title=boss fight!
-guide26_content=slide the blocks to sort them
-guide27_title=enemy attack
-guide27_content=the enemy attack us. our hp going down. take the red heart block.
-guide28_title=red heart max
-guide28_content=put 2 red heart in one grid to increase hp.
-guide29_title=heal succeed!
-guide29_content=take down the boss
+guide26_title=Boss battle
+guide26_content=You can slide the Panels to left or right to sort them.
+guide27_title=Enemy attack
+guide27_content=The enemy attacks us, your HP was going down.\nYou can collect red heart Panels to recover the HP.
+guide28_title=Red Heart Panels
+guide28_content=Put 2 red heart Panels into one grid to increase HP.
+guide29_title=Recover HP successfully!
+guide29_content=1. Putting Panels with same color into one grid.\n2. Tow or more Panels with same color will trigger attack.\n3. One grid takes 5 Panels at most. \n\nSo defeat the BOSS now!
 
 ##skill
-guide30_title=active skill
-guide30_content=the unit is flashing.click it.
-guide31_title=use active skill
-guide31_content=use the active skill
-guide32_title=nice action
-guide32_content=different charactor has different skill.
-guide33_title=about boost
-guide33_content=the boost will add 1.5 times hurt and heal.
-guide34_title=go through the copy successfully
-guide34_content=find the key.take down the boss.you will succeed.
-guide35_title=confirm the result
-guide35_content=confirm the result.you will gain different things.
+guide30_title=Active Skill
+guide30_content=The bottom card is flashing now, click it.
+guide31_title=Use active skill
+guide31_content=Moving on the battlefield or fighting to enemies, after a certain rounds you can evoke Active Skill. \nTry to use an Active Skill!
+guide32_title=Well done!
+guide32_content=Different cards have different skills, so try to collect cards as more as possible.
+guide33_title=About Boost
+guide33_content=The Boost grid will add 1.5 times more attack power and heal power.\nSo try to use Boost.
+guide34_title=Quest successfully
+guide34_content=Find the key, and defeat the boss, then you will succeed.\nAfter that all the grids on battlefield will be turned over, you can see what's under the grid.
+guide35_title=Confirm the result
+guide35_content=So confirm the battle result, You will gain different things.
 
 ##skillName & skillDescription
 RecoverHpSkillName=Recover HP: Lv{0}
 RecoverHpSkillDesc=Recover {0}% HP
 
 ##level up
-guide41_title=level up method
-guide41_content=click level up to strong your party
-guide42_title=choose the level up card
-guide42_content=choose the card
-guide43_title=material card choose
-guide43_content=choose your material card
-guide44_title=choose your helper
-guide44_content=choose a friend
-guide45_title=friend reward
-guide45_content=the same attr results a lot of exp
+guide41_title=How to Power-up
+guide41_content=The next is making your card growing up by Power-up fusion.\nLet's try Power-up.
+guide42_title=Choose Base Card
+guide42_content=Choose base card which you want to power up. \nClick the leader to have a try.
+guide43_title=Choose material cards
+guide43_content=Next let's choose the material cards.\nThe cards as materials will be consumed after Power-up fusion.
+guide44_title=Choose your helper
+guide44_content=Choose a pal to help you to complete the Power-up fusion.
+guide45_title=Helper bonus
+guide45_content=If the helper's card Type, Race is same as your Base card, your card will get more additional Exp after fusion.
 guide46_title=level up end
 guide46_content=level up max.now goto the evolve
 
