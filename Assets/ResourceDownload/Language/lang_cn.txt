@@ -224,7 +224,6 @@ HighVersionToLoad=游戏有新版本，请升级
 AppVersion=版本：
 ProgressCurrent=已下载：
 ProgressTotal=总大小：
-DefaultTips=It will take a few seconds to download for the first time, please wait a moment	
 
 #Friend search
 SearchError=查找错误

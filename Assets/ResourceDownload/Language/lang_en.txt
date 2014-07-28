@@ -224,7 +224,6 @@ HighVersionToLoad=A new version is available, please update.
 AppVersion=Version：
 ProgressCurrent=Downloaded：
 ProgressTotal=Total：
-DefaultTips=It will take a few seconds to download for the first time, please wait a moment	
 
 #Friend search
 SearchError=Search Error
