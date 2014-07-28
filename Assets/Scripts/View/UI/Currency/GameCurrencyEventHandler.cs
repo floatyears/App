@@ -63,8 +63,11 @@ public class GameCurrencyEventHandler {
 		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBar>().UpdateData();
 
 		//refresh bonusList
-		if( rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard" ) {
-			GetBonusList.SendRequest (OnBonusList);
+		if (rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard") {
+				GetBonusList.SendRequest (OnBonusList);
+		} else {
+			UIManager.Instance.ChangeScene(SceneEnum.Home);
+			UIManager.Instance.ChangeScene(SceneEnum.Shop);
 		}
 	}
 

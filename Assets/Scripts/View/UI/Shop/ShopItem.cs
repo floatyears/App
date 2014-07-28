@@ -61,10 +61,10 @@ public class ShopItem : MonoBehaviour {
 				bg.enabled = true;
 				if(DataCenter.Instance.AccountInfo.PayTotal == 0){
 //					btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
-					desc.text = TextCenter.GetText("StoneDescFirst");
+					desc.text = string.Format(TextCenter.GetText("StoneDescFirst"),data.sale);
 				}else{
 //					btnText.text = TextCenter.GetText("StonePriceAfterFirst");
-					desc.text = TextCenter.GetText("StoneDescAfterFirst");
+					desc.text = string.Format(TextCenter.GetText("StoneDescAfterFirst"),data.sale);
 				}
 
 				break;
@@ -94,12 +94,14 @@ public class ShopItemData{
 	public ShopItemEnum type;
 	public int count;
 	public string itemId;
+	public string sale;
 
-	public ShopItemData(string _money, ShopItemEnum _type, int _count, string _itemId){
+	public ShopItemData(string _money, ShopItemEnum _type, int _count, string _itemId, string _sale){
 		money = _money;
 		type = _type;
 		count = _count;
 		itemId = _itemId;
+		sale = _sale;
 	}
 }
 
