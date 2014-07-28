@@ -70,20 +70,26 @@ public class BattleBottom : MonoBehaviour {
 			UITexture texture = temp.GetComponent<UITexture>();
 
 			actorObject.Add(i, texture);
-
+//			Debug.Log("index: " + i);
 			if(!userUnitInfo.ContainsKey(i) || userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
 				skillSpr.enabled = false;
+//				Debug.Log("index-------: " + i);
 			} else{
+
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 				tui.GetAsset(UnitAssetType.Profile, o=>{
+//					Debug.Log("index-----///////--: " + i + " texture: " + o);
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
-						Rect rect = new Rect(tui.ShowPos.x, tui.ShowPos.y, tui.ShowPos.w, tui.ShowPos.h);
-						texture.uvRect = rect;
+						float width = 105f/texture.mainTexture.width;
+						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
+//						Debug.Log("texture size: " + width + " height: " + height);
+						texture.uvRect = new Rect(tui.ShowPos.x , tui.ShowPos.y + tui.ShowPos.h - height, width, height);
+
 					}
 
 				});

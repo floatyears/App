@@ -223,7 +223,11 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		bbs.SetLeaderToNoviceGuide (true);
 		bbs.IsUseLeaderSkill = true;
 		MsgCenter.Instance.AddListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
+
+		Debug.Log ("battle leader skill");
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
 		BattleBottom.SetClickItem (0);
+		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -237,6 +241,8 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	}
 	
 	private void OnUseLeaderSkill(object btn){
+
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false);
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 		GuideWindowParams mwp = new GuideWindowParams();
@@ -355,19 +361,19 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
 		
 		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParams = new BtnParam[2];
+		mwp.btnParam = new BtnParam();
 		mwp.titleText = TextCenter.GetText("guide34_title");
 		mwp.contentText = TextCenter.GetText("guide34_content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
 		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
+		mwp.btnParam = sure;
 
-		sure = new BtnParam ();
-		sure.callback = Again;
-		sure.text = TextCenter.GetText("Again");
-		mwp.btnParams[1] = sure;
+//		sure = new BtnParam ();
+//		sure.callback = Again;
+//		sure.text = TextCenter.GetText("Again");
+//		mwp.btnParams[1] = sure;
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -375,7 +381,7 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 	}
 
 	private void Again(object data){
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GOLD_BOX;
+//		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GOLD_BOX;
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)

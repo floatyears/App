@@ -13,6 +13,8 @@ public class ShopView : UIComponentUnity {
 
 	private GameCurrencyEventHandler handler;
 
+	private DragPanel dragPanel;
+
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
 		InitUI();
@@ -39,6 +41,13 @@ public class ShopView : UIComponentUnity {
 	public override void HideUI () {
 		base.HideUI ();
 
+		int count = dragPanel.ScrollItem.Count;
+		for (int i = 0; i < count; i++) {
+			GameObject go = dragPanel.ScrollItem[i];
+			GameObject.Destroy(go);
+		}
+		dragPanel.ScrollItem.Clear();
+
 		#if UNITY_ANDROID
 		StoreController.StopIabServiceInBg();
 		#endif
@@ -46,6 +55,7 @@ public class ShopView : UIComponentUnity {
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
+		dragPanel.DestoryUI ();
 	}
 
 	private void InitUI() {
@@ -73,6 +83,30 @@ public class ShopView : UIComponentUnity {
 
 		infoPanelRoot = transform.FindChild("top").gameObject;
 		windowRoot = transform.FindChild("btns").gameObject;
+
+		CreateDragView ();
+	}
+
+	private void CreateDragView(){
+
+		List<ShopItemData> friendOutDataList = new List<ShopItemData> ();
+		friendOutDataList.Add (new ShopItemData (0,ShopItemEnum.MonthCard,1,"ms.chip.pack1"));
+		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.MonthCard,150,"ms.chip.pack2"));
+		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.MonthCard,150,"ms.chip.pack3"));
+		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.MonthCard,150,"ms.chip.pack4"));
+		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.MonthCard,150,"ms.chip.pack5"));
+		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.MonthCard,150,"ms.chip.pack6"));
+
+		dragPanel = new DragPanel("RewardDragPanel", ShopItem.Prefab);
+		dragPanel.CreatUI();
+		dragPanel.AddItem (0);
+		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.ShopListDragPanelArgs,transform);
+
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
+			ShopItem fuv = ShopItem.Inject(dragPanel.ScrollItem[ i ]);
+			fuv.Data = friendOutDataList[ i ];
+//			fuv.callback = ClickItem;
+		}
 	}
 
 	private void ClickButton( GameObject button) {

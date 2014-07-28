@@ -57,7 +57,7 @@ Btn_Level_Up=Start Fusion
 Btn_Evolve=Evolve
 Btn_Fight=Battle
 
-Btn_ToDetail=View Info.
+Btn_ToDetail=View Info
 
 ##Label Text
 Divided_Line=/
@@ -211,6 +211,7 @@ NotEnoughStone=Not enough Magic Stones。
 RetryClearQuestNet=Network error, Please click OK to retry.
 RetryClearQuestTitle=Server error
 ExitBattleConfirm=Are you sure to abort battle?
+ExitBattleConfirmTitle=Exit Battle
 BattleMenu=Menu
 
 #Loading

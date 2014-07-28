@@ -60,8 +60,8 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	
 	GuideWindowParams msgWindowParams = new GuideWindowParams();
 
-	private const int originWidth = 560;
-	private const int chagnedWidth = 360;
+	private int originWidth = 560;
+	private int chagnedWidth = 360;
 
 	
 	public override void Init(UIInsConfig config, IUICallback origin){
@@ -317,14 +317,18 @@ public class NoviceMsgWindowView : UIComponentUnity{
 
 	void UpdateGuidePic(){
 		if (msgWindowParams.guidePic != null) {
-			LogHelper.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
+			Debug.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
 			guidePicTex.gameObject.SetActive(true);
 
 			guidePicTex.spriteName = msgWindowParams.guidePic.ToString (); //.mainTexture = tex;
-			msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width =  chagnedWidth;
-			ModifyThePos(msgLabelTop.gameObject.transform,-100.0f);
-			ModifyThePos(msgLabelBottom.gameObject.transform,-100.0f);
-			ModifyThePos(msgLabelCenter.gameObject.transform,-100.0f);
+//			guidePicTex.width = guidePicTex.mainTexture.width;
+//			guidePicTex.height = guidePicTex.mainTexture.height;
+			guidePicTex.MakePixelPerfect();
+
+			msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width = 529 - guidePicTex.width;
+			ModifyThePos(msgLabelTop.gameObject.transform,-137 + guidePicTex.width/4);
+			ModifyThePos(msgLabelBottom.gameObject.transform,-137 + guidePicTex.width/4);
+			ModifyThePos(msgLabelCenter.gameObject.transform,-137 + guidePicTex.width/4);
 //			ResourceManager.Instance.LoadLocalAsset ("Texture/NoviceGuide/" + msgWindowParams.guidePic.ToString (), o =>{
 //				Texture2D tex = o as Texture2D;
 //				if(tex == null)

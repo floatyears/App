@@ -31,7 +31,7 @@ public enum SortRuleByUI{
 }
 
 public class SortUnitTool{
-	public const SortRule DEFAULT_SORT_RULE = SortRule.ID;
+	public const SortRule DEFAULT_SORT_RULE = SortRule.Attribute;
 	public const int RULE_KIND_COUNT = 8;
 
 	public static SortRule GetNextRule(SortRule currentRule){
@@ -114,7 +114,7 @@ public class SortUnitTool{
 		int data = GameDataStore.Instance.GetIntDataNoEncypt ("SortRule_" + srui.ToString ());
 
 		if (data == 0) {
-			return SortRule.ID;
+			return SortRule.Attribute;
 		}
 		return (SortRule)data;
 	} 
