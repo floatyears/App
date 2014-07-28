@@ -782,11 +782,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 		Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
-			background.spriteName = "lock_closed";
+			background.spriteName = "Lock_close";
 			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
 		}
 		else{
-			background.spriteName = "lock_open";
+			background.spriteName = "Lock_open";
 			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}

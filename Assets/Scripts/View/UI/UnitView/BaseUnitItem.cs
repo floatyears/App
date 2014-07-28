@@ -287,7 +287,7 @@ public class BaseUnitItem : MonoBehaviour {
 //		if (ID == 216) {
 //			Debug.LogError("atlas : " + asset);	
 //		}
-//		Debug.LogError ("SetAvatarSprite : UIAtlas :  " + asset);
+
 		if (asset == null) {
 			return;	
 		}

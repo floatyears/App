@@ -184,7 +184,7 @@ public class TUserUnitSortAttribute : TUserUnitSortBase{
 		base.Compare(x,y);
 		int first = (int)firstUserUnit.UnitInfo.Type;
 		int second = (int)secondUserUnit.UnitInfo.Type;
-		int compareValue = first.CompareTo(second);
+		int compareValue = - first.CompareTo(second);
 		return compareValue;
 	}		
 }
