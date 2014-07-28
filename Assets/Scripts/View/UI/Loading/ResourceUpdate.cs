@@ -255,6 +255,10 @@ public class ResourceUpdate : MonoBehaviour {
 			tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
 		}  
 
+		if (tipText.Equals(string.Empty)) {
+			tipText.text = TextCenter.GetText ("DefaultTips");
+		}
+
 	}
 
 	private void DownloadAgain(object data){

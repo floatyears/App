@@ -41,11 +41,11 @@ public class ShopView : UIComponentUnity {
 	public override void HideUI () {
 		base.HideUI ();
 
-		int count = dragPanel.ScrollItem.Count;
-		for (int i = 0; i < count; i++) {
-			GameObject go = dragPanel.ScrollItem[i];
-			GameObject.Destroy(go);
-		}
+//		int count = dragPanel.ScrollItem.Count;
+//		for (int i = 0; i < count; i++) {
+//			GameObject go = dragPanel.ScrollItem[i];
+//			GameObject.Destroy(go);
+//		}
 //		dragPanel.ScrollItem.Clear();
 
 		#if UNITY_ANDROID

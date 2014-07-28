@@ -22,13 +22,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		base.ShowUI ();
 		ClearFocus ();
+		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
+		SortUnitByCurRule();
 		ShowData ();
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
-
-		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
-		SortUnitByCurRule();
 	}
 
 	public override void HideUI () {
@@ -654,6 +653,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private void ReceiveSortInfo(object msg){
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
+		myUnitDragPanel.RefreshItem (myUnit);
 	}
 
 	private void SortUnitByCurRule(){
@@ -663,7 +663,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.LevelUp);
 //		Debug.LogError ("_sortRule : " + _sortRule + " myUnit ; " + myUnit.Count);
-		myUnitDragPanel.RefreshItem (myUnit);
+//		myUnitDragPanel.RefreshItem (myUnit);
 
 //		SortUnitTool.SortByTargetRule(sortRule, allData);
 //		SortUnitTool.StoreSortRule (sortRule, SortRuleByUI.UnitDisplayUnity);
