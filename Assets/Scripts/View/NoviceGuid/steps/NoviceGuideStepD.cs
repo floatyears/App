@@ -178,7 +178,7 @@ public class NoviceGuideStepD_StateThree:NoviceGuidState
 			NoviceGuideUtil.ShowArrow(new GameObject[]{b.gameObject},new Vector3[]{new Vector3(0,0,1)});
 		}
 		//
-		NoviceGuideUtil.showTipText ("try to put the blue item in one block");
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_1"));
 		
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, OnEnemyAttackEnd);
 	}
@@ -260,7 +260,7 @@ public class NoviceGuideStepD_StateFour:NoviceGuidState
 	}
 	
 	private void ClickOk2(object data){
-		NoviceGuideUtil.showTipText ("try to drag the block to take down the enemy");
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_2"));
 		
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, OnBattleEnd);
 	}
