@@ -87,9 +87,7 @@ public class BattleBottom : MonoBehaviour {
 						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
 //						Debug.Log("texture size: " + width + " height: " + height);
 						texture.uvRect = new Rect(tui.ShowPos.x , tui.ShowPos.y + tui.ShowPos.h - height, width, height);
-
 					}
-
 				});
 				
 				tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
