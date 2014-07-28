@@ -605,8 +605,12 @@ public class DataCenter {
 			ResourceManager.Instance.LoadLocalAsset (path, o => {
 				profile = o as Texture2D;	
 				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
-				profileCache.Add (unitID, profile );
-					
+				if(profileCache.ContainsKey(unitID)) {
+					profileCache[unitID] =  profile;
+				} else {
+					profileCache.Add(unitID, profile);
+				}
+
 				if (uiTexture != null) {
 					uiTexture.mainTexture = profile;
 				}
