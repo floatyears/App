@@ -299,7 +299,7 @@ public class EnemyItem : UIBaseUnity {
     void RefreshData() {
         enemyInfo = tempQue.Dequeue();
         float value = (float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
-		Debug.LogError ("RefreshData : " + value);
+//		Debug.LogError ("RefreshData : " + value);
         SetBlood(value);
 		SetNextLabel(enemyInfo.initAttackRound);
     }

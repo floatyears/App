@@ -150,6 +150,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
+//		Debug.LogError ("noviceGuideNotClick : " + noviceGuideNotClick + " DGTools.IsNoviceGuide () : " + DGTools.IsNoviceGuide () + " notClick : " + notClick);
 		if (noviceGuideNotClick && DGTools.IsNoviceGuide ()) {
 			return;	
 		}
@@ -158,17 +159,20 @@ public class BattleBottom : MonoBehaviour {
 			return;	
 		}
 
+//		Debug.LogError ("OnRealease ");
+
 		if (Input.GetMouseButtonDown (0)) {
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
-			int receiveMask = 0;
+//			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
+			int receiveMask = GameLayer.LayerToInt(GameLayer.Default);
 
-			if(IsUseLeaderSkill) {
-				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
-			} else {
-				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
-			}
+//			if(IsUseLeaderSkill) {
+//				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
+//			} else {
+//				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
+//			}
 
+//			Debug.LogError("IsUseLeaderSkill : " + IsUseLeaderSkill);
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
@@ -185,7 +189,7 @@ public class BattleBottom : MonoBehaviour {
 
 		try {
 			int id = System.Int32.Parse (name);
-
+//			Debug.LogError("CheckCollider id : " + id);
 			if(setPos != -1 && id != setPos) {
 				return;
 			}
@@ -246,6 +250,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
+		return;
 		if (isInNoviceGuide) {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("NoviceGuide");	
@@ -253,6 +258,7 @@ public class BattleBottom : MonoBehaviour {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("Bottom");	
 		}
-
+		Debug.Break ();
+		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
 	}
 }
