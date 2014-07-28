@@ -110,12 +110,13 @@ public class UnitDisplayUnity : UIComponentUnity {
 		if (tuu == null) {
 			return;
 		}
+
 		if (baseData != null) {
 			baseData.isFocus = false;	
 			baseData.isEnable = true;
 			unitItemDragPanel.RefreshItem(baseData);
-//			Debug.LogError(baseData.isEnable);
 		}
+
 		baseData = allData.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 
 		baseData.isFocus = true;
