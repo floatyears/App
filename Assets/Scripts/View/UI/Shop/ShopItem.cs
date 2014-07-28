@@ -41,22 +41,29 @@ public class ShopItem : MonoBehaviour {
 
 				UIEventListenerCustom.Get(transform.FindChild("BuyBtn").gameObject).onClick = OnBuy;
 			}
+			btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
 
 			switch (data.type) {
 			case ShopItemEnum.MonthCard:
 				count.text = TextCenter.GetText("MonthCard");
 				desc.text = TextCenter.GetText("MonthCardDesc");
 				bg.enabled = false;
-				btnText.text = TextCenter.GetText("MonthCardPrice");
+//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
+				break;
+			case ShopItemEnum.WeekCard:
+				count.text = TextCenter.GetText("WeekCard");
+				desc.text = TextCenter.GetText("WeekCardDesc");
+				bg.enabled = false;
+				//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
 				break;
 			case ShopItemEnum.Stone:
-				count.text = TextCenter.GetText("StoneCount");//TextCenter.GetText("");
+				count.text = TextCenter.GetText("StoneCount") + data.count;//TextCenter.GetText("");
 				bg.enabled = true;
 				if(DataCenter.Instance.AccountInfo.PayTotal == 0){
-					btnText.text = TextCenter.GetText("StonePriceFirst");
+//					btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
 					desc.text = TextCenter.GetText("StoneDescFirst");
 				}else{
-					btnText.text = TextCenter.GetText("StonePriceAfterFirst");
+//					btnText.text = TextCenter.GetText("StonePriceAfterFirst");
 					desc.text = TextCenter.GetText("StoneDescAfterFirst");
 				}
 
@@ -83,12 +90,12 @@ public class ShopItem : MonoBehaviour {
 }
 
 public class ShopItemData{
-	public int money;
+	public string money;
 	public ShopItemEnum type;
 	public int count;
 	public string itemId;
 
-	public ShopItemData(int _money, ShopItemEnum _type, int _count, string _itemId){
+	public ShopItemData(string _money, ShopItemEnum _type, int _count, string _itemId){
 		money = _money;
 		type = _type;
 		count = _count;
@@ -98,5 +105,6 @@ public class ShopItemData{
 
 public enum ShopItemEnum{
 	MonthCard,
+	WeekCard,
 	Stone,
 }

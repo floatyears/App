@@ -339,12 +339,14 @@ UnitExpansionResult=Monster box capacity reached [3BB482]{0}[-]!
 
 MonthCard=Month Card
 MonthCardDesc=Get 30 Magic Stones everyday for 30 days!
-MonthCardPrice=$100
+MoneyUnit=$
 StoneDescFirst=Get 100% more for first purchase!
 StoneDescAfterFirst=Get 100% more for first purchase!
 StonePriceFirst=$100
 StonePriceAfterFirst=$100
-StoneCount=X 150
+StoneCount=X
+WeekCard=Week Card
+WeekCardDesc=Get 30 Magic Stones everyday for 7 days!
 
 
 ##### gacha
