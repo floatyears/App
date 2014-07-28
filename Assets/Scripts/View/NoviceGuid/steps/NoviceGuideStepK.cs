@@ -45,7 +45,7 @@ public class NoviceGuideStepK_StateOne:NoviceGuidState
 	}
 	
 	private void ClickOk(object data){
-		NoviceGuideUtil.showTipText ("attack by sort the colors.");
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_7"));
 	}
 	
 	private void EnemyAttackEnd(object data){
@@ -151,7 +151,7 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 
 //		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, );
 
-		NoviceGuideUtil.showTipText ("drag the red heart togather");
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_8"));
 		
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnd);
 	}

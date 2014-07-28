@@ -135,7 +135,7 @@ public class NoviceGuideUtil {
 				
 				tipText.SetActive (true);
 				
-//				tipText.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
+				tipText.transform.localPosition = new Vector3 (pos.x, 0, 0);
 				LogHelper.Log ("tip text position: " + tipText.transform.position);
 				
 				tipText.GetComponent<TipText> ().SetText (text);
@@ -144,7 +144,7 @@ public class NoviceGuideUtil {
 		} else {
 			tipText.SetActive (true);
 			
-//			tipText.transform.localPosition = new Vector3 (pos.x, pos.y, 0);
+			tipText.transform.localPosition = new Vector3 (pos.x, 0, 0);
 			LogHelper.Log ("tip text position: " + tipText.transform.position);
 			
 			tipText.GetComponent<TipText>().SetText(text);

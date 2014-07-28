@@ -70,7 +70,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit2},new Vector3[]{new Vector3(0,0,3)});
 		
 		UIEventListenerCustom.Get (unit2).onClick += OnUnit2Click;
-		NoviceGuideUtil.showTipText ("choose a unit to change the position",new Vector2(50.0f,100.0f));
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_3"),new Vector2(50.0f,100.0f));
 
 		//JumpToNextState = true;
 	}
@@ -86,7 +86,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		
 		
 		UIEventListenerCustom.Get (unit1).onClick += OnUnit1Click;
-		NoviceGuideUtil.showTipText ("choose the position to change to ",new Vector2(100.0f,100.0f));
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_4"),new Vector2(100.0f,100.0f));
 	}
 
 	private void OnUnit1Click(GameObject btn){
@@ -137,7 +137,7 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 		UIEventListenerCustom.Get (unit).onClick = null;
 		NoviceGuideUtil.ForceOneBtnPress (unit);
 		UIEventListenerCustom.Get (unit).LongPress += OnUnitPress;
-		NoviceGuideUtil.showTipText ("press the unit item to view the detail.",new Vector2(0,-200));
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_5"),new Vector2(0,-200));
 	}
 	
 	private void OnUnitPress(GameObject btn)
@@ -237,7 +237,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= Btn0Click;
 
-		NoviceGuideUtil.showTipText ("touch screen to return", new Vector2 (0, 0));
+		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_6"), new Vector2 (0, 0));
 
 //		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 //		NoviceGuideUtil.ForceOneBtnClick (sbb);

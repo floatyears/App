@@ -1390,6 +1390,16 @@ guide62_content=Click start.\nGuide is over, welcome to monster world!
 notmaxleveltips=The level of Base monster must reach MAX to evolve.
 clearQuest=Cleared
 
+#novice guide tips
+guide_tips_1=try to put the blue item in one block
+guide_tips_2=try to drag the block to take down the enemy
+guide_tips_3=choose a unit to change the position
+guide_tips_4=choose the position to change to
+guide_tips_5=press the unit item to view the detail.
+guide_tips_6=touch screen to return
+guide_tips_7=attack by sort the colors.
+guide_tips_8=drag the red heart togather
+
 ##Tips
 Tips_A_1=MonsterStory is a game of collecting monster cards.
 Tips_A_2=You can move by clicking the blinking grid on the map.
