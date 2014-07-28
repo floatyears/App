@@ -44,18 +44,28 @@ public class ShopItem : MonoBehaviour {
 
 			switch (data.type) {
 			case ShopItemEnum.MonthCard:
-				count.text = TextCenter.GetText("");
-				desc.text = TextCenter.GetText("");
+				count.text = TextCenter.GetText("MonthCard");
+				desc.text = TextCenter.GetText("MonthCardDesc");
 				bg.enabled = false;
+				btnText.text = TextCenter.GetText("MonthCardPrice");
 				break;
 			case ShopItemEnum.Stone:
-				count.text = TextCenter.GetText("");
-				desc.text = TextCenter.GetText("");
+				count.text = TextCenter.GetText("StoneCount");//TextCenter.GetText("");
 				bg.enabled = true;
+				if(DataCenter.Instance.AccountInfo.PayTotal == 0){
+					btnText.text = TextCenter.GetText("StonePriceFirst");
+					desc.text = TextCenter.GetText("StoneDescFirst");
+				}else{
+					btnText.text = TextCenter.GetText("StonePriceAfterFirst");
+					desc.text = TextCenter.GetText("StoneDescAfterFirst");
+				}
+
 				break;
 			default:
 				count.text = TextCenter.GetText("");
 				desc.text = TextCenter.GetText("");
+				bg.enabled = false;
+				btnText.text = TextCenter.GetText("");
 				break;
 			}
 			

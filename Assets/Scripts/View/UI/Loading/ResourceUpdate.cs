@@ -255,6 +255,15 @@ public class ResourceUpdate : MonoBehaviour {
 			tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
 		}  
 
+		if (tipText.text.Equals(string.Empty)) {
+			tipText.text = //TextCenter.GetText ("DefaultTips");
+#if LANGUAGE_EN
+				"It will take a few seconds to download for the first time, please wait a moment";
+#else
+				"首次进入需要一段时间进行加载，请稍等";
+#endif
+		}
+
 	}
 
 	private void DownloadAgain(object data){

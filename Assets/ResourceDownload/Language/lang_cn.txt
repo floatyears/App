@@ -338,6 +338,15 @@ UnitExpandStonesNotEnough=你的魔法石余额不足，无法扩充卡牌容量
 UnitExpansionFinish=卡牌扩容成功
 UnitExpansionResult=当前卡牌容量达到：{0}
 
+MonthCard=Month Card
+MonthCardDesc=Get 30 Magic Stones everyday for 30 days!
+MonthCardPrice=$100
+StoneDescFirst=Get 100% more for first purchase!
+StoneDescAfterFirst=Get 100% more for first purchase!
+StonePriceFirst=$100
+StonePriceAfterFirst=$100
+StoneCount=X 150
+
 ##### gacha
 FriendGacha=友情点数抽卡
 FriendGachaTitle=友情点数抽卡
