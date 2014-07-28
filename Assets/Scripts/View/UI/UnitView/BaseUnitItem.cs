@@ -165,6 +165,9 @@ public class BaseUnitItem : MonoBehaviour {
 		if (userUnit == null) {
 			return;	
 		}
+
+//		Debug.LogError ("PressItem : " + userUnit.UnitInfo.ID + " avatar : " + avatar.spriteName);
+
 		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
 	}
@@ -238,7 +241,7 @@ public class BaseUnitItem : MonoBehaviour {
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
-//		Debug.LogError ("set common state : " + avatar + " userUnit.UnitID : " + userUnit.UnitID);
+//		Debug.LogError ("gameobject : " + gameObject + "set common state : " + avatar.spriteName + " userUnit.UnitID : " + userUnit.UnitID);
 		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
 	}
 

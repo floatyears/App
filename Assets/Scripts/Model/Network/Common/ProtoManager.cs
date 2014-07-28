@@ -46,7 +46,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
     }
 
     public void SetBlockMask(bool flag){
-		Debug.LogError("SetBlockMask(), " + flag);
+//		Debug.LogError("SetBlockMask(), " + flag);
 		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, flag));
         MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, flag);
     }
