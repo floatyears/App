@@ -3040,6 +3040,14 @@ namespace bbproto
       get { return _productId; }
       set { _productId = value; }
     }
+    private int _payTotal = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"payTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int payTotal
+    {
+      get { return _payTotal; }
+      set { _payTotal = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

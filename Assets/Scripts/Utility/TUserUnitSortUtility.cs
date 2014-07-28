@@ -124,8 +124,6 @@ public class SortUnitTool{
 	} 
 }
 
-
-
 //------------------------------TUserUnit-------------------------------
 public class TUserUnitSortBase : IComparer {
 	protected TUserUnit firstUserUnit;

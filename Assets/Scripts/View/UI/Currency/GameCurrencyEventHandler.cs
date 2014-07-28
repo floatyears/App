@@ -56,11 +56,14 @@ public class GameCurrencyEventHandler {
 
 		//update user's account
 		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+		DataCenter.Instance.AccountInfo.StonePay = rsp.stonePay;
+		DataCenter.Instance.AccountInfo.StoneFree = rsp.stoneFree;
+		DataCenter.Instance.AccountInfo.PayTotal = rsp.payTotal;
 
 		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBar>().UpdateData();
 
 		//refresh bonusList
-		if( rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard" || rsp.productId == "android.test.purchased" ) {
+		if( rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard" ) {
 			GetBonusList.SendRequest (OnBonusList);
 		}
 	}

@@ -174,7 +174,6 @@ public class EffectManager {
 					break;
 			}
 		} else if(sbi is TSkillAntiAttack) {
-			//ps-sword-1-fire
 			string effectName = "ps-sword-1-";
 			TSkillAntiAttack tsaa = sbi as TSkillAntiAttack;
 			path = effectName + GetSkillType((int)tsaa.AttackSource);
