@@ -294,6 +294,11 @@ UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
 UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
 
 # shop
+BillingNotSupported_Title=支付不支持
+BillingNotSupported_Content=错误：当前系统无法支付。请检查确认，稍后再重试。
+PurchaseSuccess_Title=购买成功
+PurchaseSuccess_Content=你已购买成功，请查看确认账户余额。
+
 Btn_Friend_Expand=好友扩容
 Btn_Unit_Expand=卡牌扩容
 Btn_Stamina_Recover=恢复体力

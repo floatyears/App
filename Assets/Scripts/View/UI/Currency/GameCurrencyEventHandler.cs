@@ -42,13 +42,25 @@ public class GameCurrencyEventHandler {
 			return;
 		}
 
-		Debug.Log ("OnRspShopBuy now stone=" + rsp.stone);
+		MsgWindowParams mwp = new MsgWindowParams ();
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.GetText("PurchaseSuccess_Title");
+		mwp.contentText = TextCenter.GetText("PurchaseSuccess_Content");
+		BtnParam sure = new BtnParam ();
+		sure.callback = null;
+		sure.text = TextCenter.GetText("OK");
+		mwp.btnParam = sure;
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+		Debug.LogError ("OnRspShopBuy now stone=" + rsp.stone);
 
 		//update user's account
 		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
 
-//		rsp.
-		GetBonusList.SendRequest (OnBonusList);
+		//refresh bonusList
+		if( rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard" || rsp.productId == "android.test.purchased" ) {
+			GetBonusList.SendRequest (OnBonusList);
+		}
 	}
 
 	private void OnBonusList(object data){
@@ -68,17 +80,16 @@ public class GameCurrencyEventHandler {
 
 	public void onBillingNotSupported(){
 		MsgWindowParams mwp = new MsgWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
 		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide1_title");
-		mwp.contentText = TextCenter.GetText("guide1_content");
+		mwp.titleText = TextCenter.GetText("BillingNotSupported_Title");
+		mwp.contentText = TextCenter.GetText("BillingNotSupported_Content");
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
 		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 	}
 
 	public void onMarketPurchaseStarted(PurchasableVirtualItem pvi){

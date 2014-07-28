@@ -121,13 +121,9 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void ClickToLogin(GameObject btn){
-//		if (checkResourceUpdate ()) {
 		Debug.LogError("click to login: " + initComplete);
 		if(initComplete)
 			Login();
-//		}
-//		UIEventListener.Get(this.gameObject).onClick = null;
-//		GameObject.Find ("LoadProgress").GetComponent<ResourceUpdate>().StartDownload();
     }
 
 	private void Login(){
@@ -149,9 +145,6 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void SelectRoleFirst(){
-//		UIManager.Instance.ChangeScene(SceneEnum.Start);
-//		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.Preface;
-//		NoviceGuideStepEntityManager.Instance ().StartStep ();
 		UIManager.Instance.ChangeScene (SceneEnum.Preface);
     }
 

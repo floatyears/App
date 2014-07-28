@@ -30,7 +30,7 @@ public class BattleBottom : MonoBehaviour {
 	private static bool storeShiedInput = false;
 
 	public static void SetClickItem(int pos) {
-		if (pos < 0 || pos > 4 || pos == setPos || pos == -1) {
+		if (pos < 0 || pos > 4 || pos == -1) {
 			setPos = -1;
 			notClick = storeShiedInput;
 			return;
@@ -41,14 +41,7 @@ public class BattleBottom : MonoBehaviour {
 		setPos = pos;
 	}
 
-	/// <summary>
-	/// novice guide active skill cooling done.
-	/// </summary>
-	public static void CoolingDoneLeaderActiveSkill() {
-		TUserUnit tuu = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit [0];
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.ActiveSkill, SkillType.ActiveSkill);
-		sbi.skillBase.skillCooling = 0;
-	}
+
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
@@ -157,7 +150,11 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
-		if (notClick || noviceGuideNotClick) {
+		if (noviceGuideNotClick && DGTools.IsNoviceGuide ()) {
+			return;	
+		}
+
+		if (notClick) {
 			return;	
 		}
 
