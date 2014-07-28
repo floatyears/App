@@ -211,6 +211,7 @@ NotEnoughStone=没有足够的魔法石。
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
 RetryClearQuestTitle=服务器错误
 ExitBattleConfirm=确认退出战斗？
+ExitBattleConfirmTitle=退出战斗
 BattleMenu=菜单
 
 #Loading
@@ -336,6 +337,15 @@ UnitExpandStonesNotEnough=你的魔法石余额不足，无法扩充卡牌容量
 
 UnitExpansionFinish=卡牌扩容成功
 UnitExpansionResult=当前卡牌容量达到：{0}
+
+MonthCard=Month Card
+MonthCardDesc=Get 30 Magic Stones everyday for 30 days!
+MonthCardPrice=$100
+StoneDescFirst=Get 100% more for first purchase!
+StoneDescAfterFirst=Get 100% more for first purchase!
+StonePriceFirst=$100
+StonePriceAfterFirst=$100
+StoneCount=X 150
 
 ##### gacha
 FriendGacha=友情点数抽卡
@@ -1380,6 +1390,16 @@ guide62_content=点击quest start。\n我的指引就到这了，前进吧！Div
 
 notmaxleveltips=基础卡牌等级未达到最高等级。
 clearQuest=已通关
+
+#novice guide tips
+guide_tips_1=try to put the blue item in one block
+guide_tips_2=try to drag the block to take down the enemy
+guide_tips_3=choose a unit to change the position
+guide_tips_4=choose the position to change to
+guide_tips_5=press the unit item to view the detail.
+guide_tips_6=touch screen to return
+guide_tips_7=attack by sort the colors.
+guide_tips_8=drag the red heart togather
 
 ##Tips
 Tips_A_1=怪物传奇是一个滑动方块来战斗的恶魔题材卡牌游戏。

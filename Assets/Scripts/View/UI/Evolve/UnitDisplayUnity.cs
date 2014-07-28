@@ -110,12 +110,13 @@ public class UnitDisplayUnity : UIComponentUnity {
 		if (tuu == null) {
 			return;
 		}
+
 		if (baseData != null) {
 			baseData.isFocus = false;	
 			baseData.isEnable = true;
 			unitItemDragPanel.RefreshItem(baseData);
-//			Debug.LogError(baseData.isEnable);
 		}
+
 		baseData = allData.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 
 		baseData.isFocus = true;
@@ -287,12 +288,13 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private void ReceiveSortInfo(object msg){
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
+		unitItemDragPanel.RefreshItem (allData);
 	}
 
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(sortRule, allData);
 		SortUnitTool.StoreSortRule (sortRule, SortRuleByUI.Evolve);
-		unitItemDragPanel.RefreshItem (allData);
+
 	}
 
 	void DisposeCallback (KeyValuePair<string, object> info) {

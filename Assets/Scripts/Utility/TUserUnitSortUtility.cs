@@ -31,7 +31,7 @@ public enum SortRuleByUI{
 }
 
 public class SortUnitTool{
-	public const SortRule DEFAULT_SORT_RULE = SortRule.ID;
+	public const SortRule DEFAULT_SORT_RULE = SortRule.Attribute;
 	public const int RULE_KIND_COUNT = 8;
 
 	public static SortRule GetNextRule(SortRule currentRule){
@@ -114,7 +114,7 @@ public class SortUnitTool{
 		int data = GameDataStore.Instance.GetIntDataNoEncypt ("SortRule_" + srui.ToString ());
 
 		if (data == 0) {
-			return SortRule.ID;
+			return SortRule.Attribute;
 		}
 		return (SortRule)data;
 	} 
@@ -123,8 +123,6 @@ public class SortUnitTool{
 		GameDataStore.Instance.StoreIntDatNoEncypt ("SortRule_" + srui.ToString (), (int)value);
 	} 
 }
-
-
 
 //------------------------------TUserUnit-------------------------------
 public class TUserUnitSortBase : IComparer {
@@ -184,7 +182,7 @@ public class TUserUnitSortAttribute : TUserUnitSortBase{
 		base.Compare(x,y);
 		int first = (int)firstUserUnit.UnitInfo.Type;
 		int second = (int)secondUserUnit.UnitInfo.Type;
-		int compareValue = first.CompareTo(second);
+		int compareValue = - first.CompareTo(second);
 		return compareValue;
 	}		
 }

@@ -86,8 +86,6 @@ public class PartyView : UIComponentUnity{
 				puv.callback = PartyItemClick;
 			}
 		}) ;
-
-
 	}
 
 	void PrevPage(GameObject go){
@@ -395,12 +393,12 @@ public class PartyView : UIComponentUnity{
 		myUnitDataList = GetUnitList();
 		dragPanel.AddItem(myUnitDataList.Count, MyUnitItem.ItemPrefab);
 
-		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			puv.Init(myUnitDataList[ i - 1 ]);
-			puv.callback = OutPartyItemClick;
-			partyUnitViewList.Add(puv);
-		}
+//		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
+//			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
+//			puv.Init(myUnitDataList[ i - 1 ]);
+//			puv.callback = OutPartyItemClick;
+//			partyUnitViewList.Add(puv);
+//		}
 
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.PartyView);//DEFAULT_SORT_RULE;
 		//sortRuleLabel.text = curSortRule.ToString();
@@ -479,10 +477,18 @@ public class PartyView : UIComponentUnity{
 	private void ReceiveSortInfo(object msg){
 		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
+
+		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
+			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+			puv.UserUnit = myUnitDataList[ i - 1 ];
+			puv.CurrentSortRule = curSortRule;
+		}
 	}
 
 	void RefreshDragPanel(){
 		myUnitDataList = GetUnitList();
+		SortUnitByCurRule();
+
 		int memCount = myUnitDataList.Count;
 		int dragCount = dragPanel.ScrollItem.Count - 1;
 		if( memCount >  dragCount){
@@ -491,7 +497,7 @@ public class PartyView : UIComponentUnity{
 			dragCount = dragPanel.ScrollItem.Count;
 			for (int i = 1; i < dragCount; i++) {
 				//RefreshData
-				PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+				PartyUnitItem puv =  PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 				if(puv == null){
 					puv.Init(myUnitDataList[ i - 1 ]);
 				}
@@ -502,7 +508,7 @@ public class PartyView : UIComponentUnity{
 		}
 		else{
 			for (int i = 0; i < memCount; i++) {
-				PartyUnitItem puv = dragPanel.ScrollItem[ i + 1 ].GetComponent<PartyUnitItem>();
+				PartyUnitItem puv =PartyUnitItem.Inject(dragPanel.ScrollItem[ i + 1 ]);
 				puv.UserUnit = myUnitDataList[ i ];//before
 				puv.CurrentSortRule = curSortRule;//after
 			}
@@ -513,7 +519,6 @@ public class PartyView : UIComponentUnity{
 			}
 			dragPanel.Refresh();
 		}
-		SortUnitByCurRule();
 	}
 
 	private void SortUnitByCurRule(){
@@ -521,11 +526,6 @@ public class PartyView : UIComponentUnity{
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.PartyView);
 
-		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			puv.UserUnit = myUnitDataList[ i - 1 ];
-			puv.CurrentSortRule = curSortRule;
-		}
 	}
 
 	private void ShowUIAnimation() {

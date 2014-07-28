@@ -41,8 +41,6 @@ public class BattleBottom : MonoBehaviour {
 		setPos = pos;
 	}
 
-
-
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
@@ -70,20 +68,26 @@ public class BattleBottom : MonoBehaviour {
 			UITexture texture = temp.GetComponent<UITexture>();
 
 			actorObject.Add(i, texture);
-
+//			Debug.Log("index: " + i);
 			if(!userUnitInfo.ContainsKey(i) || userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
 				skillSpr.enabled = false;
+//				Debug.Log("index-------: " + i);
 			} else{
+
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 				tui.GetAsset(UnitAssetType.Profile, o=>{
+//					Debug.Log("index-----///////--: " + i + " texture: " + o);
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
-						Rect rect = new Rect(tui.ShowPos.x, tui.ShowPos.y, tui.ShowPos.w, tui.ShowPos.h);
-						texture.uvRect = rect;
+						float width = 105f/texture.mainTexture.width;
+						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
+//						Debug.Log("texture size: " + width + " height: " + height);
+						texture.uvRect = new Rect(tui.ShowPos.x , tui.ShowPos.y + tui.ShowPos.h - height, width, height);
+
 					}
 
 				});
@@ -144,6 +148,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
+//		Debug.LogError ("noviceGuideNotClick : " + noviceGuideNotClick + " DGTools.IsNoviceGuide () : " + DGTools.IsNoviceGuide () + " notClick : " + notClick);
 		if (noviceGuideNotClick && DGTools.IsNoviceGuide ()) {
 			return;	
 		}
@@ -152,17 +157,20 @@ public class BattleBottom : MonoBehaviour {
 			return;	
 		}
 
+//		Debug.LogError ("OnRealease ");
+
 		if (Input.GetMouseButtonDown (0)) {
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
-			int receiveMask = 0;
+//			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
+			int receiveMask = GameLayer.LayerToInt(GameLayer.Default);
 
-			if(IsUseLeaderSkill) {
-				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
-			} else {
-				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
-			}
+//			if(IsUseLeaderSkill) {
+//				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
+//			} else {
+//				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
+//			}
 
+//			Debug.LogError("IsUseLeaderSkill : " + IsUseLeaderSkill);
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);
@@ -179,7 +187,7 @@ public class BattleBottom : MonoBehaviour {
 
 		try {
 			int id = System.Int32.Parse (name);
-
+//			Debug.LogError("CheckCollider id : " + id);
 			if(setPos != -1 && id != setPos) {
 				return;
 			}
@@ -240,6 +248,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
+		return;
 		if (isInNoviceGuide) {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("NoviceGuide");	
@@ -247,6 +256,7 @@ public class BattleBottom : MonoBehaviour {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("Bottom");	
 		}
-
+		Debug.Break ();
+		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
 	}
 }

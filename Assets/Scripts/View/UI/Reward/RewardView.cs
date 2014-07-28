@@ -35,8 +35,15 @@ public class RewardView : UIComponentUnity {
 		RefreshView ();
 
 		ShowUIAnimation ();
+
+		GetBonusList.SendRequest (OnRequest);
 	}
-	
+
+	void OnRequest(object data){
+		List<BonusInfo> rList = data as List<BonusInfo>;
+//		rList
+	}
+
 	public override void HideUI() {
 		base.HideUI();
 

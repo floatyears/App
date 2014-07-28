@@ -51,7 +51,6 @@ public class Main : MonoBehaviour {
             }
             return nguiCamera;
         }
-
     }
 
 	[HideInInspector]

@@ -174,9 +174,10 @@ public class EffectManager {
 					break;
 			}
 		} else if(sbi is TSkillAntiAttack) {
+			string effectName = "ps-sword-1-";
+			TSkillAntiAttack tsaa = sbi as TSkillAntiAttack;
+			path = effectName + GetSkillType((int)tsaa.AttackSource);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
-
-			path = "PS-fight-back";
 		}
 		GetEffectFromCache (path, resouceCb);
 	}

@@ -60,6 +60,8 @@ public class GameCurrencyEventHandler {
 		DataCenter.Instance.AccountInfo.StoneFree = rsp.stoneFree;
 		DataCenter.Instance.AccountInfo.PayTotal = rsp.payTotal;
 
+		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBar>().UpdateData();
+
 		//refresh bonusList
 		if( rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard" ) {
 			GetBonusList.SendRequest (OnBonusList);

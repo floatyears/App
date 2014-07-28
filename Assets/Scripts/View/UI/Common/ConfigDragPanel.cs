@@ -18,6 +18,7 @@ public class ConfigDragPanel{
 	public static Dictionary<string, object> LevelUpBaseDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> LevelUpMaterialDragPanelArgs = new Dictionary<string, object>();
 	public static Dictionary<string, object> RewardListDragPanelArgs = new Dictionary<string, object>();
+	public static Dictionary<string, object> ShopListDragPanelArgs = new Dictionary<string, object>();
 
 	public ConfigDragPanel(){
 		UIRoot uiRoot = Main.Instance.uiRoot.GetComponent<UIRoot> ();
@@ -39,6 +40,7 @@ public class ConfigDragPanel{
 		ConfigLevelUpBaseDragPanel();
 		ConfigLevelUpMaterialDragPanel();
 		ConfigRewardListDragPanel ();
+		ConfigShopListDragPanelArgs ();
 	}
 
 	private void ConfigUnitListDragPanel(){
@@ -211,6 +213,20 @@ public class ConfigDragPanel{
 		RewardListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
 		RewardListDragPanelArgs.Add ("scrollBarDir", 						UIProgressBar.FillDirection.TopToBottom);
 		RewardListDragPanelArgs.Add ("depth",								13												);
+	}
+
+	private void ConfigShopListDragPanelArgs(){
+		ShopListDragPanelArgs.Add("scrollerLocalPos",					-100 * Vector3.up					);
+		ShopListDragPanelArgs.Add("position", 								Vector3.zero								);
+		ShopListDragPanelArgs.Add("clipRange", 							new Vector4(0, 100, 640, 320)		);
+		ShopListDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Horizontal		);
+		ShopListDragPanelArgs.Add("scrollBarPosition",					new Vector3(307, 260, 0)			);
+		ShopListDragPanelArgs.Add("cellWidth", 							600											);
+		ShopListDragPanelArgs.Add("cellHeight",							99											);
+		ShopListDragPanelArgs.Add("maxPerLine",							1												);
+		ShopListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
+		ShopListDragPanelArgs.Add ("scrollBarDir", 						UIProgressBar.FillDirection.TopToBottom);
+		ShopListDragPanelArgs.Add ("depth",								13												);
 	}
 
 }

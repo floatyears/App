@@ -1,1 +1,1 @@
-FSavePath:/Users/Resource/Output;Filename:Protobuf_en;Extension:unity3dty3dion:unity3dd
+ISavePath:/Users/Resource/Output;Filename:Atlas_Avatar_8;Extension:unity3ddion:unity3dd

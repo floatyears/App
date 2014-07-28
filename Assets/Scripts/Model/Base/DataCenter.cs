@@ -575,26 +575,28 @@ public class DataCenter {
 	public Dictionary<uint, UIAtlas> AvatarAtalsDic{get{return avatarAtalsDic;}}
 
 	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
-				uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
-				UIAtlas atlas = null;
-				if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
-					string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
-					ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
-					GameObject source = o as GameObject;
-					atlas = source.GetComponent<UIAtlas> ();
-					if (!avatarAtalsDic.ContainsKey (index))
-						avatarAtalsDic.Add (index, atlas);
+		uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
+		UIAtlas atlas = null;
+		if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
+			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
+			ResourceManager.Instance.LoadLocalAsset (sourcePath, o=> {
+				GameObject source = o as GameObject;
+				atlas = source.GetComponent<UIAtlas> ();
+				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
 
-					BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-					if (resouceCB != null)
-							resouceCB (atlas);
-				});
-				} else {
-						BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-						if (resouceCB != null)
-								resouceCB (atlas);
-				}
+				if (!avatarAtalsDic.ContainsKey (index))
+					avatarAtalsDic.Add (index, atlas);
+
+				if (resouceCB != null)
+					resouceCB (atlas);
+			} );
+		} else {
+				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+				if (resouceCB != null)
+						resouceCB (atlas);
 		}
+	}
+
 
 	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
 
@@ -603,10 +605,14 @@ public class DataCenter {
 		if (!profileCache.TryGetValue (unitID, out profile)) {
 			string path = string.Format ("Profile/{0}", unitID);
 			ResourceManager.Instance.LoadLocalAsset (path, o => {
-//				Debug.Log ("GetProfile : " + path + " o : " + o);
 				profile = o as Texture2D;	
-				profileCache.Add (unitID, profile );
-					
+//				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
+				if(profileCache.ContainsKey(unitID)) {
+					profileCache[unitID] =  profile;
+				} else {
+					profileCache.Add(unitID, profile);
+				}
+
 				if (uiTexture != null) {
 					uiTexture.mainTexture = profile;
 				}

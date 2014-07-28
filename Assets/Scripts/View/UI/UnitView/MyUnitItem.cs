@@ -105,6 +105,7 @@ public class MyUnitItem : BaseUnitItem {
 
 	protected override void PressItem(GameObject item){
 		base.PressItem(item);
+
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
 	}
 

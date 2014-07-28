@@ -201,6 +201,8 @@ public class NoviceGuideStepI_StateThree:NoviceGuidState{
 	private void OnClickLevelUp(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
 		NoviceGuideUtil.RemoveAllArrows ();
+
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -241,7 +243,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	
 	private void OnLevelDone(object data){
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
+
 		UIManager.Instance.forbidChangeScene = false;
 
 		GuideWindowParams mwp = new GuideWindowParams ();
