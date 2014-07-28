@@ -4,6 +4,9 @@ using bbproto;
 
 public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 	private SkillAntiAttack instance;
+	public EUnitType AttackSource {
+		get { return instance.attackSource; }
+	}
 	public TSkillAntiAttack(object instance) : base (instance) {
 		this.instance = instance as SkillAntiAttack;
 		skillBase = this.instance.baseInfo;
