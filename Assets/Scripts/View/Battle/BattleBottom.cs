@@ -41,8 +41,6 @@ public class BattleBottom : MonoBehaviour {
 		setPos = pos;
 	}
 
-
-
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
