@@ -258,9 +258,9 @@ public class ResourceUpdate : MonoBehaviour {
 		if (tipText.text.Equals(string.Empty)) {
 			tipText.text = //TextCenter.GetText ("DefaultTips");
 #if LANGUAGE_EN
-				"It will take a few seconds to download for the first time, please wait a moment";
+				"It will take a few seconds to download for the first time, \nplease wait a moment";
 #else
-				"首次进入需要一段时间进行加载，请稍等";
+			"首次进入游戏需要一定时间进行加载，请稍等.";
 #endif
 		}
 
