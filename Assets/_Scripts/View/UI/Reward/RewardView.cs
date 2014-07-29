@@ -36,12 +36,20 @@ public class RewardView : UIComponentUnity {
 
 		ShowUIAnimation ();
 
-		GetBonusList.SendRequest (OnRequest);
+//		GetBonusList.SendRequest (OnRequest);
 	}
 
 	void OnRequest(object data){
-		List<BonusInfo> rList = data as List<BonusInfo>;
-//		rList
+			//		bbproto.BonusInfo bsInfo = 
+		Debug.Log ("purchase success, change to reward. rsp data:"+data);
+		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
+		if (rsp != null && rsp.bonus != null ) {
+			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
+
+
+//			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
+//			UIManager.Instance.ChangeScene (SceneEnum.Reward);
+		}
 	}
 
 	public override void HideUI() {
@@ -49,8 +57,7 @@ public class RewardView : UIComponentUnity {
 
 //		Debug.Log ("bonusIDs: " + bonusIDs.Count);
 		if(bonusIDs.Count > 0)
-			AcceptBonus.SendRequest(null,bonusIDs);
-		bonusIDs.Clear ();
+			AcceptBonus.SendRequest(OnAcceptBonus,bonusIDs);
 
 		int count = dragPanel.ScrollItem.Count;
 		for (int i = 0; i < count; i++) {
@@ -61,7 +68,27 @@ public class RewardView : UIComponentUnity {
 		
 		iTween.Stop (gameObject);
 	}
-	
+
+	private void OnAcceptBonus(object data){
+		RspAcceptBonus rsp = data as RspAcceptBonus;
+
+		if(rsp.header.code == ErrorCode.SUCCESS)
+		{
+			foreach (var num in bonusIDs) {
+				for (int i = DataCenter.Instance.LoginInfo.Bonus.Count - 1; i >= 0; i--) {
+					if(DataCenter.Instance.LoginInfo.Bonus[i].id == num){
+						DataCenter.Instance.LoginInfo.Bonus.RemoveAt(i);
+						continue;
+					}
+				}
+			}
+
+			MsgCenter.Instance.Invoke (CommandEnum.RefreshRewardList);
+		}
+		bonusIDs.Clear ();
+
+	} 
+
 	public override void DestoryUI () {
 		aList.Clear ();
 		dragPanel.DestoryUI ();
@@ -70,17 +97,21 @@ public class RewardView : UIComponentUnity {
 
 		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
 		MsgCenter.Instance.RemoveListener (CommandEnum.TakeAward, OnTakeAward);
+		MsgCenter.Instance.RemoveListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
 	}
 
 	private void InitUI(){
 		FindUIElement ();
+
 		InitData ();
+
 		CreateDragView ();
 
 
 		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
 
 		MsgCenter.Instance.AddListener (CommandEnum.TakeAward, OnTakeAward);
+		MsgCenter.Instance.AddListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
 	}
 
 	private void InitData(){
@@ -234,6 +265,18 @@ public class RewardView : UIComponentUnity {
 //		Debug.Log ("toggle: " + toggle);
 		if (toggle != null) {
 			tabInfo.text = TextCenter.GetText ("Reward_Tab_Info" + toggle.ToString().Substring(0,1));
+		}
+	}
+
+	
+	private void OnGotoTab(object data){
+		for(int i = 1; i < 6; i++){
+			if(i == 4){
+				transform.FindChild(i+"").GetComponent<UIToggle>().startsActive = true;
+			}else{
+				transform.FindChild(i+"").GetComponent<UIToggle>().startsActive = false;
+			}
+
 		}
 	}
 }
