@@ -503,6 +503,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 	public TUserUnit GetPartyItem(int index){
 		if (index < 0 || index >= partyItem.Count)
 						return null;
-	 	return DataCenter.Instance.UserUnitList.GetMyUnit( partyItem [index].unitUniqueId);
+		Debug.LogError ("index : " + index + "instance.items [index].unitUniqueId : " + instance.items [index].unitUniqueId); 
+		for (int i = 0; i < instance.items.Count; i++) {
+			Debug.LogError("GetPartyItem i : " + i + " instance.items : " + instance.items[i]);
+				}
+	 	return DataCenter.Instance.UserUnitList.GetMyUnit( instance.items [index].unitUniqueId);
 	}
 }

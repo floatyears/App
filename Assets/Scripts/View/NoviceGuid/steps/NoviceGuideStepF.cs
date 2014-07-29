@@ -134,12 +134,16 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (3);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
 		click = UIEventListenerCustom.Get(unit).onClick;
-		UIEventListenerCustom.Get (unit).onClick = null;
+		UIEventListenerCustom.Get (unit).onClick = OnItemClick;
 		NoviceGuideUtil.ForceOneBtnPress (unit);
 		UIEventListenerCustom.Get (unit).LongPress += OnUnitPress;
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_5"),new Vector2(0,-200));
 	}
-	
+
+	private void OnItemClick(GameObject item){
+		NoviceGuideUtil.showTipTextAnimation ();
+	}
+
 	private void OnUnitPress(GameObject btn)
 	{
 		NoviceGuideUtil.HideTipText ();

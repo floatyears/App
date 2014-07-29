@@ -282,5 +282,9 @@ public class NoviceGuideUtil {
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
 		
 	}
+
+	public static void showTipTextAnimation(){
+		tipText.GetComponent<TipText> ().ShowAnimation ();
+	}
 	
 }

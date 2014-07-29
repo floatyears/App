@@ -86,7 +86,10 @@ public class BattleBottom : MonoBehaviour {
 						float width = 105f/texture.mainTexture.width;
 						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
 //						Debug.Log("texture size: " + width + " height: " + height);
-						texture.uvRect = new Rect(tui.ShowPos.x , tui.ShowPos.y + tui.ShowPos.h - height, width, height);
+						float y = tui.ShowPos.y + tui.ShowPos.h - height;
+						if(y > 1)
+							y = y - 1;
+						texture.uvRect = new Rect(tui.ShowPos.x , y, width, height);
 
 					}
 
