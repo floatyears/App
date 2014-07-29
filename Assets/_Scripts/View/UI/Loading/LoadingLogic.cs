@@ -157,12 +157,11 @@ public class LoadingLogic : ConcreteComponent {
 			}
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
-
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {

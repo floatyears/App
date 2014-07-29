@@ -235,8 +235,10 @@ public class AttackController {
 		enemyIndex = 0;
 		if (attackInfoQueue.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
-			Debug.LogError("blood : " + blood);
-			bud.Blood += blood;
+
+			if(blood > 0)
+				bud.Blood += blood;
+
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 			endCount = 0;
 			if (!CheckBattleSuccess ()) {
@@ -495,22 +497,22 @@ public class AttackController {
 				reduceValue = leadSkillReuduce.ReduceHurtValue(reduceValue, attackType);
 			}
 
-//			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
+			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
 
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 
-//			Debug.LogError("hurtValue : " + hurtValue);
+			Debug.LogError("hurtValue : " + hurtValue);
 
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
-//			Debug.LogError("EnemyAttack attackType : " + attackType);
+			Debug.LogError("EnemyAttack attackType : " + attackType);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType, hurtValue);
 
-//			for (int i = 0; i < temp.Count; i++) {
-//				temp[i].EnemyID = te.EnemySymbol;
-//				antiInfo.Add(temp[i]);
-//			}
+			for (int i = 0; i < temp.Count; i++) {
+				temp[i].EnemyID = te.EnemySymbol;
+				antiInfo.Add(temp[i]);
+			}
 			antiInfo.AddRange(temp);
 //			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
 			if(!isBoss) {

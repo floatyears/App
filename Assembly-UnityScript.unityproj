@@ -57,8 +57,6 @@
      <Compile Include="Assets\DynamicElements_Effects\scripts\rotateThis.js" />
      <Compile Include="Assets\DynamicElements_Effects\scripts\scaleThisTimed.js" />
      <Compile Include="Assets\FT_MagicEffect_vol3\Script\DeadTime.js" />
-     <Compile Include="Assets\MagicalEffects\Scripts\FxGateA_Add.js" />
-     <Compile Include="Assets\MagicalEffects\Scripts\fps.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_AddForceContinuous.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_AddForceImpulse.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_AddRandomForceImpulse.js" />
@@ -83,7 +81,6 @@
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_rotateThis.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_shieldedController.js" />
      <Compile Include="Assets\ScifiEffects\Scripts\SFE_spaceshipScript.js" />
-     <Compile Include="Assets\Scripts\ScalingButton.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderFader.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderInOut.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderIrisator.js" />
@@ -100,6 +97,7 @@
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_rotateThis.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_stohasticArrowMovement.js" />
      <Compile Include="Assets\ShurikenMagic\Scripts\SM_trailFade.js" />
+     <Compile Include="Assets\_Scripts\ScalingButton.js" />
      <None Include="Assets\External\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\External\NGUI\ReadMe - 3.6.1.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
@@ -149,11 +147,11 @@
      <None Include="Assets\External\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\External\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\External\NGUI\Examples\Resources\Localization.txt" />
- <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
- <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
+ <Reference Include="Assets\External\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid">
+ <HintPath>Assets\External\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForAndroid.dll</HintPath>
  </Reference>
- <Reference Include="Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
- <HintPath>Assets\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
+ <Reference Include="Assets\External\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS">
+ <HintPath>Assets\External\UmengGameAnalytics\Scripts\UMGameAnalyticsLibForiOS.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
