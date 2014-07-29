@@ -499,4 +499,10 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             return null;
         return sbi.GetSkillInfo();
     }
+
+	public TUserUnit GetPartyItem(int index){
+		if (index < 0 || index >= partyItem.Count)
+						return null;
+	 	return DataCenter.Instance.UserUnitList.GetMyUnit( partyItem [index].unitUniqueId);
+	}
 }

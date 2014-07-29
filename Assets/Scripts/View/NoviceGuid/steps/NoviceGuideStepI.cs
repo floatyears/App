@@ -35,7 +35,23 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	}
 
 	private void ClickOK(object data){
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(0).gameObject;
+		uint leaderId = DataCenter.Instance.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.ID;
+		uint cardId = 0;
+		switch (leaderId) {
+		case 1:
+			cardId = 77;
+			break;
+		case 5:
+			cardId = 73;
+			break;
+		case 9:
+			cardId = 75;
+			break;
+		default:
+			break;
+		}
+
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(cardId).gameObject;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
 
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem;
@@ -63,7 +79,9 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	}
 
 	private void ClickOK1(object data){
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(-1).gameObject;
+
+
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(202).gameObject;
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
