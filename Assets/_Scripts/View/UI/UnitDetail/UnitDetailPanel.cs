@@ -695,11 +695,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		RecoverEffectCamera ();
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 
-		if(curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
-			NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.EVOLVE);
+		if (oldBlendUnit != null) {
+			if(curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
+				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.EVOLVE);
+			}
+			
+			oldBlendUnit = null;	
 		}
 
-		oldBlendUnit = null;
 //		unitBodyTex.mainTexture = null;
 	}
 
