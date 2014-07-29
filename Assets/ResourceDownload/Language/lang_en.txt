@@ -338,15 +338,15 @@ UnitExpansionFinish=Monster Box Extension Completed
 UnitExpansionResult=Monster box capacity reached [3BB482]{0}[-]!
 
 MonthCard=Month Card
-MonthCardDesc=Get 30 Magic Stones everyday for 30 days!
+MonthCardDesc=Get 100 Magic Stones everyday for 30 days!
 MoneyUnit=$
 StoneDescFirst=Get 100% more for first purchase!
 StoneDescAfterFirst=Get 100% more for first purchase!
 StonePriceFirst=$100
 StonePriceAfterFirst=$100
-StoneCount=X
+StoneCount=x
 WeekCard=Week Card
-WeekCardDesc=Get 30 Magic Stones everyday for 7 days!
+WeekCardDesc=Get 100 Magic Stones everyday for 7 days!
 
 
 ##### gacha
@@ -1333,17 +1333,17 @@ guide29_content=1. Putting Panels with same color into one grid.\n2. Tow or more
 
 ##skill
 guide30_title=Active Skill
-guide30_content=The bottom card is flashing now, click it.
+guide30_content=The bottom card is flashing now, click it to evoke Active Skill.
 guide31_title=Use active skill
-guide31_content=Moving on the battlefield or fighting to enemies, after a certain rounds you can evoke Active Skill. \nTry to use an Active Skill!
+guide31_content=Moving on the battlefield or fighting to enemies, after a certain rounds you can evoke Active Skill. \n\nTry to use an Active Skill!
 guide32_title=Well done!
 guide32_content=Different cards have different skills, so try to collect cards as more as possible.
 guide33_title=About Boost
 guide33_content=The Boost grid will add 1.5 times more attack power and heal power.\nSo try to use Boost.
 guide34_title=Quest successfully
-guide34_content=Find the key, and defeat the boss, then you will succeed.\nAfter that all the grids on battlefield will be turned over, you can see what's under the grid.
+guide34_content=Find the key, and defeat the boss, then you will succeed.\n\nAfter that all the grids on battlefield will be turned over, you can see what's under the grid.
 guide35_title=Confirm the result
-guide35_content=So confirm the battle result, You will gain different things.
+guide35_content=So confirm the battle result, you will gain different things in battles.
 
 ##skillName & skillDescription
 RecoverHpSkillName=Recover HP: Lv{0}
@@ -1351,7 +1351,7 @@ RecoverHpSkillDesc=Recover {0}% HP
 
 ##level up
 guide41_title=How to Power-up
-guide41_content=The next is making your card growing up by Power-up fusion.\nLet's try Power-up.
+guide41_content=Now making your card growing up by Power-up fusion.\nLet's try Power-up.
 guide42_title=Choose Base Card
 guide42_content=Choose base card which you want to power up. \nClick the leader to have a try.
 guide43_title=Choose material cards
@@ -1360,47 +1360,48 @@ guide44_title=Choose your helper
 guide44_content=Choose a pal to help you to complete the Power-up fusion.
 guide45_title=Helper bonus
 guide45_content=If the helper's card Type, Race is same as your Base card, your card will get more additional Exp after fusion.
-guide46_title=level up end
-guide46_content=level up max.now goto the evolve
+guide46_title=Power-up completed
+guide46_content=Power-up fusion completed, your card has become stronger.
 
 ##evolve
-guide51_title=choose evolve card
-guide51_content=choose card
-guide52_title=choose a helper
-guide52_content=you need a helper.choose one
-guide53_title=choose a helper's need
-guide53_content=the helper shoulder have the same race,attr,lv.
-guide54_title=about the evolve mission
-guide54_content=you must finish the mission to complete evolve
-guide55_title=evovle mission final confirm
-guide55_content=use this team to fight.let's go
-guide56_title=xxx teacher's note
-guide56_content=take down more enemy
-guide57_title=mission key point
-guide57_content=1.find the key;2.goto the door
-guide58_title=evolve success
-guide58_content=excelent,your charactor evovles.
-guide59_title=evolve time
-guide59_content=1. find the key  2. goto the door
+base_Item_Null=Base card is empty.
+guide51_title=Choose Base card
+guide51_content=Choose Base card to evolve. You must choose card which Lv is MAX to evolve.
+guide52_title=Choose Helper
+guide52_content=You need a helper to help you to evolve. Please choose one pal.
+guide53_title=Condition of Helper
+guide53_content=The helper must meet the reqirement of Race, Type, Lv.
+guide54_title=About evolving quest
+guide54_content=You need to complete the quest to get evolved.
+guide55_title=Evovling Mission Confirm
+guide55_content=Use this team to fight, Let's go!
+guide56_title=Angela Note
+guide56_content=As much as possible to move on the battlefield, collecting more coins, beating more enemies, then you will get more cards!\nAfter get the card, it can be used to Power-up or Evolving.
+guide57_title=Quest Keypoint
+guide57_content=1. Find the key\n2. Goto the door\n3. Pay attention to the remained count of SP.\n\nSo, good luck!
+guide58_title=Success
+guide58_content=Excellent! Your card has been evovled and become stronger.
+guide59_title=Evolve Reqirement
+guide59_content=Your card must reach MAX Lv before evolving.
 
 ##quest
-guide61_title=准备结束
-guide61_content=那么准备完毕了。\n嘛，再陪你一会，走到最初的大门那吧。
+guide61_title=Ready
+guide61_content=So you are ready, goto the door.
 guide62_title=Guide Completed
-guide62_content=Click start.\nGuide is over, welcome to monster world!
+guide62_content=Click start.\nGuide is over now, welcome to monster world!
 
 notmaxleveltips=The level of Base monster must reach MAX to evolve.
 clearQuest=Cleared
 
 #novice guide tips
-guide_tips_1=try to put the blue item in one block
-guide_tips_2=try to drag the block to take down the enemy
-guide_tips_3=choose a unit to change the position
+guide_tips_1=Try to put the same color Panels into one grid.
+guide_tips_2=Try your best to drag more Panels to attack the enemy.
+guide_tips_3=Drag Panels to left or right to sort them, then make a attack.
 guide_tips_4=choose the position to change to
-guide_tips_5=press the unit item to view the detail.
+guide_tips_5=Hold down the card avatar to view the card information.
 guide_tips_6=touch screen to return
 guide_tips_7=attack by sort the colors.
-guide_tips_8=drag the red heart togather
+guide_tips_8=Drag the red heart Panels together.
 
 ##Tips
 Tips_A_1=MonsterStory is a game of collecting monster cards.

@@ -1394,14 +1394,14 @@ notmaxleveltips=基础卡牌等级未达到最高等级。
 clearQuest=已通关
 
 #novice guide tips
-guide_tips_1=try to put the blue item in one block
-guide_tips_2=try to drag the block to take down the enemy
-guide_tips_3=choose a unit to change the position
+guide_tips_1=请把同一颜色的多个色块拖到一个格子里
+guide_tips_2=尽量拖放方块来打倒敌人。
+guide_tips_3=通过排序来发动攻击！
 guide_tips_4=choose the position to change to
 guide_tips_5=press the unit item to view the detail.
 guide_tips_6=touch screen to return
 guide_tips_7=attack by sort the colors.
-guide_tips_8=drag the red heart togather
+guide_tips_8=将红心方块一起拖放吧！
 
 ##Tips
 Tips_A_1=怪物传奇是一个滑动方块来战斗的恶魔题材卡牌游戏。
