@@ -43,11 +43,11 @@ public class HomeView : UIComponentUnity{
 		}
 		if (count > 0) {
 			FindChild<UILabel> ("Icons/Reward/Num").enabled = true;
-			FindChild<UISprite> ("Icons/Reward/NumBG").enabled = true;
+			FindChild<UISprite> ("Icons/Reward/NumBg").enabled = true;
 			FindChild<UILabel> ("Icons/Reward/Num").text = count + "";	
 		} else {
 			FindChild<UILabel> ("Icons/Reward/Num").enabled = false;
-			FindChild<UISprite> ("Icons/Reward/NumBG").enabled = false;
+			FindChild<UISprite> ("Icons/Reward/NumBg").enabled = false;
 		}
 	}
 
