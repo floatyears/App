@@ -80,7 +80,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);

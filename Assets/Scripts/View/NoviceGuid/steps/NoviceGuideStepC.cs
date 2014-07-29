@@ -150,7 +150,7 @@ public class NoviceGuideStepC_StateThree:NoviceGuidState
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = null;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);

@@ -26,7 +26,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = SureCall;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);		
@@ -53,7 +53,25 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListenerCustom.Get (btn).onClick -= EmptyClick;
 
-		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (4);
+//		uint leaderId = DataCenter.Instance.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.ID;
+//		uint cardId = 0;
+//		switch (leaderId) {
+//		case 1:
+//			cardId = 77;
+//			break;
+//		case 5:
+//			cardId = 73;
+//			break;
+//		case 9:
+//			cardId = 75;
+//			break;
+//		default:
+//			break;
+//		}
+		
+//		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(cardId).gameObject;
+
+		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
 		NoviceGuideUtil.ForceOneBtnClick (unit);
 		UIEventListenerCustom.Get (unit).onClick += OnUnitClick;
@@ -131,7 +149,7 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
 
-		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (3);
+		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
 		click = UIEventListenerCustom.Get(unit).onClick;
 		UIEventListenerCustom.Get (unit).onClick = OnItemClick;

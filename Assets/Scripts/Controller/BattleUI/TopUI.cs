@@ -87,17 +87,21 @@ public class TopUI : UIBaseUnity {
 	}
 
 	void Retry(GameObject go) {
+#if !UNITY_EDITOR
 		if (DGTools.IsNoviceGuide ()) {
 			return;	
 		}
+#endif
 
 		battleQuest.Retry ();
 	}
 
 	void ShowMenu (GameObject go) {
+#if !UNITY_EDITOR
 		if (DGTools.IsNoviceGuide ()) {
 			return;	
 		}
+#endif
 
 		if (battleMenu == null) {
 			CreatBattleMenu ();

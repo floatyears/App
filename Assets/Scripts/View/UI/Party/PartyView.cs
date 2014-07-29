@@ -564,8 +564,15 @@ public class PartyView : UIComponentUnity{
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
 	}
 
-	public GameObject GetUnitItem(int i){
-		return dragPanel.ScrollItem [i];
+	public GameObject GetUnitItem(uint id){
+//		return dragPanel.ScrollItem [i];
+
+		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
+			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+			if(puv.UserUnit.UnitID == id)
+				return dragPanel.ScrollItem[ i ];
+		}
+		return null;
 	}
 
 	private void InitPartyInfoPanel(){

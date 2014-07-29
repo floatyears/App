@@ -1,6 +1,7 @@
 ##common text
 
 OK=确定
+NEXT=下一步
 Cancel=取消
 CANCEL=取消
 Again=再看一次

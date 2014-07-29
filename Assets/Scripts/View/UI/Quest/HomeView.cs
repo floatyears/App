@@ -22,10 +22,35 @@ public class HomeView : UIComponentUnity{
 
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
 
+		MsgCenter.Instance.AddListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
+
 		GameTimer.GetInstance ().CheckRefreshServer ();
 
+		ShowRewardInfo ();
+
 	}
-	
+
+	private void OnRefreshRewardList(object data){
+		ShowRewardInfo ();
+	}
+
+	private void ShowRewardInfo(){
+		int count = 0;
+		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+			if(item.enabled == 1){
+				count++;
+			}
+		}
+		if (count > 0) {
+			FindChild<UILabel> ("Icons/Reward/Num").enabled = true;
+			FindChild<UISprite> ("Icons/Reward/NumBG").enabled = true;
+			FindChild<UILabel> ("Icons/Reward/Num").text = count + "";	
+		} else {
+			FindChild<UILabel> ("Icons/Reward/Num").enabled = false;
+			FindChild<UISprite> ("Icons/Reward/NumBG").enabled = false;
+		}
+	}
+
 	private void OnChangeSceneComplete(object data ){
 
 		if((SceneEnum)data == SceneEnum.Home){
@@ -46,6 +71,7 @@ public class HomeView : UIComponentUnity{
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
+		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
 	}
 	
 	public override void CallbackView(object data){
@@ -63,9 +89,23 @@ public class HomeView : UIComponentUnity{
 	void InitUI(){
 		InitWorldMap();
 
-
+		UIEventListenerCustom.Get (FindChild ("Icons/Reward").gameObject).onClick = ClickReward;
+		UIEventListenerCustom.Get (FindChild ("Icons/Notice").gameObject).onClick = ClickNotice;
+		UIEventListenerCustom.Get (FindChild ("Icons/Purchase").gameObject).onClick = ClickPurchase;
 	}
-	
+
+	void ClickReward(GameObject obj){
+		UIManager.Instance.ChangeScene (SceneEnum.Reward);
+	}
+
+	void ClickNotice(GameObject obj){
+		UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);
+	}
+
+	void ClickPurchase(GameObject obj){
+		UIManager.Instance.ChangeScene (SceneEnum.Shop);
+	}
+
 	void CreateStoryView(object args){
 		List<TCityInfo> tciList = args as List<TCityInfo>;
 		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab);
