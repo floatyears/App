@@ -91,8 +91,8 @@ public class ShopView : UIComponentUnity {
 
 		List<ShopItemData> friendOutDataList = new List<ShopItemData> ();
 
-		friendOutDataList.Add (new ShopItemData ("2",ShopItemEnum.MonthCard,1,"ms.chip.monthcard",""));
-		friendOutDataList.Add (new ShopItemData ("5",ShopItemEnum.WeekCard,1,"ms.chip.weekcard",""));
+		friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.MonthCard,1,"ms.chip.monthcard",""));
+		friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.WeekCard,1,"ms.chip.weekcard",""));
 		if (DataCenter.Instance.AccountInfo.PayTotal == 0) {
 			friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.Stone,120,"ms.chip.pack1","100%"));
 			friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.Stone,300,"ms.chip.pack2","100%"));
