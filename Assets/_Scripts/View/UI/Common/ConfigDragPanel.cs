@@ -218,11 +218,11 @@ public class ConfigDragPanel{
 	private void ConfigShopListDragPanelArgs(){
 		ShopListDragPanelArgs.Add("scrollerLocalPos",					-100 * Vector3.up					);
 		ShopListDragPanelArgs.Add("position", 								Vector3.zero								);
-		ShopListDragPanelArgs.Add("clipRange", 							new Vector4(0, 100, 640, 320)		);
+		ShopListDragPanelArgs.Add("clipRange", 							new Vector4(0, 120, 640, 344)		);
 		ShopListDragPanelArgs.Add("gridArrange", 						UIGrid.Arrangement.Horizontal		);
-		ShopListDragPanelArgs.Add("scrollBarPosition",					new Vector3(307, 260, 0)			);
+		ShopListDragPanelArgs.Add("scrollBarPosition",					new Vector3(306, 292, 0)			);
 		ShopListDragPanelArgs.Add("cellWidth", 							600											);
-		ShopListDragPanelArgs.Add("cellHeight",							99											);
+		ShopListDragPanelArgs.Add("cellHeight",							89											);
 		ShopListDragPanelArgs.Add("maxPerLine",							1												);
 		ShopListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
 		ShopListDragPanelArgs.Add ("scrollBarDir", 						UIProgressBar.FillDirection.TopToBottom);
