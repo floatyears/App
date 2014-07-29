@@ -77,6 +77,7 @@ public class GameCurrencyEventHandler {
 
 	private void OnBonusList(object data){
 //		bbproto.BonusInfo bsInfo = 
+		Debug.Log ("purchase success, change to reward");
 		DataCenter.Instance.LoginInfo.Bonus = data as List<bbproto.BonusInfo>;
 		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 	}
