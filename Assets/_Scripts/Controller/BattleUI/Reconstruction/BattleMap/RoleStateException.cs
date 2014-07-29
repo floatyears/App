@@ -37,12 +37,10 @@ public class RoleStateException {
 			if(round == 0) {
 				GameObject.Destroy(go);
 				roleStateDic.Remove(trapState);
-			}
-			else{
+			} else {
 				label = go.transform.Find("Label").GetComponent<UILabel>();
 				label.text = round.ToString();
 			}
-
 			return;
 		}
 
@@ -53,11 +51,11 @@ public class RoleStateException {
 		GameObject ins = NGUITools.AddChild (ViewManager.Instance.BottomLeftPanel, srcObject);
 		UISprite sprite = ins.transform.Find ("Sprite").GetComponent<UISprite> ();
 		label = ins.transform.Find("Label").GetComponent<UILabel>();
-		sprite.spriteName = spriteName; 
+//		sprite.spriteName = spriteName; 
 		label.text = round.ToString();
 		ins.transform.localPosition = srcObject.transform.localPosition;
 
-		DGTools.SortStateItem (roleStateDic, ins.transform, 30f);
+		DGTools.SortStateItem (roleStateDic, ins.transform, 40f);
 		roleStateDic.Add (trapState, ins);
 	}
 

@@ -485,6 +485,7 @@ public class BattleQuest : UIBase {
 			}
 
 			currentMapData = questDungeonData.GetSingleFloor (coor);
+
 			role.Stop ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 				BattleMap.waitMove = true;
