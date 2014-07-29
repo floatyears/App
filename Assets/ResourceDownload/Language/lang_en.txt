@@ -1,6 +1,7 @@
 ##common text
 
 OK=OK
+NEXT=Next
 Cancel=Cancel
 CANCEL=Cancel
 Again=Once Again

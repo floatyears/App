@@ -34,6 +34,7 @@ public class GuideWindowParams{
 	public string[] contentTexts;
 	public bool inputEnable = false;
 	public GuidePicPath guidePic;
+	public bool fullScreenClick = true;
 }
 
 public class NoviceMsgWindowView : UIComponentUnity{
@@ -57,7 +58,10 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	BtnParam btnCenterParam;
 	BtnParam btnLeftParam;
 	BtnParam btnRightParam;
-	
+
+	BoxCollider clider;
+	GameObject maskObj;
+
 	GuideWindowParams msgWindowParams = new GuideWindowParams();
 
 	private int originWidth = 560;
@@ -95,7 +99,11 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		
 		msgLabelTop = FindChild<UILabel>("Window/Label_Msg_Top");
 		msgLabelBottom = FindChild<UILabel>("Window/Label_Msg_Bottom");
-		
+
+		maskObj = FindChild ("Mask").gameObject;
+		clider = maskObj.GetComponent<BoxCollider> ();
+
+
 		UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
 		UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
 		UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
@@ -258,12 +266,17 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	}
 	
 	void UpdateBtnCenterCallback(BtnParam btnParam){
+
+		UIEventListener.Get (maskObj).onClick = ClickCenterButton;
+
 		btnCenter.gameObject.SetActive(true);
 		btnCenterParam = btnParam;
 		SetButtonLabelText(btnCenter, btnParam.text);
 	}
 	
 	void ResetBtnCallback(){
+		UIEventListener.Get (maskObj).onClick = null;
+
 		btnCenter.gameObject.SetActive(false);
 		btnLeft.gameObject.SetActive(false);
 		btnRight.gameObject.SetActive(false);
@@ -358,8 +371,15 @@ public class NoviceMsgWindowView : UIComponentUnity{
 			return;
 		}
 
+
 //		LogHelper.Log ("show novice msg window"+args);
 		msgWindowParams = nextMsgWindowParams;
+		if (msgWindowParams.fullScreenClick) {
+			clider.enabled = true;
+		} else {
+			clider.enabled = false;
+		}
+
 		ShowSelf(true);  
 		LogHelper.Log("UpdateNotePanel() start");
 		titleLabel.text = msgWindowParams.titleText;

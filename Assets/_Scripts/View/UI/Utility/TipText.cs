@@ -19,6 +19,8 @@ public class TipText : MonoBehaviour {
 
 	private TipText(){}
 
+	private bool played;
+
 	void Awake(){
 		instance = this;
 	}
@@ -64,5 +66,26 @@ public class TipText : MonoBehaviour {
 //				background.height = Mathf.RoundToInt(mSize.y+25);
 			}
 		}
+	}
+
+	public void ShowAnimation(){
+		played = false;
+		text.GetComponent<TweenScale> ().enabled = true;
+		text.GetComponent<TweenScale> ().from = new Vector3 (1.0f, 1.0f, 1.0f);
+		text.GetComponent<TweenScale> ().to = new Vector3 (1.5f, 1.5f, 1.5f);
+		text.GetComponent<TweenScale>().ResetToBeginning();
+		text.GetComponent<TweenScale> ().Play ();
+	}
+
+	public void SetAnimation(){
+		if (played)
+			return;
+		played = true;
+		text.GetComponent<TweenScale> ().enabled = true;
+		text.GetComponent<TweenScale> ().from = new Vector3 (1.5f, 1.5f, 1.5f);
+		text.GetComponent<TweenScale> ().to = new Vector3 (1.0f, 1.0f, 1.0f);
+		text.GetComponent<TweenScale>().ResetToBeginning();
+
+		text.GetComponent<TweenScale> ().Play ();
 	}
 }

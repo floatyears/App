@@ -27,7 +27,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -36,22 +36,22 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 
 	private void ClickOK(object data){
 		uint leaderId = DataCenter.Instance.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.ID;
-		uint cardId = 0;
-		switch (leaderId) {
-		case 1:
-			cardId = 77;
-			break;
-		case 5:
-			cardId = 73;
-			break;
-		case 9:
-			cardId = 75;
-			break;
-		default:
-			break;
-		}
+//		uint cardId = 0;
+//		switch (leaderId) {
+//		case 1:
+//			cardId = 77;
+//			break;
+//		case 5:
+//			cardId = 73;
+//			break;
+//		case 9:
+//			cardId = 75;
+//			break;
+//		default:
+//			break;
+//		}
 
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(cardId).gameObject;
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(leaderId).gameObject;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
 
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem;
@@ -71,7 +71,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK1;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -100,7 +100,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK2;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -158,7 +158,7 @@ public class NoviceGuideStepI_StateTwo:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
@@ -272,7 +272,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 		
 		BtnParam sure = new BtnParam ();
 		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("OK");
+		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
