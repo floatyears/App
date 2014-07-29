@@ -809,7 +809,7 @@ public class Battle : UIBase {
 
 	public bool showCountDown = false;
 	float time = 5f;
-	float countDownTime = 1.0000001f;
+	float countDownTime = 1f;
 	float activeDelay = 0f;
 	public void YieldStartBattle () {
 		if (showCountDown) {

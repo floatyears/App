@@ -73,9 +73,6 @@ public class BattleBackground : UIBaseUnity {
 			if(tuu == null) {
 				continue;
 			}
-//			Vector3 pos =  FindChild<Transform>("Bottom/" + (i + 1)).localPosition;
-//			Debug.LogError("i : " + i + " tuu : " + tuu.MakeUserUnitKey());
-//			attackPosition.Add(tuu.MakeUserUnitKey(), pos);
 		}
 	}
 
@@ -102,7 +99,6 @@ public class BattleBackground : UIBaseUnity {
 		base.DestoryUI ();
 		Destroy (battleBottom);
 		_battleBottomScript = null;
-//		attackPosition.Clear ();
 	}
 
 	public void InitData (int blood, int maxBlood, int energyPoint) {
