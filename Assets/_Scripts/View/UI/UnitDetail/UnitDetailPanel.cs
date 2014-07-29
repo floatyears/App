@@ -53,9 +53,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		get {return _curLevel;}
 		set {
 			_curLevel = value;
-//			if(levelLabel != null) {
-//				levelLabel.text = value.ToString() + "/" + ;
-//			}
 		}
 	}
 	
@@ -695,9 +692,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	} 
 
 	void LevelUpEnd() {
-		oldBlendUnit = null;
 		RecoverEffectCamera ();
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
+
+		if(curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
+			NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.EVOLVE);
+		}
+
+		oldBlendUnit = null;
 //		unitBodyTex.mainTexture = null;
 	}
 

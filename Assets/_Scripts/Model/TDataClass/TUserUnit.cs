@@ -322,7 +322,7 @@ public class TUserUnit : ProtobufDataBase {
 
     public TUnitInfo UnitInfo {
         get {
-			Debug.LogError("instance : " + instance.uniqueId + " ubitid : " + instance.unitId);
+//			Debug.LogError("instance : " + instance.uniqueId + " ubitid : " + instance.unitId);
 			return DataCenter.Instance.GetUnitInfo(instance.unitId); //UnitInfo[instance.unitId];
         }
     }
