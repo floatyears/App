@@ -27,27 +27,27 @@ public class HomeView : UIComponentUnity{
 		GameTimer.GetInstance ().CheckRefreshServer ();
 
 		ShowRewardInfo ();
+
 	}
 
-	private void OnRefreshRewardList(object data) {
+	private void OnRefreshRewardList(object data){
 		ShowRewardInfo ();
 	}
 
-	private void ShowRewardInfo() {
+	private void ShowRewardInfo(){
 		int count = 0;
 		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
-			if(item.enabled == 1) {
+			if(item.enabled == 1){
 				count++;
 			}
 		}
-
 		if (count > 0) {
 			FindChild<UILabel> ("Icons/Reward/Num").enabled = true;
-			FindChild<UISprite> ("Icons/Reward/NumBG").enabled = true;
-			FindChild<UILabel> ("Icons/Reward/Num").text = count + "";
+			FindChild<UISprite> ("Icons/Reward/NumBg").enabled = true;
+			FindChild<UILabel> ("Icons/Reward/Num").text = count + "";	
 		} else {
 			FindChild<UILabel> ("Icons/Reward/Num").enabled = false;
-			FindChild<UISprite> ("Icons/Reward/NumBG").enabled = false;
+			FindChild<UISprite> ("Icons/Reward/NumBg").enabled = false;
 		}
 	}
 
