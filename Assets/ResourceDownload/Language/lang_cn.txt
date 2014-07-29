@@ -1396,11 +1396,11 @@ clearQuest=已通关
 #novice guide tips
 guide_tips_1=请把同一颜色的多个色块拖到一个格子里
 guide_tips_2=尽量拖放方块来打倒敌人。
-guide_tips_3=通过排序来发动攻击！
-guide_tips_4=choose the position to change to
-guide_tips_5=press the unit item to view the detail.
-guide_tips_6=touch screen to return
-guide_tips_7=attack by sort the colors.
+guide_tips_3=选择一张卡牌，更换其所处在队伍中的位置
+guide_tips_4=选择要更换的目标位置
+guide_tips_5=长按卡牌头像来查看其详情信息
+guide_tips_6=点击屏幕返回
+guide_tips_7=左右拖动方块可排序，然后再发起攻击更容易
 guide_tips_8=将红心方块一起拖放吧！
 
 ##Tips

@@ -1396,11 +1396,11 @@ clearQuest=Cleared
 #novice guide tips
 guide_tips_1=Try to put the same color Panels into one grid.
 guide_tips_2=Try your best to drag more Panels to attack the enemy.
-guide_tips_3=Drag Panels to left or right to sort them, then make a attack.
-guide_tips_4=choose the position to change to
+guide_tips_3=Choose a card which you want to change its position.
+guide_tips_4=Choose a position you want to change to.
 guide_tips_5=Hold down the card avatar to view the card information.
-guide_tips_6=touch screen to return
-guide_tips_7=attack by sort the colors.
+guide_tips_6=Touch screen to go back
+guide_tips_7=Drag Panels to left or right to sort them, then make a attack.
 guide_tips_8=Drag the red heart Panels together.
 
 ##Tips

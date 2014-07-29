@@ -77,6 +77,8 @@ public class Main : MonoBehaviour {
 
 		ModelManager.Instance.InitConfigData ();
 		UIManager.Instance.ChangeScene(SceneEnum.Loading);
+
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
 	public const float DefaultSize = 1.5f;
