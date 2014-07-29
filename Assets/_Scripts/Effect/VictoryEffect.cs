@@ -148,14 +148,14 @@ public class VictoryEffect : UIComponentUnity {
 	void ShowGetCard () {
 		showUserUnit = getUserUnit.Dequeue ();
 		goAnim = dropItemList [showUserUnit];
-		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
+		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.15f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 	}
 
 	void RecoverScale () {
 		goAnim.transform.Find ("Avatar").GetComponent<UISprite> ().enabled = true;
 		goAnim.transform.Find ("Sprite_Mask").GetComponent<UISprite> ().enabled = false;
-		iTween.ScaleTo (goAnim, iTween.Hash ("y", 1f, "time", 0.3f, "oncomplete", "AnimEnd", "oncompletetarget", gameObject));
+		iTween.ScaleTo (goAnim, iTween.Hash ("y", 1f, "time", 0.15f, "oncomplete", "AnimEnd", "oncompletetarget", gameObject));
 	}
 
 	void AnimEnd () {
