@@ -116,7 +116,7 @@ public class MapItem : UIBaseUnity {
 				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
-				backSpriteName = "icon_chest"; //"S";
+				backSpriteName = BattleMap.chestSpriteName; //"S";
 
 				break;
 			default:

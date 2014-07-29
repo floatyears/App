@@ -139,10 +139,10 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 		}
 	}
 
-	private const string trapName = "icon_trap";
+
 
 	public string GetTrapSpriteName () {
-		string spriteName = trapName;
+		string spriteName = BattleMap.trapSpriteName;
 //		switch (instance.trapType) {
 //		case ETrapType.Move:
 //			spriteName = MoveTrapName(instance.effectType);
