@@ -90,13 +90,25 @@ public class ShopView : UIComponentUnity {
 	private void CreateDragView(){
 
 		List<ShopItemData> friendOutDataList = new List<ShopItemData> ();
-		friendOutDataList.Add (new ShopItemData (0,ShopItemEnum.MonthCard,1,"ms.chip.monthcard"));
-		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.Stone,150,DataCenter.Instance.AccountInfo.PayTotal == 0 ? "ms.chip.pack1" : "ms.chip2.pack1"));
-		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.Stone,150,DataCenter.Instance.AccountInfo.PayTotal == 0 ? "ms.chip.pack2" : "ms.chip2.pack2"));
-		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.Stone,150,DataCenter.Instance.AccountInfo.PayTotal == 0 ? "ms.chip.pack3" : "ms.chip2.pack3"));
-		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.Stone,150,DataCenter.Instance.AccountInfo.PayTotal == 0 ? "ms.chip.pack4" : "ms.chip2.pack4"));
-		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.Stone,150,DataCenter.Instance.AccountInfo.PayTotal == 0 ? "ms.chip.pack5" : "ms.chip2.pack5"));
-		friendOutDataList.Add (new ShopItemData (100,ShopItemEnum.Stone,150,DataCenter.Instance.AccountInfo.PayTotal == 0 ? "ms.chip.pack6" : "ms.chip2.pack6"));
+
+		friendOutDataList.Add (new ShopItemData ("2",ShopItemEnum.MonthCard,1,"ms.chip.monthcard",""));
+		friendOutDataList.Add (new ShopItemData ("5",ShopItemEnum.WeekCard,1,"ms.chip.weekcard",""));
+		if (DataCenter.Instance.AccountInfo.PayTotal == 0) {
+			friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.Stone,120,"ms.chip.pack1","100%"));
+			friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.Stone,300,"ms.chip.pack2","100%"));
+			friendOutDataList.Add (new ShopItemData ("9.99",ShopItemEnum.Stone,600,"ms.chip.pack3","100%"));
+			friendOutDataList.Add (new ShopItemData ("19.99",ShopItemEnum.Stone,1200,"ms.chip.pack4","100%"));
+			friendOutDataList.Add (new ShopItemData ("49.99",ShopItemEnum.Stone,3000,"ms.chip.pack5","100%"));
+			friendOutDataList.Add (new ShopItemData ("99.99",ShopItemEnum.Stone,6000,"ms.chip.pack6","100%"));
+		} else {
+			friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.Stone,120,"ms.chip.pack1","0"));
+			friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.Stone,300,"ms.chip.pack2","10%"));
+			friendOutDataList.Add (new ShopItemData ("9.99",ShopItemEnum.Stone,600,"ms.chip.pack3","20%"));
+			friendOutDataList.Add (new ShopItemData ("19.99",ShopItemEnum.Stone,1200,"ms.chip.pack4","30%"));
+			friendOutDataList.Add (new ShopItemData ("49.99",ShopItemEnum.Stone,3000,"ms.chip.pack5","40%"));
+			friendOutDataList.Add (new ShopItemData ("99.99",ShopItemEnum.Stone,6000,"ms.chip.pack6","50%"));
+		}
+
 
 		dragPanel = new DragPanel("RewardDragPanel", ShopItem.Prefab);
 		dragPanel.CreatUI();

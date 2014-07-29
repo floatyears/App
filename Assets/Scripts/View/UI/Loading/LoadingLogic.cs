@@ -61,6 +61,24 @@ public class LoadingLogic : ConcreteComponent {
                 return;
             }
             
+			if(rspAuthUser.newAppVersion > 0){
+				MsgWindowParams mwp = new MsgWindowParams ();
+				mwp.btnParams = new BtnParam[1];
+				mwp.titleText = TextCenter.GetText("HighVersionToLoadTitle");
+				mwp.contentText = TextCenter.GetText("HighVersionToLoad");
+				
+				BtnParam sure = new BtnParam ();
+				sure.callback = o=>{
+					Debug.Log("app url: " + rspAuthUser.appUrl);
+					Application.OpenURL (rspAuthUser.appUrl);
+				};
+				sure.text = TextCenter.GetText("OK");
+				mwp.btnParam = sure;
+				
+				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+				return;
+			}
+
             uint userId = rspAuthUser.user.userId;
             
             if (rspAuthUser.isNewUser == 1) {
@@ -145,23 +163,6 @@ public class LoadingLogic : ConcreteComponent {
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
 
-			if(rspAuthUser.newAppVersion > 0){
-				MsgWindowParams mwp = new MsgWindowParams ();
-				mwp.btnParams = new BtnParam[1];
-				mwp.titleText = TextCenter.GetText("HighVersionToLoadTitle");
-				mwp.contentText = TextCenter.GetText("HighVersionToLoad");
-				
-				BtnParam sure = new BtnParam ();
-				sure.callback = o=>{
-					Debug.Log("app url: " + rspAuthUser.appUrl);
-					Application.OpenURL (rspAuthUser.appUrl);
-				};
-				sure.text = TextCenter.GetText("OK");
-				mwp.btnParam = sure;
-
-				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
-				return;
-			}
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {

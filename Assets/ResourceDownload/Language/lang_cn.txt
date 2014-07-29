@@ -340,12 +340,14 @@ UnitExpansionResult=当前卡牌容量达到：{0}
 
 MonthCard=Month Card
 MonthCardDesc=Get 30 Magic Stones everyday for 30 days!
-MonthCardPrice=$100
-StoneDescFirst=Get 100% more for first purchase!
-StoneDescAfterFirst=Get 100% more for first purchase!
+MoneyUnit=$
+StoneDescFirst=Get {0} more for first purchase!
+StoneDescAfterFirst=Get {0} more for first purchase!
 StonePriceFirst=$100
 StonePriceAfterFirst=$100
-StoneCount=X 150
+StoneCount=X
+WeekCard=Week Card
+WeekCardDesc=Get 30 Magic Stones everyday for 7 days!
 
 ##### gacha
 FriendGacha=友情点数抽卡
@@ -1311,13 +1313,13 @@ guide20_content=那么尽量把蓝色水方块放进一个格子吧。一个格�
 guide21_title=攻击成功
 guide21_content=尽量拖放与右下单位同色的方块。\n详情可以点击单位来查看。
 guide22_title=攻击要点
-guide22_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多5个方块。\n那么，正式战斗开始了。
+guide22_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多5个方块。\n\n那么，正式战斗开始了。
 guide23_title=击败敌人
 guide23_content=恭喜了！\n那么接下来就是拿钥匙了！
 guide24_title=钥匙地砖
 guide24_content=xxx地砖里拿到钥匙了！\n这样一来，门就打开了。向门那里进发吧！
 guide25_title=到达门前
-guide25_content=这里绝对有BOSS等着！\n不过，大胆地点击打开的大门吧！
+guide25_content=这里绝对有BOSS等着！\n不过，大胆地点击大门迎战BOSS吧！
 
 ##boss attck
 guide26_title= BOSS战
@@ -1327,7 +1329,7 @@ guide27_content=由于敌人发动攻击，我方HP减少了。\n现在准备补
 guide28_title=红心max
 guide28_content=放置2块即可恢复HP。\n同色相邻的方块，可以一起拖放！
 guide29_title=恢复成功
-guide29_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多5个方块。\n那么加油打倒BOSS吧！
+guide29_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多5个方块。\n\n那么加油打倒BOSS吧！
 
 ##skill
 guide30_title=主动技能
@@ -1350,9 +1352,9 @@ RecoverHpSkillDesc=Recover {0}% HP
 ##level up
 guide41_title=强化合成的方法
 guide41_content=接下来通过强化合成来让角色成长。\n点击level up试试吧。
-guide42_title=选择强化用基础卡牌
+guide42_title=选择基础卡牌
 guide42_content=选择想强化的卡牌。\n点击现在的队长来试试吧。
-guide43_title=素材卡牌的选择
+guide43_title=选择素材卡牌
 guide43_content=接下来选择素材卡牌。\n作为素材的卡牌将会被消耗。这次就用我给你的卡牌吧。
 guide44_title=选择帮手
 guide44_content=接下来要见证合成了，选择一位帮手吧。
