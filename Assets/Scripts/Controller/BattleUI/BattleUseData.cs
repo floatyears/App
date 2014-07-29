@@ -30,10 +30,10 @@ public class BattleUseData {
 			} else {
 				if(value > blood) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				}
 				Debug.LogError("value > blood: " + value + " blood : " + blood + " blood < maxBlood : " + (blood < maxBlood));
 				blood = value;
-				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
 			configBattleUseData.storeBattleData.hp = blood;
 		}
