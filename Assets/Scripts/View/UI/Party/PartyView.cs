@@ -288,7 +288,7 @@ public class PartyView : UIComponentUnity{
 
 	private bool AddUnitToPartyByOrder(int pos, MyUnitItem target){
 		if(pos > 3){
-			Debug.LogError("Party is full, can not add new member...return!!!");
+//			Debug.LogError("Party is full, can not add new member...return!!!");
 			return false;
 		}
 
@@ -498,6 +498,8 @@ public class PartyView : UIComponentUnity{
 			for (int i = 1; i < dragCount; i++) {
 				//RefreshData
 				PartyUnitItem puv =  PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
+				puv.callback = OutPartyItemClick;
+
 				if(puv == null){
 					puv.Init(myUnitDataList[ i - 1 ]);
 				}
@@ -509,6 +511,7 @@ public class PartyView : UIComponentUnity{
 		else{
 			for (int i = 0; i < memCount; i++) {
 				PartyUnitItem puv =PartyUnitItem.Inject(dragPanel.ScrollItem[ i + 1 ]);
+				puv.callback = OutPartyItemClick;
 				puv.UserUnit = myUnitDataList[ i ];//before
 				puv.CurrentSortRule = curSortRule;//after
 			}
