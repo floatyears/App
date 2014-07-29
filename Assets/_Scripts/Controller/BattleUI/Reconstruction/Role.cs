@@ -23,8 +23,11 @@ public class Role : UIBaseUnity {
 	private Vector3 angle = new Vector3(330f, 0f, 0f);
 	private List<Coordinate> firstWay = new List<Coordinate>();
 	private Vector3 distance = Vector3.zero;
+//	private Vector3 parentPosition = Vector3.zero;
+
 	public Vector3 TargetPoint {
 		set {
+//			Vector3 pos = value + parentPosition;
 			targetPoint.x = value.x + xOffset;
 			targetPoint.y = value.y + YOffset;
 			targetPoint.z = transform.localPosition.z;
@@ -41,6 +44,7 @@ public class Role : UIBaseUnity {
 	public override void Init (string name) {
 		base.Init (name);
 		jump = GetComponent<Jump> ();
+//		parentPosition = transform.parent.localPosition;
 	}
 
 	public override void CreatUI () {
@@ -48,7 +52,6 @@ public class Role : UIBaseUnity {
 	}
 
 	void RoleStart() {
-//		Debug.LogError ("role start ");
 		prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
 		TargetPoint = bQuest.GetPosition(currentCoor);
 		jump.Init (GetInitPosition());
@@ -107,11 +110,7 @@ public class Role : UIBaseUnity {
 		SetTarget (cd);
 		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
 		bQuest.RoleCoordinate(cd);
-//		if (cd.x == bQuest.RoleInitPosition.x && cd.y == bQuest.RoleInitPosition.y) {
-			GoTarget ();
-//		} else {
-//			GoTarget();	
-//		}
+		GoTarget ();
 	}
 
 	void GoTarget() {
@@ -156,6 +155,7 @@ public class Role : UIBaseUnity {
 		prevCoor = currentCoor;
 		currentCoor = tc;
 		TargetPoint = bQuest.GetPosition(tc);
+//		Debug.LogError ("TargetPoint : " + TargetPoint);
 		if (isMove) {
 			jump.JumpAnim ();
 		}
@@ -189,8 +189,6 @@ public class Role : UIBaseUnity {
 		Vector3 rightMiddlePoint = Vector3.zero;
 		Vector3 rightMiddlePoint2 = Vector3.zero;
 		Vector3 rightFristMiddlePoint = Vector3.zero;
-
-
 
 		if (Mathf.FloorToInt(localposition.x) == Mathf.FloorToInt(targetPoint.x) ) {
 			float offsetY = 1.2f;
@@ -283,6 +281,7 @@ public class Role : UIBaseUnity {
 	public void StartMove(Coordinate coor) {
 		if (isMove)
 			return;
+//		Debug.LogError ("Coordinate : " + coor.x + " y : " + coor.y);
 		GenerateWayPoint(coor);
 		Move();
 	}

@@ -46,8 +46,8 @@ public class BattleQuest : UIBase {
 		string tempName = "Map";
 		viewManager.GetBattleMap(tempName, o =>{
 			battleMap = o as BattleMap;
-			battleMap.transform.parent = viewManager.TopPanel.transform;
-			battleMap.transform.localPosition = new Vector3 (0f, 0f, 0f);
+			battleMap.transform.parent = viewManager.CenterPanel.transform;
+			battleMap.transform.localPosition = new Vector3 (0f, 589f, 0f);
 			battleMap.transform.localScale = Vector3.one;
 			battleMap.BQuest = this;
 			Init(battleMap,tempName);
@@ -57,7 +57,7 @@ public class BattleQuest : UIBase {
 		tempName = "Role";
 		viewManager.GetBattleMap(tempName, o =>{
 			role = o as Role;
-			role.transform.parent = viewManager.TopPanel.transform;
+			role.transform.parent = viewManager.CenterPanel.transform;
 			role.transform.localPosition = Vector3.zero;
 			role.transform.localScale = Vector3.one;
 			role.BQuest = this;
