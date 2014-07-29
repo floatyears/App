@@ -123,8 +123,7 @@ public class EnemyItem : UIBaseUnity {
     void RemoveHurtLabel() {
         Destroy(hurtValueQueue.Dequeue());
     }
-
-
+	
     void ShowInjuredEffect(AttackInfo ai) {
 //		GameObject obj = DataCenter.Instance.GetEffect(ai) as GameObject;
 //		DGTools.PlayAttackSound(ai.AttackType);
@@ -194,9 +193,8 @@ public class EnemyItem : UIBaseUnity {
 		initStateExceptionSprite = stateExceptionSprite.transform.localPosition;
 
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
-		enemyUnitInfo.GetAsset(UnitAssetType.Profile,o=>{
+		enemyUnitInfo.GetAsset(UnitAssetType.Profile,o=> {
 			Texture2D tex = o as Texture2D;
-
 			if (tex == null) {
 				texture.mainTexture = null;
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
@@ -210,7 +208,6 @@ public class EnemyItem : UIBaseUnity {
 
 			callBack();
 		});
-
     }
 
     public override void DestoryUI() {
@@ -367,16 +364,6 @@ public class EnemyItem : UIBaseUnity {
 		UISprite sprite = ins.GetComponent<UISprite> ();
 		sprite.enabled = true;
 		ins.localPosition = initStateExceptionSprite;
-//		foreach (var item in stateCache.Values) {
-//			Vector3 localposition = ins.localPosition;
-//			float distance = Vector3.Distance(localposition, item.transform.localPosition);
-//			if(distance <= 2){	// deviation distance.
-//				ins.localPosition = new Vector3(localposition.x - 30f, localposition.y, localposition.z); 
-//			}
-//			else{
-//				break;
-//			}
-//		}
 		DGTools.SortStateItem (stateCache, ins, -30f); // -30f. enemy state sprite sort is right to left.
 		stateCache.Add (se, ins.gameObject);
 	}

@@ -139,24 +139,26 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 		}
 	}
 
+	private const string trapName = "icon_trap";
+
 	public string GetTrapSpriteName () {
-		string spriteName = "";
-		switch (instance.trapType) {
-		case ETrapType.Move:
-			spriteName = MoveTrapName(instance.effectType);
-			break;
-		case ETrapType.Injured:
-			spriteName = InjuredTrapName(instance.effectType);
-			break;
-		case ETrapType.StateException:
-			spriteName = poisonTrapSpriteName;
-			break;
-		case ETrapType.ChangeEnvir:
-			spriteName = environmentSpriteName;
-			break;
-		default:
-			break;
-		}
+		string spriteName = trapName;
+//		switch (instance.trapType) {
+//		case ETrapType.Move:
+//			spriteName = MoveTrapName(instance.effectType);
+//			break;
+//		case ETrapType.Injured:
+//			spriteName = InjuredTrapName(instance.effectType);
+//			break;
+//		case ETrapType.StateException:
+//			spriteName = poisonTrapSpriteName;
+//			break;
+//		case ETrapType.ChangeEnvir:
+//			spriteName = environmentSpriteName;
+//			break;
+//		default:
+//			break;
+//		}
 		return spriteName;
 	}
 

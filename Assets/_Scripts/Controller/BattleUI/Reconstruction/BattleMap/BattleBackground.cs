@@ -121,7 +121,7 @@ public class BattleBackground : UIBaseUnity {
 
 	private int currentBlood = 0;
 	void SetBlood (int num) {
-		Debug.LogError ("SetBlood  num : " + num + " currentBlood : " + currentBlood);
+//		Debug.LogError ("SetBlood  num : " + num + " currentBlood : " + currentBlood);
 		string info = num + "/" + initBlood;
 		label.text = info;
 		if (num > currentBlood || num == initBlood) {
@@ -134,7 +134,7 @@ public class BattleBackground : UIBaseUnity {
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {
 		int blood = (int)data;
-		Debug.LogError ("ListenUnitBlood blood : " + blood);
+//		Debug.LogError ("ListenUnitBlood blood : " + blood);
 		SetBlood (blood);
 	}
 
@@ -156,7 +156,7 @@ public class BattleBackground : UIBaseUnity {
 
 	void RecoverHP(object data) {
 		AttackInfo ai = data as AttackInfo;
-		Debug.LogError ("RecoverHP : " + ai.AttackRange);
+//		Debug.LogError ("RecoverHP : " + ai.AttackRange);
 		if (ai.AttackRange == 2) {
 			spriteAnimation.Reset();
 		}
