@@ -147,8 +147,7 @@ public class BattleMap : UIBaseUnity {
 		return prevMapItem.IsOld;
 	}
 	private Callback callback = null;
-
-
+	
 	public void RotateAnim(Callback cb) {
 		prevMapItem.RotateSingle (cb);
 	}
