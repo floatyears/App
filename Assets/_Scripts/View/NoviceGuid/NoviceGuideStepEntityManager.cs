@@ -360,7 +360,8 @@ public enum NoviceGuideStartType{
 //	PARTY
 	OTHERS,
 	QUEST,
-	SCRATCH
+	SCRATCH,
+	EVOLVE,
 }
 
 public enum NoviceGuideStage{

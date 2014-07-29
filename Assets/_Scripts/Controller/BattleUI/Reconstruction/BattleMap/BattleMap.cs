@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleMap : UIBaseUnity {
+	private UITexture mapBGTexture;
+
 	private MapItem template;
 	private MapItem[,] map;
 	private MapItem temp;
@@ -22,13 +24,15 @@ public class BattleMap : UIBaseUnity {
 		set{ wMove = value; }
 		get{ return wMove; }
 	}
-	
+
 	public BattleQuest BQuest {
 		set{ bQuest = value; }
 	}
 
 	public override void Init (string name) {
 		base.Init (name);
+
+		InitBG ();
 		map = new MapItem[MapConfig.MapWidth, MapConfig.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
 		template.Init("SingleMap");
@@ -43,6 +47,22 @@ public class BattleMap : UIBaseUnity {
 	public override void CreatUI () {
 		LogHelper.Log("battle map creat ui" );
 		base.CreatUI ();
+	}
+
+	void InitBG() {
+		if(mapBGTexture == null)
+			mapBGTexture = FindChild<UITexture>("BG");
+
+		uint mapID = 0;
+		uint stageID = ConfigBattleUseData.Instance.currentStageInfo.ID % 10;
+		if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
+			mapID = stageID == 1 ? 7 : -- stageID;
+		} else {
+			mapID = stageID;
+		}
+		string path = "Texture/Map/battlemap_" + mapID.ToString ();
+		Debug.LogError ("path : " + path);
+		ResourceManager.Instance.LoadLocalAsset (path, o => mapBGTexture.mainTexture = o as Texture2D);
 	}
 
 	void StartMap() {
