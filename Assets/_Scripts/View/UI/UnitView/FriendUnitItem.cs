@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class FriendUnitItem : BaseUnitItem {
-	private UILabel nameLabel;
+	protected UILabel nameLabel;
 	public delegate void UnitItemCallback(FriendUnitItem huv);
 	public UnitItemCallback callback;
 

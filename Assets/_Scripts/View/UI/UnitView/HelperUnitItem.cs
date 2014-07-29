@@ -69,17 +69,20 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	private void SetFriendType(){
+
+		friendTypeLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
+		friendPointLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
 		switch (friendInfo.FriendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
 				friendTypeLabel.text = TextCenter.GetText("Text_Support");
-				friendTypeLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
-				friendPointLabel.color = new Color(255.0f/255, 202.0f/255, 98.0f/255);
+				rankLabel.color = Color.white;
+				nameLabel.color = Color.white;
 				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_HELPER;
 				break;
 			case bbproto.EFriendState.ISFRIEND : 
 				friendTypeLabel.text = TextCenter.GetText("Text_Friend");
-				friendTypeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
-				friendPointLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+				rankLabel.color = new Color(229.0f/255, 184.0f/255, 78.0f/255);
+				nameLabel.color = new Color(229.0f/255, 184.0f/255, 78.0f/255);
 				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_FRIEND;
 				break;
 			default:

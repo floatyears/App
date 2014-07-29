@@ -285,7 +285,7 @@ RankReach=Rank {0}
 
 #notice
 Notice_HelperTitle=Welcome Back!
-Notice_HelperContent=You have logined for [3BB482]{0}[-] days, helped [3BB482]{1}[-] Friends and [3BB482]{2}[-] Adventurers, got [3BB482]{3}[-] pals points.
+Notice_HelperContent=You have logined for [872929]{0}[-] days, helped [872929]{1}[-] Friends and [872929]{2}[-] Adventurers, got [872929]{3}[-] pals points.
 
 #unit detail
 UnitDetail_EvolveTitle=Acquired from following Quests:
@@ -304,7 +304,7 @@ Btn_Unit_Expand=Extend Monsters
 Btn_Stamina_Recover=Recover Stamina
 
 FriendExpand=Extend Friend Capacity
-FriendExpansionConfirm=Spend [3BB482]{0}[-] magic stones to expand [3BB482]{1}[-] friends?
+FriendExpansionConfirm=Spend [362630]{0}[-] magic stones to expand [362630]{1}[-] friends?
 FriendExpansionInfo=Now friends: {0}/{1}
 DoFriendExpand=Extend
 
@@ -313,7 +313,7 @@ FriendCountLimitReachedMax=Now your friend capacity has reached max.
 FriendExpandStonesNotEnough=Now your magic stone not enough to expand friend limit.
 
 FriendExpansionFinish=Expansion Success
-FriendExpansionResult=Friend Limited Max reached [3BB482]{0}[-]!
+FriendExpansionResult=Friend Limited Max reached [362630]{0}[-]!
 
 StaminaRecover=Recover your stamina
 StaminaRecoverConfirm=Spend {0} magic stones to recover stamina?
