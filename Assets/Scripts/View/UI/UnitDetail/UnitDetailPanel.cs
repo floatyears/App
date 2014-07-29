@@ -312,12 +312,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		//rare
 //		rareLabel.text = unitInfo.Rare.ToString();
 
-		levelLabel.text = data.Level.ToString() + "/" + unitInfo.MaxLevel.ToString();
+		levelLabel.text = data.Level.ToString() + " / " + unitInfo.MaxLevel.ToString();
 
 		//next level need
 		if ((data.Level > unitInfo.MaxLevel ) 
 		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
-			levelLabel.text = unitInfo.MaxLevel.ToString() + "/" + unitInfo.MaxLevel.ToString();
+			levelLabel.text = unitInfo.MaxLevel.ToString() + " / " + unitInfo.MaxLevel.ToString();
 			needExpLabel.text = TextCenter.GetText("Text_Max");
 			expSlider.value = 1f;
 		} else {
@@ -554,7 +554,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelDone = gotExp > 0;
 		
 		curExp = oldBlendUnit.CurExp;
-		levelLabel.text = curLevel + "/" + oldBlendUnit.UnitInfo.MaxLevel;
+		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.MaxLevel;
 		Calculate ();
 	}
 
@@ -671,7 +671,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 //		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
 
-		levelLabel.text = curLevel.ToString () + "/" + oldBlendUnit.UnitInfo.MaxLevel;
+		levelLabel.text = curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.MaxLevel;
 
 		//DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(curLevel); 
@@ -885,7 +885,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	void LevelUpAnim() {
 
 		curLevel = oldBlendUnit.Level;
-		levelLabel.text = curLevel + "/" + oldBlendUnit.UnitInfo.MaxLevel;
+		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.MaxLevel;
 		gotExp = levelUpData.blendExp;
 		
 		levelDone = gotExp > 0;
