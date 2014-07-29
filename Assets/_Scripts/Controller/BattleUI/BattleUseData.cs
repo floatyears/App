@@ -16,24 +16,21 @@ public class BattleUseData {
 				if(blood == 0) 
 					return;
 				blood = 0;
-//				Debug.LogError("value < 0 : " + value + " blood : " + blood);
 				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				PlayerDead();
 			} else if(value > maxBlood) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-				Debug.LogError("value > maxBlood: " + value + " blood : " + (blood < maxBlood));
-
 				if(blood < maxBlood) {
+					blood = maxBlood;
 					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				}
-				blood = maxBlood;
+
 			} else {
 				if(value > blood) {
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+					MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 				}
-				Debug.LogError("value > blood: " + value + " blood : " + blood + " blood < maxBlood : " + (blood < maxBlood));
 				blood = value;
-				MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 			}
 			configBattleUseData.storeBattleData.hp = blood;
 		}

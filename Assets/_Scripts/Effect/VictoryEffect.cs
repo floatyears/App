@@ -239,7 +239,7 @@ public class VictoryEffect : UIComponentUnity {
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
 		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
-		rankUpScale = FindChild<TweenScale>("RankUp");
+		rankUpScale = FindChild<TweenScale>("RankPanel/RankUp");
 		rankUpSprite = rankUpScale.GetComponent<UISprite> ();
 	}
 
