@@ -7,7 +7,7 @@ public sealed class ServerConfig {
 
 	public const string ResourceHost = "";
 
-	public const int AppVersion = 10;
+	public const int AppVersion = 100; //1.0.0
 
 	public const string touchToLogin = "点击进入";
 
@@ -15,7 +15,7 @@ public sealed class ServerConfig {
 #if UNITY_ANDROID
 	"GooglePlay";
 #elif UNITY_IOS
-	"GooglePlay";
+	"AppStore";
 #else
 	"Editor";
 #endif

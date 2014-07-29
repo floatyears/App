@@ -76,7 +76,7 @@ public partial class TextCenter {
     public void Init(ResourceCallback callback){
         textDict = new Dictionary<string, string>();
 
-		Debug.Log ("lang cn load");
+		Debug.Log (langStr+" load");
         //
 //		string[] data = File.ReadAllLines (Application.dataPath + "/Resources/Language/lang_en.txt");
 //		ResourceManager.Instance.LoadLocalAsset ("Language/lang_en", o => {
