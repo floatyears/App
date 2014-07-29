@@ -401,6 +401,7 @@ public class PartyView : UIComponentUnity{
 //		}
 
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.PartyView);//DEFAULT_SORT_RULE;
+		Debug.LogError ("InitUnitListView curSortRule");
 		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
@@ -488,7 +489,7 @@ public class PartyView : UIComponentUnity{
 	void RefreshDragPanel(){
 		myUnitDataList = GetUnitList();
 		SortUnitByCurRule();
-
+//		Debug.LogError("")
 		int memCount = myUnitDataList.Count;
 		int dragCount = dragPanel.ScrollItem.Count - 1;
 		if( memCount >  dragCount){
