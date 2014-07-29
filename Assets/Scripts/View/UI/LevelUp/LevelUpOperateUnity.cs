@@ -803,13 +803,34 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		return devorExp;
 	}
 
-	public LevelUpUnitItem GetPartyUnitItem(int i){
-		if (i == -1) {
-			return myUnitList[myUnitList.Count-1];
-		} else {
-			return myUnitList [i];
+	public LevelUpUnitItem GetPartyUnitItem(uint id){
+//		if (i == -1) {
+//			return myUnitList[myUnitList.Count-1];
+//		} else {
+//			return myUnitList [i];
+//		}
+		foreach (var item in myUnitList) {
+			if(item.UserUnit.UnitID == id){
+				return item;
+			}
 		}
+		return null;
 	}
+
+	public LevelUpUnitItem GetPartyUnitItemByLeader(){
+		//		if (i == -1) {
+		//			return myUnitList[myUnitList.Count-1];
+		//		} else {
+		//			return myUnitList [i];
+		//		}
+//		foreach (var item in myUnitList) {
+//			if(item.UserUnit.UnitID == id){
+//				return item;
+//			}
+//		}
+		return null;
+	}
+
 
 //	private void AddCmdListener(){
 //		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);

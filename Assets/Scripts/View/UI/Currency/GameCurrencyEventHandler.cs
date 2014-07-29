@@ -42,34 +42,42 @@ public class GameCurrencyEventHandler {
 			return;
 		}
 
+		//update user's account
+		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+		DataCenter.Instance.AccountInfo.StonePay = rsp.stonePay;
+		DataCenter.Instance.AccountInfo.StoneFree = rsp.stoneFree;
+		DataCenter.Instance.AccountInfo.PayTotal = rsp.payTotal;
+		
+		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBar>().UpdateData();
+
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParam = new BtnParam ();
 		mwp.titleText = TextCenter.GetText("PurchaseSuccess_Title");
 		mwp.contentText = TextCenter.GetText("PurchaseSuccess_Content");
 		BtnParam sure = new BtnParam ();
-		sure.callback = null;
+		sure.callback = o=>{
+			//refresh bonusList
+			if (rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard") {
+				GetBonusList.SendRequest (OnBonusList);
+			} else {
+				UIManager.Instance.ChangeScene(SceneEnum.Home);
+				UIManager.Instance.ChangeScene(SceneEnum.Shop);
+			}
+		};
 		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
 		Debug.LogError ("OnRspShopBuy now stone=" + rsp.stone);
 
-		//update user's account
-		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-		DataCenter.Instance.AccountInfo.StonePay = rsp.stonePay;
-		DataCenter.Instance.AccountInfo.StoneFree = rsp.stoneFree;
-		DataCenter.Instance.AccountInfo.PayTotal = rsp.payTotal;
 
-		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBar>().UpdateData();
 
-		//refresh bonusList
-		if( rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard" ) {
-			GetBonusList.SendRequest (OnBonusList);
-		}
+
 	}
 
 	private void OnBonusList(object data){
 //		bbproto.BonusInfo bsInfo = 
+		Debug.Log ("purchase success, change to reward");
 		DataCenter.Instance.LoginInfo.Bonus = data as List<bbproto.BonusInfo>;
 		UIManager.Instance.ChangeScene (SceneEnum.Reward);
 	}

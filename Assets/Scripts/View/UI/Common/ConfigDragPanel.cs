@@ -226,7 +226,7 @@ public class ConfigDragPanel{
 		ShopListDragPanelArgs.Add("maxPerLine",							1												);
 		ShopListDragPanelArgs.Add ("scrollMovement", 					UIScrollView.Movement.Vertical);
 		ShopListDragPanelArgs.Add ("scrollBarDir", 						UIProgressBar.FillDirection.TopToBottom);
-		ShopListDragPanelArgs.Add ("depth",								13												);
+		ShopListDragPanelArgs.Add ("depth",								6												);
 	}
 
 }
