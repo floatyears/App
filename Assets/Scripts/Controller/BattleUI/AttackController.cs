@@ -235,6 +235,7 @@ public class AttackController {
 		enemyIndex = 0;
 		if (attackInfoQueue.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
+			Debug.LogError("blood : " + blood);
 			bud.Blood += blood;
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 			endCount = 0;
@@ -260,7 +261,6 @@ public class AttackController {
 
 	void AttackEnemy () {
 		CheckEnemyDead();
-		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		if (attackInfoQueue.Count <= extraAttackCount) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);	
 		}

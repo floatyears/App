@@ -137,29 +137,17 @@ public enum CommandEnum{
 	ReduceDefense				= 3027,
 
 	DelayTime					= 3028,
-
 	ActiveReduceHurt			= 3029,
-
 	DeferAttackRound			= 3030,
-
 	AttackTargetType			= 3031,
-
 	StrengthenTargetType		= 3032,
-
 	ActiveSkillCooling			= 3033,
-
 	TrapMove					= 3034,
-
 	NoSPMove					= 3035,
-
 	TrapInjuredDead				= 3036,
-
 	ConsumeSP					= 3037,
-
 	ConsumeCoin					= 3038,
-
 	ShieldMap					= 3039,
-
 	PlayerPosion				= 3040,
 	InjuredNotDead				= 3041,
 	MeetEnemy					= 3042,
@@ -201,6 +189,8 @@ public enum CommandEnum{
 	VictoryData,
 	FriendBack,
 	ShiledInput,
+//	ActiveSkillCooling
+
 	//-----------------View Cmd-----------------------//
 	//Add By Lynn
 	PanelFocus					= 4000,

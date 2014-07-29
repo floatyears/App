@@ -271,6 +271,7 @@ public class ScratchLogic : ConcreteComponent {
         gachaType = GachaType.EventGacha;
 //		Debug.LogError ("gachaType");
         gachaCount = (int)args;
+//		Debug.LogError ((int)gachaType + " gachaCount : " + gachaCount);
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
     

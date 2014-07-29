@@ -35,6 +35,7 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
             if (tUserUnit == null) {
                 continue;
             }
+
             if (uniqueId == tUserUnit.ID) {
                 return true;
             }
@@ -82,7 +83,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				cardCount ++;
 			}
 		}
-
 	}
 
 	void LeftBattle (object data) {
@@ -271,7 +271,6 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
 				attackCount += item.Value.Count;
 			}
 		}
-//		Debug.LogError ("CalculateAttackCount attackCount : " + attackCount);
 
 		if (attackCount == 0 || attackCount == prevAttackCount) {
 			return;	

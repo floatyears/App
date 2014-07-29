@@ -73,9 +73,6 @@ public class BattleBackground : UIBaseUnity {
 			if(tuu == null) {
 				continue;
 			}
-//			Vector3 pos =  FindChild<Transform>("Bottom/" + (i + 1)).localPosition;
-//			Debug.LogError("i : " + i + " tuu : " + tuu.MakeUserUnitKey());
-//			attackPosition.Add(tuu.MakeUserUnitKey(), pos);
 		}
 	}
 
@@ -102,7 +99,6 @@ public class BattleBackground : UIBaseUnity {
 		base.DestoryUI ();
 		Destroy (battleBottom);
 		_battleBottomScript = null;
-//		attackPosition.Clear ();
 	}
 
 	public void InitData (int blood, int maxBlood, int energyPoint) {
@@ -128,7 +124,7 @@ public class BattleBackground : UIBaseUnity {
 		Debug.LogError ("SetBlood  num : " + num + " currentBlood : " + currentBlood);
 		string info = num + "/" + initBlood;
 		label.text = info;
-		if (num > currentBlood) {
+		if (num > currentBlood || num == initBlood) {
 			spriteAnimation.Reset();
 		}
 		currentBlood = num;
@@ -160,7 +156,7 @@ public class BattleBackground : UIBaseUnity {
 
 	void RecoverHP(object data) {
 		AttackInfo ai = data as AttackInfo;
-
+		Debug.LogError ("RecoverHP : " + ai.AttackRange);
 		if (ai.AttackRange == 2) {
 			spriteAnimation.Reset();
 		}
