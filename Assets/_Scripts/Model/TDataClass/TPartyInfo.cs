@@ -92,15 +92,8 @@ public class TPartyInfo : ProtobufDataBase {
     public	TUnitParty	CurrentParty { 
         get { 
             if (this.partyList == null || CurrentPartyId > this.partyList.Count - 1) {
-                //LogHelper.Log("invalid partyList==null or CurrentPartyId:{0} is invalid.", CurrentPartyId);
                 return null;
             }
-
-            //LogHelper.LogError("CurrentParty[{0}].UserUnit.Count: {1}", CurrentPartyId,this.partyList[CurrentPartyId].GetUserUnit().Count);
-//			for(int pos=0; pos<4; pos++){
-//				if (pos < this.partyList[CurrentPartyId].GetUserUnit().Count )
-//					LogHelper.LogError("CurrentParty[{0}].UserUnit[{1}].UniqueId: {2}", CurrentPartyId, pos, this.partyList[CurrentPartyId].GetUserUnit()[ pos ].ID);
-//			}
 		
             return this.partyList[CurrentPartyId];
         } 

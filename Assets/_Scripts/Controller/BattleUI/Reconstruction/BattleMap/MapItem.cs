@@ -195,8 +195,8 @@ public class MapItem : UIBaseUnity {
 			return;	
 		}
 
-		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
-		ta.ResetToBeginning ();
+//		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
+//		ta.ResetToBeginning ();
 		ShowFootTips ();
 	}
 
@@ -447,15 +447,15 @@ public class MapItem : UIBaseUnity {
 			return;		
 		}
 
-		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha> ();
-		TweenAlpha currentTa = footTips.GetComponent<TweenAlpha> ();
-
-		currentTa.ResetToBeginning ();
-
-		currentTa.alpha = ta.alpha;
-		currentTa.duration = ta.duration;
-		currentTa.from = ta.from;
-		currentTa.to = ta.to;
+//		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha> ();
+//		TweenAlpha currentTa = footTips.GetComponent<TweenAlpha> ();
+//
+//		currentTa.ResetToBeginning ();
+//
+//		currentTa.alpha = ta.alpha;
+//		currentTa.duration = ta.duration;
+//		currentTa.from = ta.from;
+//		currentTa.to = ta.to;
 	}
 
 	public bool GetChainLinke() {
