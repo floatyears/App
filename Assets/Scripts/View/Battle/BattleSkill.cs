@@ -154,7 +154,7 @@ public class BattleSkill : UIBaseUnity {
 		if (sbi == null) {
 			roundLabel.text = "";
 		}  else {
-			roundLabel.text = sbi.skillBase.skillCooling + "  round";
+			roundLabel.text = "CD: "+ sbi.skillBase.skillCooling ;
 		}
 
 		sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill);	

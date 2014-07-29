@@ -143,18 +143,18 @@ public class BaseUnitItem : MonoBehaviour {
 		if(userUnit.AddNumber==0) {
 			isCrossed = !isCrossed;
 			crossFadeLabel.text = crossFadeBeforeText;
-			crossFadeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+			crossFadeLabel.color = new Color(223.0f/255f, 223.0f/255f, 223.0f/255f);
 			return;
 		}
 
 		if(isCrossed){
 			crossFadeLabel.text = crossFadeBeforeText;
-			crossFadeLabel.color = new Color(223.0f/255, 223.0f/255, 223.0f/255);
+			crossFadeLabel.color = new Color(223.0f/255f, 223.0f/255f, 223.0f/255f);
 			isCrossed = false;
 		}
 		else{
 			crossFadeLabel.text = crossFadeAfterText;
-			crossFadeLabel.color = new Color(255.0f/255, 89.0f/255, 98.0f/255);
+			crossFadeLabel.color = new Color(255.0f/255f, 89.0f/255f, 98.0f/255f);
 			isCrossed = true;
 		}
 	}

@@ -14,7 +14,6 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	}
 
 	public void RefreashCooling () {
-//		Debug.LogError ("ActiveSkill ReadSkillCooling");
 		DisposeCooling ();
 	}
 
@@ -24,13 +23,15 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 		}
 	}
 
+	public Callback dataListener;
+
 	private string skillStoreID;
 	private ConfigBattleUseData configBattleUseData;
 	public void StoreSkillCooling (string id) {
 		skillStoreID = id;
 
 		if (BattleQuest.battleData > 0) {
-				ReadSkillCooling ();
+			ReadSkillCooling ();
 		} else {
 			Store();
 		}
@@ -42,15 +43,16 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 
 	void ReadSkillCooling () {
 		int skillCooling = GameDataStore.Instance.GetIntDataNoEncypt (skillStoreID);
-//		Debug.LogError ("ReadSkillCooling 1 : " + skillCooling + "skillStoreID : " + skillStoreID);
 		skillBase.skillCooling = skillCooling;
-//		Debug.LogError ("ReadSkillCooling 2 : " + skillBase.skillCooling + " this : " + this);
 	}
 
 	protected void DisposeCooling () {
 		bool temp = coolingDone;
 		coolingDone = CheckCooling (skillBase);
 		if (!temp && coolingDone) {
+			if(dataListener != null) {
+				dataListener();
+			}
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
 		}
 		Store ();

@@ -76,8 +76,7 @@ public class BattleBottom : MonoBehaviour {
 				skillBGSpr.enabled = false;
 				skillSpr.enabled = false;
 //				Debug.Log("index-------: " + i);
-			} else{
-
+			} else {
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 				tui.GetAsset(UnitAssetType.Profile, o=>{
 //					Debug.Log("index-----///////--: " + i + " texture: " + o);
@@ -146,7 +145,6 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
-//		Debug.LogError ("noviceGuideNotClick : " + noviceGuideNotClick + " DGTools.IsNoviceGuide () : " + DGTools.IsNoviceGuide () + " notClick : " + notClick);
 		if (noviceGuideNotClick && DGTools.IsNoviceGuide ()) {
 			return;	
 		}
@@ -155,20 +153,9 @@ public class BattleBottom : MonoBehaviour {
 			return;	
 		}
 
-//		Debug.LogError ("OnRealease ");
-
 		if (Input.GetMouseButtonDown (0)) {
 			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-//			int layermask = Main.Instance.NguiCamera.eventReceiverMask;
 			int receiveMask = GameLayer.LayerToInt(GameLayer.Default);
-
-//			if(IsUseLeaderSkill) {
-//				receiveMask = GameLayer.LayerToInt(GameLayer.NoviceGuide);
-//			} else {
-//				receiveMask = GameLayer.LayerToInt(GameLayer.Default);
-//			}
-
-//			Debug.LogError("IsUseLeaderSkill : " + IsUseLeaderSkill);
 			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
 				string name = rch.collider.name;
 				CheckCollider(name);

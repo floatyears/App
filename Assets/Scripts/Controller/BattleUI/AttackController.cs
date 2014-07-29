@@ -260,7 +260,6 @@ public class AttackController {
 
 	void AttackEnemy () {
 		CheckEnemyDead();
-		msgCenter.Invoke (CommandEnum.ActiveSkillCooling, null);
 		if (attackInfoQueue.Count <= extraAttackCount) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);	
 		}
