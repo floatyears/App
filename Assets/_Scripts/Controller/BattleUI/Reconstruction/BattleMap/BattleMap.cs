@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleMap : UIBaseUnity {
+	public const string trapSpriteName = "icon_trap"; //private const string trapName = "";
+	public const string chestSpriteName = "icon_chest";
+
 	private UITexture mapBGTexture;
 
 	private MapItem template;
@@ -61,7 +64,7 @@ public class BattleMap : UIBaseUnity {
 			mapID = stageID;
 		}
 		string path = "Texture/Map/battlemap_" + mapID.ToString ();
-		Debug.LogError ("path : " + path);
+//		Debug.LogError ("path : " + path);
 		ResourceManager.Instance.LoadLocalAsset (path, o => mapBGTexture.mainTexture = o as Texture2D);
 	}
 

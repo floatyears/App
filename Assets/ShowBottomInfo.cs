@@ -41,6 +41,7 @@ public class ShowBottomInfo : MonoBehaviour {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowCoin, ShowCoin);
 	}
 
+
 	void ShowTrap(object data) {
 		TrapBase tb = data as TrapBase;
 		if (tb == null) {
@@ -53,7 +54,7 @@ public class ShowBottomInfo : MonoBehaviour {
 
 		categoryTitleLabel.text = categoryTitle;
 		typeLabel.text = "Trap";
-		itemSprite.spriteName = tb.GetTrapSpriteName ();
+		itemSprite.spriteName = BattleMap.trapSpriteName; //tb.GetTrapSpriteName ();
 		nameLabel.text = tb.GetItemName ();
 		cateGoryLabel.text = tb.GetTypeName () + " : Lv." + tb.GetLevel;
 		TweenAnim ();
@@ -63,7 +64,7 @@ public class ShowBottomInfo : MonoBehaviour {
 		int number = (int)coin;
 		nameLabel.text = "";
 		typeLabel.text = "Coin";
-		itemSprite.spriteName = "S"; // S  is coin sprite name in atlas.
+		itemSprite.spriteName = BattleMap.chestSpriteName; // S  is coin sprite name in atlas.
 		cateGoryLabel.text = number.ToString ();
 		categoryTitleLabel.text = coinTitle;
 		if (nameTitleLabel.enabled) {
