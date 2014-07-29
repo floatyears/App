@@ -63,7 +63,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	private bool isLoginSent = false;
 
-	private bool isShowRetry = false;
+	private bool isShowRetry = true;
 
 	private WWW www = null;
 
