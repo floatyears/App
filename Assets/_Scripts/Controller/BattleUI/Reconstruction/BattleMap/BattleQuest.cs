@@ -154,8 +154,6 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ShowActiveSkill, ShowActiveSkill);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowPassiveSkill, ShowPassiveSkill);
 
-//		Debug.LogError ("battle quest show ui ");
-
 		if (battleData > 0) {
 			ContineBattle ();
 		} else {
@@ -190,7 +188,6 @@ public class BattleQuest : UIBase {
 
 	void ReadyMove() {
 		battle.ShieldInput (true);
-
 		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 	}
 
@@ -199,7 +196,6 @@ public class BattleQuest : UIBase {
 		if (ai == null) {
 			return;
 		}
-
 		attackEffect.RefreshItem (ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
 	}
 
@@ -259,13 +255,12 @@ public class BattleQuest : UIBase {
 
 	void CreatBoosAppear () {
 		ResourceManager.Instance.LoadLocalAsset ("Prefabs/QuestFullScreenTips", o => {
-				GameObject obj = o as GameObject;
-				Vector3 pos = obj.transform.localPosition;
-				GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
-				go.transform.localPosition = pos;
-				questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
-				questFullScreenTips.Init ("QuestFullScreenTips");
-
+			GameObject obj = o as GameObject;
+			Vector3 pos = obj.transform.localPosition;
+			GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
+			go.transform.localPosition = pos;
+			questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
+			questFullScreenTips.Init ("QuestFullScreenTips");
 			initCount++;
 		});
 
@@ -490,6 +485,7 @@ public class BattleQuest : UIBase {
 			}
 
 			currentMapData = questDungeonData.GetSingleFloor (coor);
+
 			role.Stop ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 				BattleMap.waitMove = true;

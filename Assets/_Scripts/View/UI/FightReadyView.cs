@@ -121,6 +121,7 @@ public class FightReadyView : UIComponentUnity {
 
 	private Dictionary<string, object> pickedInfoForFight;
 	private TFriendInfo pickedHelperInfo;
+
 	private void RecordPickedInfoForFight(object msg){
 		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
@@ -135,9 +136,6 @@ public class FightReadyView : UIComponentUnity {
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 
-//		pickedInfoForFight = new Dictionary<string, object> ();
-//		pickedInfoForFight ["HelperInfo"] = evolveStart.EvolveStart.friendInfo;
-//		Debug.LogError ("creat data : " + pickedInfoForFight + " HelperInfo : " + pickedInfoForFight ["HelperInfo"]);
 		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
 		ShowHelper (pickedHelperInfo);
 	}
@@ -169,12 +167,12 @@ public class FightReadyView : UIComponentUnity {
 	}
 
 	private TEvolveStart evolveStart;
+
 	private void StartFight(){
 		if (DataCenter.gameState == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
-		} 
-		else {
+		} else {
 			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
@@ -207,13 +205,12 @@ public class FightReadyView : UIComponentUnity {
 		}
 		
 		if (data == null || tqdd == null) { return; }
-		EnterBattle (tqdd);
+			EnterBattle (tqdd);
 	} 
 
 	private void RspEvolveStartQuest (object data) {
 		if (data == null){ return; }
 		evolveStart.StoreData ();
-//		DataCenter.Instance.
 		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
@@ -237,12 +234,12 @@ public class FightReadyView : UIComponentUnity {
 		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
 		ConfigBattleUseData.Instance.gotFriendPoint = 0;
-		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
 
 		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
-	} 
+	}
 
 	private void ShowPartyInfo(){
 		if(pickedHelperInfo == null) return;
@@ -290,8 +287,7 @@ public class FightReadyView : UIComponentUnity {
 		if(skillId == 0){
 			Debug.Log("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
-		}
-		else{
+		} else {
 			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
 			SkillBaseInfo baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
 			SkillBase leaderSkill = baseInfo.GetSkillInfo();	
