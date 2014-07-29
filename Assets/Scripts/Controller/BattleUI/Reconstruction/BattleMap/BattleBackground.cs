@@ -124,7 +124,7 @@ public class BattleBackground : UIBaseUnity {
 		Debug.LogError ("SetBlood  num : " + num + " currentBlood : " + currentBlood);
 		string info = num + "/" + initBlood;
 		label.text = info;
-		if (num > currentBlood) {
+		if (num > currentBlood || num == initBlood) {
 			spriteAnimation.Reset();
 		}
 		currentBlood = num;
@@ -156,7 +156,7 @@ public class BattleBackground : UIBaseUnity {
 
 	void RecoverHP(object data) {
 		AttackInfo ai = data as AttackInfo;
-
+		Debug.LogError ("RecoverHP : " + ai.AttackRange);
 		if (ai.AttackRange == 2) {
 			spriteAnimation.Reset();
 		}
