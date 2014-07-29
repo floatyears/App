@@ -112,7 +112,7 @@ public class OperationNoticeView : UIComponentUnity {
 		GameObject content = obj.transform.FindChild("Content").gameObject;
 		
 		title.GetComponent<UILabel>().text = titleS;//nItem.title;
-		contentL.GetComponent<UILabel>().text = contentS;//nItem.message;
+		contentL.GetComponent<UILabel>().text = contentS + "                                                                                  ";//nItem.message;
 		
 		obj.transform.FindChild("TitleBg").GetComponent<UIDragScrollView>().scrollView = content.GetComponent<UIDragScrollView>().scrollView = FindChild<UIScrollView>("Content");
 

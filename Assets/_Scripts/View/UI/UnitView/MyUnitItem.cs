@@ -77,7 +77,7 @@ public class MyUnitItem : BaseUnitItem {
 		partyLabel = transform.FindChild("Label_Party").GetComponent<UILabel>();
 		partyLabel.enabled = false;
 		partyLabel.text = TextCenter.GetText("Text_Party");
-		partyLabel.color = Color.red;
+		partyLabel.color = new Color (0.9333f, 0.192f, 0.192f);
 
 		mWidget = GetComponent<UIWidget> ();
 	}
