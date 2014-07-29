@@ -303,6 +303,7 @@ public enum CommandEnum{
 	PlayAllEffect,
 	ShowNewCard,
 	ShowLevelupInfo,
+	GotoRewardMonthCardTab,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,

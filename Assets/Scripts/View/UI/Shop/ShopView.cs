@@ -27,6 +27,7 @@ public class ShopView : UIComponentUnity {
 			Debug.LogException(e);
 		}
 
+
 	}
 	
 	public override void ShowUI () {
@@ -150,6 +151,7 @@ public class ShopView : UIComponentUnity {
 		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
+
 
 //	public void Buy1(){
 //		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK1.ItemId);

@@ -70,6 +70,7 @@ public class RewardView : UIComponentUnity {
 
 		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
 		MsgCenter.Instance.RemoveListener (CommandEnum.TakeAward, OnTakeAward);
+		MsgCenter.Instance.RemoveListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
 	}
 
 	private void InitUI(){
@@ -81,6 +82,7 @@ public class RewardView : UIComponentUnity {
 		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
 
 		MsgCenter.Instance.AddListener (CommandEnum.TakeAward, OnTakeAward);
+		MsgCenter.Instance.AddListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
 	}
 
 	private void InitData(){
@@ -234,6 +236,18 @@ public class RewardView : UIComponentUnity {
 //		Debug.Log ("toggle: " + toggle);
 		if (toggle != null) {
 			tabInfo.text = TextCenter.GetText ("Reward_Tab_Info" + toggle.ToString().Substring(0,1));
+		}
+	}
+
+	
+	private void OnGotoTab(object data){
+		for(int i = 1; i < 6; i++){
+			if(i == 4){
+				transform.FindChild(i+"").GetComponent<UIToggle>().startsActive = true;
+			}else{
+				transform.FindChild(i+"").GetComponent<UIToggle>().startsActive = false;
+			}
+
 		}
 	}
 }
