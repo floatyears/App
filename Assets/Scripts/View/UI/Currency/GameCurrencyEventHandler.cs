@@ -77,9 +77,12 @@ public class GameCurrencyEventHandler {
 
 	private void OnBonusList(object data){
 //		bbproto.BonusInfo bsInfo = 
-		Debug.Log ("purchase success, change to reward");
-		DataCenter.Instance.LoginInfo.Bonus = data as List<bbproto.BonusInfo>;
-		UIManager.Instance.ChangeScene (SceneEnum.Reward);
+		Debug.Log ("purchase success, change to reward. rsp data:"+data);
+		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
+		if (rsp != null && rsp.bonus != null ) {
+			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
+			UIManager.Instance.ChangeScene (SceneEnum.Reward);
+		}
 	}
 
 	public void onItemPurchased(PurchasableVirtualItem pvi){
