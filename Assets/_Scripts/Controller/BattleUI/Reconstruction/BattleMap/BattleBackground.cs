@@ -121,7 +121,6 @@ public class BattleBackground : UIBaseUnity {
 
 	private int currentBlood = 0;
 	void SetBlood (int num) {
-//		Debug.LogError ("SetBlood  num : " + num + " currentBlood : " + currentBlood);
 		string info = num + "/" + initBlood;
 		label.text = info;
 		if (num > currentBlood || num == initBlood) {
@@ -134,7 +133,6 @@ public class BattleBackground : UIBaseUnity {
 	int preBlood = 0;
 	void ListenUnitBlood (object data) {
 		int blood = (int)data;
-//		Debug.LogError ("ListenUnitBlood blood : " + blood);
 		SetBlood (blood);
 	}
 

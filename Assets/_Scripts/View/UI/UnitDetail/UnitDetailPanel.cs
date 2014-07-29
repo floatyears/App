@@ -167,13 +167,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	bool ShowTexture = false;
 
-	static bool isNovceGuide = false;
+//	static bool isNovceGuide = false;
 
 	void ClickTexture( GameObject go ){
-		if (isNovceGuide) {
-			return;	
-		}
-
 		if (!ShowTexture) {
 			return;	
 		}
@@ -182,7 +178,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		StopAllCoroutines ();
 		ClearEffectCache ();
 		LevelUpEnd ();
+
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
+
+
+
 		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 		unitBodyTex.mainTexture = null;
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
@@ -470,9 +470,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	/// true is shield. false is can click.
 	/// </summary>
 	/// <param name="shiledClick">If set to <c>true</c> shiled click.</param>
-	public static void SetNoviceGuide (bool shiledClick) {
-		isNovceGuide = shiledClick;
-	}
+//	public static void SetNoviceGuide (bool shiledClick) {
+//		isNovceGuide = shiledClick;
+//	}
 
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;
@@ -610,8 +610,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		type.spriteName = "type_" + unitInfo.UnitType;
 		
 		cost.text = unitInfo.Cost.ToString();
-		
-		//Debug.Log ("rare : " + unitInfo.Rare + "max rare: " + unitInfo.MaxRare);	
+
 		int len = 0;
 		if (unitInfo.MaxRare > unitInfo.Rare) {
 			grayStar.enabled = true;
@@ -622,7 +621,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			len = unitInfo.Rare;
 		}
 		lightStar.width = unitInfo.Rare*lightWidth;
-		//Debug.Log ("position:  " +len * 15  );
 		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
 	}
 
@@ -666,17 +664,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			Debug.LogError("Calculate() :: oldBlendUnit=null");
 			return;
 		}
-//		Debug.LogError("curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel) ;
 
 		levelLabel.text = curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.MaxLevel;
 
-		//DataCenter.Instance.GetUnitValue (oldBlendUnit.UnitInfo.ExpType, curLevel);
 		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(curLevel); 
 
 		expRiseStep = (int)(currMaxExp * 0.01f);
 		if ( expRiseStep < 1 )
 			expRiseStep = 1;
-//		Debug.LogError ("Calculate => currMaxExp:" + currMaxExp + "  expRiseStep : " + expRiseStep + " curlevel : " +curLevel + " MaxLevel : "+ oldBlendUnit.UnitInfo.MaxLevel);
 	}
 	
 	//---------Exp increase----------
@@ -697,18 +692,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		if (oldBlendUnit != null) {
 			if(curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
-				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.EVOLVE);
+				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE; 
 			}
-			
 			oldBlendUnit = null;	
 		}
 
-//		unitBodyTex.mainTexture = null;
+		if (DGTools.IsNoviceGuide ()) {
+			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
+		}
 	}
 
 	void ExpRise () {
 		if (gotExp <= 0) {
 			if(levelDone) {
+//				isNovceGuide = false;
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
 				levelDone = false;
 				GameTimer.GetInstance().AddCountDown(1f, LevelUpEnd);
