@@ -136,8 +136,10 @@ public class BattleMap : UIBaseUnity {
 
 	public Vector3 GetPosition(int x, int y) {
 		if(x > map.GetLength(0) || y > map.GetLength(1))
-			return Vector3.zero;
-		return map[x, y].transform.localPosition;
+			return transform.localPosition;
+		Vector3 pos = map[x, y].transform.localPosition + transform.localPosition;
+
+		return pos;
 	}
 
 	public bool ReachMapItem(Coordinate coor) {

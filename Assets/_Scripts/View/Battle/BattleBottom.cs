@@ -61,6 +61,7 @@ public class BattleBottom : MonoBehaviour {
 		Transform actorTrans = transform.Find ("Actor");
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = actorTrans.Find(i.ToString()).gameObject;	
+//			Debug.LogError("temp : " + temp);
 			UISprite tex =  actorTrans.Find(i.ToString() + "_Border").GetComponent<UISprite>();
 			UISprite bgSpr = actorTrans.Find(i.ToString() + "_bg").GetComponent<UISprite>();
 			UISprite skillBGSpr = actorTrans.Find(i.ToString()+ "_skillBg").GetComponent<UISprite>();
@@ -81,6 +82,7 @@ public class BattleBottom : MonoBehaviour {
 				tui.GetAsset(UnitAssetType.Profile, o=>{
 //					Debug.Log("index-----///////--: " + i + " texture: " + o);
 					if(o != null) {
+
 						texture.mainTexture = o as Texture2D;
 						float width = 105f/texture.mainTexture.width;
 						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
