@@ -129,8 +129,8 @@ public class CatalogUnitItem : MyUnitItem {
 					//translucentMaskSpr.enabled = false;
 					break;
 			}
-			idLabel.text = "ID : " + catalogUserUnit.UnitID.ToString();
-			idLabel.color = Color.green;
+			idLabel.text = "No. " + catalogUserUnit.UnitID.ToString();
+//			idLabel.color = Color.green;
 		}
 	}
 
