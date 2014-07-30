@@ -44,7 +44,7 @@ public class NoviceGuideStepEntityManager {
 			currentNoviceGuideStage = value;
 			Debug.Log("current novice guide stage(set): " + currentNoviceGuideStage);
 			// the following three stage don't send to server
-			if(currentNoviceGuideStage == NoviceGuideStage.EVOLVE || currentNoviceGuideStage == NoviceGuideStage.PARTY || currentNoviceGuideStage == NoviceGuideStage.LEVEL_UP)
+			if(currentNoviceGuideStage == NoviceGuideStage.EVOLVE || currentNoviceGuideStage == NoviceGuideStage.PARTY || currentNoviceGuideStage == NoviceGuideStage.LEVEL_UP || currentNoviceGuideStage == NoviceGuideStage.EVOVLE_QUEST)
 				return;
 			FinishUserGuide.SendRequest(ServerCallback, (int)currentNoviceGuideStage);
 
@@ -179,7 +179,7 @@ public class NoviceGuideStepEntityManager {
 						case NoviceGuideStage.UNIT_LEVEL_UP:
 								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateTwo.Instance ());
 								break;
-						case NoviceGuideStage.UNIT_EVOLVE:
+						case NoviceGuideStage.UNIT_EVOLVE_EXE:
 								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateThree.Instance ());
 								break;
 						case NoviceGuideStage.PARTY://Party
@@ -196,10 +196,10 @@ public class NoviceGuideStepEntityManager {
 				
 						switch (ngs) {
 						case NoviceGuideStage.EVOVLE_QUEST:
-								CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepM_StateTwo.Instance ());
+						CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE_QUEST, NoviceGuideStepM_StateTwo.Instance ());
 								break;
 						case NoviceGuideStage.FRIEND_SELECT:
-							CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepM_StateOne.Instance ());
+							CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepN_StateOne.Instance ());
 							break;
 						}
 				} else if (startType == NoviceGuideStartType.SCRATCH && ngs == NoviceGuideStage.SCRATCH) {
@@ -345,6 +345,7 @@ public enum NoviceGuideStepEntityID{
 	LEVEL_UP,
 	EVOLVE,
 	INPUT_NAME,
+	EVOLVE_QUEST,
 }
 
 public enum NoviceGuideStartType{
@@ -379,6 +380,7 @@ public enum NoviceGuideStage{
 	UNIT_PARTY,
 	UNIT_LEVEL_UP,
 	UNIT_EVOLVE,
+	UNIT_EVOLVE_EXE,
 	PARTY,
 	LEVEL_UP,
 	SCRATCH,

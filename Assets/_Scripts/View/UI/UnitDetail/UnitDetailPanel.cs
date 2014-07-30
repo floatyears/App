@@ -186,7 +186,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		unitBodyTex.mainTexture = null;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOLVE) {
 //			Debug.Log("guide stage: " + NoviceGuideStepEntityManager.CurrentNoviceGuideStage);
-			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+						NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 		}
 			
 	}
@@ -702,6 +702,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 					if (rsp.header.code == ErrorCode.SUCCESS) {
 						if (rsp != null && rsp.addUnit.Count > 0 ) {
 							DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.addUnit);
+							NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
 						}
 					}else {
 						Debug.LogError("UserGuideEvolveUnit ret err:"+rsp.header.code);
@@ -711,8 +712,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 			oldBlendUnit = null;	
 		}
-
-		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
+			UIManager.Instance.ChangeScene(SceneEnum.Scratch);
+		}else if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 //			Debug.Log("goto home");
 			UIManager.Instance.baseScene.PrevScene = SceneEnum.Units;
 		}
