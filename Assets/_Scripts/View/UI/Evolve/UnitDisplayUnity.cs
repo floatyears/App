@@ -257,6 +257,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 		CreatPanel ();
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
 
+//		SortUnitTool.SortByTargetRule(sortRule, allData);
+//		unitItemDragPanel.RefreshItem (allData);
+
 		itemCounterEvolve = FindChild<ItemCounterEvolve> ("ItemCounterBar");
 		itemCounterEvolve.Init ();
 	}
@@ -369,5 +372,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 		} else {
 			return a[i].gameObject;
 		}
+	}
+
+	public GameObject GetMaxLvUnit(){
+		foreach (var item in unitItemDragPanel.scrollItem) {
+			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
+				return item.gameObject;
+			}
+		}
+		return null;
 	}
 }

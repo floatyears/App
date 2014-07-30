@@ -32,7 +32,7 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 
 	outLoop:
 		if (item != null) {
-			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)});	
+			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)},false);	
 		}
 
 		GuideWindowParams mwp = new GuideWindowParams ();
@@ -155,9 +155,7 @@ public class NoviceGuideStepH_StateTwo:NoviceGuidState
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
 		GameObject sp1 = GameObject.FindWithTag ("battle_sp1");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{sp1}, new Vector3[]{new Vector3 (0, 0, 1)});
-
-
+		NoviceGuideUtil.ShowArrow (new GameObject[]{sp1}, new Vector3[]{new Vector3 (0, 0, 1)},false);
 	}
 
 	private void ClickOk2(object data){
@@ -177,7 +175,7 @@ public class NoviceGuideStepH_StateTwo:NoviceGuidState
 		
 	outLoop:
 		if (item != null) {
-			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)});	
+			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)},false);	
 		}
 	}
 	

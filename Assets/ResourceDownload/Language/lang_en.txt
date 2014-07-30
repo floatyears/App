@@ -351,22 +351,22 @@ WeekCardDesc=Get 100 Magic Stones everyday for 7 days!
 
 
 ##### gacha
-FriendGacha=Start Pal Point Summons
+FriendGacha=Pal Point Summons
 FriendGachaTitle=Pal Point Summon
-FriendGachaDescription=Spend pal points to summon usefull cards?
-FriendGachaStatus=1 Summon: {0} Pal Points \n{1} Summons: {2} Pal Points\nYou have {3} Pal Points now.
+FriendGachaDescription=Spend pal points to summon useful cards?
+FriendGachaStatus=1 Summon: {0} Pal Points \n{1} Summons: {2} Pal Points.
 
-ConfirmOneFriendGacha=Summon once
-ConfirmMaxFriendGacha=Summon {0} times
+ConfirmOneFriendGacha=Summon Once
+ConfirmMaxFriendGacha=Summon {0} Times
 
 FriendGachaFailed=[FF0000]Friend Summon Failed[-]
-UnitCountReachedMax=Now your cards owned overed limit:[FF0000]{0}/[-]{1}, can't do any summon.
+UnitCountReachedMax=Now your cards owned overed limit:[FF0000]{0}/[-]{1}, you can't summon.
 GachaFriendPointNotEnough=One summon need {0} pal points\nYour pal points not enough.
 
-RareGacha=Start Rare Summon
+RareGacha=Rare Summon
 RareGachaTitle=Rare Summon
 RareGachaDescription=Spend magic stones to summon strong cards?
-RareGachaStatus=1 Summon: {0} Magic Stones\n{1} Summons: {2} Magic Stones\nYou have {3} magic stones now.
+RareGachaStatus=1 Summon: {0} Magic Stones\n{1} Summons: {2} Magic Stones.
 
 ConfirmOneRareGacha=Summon once
 ConfirmMaxRareGacha=Summon {0} times
@@ -374,7 +374,7 @@ ConfirmMaxRareGacha=Summon {0} times
 RareGachaFailed=[FF0000]Rare Summon Failed[-]
 RareGachaStoneNotEnough=Rare summon need {0} Magic Stones\nYour Magic Stones not enough.
 
-EventGacha=Start Event Summon
+EventGacha=Event Summon
 EventGachaTitle=Event Summon
 EventGachaDescription=Spend magic stones to summon rare cards?
 EventGachaStatus=1 Summon: {0} magic stones\n {1} Summons: {2} magic stones\nYou have {3} magic stones now.
@@ -483,7 +483,7 @@ StaminaLackNoteContent=Current Stamina is not enough to battle!
 
 ##select role
 SelectRoleTitle=Select Role
-SelectRoleBtn=OK
+SelectRoleBtn=Select
 SelectRoleContent=Are you sure to select this role to adventure with you?
 SelectRole_ATK=ATK:
 SelectRole_Fav=Fav.:
@@ -1282,11 +1282,11 @@ guide6_content=Let's do a Rare Summon.
 guide8_title=Choose a card
 guide8_content=Please feel free to pick a card!
 guide9_title=Get a card
-guide9_content=Good luck, the card is very powerful!\nDon't forget to in the team.
-guide10_title=party method
-guide10_content=Choose a party
-guide11_title=party complete
-guide11_content=Complete a party
+guide9_content=Good luck, the card is very powerful!\nDon't forget to put into team.
+guide10_title=How to edit team
+guide10_content=Click the empty grid above, then choose the card which you want to get into team.
+guide11_title=Done
+guide11_content=Team editing is completed.
 
 guide12_title=Start mission
 guide12_content=You need to find the Key on a grid to open the door.
@@ -1457,7 +1457,7 @@ Tips_D_5=When a Action Board only missing one Panel to form attack, it will disp
 Tips_D_6=The more Attack Bars you formed, the more addtional attack power will give.
 Tips_D_7=Heart Panels also can make Attack Bar to get additional attack power.
 Tips_D_8=You can click the Card profile in battle to see the Skill information.
-Tips_D_9=Pal Point: it can be used for Pal Summon to get usefull Cards.
+Tips_D_9=Pal Point: it can be used for Pal Summon to get useful Cards.
 Tips_D_10=You can get more Pal Point after you add player as your friend.
 Tips_D_11=You can see Card information by holding down Card avarta.
 Tips_D_12=In Card information page, you can click the Lock icon to add the Card to favorite, avoiding the Card was sold by mistake.

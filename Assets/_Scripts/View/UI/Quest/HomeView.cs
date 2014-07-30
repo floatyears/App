@@ -54,7 +54,7 @@ public class HomeView : UIComponentUnity{
 	private void OnChangeSceneComplete(object data ){
 
 		if((SceneEnum)data == SceneEnum.Home){
-			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE_EXE) {
 				UIManager.Instance.ChangeScene (SceneEnum.Units);	
 			} else if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
 				UIManager.Instance.ChangeScene(SceneEnum.Scratch);
