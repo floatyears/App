@@ -65,7 +65,7 @@ public class BattleMap : UIBaseUnity {
 		}
 		string path = "Texture/Map/battlemap_" + mapID.ToString ();
 //		Debug.LogError ("path : " + path);
-		ResourceManager.Instance.LoadLocalAsset (path, o => mapBGTexture.mainTexture = o as Texture2D);
+		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset (path, null) as Texture2D;
 	}
 
 	void StartMap() {
