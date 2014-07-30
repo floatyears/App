@@ -198,6 +198,11 @@ public class NoviceGuideStepF_StateThree:NoviceGuidState{
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
 		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
+		if (sbb == null) {
+			Debug.LogError("NoviceGuideStepF_StateThree scene btn is null");
+			stepEntity.GetStateMachine ().ChangeState (null);
+			return;
+		}
 		NoviceGuideUtil.ForceOneBtnClick (sbb);
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(0,0,3)});
@@ -261,6 +266,9 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_6"), new Vector2 (0, 0));
 
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
+
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, onChangeScene);
 //		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 //		NoviceGuideUtil.ForceOneBtnClick (sbb);
 //		
@@ -275,6 +283,11 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 //		
 //		UIEventListener.Get (btn1).onClick += TapBackBtn;
 	
+	}
+
+	void onChangeScene(object data){
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, onChangeScene);
+		JumpToNextState = true;
 	}
 
 //	private void Btn1Click(GameObject btn)
@@ -333,7 +346,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepF_StateThree.Instance());
+			stepEntity.GetStateMachine ().ChangeState (null);//NoviceGuideStepF_StateThree.Instance());
 		}
 		else{
 			
@@ -344,7 +357,6 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 	{
 		NoviceGuideUtil.HideTipText ();
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
 	}
 }
 

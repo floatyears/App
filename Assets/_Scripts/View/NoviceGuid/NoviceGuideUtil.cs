@@ -21,7 +21,7 @@ public class NoviceGuideUtil {
 	private static GameObject[] multiBtns;
 
 	// posAndDir:the x,y stand for the position, the z stands for direction
-	public static void ShowArrow(GameObject[] parents,Vector3[] posAndDir){
+	public static void ShowArrow(GameObject[] parents,Vector3[] posAndDir, bool showTap = true){
 
 		Vector3 dir;
 		int i = 0,len = posAndDir.Length;
@@ -30,6 +30,12 @@ public class NoviceGuideUtil {
 			foreach (GameObject parent in parents) {
 				//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
 				GameObject arrow = NGUITools.AddChild (parent, obj);
+				GameObject tap = arrow.transform.FindChild("Sprite/Sprite").gameObject;
+				if(showTap){
+					tap.GetComponent<UISprite>().enabled = true;
+				}else{
+					tap.GetComponent<UISprite>().enabled = false;
+				}
 				TweenPosition tPos = arrow.transform.FindChild("Sprite").GetComponent<TweenPosition> ();
 
 				Vector3 size = Vector3.zero;
@@ -82,6 +88,7 @@ public class NoviceGuideUtil {
 				}
 
 				arrow.transform.FindChild("Sprite").transform.Rotate (dir);
+				tap.transform.Rotate (-dir);
 				NGUITools.AdjustDepth (arrow, 1000);
 				//			if(obj.transform.parent != null)
 				//			{
@@ -119,7 +126,7 @@ public class NoviceGuideUtil {
 	}
 
 	public static void showTipText(string text,Vector2 pos = default(Vector2)){
-		LogHelper.Log ("--------------///////tip text: " + text);
+		Debug.Log ("--------------///////tip text: " + text);
 		if (tipText == null) {
 			LoadAsset.Instance.LoadAssetFromResources ("TipText", ResourceEuum.Prefab, o => {
 				GameObject tip = o as GameObject;

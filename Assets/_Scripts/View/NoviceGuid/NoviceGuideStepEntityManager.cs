@@ -199,7 +199,7 @@ public class NoviceGuideStepEntityManager {
 								CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepM_StateTwo.Instance ());
 								break;
 						case NoviceGuideStage.FRIEND_SELECT:
-							CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepM_StateOne.Instance ());
+							CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepN_StateOne.Instance ());
 							break;
 						}
 				} else if (startType == NoviceGuideStartType.SCRATCH && ngs == NoviceGuideStage.SCRATCH) {
