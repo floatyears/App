@@ -4589,11 +4589,11 @@ namespace bbproto
       get { return _header; }
       set { _header = value; }
     }
-    private readonly global::System.Collections.Generic.List<uint> _unitUniqueId = new global::System.Collections.Generic.List<uint>();
-    [global::ProtoBuf.ProtoMember(2, Name=@"unitUniqueId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<uint> unitUniqueId
+    private readonly global::System.Collections.Generic.List<bbproto.UserUnit> _addUnit = new global::System.Collections.Generic.List<bbproto.UserUnit>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"addUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<bbproto.UserUnit> addUnit
     {
-      get { return _unitUniqueId; }
+      get { return _addUnit; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;

@@ -279,7 +279,7 @@ Reward_Tab_Info2=Cumulative logins reach certain days, you will get following bo
 Reward_Tab_Info3=Rank up to a certain level, you will get following bonus.
 Reward_Tab_Info4=After purchase Month Card, you will receive Magic Stones every day.
 Reward_Tab_Info5=Other bonus
-ChainLogin=Cumulative Login {0} Days
+ChainLogin=Continuously Login {0} Days
 TotalLogin=Login {0} Days
 RankReach=Rank {0}
 

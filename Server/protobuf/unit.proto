@@ -281,5 +281,5 @@ message ReqUserGuideEvolveUnit {
 
 message RspUserGuideEvolveUnit {
     optional ProtoHeader        header          = 1;
-    repeated uint32             unitUniqueId    = 2;
+    repeated UserUnit           addUnit         = 2;
 }
