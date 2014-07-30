@@ -105,6 +105,8 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
+
+		UserGuideAnim (null);
 	}
 
 	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
@@ -134,9 +136,6 @@ public class Battle : UIBase {
 			ShowGuideAnim ();
 		} else {
 			bool b = (bool)data;
-
-
-
 			ShowGuideAnim(b);
 		}
 	}
@@ -144,9 +143,7 @@ public class Battle : UIBase {
 	bool shileInputByNoviceGuide = false;
 	public void ShowGuideAnim(bool rePlay = false) {
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
-
 		shileInputByNoviceGuide = true;
-
 		if (rePlay) {
 			battleData.storeBattleData.colorIndex -= 19;
 			GenerateShowCard();
@@ -155,16 +152,32 @@ public class Battle : UIBase {
 		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
 	}
 
+	const float moveTime = 0.2f;
+
 	GameTimer gameTimer;
 	public void GuideCardAnim() {
 		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		ConfigBattleUseData.Instance.NotDeadEnemy = true;
 		gameTimer = GameTimer.GetInstance ();
 		GameObject target = battleCard.cardItemArray [3].gameObject;
+
 		Vector3 toPosition = battleCard.cardItemArray [2].transform.position;
 		selectTarget.Add ( battleCard.cardItemArray [3] );
-		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", 0.2f) );
+//		float time = 0.2f;
+		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime) );
+		MoveFinger (target.transform.position, toPosition, moveTime);
+
 		gameTimer.AddCountDown ( 0.22f, AnimStep1 );
+	}
+
+	void MoveFinger(Vector3 startPosition, Vector3 toPosition, float time) {
+		if (!battleCard.fingerObject.activeSelf) {
+			battleCard.fingerObject.SetActive (true);	
+		}
+	
+		battleCard.fingerObject.transform.position = startPosition;
+
+		iTween.MoveTo ( battleCard.fingerObject, iTween.Hash ("position", toPosition, "time", time) );
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -212,6 +225,7 @@ public class Battle : UIBase {
 	}
 
 	void AnimStep4() {
+
 		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep5);
 	}
 
@@ -236,12 +250,8 @@ public class Battle : UIBase {
 	}
 
 	void AnimEnd() {
+		battleCard.fingerObject.SetActive (false);
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false);
-//		shileInputByNoviceGuide = false;
-//		ShieldInput (true);
-//		ConfigBattleUseData.Instance.NotDeadEnemy = false;
-
-//		Debug.LogError("GuideAnimEnd");
 	}
 
 	int generateIndex = 0;
@@ -267,7 +277,8 @@ public class Battle : UIBase {
 		GameObject target = ci.gameObject;
 		Vector3 toPosition = battleCardArea.battleCardAreaItem [generateIndex].transform.position;
 		selectTarget.Add (ci);
-		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", 0.2f));
+		MoveFinger (target.transform.position, toPosition, moveTime);
+		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime));
 		gameTimer.AddCountDown (0.23f, GenerateCardEnd);
 	} 
 
@@ -293,23 +304,28 @@ public class Battle : UIBase {
 		}
 
 		int nextIndex = cardIndex + 1;
-
+		GameObject target = selectTarget [startIndex].gameObject;
 		if (nextIndex == fromIndexCache.Count) {
-			iTween.MoveTo (selectTarget [startIndex].gameObject, battleCardArea.battleCardAreaItem [generateIndex].transform.position, 0.2f);
+			iTween.MoveTo (target, battleCardArea.battleCardAreaItem [generateIndex].transform.position, moveTime);
+
 			gameTimer.AddCountDown(0.24f, MoveAllToPosition);
+
+			MoveFinger(target.transform.position, battleCardArea.battleCardAreaItem [generateIndex].transform.position, moveTime);
 		} else {
 			CardItem nextCi = battleCard.cardItemArray [fromIndexCache [nextIndex]];
 
 			cardIndex = nextIndex;
 
-			iTween.MoveTo (selectTarget[startIndex].gameObject, nextCi.transform.position, 0.2f);
+			iTween.MoveTo (target, nextCi.transform.position, 0.2f);
 
 			gameTimer.AddCountDown (0.2f, MoveAllEnd);
+
+			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
 		}
 	}
 
 	void MoveAllToPosition() {
-		GameInput.OnUpdate += OnUpdate;
+		GameInput.OnUpdate -= OnUpdate;
 		GenerateCardEnd ();
 	}
 
