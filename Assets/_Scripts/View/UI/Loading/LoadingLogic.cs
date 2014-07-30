@@ -26,7 +26,7 @@ public class LoadingLogic : ConcreteComponent {
     }
     
     public override void ShowUI () {
-//		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");StartLogin
+//		GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
 //      GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 
         base.ShowUI ();
@@ -157,7 +157,7 @@ public class LoadingLogic : ConcreteComponent {
 			}
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
