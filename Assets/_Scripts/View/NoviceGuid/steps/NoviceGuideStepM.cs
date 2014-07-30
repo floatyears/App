@@ -81,7 +81,9 @@ public class NoviceGuideStepM_StateTwo:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_two");
 		
-		GameObject first = GameObject.Find ("StageSelectWindow(Clone)").GetComponent<StageSelectView>().GetStageNewItem();
+		GameObject first = GameObject.Find ("StageSelectWindow(Clone)").GetComponent<StageSelectView>().GetStageEvolveItem();
+//		if(first == null)
+//			stepEntity.GetStateMachine ().ChangeState (null);
 		NoviceGuideUtil.ForceOneBtnClick (first);
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
@@ -142,7 +144,7 @@ public class NoviceGuideStepM_StateThree:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepM_StateFour.Instance());
+			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepM_StateFive.Instance());
 		}
 		else{
 			
@@ -224,7 +226,7 @@ public class NoviceGuideStepM_StateFive:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.INPUT_NAME;
+		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 	}
 	
 	

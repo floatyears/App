@@ -199,7 +199,7 @@ public class NoviceGuideStepJ_StateThree:NoviceGuidState{
 	{
 		
 		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepI_StateFour.Instance());
+			stepEntity.GetStateMachine ().ChangeState (null);
 		}
 		else{
 			
@@ -208,74 +208,74 @@ public class NoviceGuideStepJ_StateThree:NoviceGuidState{
 	
 }
 
-public class NoviceGuideStepJ_StateFour:NoviceGuidState{
-	
-	private static NoviceGuideStepJ_StateFour instance;
-	
-	public static NoviceGuideStepJ_StateFour Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepJ_StateFour ();
-		return instance;
-	}
-	
-	private NoviceGuideStepJ_StateFour ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepJ state_four");
-		
-		UIManager.Instance.forbidChangeScene = true;
-		
-		MsgCenter.Instance.AddListener (CommandEnum.levelDone, OnLevelDone);
-		
-	}
-	
-	private void OnLevelDone(object data){
-		UIManager.Instance.forbidChangeScene = false;
-		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide46_title");
-		mwp.contentText = TextCenter.GetText("guide46_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
-	}
-	
-	private void ClickOK(object data){
-		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
-		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-	}
-	
-	private void OnClickLevelUp(GameObject gm){
-		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-		
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
-	
-	public override void Exit (NoviceGuideStepEntity stepEntity)
-	{
-		NoviceGuideUtil.RemoveAllArrows ();
-	}
-	
-}
+//public class NoviceGuideStepJ_StateFour:NoviceGuidState{
+//	
+//	private static NoviceGuideStepJ_StateFour instance;
+//	
+//	public static NoviceGuideStepJ_StateFour Instance()
+//	{
+//		if (instance == null)
+//			instance = new NoviceGuideStepJ_StateFour ();
+//		return instance;
+//	}
+//	
+//	private NoviceGuideStepJ_StateFour ():base()	{}
+//	
+//	public override void Enter(NoviceGuideStepEntity stepEntity)
+//	{
+//		LogHelper.Log (stepEntity.GetType () + " is execute stepJ state_four");
+//		
+//		UIManager.Instance.forbidChangeScene = true;
+//		
+//		MsgCenter.Instance.AddListener (CommandEnum.levelDone, OnLevelDone);
+//		
+//	}
+//	
+//	private void OnLevelDone(object data){
+//		UIManager.Instance.forbidChangeScene = false;
+//		
+//		GuideWindowParams mwp = new GuideWindowParams ();
+//		//mwp.btnParams = new BtnParam[1];
+//		mwp.btnParam = new BtnParam ();
+//		mwp.titleText = TextCenter.GetText("guide46_title");
+//		mwp.contentText = TextCenter.GetText("guide46_content");
+//		
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = ClickOK;
+//		sure.text = TextCenter.GetText("NEXT");
+//		mwp.btnParam = sure;
+//		
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+//	}
+//	
+//	private void ClickOK(object data){
+//		GameObject gm = GameObject.FindWithTag ("scene_back_btn");
+//		
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
+//		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//	}
+//	
+//	private void OnClickLevelUp(GameObject gm){
+//		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//		
+//	}
+//	
+//	public override void Execute(NoviceGuideStepEntity stepEntity)
+//	{
+//		
+//		if (JumpToNextState) {
+//			stepEntity.GetStateMachine ().ChangeState (null);
+//		}
+//		else{
+//			
+//		}
+//	}
+//	
+//	public override void Exit (NoviceGuideStepEntity stepEntity)
+//	{
+//		NoviceGuideUtil.RemoveAllArrows ();
+//	}
+//	
+//}

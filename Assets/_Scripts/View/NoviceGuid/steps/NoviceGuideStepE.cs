@@ -40,7 +40,7 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 			if (!changeEnd) {
 				UIManager.Instance.ChangeScene (SceneEnum.NickName);
 			}else{
-				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
 				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
 				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
 			}

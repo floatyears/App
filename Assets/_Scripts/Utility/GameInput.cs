@@ -76,7 +76,7 @@ public class GameInput : MonoBehaviour  {
 		if(OnUpdate != null)
 			OnUpdate();
 
-		if (!noviceGuideShileInput && DGTools.IsNoviceGuide ()) {
+		if (!noviceGuideShileInput && NoviceGuideStepEntityManager.isInNoviceGuide()) {
 //			Debug.LogError("!noviceGuideShileInput && DGTools.IsNoviceGuide () ");
 			return;	
 		}

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class OperationNoticeView : UIComponentUnity {
 
+	private bool firstShow = true;
+
 	private List<GameObject> noticeList;
 
 	private string sourcePath = "Prefabs/UI/Notice/OperationNoticeQuest";
@@ -141,9 +143,10 @@ public class OperationNoticeView : UIComponentUnity {
 		if (!backHome) {
 			UIManager.Instance.ChangeScene (SceneEnum.Home);
 			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
-			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0) {
+			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 && firstShow) {
 				//			Debug.LogError ("show Reward scene... ");
 //				HideUI();
+				firstShow = false;
 				UIManager.Instance.ChangeScene (SceneEnum.Reward);
 //				HideUI();
 			}	

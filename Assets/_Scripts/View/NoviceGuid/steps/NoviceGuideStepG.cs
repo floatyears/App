@@ -138,8 +138,7 @@ public class NoviceGuideStepG_StateThree:NoviceGuidState{
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepG state_three");
-		
-		
+
 		GameObject party = GameObject.FindWithTag ("evolve");
 		
 		//LogHelper.Log (party.name);

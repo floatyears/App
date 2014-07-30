@@ -52,14 +52,14 @@ public class NoviceGuideStepEntityManager {
 	}
 	public static void InitGuideStage(int stage){
 		currentNoviceGuideStage = (NoviceGuideStage)stage;
-		if(currentNoviceGuideStage != NoviceGuideStage.NONE)
+		if(NoviceGuideStepEntityManager.isInNoviceGuide())
 			Umeng.GA.StartLevel("Novice" +(int)currentNoviceGuideStage);
 		Debug.Log("current novice guide stage(start): " + currentNoviceGuideStage);
 	}
 
 	public static bool isInNoviceGuide()
 	{
-		return currentNoviceGuideStage > 0;
+		return currentNoviceGuideStage != NoviceGuideStage.NONE && currentNoviceGuideStage!= NoviceGuideStage.UNIT_EVOLVE;
 	}
 //	
 	public static void FinishCurrentStep(){

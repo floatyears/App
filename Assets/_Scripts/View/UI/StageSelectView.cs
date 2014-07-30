@@ -45,7 +45,8 @@ public class StageSelectView : UIComponentUnity{
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, ShowEventCityView);
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+		if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOVLE_QUEST)
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 
 		if (currentCityName != "") {
 			SetSceneName(currentCityName);
@@ -138,7 +139,7 @@ public class StageSelectView : UIComponentUnity{
 			//when first time to step in
 			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
 			currPickedCityInfo = received;
-			Debug.LogError("received : " + received);
+//			Debug.LogError("received : " + received);
 			DestoryStages();
 			FillView();
 		} else if(!currPickedCityInfo.Equals(received)){
@@ -290,11 +291,12 @@ public class StageSelectView : UIComponentUnity{
 	
 	//===========evolve==============================================
 	void EvolveStartQuest (object data) {
-		Debug.LogError ("EvolveStartQuest");
+//		Debug.LogError ("EvolveStartQuest");
 		evolveStageInfo = data as TEvolveStart;
 		GetData(evolveStageInfo.StageInfo.CityId);
 		FillViewEvolve();
 
+		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVOLVETAGE"));
 	}
 
@@ -334,6 +336,21 @@ public class StageSelectView : UIComponentUnity{
 			}
 		}
 
+		return null;
+	}
+
+	public GameObject GetStageEvolveItem(){
+		foreach (var item in storyStageList) {
+			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
+				return item.gameObject;
+			}
+//			else{
+//				item.ShowIconByState(StageState.LOCKED);
+//				//				UIEventListener listener = item.GetComponent<UIEventListener>();
+//				//				listener.onClick = null;
+//				//				Destroy(listener);
+//			}
+		}
 		return null;
 	}
 
