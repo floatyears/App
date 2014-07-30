@@ -69,7 +69,7 @@ public class BattleCardArea : UIBaseUnity {
 	int maxBoostRandom = 0;
 
 	void SetBoost () {
-		maxBoostRandom = DGTools.IsNoviceGuide() ? 5 : 10;
+		maxBoostRandom = NoviceGuideStepEntityManager.isInNoviceGuide() ? 5 : 10;
 
 		if (boostIndex > -1 && boostIndex < 5) {
 			battleCardAreaItem[boostIndex].isBoost = false;

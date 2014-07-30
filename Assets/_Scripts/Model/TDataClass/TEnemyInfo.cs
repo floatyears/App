@@ -92,7 +92,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
 		bool one = ConfigBattleUseData.Instance.NotDeadEnemy;
-		if (DGTools.IsNoviceGuide()) {
+		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			if(one || !CheckNoviceDeadable()) {
 				if (initBlood <= 0) {
 					initBlood = 10;

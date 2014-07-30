@@ -182,10 +182,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 
 
-
 		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
 		unitBodyTex.mainTexture = null;
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOLVE) {
+//			Debug.Log("guide stage: " + NoviceGuideStepEntityManager.CurrentNoviceGuideStage);
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		}
+			
 	}
 
 	void ClickTab(GameObject tab){
@@ -691,14 +694,27 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 
 		if (oldBlendUnit != null) {
-			if(curLevel > oldBlendUnit.UnitInfo.MaxLevel) {
-				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE; 
+			if(curLevel >= oldBlendUnit.UnitInfo.MaxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+//				Debug.Log("evolve parts: " + (int)NoviceGuideStage.UNIT_EVOLVE);
+				UserguideEvoUnit.SendRequest(o=>{
+//					Debug.Log("evolve parts");
+					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
+					if (rsp.header.code == ErrorCode.SUCCESS) {
+						if (rsp != null && rsp.addUnit.Count > 0 ) {
+							DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.addUnit);
+						}
+					}else {
+						Debug.LogError("UserGuideEvolveUnit ret err:"+rsp.header.code);
+					}
+				},oldBlendUnit.UnitID);
 			}
+
 			oldBlendUnit = null;	
 		}
 
-		if (DGTools.IsNoviceGuide ()) {
-			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
+		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+//			Debug.Log("goto home");
+			UIManager.Instance.baseScene.PrevScene = SceneEnum.Units;
 		}
 	}
 

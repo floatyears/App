@@ -152,7 +152,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void OnRealease () {
-		if (noviceGuideNotClick && DGTools.IsNoviceGuide ()) {
+		if (noviceGuideNotClick && NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			return;	
 		}
 

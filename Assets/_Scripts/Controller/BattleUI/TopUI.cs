@@ -88,7 +88,7 @@ public class TopUI : UIBaseUnity {
 
 	void Retry(GameObject go) {
 #if !UNITY_EDITOR
-		if (DGTools.IsNoviceGuide ()) {
+		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			return;	
 		}
 #endif
@@ -98,7 +98,7 @@ public class TopUI : UIBaseUnity {
 
 	void ShowMenu (GameObject go) {
 #if !UNITY_EDITOR
-		if (DGTools.IsNoviceGuide ()) {
+		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			return;	
 		}
 #endif
