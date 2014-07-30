@@ -106,7 +106,7 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 
-		UserGuideAnim (null);
+//		UserGuideAnim (null);
 	}
 
 	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
