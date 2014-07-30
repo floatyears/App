@@ -63,7 +63,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	private bool isLoginSent = false;
 
-	private bool isShowRetry = false;
+	private bool isShowRetry = true;
 
 	private WWW www = null;
 
@@ -203,26 +203,43 @@ public class ResourceUpdate : MonoBehaviour {
 		if (!isLoginSent) {
 			if (downLoadItemList.Count <= 0 && startDown) {
 				if(retryItemList.Count > 0){
-					if(!isShowRetry){
-						isShowRetry = true;
+//					if(!isShowRetry){
+//						isShowRetry = true;
 						
 						MsgWindowParams mwp = new MsgWindowParams ();
-						mwp.btnParams = new BtnParam[2];
+						mwp.btnParam = new BtnParam();
 						
-						mwp.titleText = TextCenter.GetText("DownloadErrorTitle");
-						mwp.contentText = TextCenter.GetText("DownloadErrorContent");
+						mwp.titleText = 
+#if LANGUAGE_EN
+						"Download Error";
+#else
+						"下载错误";
+#endif
+							//TextCenter.GetText("DownloadErrorTitle");
+						mwp.contentText = //TextCenter.GetText("DownloadErrorContent");
+#if LANGUAGE_EN
+						"There is an error occured when dowloading resources, please connect to the Internet and Retry!";
+#else
+						"下载资源过程中出现错误，请连接到服务器并重试！";
+#endif
 						
 						BtnParam sure = new BtnParam ();
 						sure.callback = DownloadAgain;
-						sure.text = TextCenter.GetText("Retry");
-						mwp.btnParams[0] = sure;
+						sure.text = //TextCenter.GetText("Retry");
+#if LANGUAGE_EN
+						"Retry";
+#else
+						"重试";
+#endif
+
+						mwp.btnParams = sure;
 						
-						sure = new BtnParam ();
-						sure.callback = ExitGame;
-						sure.text = TextCenter.GetText("Cancel");
-						mwp.btnParams[1] = sure;
+//						sure = new BtnParam ();
+//						sure.callback = ExitGame;
+//						sure.text = TextCenter.GetText("Cancel");
+//						mwp.btnParams[1] = sure;
 						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-					}
+//					}
 					
 				}else {
 					isLoginSent = true;

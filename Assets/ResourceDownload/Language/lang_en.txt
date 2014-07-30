@@ -354,7 +354,7 @@ WeekCardDesc=Get 100 Magic Stones everyday for 7 days!
 FriendGacha=Start Pal Point Summons
 FriendGachaTitle=Pal Point Summon
 FriendGachaDescription=Spend pal points to summon usefull cards?
-FriendGachaStatus=1 Summon: {0} Pal Points \n{1} Summons: {2} Pal Points\n\nYou have {3} Pal Points now.
+FriendGachaStatus=1 Summon: {0} Pal Points \n{1} Summons: {2} Pal Points\nYou have {3} Pal Points now.
 
 ConfirmOneFriendGacha=Summon once
 ConfirmMaxFriendGacha=Summon {0} times
@@ -366,7 +366,7 @@ GachaFriendPointNotEnough=One summon need {0} pal points\nYour pal points not en
 RareGacha=Start Rare Summon
 RareGachaTitle=Rare Summon
 RareGachaDescription=Spend magic stones to summon strong cards?
-RareGachaStatus=1 Summon: {0} Magic Stones\n{1} Summons: {2} Magic Stones\n\nYou have {3} magic stones now.
+RareGachaStatus=1 Summon: {0} Magic Stones\n{1} Summons: {2} Magic Stones\nYou have {3} magic stones now.
 
 ConfirmOneRareGacha=Summon once
 ConfirmMaxRareGacha=Summon {0} times
@@ -377,7 +377,7 @@ RareGachaStoneNotEnough=Rare summon need {0} Magic Stones\nYour Magic Stones not
 EventGacha=Start Event Summon
 EventGachaTitle=Event Summon
 EventGachaDescription=Spend magic stones to summon rare cards?
-EventGachaStatus=1 Summon: {0} magic stones\n {1} Summons: {2} magic stones\n\nYou have {3} magic stones now.
+EventGachaStatus=1 Summon: {0} magic stones\n {1} Summons: {2} magic stones\nYou have {3} magic stones now.
 
 ConfirmOneEventGacha=Summon once
 ConfirmMaxEventGacha=Summon {0} times

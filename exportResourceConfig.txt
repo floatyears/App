@@ -1,1 +1,1 @@
-FSavePath:/Users/Resource/Output;Filename:Language_en;Extension:unity3dy3ddion:unity3dd
+FSavePath:/Users/Resource/Output;Filename:Protobuf_en;Extension:unity3dy3ddion:unity3dd
