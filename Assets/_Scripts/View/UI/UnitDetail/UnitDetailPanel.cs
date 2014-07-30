@@ -167,10 +167,14 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	bool ShowTexture = false;
 
-//	static bool isNovceGuide = false;
+	bool isNoviceGUide = true;
 
 	void ClickTexture( GameObject go ){
 		if (!ShowTexture) {
+			return;	
+		}
+
+		if (isNoviceGUide && NoviceGuideStepEntityManager.isInNoviceGuide ()) {
 			return;	
 		}
 
@@ -181,12 +185,13 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 
+		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );	
 
-		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );
+
 		unitBodyTex.mainTexture = null;
+
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOLVE) {
-//			Debug.Log("guide stage: " + NoviceGuideStepEntityManager.CurrentNoviceGuideStage);
-						NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 		}
 			
 	}
@@ -449,6 +454,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
+			isNoviceGUide = false;
 			ShowInfo (oldBlendUnit);
 		} else if (userUnit != null) {
 			if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
@@ -456,14 +462,15 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			} else {
 				unitLock.SetActive(false);
 			}
+			isNoviceGUide = false;
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
-
+			isNoviceGUide = false;
 			if(rlu ==null) {
 				return;
 			}
-
+			isNoviceGUide = true;
 			PlayLevelUp(rlu);
 		}
 	}
@@ -712,12 +719,20 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 			oldBlendUnit = null;	
 		}
+
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
-			UIManager.Instance.ChangeScene(SceneEnum.Scratch);
-		}else if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
-//			Debug.Log("goto home");
+			UIManager.Instance.baseScene.PrevScene = SceneEnum.Scratch;
+		} else if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			UIManager.Instance.baseScene.PrevScene = SceneEnum.Units;
 		}
+	}
+
+	void LevelupExpRiseEnd() {
+		isNoviceGUide = false;
+		ClickTexture (null);
+//		LevelUpEnd ();
+
+
 	}
 
 	void ExpRise () {
@@ -726,7 +741,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //				isNovceGuide = false;
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
 				levelDone = false;
-				GameTimer.GetInstance().AddCountDown(1f, LevelUpEnd);
+				GameTimer.GetInstance().AddCountDown(1f, LevelupExpRiseEnd);
 			}
 			return;	
 		}	
