@@ -92,7 +92,7 @@ public class BattleQuest : UIBase {
 
 	void CreatEffect () {
 		if (attackEffect == null) {
-			ResourceManager.Instance.LoadLocalAsset("Effect/AttackEffect", o => {
+			ResourceManager.Instance.LoadLocalAsset("Effect/effect/AttackEffect", o => {
 				GameObject go = NGUITools.AddChild (ViewManager.Instance.ParentPanel, o as GameObject);
 				go.transform.localPosition = battle.battleRootGameObject.transform.localPosition;
 				attackEffect = go.GetComponent<AttackEffect> ();
