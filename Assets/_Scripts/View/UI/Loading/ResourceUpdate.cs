@@ -232,7 +232,7 @@ public class ResourceUpdate : MonoBehaviour {
 						"重试";
 #endif
 
-						mwp.btnParams = sure;
+						mwp.btnParam = sure;
 						
 //						sure = new BtnParam ();
 //						sure.callback = ExitGame;
