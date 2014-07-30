@@ -448,13 +448,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	//--------------interface function-------------------------------------
-//	private TUserUnit curUserUnit;
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-		curUserUnit = userUnit;
 
 		if ( oldBlendUnit != null ) {
 			isNoviceGUide = false;
+			curUserUnit = oldBlendUnit;
 			ShowInfo (oldBlendUnit);
 		} else if (userUnit != null) {
 			if (userUnit.userID == DataCenter.Instance.UserInfo.UserId) {
@@ -463,6 +462,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 				unitLock.SetActive(false);
 			}
 			isNoviceGUide = false;
+			curUserUnit = userUnit;
 			ShowInfo (userUnit);
 		} else {
 			RspLevelUp rlu = data as RspLevelUp;
@@ -474,8 +474,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			PlayLevelUp(rlu);
 		}
 	}
-
-
+	
 	/// <summary>
 	/// true is shield. false is can click.
 	/// </summary>
@@ -497,9 +496,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
-
+		curUserUnit = newBlendUnit;
 		ShowLevelInfo (newBlendUnit);
-
 		TUserUnit tuu = DataCenter.Instance.levelUpFriend;
 		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
 		friendEffect.gameObject.SetActive (true);
@@ -811,6 +809,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	}
 
 	private void ClickLock(GameObject go){
+		Debug.LogError ("ClickLock : " + curUserUnit);
 		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
 		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
 		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);

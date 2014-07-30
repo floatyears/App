@@ -245,7 +245,7 @@ public class BattleBottom : MonoBehaviour {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("Bottom");	
 		}
-		Debug.Break ();
-		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
+//		Debug.Break ();
+//		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
 	}
 }
