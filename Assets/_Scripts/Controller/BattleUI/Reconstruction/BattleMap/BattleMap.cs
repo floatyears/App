@@ -57,12 +57,19 @@ public class BattleMap : UIBaseUnity {
 			mapBGTexture = FindChild<UITexture>("BG");
 
 		uint mapID = 0;
-		uint stageID = ConfigBattleUseData.Instance.currentStageInfo.ID % 10;
-		if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
-			mapID = stageID == 1 ? 7 : -- stageID;
+		TStageInfo tsi = ConfigBattleUseData.Instance.currentStageInfo;
+
+		if (tsi == null) {
+			mapID = 2;
 		} else {
-			mapID = stageID;
+			uint stageID = tsi.ID % 10;
+			if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
+				mapID = stageID == 1 ? 7 : -- stageID;
+			} else {
+				mapID = stageID;
+			}
 		}
+
 		string path = "Texture/Map/battlemap_" + mapID.ToString ();
 //		Debug.LogError ("path : " + path);
 		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset (path, null) as Texture2D;
