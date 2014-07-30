@@ -304,13 +304,13 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 	public void StartDownload(){
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
-			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
+//			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
 			LoadVersionConfig(serverVersion.text,serverVersionDic);
 			
 			//load the local version.txt. if not exists, jump through the init.
 
 			StartCoroutine(Download(localResPath + "version.txt",delegate(WWW localVersion) {
-				Debug.Log("local version err: " + localVersion.error);
+//				Debug.Log("local version err: " + localVersion.error);
 
 //				Debug.Log("local version txt: " + File.ReadAllText(localResFullPath + "version.txt"));
 
@@ -331,7 +331,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 		string[] records = content.Split (new string[]{"\n"},System.StringSplitOptions.RemoveEmptyEntries);
 		int i = 0;
-		Debug.Log ("version content: " + content);
+//		Debug.Log ("version content: " + content);
 		if (records [0].IndexOf ("version") >= 0) {
 			version = records[0].Split(':')[1];
 			i = 1;
@@ -347,11 +347,11 @@ public class ResourceUpdate : MonoBehaviour {
 	//generate the localVersionConfig.txt base the localVersionDic.
 	void UpdateLocalVersionConfig(string name,bool wirteToFile)
 	{
-		Debug.Log ("version config save before");
+//		Debug.Log ("version config save before");
 		localVersionDic[name] = serverVersionDic[name];
 		if (!wirteToFile)
 			return;
-		Debug.Log ("version config save");
+//		Debug.Log ("version config save");
 		string verStr = "";
 		foreach (var value in localVersionDic.Values) {
 //			foreach(string item in value)
@@ -366,7 +366,7 @@ public class ResourceUpdate : MonoBehaviour {
 		//File.WriteAllText (localVersionPath, verStr);
 
 		//only for test
-		Debug.Log ("local version path: " + localResFullPath);
+//		Debug.Log ("local version path: " + localResFullPath);
 		File.WriteAllText (localResFullPath + "version.txt",verStr);
 //		WriteStringToFile (verStr, localResFullPath + "version.txt");
 	}

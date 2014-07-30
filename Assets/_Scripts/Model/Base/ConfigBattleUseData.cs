@@ -156,7 +156,6 @@ public class ConfigBattleUseData {
 //		Debug.LogError ("ResetFromDisk : " + questDungeonData.currentFloor);
 		ReadQuestInfo ();
 		ReadStageInfo ();
-		Debug.LogError("ResetFromDisk : " + currentStageInfo);
 		ReadAllBuff ();
 		ReadRuntimeData ();
 		roleInitCoordinate = _storeBattleData.roleCoordinate;
@@ -321,16 +320,13 @@ public class ConfigBattleUseData {
 	public void WriteStageInfo() {
 		if (currentStageInfo == null)
 			return;
-
 		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo.stageInfo);
-
 		WriteToFile (stage, stageInfoName);
 	}
 
 	void ReadStageInfo() {
 		byte[] friend = ReadFile (stageInfoName);
 		StageInfo qi = ProtobufSerializer.ParseFormBytes<StageInfo> (friend);
-		Debug.LogError("ReadStageInfo : " + qi);
 		currentStageInfo = new TStageInfo (qi);
 	}
 	//end
