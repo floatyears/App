@@ -167,7 +167,7 @@ public class ResourceUpdate : MonoBehaviour {
 ////					}
 //					continue;
 //				}
-				if(www.isDone) {
+				if(www.isDone && string.IsNullOrEmpty(www.error)) {
 					//TODO download done.
 					UpdateLocalRes(item);
 					alreadyDone += item.size;
