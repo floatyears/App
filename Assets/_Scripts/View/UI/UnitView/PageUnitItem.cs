@@ -19,7 +19,7 @@ public class PageUnitItem : MyUnitItem {
 	protected override void InitUI(){
 		base.InitUI();
 		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
-		maskSpr.enabled = false;
+//		maskSpr.enabled = false;
 	}
 	
 	protected override void InitState(){
@@ -48,4 +48,5 @@ public class PageUnitItem : MyUnitItem {
 		base.PressItem(item);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
 	}
+	
 }

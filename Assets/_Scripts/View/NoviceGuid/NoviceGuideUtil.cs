@@ -31,6 +31,7 @@ public class NoviceGuideUtil {
 				//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
 				GameObject arrow = NGUITools.AddChild (parent, obj);
 				GameObject tap = arrow.transform.FindChild("Sprite/Sprite").gameObject;
+				tap.layer = arrow.transform.FindChild("Sprite").gameObject.layer = arrow.layer;
 				if(showTap){
 					tap.GetComponent<UISprite>().enabled = true;
 				}else{
@@ -89,7 +90,7 @@ public class NoviceGuideUtil {
 
 				arrow.transform.FindChild("Sprite").transform.Rotate (dir);
 				tap.transform.Rotate (-dir);
-				NGUITools.AdjustDepth (arrow, 1000);
+				NGUITools.AdjustDepth (arrow, 20);
 				//			if(obj.transform.parent != null)
 				//			{
 				//LogHelper.Log("-------///-......parent is not null: " + obj.transform.parent);

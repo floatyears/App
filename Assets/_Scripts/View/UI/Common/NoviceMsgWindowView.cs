@@ -62,6 +62,8 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	BoxCollider clider;
 	GameObject maskObj;
 
+	public bool isShow;
+
 	GuideWindowParams msgWindowParams = new GuideWindowParams();
 
 	private int originWidth = 560;
@@ -116,6 +118,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 //				LogHelper.Log("open msgWindow and block input");
 //				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
 //				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
+			if(!isShow)
 				TouchEventBlocker.Instance.SetState(BlockerReason.NoviceGuide,true);
 //			}
 //			else {
@@ -131,11 +134,14 @@ public class NoviceMsgWindowView : UIComponentUnity{
 //				LogHelper.Log("close msgWindow and resume input");
 //				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, 
 //				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
+			//there may be some conditions that the ShowSelf execute more than once with the same canShow, then the layer may be invalid.
+			if(isShow)
 				TouchEventBlocker.Instance.SetState(BlockerReason.NoviceGuide,false);
 //			}
 //			SetLayerToBlocker(true);
 			LogHelper.Log("open msgWindow showSelf false");
 		}
+		isShow = canShow;
 	}
 	
 	void Reset(){
