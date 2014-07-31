@@ -11,7 +11,7 @@ public class LevelUpItem : MyUnitItem {
 	public LevelUpItemCallback callback;
 	
 	protected override void ClickItem(GameObject item){
-		Debug.LogError ("ClickItem :  " + callback);
+//		Debug.LogError ("ClickItem :  " + callback);
 		if(callback != null) {
 			callback(this);
 		}
@@ -43,14 +43,14 @@ public class LevelUpItem : MyUnitItem {
 	}
 	
 	protected override void RefreshState(){
-		Debug.LogError ("RefreshState");
+//		Debug.LogError ("RefreshState");
 		base.RefreshState();
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
 			//IsEnable is FALSE as long as IsParty is TRUE
 //			Debug.LogError("IsParty : " + IsParty);
-			IsEnable = !IsParty;
-			Debug.LogError("IsEnable : " + IsEnable);
+//			IsEnable = !IsParty;
+//			Debug.LogError("IsEnable : " + IsEnable);
 		}
 	}
 }

@@ -261,10 +261,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void ResetUIAfterLevelUp(object data) {
 		ClearData ();
-		Debug.LogError("ResetUIAfterLevelUp  =======================================");
+//		Debug.LogError("ResetUIAfterLevelUp  =======================================");
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
-		Debug.LogError ("tuu : " + tuu.isEnable);
+//		Debug.LogError ("tuu : " + tuu.isEnable);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 		clear = true;
 		ShowData ();
@@ -310,7 +310,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// Selecteds material item's callback.
 	/// </summary>
 	void SelectedItemCallback(LevelUpItem piv) {
-		Debug.LogError ("SelectedItemCallback : " + piv);
+//		Debug.LogError ("SelectedItemCallback : " + piv);
 		if (prevMaterialItem == null) {
 			DisposeNoPreMaterial (piv);
 		} else {
@@ -321,7 +321,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void SelectBaseItemCallback(LevelUpItem piv){
-		Debug.LogError ("SelectBaseItemCallback : " + piv + " prevMaterialItem == null : " + (prevMaterialItem == null));
+//		Debug.LogError ("SelectBaseItemCallback : " + piv + " prevMaterialItem == null : " + (prevMaterialItem == null));
 
 		if (prevMaterialItem == null) {
 			DisposeNoPreMaterial (piv);
@@ -350,7 +350,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void DisposeNoPreMaterial(LevelUpItem piv) {
 		if (CheckBaseItem (piv)) {
-			Debug.LogError("DisposeNoPreMaterial" );
+//			Debug.LogError("DisposeNoPreMaterial" );
 			ShieldParty (true,piv);		
 		} else {
 			ShieldParty(false,piv);
@@ -562,10 +562,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //				Debug.LogError("baseItem != null : " +(baseItem != null) + " baseItem.UserUnit != null : " + (baseItem.UserUnit != null) + " pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID); 
 //				bool baseNull = ;
 //				Debug.LogError("ShieldParty : " + )
-				if(baseItem != null) {
-					if(baseItem.UserUnit != null)
-						Debug.LogError(" pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID);;
-				}
+//				if(baseItem != null) {
+//					if(baseItem.UserUnit != null)
+//						Debug.LogError(" pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID);;
+//				}
 
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
 					continue;

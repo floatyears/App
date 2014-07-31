@@ -489,7 +489,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		curUserUnit = newBlendUnit;
-		ShowLevelInfo (newBlendUnit);
+		ShowLevelInfo (oldBlendUnit);
 		TUserUnit tuu = DataCenter.Instance.levelUpFriend;
 		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
 		friendEffect.gameObject.SetActive (true);

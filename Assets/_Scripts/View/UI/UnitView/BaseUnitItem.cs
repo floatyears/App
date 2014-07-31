@@ -122,7 +122,7 @@ public class BaseUnitItem : MonoBehaviour {
 		maskSpr.enabled = !IsEnable;
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
 		listener.LongPress = PressItem;
-		Debug.LogError ("script : " + this + "gameobject : " + gameObject + " isenable : " + IsEnable);
+//		Debug.LogError ("script : " + this + "gameobject : " + gameObject + " isenable : " + IsEnable);
 		if (IsEnable) {
 			listener.onClick = ClickItem;
 		} else {
@@ -131,7 +131,7 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	void PlayClickAudio(GameObject go) {
-		Debug.LogError ("PlayClickAudio  gameobject : " + gameObject);
+//		Debug.LogError ("PlayClickAudio  gameobject : " + gameObject);
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
 	}
 
