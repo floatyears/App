@@ -235,12 +235,8 @@ public class LoadingLogic : ConcreteComponent {
 	uint recoverQuestID = 0;
 
 	void EnterGame () {
-
-		//		UIManager.Instance.ChangeScene (SceneEnum.Reward);
-
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
-//			TurnToReName();
 		} else {
 			UIManager.Instance.ChangeScene(SceneEnum.Start);
 			
@@ -260,8 +256,6 @@ public class LoadingLogic : ConcreteComponent {
 				}	
 			}
 		}
-
-
 	}
 
 	void SureRetry(object data) {

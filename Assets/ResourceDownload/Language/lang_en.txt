@@ -205,9 +205,9 @@ Type_Wind=Wind
 RedoQuest=Redo
 GoOnQuest=Go on
 RedoQuestTitle=Confirm
-RedoQuestContent=Use [FFD567]{0}[-] magic stones to redo this floor of quest? \n\nYou own [FFD567]{1}[-] magic stones now.
+RedoQuestContent=Use [FFB14A]{0}[-] magic stones to redo this floor of quest? \n\nYou own [FFB14A]{1}[-] magic stones now.
 ResumeQuestTitle=Resume Confirm
-ResumeQuestContent=Use [FFD567]{0}[-] magic stones to resume the quest? \n(The SP and HP will be recovered.)
+ResumeQuestContent=Use [FFB14A]{0}[-] magic stones to resume the quest? \n(The SP and HP will be recovered.)
 NotEnoughStone=Not enough magic stones。
 RetryClearQuestNet=Network error, Please click OK to retry.
 RetryClearQuestTitle=Server error
@@ -228,8 +228,8 @@ ProgressTotal=Total：
 
 #Friend search
 SearchError=Search Error
-SearchFriendNotExist=The userid [FFD567]{0}[-] is not exist.
-UserAlreadyFriend=The ID [FFD567]{0}[-] you searched is already your pal!
+SearchFriendNotExist=The userid [FFB14A]{0}[-] is not exist.
+UserAlreadyFriend=The ID [FFB14A]{0}[-] you searched is already your pal!
 NotPremiumFriend=You cannot choose premium pals.
 
 InputError=Input Error
@@ -285,13 +285,13 @@ RankReach=Rank {0}
 
 #notice
 Notice_HelperTitle=Welcome Back!
-Notice_HelperContent=You have logined for [FFD567]{0}[-] days, helped [FFD567]{1}[-] Friends and [FFD567]{2}[-] Adventurers, got [FFD567]{3}[-] pals points.
+Notice_HelperContent=You have logined for [FFB14A]{0}[-] days, helped [FFB14A]{1}[-] Friends and [FFB14A]{2}[-] Adventurers, got [FFB14A]{3}[-] pals points.
 
 #unit detail
-UnitDetail_EvolveTitle=[FFD567]Acquired from following Quests:[-]
-UnitDetail_LevelUpTitle=[FFD567]Power-up Fusion Exp[-]
-UnitDetail_LevelUpContent=Power-up for normal monsters, will provide [FFD567]{0}[-] exp.
-UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide [FFD567]{1}[-] exp.
+UnitDetail_EvolveTitle=[FFB14A]Acquired from:
+UnitDetail_LevelUpTitle=Power-up Fusion Exp:
+UnitDetail_LevelUpContent=Power-up for normal monsters, will provide [FFB14A]{0}[-] exp.
+UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide [FFB14A]{1}[-] exp.
 
 # shop
 BillingNotSupported_Title=Billing Not Supported
@@ -304,8 +304,8 @@ Btn_Unit_Expand=Extend Monsters
 Btn_Stamina_Recover=Recover Stamina
 
 FriendExpand=Extend Friend Capacity
-FriendExpansionConfirm=Spend [FFD567]{0}[-] magic stones to expand [FFD567]{1}[-] friends?
-FriendExpansionInfo=Now friends: [FFD567]{0}[-]/{1}
+FriendExpansionConfirm=Spend [FFB14A]{0}[-] magic stones to expand [FFB14A]{1}[-] friends?
+FriendExpansionInfo=Now friends: [FFB14A]{0}[-]/{1}
 DoFriendExpand=Extend
 
 FriendExpansionFailed=Friend Max Expansion Failed
@@ -313,7 +313,7 @@ FriendCountLimitReachedMax=Now your friend capacity has reached max.
 FriendExpandStonesNotEnough=You donot have enough magic stones to expand friend limit.
 
 FriendExpansionFinish=Expansion Success
-FriendExpansionResult=Friend Limited Max reached [FFD567]{0}[-]!
+FriendExpansionResult=Friend Limited Max reached [FFB14A]{0}[-]!
 
 StaminaRecover=Recover your stamina
 StaminaRecoverConfirm=Spend {0} magic stones to recover stamina?
@@ -327,8 +327,8 @@ StaminaRecoverFinish=Stamina Recovered
 StaminaRecoverResult=Your stamina recovered to {0}.
 
 UnitExpand=Extend Monster Box
-UnitExpansionConfirm=Spend [FFD567]{0}[-] magic stones to extend monster box capacity?
-UnitExpansionInfo=Now capacity: [FFD567]{0}[-]/{1}
+UnitExpansionConfirm=Spend [FFB14A]{0}[-] magic stones to extend monster box capacity?
+UnitExpansionInfo=Now capacity: [FFB14A]{0}[-]/{1}
 DoUnitExpansion=Extend
 
 UnitExpansionFailed=Monster Box Extension Failed
@@ -353,37 +353,37 @@ WeekCardDesc=Get 100 magic stones everyday for 7 days!
 FriendGacha=Pal Point Summons
 FriendGachaTitle=Pal Point Summon
 FriendGachaDescription=Spend pal points to summon useful cards?
-FriendGachaStatus=1 Summon: [FFD567]{0}[-] Pal Points \n{1} Summons: [FFD567]{2}[-] Pal Points.
+FriendGachaStatus=1 Summon: [FFB14A]{0}[-] Pal Points \n{1} Summons: [FFB14A]{2}[-] Pal Points.
 
 ConfirmOneFriendGacha=Summon Once
 ConfirmMaxFriendGacha=Summon {0} Times
 
 FriendGachaFailed=[FF0000]Friend Summon Failed[-]
 UnitCountReachedMax=Now your cards owned overed limit:[FF0000]{0}/[-]{1}, you can't summon.
-GachaFriendPointNotEnough=One summon need [FFD567]{0}[-] pal points\nYour pal points not enough.
+GachaFriendPointNotEnough=One summon need [FFB14A]{0}[-] pal points\nYour pal points not enough.
 
 RareGacha=Rare Summon
 RareGachaTitle=Rare Summon
 RareGachaDescription=Spend magic stones to summon strong cards?
-RareGachaStatus=1 Summon:  [FFD567]{0}[-] magic stones\n{1} Summons:  [FFD567]{2}[-] magic stones
+RareGachaStatus=1 Summon:  [FFB14A]{0}[-] magic stones\n{1} Summons:  [FFB14A]{2}[-] magic stones
 
 ConfirmOneRareGacha=Summon once
 ConfirmMaxRareGacha=Summon {0} times
 
 RareGachaFailed=[FF0000]Rare Summon Failed[-]
-RareGachaStoneNotEnough=Rare summon need [FFD567]{0}[-] magic stones\nYou donot have enough magic stones.
+RareGachaStoneNotEnough=Rare summon need [FFB14A]{0}[-] magic stones\nYou donot have enough magic stones.
 
 EventGacha=Event Summon
 EventGachaTitle=Event Summon
 EventGachaDescription=Spend magic stones to summon rare cards?
-EventGachaStatus=1 Summon:  [FFD567]{0}[-] magic stones\n [FFD567]{1}[-] Summons:  [FFD567]{2}[-] magic stones.
+EventGachaStatus=1 Summon:  [FFB14A]{0}[-] magic stones\n [FFB14A]{1}[-] Summons:  [FFB14A]{2}[-] magic stones.
 
 ConfirmOneEventGacha=Summon Once
 ConfirmMaxEventGacha=Summon {0} Times
 
 EventGachaFailed=[FF0000]Event Summon Failed[-]
 EventGachaNotOpen=Our next event summon will coming soon, please wait.
-EventGachaStoneNotEnough=1 event summon need [FFD567]{0}[-] magic stones\nYour do not have enough magic stones.
+EventGachaStoneNotEnough=1 event summon need [FFB14A]{0}[-] magic stones\nYour do not have enough magic stones.
 
 FriendScratch=Friend Summon
 RareScratch=Rare Summon
@@ -393,7 +393,7 @@ GachaChances=Chances {0}/{1}
 Lv=Lv {0}
 
 
-LevelUpMoneyNotEnough=It's need [FFD567]{0}[-] coins for Power-up, your have not enough coins.
+LevelUpMoneyNotEnough=It's need [FFB14A]{0}[-] coins for Power-up, your have not enough coins.
 MoneyNotEnoughTitle=Coins Not Enough
 
 ###
@@ -1296,7 +1296,7 @@ guide14_content=You can get a lot of Coins from treasure box.
 guide15_title=Movement and SP
 guide15_content=Every move costs 1 SP. After SP becomes 0, every move will cost HP. Be careful!
 guide16_title=Enemy floor
-guide16_content=Five Skeletons means very dangerous, be careful to move. \nThen let's enter battle!
+guide16_content=The number of skeletons means how dangerous it is, be careful to move. \nThen let's enter battle!
 guide17_title=Angela Guide
 guide17_content=Let me give you a lesson!
 guide18_title=Angela Guide

@@ -8,9 +8,8 @@ public class EffectManager {
 		DragCard,
 
 		Gacha,
-//		PassiveAntiAttack,
-//
-//		LeaderSkillExtrackAttack,
+
+		ActiveSkill,
 	}
 
 	private static EffectManager instance;
@@ -39,6 +38,9 @@ public class EffectManager {
 		switch (effect) {
 		case EffectEnum.DragCard:
 			path = "card_effect";
+			break;
+		case EffectEnum.ActiveSkill:
+			path = "activeskill_enabled";
 			break;
 //		case EffectEnum.PassiveAntiAttack:
 //			path = "PS-fight-back";

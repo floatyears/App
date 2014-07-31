@@ -65,10 +65,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private TUserUnit baseData = null;
 	
 	private SortRule _sortRule;
-	private SortRule sortRule {
-		set { _sortRule = value; } //sortLabel.text = value.ToString(); }
-		get { return _sortRule; }
-	}
 
 	List<TUserUnit> materialInfo = new List<TUserUnit> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
@@ -255,7 +251,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 	
 	void InitUI () {
 		CreatPanel ();
-		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
+		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
 
 //		SortUnitTool.SortByTargetRule(sortRule, allData);
 //		unitItemDragPanel.RefreshItem (allData);
@@ -289,14 +285,22 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	private void ReceiveSortInfo(object msg){
-		sortRule = (SortRule)msg;
+		_sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 		unitItemDragPanel.RefreshItem (allData);
+
+		RefreshSortInfo ();
+	}
+
+	void RefreshSortInfo() {
+		foreach (var item in unitItemDragPanel.scrollItem) {
+			item.CurrentSortRule = _sortRule;
+		}
 	}
 
 	private void SortUnitByCurRule(){
-		SortUnitTool.SortByTargetRule(sortRule, allData);
-		SortUnitTool.StoreSortRule (sortRule, SortRuleByUI.Evolve);
+		SortUnitTool.SortByTargetRule(_sortRule, allData);
+		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.Evolve);
 
 	}
 
@@ -317,6 +321,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	void RefreshView() {
+		SortUnitByCurRule ();
+
 		List<MyUnitItem> myUnitItem = unitItemDragPanel.RefreshItem(allData);
 		for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
 			evolveDragItem.RemoveAt(i);
@@ -332,6 +338,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 				normalDragItem.Add(edi);
 			}
 		}
+
+		RefreshSortInfo ();
 	}
 
 	bool CheckCanEvolve(TUserUnit tuu) {
