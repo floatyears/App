@@ -121,7 +121,7 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void ClickToLogin(GameObject btn){
-		Debug.Log("click to login: " + initComplete);
+//		Debug.Log("click to login: " + initComplete);
 		if(initComplete)
 			Login();
     }

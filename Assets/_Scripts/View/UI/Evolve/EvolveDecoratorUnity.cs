@@ -11,6 +11,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	public override void ShowUI () {
 		bool b = friendWindow != null && friendWindow.isShow;
 		if (b) {
+			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 			friendWindow.gameObject.SetActive (true);
 		} else {
 			SetObjectActive(true);
@@ -362,6 +363,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 
 	void SetObjectActive(bool active) {
+		MsgCenter.Instance.Invoke (CommandEnum.HideSortView, active);
+
 		if (gameObject.activeSelf != active) {
 			gameObject.SetActive (active);
 		}

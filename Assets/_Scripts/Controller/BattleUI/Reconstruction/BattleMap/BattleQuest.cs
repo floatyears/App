@@ -87,7 +87,6 @@ public class BattleQuest : UIBase {
 		battle.HideUI ();
 		CreatEffect ();
 		bud = new BattleUseData (this);
-//		bud.battleData = battleData;
 	}
 
 	void CreatEffect () {
@@ -622,8 +621,9 @@ public class BattleQuest : UIBase {
 		}
 		TDropUnit bossDrop = questDungeonData.DropUnit.Find (a => a.DropId == 0);
 		bud.InitBoss (questDungeonData.Boss, bossDrop);
+
 		configBattleUseData.storeBattleData.isBattle = 2; // 2 == battle boss. 
-		battle.ShowEnemy(temp);
+		battle.ShowEnemy (temp, true);
 
 		ExitFight (false);
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);

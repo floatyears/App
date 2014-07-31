@@ -122,7 +122,7 @@ public class BattleBottom : MonoBehaviour {
 	void ActiveSkillCallback(object data) {
 		ActiveSkill activeSKill = data as ActiveSkill;
 		foreach (var item in unitInfoPos) {
-			if(item.Value.skillBase.id == activeSKill.skillBase.id) {
+			if(item.Value.skillBase.id == activeSKill.skillBase.id && item.Value.CoolingDone) {
 				ActiveSkillEffect(item.Key);
 			}
 		}
@@ -152,12 +152,16 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void AddActivePos(int pos) {
+		if (enableSKillPos.ContainsKey (pos)) {
+			return;	
+		}
+
 		enableSKillPos.Add (pos, null);
 		enablePos.Add (pos);
 	}
 
 	readonly Vector3 effectScale = new Vector3 (30f, 30f, 30f);
-	readonly Vector3 effectOffset = new Vector3 (-30f, 30f, 0f);
+	readonly Vector3 effectOffset = new Vector3 (35f, 15f, 0f);
 
 	void LateUpdate () {
 		for (int i = 0; i < enablePos.Count; i++) {

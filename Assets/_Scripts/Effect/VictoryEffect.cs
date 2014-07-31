@@ -102,6 +102,9 @@ public class VictoryEffect : UIComponentUnity {
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
 
+		coinLabel.text = clearQuest.gotMoney.ToString ();
+		empiricalLabel.text = clearQuest.gotExp.ToString ();
+
 //		Debug.LogError ("======= ShowData =======================");
 //		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
 //		Debug.LogError ("gotexp : " + gotExp);
@@ -181,7 +184,7 @@ public class VictoryEffect : UIComponentUnity {
 			gotExp -= add;
 			currentExp += add;
 			int showValue = (int)currentExp;
-			empiricalLabel.text = showValue.ToString();
+//			empiricalLabel.text = showValue.ToString();
 			float progress = currentExp / currentTotalExp;
 			levelProgress.value = progress;
 			if(currentExp >= currentTotalExp) {
@@ -216,11 +219,11 @@ public class VictoryEffect : UIComponentUnity {
 			gotCoin-= addCoin;
 			curCoin += addCoin;
 
-			coinLabel.text = ((int)curCoin).ToString ();
+//			coinLabel.text = ((int)curCoin).ToString ();
 			yield return new WaitForSeconds(0.1f);
 		}
 
-		coinLabel.text = ((int)curCoin).ToString ();
+//		coinLabel.text = ((int)curCoin).ToString ();
 	}
 
 	void FindComponent () {
@@ -276,7 +279,7 @@ public class VictoryEffect : UIComponentUnity {
 	IEnumerator UpdateCoinNumber (int coinNum, int addNum) {
 		coinNum ++;
 		addNum --;
-		coinLabel.text = coinNum.ToString();
+//		coinLabel.text = coinNum.ToString();
 		yield return 0;
 		if (addNum != 0) { 
 			StartCoroutine(UpdateCoinNumber(coinNum, addNum));

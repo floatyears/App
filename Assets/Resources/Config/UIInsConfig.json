@@ -237,7 +237,7 @@
         "resoucePath": "Prefabs/UI/Friend/",
         "parent": 1,
         "positionx": 0,
-        "positiony": 0,
+        "positiony": 100,
         "positionz": 0
     },
      "UserIDWindow": {

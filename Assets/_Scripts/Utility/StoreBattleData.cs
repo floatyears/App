@@ -25,7 +25,7 @@ public class TStoreBattleData : ProtobufDataBase {
 
 	public int colorIndex {
 		get { return instance.colorIndex; }
-		set { instance.colorIndex = value; }
+		set { instance.colorIndex = value; }//Debug.LogError(" =================TStoreBattleData colorIndex : " + colorIndex); }
 	}
 
 	public int hp {

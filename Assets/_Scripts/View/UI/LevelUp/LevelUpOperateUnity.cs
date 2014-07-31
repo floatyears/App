@@ -11,9 +11,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	public override void ShowUI () {
 		if (friendWindow != null && friendWindow.isShow) {
 			friendWindow.gameObject.SetActive (true);
+			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		} else {
 			if (!gameObject.activeSelf) {
 				gameObject.SetActive(true);
+				MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
 			}
 			if(fromUnitDetail) {
 				fromUnitDetail = false;
@@ -284,7 +286,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			}
 		}
 
+		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
+
 		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 //		sor
@@ -295,6 +299,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	TFriendInfo levelUpUerFriend;
 	void SelectFriend(TFriendInfo friendInfo) {
 		gameObject.SetActive (true);
+		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
 
 		if (friendInfo == null) {
 			return;	
