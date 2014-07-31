@@ -32,6 +32,8 @@ public class RewardView : UIComponentUnity {
 
 		bonusIDs.Clear ();
 
+		InitData ();
+
 		RefreshView ();
 
 		ShowUIAnimation ();
@@ -55,6 +57,7 @@ public class RewardView : UIComponentUnity {
 	public override void HideUI() {
 		base.HideUI();
 
+
 //		Debug.Log ("bonusIDs: " + bonusIDs.Count);
 		if(bonusIDs.Count > 0)
 			AcceptBonus.SendRequest(OnAcceptBonus,bonusIDs);
@@ -67,6 +70,8 @@ public class RewardView : UIComponentUnity {
 		dragPanel.ScrollItem.Clear();
 		
 		iTween.Stop (gameObject);
+
+		aList.Clear ();
 	}
 
 	private void OnAcceptBonus(object data){
@@ -90,7 +95,7 @@ public class RewardView : UIComponentUnity {
 	} 
 
 	public override void DestoryUI () {
-		aList.Clear ();
+
 		dragPanel.DestoryUI ();
 
 		base.DestoryUI ();
@@ -115,6 +120,7 @@ public class RewardView : UIComponentUnity {
 	}
 
 	private void InitData(){
+		aList.Clear ();
 		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
 			if(item.type <= 3){
 
@@ -271,8 +277,9 @@ public class RewardView : UIComponentUnity {
 	
 	private void OnGotoTab(object data){
 		for(int i = 1; i < 6; i++){
-			if(i == 4){
+			if(i == (int)data){
 				transform.FindChild(i+"").GetComponent<UIToggle>().startsActive = true;
+				transform.FindChild(i+"").SendMessage("OnClick");
 			}else{
 				transform.FindChild(i+"").GetComponent<UIToggle>().startsActive = false;
 			}

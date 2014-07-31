@@ -81,8 +81,8 @@ public class GameCurrencyEventHandler {
 		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
 		if (rsp != null && rsp.bonus != null ) {
 			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
-			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
 			UIManager.Instance.ChangeScene (SceneEnum.Reward);
+			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 		}
 	}
 
