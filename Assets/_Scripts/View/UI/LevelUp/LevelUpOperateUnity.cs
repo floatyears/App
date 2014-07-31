@@ -178,7 +178,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 			myUnitList.Add(pui);
 		}
-
+		RefreshSortInfo ();
 		RefreshCounter ();
 	}
 
@@ -666,6 +666,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 		myUnitDragPanel.RefreshItem (myUnit);
+
+		RefreshSortInfo ();
+	}
+
+	void RefreshSortInfo() {
+		foreach (var item in myUnitDragPanel.scrollItem) {
+			item.CurrentSortRule= sortRule;
+		}
 	}
 
 	private void SortUnitByCurRule(){
