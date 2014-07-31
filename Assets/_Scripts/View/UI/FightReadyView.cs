@@ -25,6 +25,7 @@ public class FightReadyView : UIComponentUnity {
 	private UILabel helperSkillDcspLabel;
 	private UILabel ownSkillNameLabel;
 	private UILabel ownSkillDscpLabel;
+	private UILabel partyNoLabel;
 
 	private UIButton startFightBtn;
 	private HelperUnitItem helper;
@@ -82,6 +83,7 @@ public class FightReadyView : UIComponentUnity {
 		helperSkillDcspLabel = transform.FindChild("Label_Helper_Skill_Dscp").GetComponent<UILabel>();
 		ownSkillNameLabel = transform.FindChild("Label_Own_Leader_Skill_Name").GetComponent<UILabel>();
 		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
+		partyNoLabel = transform.FindChild ("Label_Party_No").GetComponent<UILabel> ();
 
 		UIEventListener.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
@@ -244,6 +246,7 @@ public class FightReadyView : UIComponentUnity {
 	private void ShowPartyInfo(){
 		if(pickedHelperInfo == null) return;
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		partyNoLabel.text = DataCenter.Instance.PartyInfo.CurrentPartyId + 1 + "/5";
 		UpdateOwnLeaderSkillInfo(curParty);
 		UpdateHelperLeaderSkillInfo();
 		UpdatePartyAtkInfo(curParty);
