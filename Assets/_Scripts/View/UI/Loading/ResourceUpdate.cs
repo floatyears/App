@@ -434,7 +434,7 @@ public class ResourceUpdate : MonoBehaviour {
 			fs.Dispose();
 			//			Debug.LogError("write to file success : " + fileName);
 		} catch (System.Exception ex) {
-			Debug.LogError("WriteToFile exception : " + ex.Message);
+//			Debug.LogError("WriteToFile exception : " + ex.Message);
 		}
 	}
 
@@ -447,7 +447,7 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 			//			Debug.LogError("write to file success : " + fileName);
 		} catch (System.Exception ex) {
-			Debug.LogError("WriteToFile exception : " + ex.Message);
+//			Debug.LogError("WriteToFile exception : " + ex.Message);
 		}
 	}
 

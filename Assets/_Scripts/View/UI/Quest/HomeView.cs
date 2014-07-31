@@ -176,7 +176,7 @@ public class HomeView : UIComponentUnity{
 			GameObject cityItem = transform.FindChild("StoryDoor/" + i.ToString()).gameObject;
 			FindChild("StoryDoor/" + i.ToString() + "/Label").GetComponent<UILabel>().text = TextCenter.GetText("City_Name_" + (i+1));
 			if(cityItem == null){
-				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
+//				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
 				continue;
 			}
 			UIEventListener.Get(cityItem).onClick = PressStoryDoor;
@@ -194,7 +194,7 @@ public class HomeView : UIComponentUnity{
 	/// </summary>
 	private void ShowCityView(){
 		if(cityViewInfo == null){
-			Debug.LogError("QuestView.InitWorldMap(), cityViewInfo is NULL"); 
+//			Debug.LogError("QuestView.InitWorldMap(), cityViewInfo is NULL"); 
 			return;
 		}
 

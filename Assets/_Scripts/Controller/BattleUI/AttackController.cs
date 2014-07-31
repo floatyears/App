@@ -311,7 +311,7 @@ public class AttackController {
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			} else if(dropUnit != null){
-				Debug.LogError("boss drop : " + dropUnit.DropPos);
+//				Debug.LogError("boss drop : " + dropUnit.DropPos);
 				msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 			}
 		}
@@ -496,16 +496,16 @@ public class AttackController {
 				reduceValue = leadSkillReuduce.ReduceHurtValue(reduceValue, attackType);
 			}
 
-			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
+//			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
 
 			int hurtValue = upi.CaculateInjured (attackType, reduceValue);
 
-			Debug.LogError("hurtValue : " + hurtValue);
+//			Debug.LogError("hurtValue : " + hurtValue);
 
 			bud.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
-			Debug.LogError("EnemyAttack attackType : " + attackType);
+//			Debug.LogError("EnemyAttack attackType : " + attackType);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType, hurtValue);
 
 			for (int i = 0; i < temp.Count; i++) {
@@ -579,7 +579,7 @@ public class AttackController {
 		AttackInfo ai = antiInfo [0];
 		antiInfo.RemoveAt (0);
 		TEnemyInfo te = enemyInfo.Find(a=>a.EnemySymbol == ai.EnemyID);
-		Debug.LogError ("AntiAttack te : " + te);
+//		Debug.LogError ("AntiAttack te : " + te);
 		if (te == default(TEnemyInfo)) {
 			return;	
 		}

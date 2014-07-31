@@ -91,7 +91,7 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	public void ShowTapToCheckOut () {
-		Debug.LogError ("ShowTapToCheckOut ");
+//		Debug.LogError ("ShowTapToCheckOut ");
 		TapToBattle.enabled = true;
 		tweenA.enabled = true;
 		TapToBattle.spriteName = QuestFullScreenTips.CheckOut;

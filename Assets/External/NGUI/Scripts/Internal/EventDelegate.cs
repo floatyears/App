@@ -368,7 +368,7 @@ public class EventDelegate
 				}
 				catch (System.Exception ex)
 				{
-					Debug.LogError("Failed to bind " + type + "." + mMethodName + "\n" +  ex.Message);
+//					Debug.LogError("Failed to bind " + type + "." + mMethodName + "\n" +  ex.Message);
 					return;
 				}
 

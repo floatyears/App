@@ -71,24 +71,24 @@ public class ResultController : ConcreteComponent {
 	}
 
 	private void SupportApplyFriend(bool isSupport){
-		Debug.Log("ResultController.SupportApplyFriend(), start...");
+//		Debug.Log("ResultController.SupportApplyFriend(), start...");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("Stylize", isSupport);
 		ExcuteCallback(call);
-		Debug.Log("ResultController.SupportApplyFriend(), end...");
+//		Debug.Log("ResultController.SupportApplyFriend(), end...");
 	}
 
 	private void ShowFriendBriefInfo(TFriendInfo friendInfo){
-		Debug.Log("ResultController.ShowFriendBriefInfo(), start...");
+//		Debug.Log("ResultController.ShowFriendBriefInfo(), start...");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowTopView", friendInfo);
 		ExcuteCallback(call);
-		Debug.Log("ResultController.ShowFriendBriefInfo(), end...");
+//		Debug.Log("ResultController.ShowFriendBriefInfo(), end...");
 	}
 
 	private void ShowFriendPoint(int friPoint){
-		Debug.Log("ResultController.ShowFriendPoint(), start...  friPoint="+friPoint);
+//		Debug.Log("ResultController.ShowFriendPoint(), start...  friPoint="+friPoint);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowCenterView", friPoint);
 		ExcuteCallback(call);
-		Debug.Log("ResultController.ShowFriendPoint(), end...");	
+//		Debug.Log("ResultController.ShowFriendPoint(), end...");	
 	}
 
 	private void AddFriendApplication(uint friendUid){

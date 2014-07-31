@@ -259,7 +259,7 @@ public class BattleUseData {
 
     public void InitEnemyInfo(TQuestGrid grid) {
 		if (ac == null || grid == null) {
-			Debug.LogError(" ac : " + ac + " grid : " + grid);
+//			Debug.LogError(" ac : " + ac + " grid : " + grid);
 			return;
 		}
 
