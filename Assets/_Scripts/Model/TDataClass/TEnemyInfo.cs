@@ -91,7 +91,9 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
+
 		bool one = ConfigBattleUseData.Instance.NotDeadEnemy;
+
 		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			if(one || !CheckNoviceDeadable()) {
 				if (initBlood <= 0) {
@@ -102,10 +104,12 @@ public class TEnemyInfo : ProtobufDataBase {
 			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 			return;
 		}
+
 		if (initBlood <= 0) {
 			initBlood = 0;	
 			IsDead = true;
 		}
+
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 

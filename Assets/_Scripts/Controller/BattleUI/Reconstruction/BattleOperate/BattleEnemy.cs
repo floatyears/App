@@ -4,12 +4,10 @@ using System.Collections.Generic;
 public class BattleEnemy : UIBaseUnity {
 	private static Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
 	public static Dictionary<uint, EnemyItem> Monster {
-		get{
-			return monster;
+		get {
+				return monster;
 		}
 	}
-
-
 
 	private GameObject effectPanel;
 
@@ -158,7 +156,6 @@ public class BattleEnemy : UIBaseUnity {
 		sortCount--;
 
 		if (sortCount == 0) {
-//			Debug.LogError("SortEnemyItem : " + enemys.Count);
 			SortEnemyItem (enemys);
 		} 
 	}
@@ -240,13 +237,10 @@ public class BattleEnemy : UIBaseUnity {
 		if (isOdd) {
 			float allPro = GetProbability (ScreenWidth, enemys);
 			probability = SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
-//			Debug.LogError("isOddNum  screenWidth="+screenWidth+" allPro:"+allPro+" probability:"+probability);
 			if( probability > allPro ) {
 				probability = allPro;
 			}
-//			Debug.LogError("isOddNum  screenWidth="+screenWidth+" final allPro:"+allPro);
 		} else {
-//			Debug.LogError("isEvenNum  screenWidth="+screenWidth);
 			probability = SetgmentationEnemys(enemys, 0, screenWidth);
 		}
 
@@ -292,9 +286,7 @@ public class BattleEnemy : UIBaseUnity {
 
 	void CompressTexture(float probability, List<EnemyItem> enemys) {
 		for (int i = 0; i < enemys.Count; i++) {
-//			Debug.LogError("befoure compress i : " + i + " size width : " + enemys[i].texture.width + " size height : " + enemys[i].texture.height + " probability : " + probability);
 			enemys[i].CompressTextureSize(probability);
-//			Debug.LogError("behind compress i : " + i + " size width : " + enemys[i].texture.width + " size height : " + enemys[i].texture.height);
 		}
 	}
 
