@@ -29,7 +29,7 @@ public class TSkillRecoverSP : ActiveSkill {
 		}
 		InitCooling ();
 		AttackController.SetEffectTime(1f);
-		Debug.LogError("tskillrecoversp excute");
+//		Debug.LogError("tskillrecoversp excute");
 		int step = (int)instance.value;
 
 		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);

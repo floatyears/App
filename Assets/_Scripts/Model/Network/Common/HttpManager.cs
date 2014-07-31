@@ -13,7 +13,9 @@ public class HttpManager : INetSendPost {
         }
     }
 
-	public static string baseUrl = ServerConfig.ServerHost;
+//  public static string baseUrl = "http://127.0.0.1:6666/";
+//  public static string baseUrl = "http://107.170.243.127:6666/";
+	public static string baseUrl = "http://us.yeedion.com:8080/";
 //	public static string baseUrl = "http://61.153.100.131:6666/";
 
     private List<IWWWPost> wwwRequst = new List<IWWWPost>();

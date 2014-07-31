@@ -29,7 +29,7 @@ public class LoadingView : UIComponentUnity {
 
 		base.ShowUI ();
 		#if UNITY_ANDROID
-		Debug.Log ("Umeng.Start('android')...");
+//		Debug.Log ("Umeng.Start('android')...");
 		string channelId = "android";
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", channelId);
 		//		Umeng.GA.Bonus.

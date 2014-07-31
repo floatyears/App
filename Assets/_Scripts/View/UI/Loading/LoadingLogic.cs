@@ -156,7 +156,7 @@ public class LoadingLogic : ConcreteComponent {
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 			//TestUtility.Test();
             //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
             //      Debug.LogError("login end");
@@ -235,12 +235,8 @@ public class LoadingLogic : ConcreteComponent {
 	uint recoverQuestID = 0;
 
 	void EnterGame () {
-
-		//		UIManager.Instance.ChangeScene (SceneEnum.Reward);
-
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
-//			TurnToReName();
 		} else {
 			UIManager.Instance.ChangeScene(SceneEnum.Start);
 			
@@ -260,8 +256,6 @@ public class LoadingLogic : ConcreteComponent {
 				}	
 			}
 		}
-
-
 	}
 
 	void SureRetry(object data) {

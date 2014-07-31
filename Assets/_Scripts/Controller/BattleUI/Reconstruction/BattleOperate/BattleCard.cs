@@ -22,6 +22,8 @@ public class BattleCard : UIBaseUnity {
 
 	private BattleUseData battleUseData;
 
+	public GameObject fingerObject;
+
 	[HideInInspector]
 	public CardItem[] cardItemArray;
 
@@ -51,6 +53,8 @@ public class BattleCard : UIBaseUnity {
 
 	void InitParameter() {
 		templateItemCard = FindChild<UISprite>("Texture");
+		fingerObject = FindChild<UISprite> ("finger").gameObject;
+
 		int count = cardPosition.Length;
 		
 		cardItemArray = new CardItem[count];

@@ -478,14 +478,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			PlayLevelUp(rlu);
 		}
 	}
-	
-	/// <summary>
-	/// true is shield. false is can click.
-	/// </summary>
-	/// <param name="shiledClick">If set to <c>true</c> shiled click.</param>
-//	public static void SetNoviceGuide (bool shiledClick) {
-//		isNovceGuide = shiledClick;
-//	}
 
 	//------------------levelup-----------------------------------------
 	RspLevelUp levelUpData;

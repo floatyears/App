@@ -91,7 +91,7 @@ public class BattleBackground : UIBaseUnity {
 		base.HideUI ();
 		gameObject.SetActive (false);
 		battleBottom.SetActive (false);
-
+		_battleBottomScript.RemoveAllSkill ();
 		RemoveListener ();
 	}
 
@@ -123,9 +123,9 @@ public class BattleBackground : UIBaseUnity {
 	void SetBlood (int num) {
 		string info = num + "/" + initBlood;
 		label.text = info;
-		if (num > currentBlood || num == initBlood) {
-			spriteAnimation.Reset();
-		}
+//		if (num > currentBlood || num == initBlood) {
+//			spriteAnimation.Reset();
+//		}
 		currentBlood = num;
 		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
 	}
@@ -153,22 +153,28 @@ public class BattleBackground : UIBaseUnity {
 	}
 
 	void RecoverHP(object data) {
-		AttackInfo ai = data as AttackInfo;
-//		Debug.LogError ("RecoverHP : " + ai.AttackRange);
-		if (ai.AttackRange == 2) {
-			spriteAnimation.Reset();
-		}
+//		AttackInfo ai = data as AttackInfo;
+//
+//		if (ai.AttackRange == 2) {
+//			spriteAnimation.Reset();
+//		}
+	}
+
+	void ShowHPAnimation(object data) {
+		spriteAnimation.Reset();
 	}
 
 	void AddListener () {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, ListenUnitBlood);
 		MsgCenter.Instance.AddListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RecoverHP);
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RecoverHP);
+		MsgCenter.Instance.AddListener (CommandEnum.ShowHPAnimation, ShowHPAnimation);
 	}
 
 	void RemoveListener () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, ListenUnitBlood);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RecoverHP);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RecoverHP);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ShowHPAnimation, ShowHPAnimation);
 	}
 }
