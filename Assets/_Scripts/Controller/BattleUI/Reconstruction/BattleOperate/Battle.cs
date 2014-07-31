@@ -565,6 +565,7 @@ public class Battle : UIBase {
 
 	}
 
+
 	void GetPrefabsObject(string name,ResourceCallback callback) {
 		LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab,o =>{
 			tempObject = o  as GameObject;

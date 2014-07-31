@@ -109,7 +109,8 @@ public class TEnemyInfo : ProtobufDataBase {
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 	}
 
-	private bool CheckNoviceDeadable(){
+	
+	public bool CheckNoviceDeadable(){
 		int stage = (int)NoviceGuideStepEntityManager.CurrentNoviceGuideStage;
 		if (stage >= (int)NoviceGuideStage.ANIMATION && stage <= (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
 			if (stage == (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
@@ -117,6 +118,8 @@ public class TEnemyInfo : ProtobufDataBase {
 			}
 			return false;
 		} else if (stage >= (int)NoviceGuideStage.BOSS_ATTACK_ONE && stage <= (int)NoviceGuideStage.BOSS_ATTACK_BOOST) {
+			if(UnitID != 86)
+				return true;
 			if (stage == (int)NoviceGuideStage.BOSS_ATTACK_BOOST) {
 				return true;
 			}
