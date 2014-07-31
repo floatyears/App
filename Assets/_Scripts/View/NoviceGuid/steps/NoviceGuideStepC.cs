@@ -95,11 +95,12 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
 		
 		UIButton cwLBtn = mwv.BtnLeft;
+		NoviceGuideUtil.ForceOneBtnClick (cwLBtn.gameObject);
 		UIEventListenerCustom.Get (cwLBtn.gameObject).onClick += clickLeftBtn;
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{cwLBtn.gameObject},new Vector3[]{new Vector3(0,0,3)});
 		
-		mwv.BtnRight.isEnabled = false;
+//		mwv.BtnRight.isEnabled = false;
 	}
 	
 	private void clickLeftBtn(GameObject btn)

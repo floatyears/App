@@ -110,15 +110,15 @@ public class CatalogUnitItem : MyUnitItem {
 //					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
-					erotemeSpr.enabled = true;
-					maskSprite.enabled = false;
+					maskSprite.enabled = true;
+					erotemeSpr.enabled = false;
 					//translucentMaskSpr.enabled = true;
 					break;
 				case CatalogState.UnKnown : 
 					avatarSprite.atlas = null;
 					avatarSprite.spriteName = string.Empty;
 					erotemeSpr.enabled = true;
-					maskSprite.enabled = true;
+					maskSprite.enabled = false;
 					//translucentMaskSpr.enabled = false;
 					break;
 				default:

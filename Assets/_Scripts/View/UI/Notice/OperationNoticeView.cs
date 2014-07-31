@@ -148,6 +148,7 @@ public class OperationNoticeView : UIComponentUnity {
 //				HideUI();
 				firstShow = false;
 				UIManager.Instance.ChangeScene (SceneEnum.Reward);
+//				MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 //				HideUI();
 			}	
 		}else{

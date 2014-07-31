@@ -101,6 +101,7 @@ public class OthersWindow : UIComponentUnity {
 			UIManager.Instance.ChangeScene(SceneEnum.Loading);
 			break;
 		case "Reward":
+//			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 			UIManager.Instance.ChangeScene(SceneEnum.Reward);
 			break;
 		case "Contact":
