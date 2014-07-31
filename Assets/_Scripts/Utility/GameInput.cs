@@ -15,7 +15,7 @@ public class GameInput : MonoBehaviour  {
 		get{ return isCheckInput; }
 	}
 
-	private bool _noviceGInput = false;
+	private bool _noviceGInput = true;
 	private bool noviceGuideShileInput {
 		set { _noviceGInput = value; }//Debug.LogError("_noviceGInput : " + _noviceGInput  + " time : " + Time.realtimeSinceStartup); }
 		get { return _noviceGInput; }
@@ -60,7 +60,6 @@ public class GameInput : MonoBehaviour  {
 	void ShiledInput(object data) {
 		bool sInput = (bool)data;
 
-//		Debug.LogError ("noviceGuideShileInput : " + sInput);
 		noviceGuideShileInput = !sInput;
 		BattleBottom.noviceGuideNotClick = sInput;
 	}
@@ -70,12 +69,16 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void Update() {
+//		if(Input.GetKey(KeyCode.Escape)){
+//			Application.Quit();
+//		}
+
 		if(Time.timeScale < 0.5f)
 			return;
 
 		if(OnUpdate != null)
 			OnUpdate();
-
+//		Debug.LogError ("noviceGuideShileInput : " + noviceGuideShileInput + "NoviceGuideStepEntityManager.isInNoviceGuide() : " + NoviceGuideStepEntityManager.isInNoviceGuide ());
 		if (!noviceGuideShileInput && NoviceGuideStepEntityManager.isInNoviceGuide()) {
 //			Debug.LogError("!noviceGuideShileInput && DGTools.IsNoviceGuide () ");
 			return;	

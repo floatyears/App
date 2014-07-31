@@ -37,7 +37,7 @@ public class UnitDetailComponent : ConcreteComponent {
 	}
 
 	void CallBackUnitData (object data) {
-		Debug.LogError ("CallBackUnitData : " + data);
+//		Debug.LogError ("CallBackUnitData : " + data);
 		ExcuteCallback (data);
 	}
 

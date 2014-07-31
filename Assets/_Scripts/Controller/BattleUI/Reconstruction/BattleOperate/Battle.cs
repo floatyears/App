@@ -88,11 +88,12 @@ public class Battle : UIBase {
 	public override void ShowUI() {
 		base.ShowUI();
 		ShowCard();
-
+//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 			AddGuideCard ();
+			battleData.storeBattleData.colorIndex = 0;
 		}
-
+//		Debug.LogError ("isShow");
 		if (!isShow) {
 			isShow = true;
 			GenerateShowCard();
@@ -142,10 +143,11 @@ public class Battle : UIBase {
 
 	bool shileInputByNoviceGuide = false;
 	public void ShowGuideAnim(bool rePlay = false) {
+//		Debug.LogError ("ShowGuideAnim : " + rePlay);
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
 		shileInputByNoviceGuide = true;
 		if (rePlay) {
-			battleData.storeBattleData.colorIndex -= 19;
+			battleData.storeBattleData.colorIndex -= 20;
 			GenerateShowCard();
 		}
 		ConfigBattleUseData.Instance.NotDeadEnemy = true;
@@ -498,8 +500,10 @@ public class Battle : UIBase {
 	}
 
 	void GenerateShowCard () {
+//		Debug.LogError ("GenerateShowCard");
 		for (int i = 0; i < battleCardPool.CardPosition.Length; i++) {
-			battleCard.GenerateSpriteCard(GenerateCardIndex(), i);
+			int cardIndex = GenerateCardIndex();
+			battleCard.GenerateSpriteCard(cardIndex, i);
 		}
 		battleCard.RefreshLine ();
 	}

@@ -306,7 +306,7 @@ public class ResourceUpdate : MonoBehaviour {
 	public void StartDownload(){
 
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
-			Debug.Log ("download serverVersion from " + serverVersionURL + ", version text:"+serverVersion.text);
+//			Debug.Log ("download serverVersion from " + serverVersionURL + ", version text:"+serverVersion.text);
 			if(string.IsNullOrEmpty(serverVersion.error)){
 				LoadVersionConfig(serverVersion.text,serverVersionDic);
 			}else{
@@ -528,7 +528,7 @@ public class ResourceUpdate : MonoBehaviour {
 		yield return www;
 
 
-		Debug.Log ("error: " + www.error);
+//		Debug.Log ("error: " + www.error);
 		if (!string.IsNullOrEmpty (www.error) && !ignoreErr) {
 			Debug.Log (www.error + " : " + url);
 

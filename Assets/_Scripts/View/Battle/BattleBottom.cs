@@ -122,7 +122,7 @@ public class BattleBottom : MonoBehaviour {
 	void ActiveSkillCallback(object data) {
 		ActiveSkill activeSKill = data as ActiveSkill;
 		foreach (var item in unitInfoPos) {
-			if(item.Value.skillBase.id == activeSKill.skillBase.id) {
+			if(item.Value.skillBase.id == activeSKill.skillBase.id && item.Value.CoolingDone) {
 				ActiveSkillEffect(item.Key);
 			}
 		}
@@ -152,6 +152,10 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void AddActivePos(int pos) {
+		if (enableSKillPos.ContainsKey (pos)) {
+			return;	
+		}
+
 		enableSKillPos.Add (pos, null);
 		enablePos.Add (pos);
 	}
