@@ -80,8 +80,8 @@ public class StageItemView : MonoBehaviour{
 		float x = 0;
 		float y = 0;
 		if(data.Pos != null){
-			x = data.Pos.x - 320f;
-			y = data.Pos.y - 450f;
+			x = data.Pos.x;  // - 320f
+			y = data.Pos.y;  // - 450f
 		}
 		else{
 			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
