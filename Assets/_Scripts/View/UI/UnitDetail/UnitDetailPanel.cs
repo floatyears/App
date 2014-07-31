@@ -318,7 +318,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //		rareLabel.text = unitInfo.Rare.ToString();
 
 		levelLabel.text = data.Level.ToString() + " / " + unitInfo.MaxLevel.ToString();
-
+		Debug.Log("ShowStatusContent() :: data.Level="+data.Level+" nextExp:"+data.NextExp);
 		//next level need
 		if ((data.Level > unitInfo.MaxLevel ) 
 		    || (data.Level == unitInfo.MaxLevel && data.NextExp <= 0) ) {
@@ -450,8 +450,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	//--------------interface function-------------------------------------
 	public void CallbackView(object data)	{
 		TUserUnit userUnit = data as TUserUnit;
-
+		Debug.LogWarning("CallbackView...");
 		if ( oldBlendUnit != null ) {
+			Debug.LogWarning("oldBlendUnit:"+oldBlendUnit);
 			isNoviceGUide = false;
 			curUserUnit = oldBlendUnit;
 			ShowInfo (oldBlendUnit);
@@ -463,8 +464,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			}
 			isNoviceGUide = false;
 			curUserUnit = userUnit;
+			Debug.LogError("oldBlendUnit is Null. showNormalInfo...");
 			ShowInfo (userUnit);
 		} else {
+			Debug.LogError("Else play Leveup...");
+
 			RspLevelUp rlu = data as RspLevelUp;
 			isNoviceGUide = false;
 			if(rlu ==null) {

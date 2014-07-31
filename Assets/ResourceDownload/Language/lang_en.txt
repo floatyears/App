@@ -73,7 +73,7 @@ Text_Sell_Price=Price
 Text_Next=Next
 Text_Max=MAX
 Text_Support=Support
-Text_Point=Pt
+Text_Point= Pal Points
 Text_Rank=Rank
 Text_Rank_Colon=Rank:
 Text_Name_Colon=Name:
@@ -205,10 +205,10 @@ Type_Wind=Wind
 RedoQuest=Redo
 GoOnQuest=Go on
 RedoQuestTitle=Confirm
-RedoQuestContent=Use {0} Magic Stones to redo this floor of quest? \n\nYou own {1} Magic Stones now.
+RedoQuestContent=Use [FFD567]{0}[-] magic stones to redo this floor of quest? \n\nYou own [FFD567]{1}[-] magic stones now.
 ResumeQuestTitle=Resume Confirm
-ResumeQuestContent=Use {0} Magic Stones to resume the quest? \n(The SP and HP will be recovered.)
-NotEnoughStone=Not enough Magic Stones。
+ResumeQuestContent=Use [FFD567]{0}[-] magic stones to resume the quest? \n(The SP and HP will be recovered.)
+NotEnoughStone=Not enough magic stones。
 RetryClearQuestNet=Network error, Please click OK to retry.
 RetryClearQuestTitle=Server error
 ExitBattleConfirm=Are you sure to abort battle?
@@ -228,8 +228,8 @@ ProgressTotal=Total：
 
 #Friend search
 SearchError=Search Error
-SearchFriendNotExist=The userid {0} is not exist.
-UserAlreadyFriend=The ID {0} you searched is already your pal!
+SearchFriendNotExist=The userid [FFD567]{0}[-] is not exist.
+UserAlreadyFriend=The ID [FFD567]{0}[-] you searched is already your pal!
 NotPremiumFriend=You cannot choose premium pals.
 
 InputError=Input Error
@@ -277,7 +277,7 @@ Reward_Title=Bonus
 Reward_Tab_Info1=Login game day-by-day continuously, you will get following bonus.
 Reward_Tab_Info2=Cumulative logins reach certain days, you will get following bonus.
 Reward_Tab_Info3=Rank up to a certain level, you will get following bonus.
-Reward_Tab_Info4=After purchase Month Card, you will receive Magic Stones every day.
+Reward_Tab_Info4=After purchase Month Card, you will receive magic stones every day.
 Reward_Tab_Info5=Other bonus
 ChainLogin=Continuously Login {0} Days
 TotalLogin=Login {0} Days
@@ -285,13 +285,13 @@ RankReach=Rank {0}
 
 #notice
 Notice_HelperTitle=Welcome Back!
-Notice_HelperContent=You have logined for [872929]{0}[-] days, helped [872929]{1}[-] Friends and [872929]{2}[-] Adventurers, got [872929]{3}[-] pals points.
+Notice_HelperContent=You have logined for [FFD567]{0}[-] days, helped [FFD567]{1}[-] Friends and [FFD567]{2}[-] Adventurers, got [FFD567]{3}[-] pals points.
 
 #unit detail
-UnitDetail_EvolveTitle=Acquired from following Quests:
-UnitDetail_LevelUpTitle=Power-up Fusion Exp
-UnitDetail_LevelUpContent=Power-up for normal monsters, will provide {0} exp.
-UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide {1} exp.
+UnitDetail_EvolveTitle=[FFD567]Acquired from following Quests:[-]
+UnitDetail_LevelUpTitle=[FFD567]Power-up Fusion Exp[-]
+UnitDetail_LevelUpContent=Power-up for normal monsters, will provide [FFD567]{0}[-] exp.
+UnitDetail_LevelUpAttr=Power-up for {0} type monsters, will provide [FFD567]{1}[-] exp.
 
 # shop
 BillingNotSupported_Title=Billing Not Supported
@@ -304,16 +304,16 @@ Btn_Unit_Expand=Extend Monsters
 Btn_Stamina_Recover=Recover Stamina
 
 FriendExpand=Extend Friend Capacity
-FriendExpansionConfirm=Spend [362630]{0}[-] magic stones to expand [362630]{1}[-] friends?
-FriendExpansionInfo=Now friends: {0}/{1}
+FriendExpansionConfirm=Spend [FFD567]{0}[-] magic stones to expand [FFD567]{1}[-] friends?
+FriendExpansionInfo=Now friends: [FFD567]{0}[-]/{1}
 DoFriendExpand=Extend
 
 FriendExpansionFailed=Friend Max Expansion Failed
 FriendCountLimitReachedMax=Now your friend capacity has reached max.
-FriendExpandStonesNotEnough=Now your magic stone not enough to expand friend limit.
+FriendExpandStonesNotEnough=You donot have enough magic stones to expand friend limit.
 
 FriendExpansionFinish=Expansion Success
-FriendExpansionResult=Friend Limited Max reached [362630]{0}[-]!
+FriendExpansionResult=Friend Limited Max reached [FFD567]{0}[-]!
 
 StaminaRecover=Recover your stamina
 StaminaRecoverConfirm=Spend {0} magic stones to recover stamina?
@@ -327,19 +327,19 @@ StaminaRecoverFinish=Stamina Recovered
 StaminaRecoverResult=Your stamina recovered to {0}.
 
 UnitExpand=Extend Monster Box
-UnitExpansionConfirm=Spend {0} Magic Stones to extend monster box capacity?
-UnitExpansionInfo=Now capacity: {0}/{1}
+UnitExpansionConfirm=Spend [FFD567]{0}[-] magic stones to extend monster box capacity?
+UnitExpansionInfo=Now capacity: [FFD567]{0}[-]/{1}
 DoUnitExpansion=Extend
 
 UnitExpansionFailed=Monster Box Extension Failed
 UnitCountLimitReachedMax=Now your monster box capacity has reached max.
-UnitExpandStonesNotEnough=Magic Stones not enough.
+UnitExpandStonesNotEnough=magic stones not enough.
 
 UnitExpansionFinish=Monster Box Extension Completed
 UnitExpansionResult=Monster box capacity reached [3BB482]{0}[-]!
 
 MonthCard=Month Card
-MonthCardDesc=Get 100 Magic Stones everyday for 30 days!
+MonthCardDesc=Get 100 magic stones everyday for 30 days!
 MoneyUnit=$
 StoneDescFirst=Get 100% more for first purchase!
 StoneDescAfterFirst=Get 100% more for first purchase!
@@ -347,54 +347,53 @@ StonePriceFirst=$100
 StonePriceAfterFirst=$100
 StoneCount=x
 WeekCard=Week Card
-WeekCardDesc=Get 100 Magic Stones everyday for 7 days!
-
+WeekCardDesc=Get 100 magic stones everyday for 7 days!
 
 ##### gacha
 FriendGacha=Pal Point Summons
 FriendGachaTitle=Pal Point Summon
 FriendGachaDescription=Spend pal points to summon useful cards?
-FriendGachaStatus=1 Summon: {0} Pal Points \n{1} Summons: {2} Pal Points.
+FriendGachaStatus=1 Summon: [FFD567]{0}[-] Pal Points \n{1} Summons: [FFD567]{2}[-] Pal Points.
 
 ConfirmOneFriendGacha=Summon Once
 ConfirmMaxFriendGacha=Summon {0} Times
 
 FriendGachaFailed=[FF0000]Friend Summon Failed[-]
 UnitCountReachedMax=Now your cards owned overed limit:[FF0000]{0}/[-]{1}, you can't summon.
-GachaFriendPointNotEnough=One summon need {0} pal points\nYour pal points not enough.
+GachaFriendPointNotEnough=One summon need [FFD567]{0}[-] pal points\nYour pal points not enough.
 
 RareGacha=Rare Summon
 RareGachaTitle=Rare Summon
 RareGachaDescription=Spend magic stones to summon strong cards?
-RareGachaStatus=1 Summon: {0} Magic Stones\n{1} Summons: {2} Magic Stones.
+RareGachaStatus=1 Summon:  [FFD567]{0}[-] magic stones\n{1} Summons:  [FFD567]{2}[-] magic stones
 
 ConfirmOneRareGacha=Summon once
 ConfirmMaxRareGacha=Summon {0} times
 
 RareGachaFailed=[FF0000]Rare Summon Failed[-]
-RareGachaStoneNotEnough=Rare summon need {0} Magic Stones\nYour Magic Stones not enough.
+RareGachaStoneNotEnough=Rare summon need [FFD567]{0}[-] magic stones\nYou donot have enough magic stones.
 
 EventGacha=Event Summon
 EventGachaTitle=Event Summon
 EventGachaDescription=Spend magic stones to summon rare cards?
-EventGachaStatus=1 Summon: {0} magic stones\n {1} Summons: {2} magic stones\nYou have {3} magic stones now.
+EventGachaStatus=1 Summon:  [FFD567]{0}[-] magic stones\n [FFD567]{1}[-] Summons:  [FFD567]{2}[-] magic stones.
 
-ConfirmOneEventGacha=Summon once
-ConfirmMaxEventGacha=Summon {0} times
+ConfirmOneEventGacha=Summon Once
+ConfirmMaxEventGacha=Summon {0} Times
 
 EventGachaFailed=[FF0000]Event Summon Failed[-]
 EventGachaNotOpen=Our next event summon will coming soon, please wait.
-EventGachaStoneNotEnough=1 event summon need {0} Magic Stones\nYour do not have enough magic stones.
+EventGachaStoneNotEnough=1 event summon need [FFD567]{0}[-] magic stones\nYour do not have enough magic stones.
 
 FriendScratch=Friend Summon
 RareScratch=Rare Summon
 EventScratch=Event Summon
 
-GachaChances=chances {0}/{1}
+GachaChances=Chances {0}/{1}
 Lv=Lv {0}
 
 
-LevelUpMoneyNotEnough=It's need {0} coins for Power-up, your have not enough coins.
+LevelUpMoneyNotEnough=It's need [FFD567]{0}[-] coins for Power-up, your have not enough coins.
 MoneyNotEnoughTitle=Coins Not Enough
 
 ###
