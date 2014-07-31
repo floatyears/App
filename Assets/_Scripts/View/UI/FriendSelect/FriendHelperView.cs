@@ -30,6 +30,10 @@ public class FriendHelperView : UIComponentUnity{
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+
+		if (premiumBtn.gameObject.activeSelf) {
+			premiumBtn.gameObject.SetActive(false);	
+		}
 	}
 
 	public override void HideUI() {
@@ -128,7 +132,7 @@ public class FriendHelperView : UIComponentUnity{
 			dragPanel.DestoryUI();
 		}
 		else{
-			Debug.Log("dragPanel == NULL, create->refresh...");
+//			Debug.Log("dragPanel == NULL, create->refresh...");
 		}
 
 		dragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);

@@ -12,26 +12,31 @@ public class SortPanelView : UIComponentUnity {
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
-//		Debug.LogError("SortPanelView init 1");
 		base.Init(config, origin);
-//		Debug.LogError("SortPanelView init 3");
 		InitBtns();
-//		Debug.LogError("SortPanelView init 2");
 	}
 
 	public override void ShowUI(){
-//		Debug.LogError("SortPanelView show ui 1");
 		base.ShowUI();
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);	
+		}
+		MsgCenter.Instance.AddListener (CommandEnum.HideSortView, HideSortView);
 		ShowUIAnimation();
-//		Debug.LogError("SortPanelView show ui 2");
 	}
 
 	public override void HideUI(){
+		MsgCenter.Instance.RemoveListener (CommandEnum.HideSortView, HideSortView);
 		base.HideUI();
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
+	}
+
+	void HideSortView(object data) {
+		bool enable = (bool)data;
+		gameObject.SetActive (enable);
 	}
 
 	protected virtual void InitBtns(){

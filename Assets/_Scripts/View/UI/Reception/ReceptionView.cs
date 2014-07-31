@@ -241,7 +241,7 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	private void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, -550, 0);
+		transform.localPosition = new Vector3(-1000, -470, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 

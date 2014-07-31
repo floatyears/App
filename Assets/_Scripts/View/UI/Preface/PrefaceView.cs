@@ -48,7 +48,7 @@ public class PrefaceView : UIComponentUnity {
 		ta.enabled = true;
 //		text.GetComponent<TweenScale> ().ResetToBeginning ();
 		text.text = TextCenter.GetText ("Preface_Content" + i);
-		Debug.Log("content: " + TextCenter.GetText ("Preface_Content" + i) + "index: " + i);
+//		Debug.Log("content: " + TextCenter.GetText ("Preface_Content" + i) + "index: " + i);
 		i++;
 	}
 

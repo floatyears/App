@@ -144,13 +144,12 @@ public class LoadingLogic : ConcreteComponent {
             
 			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
-			if( rspAuthUser.notice != null){
+			if( rspAuthUser.notice != null) {
 				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
-//				DataCenter.Instance.NoticeInfo.
 				DataCenter.Instance.HelperCount = rspAuthUser.helpCountInfo;
 			}
 
-			if( rspAuthUser.login != null){
+			if( rspAuthUser.login != null) {
 				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
 			}
 

@@ -161,6 +161,7 @@ public class BattleBackground : UIBaseUnity {
 	}
 
 	void ShowHPAnimation(object data) {
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 		spriteAnimation.Reset();
 	}
 

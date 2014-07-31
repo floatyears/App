@@ -336,7 +336,7 @@ public class NoviceMsgWindowView : UIComponentUnity{
 
 	void UpdateGuidePic(){
 		if (msgWindowParams.guidePic != null) {
-			Debug.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
+//			Debug.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
 			guidePicTex.gameObject.SetActive(true);
 
 			guidePicTex.spriteName = msgWindowParams.guidePic.ToString (); //.mainTexture = tex;

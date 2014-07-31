@@ -190,6 +190,7 @@ public enum CommandEnum{
 	VictoryData,
 	FriendBack,
 	ShiledInput,
+	HideSortView,
 //	ActiveSkillCooling
 
 	//-----------------View Cmd-----------------------//

@@ -401,7 +401,7 @@ public class PartyView : UIComponentUnity{
 //		}
 
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.PartyView);//DEFAULT_SORT_RULE;
-		Debug.LogError ("InitUnitListView curSortRule");
+//		Debug.LogError ("InitUnitListView curSortRule");
 		//sortRuleLabel.text = curSortRule.ToString();
 	}
 

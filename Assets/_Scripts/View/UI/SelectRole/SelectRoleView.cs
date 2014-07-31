@@ -56,8 +56,8 @@ public class SelectRoleView : UIComponentUnity {
 			item = transform.FindChild("Content_" + i.ToString()).gameObject;
 			contentList.Add(item);
 		}
-		Debug.Log("UnitSelect.FindItem......Tab Item count is : " + tabList.Count);
-		Debug.Log("UnitSelect.FindItem......Content Item count is : " + contentList.Count);
+//		Debug.Log("UnitSelect.FindItem......Tab Item count is : " + tabList.Count);
+//		Debug.Log("UnitSelect.FindItem......Content Item count is : " + contentList.Count);
 
 		selectBtn = transform.FindChild("Button_Select").GetComponent<UIButton>();
 		UIEventListener.Get(selectBtn.gameObject).onClick = ClickButton;
@@ -70,8 +70,8 @@ public class SelectRoleView : UIComponentUnity {
 		UITexture texture;
 		UILabel label;
 
-		Debug.LogError("tabList.Count : " + tabList.Count);
-		Debug.LogError("unitInfoList.Count : " + unitInfoList.Count);
+//		Debug.LogError("tabList.Count : " + tabList.Count);
+//		Debug.LogError("unitInfoList.Count : " + unitInfoList.Count);
 
 		//Tab
 		for (int i = 0; i < tabList.Count; i++){
