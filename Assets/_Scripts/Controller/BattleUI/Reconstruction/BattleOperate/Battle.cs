@@ -553,7 +553,7 @@ public class Battle : UIBase {
 
 //		Debug.Log ("battle guide----------");
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
-			if(ConfigBattleUseData.Instance.questDungeonData.Boss[0].EnemyID){
+			if(IsBoss){
 				NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
 			}
 
