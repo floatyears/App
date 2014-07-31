@@ -192,6 +192,7 @@ public class ResourceUpdate : MonoBehaviour {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
 			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
+				Debug.Log("download error");
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
 			}else if(item.www.isDone) {
@@ -305,7 +306,13 @@ public class ResourceUpdate : MonoBehaviour {
 	public void StartDownload(){
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
 			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
-			LoadVersionConfig(serverVersion.text,serverVersionDic);
+			if(string.IsNullOrEmpty(serverVersion.error)){
+				LoadVersionConfig(serverVersion.text,serverVersionDic);
+			}else{
+				StartDownload();
+				return;
+			}
+
 			
 			//load the local version.txt. if not exists, jump through the init.
 
@@ -520,6 +527,7 @@ public class ResourceUpdate : MonoBehaviour {
 		yield return www;
 
 
+		Debug.Log ("error: " + www.error);
 		if (!string.IsNullOrEmpty (www.error) && !ignoreErr) {
 			Debug.Log (www.error + " : " + url);
 
@@ -540,7 +548,13 @@ public class ResourceUpdate : MonoBehaviour {
 #endif
 			
 			BtnParam sure = new BtnParam ();
-			sure.callback = DownloadAgain;
+			sure.callback = o=>{
+				if (callback != null) {
+					callback(www);		
+				}
+				www.Dispose ();
+				globalWWW = null;
+			};
 			sure.text = 
 			#if LANGUAGE_CN
 				"确定";
@@ -557,7 +571,7 @@ public class ResourceUpdate : MonoBehaviour {
 //			#else
 //				"Retry";
 //			#endif
-//			mwp.btnParams[1] = sure;
+			mwp.btnParam = sure;
 			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
 
 		} else {
@@ -571,19 +585,19 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 
-	void LoadRes(string url,string name){
-		//Debug.Log ("load res: " + name + " url:" + serverResURL);
-		StartCoroutine(Download(serverResURL + name + ".unity3d",delegate(WWW serverRes) {
-			//StartCoroutine(Download(serverResURL + url,delegate(WWW serverRes) {
-
-			if(!string.IsNullOrEmpty(serverRes.error))
-			{
-				Debug.Log("the res download has some err: " + serverRes.error);
-				return;
-			}
-//			UpdateLocalRes(serverRes.bytes,name);
-		}));
-	}
+//	void LoadRes(string url,string name){
+//		//Debug.Log ("load res: " + name + " url:" + serverResURL);
+//		StartCoroutine(Download(serverResURL + name + ".unity3d",delegate(WWW serverRes) {
+//			//StartCoroutine(Download(serverResURL + url,delegate(WWW serverRes) {
+//
+//			if(!string.IsNullOrEmpty(serverRes.error))
+//			{
+//				Debug.Log("the res download has some err: " + serverRes.error);
+//				return;
+//			}
+////			UpdateLocalRes(serverRes.bytes,name);
+//		}));
+//	}
 
 	public delegate void CompleteDownloadCallback(WWW www);
 
