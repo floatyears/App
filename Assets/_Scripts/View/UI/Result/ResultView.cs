@@ -46,10 +46,10 @@ public class ResultView : UIComponentUnity {
 
 		okBtn.transform.FindChild("Label").GetComponent<UILabel>().text = TextCenter.GetText("OK");
 		cancelBtn.transform.FindChild("Label").GetComponent<UILabel>().text = TextCenter.GetText("Cancel");
-		rootTop.transform.FindChild ("TextLabels/Label_Rank").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Rank");
+		rootTop.transform.FindChild ("TextLabels/Label_Rank").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Rank_Colon");
 //		rootTop.transform.FindChild ("TextLabels/Label_ID").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_ID");
-		rootTop.transform.FindChild ("TextLabels/Label_Name").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Name");
-		rootTop.transform.FindChild ("TextLabels/Label_LatestPlay").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_LastLogin");
+		rootTop.transform.FindChild ("TextLabels/Label_Name").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Name_Colon");
+		rootTop.transform.FindChild ("TextLabels/Label_LatestPlay").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_LastLogin_Colon");
 		rootTop.transform.FindChild ("Label_Title").GetComponent<UILabel> ().text = TextCenter.GetText ("Support_Friend");
 
 		UIEventListener.Get(checkBtn.gameObject).onClick = ClickCheck;

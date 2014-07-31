@@ -87,15 +87,15 @@ public class DataCenter {
 	public const int friendsExpandCount = 5; //每次扩充好友数量
 
 	//商城花费
-	public const int redoQuestStone = 6;
-	public const int resumeQuestStone = 6;
+	public const int redoQuestStone = 60;
+	public const int resumeQuestStone = 60;
 
-	public const int friendExpansionStone = 6;
-    public const int unitExpansionStone = 6;
-    public const int staminaRecoverStone = 6;
+	public const int friendExpansionStone = 60;
+    public const int unitExpansionStone = 60;
+    public const int staminaRecoverStone = 60;
     
-    public const int rareGachaStone = 30;
-    public const int eventGachaStone = 30;
+    public const int rareGachaStone = 300;
+    public const int eventGachaStone = 300;
     public const int maxGachaPerTime = 9;
 	public const int friendGachaFriendPoint = 200;
 

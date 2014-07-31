@@ -61,7 +61,7 @@ public class BattleBottom : MonoBehaviour {
 		Transform actorTrans = transform.Find ("Actor");
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = actorTrans.Find(i.ToString()).gameObject;	
-//			Debug.LogError("temp : " + temp);
+
 			UISprite tex =  actorTrans.Find(i.ToString() + "_Border").GetComponent<UISprite>();
 			UISprite bgSpr = actorTrans.Find(i.ToString() + "_bg").GetComponent<UISprite>();
 			UISprite skillBGSpr = actorTrans.Find(i.ToString()+ "_skillBg").GetComponent<UISprite>();
@@ -69,30 +69,23 @@ public class BattleBottom : MonoBehaviour {
 			UITexture texture = temp.GetComponent<UITexture>();
 
 			actorObject.Add(i, texture);
-//			Debug.Log("index: " + i);
 			if(!userUnitInfo.ContainsKey(i) || userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
 				skillSpr.enabled = false;
-//				Debug.Log("index-------: " + i);
 			} else {
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 				tui.GetAsset(UnitAssetType.Profile, o=>{
-//					Debug.Log("index-----///////--: " + i + " texture: " + o);
 					if(o != null) {
-
 						texture.mainTexture = o as Texture2D;
 						float width = 105f/texture.mainTexture.width;
-						float height = (i == 0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
-						Debug.Log("texture size: " + width + " height: " + height + " i: " + i);
-//						texture.uvRect = new Rect(tui.ShowPos.x , tui.ShowPos.y + tui.ShowPos.h - height, width, height);
+						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
 						float y = tui.ShowPos.y + tui.ShowPos.h - height;
 						if(y > 1)
 							y = y - 1;
 						texture.uvRect = new Rect(tui.ShowPos.x , y, width, height);
-
 					}
 				});
 				
@@ -101,6 +94,10 @@ public class BattleBottom : MonoBehaviour {
 				skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 			}
 		}
+	}
+
+	void ActiveSkillCallback(object data) {
+
 	}
 
 	string GetSkillSpriteName( bbproto.EUnitType type) {
@@ -248,7 +245,7 @@ public class BattleBottom : MonoBehaviour {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("Bottom");	
 		}
-		Debug.Break ();
-		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
+//		Debug.Break ();
+//		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
 	}
 }
