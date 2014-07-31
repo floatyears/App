@@ -184,6 +184,7 @@ public class HomeView : UIComponentUnity{
 		}
 
 		eventRoot = transform.FindChild("EventDoor").gameObject;
+		eventRoot.SetActive (false);
 		UIEventListener.Get(eventRoot).onPress = PressEventDoor;
 	}
 
