@@ -40,12 +40,17 @@ public class NoviceGuideUtil {
 				TweenPosition tPos = arrow.transform.FindChild("Sprite").GetComponent<TweenPosition> ();
 
 				Vector3 size = Vector3.zero;
-				try {
+//				try {
+				if(parent.GetComponent<BoxCollider> () != null){
 					size = parent.GetComponent<BoxCollider> ().size;
-				} catch (MissingComponentException e) {
-					LogHelper.LogWarning (e.ToString ());
+				}else{
 					size = parent.transform.localPosition;
 				}
+					
+//				} catch (MissingComponentException e) {
+//					LogHelper.LogWarning (e.ToString ());
+//					
+//				}
 
 				switch (i < len ? (int)posAndDir [i].z : 0) {
 				//point to the top
@@ -104,11 +109,11 @@ public class NoviceGuideUtil {
 	}
 
 	public static void RemoveAllArrows(){
-		LogHelper.Log ("arrow count: " + arrows.Count);
+		Debug.Log ("arrow count: " + arrows.Count);
 
 		foreach (string key in arrows.Keys) {
 			GameObject.Destroy(arrows[key]);
-			LogHelper.Log ("===/////===remove arrow: "+key);
+			Debug.Log ("===/////===remove arrow: "+key);
 		}
 		arrows.Clear ();
 	}
