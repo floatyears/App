@@ -63,7 +63,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	private bool isLoginSent = false;
 
-	private bool isShowRetry = true;
+	private bool isShowRetry = false;
 
 	private WWW www = null;
 
@@ -157,16 +157,16 @@ public class ResourceUpdate : MonoBehaviour {
 					current += item.size * www.progress;
 //					Debug.Log("download current: " + www.progress);
 				}
-				if(!string.IsNullOrEmpty(www.error)) {
-					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
-					//retryItemList.Add(item);
-//					if(item.retryCount >0)
-//					{
-						item.StartDownload();
-//						item.retryCount--;
-//					}
-					continue;
-				}
+//				if(!string.IsNullOrEmpty(www.error)) {
+//					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
+//					//retryItemList.Add(item);
+////					if(item.retryCount >0)
+////					{
+//						item.StartDownload();
+////						item.retryCount--;
+////					}
+//					continue;
+//				}
 				if(www.isDone) {
 					//TODO download done.
 					UpdateLocalRes(item);
@@ -204,8 +204,8 @@ public class ResourceUpdate : MonoBehaviour {
 		if (!isLoginSent) {
 			if (downLoadItemList.Count <= 0 && startDown) {
 				if(retryItemList.Count > 0){
-//					if(!isShowRetry){
-//						isShowRetry = true;
+					if(!isShowRetry){
+						isShowRetry = true;
 						
 						MsgWindowParams mwp = new MsgWindowParams ();
 						mwp.btnParam = new BtnParam();
@@ -240,7 +240,7 @@ public class ResourceUpdate : MonoBehaviour {
 //						sure.text = TextCenter.GetText("Cancel");
 //						mwp.btnParams[1] = sure;
 						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-//					}
+					}
 					
 				}else {
 					isLoginSent = true;
@@ -304,8 +304,9 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 	public void StartDownload(){
+
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
-			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
+			Debug.Log ("download serverVersion from " + serverVersionURL + ", version text:"+serverVersion.text);
 			if(string.IsNullOrEmpty(serverVersion.error)){
 				LoadVersionConfig(serverVersion.text,serverVersionDic);
 			}else{
