@@ -168,6 +168,7 @@ public enum CommandEnum{
 	EvolveFriend				= 3057,
 	UnitMaterialList 			= 3058,
 //	DropBoss,
+	ShowHPAnimation,
 	ShowActiveSkill,
 	ShowPassiveSkill,
 	ShowTrap,

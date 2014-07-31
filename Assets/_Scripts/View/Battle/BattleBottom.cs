@@ -1,13 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class BattleBottom : MonoBehaviour {
 	private Camera bottomCamera;
 	private RaycastHit rch;
 	private TUnitParty upi;
 	private Dictionary<int, UITexture> actorObject = new Dictionary<int, UITexture>();
+	private Dictionary<int, ActiveSkill> unitInfoPos = new Dictionary<int,ActiveSkill> ();
 	private GameObject battleSkillObject;
 	private BattleSkill battleSkill;
+
+	private GameObject activeEnableEffect;
+	private Dictionary<int, GameObject> enableSKillPos = new Dictionary<int, GameObject> ();
+	private List<int> enablePos = new List<int> ();
 
 	public bool IsUseLeaderSkill = false;
 
@@ -28,6 +34,11 @@ public class BattleBottom : MonoBehaviour {
 
 	private static int setPos = -1;
 	private static bool storeShiedInput = false;
+	
+
+//	void LaunchActiveSkill(object data) {
+//
+//	}
 
 	public static void SetClickItem(int pos) {
 		if (pos < 0 || pos > 4 || pos == -1) {
@@ -43,6 +54,8 @@ public class BattleBottom : MonoBehaviour {
 
 	public void Init(Camera bottomCamera) {
 		this.bottomCamera = bottomCamera;
+		RemoveAllSkill ();
+
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/BattleSkill", o => {
 			GameObject go = o as GameObject;
 			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
@@ -56,6 +69,8 @@ public class BattleBottom : MonoBehaviour {
 		if (upi == null) {
 			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		}
+
+		CheckActiveEnableEffect ();
 
 		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		Transform actorTrans = transform.Find ("Actor");
@@ -77,6 +92,14 @@ public class BattleBottom : MonoBehaviour {
 				skillSpr.enabled = false;
 			} else {
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
+
+				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo[i].MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);
+				if(sbi != null){
+					ActiveSkill activeSkill =  sbi as ActiveSkill;
+					unitInfoPos.Add(i, activeSkill);
+					activeSkill.AddListener(ActiveSkillCallback);
+				}
+
 				tui.GetAsset(UnitAssetType.Profile, o=>{
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
@@ -97,7 +120,58 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	void ActiveSkillCallback(object data) {
+		ActiveSkill activeSKill = data as ActiveSkill;
+		foreach (var item in unitInfoPos) {
+			if(item.Value.skillBase.id == activeSKill.skillBase.id) {
+				ActiveSkillEffect(item.Key);
+			}
+		}
+	}
 
+	void CheckActiveEnableEffect() {
+		if (activeEnableEffect == null) {
+			EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
+		}
+	}
+
+	void ActiveSkillEffect(int pos) {
+		CheckActiveEnableEffect ();
+		AddActivePos (pos);
+	}
+
+	public void RemoveAllSkill() {
+		enableSKillPos.Clear ();
+		enablePos.Clear ();
+	}
+
+	void RemoveSkillEffect (int pos) {
+		if(enableSKillPos.ContainsKey(pos))
+			enableSKillPos.Remove (pos);
+		if(enablePos.Contains(pos))
+			enablePos.Remove (pos);
+	}
+
+	void AddActivePos(int pos) {
+		enableSKillPos.Add (pos, null);
+		enablePos.Add (pos);
+	}
+
+	readonly Vector3 effectScale = new Vector3 (30f, 30f, 30f);
+	readonly Vector3 effectOffset = new Vector3 (-30f, 30f, 0f);
+
+	void LateUpdate () {
+		for (int i = 0; i < enablePos.Count; i++) {
+			int pos = enablePos[i];
+			GameObject go = enableSKillPos[pos];
+			if(go == null) {
+				Transform trans = actorObject[pos].transform;
+				go = NGUITools.AddChild(trans.parent.gameObject, activeEnableEffect);
+				go.layer = GameLayer.EffectLayer;
+				go.transform.localPosition = trans.localPosition + effectOffset;
+				go.transform.localScale = effectScale;
+				enableSKillPos[pos] = go;
+			}
+		}
 	}
 
 	string GetSkillSpriteName( bbproto.EUnitType type) {
@@ -142,10 +216,16 @@ public class BattleBottom : MonoBehaviour {
 
 	void OnDisable () {
 		GameInput.OnUpdate -= OnRealease;
+		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, PlayerDead);
 	}
 
 	void OnEnable () {
 		GameInput.OnUpdate += OnRealease;
+		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, PlayerDead);
+	}
+
+	void PlayerDead(object data) {
+		RemoveAllSkill ();
 	}
 
 	void OnRealease () {
@@ -207,6 +287,7 @@ public class BattleBottom : MonoBehaviour {
 
 	public void Boost() {
 		CloseSkillWindow ();
+		RemoveSkillEffect (prevID);
 		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
 	}
 
@@ -218,11 +299,10 @@ public class BattleBottom : MonoBehaviour {
 		foreach (var item in actorObject.Values) {
 			if(name == item.name) {
 				item.color = !mask ? Color.gray : Color.white;
-			}
-			else{
+			} else {
 				item.color = mask ? Color.gray : Color.white;
 			}
-		}	
+		}
 	}
 
 	void CloseSkillWindow () {
@@ -245,7 +325,5 @@ public class BattleBottom : MonoBehaviour {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("Bottom");	
 		}
-//		Debug.Break ();
-//		Debug.LogError ("isInNoviceGuide : " + isInNoviceGuide + " transform.Find (Actor/0).gameObject : " + transform.Find ("Actor/0").gameObject.layer);
 	}
 }
