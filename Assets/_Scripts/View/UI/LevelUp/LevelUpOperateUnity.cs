@@ -343,11 +343,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void DisposeNoPreMaterial(LevelUpItem piv) {
-		if (CheckBaseItem (piv)) {
-			ShieldParty (true,piv);		
-		} else {
+//		if (CheckBaseItem (piv)) {
+//			ShieldParty (true,piv);		
+//		} else {
 			ShieldParty(false,piv);
-		}
+//		}
 		
 		if (prevSelectedItem != null) {
 			if(prevSelectedItem.Equals(piv)){
