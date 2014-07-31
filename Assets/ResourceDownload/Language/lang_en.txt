@@ -282,6 +282,8 @@ Reward_Tab_Info5=Other bonus
 ChainLogin=Continuously Login {0} Days
 TotalLogin=Login {0} Days
 RankReach=Rank {0}
+OtherRewards={0}
+MonthCard=Day {0}
 
 #notice
 Notice_HelperTitle=Welcome Back!
