@@ -8,7 +8,7 @@ using System.IO;
 public class ResourceUpdate : MonoBehaviour {
 
 	//private static string serverResURL = "file://" + Application.dataPath +"/ServerTest/";
-	public const string serverHost = "http://61.153.100.131";
+	public const string serverHost = ServerConfig.ResourceHost;
 
 	public const string serverResURL =
 #if UNITY_EDITOR || UNITY_STANDALONE

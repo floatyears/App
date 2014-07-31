@@ -15,7 +15,7 @@ public sealed class ServerConfig {
 
 
 
-	public const string ResourceHost = "http://61.153.100.131";
+	public const string ResourceHost = "http://us.yeedion.com";
 
 	public const int AppVersion = 100; //1.0.0
 
