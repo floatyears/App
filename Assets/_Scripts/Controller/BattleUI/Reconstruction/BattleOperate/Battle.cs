@@ -546,7 +546,15 @@ public class Battle : UIBase {
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 
 //		Debug.Log ("battle guide----------");
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
+			if(ConfigBattleUseData.Instance.questDungeonData.Boss[0].EnemyID){
+				NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
+			}
+
+		} else {
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
+		}
+
 	}
 
 	void GetPrefabsObject(string name,ResourceCallback callback) {
