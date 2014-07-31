@@ -542,7 +542,8 @@ public class Battle : UIBase {
 	public bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count, bool isBoss = false) {
 		isShowEnemy = true;
-		IsBoss = true;
+		IsBoss = isBoss;
+		Debug.LogError ("IsBoss : " + IsBoss);
 		battleEnemy.Refresh(count);
 		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
 		TStoreBattleData tsbd = battleData.storeBattleData;
