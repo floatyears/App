@@ -554,6 +554,7 @@ public class Battle : UIBase {
 //		Debug.Log ("battle guide----------");
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
 			if(IsBoss){
+				Debug.Log("is boss -------------");
 				NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
 			}
 

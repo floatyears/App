@@ -87,18 +87,23 @@ public class RewardItemView : MonoBehaviour {
 				itemList[i].SetActive(false);
 			}
 
-			switch ((EBonusType)data.type) {
-			case EBonusType.CHAIN_LOGIN:
+			switch (data.type) {
+			case 2://EBonusType.CHAIN_LOGIN:
 				text.text = string.Format(TextCenter.GetText("ChainLogin"),data.matchValue);
 				break;
-			case EBonusType.TOTAL_LOGIN:
+			case 1://EBonusType.TOTAL_LOGIN:
 				text.text = string.Format(TextCenter.GetText("TotalLogin"),data.matchValue);
 				break;
-			case EBonusType.RANK_REACH:
+			case 3://EBonusType.RANK_REACH:
 				text.text = string.Format(TextCenter.GetText("RankReach"),data.matchValue);
 				break;
+			case 6://EBonusType.COMPENSATION:
+			case 5:
+				text.text = string.Format(TextCenter.GetText("MonthCard"),data.matchValue);
+				break;
 			default:
-				text.text = "";
+				text.text = string.Format(TextCenter.GetText("OtherRewards"),data.matchValue);
+				break;
 			break;
 			}
 
