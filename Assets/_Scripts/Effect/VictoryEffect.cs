@@ -75,7 +75,6 @@ public class VictoryEffect : UIComponentUnity {
 	void VictoryData (object data) {
 		TRspClearQuest trcq = data as TRspClearQuest;
 		ShowData (trcq);
-
 		PlayAnimation ();
 	}
 
@@ -101,7 +100,7 @@ public class VictoryEffect : UIComponentUnity {
 		int maxCoin = clearQuest.money;
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
-
+	
 		coinLabel.text = clearQuest.gotMoney.ToString ();
 		empiricalLabel.text = clearQuest.gotExp.ToString ();
 

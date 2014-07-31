@@ -118,6 +118,7 @@ public class ClearQuest: ProtoManager {
             cq.rank = rspClearQuest.rank;
             cq.exp = rspClearQuest.exp;
             cq.money = rspClearQuest.money;
+			cq.gotMoney = rspClearQuest.gotMoney;
             cq.friendPoint = rspClearQuest.friendPoint;
             cq.staminaNow = rspClearQuest.staminaNow;
             cq.staminaMax = rspClearQuest.staminaMax;
