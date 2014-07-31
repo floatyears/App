@@ -236,8 +236,7 @@ public class AttackController {
 		if (attackInfoQueue.Count == 0) {
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
 
-			if(blood > 0)
-				bud.Blood += blood;
+			bud.AddBlood(blood);
 
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 			endCount = 0;

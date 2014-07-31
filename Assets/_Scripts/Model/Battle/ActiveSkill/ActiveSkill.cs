@@ -23,7 +23,8 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 		}
 	}
 
-	public DataListener dataListener;
+
+	private DataListener dataListener;
 
 	private string skillStoreID;
 	private ConfigBattleUseData configBattleUseData;
@@ -34,6 +35,17 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 			ReadSkillCooling ();
 		} else {
 			Store();
+		}
+	}
+
+	public void AddListener(DataListener listener) {
+		dataListener = listener;
+		Excute ();
+	}
+
+	void Excute() {
+		if(dataListener != null) {
+			dataListener(this);
 		}
 	}
 
@@ -50,9 +62,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 		bool temp = coolingDone;
 		coolingDone = CheckCooling (skillBase);
 		if (!temp && coolingDone) {
-			if(dataListener != null) {
-				dataListener(this);
-			}
+			Excute();
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
 		}
 		Store ();

@@ -167,7 +167,8 @@ public class BattleUseData {
     void TrapInjuredDead(object data) {
         float value = (float)data;
         int hurtValue = System.Convert.ToInt32(value);
-        Blood -= hurtValue;
+//        Blood -= hurtValue;
+		KillHp (hurtValue, true);
 		configBattleUseData.StoreMapData (null);
     }
 
@@ -252,7 +253,8 @@ public class BattleUseData {
 
     void RecoverHP(object data) {
         AttackInfo ai = data as AttackInfo;
-		Blood += System.Convert.ToInt32 (ai.AttackValue);
+//		Blood += System.Convert.ToInt32 (ai.AttackValue);
+		AddBlood (System.Convert.ToInt32 (ai.AttackValue));
     }
 
     public void InitEnemyInfo(TQuestGrid grid) {
@@ -325,11 +327,42 @@ public class BattleUseData {
         }
 //        MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
         int addBlood = skillRecoverHP.RecoverHP(maxBlood, 2);				// 3: every step.
-		Blood += addBlood;
+//		Blood += addBlood;
+		AddBlood (addBlood);
         ConsumeEnergyPoint();
     }
 
 	bool isLimit = false;
+
+	public void KillHp(int value,bool dead) {
+		int killBlood = blood - value;
+
+		if (dead) {
+			if(blood ==0) {
+				return;
+			}
+			blood = killBlood < 0 ? 0 : killBlood;
+			PlayerDead();
+
+		} else {
+			blood = killBlood < 1 ? 1 : killBlood;
+		}
+
+		configBattleUseData.storeBattleData.hp = blood;
+		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
+	}
+
+	public void AddBlood (int value) {
+		if (value == 0) {
+			return;	
+		}
+
+		int addBlood = blood + value;
+		blood = addBlood > maxBlood ? maxBlood : addBlood;
+		configBattleUseData.storeBattleData.hp = blood;
+		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowHPAnimation);
+	}
 
     void ConsumeEnergyPoint() {	
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
@@ -339,9 +372,7 @@ public class BattleUseData {
 		}
 
         if (maxEnergyPoint == 0) {
-			int temp = Blood;
-			temp -= ReductionBloodByProportion(0.2f);
-			Blood = temp < 1 ? 1 : temp;
+			KillHp(ReductionBloodByProportion(0.2f), false);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
         } else {
             maxEnergyPoint--;
@@ -361,7 +392,8 @@ public class BattleUseData {
 	}
 
     public void Hurt(int hurtValue) {
-		Blood -= hurtValue;
+//		Blood -= hurtValue;
+		KillHp (hurtValue, true);
     }
 
     public void RefreshBlood() {

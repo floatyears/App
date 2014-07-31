@@ -326,6 +326,9 @@ public class ConfigBattleUseData {
 
 	void ReadStageInfo() {
 		byte[] friend = ReadFile (stageInfoName);
+		if (friend == null) {
+			return;	
+		}
 		StageInfo qi = ProtobufSerializer.ParseFormBytes<StageInfo> (friend);
 		currentStageInfo = new TStageInfo (qi);
 	}
@@ -341,6 +344,9 @@ public class ConfigBattleUseData {
 
 	void ReadQuestInfo() {
 		byte[] friend = ReadFile (questInfoName);
+		if (friend == null) {
+			return;	
+		}
 		QuestInfo qi = ProtobufSerializer.ParseFormBytes<QuestInfo> (friend);
 		currentQuestInfo = new TQuestInfo (qi);
 	}

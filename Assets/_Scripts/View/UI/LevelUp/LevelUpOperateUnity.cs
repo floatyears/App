@@ -178,7 +178,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 			myUnitList.Add(pui);
 		}
-
+		RefreshSortInfo ();
 		RefreshCounter ();
 	}
 
@@ -261,13 +261,16 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void ResetUIAfterLevelUp(object data) {
 		ClearData ();
+//		Debug.LogError("ResetUIAfterLevelUp  =======================================");
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
+//		Debug.LogError ("tuu : " + tuu.isEnable);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 		clear = true;
 		ShowData ();
 
 		myUnitDragPanel.RefreshItem (tuu);
+
 		ShieldParty (false, null);
 
 		CheckLevelUp ();
@@ -307,7 +310,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// Selecteds material item's callback.
 	/// </summary>
 	void SelectedItemCallback(LevelUpItem piv) {
-		Debug.LogError ("SelectedItemCallback : " + piv);
 		if (prevMaterialItem == null) {
 			DisposeNoPreMaterial (piv);
 		} else {
@@ -318,10 +320,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void SelectBaseItemCallback(LevelUpItem piv){
-		if (prevMaterialItem == null) {
-			DisposeNoPreMaterial (piv);
-		} else {
-			DisposeByPreMaterial(piv);
+		if (prevSelectedItem == null) {
+			if (prevMaterialItem == null) {
+				DisposeNoPreMaterial (piv);
+			} else {
+				DisposeByPreMaterial (piv);
+			}
 		}
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
@@ -348,7 +352,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		} else {
 			ShieldParty(false,piv);
 		}
-		
+
 		if (prevSelectedItem != null) {
 			if(prevSelectedItem.Equals(piv)){
 				ClearFocus();
@@ -529,7 +533,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 		pui.IsEnable = false;
 		ClearFocus ();
-		ShieldParty (false, null);
+		ShieldParty (false, selectedItem [baseItemIndex]);
 
 		CheckLevelUp ();
 
@@ -552,6 +556,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		for (int i = 0; i < myUnitList.Count; i++) {
 			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
+//				Debug.LogError("baseItem != null : " +(baseItem != null) + " baseItem.UserUnit != null : " + (baseItem.UserUnit != null) + " pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID); 
+//				bool baseNull = ;
+//				Debug.LogError("ShieldParty : " + )
+//				if(baseItem != null) {
+//					if(baseItem.UserUnit != null)
+//						Debug.LogError(" pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID);;
+//				}
+
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
 					continue;
 				}
@@ -654,6 +666,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 		myUnitDragPanel.RefreshItem (myUnit);
+
+		RefreshSortInfo ();
+	}
+
+	void RefreshSortInfo() {
+		foreach (var item in myUnitDragPanel.scrollItem) {
+			item.CurrentSortRule= sortRule;
+		}
 	}
 
 	private void SortUnitByCurRule(){
