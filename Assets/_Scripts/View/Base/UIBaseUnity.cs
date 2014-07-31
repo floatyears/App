@@ -109,6 +109,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 	public virtual void ShowUI() {
 		if (config != null) {
 			transform.localPosition = config.localPosition;
+//			Debug.LogError("config.name : " + config.uiName + " config.localPosition : "  +config.localPosition);
 			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
 //				Debug.Log("hide pop mask: true");
 				ViewManager.Instance.TogglePopUpWindow(true);

@@ -29,7 +29,7 @@ public class RootComponent
 	public RootComponent(string name)
 	{
 		config = GetUIInsConfig(name, errMsg);
-		//Debug.Log ("config: " + config + " name: " + name);
+//		Debug.Log ("config: " + config + " name: " + name + config.localPosition);
 	}
 
 	public static UIInsConfig GetUIInsConfig(string name, ErrorMsg errMsg)
