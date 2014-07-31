@@ -187,6 +187,7 @@ public class BattleQuest : UIBase {
 
 	void ReadyMove() {
 		battle.ShieldInput (true);
+		Debug.LogError ("ReadyMove NoviceGuideStartType.BATTLE");
 		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 	}
 
@@ -378,11 +379,16 @@ public class BattleQuest : UIBase {
 	}
 
 	void InitContinueData() {
+
+
 		bud.Els.CheckLeaderSkillCount();
 		bud.InitBattleUseData (configBattleUseData.storeBattleData);
 	}
 
 	public void ContineBattle () {
+		Debug.LogError ("ContineBattle NoviceGuideStartType.BATTLE");
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
 		InitContinueData ();
 //		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
