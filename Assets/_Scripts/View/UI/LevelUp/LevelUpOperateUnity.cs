@@ -310,7 +310,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// Selecteds material item's callback.
 	/// </summary>
 	void SelectedItemCallback(LevelUpItem piv) {
-//		Debug.LogError ("SelectedItemCallback : " + piv);
 		if (prevMaterialItem == null) {
 			DisposeNoPreMaterial (piv);
 		} else {
@@ -321,12 +320,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	void SelectBaseItemCallback(LevelUpItem piv){
-//		Debug.LogError ("SelectBaseItemCallback : " + piv + " prevMaterialItem == null : " + (prevMaterialItem == null));
-
-		if (prevMaterialItem == null) {
-			DisposeNoPreMaterial (piv);
-		} else {
-			DisposeByPreMaterial(piv);
+		if (prevSelectedItem == null) {
+			if (prevMaterialItem == null) {
+				DisposeNoPreMaterial (piv);
+			} else {
+				DisposeByPreMaterial (piv);
+			}
 		}
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
@@ -337,7 +336,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void DisposeByPreMaterial(LevelUpItem lui) {
 		if (CheckBaseItem (prevMaterialItem)) {
-			Debug.LogError("DisposeByPreMaterial CheckBaseItem true" );
 			return;	
 		}
 		EnabledItem (lui.UserUnit);
@@ -350,12 +348,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void DisposeNoPreMaterial(LevelUpItem piv) {
 		if (CheckBaseItem (piv)) {
-//			Debug.LogError("DisposeNoPreMaterial" );
 			ShieldParty (true,piv);		
 		} else {
 			ShieldParty(false,piv);
 		}
-		
+
 		if (prevSelectedItem != null) {
 			if(prevSelectedItem.Equals(piv)){
 				ClearFocus();
