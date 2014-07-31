@@ -63,7 +63,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	private bool isLoginSent = false;
 
-	private bool isShowRetry = true;
+	private bool isShowRetry = false;
 
 	private WWW www = null;
 
@@ -157,16 +157,16 @@ public class ResourceUpdate : MonoBehaviour {
 					current += item.size * www.progress;
 //					Debug.Log("download current: " + www.progress);
 				}
-				if(!string.IsNullOrEmpty(www.error)) {
-					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
-					//retryItemList.Add(item);
-//					if(item.retryCount >0)
-//					{
-						item.StartDownload();
-//						item.retryCount--;
-//					}
-					continue;
-				}
+//				if(!string.IsNullOrEmpty(www.error)) {
+//					//Debug.LogError("retryItemList : " + item.path + " error : " + www.error);
+//					//retryItemList.Add(item);
+////					if(item.retryCount >0)
+////					{
+//						item.StartDownload();
+////						item.retryCount--;
+////					}
+//					continue;
+//				}
 				if(www.isDone) {
 					//TODO download done.
 					UpdateLocalRes(item);
@@ -192,6 +192,7 @@ public class ResourceUpdate : MonoBehaviour {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
 			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
+				Debug.Log("download error");
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
 			}else if(item.www.isDone) {
@@ -203,8 +204,8 @@ public class ResourceUpdate : MonoBehaviour {
 		if (!isLoginSent) {
 			if (downLoadItemList.Count <= 0 && startDown) {
 				if(retryItemList.Count > 0){
-//					if(!isShowRetry){
-//						isShowRetry = true;
+					if(!isShowRetry){
+						isShowRetry = true;
 						
 						MsgWindowParams mwp = new MsgWindowParams ();
 						mwp.btnParam = new BtnParam();
@@ -239,7 +240,7 @@ public class ResourceUpdate : MonoBehaviour {
 //						sure.text = TextCenter.GetText("Cancel");
 //						mwp.btnParams[1] = sure;
 						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-//					}
+					}
 					
 				}else {
 					isLoginSent = true;
@@ -303,14 +304,21 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 	public void StartDownload(){
+
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
-//			Debug.Log("download serverVersion from "+serverVersionURL+", version text:"+serverVersion.text);
-			LoadVersionConfig(serverVersion.text,serverVersionDic);
+			Debug.Log ("download serverVersion from " + serverVersionURL + ", version text:"+serverVersion.text);
+			if(string.IsNullOrEmpty(serverVersion.error)){
+				LoadVersionConfig(serverVersion.text,serverVersionDic);
+			}else{
+				StartDownload();
+				return;
+			}
+
 			
 			//load the local version.txt. if not exists, jump through the init.
 
 			StartCoroutine(Download(localResPath + "version.txt",delegate(WWW localVersion) {
-//				Debug.Log("local version err: " + localVersion.error);
+				Debug.Log("local version err: " + localVersion.error);
 
 //				Debug.Log("local version txt: " + File.ReadAllText(localResFullPath + "version.txt"));
 
@@ -331,7 +339,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 		string[] records = content.Split (new string[]{"\n"},System.StringSplitOptions.RemoveEmptyEntries);
 		int i = 0;
-//		Debug.Log ("version content: " + content);
+		Debug.Log ("version content: " + content);
 		if (records [0].IndexOf ("version") >= 0) {
 			version = records[0].Split(':')[1];
 			i = 1;
@@ -347,11 +355,11 @@ public class ResourceUpdate : MonoBehaviour {
 	//generate the localVersionConfig.txt base the localVersionDic.
 	void UpdateLocalVersionConfig(string name,bool wirteToFile)
 	{
-//		Debug.Log ("version config save before");
+		Debug.Log ("version config save before");
 		localVersionDic[name] = serverVersionDic[name];
 		if (!wirteToFile)
 			return;
-//		Debug.Log ("version config save");
+		Debug.Log ("version config save");
 		string verStr = "";
 		foreach (var value in localVersionDic.Values) {
 //			foreach(string item in value)
@@ -366,7 +374,7 @@ public class ResourceUpdate : MonoBehaviour {
 		//File.WriteAllText (localVersionPath, verStr);
 
 		//only for test
-//		Debug.Log ("local version path: " + localResFullPath);
+		Debug.Log ("local version path: " + localResFullPath);
 		File.WriteAllText (localResFullPath + "version.txt",verStr);
 //		WriteStringToFile (verStr, localResFullPath + "version.txt");
 	}
@@ -520,6 +528,7 @@ public class ResourceUpdate : MonoBehaviour {
 		yield return www;
 
 
+		Debug.Log ("error: " + www.error);
 		if (!string.IsNullOrEmpty (www.error) && !ignoreErr) {
 			Debug.Log (www.error + " : " + url);
 
@@ -540,7 +549,13 @@ public class ResourceUpdate : MonoBehaviour {
 #endif
 			
 			BtnParam sure = new BtnParam ();
-			sure.callback = DownloadAgain;
+			sure.callback = o=>{
+				if (callback != null) {
+					callback(www);		
+				}
+				www.Dispose ();
+				globalWWW = null;
+			};
 			sure.text = 
 			#if LANGUAGE_CN
 				"确定";
@@ -557,7 +572,7 @@ public class ResourceUpdate : MonoBehaviour {
 //			#else
 //				"Retry";
 //			#endif
-//			mwp.btnParams[1] = sure;
+			mwp.btnParam = sure;
 			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
 
 		} else {
@@ -571,19 +586,19 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 
-	void LoadRes(string url,string name){
-		//Debug.Log ("load res: " + name + " url:" + serverResURL);
-		StartCoroutine(Download(serverResURL + name + ".unity3d",delegate(WWW serverRes) {
-			//StartCoroutine(Download(serverResURL + url,delegate(WWW serverRes) {
-
-			if(!string.IsNullOrEmpty(serverRes.error))
-			{
-				Debug.Log("the res download has some err: " + serverRes.error);
-				return;
-			}
-//			UpdateLocalRes(serverRes.bytes,name);
-		}));
-	}
+//	void LoadRes(string url,string name){
+//		//Debug.Log ("load res: " + name + " url:" + serverResURL);
+//		StartCoroutine(Download(serverResURL + name + ".unity3d",delegate(WWW serverRes) {
+//			//StartCoroutine(Download(serverResURL + url,delegate(WWW serverRes) {
+//
+//			if(!string.IsNullOrEmpty(serverRes.error))
+//			{
+//				Debug.Log("the res download has some err: " + serverRes.error);
+//				return;
+//			}
+////			UpdateLocalRes(serverRes.bytes,name);
+//		}));
+//	}
 
 	public delegate void CompleteDownloadCallback(WWW www);
 

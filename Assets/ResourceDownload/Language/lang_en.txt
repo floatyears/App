@@ -349,7 +349,6 @@ StoneCount=x
 WeekCard=Week Card
 WeekCardDesc=Get 100 Magic Stones everyday for 7 days!
 
-
 ##### gacha
 FriendGacha=Pal Point Summons
 FriendGachaTitle=Pal Point Summon
