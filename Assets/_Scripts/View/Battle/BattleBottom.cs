@@ -161,7 +161,7 @@ public class BattleBottom : MonoBehaviour {
 	}
 
 	readonly Vector3 effectScale = new Vector3 (30f, 30f, 30f);
-	readonly Vector3 effectOffset = new Vector3 (-30f, 30f, 0f);
+	readonly Vector3 effectOffset = new Vector3 (35f, 15f, 0f);
 
 	void LateUpdate () {
 		for (int i = 0; i < enablePos.Count; i++) {

@@ -102,8 +102,8 @@ public class VictoryEffect : UIComponentUnity {
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
 
-		coinLabel.text = clearQuest.gotMoney;
-		empiricalLabel.text = clearQuest.gotExp;
+		coinLabel.text = clearQuest.gotMoney.ToString ();
+		empiricalLabel.text = clearQuest.gotExp.ToString ();
 
 //		Debug.LogError ("======= ShowData =======================");
 //		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
