@@ -862,8 +862,7 @@ public class BattleQuest : UIBase {
 		main.GInput.IsCheckInput = true;
 		BattleBottom.notClick = false;
 	}
-
-//	object tempData = null;
+	
 	void SureRetryNetWork(object data) {
 
 		BattleMap.waitMove = false;
@@ -871,7 +870,6 @@ public class BattleQuest : UIBase {
 		RefreshRetryData (data);
 		main.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
-//		Debug.LogError ("SureRetryNetWork " + main.GInput.IsCheckInput);
 	}
 
 	void RefreshRetryData(object data) {
@@ -880,7 +878,6 @@ public class BattleQuest : UIBase {
 			return;	
 		}
 	
-//		Debug.LogError ("rrq : " + rrq.dungeonData);
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
 		_questData.RemoveAt (_questData.Count - 1);
 		ClearQuestParam cq = new ClearQuestParam ();
@@ -990,8 +987,6 @@ public class BattleQuest : UIBase {
 		//update the evolved unit
 		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 
-//		evolveUser = 
-
 		TRspClearQuest trcq = new TRspClearQuest ();
 		trcq.exp = rsp.exp;
 		trcq.gotExp = rsp.gotExp;
@@ -1007,7 +1002,6 @@ public class BattleQuest : UIBase {
 		trcq.gotUnit = temp;
 		trcq.rank = rsp.rank;
 		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
-//		End (trcq, EvolveEnd);
 		End();
 		EvolveEnd (trcq);
 	}
@@ -1016,12 +1010,7 @@ public class BattleQuest : UIBase {
 		if (data != null) {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
-//			Debug.LogError("exp : " + DataCenter.Instance.UserInfo.Exp);
-
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
-
-//			Debug.LogError("exp : " + DataCenter.Instance.UserInfo.Exp + " clearQuest : " + clearQuest.exp);
-//			End (clearQuest, QuestEnd);
 			End();
 			QuestEnd(clearQuest);
 		} else {
