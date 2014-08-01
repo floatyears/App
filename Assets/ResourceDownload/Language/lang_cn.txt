@@ -283,6 +283,7 @@ Reward_Tab_Info5=其他奖励
 ChainLogin=连续登录 {0} 天
 TotalLogin=累计登录 {0} 天
 RankReach=等级 {0} 
+MonthCard=月卡
 
 #notice
 Notice_HelperTitle=友情战报
