@@ -99,7 +99,7 @@ public class RewardItemView : MonoBehaviour {
 				break;
 			case 6://EBonusType.COMPENSATION:
 			case 5:
-				text.text = string.Format(TextCenter.GetText("MonthCard"),data.matchValue);
+				text.text = string.Format(TextCenter.GetText("RewardMonthCard"),data.matchValue);
 				break;
 			default:
 				text.text = string.Format(TextCenter.GetText("OtherRewards"),data.matchValue);
