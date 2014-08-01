@@ -8,7 +8,7 @@ using System.IO;
 public class ResourceUpdate : MonoBehaviour {
 
 	//private static string serverResURL = "file://" + Application.dataPath +"/ServerTest/";
-	public const string serverHost = "http://61.153.100.131";
+	public const string serverHost = ServerConfig.ResourceHost;
 
 	public const string serverResURL =
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -434,7 +434,7 @@ public class ResourceUpdate : MonoBehaviour {
 			fs.Dispose();
 			//			Debug.LogError("write to file success : " + fileName);
 		} catch (System.Exception ex) {
-			Debug.LogError("WriteToFile exception : " + ex.Message);
+//			Debug.LogError("WriteToFile exception : " + ex.Message);
 		}
 	}
 
@@ -447,7 +447,7 @@ public class ResourceUpdate : MonoBehaviour {
 			}
 			//			Debug.LogError("write to file success : " + fileName);
 		} catch (System.Exception ex) {
-			Debug.LogError("WriteToFile exception : " + ex.Message);
+//			Debug.LogError("WriteToFile exception : " + ex.Message);
 		}
 	}
 

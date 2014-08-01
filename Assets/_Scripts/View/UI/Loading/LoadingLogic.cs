@@ -49,13 +49,13 @@ public class LoadingLogic : ConcreteComponent {
         if (data != null) {
             rspAuthUser = data as bbproto.RspAuthUser;
             if (rspAuthUser == null) {
-				Debug.LogError("authUser response rspAuthUser == null");
+//				Debug.LogError("authUser response rspAuthUser == null");
                 return;
             }
             
             if (rspAuthUser.header.code != 0) {
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspAuthUser.header.code);
-				Debug.LogError("rspAuthUser return code: "+rspAuthUser.header.code+" error:" + rspAuthUser.header.error);
+//				Debug.LogError("rspAuthUser return code: "+rspAuthUser.header.code+" error:" + rspAuthUser.header.error);
                 return;
             }
             
@@ -101,7 +101,7 @@ public class LoadingLogic : ConcreteComponent {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
             } else {
-				Debug.LogError("authUser response rspAuthUser.user == null");
+//				Debug.LogError("authUser response rspAuthUser.user == null");
             }
             
             if (rspAuthUser.friends != null) {
@@ -113,7 +113,7 @@ public class LoadingLogic : ConcreteComponent {
                 }
 				DataCenter.Instance.SupportFriends = supportFriends;
             } else {
-                Debug.LogError("rsp.friends==null");
+//                Debug.LogError("rsp.friends==null");
             }
             
 			DataCenter.Instance.EventStageList = new List<TStageInfo>();
@@ -156,9 +156,6 @@ public class LoadingLogic : ConcreteComponent {
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
-			//TestUtility.Test();
-            //Debug.Log("UIManager.Instance.ChangeScene(SceneEnum.Start) before...");
-            //      Debug.LogError("login end");
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
@@ -196,7 +193,6 @@ public class LoadingLogic : ConcreteComponent {
 		StartQuestParam sqp = new StartQuestParam ();
 		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
 		sqp.helperUserUnit = null;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-//		QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
 		sqp.questId = 0;//questInfo.Data.ID;
 		sqp.stageId = 0;//questInfo.StageID;
 		sqp.startNew = 1;
@@ -227,6 +223,7 @@ public class LoadingLogic : ConcreteComponent {
 
 	private void EnterBattle (TQuestDungeonData tqdd) {
 		ConfigBattleUseData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+//		Debug.LogError(tqdd.)
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
 	}
@@ -249,7 +246,7 @@ public class LoadingLogic : ConcreteComponent {
 				else { // no 
 					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
 					    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 ) {
-						Debug.LogError("show Reward scene... ");
+//						Debug.LogError("show Reward scene... ");
 						UIManager.Instance.ChangeScene (SceneEnum.Reward);	
 					}
 				}	
@@ -285,9 +282,8 @@ public class LoadingLogic : ConcreteComponent {
 	}
 
     void TurnToReName() {
-        //      Debug.Log("PlayerInfoBar.TurnToReName() : Start");
         if (DataCenter.Instance.UserInfo == null) {
-            Debug.LogError("DataCenter.Instance.UserInfo is null");
+//            Debug.LogError("DataCenter.Instance.UserInfo is null");
             return;
         }
         
@@ -298,7 +294,7 @@ public class LoadingLogic : ConcreteComponent {
         
         if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
             UIManager.Instance.ChangeScene(SceneEnum.Others);
-            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
+//            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         
         Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);

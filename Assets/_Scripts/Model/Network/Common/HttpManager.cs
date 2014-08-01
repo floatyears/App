@@ -15,7 +15,7 @@ public class HttpManager : INetSendPost {
 
 //  public static string baseUrl = "http://127.0.0.1:6666/";
 //  public static string baseUrl = "http://107.170.243.127:6666/";
-	public static string baseUrl = "http://us.yeedion.com:8080/";
+	public static string baseUrl = ServerConfig.ServerHost;//"http://us.yeedion.com:8080/";
 //	public static string baseUrl = "http://61.153.100.131:6666/";
 
     private List<IWWWPost> wwwRequst = new List<IWWWPost>();
@@ -103,7 +103,7 @@ public class HttpManager : INetSendPost {
         MsgWindowParams msgParams = null;
 
 		if (text.StartsWith("Failed to connect to ") || text.StartsWith("couldn't connect to host") || text.StartsWith("Could not connect to the server")){
-			Debug.LogError("OpenMsgWindowByError() error:"+text);
+//			Debug.LogError("OpenMsgWindowByError() error:"+text);
             msgParams = new MsgWindowParams();
             msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
@@ -121,7 +121,7 @@ public class HttpManager : INetSendPost {
 //            msgParams.btnParams[1].callback = CallbackCancelRequest;
         }
         else if (text.StartsWith("500 Internal Server Error")){
-			Debug.LogError("OpenMsgWindowByError(), 500 Internal Server Error");
+//			Debug.LogError("OpenMsgWindowByError(), 500 Internal Server Error");
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.SERVER_500);
             msgParams.contentText = errMsg.Msg;
@@ -133,7 +133,7 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam.text = TextCenter.GetText("Retry");
 		}
 		else if (text.EndsWith("Operation timed out")){
-			Debug.LogError("OpenMsgWindowByError():"+text);
+//			Debug.LogError("OpenMsgWindowByError():"+text);
 			msgParams = new MsgWindowParams();
 			ErrorMsg errMsg = new ErrorMsg(ErrorCode.TIMEOUT);
 			msgParams.contentText = errMsg.Msg;
@@ -145,7 +145,7 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam.text = TextCenter.GetText("Retry");
 		}
         else {
-			Debug.LogError("OpenMsgWindowByError(), unknown Error: "+text);
+//			Debug.LogError("OpenMsgWindowByError(), unknown Error: "+text);
             msgParams = new MsgWindowParams();
             ErrorMsg errMsg = new ErrorMsg(ErrorCode.NETWORK);
             msgParams.contentText = errMsg.Msg;
@@ -166,7 +166,7 @@ public class HttpManager : INetSendPost {
     }
 
     void CallbackRetry(object args){
-        Debug.LogError("CallbackRetry()");
+//        Debug.LogError("CallbackRetry()");
         HttpNetBase networkBase = args as HttpNetBase;
         if (networkBase != null){
             networkBase.ReSend();
@@ -174,7 +174,7 @@ public class HttpManager : INetSendPost {
     }
 
     void CallbackCancelRequest(object args){
-        Debug.LogError("CallbackCancelRequest()");
+//        Debug.LogError("CallbackCancelRequest()");
         MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, false));
         MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
     }

@@ -19,7 +19,7 @@ public class AttackEffectItem : MonoBehaviour {
 
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
 		if (tuu == null) {
-			Debug.LogError("userunit is null : " + userUnitID);	
+//			Debug.LogError("userunit is null : " + userUnitID);	
 			return;
 		}
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();

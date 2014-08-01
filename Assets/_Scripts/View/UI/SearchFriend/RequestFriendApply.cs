@@ -29,13 +29,13 @@ public class RequestFriendApply : ApplyMessage{
 	}
 
 	void CancelRequestApply(object args){
-		Debug.LogError("Receive view click, to cancel delete friend apply of player....");
+//		Debug.LogError("Receive view click, to cancel delete friend apply of player....");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);   
 		ExcuteCallback(cbdArgs);
 	}
 	
 	void EnsureRequestApply(object args){
-		Debug.LogError("Receive view click, to ensure delete friend apply of player....");
+//		Debug.LogError("Receive view click, to ensure delete friend apply of player....");
 		MsgCenter.Instance.Invoke(CommandEnum.SubmitFriendApply, null);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null); 
 		ExcuteCallback(cbdArgs);

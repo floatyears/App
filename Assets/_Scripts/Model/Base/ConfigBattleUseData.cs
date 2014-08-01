@@ -30,7 +30,11 @@ public class ConfigBattleUseData {
 	
 	public TQuestInfo currentQuestInfo;
 
-	public TStageInfo currentStageInfo;
+	private TStageInfo _currentStageInfo;
+	public TStageInfo currentStageInfo {
+		set { _currentStageInfo = value; Debug.LogError("currentStageInfo : " + value + " id : " + value.ID) ; }
+		get { return _currentStageInfo; }
+	}
 
 	public TFriendInfo BattleFriend;
 
@@ -153,13 +157,11 @@ public class ConfigBattleUseData {
 	public void ResetFromDisk() {
 		ReadFriend ();
 		ReadQuestDungeonData ();
-//		Debug.LogError ("ResetFromDisk : " + questDungeonData.currentFloor);
 		ReadQuestInfo ();
 		ReadStageInfo ();
 		ReadAllBuff ();
 		ReadRuntimeData ();
 		roleInitCoordinate = _storeBattleData.roleCoordinate;
-		//reset color index.
 		if (_storeBattleData.colorIndex > 5) {
 			_storeBattleData.colorIndex -= 5;	
 		} else {
@@ -318,18 +320,21 @@ public class ConfigBattleUseData {
 	
 	//stage
 	public void WriteStageInfo() {
+//		Debug.LogError ("WriteStageInfo currentStageInfo");
 		if (currentStageInfo == null)
 			return;
+
+//		Debug.LogError ("WriteStageInfo currentStageInfo : " + currentStageInfo);
 		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo.stageInfo);
 		WriteToFile (stage, stageInfoName);
 	}
 
 	void ReadStageInfo() {
-		byte[] friend = ReadFile (stageInfoName);
-		if (friend == null) {
+		byte[] stageInfo = ReadFile (stageInfoName);
+		if (stageInfo == null) {
 			return;	
 		}
-		StageInfo qi = ProtobufSerializer.ParseFormBytes<StageInfo> (friend);
+		StageInfo qi = ProtobufSerializer.ParseFormBytes<StageInfo> (stageInfo);
 		currentStageInfo = new TStageInfo (qi);
 	}
 	//end

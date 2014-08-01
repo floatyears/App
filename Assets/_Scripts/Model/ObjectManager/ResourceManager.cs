@@ -216,7 +216,7 @@ public class ResourceManager : MonoBehaviour{
 				assetBundles [key].ExeCallback ();
 			}	
 		}else{
-			Debug.LogError("load err: " + www.error);
+//			Debug.LogError("load err: " + www.error);
 		}
 
 
