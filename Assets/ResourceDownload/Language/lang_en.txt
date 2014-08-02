@@ -455,17 +455,17 @@ TIMEOUT_ERROR=Connect to server timeout.Please check your network connection and
 CONNECT_ERROR=Cannot connect to server. Please check your network connection and try again later.
 SERVER_500=The server is busy now.Please wait for a moment and try again later.
 
-BigRareWarning=Rare Warning
-BigRareWarningText=Include the unit whose rare bigger than 3. Are you sure to sell?
+BigRareWarning=Warning
+BigRareWarningText=Include cards bigger than 3 Star. Are you sure to sell them?
 
 UnitOverflow=Monster Box Overflow
-UnitOverflowText=Your current unit capacity is [ff0000]{0}[-]/{1}.\nYou should extend Monster Box capacity before battle.
+UnitOverflowText=Your current card capacity is [ff0000]{0}[-]/{1}.\nYou should extend Monster Box capacity before battle.
 
 FirendOverflow=Firend Overflow
-FriendOverflowText=Your current unit capacity is {0}/{1}.Would you like to do friend expansion?
+FriendOverflowText=Your current card capacity is {0}/{1}.Would you like to do friend expansion?
 
 CostLimit=Current Cost Limit
-CostLimitText=Sorry to tell you,You can't replace this unit! 
+CostLimitText=You can't replace this card beacause the team Cost overflows! 
 
 FriendCounterTitle=Friends :
 ApplyCounterTitle=Apply :
