@@ -29,8 +29,7 @@ public class GameTimer : MonoBehaviour {
 		for (int i = 0; i < countDown.Count; i++) {
 			if(countDown[i].countDownTime < 0f) {
 				CountDownDone(countDown[i]);
-			}
-			else{
+			} else {
 				countDown[i].countDownTime -= Time.deltaTime;
 			}
 		}
