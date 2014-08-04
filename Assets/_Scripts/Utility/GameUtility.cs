@@ -643,7 +643,11 @@ public class DGTools {
 			return new GravityAttack(killHP);
 		case "SkillRecoverHP":
 			SkillRecoverHP recoverHP = ProtobufDataBase.DeserializeData<SkillRecoverHP>(data);
-			return new TSkillRecoverHP(recoverHP);
+			if(recoverHP.period == EPeriod.EP_RIGHT_NOW) {
+				return new TAcitveRecoverHP(recoverHP);
+			} else {
+				return new TSkillRecoverHP(recoverHP);
+			}
 		case "SkillReduceHurt" :
 			SkillReduceHurt reduceHurt = ProtobufDataBase.DeserializeData<SkillReduceHurt>(data);
 			if(reduceHurt.baseInfo.skillCooling > 0){
