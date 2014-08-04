@@ -42,6 +42,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 		dataListener = listener;
 		Excute ();
 	}
+	
 
 	void Excute() {
 		if(dataListener != null) {
@@ -81,7 +82,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 		}
 	}
 
-	protected void InitCooling() {
+	public void InitCooling() {
 		skillBase.skillCooling = initSkillCooling;
 		if (skillBase.skillCooling > 0) {
 			coolingDone = false;

@@ -110,4 +110,10 @@ public class ExcuteActiveSkill {
 			item.RefreashCooling();
 		}
 	}
+
+	public void ResetSkill() {
+		foreach (var item in activeSkill.Values) {
+			item.InitCooling ();
+		}
+	}
 }
