@@ -119,6 +119,7 @@ public interface IActiveSkillExcute {
     object Excute(string userUnitID, int atk = -1);
 	AttackInfo ExcuteByDisk(AttackInfo ai);
 	void StoreSkillCooling(string id);
+	void InitCooling();
 //	void ReadSkillCooling();
 }
 

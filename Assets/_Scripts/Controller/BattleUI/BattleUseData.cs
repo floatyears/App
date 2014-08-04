@@ -148,7 +148,7 @@ public class BattleUseData {
         MsgCenter.Instance.RemoveListener(CommandEnum.InjuredNotDead, InjuredNotDead);
         MsgCenter.Instance.RemoveListener(CommandEnum.TrapTargetPoint, TrapTargetPoint);
 
-        countDown = 5f;
+		countDown = 5f;
         eas.RemoveListener();
         eps.RemoveListener();
         ac.RemoveListener();
