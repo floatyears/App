@@ -281,14 +281,14 @@ public class FightReadyView : UIComponentUnity {
 
 	private void UpdateHelperLeaderSkillInfo(){
 		if(pickedHelperInfo == null){
-			Debug.LogError("pickedHelperInfo is null, return!");
+//			Debug.LogError("pickedHelperInfo is null, return!");
 			return;
 		}
 
 		TUnitInfo unitInfo = pickedHelperInfo.UserUnit.UnitInfo;
 		int skillId = unitInfo.LeaderSkill;
 		if(skillId == 0){
-			Debug.Log("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
+//			Debug.Log("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		} else {
 			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
@@ -300,7 +300,7 @@ public class FightReadyView : UIComponentUnity {
 
 	private void UpdateLeaderSkillView(SkillBase skill, UILabel name, UILabel dscp){
 		if(skill == null){
-			Debug.LogError("Leader skill is Null");
+//			Debug.LogError("Leader skill is Null");
 			name.text = TextCenter.GetText("LeaderSkillText") +  TextCenter.GetText("Text_None");
 			dscp.text = "";
 		}

@@ -37,8 +37,10 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	public override void HideUI() {
+//		Debug.LogError("FriendHelperView HideUI befoure : " + Time.realtimeSinceStartup);
 		base.HideUI();
 		RmvCmdListener();
+//		Debug.LogError ("FriendHelperView HideUI end : " + Time.realtimeSinceStartup);
 	}
 
 	public override void DestoryUI () {
@@ -216,8 +218,12 @@ public class FriendHelperView : UIComponentUnity{
 //		Debug.LogError ("ShowUIAnimation : " + dragPannel.DragPanelView);
 		GameObject targetPanel = dragPannel.DragPanelView.gameObject;
 		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
-		iTween.MoveTo(targetPanel, iTween.Hash("x", 0, "time", 0.4f));      
+		iTween.MoveTo (targetPanel, iTween.Hash ("x", 0, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));      
 	}
+
+//	void FriendITweenEnd() {
+//		Debug.LogError ("Friend ITween End " + Time.realtimeSinceStartup);
+//	}
 	
 	private void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);

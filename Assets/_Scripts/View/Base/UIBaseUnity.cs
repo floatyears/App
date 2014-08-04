@@ -109,9 +109,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 	public virtual void ShowUI() {
 		if (config != null) {
 			transform.localPosition = config.localPosition;
-//			Debug.LogError("config.name : " + config.uiName + " config.localPosition : "  +config.localPosition);
 			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-//				Debug.Log("hide pop mask: true");
 				ViewManager.Instance.TogglePopUpWindow(true);
 			}
 		}
@@ -119,9 +117,7 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	public virtual void HideUI() {
 		InitHide();
-
 		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-//			Debug.Log("hide pop mask: false");
 			ViewManager.Instance.TogglePopUpWindow(false);
 		}
 	}
@@ -130,6 +126,12 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 
 	private void InitHide() {
 		transform.localPosition = ViewManager.HidePos;
+
+//		if (GetType () == typeof(SceneInfoDecoratorUnity)) {
+//			Debug.LogError("SceneInfoDecoratorUnity STOP itween : " + Time.realtimeSinceStartup);
+//		}
+	
+		iTween.Stop (gameObject);
 	}
 
 	public virtual void DestoryUI() {

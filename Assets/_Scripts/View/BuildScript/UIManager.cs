@@ -136,7 +136,6 @@ public class UIManager {
 
 		if (forbidChangeScene) {
 			camera.enabled = true;
-
 			return;		
 		}
 
@@ -144,7 +143,6 @@ public class UIManager {
 
 		if (baseScene.CurrentScene == sEnum) {
 			camera.enabled = true;
-
 			return;
 		} else {
 			nextScene = sEnum;

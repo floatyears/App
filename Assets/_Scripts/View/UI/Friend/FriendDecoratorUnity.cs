@@ -18,7 +18,7 @@ public class FriendDecoratorUnity : UIComponentUnity {
 	
     public override void HideUI() {
 //		Debug.LogError ("HideUI : time :  " + Time.realtimeSinceStartup);
-		iTween.Stop (gameObject);
+//		iTween.Stop (gameObject);
         base.HideUI();
     }
 	
