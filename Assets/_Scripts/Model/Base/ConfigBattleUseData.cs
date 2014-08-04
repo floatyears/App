@@ -32,7 +32,7 @@ public class ConfigBattleUseData {
 
 	private TStageInfo _currentStageInfo;
 	public TStageInfo currentStageInfo {
-		set { _currentStageInfo = value; Debug.LogError("currentStageInfo : " + value + " id : " + value.ID) ; }
+		set { _currentStageInfo = value; }// Debug.LogError("currentStageInfo : " + value + " id : " + value.ID) ; }
 		get { return _currentStageInfo; }
 	}
 

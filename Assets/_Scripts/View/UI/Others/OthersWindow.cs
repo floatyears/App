@@ -37,7 +37,7 @@ public class OthersWindow : UIComponentUnity {
 	public override void HideUI(){
 		base.HideUI ();
 //		ResetUIElement();
-		iTween.Stop (gameObject);
+//		iTween.Stop (gameObject);
 	}
 	
 	public override void DestoryUI(){

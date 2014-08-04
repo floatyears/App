@@ -48,7 +48,7 @@ public class GameRaiderView : UIComponentUnity {
 	public override void HideUI(){
 
 		base.HideUI ();
-		iTween.Stop (gameObject);
+//		iTween.Stop (gameObject);
 
 	}
 	

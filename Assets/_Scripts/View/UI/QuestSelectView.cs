@@ -157,13 +157,6 @@ public class QuestSelectView : UIComponentUnity {
 		qiv.Data = quest;
 		qiv.stageInfo = targetStage;
 		questItem.Add(qiv);
-//		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-//			QuestItemView qiv = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
-//			qiv.Data = questInfo[ i ];
-//			qiv.stageInfo = targetStage;
-//			//			qiv.StageID = targetStage.ID;//StartFight Need
-//			questItem.Add(qiv);
-//		}
 	}
 
 	void EvolveCallback() {
