@@ -30,13 +30,13 @@ public class LoadingView : UIComponentUnity {
 		base.ShowUI ();
 		#if UNITY_ANDROID
 //		Debug.Log ("Umeng.Start('android')...");
-		string channelId = "android";
-		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", channelId);
+
+		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", ServerConfig.Channel);
 		//		Umeng.GA.Bonus.
 		#elif UNITY_IPHONE
 		Debug.Log ("Umeng.Start('ios')...");
-		string channelId = "ios";
-		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094", channelId);
+
+		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094", ServerConfig.Channel);
 		#endif
 		
 		#if !UNITY_EDITOR
