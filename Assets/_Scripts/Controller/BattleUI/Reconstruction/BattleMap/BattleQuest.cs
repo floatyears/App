@@ -546,8 +546,16 @@ public class BattleQuest : UIBase {
 		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
 
-			topUI.Drop = questData.getUnit.Count;
+			topUI.Drop = GetDrop(); //questData.getUnit.Count;
 		}
+	}
+
+	int GetDrop() {
+		int drop = 0;
+		foreach (var item in _questData) {
+			drop += item.getUnit.Count;
+		}
+		return drop;
 	}
 
 	void MeetQuestion () {
@@ -582,7 +590,7 @@ public class BattleQuest : UIBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
 		BattleMap.waitMove = false;
 		questData.getMoney += currentMapData.Coins;
-		topUI.Coin = questData.getMoney;
+		topUI.Coin = GetCoin ();//questData.getMoney;
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
@@ -594,6 +602,14 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
+	}
+
+	int GetCoin() {
+		int coin = 0;
+		foreach (var item in _questData) {
+			coin += item.getMoney;
+		}
+		return coin;
 	}
 
 	void OpenGate() {

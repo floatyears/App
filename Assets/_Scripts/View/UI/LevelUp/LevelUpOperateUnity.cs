@@ -264,19 +264,15 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void ResetUIAfterLevelUp(object data) {
 		ClearData ();
-//		Debug.LogError("ResetUIAfterLevelUp  =======================================");
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
-//		Debug.LogError ("tuu : " + tuu.isEnable);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 		clear = true;
 		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
+		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
-
 		myUnitDragPanel.RefreshItem (tuu);
-
 		ShieldParty (false, null);
-
 		CheckLevelUp ();
 	}
 
@@ -287,13 +283,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
-
 		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
-
 		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-//		sor
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();
 	}
