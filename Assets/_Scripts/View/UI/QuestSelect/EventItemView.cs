@@ -106,7 +106,8 @@ public class EventItemView : MonoBehaviour{
 //		}
 
 		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
-		if (data.StartTime > currentTime) {
+		Debug.Log ("id: " + data.stageInfo.id + " current time: " + currentTime + " start time: " + data.StartTime + " end time: " + data.endTime);
+		if (data.StartTime < currentTime) {
 			if(currentTime < data.endTime){
 //				time.enabled = false;
 				ShowIconByState (StageState.EVENT_OPEN);

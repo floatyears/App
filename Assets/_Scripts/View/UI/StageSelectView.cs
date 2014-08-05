@@ -86,10 +86,17 @@ public class StageSelectView : UIComponentUnity{
 
 	private List<TStageInfo> FilterEventCityData(List<TStageInfo> eventCityData){
 		Dictionary<uint,TStageInfo> cityData = new Dictionary<uint,TStageInfo> ();
+		uint now = GameTimer.GetInstance ().GetCurrentSeonds ();
 		foreach (var item in eventCityData) {
 			if(cityData.ContainsKey(item.CityId)) {
-				if(cityData[item.CityId].StartTime	< item.StartTime){
-					cityData[item.CityId] = item;
+				if(cityData[item.CityId].endTime > item.endTime){
+					if(now < item.endTime){
+						cityData[item.CityId] = item;
+					}
+				}else{
+					if(now > cityData[item.CityId].endTime){
+						cityData[item.CityId] = item;
+					}
 				}
 			} else {
 				cityData[item.CityId] = item;
