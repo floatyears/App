@@ -5,8 +5,13 @@ public class MapDoor : UIBaseUnity {
 	public BattleMap battleMap;
 	private UISprite TapToBattle;
 	private TweenAlpha tweenA;
+
+	private bool _doorOpen = false;
 	[HideInInspector]
-	public bool doorOpen = false;
+	public bool doorOpen {
+		get {return _doorOpen; ShowTapToBattle(); }
+		set { _doorOpen = value; }
+	}
 	[HideInInspector]
 	public bool canEnterDoor = false;
 	private bool isClick = false;
@@ -25,7 +30,6 @@ public class MapDoor : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-
 		doorOpen = ConfigBattleUseData.Instance.storeBattleData.HitKey;
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
@@ -52,21 +56,21 @@ public class MapDoor : UIBaseUnity {
 
 	void OpenDoor (object data) {
 		doorOpen = true;
-		ShowTapToBattle ();
+//		ShowTapToBattle ();
 	}
 
 	void QuestEnd(object data) {
-		canEnterDoor = (bool)data;
-		if (isClick) {
-			return;		
-		} 
-		ShowTapToBattle ();
+//		canEnterDoor = (bool)data;
+//		if (isClick) {
+//			return;		
+//		} 
+//		ShowTapToBattle ();
 	}
 
 	public void ShowTapToBattle () {
-		bool b = canEnterDoor && doorOpen;
-		TapToBattle.enabled = b;	
-		tweenA.enabled = b;
+//		bool b = canEnterDoor && doorOpen;
+		TapToBattle.enabled = doorOpen;	
+		tweenA.enabled = doorOpen;
 	}
 	
 	void ClickDoor(GameObject go) {
@@ -91,7 +95,6 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	public void ShowTapToCheckOut () {
-//		Debug.LogError ("ShowTapToCheckOut ");
 		TapToBattle.enabled = true;
 		tweenA.enabled = true;
 		TapToBattle.spriteName = QuestFullScreenTips.CheckOut;
