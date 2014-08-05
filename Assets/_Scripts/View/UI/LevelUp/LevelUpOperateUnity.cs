@@ -161,6 +161,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
+//		Debug.LogError ("clear : " + clear);
 		if (!clear) {
 			return;	
 		}
@@ -168,7 +169,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		clear = false;
 
 		if (myUnitDragPanel == null) {
-			InitDragPanel();	
+			InitDragPanel();
 		}
 
 		myUnitDragPanel.RefreshItem (myUnit);
@@ -269,6 +270,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 //		Debug.LogError ("tuu : " + tuu.isEnable);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 		clear = true;
+		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 		ShowData ();
 
 		myUnitDragPanel.RefreshItem (tuu);

@@ -62,7 +62,7 @@ public class BattleMap : UIBaseUnity {
 		if (tsi == null) {
 			mapID = 2;
 		} else {
-			Debug.LogError ("tsi : " + tsi.ID);
+//			Debug.LogError ("tsi : " + tsi.ID);
 			uint stageID = tsi.ID % 10;
 			if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
 				mapID = stageID == 1 ? 7 : -- stageID;

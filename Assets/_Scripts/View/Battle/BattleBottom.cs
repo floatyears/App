@@ -95,7 +95,6 @@ public class BattleBottom : MonoBehaviour {
 
 				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo[i].MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);
 				if(sbi != null){
-					Debug.LogError("sbi : " + sbi);
 					ActiveSkill activeSkill =  sbi as ActiveSkill;
 					unitInfoPos.Add(i, activeSkill);
 					activeSkill.AddListener(ActiveSkillCallback);

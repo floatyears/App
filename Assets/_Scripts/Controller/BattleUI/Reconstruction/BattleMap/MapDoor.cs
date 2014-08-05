@@ -9,8 +9,8 @@ public class MapDoor : UIBaseUnity {
 	private bool _doorOpen = false;
 	[HideInInspector]
 	public bool doorOpen {
-		get {return _doorOpen; ShowTapToBattle(); }
-		set { _doorOpen = value; }
+		get {return _doorOpen; }
+		set { _doorOpen = value;  ShowTapToBattle(); }
 	}
 	[HideInInspector]
 	public bool canEnterDoor = false;
@@ -31,6 +31,7 @@ public class MapDoor : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		doorOpen = ConfigBattleUseData.Instance.storeBattleData.HitKey;
+		Debug.LogError ("doorOpen : " + doorOpen);
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
 	}
@@ -69,6 +70,7 @@ public class MapDoor : UIBaseUnity {
 
 	public void ShowTapToBattle () {
 //		bool b = canEnterDoor && doorOpen;
+//		Debug.LogError ("dooropen : " + doorOpen);
 		TapToBattle.enabled = doorOpen;	
 		tweenA.enabled = doorOpen;
 	}
