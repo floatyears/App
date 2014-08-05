@@ -24,6 +24,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		base.ShowUI ();
 		ClearFocus ();
+		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
 		ShowData ();
@@ -107,7 +108,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			infoLabel [1].text = value;}//atk.ToString();}
 	}
 
-	private string expNeed = "0";
+	private string expNeed = "0";	// level label
 	public string ExpNeed{ 
 		set { 
 			expNeed = value;
@@ -170,8 +171,6 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			InitDragPanel();	
 		}
 
-		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
-
 		myUnitDragPanel.RefreshItem (myUnit);
 
 		foreach (var item in myUnitDragPanel.scrollItem) {
@@ -180,6 +179,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 			myUnitList.Add(pui);
 		}
+
 		RefreshSortInfo ();
 		RefreshCounter ();
 	}
