@@ -321,6 +321,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 		for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
 			evolveDragItem.RemoveAt(i);
 		}
+
 		foreach (var item in myUnitItem) {
 			EvolveDragItem edi = item as EvolveDragItem;
 			evolveDragItem.Add(edi);
