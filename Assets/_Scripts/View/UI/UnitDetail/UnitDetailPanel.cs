@@ -701,7 +701,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 //					Debug.Log("evolve parts");
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
-						if (rsp != null && rsp.addUnit.Count > 0 ) {
+						if (rsp != null ) {
 							DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.addUnit);
 							NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
 						}

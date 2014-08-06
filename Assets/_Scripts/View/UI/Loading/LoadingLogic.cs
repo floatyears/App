@@ -119,8 +119,10 @@ public class LoadingLogic : ConcreteComponent {
 			DataCenter.Instance.EventStageList = new List<TStageInfo>();
 			if (rspAuthUser.eventList != null) {
 				foreach (StageInfo stage in rspAuthUser.eventList) {
-					TStageInfo tsi = new TStageInfo(stage);
-					DataCenter.Instance.EventStageList.Add(tsi);
+					if(stage.quests.Count >0){
+						TStageInfo tsi = new TStageInfo(stage);
+						DataCenter.Instance.EventStageList.Add(tsi);
+					}
 				}
 			}
 			
