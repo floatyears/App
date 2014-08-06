@@ -17,7 +17,7 @@ public class BattleQuest : UIBase {
 
 	private List< TClearQuestParam > _questData = new List<TClearQuestParam>();
 	public TClearQuestParam questData {
-		get { 
+		get {
 			if(_questData.Count == 0) {
 				ClearQuestParam qp = new ClearQuestParam();
 				TClearQuestParam cqp = new TClearQuestParam(qp);

@@ -85,7 +85,7 @@ public class GameInput : MonoBehaviour  {
 		}
 
 		if (!isCheckInput) {
-			Debug.LogError ("game input update : " + noviceGuideShileInput + " isCheckInput : " + isCheckInput);
+//			Debug.LogError ("game input update : " + noviceGuideShileInput + " isCheckInput : " + isCheckInput);
 			return;
 		}
 //		Debug.LogError ("game input update ");
