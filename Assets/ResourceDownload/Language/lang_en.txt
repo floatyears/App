@@ -268,14 +268,14 @@ Sell_Ensure=Are you sure to sell?
 
 #reward
 Reward_Take=Collect
-Reward_Tab1=Cont. Login
-Reward_Tab2=Daily Login
+Reward_Tab1=Daily Login
+Reward_Tab2=Cont. Login
 Reward_Tab3=Rank
 Reward_Tab4=Month Card
 Reward_Tab5=Others
 Reward_Title=Bonus
-Reward_Tab_Info1=Login game day-by-day continuously, you will get following bonus.
-Reward_Tab_Info2=Cumulative logins reach certain days, you will get following bonus.
+Reward_Tab_Info1=Cumulative logins reach certain days, you will get following bonus.
+Reward_Tab_Info2=Login game day-by-day continuously, you will get following bonus.
 Reward_Tab_Info3=Rank up to a certain level, you will get following bonus.
 Reward_Tab_Info4=After purchase Month Card, you will receive magic stones every day.
 Reward_Tab_Info5=Other bonus
@@ -346,15 +346,15 @@ UnitExpansionFinish=Monster Box Extension Completed
 UnitExpansionResult=Monster box capacity reached [3BB482]{0}[-]!
 
 MonthCard=Month Card
-MonthCardDesc=Get 100 magic stones everyday for 30 days!
+MonthCardDesc=Get [FFB14A]100[-] magic stones everyday for [FFB14A]30[-] days!
 MoneyUnit=$
-StoneDescFirst=Get 100% more for first purchase!
-StoneDescAfterFirst=Get 100% more for first purchase!
+StoneDescFirst=Get [FFB14A]{0}[-] more for first purchase!
+StoneDescAfterFirst=Get additional [FFB14A]{0}[-] magic stones!
 StonePriceFirst=$100
 StonePriceAfterFirst=$100
 StoneCount=x
 WeekCard=Week Card
-WeekCardDesc=Get 100 magic stones everyday for 7 days!
+WeekCardDesc=Get [FFB14A]100[-] magic stones everyday for [FFB14A]7[-] days!
 
 ##### gacha
 FriendGacha=Pal Point Summons
