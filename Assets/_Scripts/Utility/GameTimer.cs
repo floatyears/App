@@ -140,6 +140,20 @@ public class GameTimer : MonoBehaviour {
 		int sec = (int)(seconds %60);
 		return ((min < 10) ? ("0"+ min) : "" + min) + ":" + ((sec < 10) ? ("0"+ sec) : "" + sec);
 	}
+
+	public static string GetFormatRemainTime(uint seconds){
+		uint hr = seconds / 3600;
+		uint min = seconds % 3600 / 60;
+		uint sec = seconds %60;
+
+		if (hr > 23) {
+				return (uint)hr / 24 + TextCenter.GetText ("Time_Day") + (uint)hr % 24 + TextCenter.GetText ("Time_Hour");
+		} else if (hr > 0) {
+				return hr + TextCenter.GetText ("Time_Hour") + min + TextCenter.GetText ("Time_Min");
+		} else {
+			return min + TextCenter.GetText ("Time_Min");
+		}
+	}
 }
 
 public class CountDownUtility {
