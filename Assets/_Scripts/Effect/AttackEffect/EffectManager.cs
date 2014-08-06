@@ -139,7 +139,6 @@ public class EffectManager {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
 				sb.Append ("sp-recover");
 			} else if (type == typeof(TSkillPoison)) {
-//				AudioManager.Instance.PlayAudio(AudioEnum.sound);
 				sb.Append ("poison");
 			} else if (type == typeof(TSkillSuicideAttack)) {
 				TSkillSuicideAttack tsa = sbi as TSkillSuicideAttack;
@@ -186,7 +185,6 @@ public class EffectManager {
 
 	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
 		string reallyPath = "Effect/effect/" + path;
-//		Debug.LogError ("reallyPath : " + reallyPath);
 		if (skillEffectObject.ContainsKey (reallyPath)) {
 			resouceCallback(skillEffectObject[reallyPath]);
 			return;
