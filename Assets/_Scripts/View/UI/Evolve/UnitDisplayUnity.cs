@@ -316,24 +316,19 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void RefreshView() {
 		SortUnitByCurRule ();
-
 		List<MyUnitItem> myUnitItem = unitItemDragPanel.RefreshItem(allData);
 		for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
 			evolveDragItem.RemoveAt(i);
 		}
-
 		foreach (var item in myUnitItem) {
 			EvolveDragItem edi = item as EvolveDragItem;
 			evolveDragItem.Add(edi);
 			edi.callback = ClickItem;
-
 			if(edi.UserUnit.UnitInfo.evolveInfo != null) {
 				edi.CanEvolve = true;
-			}
-			else {
+			} else {
 				edi.IsEnable = false;
-			}
-
+			} 
 			if(!edi.IsParty && !edi.IsFavorite) {
 				normalDragItem.Add(edi);
 			}
