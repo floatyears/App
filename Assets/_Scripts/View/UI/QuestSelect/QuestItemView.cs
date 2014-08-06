@@ -134,8 +134,10 @@ public class QuestItemView : MonoBehaviour {
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
+//			Debug.LogError("ClickItem befoure: " + UIManager.Instance.current.CurrentDecoratorScene);
 			UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after		
+//			Debug.LogError("ClickItem after: " + UIManager.Instance.current.CurrentDecoratorScene);
 		}
 	}
 

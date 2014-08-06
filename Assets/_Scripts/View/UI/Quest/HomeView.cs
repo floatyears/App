@@ -27,7 +27,6 @@ public class HomeView : UIComponentUnity{
 		GameTimer.GetInstance ().CheckRefreshServer ();
 
 		ShowRewardInfo ();
-
 	}
 
 	private void OnRefreshRewardList(object data){
@@ -233,14 +232,14 @@ public class HomeView : UIComponentUnity{
 	}
 
 	private bool CheckUnitsLimit(){
-		Debug.Log ("click-------------");
+//		Debug.Log ("click-------------");
 		int userUnitMaxCount = DataCenter.Instance.UserInfo.UnitMax;
 		//Debug.Log("userUnitMaxCount : " + userUnitMaxCount);
 		int userCurrGotUnitCount = DataCenter.Instance.UserUnitList.GetAllMyUnit().Count;
 		//Debug.Log("userCurrGotUnitCount : " + userCurrGotUnitCount);
 	
 		if(userUnitMaxCount < userCurrGotUnitCount){
-			Debug.Log("current user's unit count is outnumber of the max!");
+//			Debug.Log("current user's unit count is outnumber of the max!");
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
 			return true;
 		}

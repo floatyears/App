@@ -7,6 +7,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	private UILabel backBtnLabel;
 	private IUICallback iuiCallback; 
 	private bool temp = false;
+	private bool isTweenDone = false;
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -16,17 +17,23 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 	
 	public override void ShowUI () {
+		isTweenDone = false;
+		GameTimer.GetInstance ().AddCountDown (0.5f, RefreshState);
 		base.ShowUI ();
 		ShowTween();
-
 	}
 	
 	public override void HideUI () {
+		GameTimer.GetInstance ().ExitCountDonw (RefreshState);
 		base.HideUI ();
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
+	}
+
+	void RefreshState () {
+		isTweenDone = true;
 	}
 
 	private void InitUI() {
@@ -55,6 +62,9 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	public void BackPreScene (GameObject go) {
+		if (!isTweenDone) {
+			return;	
+		}
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail ) {
 			SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
@@ -70,8 +80,14 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	private void ShowTween(){
+//		Debug.LogError ("SceneInfoDecoratorUnity ShowTween : " + Time.realtimeSinceStartup);
 		gameObject.transform.localPosition = new Vector3(0, 1000, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.4f, "islocal", true));
+		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.4f, "islocal", true,"oncomplete","TweenDone","oncompletetarget",gameObject));
+	}
+
+	void TweenDone() {
+//		Debug.LogError ("SceneInfoDecoratorUnity TweenDone : " + Time.realtimeSinceStartup);
+//		isTweenDone = true;
 	}
 
 	public void SetSceneName(string name){

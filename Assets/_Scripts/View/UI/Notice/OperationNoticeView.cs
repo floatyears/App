@@ -38,7 +38,7 @@ public class OperationNoticeView : UIComponentUnity {
 
 		base.HideUI();
 //		Debug.Log ("hide operation notice: " + config.localPosition.y);
-		iTween.Stop (gameObject);
+//		iTween.Stop (gameObject);
 	}
 	
 	public override void DestoryUI () {

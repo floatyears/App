@@ -69,7 +69,7 @@ public class RewardView : UIComponentUnity {
 		}
 		dragPanel.ScrollItem.Clear();
 		
-		iTween.Stop (gameObject);
+//		iTween.Stop (gameObject);
 
 		aList.Clear ();
 	}

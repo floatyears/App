@@ -163,6 +163,7 @@ public class BattleQuest : UIBase {
 	public override void HideUI () {
 		battleEnemy = false;
 		if( bud != null ) {
+			bud.excuteActiveSkill.ResetSkill();
 			bud.RemoveListen ();
 			bud = null;
 		}
