@@ -11,6 +11,8 @@ public class HomeView : UIComponentUnity{
 	private Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo>();
 	private Dictionary<GameObject, TCityInfo> cityViewInfo = new Dictionary<GameObject, TCityInfo>();
 
+	private UISprite fog;
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
@@ -90,6 +92,8 @@ public class HomeView : UIComponentUnity{
 		UIEventListenerCustom.Get (FindChild ("Icons/Reward").gameObject).onClick = ClickReward;
 		UIEventListenerCustom.Get (FindChild ("Icons/Notice").gameObject).onClick = ClickNotice;
 		UIEventListenerCustom.Get (FindChild ("Icons/Purchase").gameObject).onClick = ClickPurchase;
+
+		fog = FindChild("Fog").GetComponent<UISprite>();
 	}
 
 	void ClickReward(GameObject obj){
@@ -262,5 +266,19 @@ public class HomeView : UIComponentUnity{
 		UIManager.Instance.ChangeScene(SceneEnum.Shop);
 	}
 
+	public void FogFly(){
+		fog.GetComponent<TweenPosition> ().enabled = true;
+		fog.GetComponent<TweenPosition> ().ResetToBeginning ();
+		int dir = 0;
+		if (Random.Range (0, 1) > 0.5) {
+			dir = -1;
+		}else{
+			dir = 1;
+		}
+		float y = Random.Range (100f, -150f);
+		fog.GetComponent<TweenPosition> ().from = new Vector3(1024f*dir,y ,0);
+		fog.GetComponent<TweenPosition> ().to = new Vector3(-1024f*dir,y ,0);
+//		fog.transform.localPosition = new Vector3(?
+	}
 }
 
