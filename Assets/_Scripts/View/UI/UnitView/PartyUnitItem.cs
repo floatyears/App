@@ -87,6 +87,7 @@ public class LevelUpUnitItem : MyUnitItem {
 	
 	protected override void UpdatePartyState(){
 		partyLabel.enabled = IsParty;
+//		Debug.LogError ("partyLabel.enabled : " + IsParty);
 //		IsEnable = !IsParty;
 	}
 	
