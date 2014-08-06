@@ -42,7 +42,7 @@ public class AudioManager {
 	/// Closes the background.
 	/// </summary>
 	/// <param name="close"> true is close background.  flase is play background</param>
-	public void CloseBackground(bool close) {
+	public void StopBackgroundMusic(bool close) {
 		isCloseBackground = close;
 		if (isCloseBackground) {
 			if(prevBackground)
@@ -74,6 +74,10 @@ public class AudioManager {
 			prevBackground.Pause();
 		}
 	}
+
+//	public void StopBackground() {
+//
+//	}
 
 	bool IsBackgroundAuido (AudioEnum audio) {
 		bool back = false;
