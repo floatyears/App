@@ -28,6 +28,7 @@ public class StageSelectView : UIComponentUnity{
 	private int curQuestIndex;
 	private TEvolveStart evolveStageInfo;
 	private List<StageItemView> storyStageList = new List<StageItemView>();
+	private List<GameObject> stageDotList = new List<GameObject>();
 	
 	private GameObject eventStageRoot;
 
@@ -232,6 +233,42 @@ public class StageSelectView : UIComponentUnity{
 			stageItemView.Data = accessStageList[ i ];
 			storyStageList.Add(stageItemView);
 		}
+
+		foreach (var item in stageDotList) {
+			GameObject.Destroy(item);
+		}
+		stageDotList.Clear ();
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Quest/StageItemDot", o => {
+			GameObject dot = o as GameObject;
+
+			for (int i = 1; i < storyStageList.Count; i++) {
+				float x1 = storyStageList[i-1].transform.localPosition.x;
+				float y1 = storyStageList[i-1].transform.localPosition.y;
+				float x2 = storyStageList[i].transform.localPosition.x;
+				float y2 = storyStageList[i].transform.localPosition.y;
+
+				if(x2- x1 > 0){
+					GameObject obj1 = NGUITools.AddChild(gameObject,dot);
+					obj1.transform.localPosition = new Vector3(x1 + 30 + (x2-x1-60)*1/3, y1 + (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1-60)*1/3, 0);
+					stageDotList.Add(obj1);
+					
+					GameObject obj2 = NGUITools.AddChild(gameObject,dot);
+					obj2.transform.localPosition = new Vector3(x1 + 30 + (x2-x1-60)*2/3 , y1 + (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1-60)*2/3, 0);
+					stageDotList.Add(obj2);
+				}else{
+					GameObject obj1 = NGUITools.AddChild(gameObject,dot);
+					obj1.transform.localPosition = new Vector3(x1 - 30 + (x2-x1+60)*1/3, y1 - (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1+60)*1/3, 0);
+					stageDotList.Add(obj1);
+					
+					GameObject obj2 = NGUITools.AddChild(gameObject,dot);
+					obj2.transform.localPosition = new Vector3(x1 - 30 + (x2-x1+60)*2/3 , y1 - (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1+60)*2/3, 0);
+					stageDotList.Add(obj2);
+				}
+
+
+			}
+		});
+
 	}
 
 	private List<GameObject> pageMarkItemList = new List<GameObject>();
