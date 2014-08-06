@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class HomeView : UIComponentUnity{
 	private GameObject storyRoot;
-//	private GameObject eventRoot;
+	private GameObject eventRoot;
 	private GameObject dragItemPrefab;
 	private DragPanel storyDragPanel;
 	private DragPanel eventDragPanel;
@@ -181,9 +181,9 @@ public class HomeView : UIComponentUnity{
 			cityViewInfo.Add(cityItem, data[ i ]);
 		}
 
-//		eventRoot = transform.FindChild("EventDoor").gameObject;
+		eventRoot = transform.FindChild("EventDoor").gameObject;
 //		eventRoot.SetActive (false);
-//		UIEventListener.Get(eventRoot).onPress = PressEventDoor;
+		UIEventListener.Get(eventRoot).onPress = PressEventDoor;
 	}
 
 
