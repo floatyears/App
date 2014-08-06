@@ -118,7 +118,6 @@ public class QuestItemView : MonoBehaviour {
 	private void ClickItem(GameObject item){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 		if(CheckStaminaEnough()){
-//			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
 			return;
