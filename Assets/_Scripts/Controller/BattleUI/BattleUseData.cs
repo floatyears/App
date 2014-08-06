@@ -9,6 +9,7 @@ public class BattleUseData {
     private int blood = 0;
     public int Blood {
 		set {
+//			Debug.LogError("Blood : " + value);
 			if(value == 0) {
 				blood = value;
 				PlayerDead();
@@ -94,7 +95,7 @@ public class BattleUseData {
 	bool isInit = false;
 	public void InitBattleUseData (TStoreBattleData sbd) {
 		if (isInit) {
-			return;	
+			return;
 		}
 		isInit = true;
 		els.Excute();
@@ -104,6 +105,9 @@ public class BattleUseData {
 		} else {
 			maxBlood = upi.GetInitBlood ();
 			blood = sbd.hp;
+//			if(blood <= 0) {
+//				PlayerDead();
+//			}
 			maxEnergyPoint = sbd.sp;
 		}
 
@@ -115,6 +119,12 @@ public class BattleUseData {
 		ac = new AttackController(this, eps, upi);
 		Config.Instance.SwitchCard(els);
 		configBattleUseData.StoreMapData (null);
+	}
+
+	public void CheckPlayerDead() {
+		if(blood <= 0) {
+			PlayerDead();
+		}
 	}
 
     ~BattleUseData() { }
@@ -167,7 +177,6 @@ public class BattleUseData {
     void TrapInjuredDead(object data) {
         float value = (float)data;
         int hurtValue = System.Convert.ToInt32(value);
-//        Blood -= hurtValue;
 		KillHp (hurtValue, true);
 		configBattleUseData.StoreMapData (null);
     }
@@ -338,7 +347,7 @@ public class BattleUseData {
 		int killBlood = blood - value;
 
 		if (dead) {
-			if(blood ==0) {
+			if(blood == 0) {
 				return;
 			}
 			blood = killBlood < 0 ? 0 : killBlood;

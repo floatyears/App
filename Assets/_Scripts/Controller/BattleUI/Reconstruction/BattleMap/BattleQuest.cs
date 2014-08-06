@@ -17,7 +17,7 @@ public class BattleQuest : UIBase {
 
 	private List< TClearQuestParam > _questData = new List<TClearQuestParam>();
 	public TClearQuestParam questData {
-		get { 
+		get {
 			if(_questData.Count == 0) {
 				ClearQuestParam qp = new ClearQuestParam();
 				TClearQuestParam cqp = new TClearQuestParam(qp);
@@ -141,7 +141,6 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
-//		InitData ();
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		base.ShowUI ();
 		AddListener ();
@@ -188,7 +187,6 @@ public class BattleQuest : UIBase {
 
 	void ReadyMove() {
 		battle.ShieldInput (true);
-//		Debug.LogError ("ReadyMove NoviceGuideStartType.BATTLE");
 		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 	}
 
@@ -291,7 +289,9 @@ public class BattleQuest : UIBase {
 		if( questDungeonData.currentFloor == questDungeonData.Floors.Count - 1 ) {
 			QuestStop ();
 		} else {
+//			battleMap.door.isClick = false;
 			EnterNextFloor(null);
+
 		}
 	}
 
@@ -380,8 +380,6 @@ public class BattleQuest : UIBase {
 	}
 
 	void InitContinueData() {
-
-
 		bud.Els.CheckLeaderSkillCount();
 		bud.InitBattleUseData (configBattleUseData.storeBattleData);
 	}
@@ -417,6 +415,7 @@ public class BattleQuest : UIBase {
 				BossDead();
 				return;
 			}
+			bud.CheckPlayerDead();
 			return;
 		}
 
@@ -447,6 +446,8 @@ public class BattleQuest : UIBase {
 		battle.ShowEnemy(temp);
 		ExitFight (false);
 		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
+
+		bud.CheckPlayerDead();
 	}
 
 	public static bool recoverPosion = false;
@@ -546,8 +547,16 @@ public class BattleQuest : UIBase {
 		if (currentMapData.Drop != null && currentMapData.Drop.DropId != 0) {
 			questData.getUnit.Add (currentMapData.Drop.DropId);	
 
-			topUI.Drop = questData.getUnit.Count;
+			topUI.Drop = GetDrop(); //questData.getUnit.Count;
 		}
+	}
+
+	int GetDrop() {
+		int drop = 0;
+		foreach (var item in _questData) {
+			drop += item.getUnit.Count;
+		}
+		return drop;
 	}
 
 	void MeetQuestion () {
@@ -582,7 +591,7 @@ public class BattleQuest : UIBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
 		BattleMap.waitMove = false;
 		questData.getMoney += currentMapData.Coins;
-		topUI.Coin = questData.getMoney;
+		topUI.Coin = GetCoin ();//questData.getMoney;
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 	}
@@ -594,6 +603,14 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
+	}
+
+	int GetCoin() {
+		int coin = 0;
+		foreach (var item in _questData) {
+			coin += item.getMoney;
+		}
+		return coin;
 	}
 
 	void OpenGate() {
@@ -616,7 +633,7 @@ public class BattleQuest : UIBase {
 
 	public void MeetBoss () {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
-
+//		AudioManager.Instance.StopBackgroundMusic (true);
 		battle.ShieldInput ( true );
 		BattleMap.waitMove = false;
 		ShowBattle();
@@ -1036,11 +1053,6 @@ public class BattleQuest : UIBase {
 		sure.text = TextCenter.GetText("Retry");
 		mwp.btnParam = sure;
 		
-//		sure = new BtnParam ();
-//		sure.callback = CancelInitiativeRetry;
-//		sure.text = TextCenter.GetText("Cancel");
-//		mwp.btnParams[1] = sure;
-		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 	}
 
@@ -1048,28 +1060,14 @@ public class BattleQuest : UIBase {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 
-//		UIManager.Instance.ChangeScene (SceneEnum.Victory);
-//		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, clearQuest);
-
-//		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Victory", o => {
-//			GameObject obj = o as GameObject;
-//			Vector3 tempScale = obj.transform.localScale;
-//			obj = NGUITools.AddChild(viewManager.EffectPanel, obj);
-//			obj.transform.localScale = tempScale;
-//			obj.transform.localPosition = new Vector3(0f, 475f, 0f);
-////			VictoryEffect ve = obj.GetComponent<VictoryEffect>();
-////			ve.Init("Victory");
-////			ve.battleQuest = this;
-////			ve.ShowData (clearQuest);
-////			ve.PlayAnimation(questEnd);
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_clear);
-//		});
 	}
 
 	void BattleFail(object data) {
 		battle.ShieldInput (true);
 
-//		AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
+		main.GInput.IsCheckInput = false;
+		BattleBottom.notClick = true;
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
@@ -1095,9 +1093,12 @@ public class BattleQuest : UIBase {
 	}
 	
 	void ResumeQuestNet(object data) {
-		bud.Blood = bud.maxBlood;
+		bud.AddBlood (bud.maxBlood);
 		bud.RecoverEnergePoint (DataCenter.maxEnergyPoint);
 		configBattleUseData.StoreMapData (null);
+
+		main.GInput.IsCheckInput = true;
+		BattleBottom.notClick = false;
 	}
 
 	void BattleFailExit(object data) {

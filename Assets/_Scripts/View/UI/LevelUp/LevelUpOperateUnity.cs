@@ -24,6 +24,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 		base.ShowUI ();
 		ClearFocus ();
+		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
 		ShowData ();
@@ -107,7 +108,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			infoLabel [1].text = value;}//atk.ToString();}
 	}
 
-	private string expNeed = "0";
+	private string expNeed = "0";	// level label
 	public string ExpNeed{ 
 		set { 
 			expNeed = value;
@@ -160,6 +161,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 
 	void ShowData () {
+//		Debug.LogError ("clear : " + clear);
 		if (!clear) {
 			return;	
 		}
@@ -167,10 +169,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		clear = false;
 
 		if (myUnitDragPanel == null) {
-			InitDragPanel();	
+			InitDragPanel();
 		}
-
-		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 
 		myUnitDragPanel.RefreshItem (myUnit);
 
@@ -180,6 +180,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 			myUnitList.Add(pui);
 		}
+
 		RefreshSortInfo ();
 		RefreshCounter ();
 	}
@@ -263,18 +264,15 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void ResetUIAfterLevelUp(object data) {
 		ClearData ();
-//		Debug.LogError("ResetUIAfterLevelUp  =======================================");
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
-//		Debug.LogError ("tuu : " + tuu.isEnable);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 		clear = true;
+		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
+		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
-
 		myUnitDragPanel.RefreshItem (tuu);
-
 		ShieldParty (false, null);
-
 		CheckLevelUp ();
 	}
 
@@ -285,13 +283,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				return;
 			}
 		}
-
 		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
-
 		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-//		sor
 		friendWindow.selectFriend = SelectFriend;
 		friendWindow.ShowUI ();
 	}

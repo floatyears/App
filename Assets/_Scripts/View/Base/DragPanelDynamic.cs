@@ -124,7 +124,7 @@ public class DragPanelDynamic {
 			dragPanelView.scrollView.Press (false);
 			return scrollItem;
 		}
-
+//		Debug.LogError ("scrollItemData.count : " + scrollItem.Count + " tuuList.count : " + tuuList.Count);
 		int realStartIndex = int.Parse(scrollItem[0].gameObject.name) - 1;
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 

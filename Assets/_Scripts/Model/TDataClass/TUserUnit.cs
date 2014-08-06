@@ -561,6 +561,7 @@ public class UserUnitList {
 		foreach (var item in userUnitInfo.Values) {
 			if(item.userID == myID) {
 				myUnitList.Add(item);
+//				Debug.LogError("GetAllMyUnit : " + item.MakeUserUnitKey());
 			}
 		}
 		return myUnitList;
@@ -587,6 +588,7 @@ public class UserUnitList {
             Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
+	
         Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
 //        foreach (var item in userUnitInfo) {
 //            TUserUnit tUnit = item.Value as TUserUnit;
@@ -647,7 +649,7 @@ public class UserUnitList {
 
     public  void Del(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
-//		Debug.LogError ("del my unit : " + userId + " unitqueid : " + uniqueId);
+//		Debug.LogError ("del my unit : key  " + key + "userid : " + userId + " unitqueid : " + uniqueId);
         if (userUnitInfo.ContainsKey(key))
             userUnitInfo.Remove(key);
     }
