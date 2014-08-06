@@ -188,7 +188,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 			uiima.isEnable = true;
 		}
 		RefreshView ();
-//		unitItemDragPanel.RefreshItem (uiima);
 	}
 
 	bool CheckMaterialInfoNull () {
@@ -202,8 +201,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 	}
 
 	TUserUnit uiima;
+
 	void ShowMaterial () {
-		if (CheckMaterialInfoNull ()) {
+		if ( CheckMaterialInfoNull () ) {
 			if(uiima != null) {
 				uiima.isFocus = false;
 				unitItemDragPanel.RefreshItem(uiima);
@@ -243,18 +243,12 @@ public class UnitDisplayUnity : UIComponentUnity {
 				allData[i].isEnable = true;
 			}
 		}
-//		for (int i = 0; i < allData.Count; i++) {
-////			Debug.LogError("alldata : " + i + " alldata id : " + allData[i].UnitInfo.ID + " isenabel : " + allData[i].isEnable);
-//		}
 		RefreshView ();
 	}
 	
 	void InitUI () {
 		CreatPanel ();
 		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
-
-//		SortUnitTool.SortByTargetRule(sortRule, allData);
-//		unitItemDragPanel.RefreshItem (allData);
 
 		itemCounterEvolve = FindChild<ItemCounterEvolve> ("ItemCounterBar");
 		itemCounterEvolve.Init ();
@@ -322,7 +316,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	void RefreshView() {
 		SortUnitByCurRule ();
-
 		List<MyUnitItem> myUnitItem = unitItemDragPanel.RefreshItem(allData);
 		for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
 			evolveDragItem.RemoveAt(i);
@@ -333,7 +326,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 			edi.callback = ClickItem;
 			if(edi.UserUnit.UnitInfo.evolveInfo != null) {
 				edi.CanEvolve = true;
-			}
+			} else {
+				edi.IsEnable = false;
+			} 
 			if(!edi.IsParty && !edi.IsFavorite) {
 				normalDragItem.Add(edi);
 			}

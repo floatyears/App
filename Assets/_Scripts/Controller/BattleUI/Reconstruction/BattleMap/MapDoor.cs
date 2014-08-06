@@ -5,11 +5,15 @@ public class MapDoor : UIBaseUnity {
 	public BattleMap battleMap;
 	private UISprite TapToBattle;
 	private TweenAlpha tweenA;
+
+	private bool _doorOpen = false;
 	[HideInInspector]
-	public bool doorOpen = false;
+	public bool doorOpen {
+		get {return _doorOpen; }
+		set { _doorOpen = value;  ShowTapToBattle(); }
+	}
 	[HideInInspector]
 	public bool canEnterDoor = false;
-	private bool isClick = false;
 	private bool checkOut = false;
 
 	public override void Init (string name) {
@@ -25,8 +29,8 @@ public class MapDoor : UIBaseUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-
 		doorOpen = ConfigBattleUseData.Instance.storeBattleData.HitKey;
+//		Debug.LogError ("doorOpen : " + doorOpen);
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
 	}
@@ -37,7 +41,7 @@ public class MapDoor : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.QuestEnd, QuestEnd);
 		doorOpen = false;
 		canEnterDoor = false;
-		isClick = false;
+//		isClick = false;
 		checkOut = false;
 		TapToBattle.spriteName = QuestFullScreenTips.BossBattle;
 	}
@@ -52,33 +56,31 @@ public class MapDoor : UIBaseUnity {
 
 	void OpenDoor (object data) {
 		doorOpen = true;
-		ShowTapToBattle ();
+//		ShowTapToBattle ();
 	}
 
 	void QuestEnd(object data) {
 		canEnterDoor = (bool)data;
-		if (isClick) {
-			return;		
-		} 
-		ShowTapToBattle ();
 	}
 
 	public void ShowTapToBattle () {
-		bool b = canEnterDoor && doorOpen;
-		TapToBattle.enabled = b;	
-		tweenA.enabled = b;
+		TapToBattle.enabled = doorOpen;	
+		tweenA.enabled = doorOpen;
 	}
 	
 	void ClickDoor(GameObject go) {
+//		Debug.LogError ("ClickDoor TapToBattle.enabled : " + TapToBattle.enabled + "  TapToBattle.spriteName : " + TapToBattle.spriteName + " canEnterDoor : " + canEnterDoor);
 		if (!TapToBattle.enabled) {
 			return;	
 		}
 
-		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && !isClick) {
+		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && TapToBattle.enabled) {
+			if(!canEnterDoor) {
+				return;
+			}
 			battleMap.bQuest.ClickDoor();
-			TapToBattle.enabled = isClick;	
-			tweenA.enabled = isClick;
-			isClick = true;
+			TapToBattle.enabled = false;	
+			tweenA.enabled = false;
 			return;
 		}
 
@@ -91,7 +93,6 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	public void ShowTapToCheckOut () {
-//		Debug.LogError ("ShowTapToCheckOut ");
 		TapToBattle.enabled = true;
 		tweenA.enabled = true;
 		TapToBattle.spriteName = QuestFullScreenTips.CheckOut;

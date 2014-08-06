@@ -127,25 +127,23 @@ public class QuestItemView : MonoBehaviour {
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
 		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
 		ConfigBattleUseData.Instance.currentQuestInfo = data;
-//		Debug.LogError ("DataCenter.gameState : " + DataCenter.gameState);
-
-
 
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
-//			Debug.LogError("ClickItem befoure: " + UIManager.Instance.current.CurrentDecoratorScene);
 			UIManager.Instance.ChangeScene(SceneEnum.FriendSelect);//before
-			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after		
-//			Debug.LogError("ClickItem after: " + UIManager.Instance.current.CurrentDecoratorScene);
+			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
 		}
 	}
 
 	private bool CheckStaminaEnough(){
 		int staminaNeed = Data.Stamina;
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
-		if(staminaNeed > staminaNow) return true;
-		else return false;
+
+		if(staminaNeed > staminaNow) 
+			return true;
+		else 
+			return false;
 	}
 	private MsgWindowParams GetStaminaLackMsgParams(){
 		MsgWindowParams msgParams = new MsgWindowParams();

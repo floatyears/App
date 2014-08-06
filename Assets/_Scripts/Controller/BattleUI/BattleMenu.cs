@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -139,7 +139,7 @@ public class BattleMenu : UIBaseUnity {
 			AudioManager.Instance.CloseSound (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt(AudioManager.soundName, (int)value);
 		} else{
-			AudioManager.Instance.CloseBackground (value == 1 ? true : false);
+			AudioManager.Instance.StopBackgroundMusic (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt(AudioManager.bgmName, (int)value);
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 		}

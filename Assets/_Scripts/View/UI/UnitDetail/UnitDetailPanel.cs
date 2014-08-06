@@ -529,9 +529,9 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.Type);
 			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.Type);
 			material.Enqueue(go);
-			DataCenter.Instance.UserUnitList.DelMyUnit (levelUpData.partUniqueId[i]);
+//			DataCenter.Instance.levelUpMaterials.DelMyUnit (levelUpData.partUniqueId[i]);
 		}
-		
+		DataCenter.Instance.levelUpMaterials.Clear ();
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
 		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {

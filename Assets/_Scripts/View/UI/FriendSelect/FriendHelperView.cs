@@ -207,33 +207,23 @@ public class FriendHelperView : UIComponentUnity{
 	}
 
 	private void ReceiveSortInfo(object msg){
-		//Debug.LogError("FriendHelper.ReceiveSortInfo()...");
 		curSortRule = (SortRule)msg;
-		//SortUnitByCurRule();
 	}
 
 
 	private void ShowUIAnimation(DragPanel dragPannel){
 		if(dragPannel == null) return;
-//		Debug.LogError ("ShowUIAnimation : " + dragPannel.DragPanelView);
 		GameObject targetPanel = dragPannel.DragPanelView.gameObject;
 		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo (targetPanel, iTween.Hash ("x", 0, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));      
 	}
 
-//	void FriendITweenEnd() {
-//		Debug.LogError ("Friend ITween End " + Time.realtimeSinceStartup);
-//	}
-	
 	private void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
-//		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
-//		MsgCenter.Instance.AddListener(CommandEnum.ActivateSortBtn, ActivateSortBtn);
 	}
 
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
-	//	MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	/// <summary>
@@ -244,8 +234,6 @@ public class FriendHelperView : UIComponentUnity{
 		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
 		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
 		GameObject itemRoot = scrollView.transform.FindChild("UIGrid").gameObject;
-		//scrollBar.transform.Rotate( new Vector3(0, 0, 270) );
-		//scrollBar.gameObject.SetActive(false);
 		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
 		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();
 
@@ -255,8 +243,6 @@ public class FriendHelperView : UIComponentUnity{
 
 	bool isShowPremium = false;
 	protected void ClickPremiumBtn(GameObject btn){
-//		Debug.Log("Click Premium Btn...");
-
 		TUserUnit leader = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 
 		EUnitRace race = (EUnitRace)leader.UnitRace;
@@ -277,7 +263,6 @@ public class FriendHelperView : UIComponentUnity{
 
 		List<FriendInfo> rspFriendInfo = rsp.helpers;
 		if(rspFriendInfo == null){
-//			Debug.LogError("rspFriendInfo ERROR, NULL!");
 			return;
 		}
 
@@ -289,8 +274,6 @@ public class FriendHelperView : UIComponentUnity{
 		}
 
 		premiumFriendList = rspPremiumList;
-
-//		Debug.Log("OnRspGetPremium(), premiumFriendList count is : " + premiumFriendList.Count);
 
 		if(isShowPremium){
 			premiumDragPanel.DestoryUI();
@@ -304,8 +287,7 @@ public class FriendHelperView : UIComponentUnity{
 		}
 		isShowPremium = !isShowPremium;
 	}
-
-
+	
 	public GameObject GetFriendItem(int i){
 		if(generalDragPanel != null)
 			return generalDragPanel.ScrollItem[i];

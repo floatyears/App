@@ -125,7 +125,7 @@ public class FightReadyView : UIComponentUnity {
 	private TFriendInfo pickedHelperInfo;
 
 	private void RecordPickedInfoForFight(object msg){
-		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
+//		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
 		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
 		ShowHelper(pickedHelperInfo);

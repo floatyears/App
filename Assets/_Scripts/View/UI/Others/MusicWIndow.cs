@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
 
@@ -97,7 +97,7 @@ public class MusicWIndow : UIComponentUnity {
 			AudioManager.Instance.CloseSound (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
 		} else{
-			AudioManager.Instance.CloseBackground (value == 1 ? true : false);
+			AudioManager.Instance.StopBackgroundMusic (value == 1 ? true : false);
 			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 		}
