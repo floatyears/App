@@ -95,7 +95,6 @@ public class BattleBottom : MonoBehaviour {
 
 				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo[i].MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);
 				if(sbi != null){
-					Debug.LogError("sbi : " + sbi);
 					ActiveSkill activeSkill =  sbi as ActiveSkill;
 					unitInfoPos.Add(i, activeSkill);
 					activeSkill.AddListener(ActiveSkillCallback);
@@ -104,12 +103,14 @@ public class BattleBottom : MonoBehaviour {
 				tui.GetAsset(UnitAssetType.Profile, o=>{
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
-						float width = 105f/texture.mainTexture.width;
-						float height = (i ==0) ? 135f/texture.mainTexture.height : 110f/texture.mainTexture.height;
+//						float scale = 80f/105f;
+//						float h = texture.mainTexture.height*tui.ShowPos.h/scale;
+						float height = ((i == 0) ? 135f : 110f)/(115f*105f/80f)*tui.ShowPos.h;
 						float y = tui.ShowPos.y + tui.ShowPos.h - height;
 						if(y > 1)
 							y = y - 1;
-						texture.uvRect = new Rect(tui.ShowPos.x , y, width, height);
+//						float x = tui.ShowPos.x - tui.ShowPos.w*25f/160f;
+						texture.uvRect = new Rect( tui.ShowPos.x, y, tui.ShowPos.w, height);
 					}
 				});
 				
