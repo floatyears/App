@@ -482,7 +482,9 @@ public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
     public List<TUserUnit> GetUserUnit() {
         List<TUserUnit> temp = new List<TUserUnit>();
         foreach (var item in instance.items) {
+//			Debug.LogError("GetUserUnit befoure : " + ID + " item.unitUniqueId : " + item.unitUniqueId + "  item.pos : " + item.unitPos);
 			TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
+//			Debug.LogError("GetUserUnit end : " + tuu + "     ---------");
 			temp.Add(tuu);
 		}
         return temp;

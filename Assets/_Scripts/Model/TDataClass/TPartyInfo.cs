@@ -63,7 +63,11 @@ public class TPartyInfo : ProtobufDataBase {
             Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int>();
 			
             party.items.Sort(SortParty);
-			
+
+//			foreach (var item in party.items) {
+//				Debug.LogError(party.id + " item unitPos : " + item.unitPos + " item unitUniqueId : " + item.unitUniqueId);
+//			}
+
             TUnitParty tup = new TUnitParty(party);
             partyList.Add(tup);
         }

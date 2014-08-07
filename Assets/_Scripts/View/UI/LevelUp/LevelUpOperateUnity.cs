@@ -178,6 +178,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
+
 			myUnitList.Add(pui);
 		}
 
@@ -372,6 +373,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	/// drag panel item click.
 	/// </summary>
 	void MyUnitClickCallback(LevelUpUnitItem pui) {
+//		Debug.LogError()
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
