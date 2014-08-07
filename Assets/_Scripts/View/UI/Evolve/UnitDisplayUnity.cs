@@ -324,11 +324,14 @@ public class UnitDisplayUnity : UIComponentUnity {
 			EvolveDragItem edi = item as EvolveDragItem;
 			evolveDragItem.Add(edi);
 			edi.callback = ClickItem;
-			if(edi.UserUnit.UnitInfo.evolveInfo != null) {
+			TUnitInfo tui = edi.UserUnit.UnitInfo;
+			bool evolveInfoNull = tui.evolveInfo != null;
+			bool rareIsMax = tui.MaxRare > 0 && tui.Rare < tui.MaxRare;
+			if(evolveInfoNull && rareIsMax) {
 				edi.CanEvolve = true;
 			} else {
 				edi.IsEnable = false;
-			} 
+			}
 			if(!edi.IsParty && !edi.IsFavorite) {
 				normalDragItem.Add(edi);
 			}
@@ -339,7 +342,6 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	bool CheckCanEvolve(TUserUnit tuu) {
 		return tuu.UnitInfo.evolveInfo != null ? true : false;
-		
 	}
 
 	private void RefreshCounter(){
