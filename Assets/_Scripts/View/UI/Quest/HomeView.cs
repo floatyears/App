@@ -94,6 +94,7 @@ public class HomeView : UIComponentUnity{
 		UIEventListenerCustom.Get (FindChild ("Icons/Purchase").gameObject).onClick = ClickPurchase;
 
 		fog = FindChild("Fog").GetComponent<UISprite>();
+		FindChild<UILabel> ("EventDoor/Label").text = TextCenter.GetText ("City_Event");
 	}
 
 	void ClickReward(GameObject obj){

@@ -21,7 +21,7 @@ public class PrefaceView : UIComponentUnity {
 		base.ShowUI();
 
 		ShowContent ();
-		Umeng.GA.Event("PrefaceStart");
+		Umeng.GA.StartLevel("Preface");
 //		InvokeRepeating ("ShowContent",0,3);
 		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
@@ -43,7 +43,7 @@ public class PrefaceView : UIComponentUnity {
 	public void ShowContent()
 	{
 		if(i > 5){
-			Umeng.GA.Event("PrefaceComplete");
+			Umeng.GA.FinishLevel("Preface");
 			UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
 
 			return;

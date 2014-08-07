@@ -96,6 +96,7 @@ City_Name_5=恶魔外城
 City_Name_100=进化魔境
 City_Name_101=紧急任务
 City_Name_102=周末任务
+City_Event=活动关卡
 
 Title_YourID=用户ID
 ##Game setting options

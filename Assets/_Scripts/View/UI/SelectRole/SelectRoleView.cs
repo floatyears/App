@@ -16,6 +16,7 @@ public class SelectRoleView : UIComponentUnity {
 		base.ShowUI();
 
 		//NoviceGuideStepEntityManager.Instance ().StartStep ();
+		Umeng.GA.StartLevel ("SelectRole");
 	}
 
 	public override void HideUI(){
@@ -154,6 +155,8 @@ public class SelectRoleView : UIComponentUnity {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickButton", null);
 		ExcuteCallback(call);
+
+		Umeng.GA.FinishLevel ("SelectRole");
 	}
 
 }

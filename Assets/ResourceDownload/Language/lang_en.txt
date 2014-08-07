@@ -96,6 +96,7 @@ City_Name_5=Castlevania
 City_Name_100=Evolve Magic Land
 City_Name_101=Instant Battle
 City_Name_102=Weekend Battle
+City_Event=Event
 
 Title_YourID=User ID
 ##Game setting options

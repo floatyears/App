@@ -247,23 +247,36 @@ public class StageSelectView : UIComponentUnity{
 				float x2 = storyStageList[i].transform.localPosition.x;
 				float y2 = storyStageList[i].transform.localPosition.y;
 
-				if(x2- x1 > 0){
-					GameObject obj1 = NGUITools.AddChild(gameObject,dot);
-					obj1.transform.localPosition = new Vector3(x1 + 30 + (x2-x1-60)*1/3, y1 + (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1-60)*1/3, 0);
+//				if(x2- x1 > 0){
+				GameObject obj1 = NGUITools.AddChild(gameObject,dot);
+//				Debug.Log("abs: " + );
+				int n1 = Mathf.RoundToInt((x2-x1)/Mathf.Abs(x2-x1));
+				int n2 = Mathf.RoundToInt((y2-y1)/Mathf.Abs(y2-y1));
+				if(Mathf.Abs(x2-x1-n1*60) > Mathf.Abs(y2 - y1 - n2*60) ){
+					obj1.transform.localPosition = new Vector3(x1 + n1* 30 + (x2-x1-n1*60)*1/3, y1 + n2*Mathf.Abs((y2-y1)/(x2-x1)*30) + (y2-y1)/(x2-x1)*(x2-x1-n1*60)*1/3, 0);
 					stageDotList.Add(obj1);
 					
 					GameObject obj2 = NGUITools.AddChild(gameObject,dot);
-					obj2.transform.localPosition = new Vector3(x1 + 30 + (x2-x1-60)*2/3 , y1 + (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1-60)*2/3, 0);
-					stageDotList.Add(obj2);
-				}else{
-					GameObject obj1 = NGUITools.AddChild(gameObject,dot);
-					obj1.transform.localPosition = new Vector3(x1 - 30 + (x2-x1+60)*1/3, y1 - (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1+60)*1/3, 0);
-					stageDotList.Add(obj1);
-					
-					GameObject obj2 = NGUITools.AddChild(gameObject,dot);
-					obj2.transform.localPosition = new Vector3(x1 - 30 + (x2-x1+60)*2/3 , y1 - (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1+60)*2/3, 0);
+					obj2.transform.localPosition = new Vector3(x1 + n1*30 + (x2-x1-n1*60)*2/3 , y1 + n2*Mathf.Abs((y2-y1)/(x2-x1)*30) + (y2-y1)/(x2-x1)*(x2-x1-n1*60)*2/3, 0);
 					stageDotList.Add(obj2);
 				}
+				else{
+					obj1.transform.localPosition = new Vector3(x1 + n1* Mathf.Abs((x2-x1)/(y2-y1)*30) + (x2-x1)/(y2-y1)*(y2-y1-n2*60)*1/3, y1 + n2*30 + (y2-y1 - n2*60)*1/3, 0);
+					stageDotList.Add(obj1);
+					
+					GameObject obj2 = NGUITools.AddChild(gameObject,dot);
+					obj2.transform.localPosition = new Vector3(x1 + n1* Mathf.Abs((x2-x1)/(y2-y1)*30) + (x2-x1)/(y2-y1)*(y2-y1-n2*60)*2/3, y1 + n2*30 + (y2-y1 - n2*60)*2/3, 0);
+					stageDotList.Add(obj2);
+				}
+//				}else{
+//					GameObject obj1 = NGUITools.AddChild(gameObject,dot);
+//					obj1.transform.localPosition = new Vector3(x1 - 30 + (x2-x1+60)*1/3, y1 - (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1+60)*1/3, 0);
+//					stageDotList.Add(obj1);
+//					
+//					GameObject obj2 = NGUITools.AddChild(gameObject,dot);
+//					obj2.transform.localPosition = new Vector3(x1 - 30 + (x2-x1+60)*2/3 , y1 - (y2-y1)/(x2-x1)*30 + (y2-y1)/(x2-x1)*(x2-x1+60)*2/3, 0);
+//					stageDotList.Add(obj2);
+//				}
 
 
 			}
