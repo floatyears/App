@@ -245,6 +245,9 @@ public class ResourceUpdate : MonoBehaviour {
 				}else {
 					isLoginSent = true;
 					SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);
+					if (!(GameDataStore.Instance.GetData (GameDataStore.UUID) > 0)) {
+						Umeng.GA.Event("NewUserDownloadComplete");
+					}
 				}	
 			}
 		}
@@ -304,6 +307,9 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 	public void StartDownload(){
+		if (!(GameDataStore.Instance.GetData (GameDataStore.UUID) > 0)) {
+			Umeng.GA.Event("NewUserDownloadStart");
+		}
 
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
 //			Debug.Log ("download serverVersion from " + serverVersionURL + ", version text:"+serverVersion.text);

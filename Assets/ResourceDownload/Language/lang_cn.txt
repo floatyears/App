@@ -295,6 +295,11 @@ UnitDetail_LevelUpTitle=合成经验
 UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
 UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
 
+#time format
+Time_Day=天
+Time_Hour=小时
+Time_Min=分钟
+
 # shop
 BillingNotSupported_Title=支付不支持
 BillingNotSupported_Content=错误：当前系统无法支付。请检查确认，稍后再重试。

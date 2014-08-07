@@ -14,12 +14,14 @@ public class PrefaceView : UIComponentUnity {
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitUI();
+
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
 
 		ShowContent ();
+		Umeng.GA.Event("PrefaceStart");
 //		InvokeRepeating ("ShowContent",0,3);
 		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 	}
@@ -41,7 +43,9 @@ public class PrefaceView : UIComponentUnity {
 	public void ShowContent()
 	{
 		if(i > 5){
+			Umeng.GA.Event("PrefaceComplete");
 			UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
+
 			return;
 		}
 		ta.ResetToBeginning ();
