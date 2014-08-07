@@ -147,7 +147,13 @@ public class OperationNoticeView : UIComponentUnity {
 				//			Debug.LogError ("show Reward scene... ");
 //				HideUI();
 				firstShow = false;
-				UIManager.Instance.ChangeScene (SceneEnum.Reward);
+				foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+					if(item.enabled == 1){
+						UIManager.Instance.ChangeScene (SceneEnum.Reward);
+						return;
+					}
+				}
+//				UIManager.Instance.ChangeScene (SceneEnum.Reward);
 //				MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 //				HideUI();
 			}	
