@@ -249,7 +249,13 @@ public class LoadingLogic : ConcreteComponent {
 					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
 					    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 ) {
 //						Debug.LogError("show Reward scene... ");
-						UIManager.Instance.ChangeScene (SceneEnum.Reward);	
+						foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+							if(item.enabled == 1){
+								UIManager.Instance.ChangeScene (SceneEnum.Reward);
+								return;
+							}
+						}
+							
 					}
 				}	
 			}
