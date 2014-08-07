@@ -40,8 +40,7 @@ public class AuthUser: ProtoManager {
             uuid = System.Guid.NewGuid().ToString();
             GameDataStore.Instance.StoreData(GameDataStore.UUID, uuid);
             LogHelper.Log("New user first run, generate uuid: " + uuid);
-        }
-        else {
+        } else {
             LogHelper.Log("Exists userid:{0} uuid:{1} ", userId, uuid);
         }
 
