@@ -247,12 +247,19 @@ public class TPartyInfo : ProtobufDataBase {
         //nothing to do
         if (data != null) {
             bbproto.RspChangeParty rsp = data as bbproto.RspChangeParty;
-			
+
             LogHelper.Log("rspChangeParty code:{0}, error:{1}", rsp.header.code, rsp.header.error);
 			if (rsp.header.code != ErrorCode.SUCCESS){
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 
-			}else { //change party is success
+			} else { //change party is success
+				if ( this.isPartyItemModified ){ 
+					Umeng.GA.Event("PartyChangeMember");
+				}
+				if ( this.isPartyGroupModified ) {
+					Umeng.GA.Event("PartyChangeGroup");
+				}
+
 				originalPartyId = instance.currentParty;
 				isPartyItemModified = false;
 				isPartyGroupModified = false;

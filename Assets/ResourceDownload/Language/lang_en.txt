@@ -72,7 +72,7 @@ Text_None=None
 Text_Sell_Price=Price
 Text_Next=Next
 Text_Max=MAX
-Text_Support=Support
+Text_Support=Adventurer
 Text_Point= Pal Points
 Text_Rank=Rank
 Text_Rank_Colon=Rank:
@@ -265,7 +265,7 @@ ApplyFriendNote=Are you sure to apply friend?
 Sell_EnsureTitle=Sell Cards
 Sell_EnsureContent=Following cards will be sold out:
 Sell_GetCoin=Get coins
-Sell_Ensure=Are you sure to sell?
+Sell_Ensure=Are you sure to sell them?
 
 #reward
 Reward_Take=Collect
