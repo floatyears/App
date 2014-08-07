@@ -187,15 +187,14 @@ public class LoadingLogic : ConcreteComponent {
 			}
         }
     }
-
-
+	
 	private void StartFight() {
 		StartQuest sq = new StartQuest ();
 		StartQuestParam sqp = new StartQuestParam ();
 		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = null;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-		sqp.questId = 0;//questInfo.Data.ID;
-		sqp.stageId = 0;//questInfo.StageID;
+		sqp.helperUserUnit = null;	//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		sqp.questId = 0;			//questInfo.Data.ID;
+		sqp.stageId = 0;			//questInfo.StageID;
 		sqp.startNew = 1;
 		sqp.isUserGuide = 1;
 		sq.OnRequest (sqp, RspStartQuest);
