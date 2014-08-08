@@ -256,6 +256,7 @@ public class ScratchLogic : ConcreteComponent {
         LogHelper.Log("CallbackFriendGacha() start");
         gachaType = GachaType.FriendGacha;
         gachaCount = (int)args;
+		Umeng.GA.Event ("Gacha1",gachaCount+"");
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
 //		TouchEventBlocker.Instance.SetState(BlockerReason.Connecting, true);
     }
@@ -264,6 +265,7 @@ public class ScratchLogic : ConcreteComponent {
         LogHelper.Log("CallbackRareGacha() start");
         gachaType = GachaType.RareGacha;
         gachaCount = (int)args;
+		Umeng.GA.Event ("Gacha2",gachaCount+"");
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
 
@@ -271,6 +273,7 @@ public class ScratchLogic : ConcreteComponent {
         gachaType = GachaType.EventGacha;
 //		Debug.LogError ("gachaType");
         gachaCount = (int)args;
+		Umeng.GA.Event ("Gacha3",gachaCount+"");
 //		Debug.LogError ((int)gachaType + " gachaCount : " + gachaCount);
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }

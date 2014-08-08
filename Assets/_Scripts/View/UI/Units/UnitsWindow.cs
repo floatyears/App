@@ -81,6 +81,9 @@ public class UnitsWindow : UIComponentUnity{
 
 //		ViewManager.Instance.ShowTipsLabel ("Click", caller);
 		SceneEnum se = buttonInfo [caller];
+		if (se == SceneEnum.UnitCatalog) {
+			Umeng.GA.Event("Catalog");	
+		}
 		iuiCallback.CallbackView(se);
 	}
 	

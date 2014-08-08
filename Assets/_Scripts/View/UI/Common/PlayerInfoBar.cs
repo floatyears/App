@@ -24,6 +24,7 @@ public class PlayerInfoBar : UIComponentUnity{
 	UILabel floatTotalExoTextLabel;
 	UILabel floatNextExpValueLabel;
 	UILabel floatTotalExpValueLabel;
+	UILabel floatRankValueLabel;
 
 	UILabel countDown;
 	private uint currentTime;
@@ -91,6 +92,8 @@ public class PlayerInfoBar : UIComponentUnity{
 		
 		floatTotalExoTextLabel = transform.FindChild("InfoBox/Label_Text_TotalExp").GetComponent<UILabel>();
 		floatTotalExoTextLabel.text = TextCenter.GetText("Float_TotalExp");
+
+		transform.FindChild ("InfoBox/Label_Text_TotalExp").GetComponent<UILabel> ().text = TextCenter.GetText ("Float_Rank");
 	}
 
 	/// <summary>
@@ -100,6 +103,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		floatIDValueLabel = transform.FindChild("InfoBox/Label_Vaule_ID").GetComponent<UILabel>();
 		floatNextExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_NextExp").GetComponent<UILabel>();
 		floatTotalExpValueLabel = transform.FindChild("InfoBox/Label_Vaule_TotalExp").GetComponent<UILabel>();
+		floatRankValueLabel = transform.FindChild ("InfoBox/Label_Value_Rank").GetComponent<UILabel> ();
 
 	}
 
@@ -151,6 +155,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		floatTotalExpValueLabel.text = totalExp.ToString();
 		//TODO Get current rank max exp 
 		expSpr.fillAmount = CountFillCount(curRankExp, DataCenter.Instance.UserInfo.CurRankExpMax);
+		floatRankValueLabel.text = DataCenter.Instance.UserInfo.Rank.ToString ();
 		//Cion
 		if (DataCenter.Instance.AccountInfo != null){
 			cionNumValueLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();

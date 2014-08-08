@@ -70,6 +70,7 @@ public class EvolveComponent : ConcreteComponent, ICheckUIState {
 		DataCenter.gameState = GameState.Evolve;
 		UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
+
 	}
 		
 	public bool CheckState () {
