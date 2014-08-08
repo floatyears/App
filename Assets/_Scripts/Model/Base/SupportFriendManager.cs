@@ -10,7 +10,7 @@ public class SupportFriendManager {
 
 	private GameTimer gameTime ;
 
-	private const int selectFriendNumber = 10;
+	public const int selectFriendNumber = 10;
 
 	public TFriendInfo useFriend = null;
 
@@ -40,7 +40,7 @@ public class SupportFriendManager {
 
 		for (int i = userFriend.Count - 1; i >= 0; i--) {
 			TFriendInfo tfi = userFriend[i];
-			uint intervTime = gameTime.GetCurrentSeonds() - tfi.UseTime;
+			uint intervTime = gameTime.GetCurrentSeonds () - tfi.UseTime;
 			if( intervTime >= GameTimer.TenMinuteSeconds ) {
 				supportFriend.Add(tfi);
 				userFriend.Remove(tfi);
@@ -58,7 +58,6 @@ public class SupportFriendManager {
 			}
 			int randomIndex = Random.Range(0, maxNumber);
 			TFriendInfo tfi = supportFriend[randomIndex];
-//			Debug.LogError("selectFriendNumber : " + tfi.UserId + " name : " + tfi.NickName);
 			selectFriend.Add(tfi);
 			supportFriend.RemoveAt(randomIndex);
 		}

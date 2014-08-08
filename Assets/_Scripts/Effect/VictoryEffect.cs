@@ -92,7 +92,7 @@ public class VictoryEffect : UIComponentUnity {
 		int maxEmp = clearQuest.exp;
 		gotExp= clearQuest.gotExp;
 		rank = DataCenter.Instance.oldAccountInfo.Rank;
-		int totleExp = DataCenter.Instance.oldAccountInfo.CurPrevExp; 
+		int totleExp = DataCenter.Instance.oldAccountInfo.CurPrevExp;
 		currentExp = clearQuest.exp - totleExp ;
 		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 		add = (float)gotExp * 0.05f;
@@ -103,19 +103,6 @@ public class VictoryEffect : UIComponentUnity {
 	
 		coinLabel.text = clearQuest.gotMoney.ToString ();
 		empiricalLabel.text = clearQuest.gotExp.ToString ();
-
-//		Debug.LogError ("======= ShowData =======================");
-//		Debug.LogError ("clearQuest.exp  : " + clearQuest.exp );
-//		Debug.LogError ("gotexp : " + gotExp);
-//		Debug.LogError ("currentExp : " + currentExp);
-//		Debug.LogError ("rank : " + rank);
-//		Debug.LogError ("currentTotalExp : " + currentTotalExp);
-//		Debug.LogError ("add : " + add);
-//		Debug.LogError ("curcoin : " + curCoin);
-//		Debug.LogError ("maxCoin : " + maxCoin);
-//		Debug.LogError ("gotCoin : " + gotCoin);
-//		Debug.LogError ("addCoin : " + addCoin);
-//		Debug.LogError ("=======================================");
 
 		StartCoroutine (UpdateLevelNumber ());
 		StartCoroutine (UpdateCoinNumber (addCoin, curCoin, gotCoin));
@@ -217,12 +204,8 @@ public class VictoryEffect : UIComponentUnity {
 			}	
 			gotCoin-= addCoin;
 			curCoin += addCoin;
-
-//			coinLabel.text = ((int)curCoin).ToString ();
 			yield return new WaitForSeconds(0.1f);
 		}
-
-//		coinLabel.text = ((int)curCoin).ToString ();
 	}
 
 	void FindComponent () {
@@ -256,7 +239,11 @@ public class VictoryEffect : UIComponentUnity {
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
-			if (friendHelper != null && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper)) {
+			bool isNull = friendHelper == null;
+//			bool isFriend = DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper);
+
+//			Debug.LogError("isnull : " + isNull + " isFriend : " + isFriend);
+			if (!isNull && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper) && friendHelper.FriendPoint > 0) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
 			} else {
