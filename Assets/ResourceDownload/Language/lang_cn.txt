@@ -73,7 +73,7 @@ Text_None=无
 Text_Sell_Price=卖出价格
 Text_Next=下一级
 Text_Max=最大
-Text_Support=援军
+Text_Support=冒险者
 Text_Point=点
 Text_Rank=等级
 Text_Rank_Colon=等级：
@@ -289,7 +289,7 @@ MonthCard=月卡
 
 #notice
 Notice_HelperTitle=友情战报
-Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位朋友和{2}位冒险者，获得{3}友情点数
+Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位好友和{2}位冒险者，获得{3}友情点数
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径
@@ -1450,7 +1450,7 @@ Tips_C_9=卡牌必须在帮手的协助下闯过特定任务才能成功进化�
 Tips_C_10=同一个战斗槽里的心方块数量越多，HP回复得越多。
 Tips_C_11=卡牌技能：总共4种，分别为队长技能、主动技能、普通技能、被动技能。
 Tips_C_12=队长技能：当拥有队长技能的卡牌处于队长位置时，该技能于战斗时生效。
-Tips_C_13=只有将援军加为好友后，援军的队长技能才可生效。
+Tips_C_13=只有将冒险者加为好友后，冒险者的队长技能才可生效。
 Tips_C_14=主动技能：该技能有回合数限制，回合冷却为0后，下方角色头像旁会有闪烁标志，此时点击头像即可准备发动。
 Tips_C_15=普通技能：该技能决定了卡牌攻击需要的方块颜色和数量。
 Tips_C_16=方块形成的攻击有强弱和属性之分，均由卡牌的普通技能决定。

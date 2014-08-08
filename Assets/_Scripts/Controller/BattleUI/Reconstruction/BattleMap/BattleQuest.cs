@@ -888,7 +888,7 @@ public class BattleQuest : UIBase {
 	}
 	
 	void SureRetryNetWork(object data) {
-
+		Umeng.GA.Buy ("RedoQuest", 1, DataCenter.redoQuestStone);
 		BattleMap.waitMove = false;
 		battleMap.BattleEndRotate(null);
 		RefreshRetryData (data);
@@ -1091,11 +1091,17 @@ public class BattleQuest : UIBase {
 	}
 
 	void BattleFailRecover(object data) {
+		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
+			viewManager.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			return;
+		}
+
 		ResumeQuest.SendRequest (ResumeQuestNet, questDungeonData.QuestId);
 		bud.ClearData ();
 	}
 	
 	void ResumeQuestNet(object data) {
+		Umeng.GA.Buy ("ResumeQuest" , 1, DataCenter.resumeQuestStone);
 		bud.AddBlood (bud.maxBlood);
 		bud.RecoverEnergePoint (DataCenter.maxEnergyPoint);
 		configBattleUseData.StoreMapData (null);

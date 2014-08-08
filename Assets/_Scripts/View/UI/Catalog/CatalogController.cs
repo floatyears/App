@@ -12,4 +12,10 @@ public class CatalogController : ConcreteComponent {
 //		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendInfo);
 		//Test end
 	}
+
+	public override void HideUI () {
+		base.HideUI ();
+
+		base.DestoryUI ();
+	}
 }

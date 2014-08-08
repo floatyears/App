@@ -157,13 +157,13 @@ public class LoadingLogic : ConcreteComponent {
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
 				if(NoviceGuideStepEntityManager.isInNoviceGuide()){
 					SureRetry(null);
-				}else{
+				} else {
 					MsgWindowParams mwp = new MsgWindowParams ();
 					mwp.btnParams = new BtnParam[2];
 					mwp.titleText = TextCenter.GetText("BattleContinueTitle");
@@ -181,22 +181,20 @@ public class LoadingLogic : ConcreteComponent {
 					
 					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
 				}
-
 			}
 			else{
 				EnterGame();
 			}
         }
     }
-
-
-	private void StartFight(){
+	
+	private void StartFight() {
 		StartQuest sq = new StartQuest ();
 		StartQuestParam sqp = new StartQuestParam ();
 		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = null;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-		sqp.questId = 0;//questInfo.Data.ID;
-		sqp.stageId = 0;//questInfo.StageID;
+		sqp.helperUserUnit = null;	//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		sqp.questId = 0;			//questInfo.Data.ID;
+		sqp.stageId = 0;			//questInfo.StageID;
 		sqp.startNew = 1;
 		sqp.isUserGuide = 1;
 		sq.OnRequest (sqp, RspStartQuest);
@@ -210,6 +208,7 @@ public class LoadingLogic : ConcreteComponent {
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rspStartQuest.header.code);
 			return;
 		}
+
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
@@ -219,8 +218,10 @@ public class LoadingLogic : ConcreteComponent {
 		}
 		
 		if (data == null || tqdd == null) { return; }
+
+		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
+
 		EnterBattle (tqdd);
-		
 	} 
 
 	private void EnterBattle (TQuestDungeonData tqdd) {
