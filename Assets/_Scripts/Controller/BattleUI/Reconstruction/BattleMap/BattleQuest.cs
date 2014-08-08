@@ -997,6 +997,9 @@ public class BattleQuest : UIBase {
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
 		}
+
+		Umeng.GA.Event ("Evolve");
+
 		configBattleUseData.gameState = (byte)GameState.Normal;
 //		DataCenter.Instance.RefreshUserInfo(rsp)
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;

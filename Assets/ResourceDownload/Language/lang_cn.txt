@@ -65,6 +65,7 @@ Divided_Line=/
 Float_User_ID=用户ID:
 Float_NextExp=升级还需经验:
 Float_TotalExp=累计经验:
+Float_Rank=Rank:
 
 LeaderSkillText=队长技能: 
 PARTY=队伍
