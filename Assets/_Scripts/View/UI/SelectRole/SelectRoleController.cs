@@ -59,19 +59,20 @@ public class SelectRoleController : ConcreteComponent {
 	}
 
 	void SubmitSelectState(object args){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSelectRoleMsgParams());
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSelectRoleMsgParams());
+		CallbackMsgBtnOk ();
 	}
 
-	MsgWindowParams GetSelectRoleMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("SelectRoleTitle");
-		msgParams.contentText = TextCenter.GetText("SelectRoleContent");
-		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].callback = CallbackMsgBtnOk;
-        return msgParams;
-	}
+//	MsgWindowParams GetSelectRoleMsgParams(){
+//		MsgWindowParams msgParams = new MsgWindowParams();
+//		msgParams.titleText = TextCenter.GetText("SelectRoleTitle");
+//		msgParams.contentText = TextCenter.GetText("SelectRoleContent");
+//		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
+//		msgParams.btnParams[ 0 ].callback = CallbackMsgBtnOk;
+//        return msgParams;
+//	}
 
-	void CallbackMsgBtnOk(object args){
+	void CallbackMsgBtnOk(){
 //		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 //			NoviceGuideStepEntityManager.Instance().StartStep();
 //		} else {
