@@ -62,8 +62,14 @@ public class VictoryEffect : UIComponentUnity {
 	}
 
 	public override void DestoryUI () {
+		if(goAnim != null)
+			iTween.Stop (goAnim);
+		GameTimer.GetInstance ().ExitCountDonw (ShowGetCard);
 		base.DestoryUI ();
-		Destroy (gameObject);
+	}
+
+	void OnDestory() {
+
 	}
 	
 	float currentExp = 0;
