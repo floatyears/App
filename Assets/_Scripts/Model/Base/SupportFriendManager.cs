@@ -69,11 +69,12 @@ public class SupportFriendManager {
 
 	public bool CheckIsMyFriend(TFriendInfo tfi) {
 		TFriendList tfl = DataCenter.Instance.FriendList;
+
 		if (tfl == null) {
 			return false;
 		}
+
 		for (int i = 0; i < tfl.Friend.Count; i++) {
-//			Debug.LogError ("tfl.Friend[i] : " + tfl.Friend[i]);
 			if(tfl.Friend[i].UserId == tfi.UserId) {
 				return true;
 			}
