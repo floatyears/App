@@ -35,7 +35,7 @@ public class GameInput : MonoBehaviour  {
 	private float startTime = -1f;
 
 	private float stationarIntervTime = 2f;
-	
+
 	void OnEnable () {
 		Application.RegisterLogCallback (CatchException);
 		MsgCenter.Instance.AddListener (CommandEnum.StopInput, StopInput);
