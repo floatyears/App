@@ -246,9 +246,10 @@ public class VictoryEffect : UIComponentUnity {
 		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
 			bool isNull = friendHelper == null;
-			if (!isNull && friendHelper.FriendState == bbproto.EFriendState.ISFRIEND && friendHelper.FriendPoint > 0) {
+			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+			if (!isNull && addFriend) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
-				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
+				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
 			} else {
 				DGTools.ChangeToQuest();
 			}
