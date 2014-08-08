@@ -134,6 +134,8 @@ public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{
 		ViewManager.Instance.RemoveComponent(uiConfig.uiName);
 
 		UIManager.Instance.RemoveUI ();
+
+		Resources.UnloadUnusedAssets ();
 	}
 
 //	public 
