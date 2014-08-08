@@ -62,8 +62,14 @@ public class VictoryEffect : UIComponentUnity {
 	}
 
 	public override void DestoryUI () {
+		if(goAnim != null)
+			iTween.Stop (goAnim);
+		GameTimer.GetInstance ().ExitCountDonw (ShowGetCard);
 		base.DestoryUI ();
-		Destroy (gameObject);
+	}
+
+	void OnDestory() {
+
 	}
 	
 	float currentExp = 0;
@@ -240,12 +246,10 @@ public class VictoryEffect : UIComponentUnity {
 		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
 			bool isNull = friendHelper == null;
-//			bool isFriend = DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper);
-
-//			Debug.LogError("isnull : " + isNull + " isFriend : " + isFriend);
-			if (!isNull && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper) && friendHelper.FriendPoint > 0) {
+			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+			if (!isNull && addFriend) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
-				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
+				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
 			} else {
 				DGTools.ChangeToQuest();
 			}
