@@ -72,6 +72,8 @@ public class RewardView : UIComponentUnity {
 //		iTween.Stop (gameObject);
 
 		aList.Clear ();
+
+//		base.DestoryUI ();
 	}
 
 	private void OnAcceptBonus(object data){

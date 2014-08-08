@@ -71,6 +71,18 @@ public class TFriendList : ProtobufDataBase {
         assignFriendList();
     }
 
+	public List<TFriendInfo> GetCanUseFriend () {
+		List<TFriendInfo> UseFriend = new List<TFriendInfo> ();
+		for (int i = friend.Count; i >= 0 ; i--) {
+			TFriendInfo tfi = friend[i];
+			uint intervTime = GameTimer.GetInstance().GetCurrentSeonds() - tfi.UseTime;
+			if(intervTime >= GameTimer.TenMinuteSeconds) {
+				UseFriend.Add(tfi);
+			}
+		}
+		return UseFriend;
+	}
+
 //    public void OnRspFindFriend(object data) {
 //        if (data == null)
 //            return;

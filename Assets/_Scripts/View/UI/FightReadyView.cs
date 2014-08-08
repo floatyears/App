@@ -240,7 +240,7 @@ public class FightReadyView : UIComponentUnity {
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
 
-		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
+//		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
 	}
 
 	private void ShowPartyInfo(){

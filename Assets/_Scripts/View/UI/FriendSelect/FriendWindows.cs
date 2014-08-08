@@ -19,6 +19,7 @@ public class FriendWindows : FriendHelperView {
 			gameObject.SetActive(true);
 		}
 		base.ShowUI ();
+
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
 		CheckFriend ();

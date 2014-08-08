@@ -798,8 +798,7 @@ public class DGTools {
 	}
 }
 
-public class GameLayer
-{
+public class GameLayer {
 
 	public static LayerMask Default = 0;
 	

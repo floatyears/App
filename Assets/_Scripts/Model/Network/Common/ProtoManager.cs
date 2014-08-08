@@ -79,6 +79,7 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 
     protected virtual void OnResponseEnd(object data) {
         if (netDoneCallback != null) {
+
             netDoneCallback(data);
         }
 
