@@ -38,7 +38,7 @@ public class MainBgView : UIComponentUnity {
 
 	private void ShowMask(object msg){
 		bool isMask = (bool)msg;
-		Debug.LogError ("ShowMask : " + isMask);
+//		Debug.LogError ("ShowMask : " + isMask);
 		otherBg.enabled = isMask;
 		background.enabled = !isMask;
 	}

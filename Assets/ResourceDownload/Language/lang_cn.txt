@@ -178,8 +178,8 @@ SCENE_NAME_NICKNAME=修改昵称
 SCENE_NAME_EVENTSTAGE=活动关卡
 SCENE_NAME_EVOLVETAGE=进化关卡
 
-Stage_Event_Close=活动开始时间：
-Stage_Event_Remain=活动剩余时间：
+Stage_Event_Close=开始时间：
+Stage_Event_Remain=剩余时间：
 Stage_Locked=未解锁
 Stamina=体力
 Floor=层
@@ -294,8 +294,8 @@ Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位好友和{2}位�
 #unit detail
 UnitDetail_EvolveTitle=获得途径
 UnitDetail_LevelUpTitle=合成经验
-UnitDetail_LevelUpContent=强化普通卡牌时，可提供{0}经验值
-UnitDetail_LevelUpAttr=强化{0}属性卡牌时，可提供{1}经验值
+UnitDetail_LevelUpContent=强化普通卡牌时，可提供[FFB14A]{0}[-]经验值
+UnitDetail_LevelUpAttr=强化[FFB14A]{0}[-]属性卡牌时，可提供[FFB14A]{1}[-]经验值
 
 #time format
 Time_Day=天
