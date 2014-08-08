@@ -748,19 +748,25 @@ public class BattleQuest : UIBase {
 		questFullScreenTips.ShowTexture (QuestFullScreenTips.QuestClear, QuestClear);
 	}
 
+	void ShieldAllInput (bool shiled) {
+		main.NguiCamera.enabled = shiled;
+		main.GInput.IsCheckInput = shiled;
+		BattleBottom.notClick = !shiled;
+	}
+
 	void BattleEnd(object data) {
 		QuestCoorEnd ();
-
+		ShieldAllInput (false);
 		ExitFight (true);
-		bool b = false;
-		if (data != null) {
-			b = (bool)data;	
-		}
+
+		bool b = data != null ? (bool)data : false;
 
 		if (battleEnemy && !b) {
 			BossDead();
 			configBattleUseData.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
 			configBattleUseData.StoreMapData (null);
+
+			ShieldAllInput (true);
 			return;
 		}
 
@@ -768,9 +774,12 @@ public class BattleQuest : UIBase {
 		configBattleUseData.StoreMapData (_questData);
 
 		int index = questDungeonData.GetGridIndex (currentCoor);
+
 		if (index == -1) {
+			ShieldAllInput (true);
 			return;	
 		}
+
 		uint uIndex = (uint)index;
 		if (questData.hitGrid.Contains (uIndex)) {
 			index = questData.hitGrid.FindIndex(a=>a == uIndex);
@@ -778,23 +787,28 @@ public class BattleQuest : UIBase {
 				if(ChainLinkBattle ){
 					ChainLinkBattle = false;
 				}
-				return;		
+				ShieldAllInput (true);
+				return;
 			}
 		}
 
 		TQuestGrid tqg = questDungeonData.GetSingleFloor (currentCoor);
+
 		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
-			return;	
+			ShieldAllInput (true);
+			return;
 		}
 
 		battleMap.AddMapSecuritylevel (currentCoor);
-		chainLikeMapItem = battleMap.AttakAround (currentCoor);	
+		chainLikeMapItem = battleMap.AttakAround (currentCoor);
+
 		if (chainLikeMapItem.Count == 0) {
 			ChainLinkBattle = false;
 		} else {
 			ChainLinkBattle = true;
 			role.SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
 		}
+		ShieldAllInput (true);
 	}
 
 	void QuestClear() {

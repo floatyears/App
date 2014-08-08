@@ -240,10 +240,7 @@ public class VictoryEffect : UIComponentUnity {
 		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
 			bool isNull = friendHelper == null;
-//			bool isFriend = DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper);
-
-//			Debug.LogError("isnull : " + isNull + " isFriend : " + isFriend);
-			if (!isNull && !DataCenter.Instance.supportFriendManager.CheckIsMyFriend(friendHelper) && friendHelper.FriendPoint > 0) {
+			if (!isNull && friendHelper.FriendState == bbproto.EFriendState.ISFRIEND && friendHelper.FriendPoint > 0) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
 			} else {
