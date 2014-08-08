@@ -239,8 +239,6 @@ public class FightReadyView : UIComponentUnity {
 		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
 		UIManager.Instance.EnterBattle();
-
-		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
 	}
 
 	private void ShowPartyInfo(){

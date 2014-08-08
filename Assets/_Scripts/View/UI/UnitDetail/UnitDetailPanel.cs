@@ -489,6 +489,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	private const float yCoor = -142;
 
 	void PlayLevelUp(RspLevelUp rlu) {
+		Umeng.GA.Event ("PowerUp");
+
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);

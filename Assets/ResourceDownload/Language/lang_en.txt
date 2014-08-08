@@ -65,6 +65,7 @@ Divided_Line=/
 Float_User_ID=User ID:
 Float_NextExp=Next Rank Exp:
 Float_TotalExp=Total Exp:
+Float_Rank=Rank:
 
 LeaderSkillText=Leader Skill: 
 PARTY=PARTY
