@@ -145,7 +145,8 @@ public class LoadingView : UIComponentUnity {
     }
 
     private void SelectRoleFirst(){
-		UIManager.Instance.ChangeScene (SceneEnum.Preface);
+//		UIManager.Instance.ChangeScene (SceneEnum.Preface);
+		UIManager.Instance.ChangeScene (SceneEnum.SelectRole);
     }
 
 //	private void checkResourceUpdate(){
