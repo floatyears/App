@@ -1,3 +1,5 @@
+currPath=`dirname $0`
+cd $currPath
 language=$1
 rootpath=../../
 destFont="${rootpath}/Assets/Resources/Font/Dimbo Regular.ttf"
