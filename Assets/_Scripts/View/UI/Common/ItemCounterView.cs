@@ -8,6 +8,7 @@ public class ItemCounterView : UIComponentUnity{
 	public override void Init(UIInsConfig config,IUICallback origin) {
 		base.Init(config,origin);
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
+		MsgCenter.Instance.AddListener (CommandEnum.HideItemCount, HideItemCount);
 		InitUIElement();
 	}
 
@@ -22,11 +23,16 @@ public class ItemCounterView : UIComponentUnity{
 
 	public override void DestoryUI () {
 		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshItemCount, UpdateView);
+		MsgCenter.Instance.RemoveListener (CommandEnum.HideItemCount, HideItemCount);
 		base.DestoryUI ();
 	}
 	
 	void InitUIElement(){
 		maxLabel = FindChild<UILabel>("Label_Max");
+	}
+
+	void HideItemCount(object data) {
+
 	}
 
 	public void UpdateView(object msg){

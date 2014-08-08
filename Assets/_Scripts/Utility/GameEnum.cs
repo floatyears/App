@@ -270,6 +270,8 @@ public enum CommandEnum{
 	OnPickStoryCity					= 4068,
 	OnPickEventCity					= 4069,
 
+	HideItemCount,
+
 	ShowHomeBgMask,
 	ModifiedParty,
 
