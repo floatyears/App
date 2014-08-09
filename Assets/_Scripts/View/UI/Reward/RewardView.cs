@@ -41,18 +41,18 @@ public class RewardView : UIComponentUnity {
 //		GetBonusList.SendRequest (OnRequest);
 	}
 
-	void OnRequest(object data){
-			//		bbproto.BonusInfo bsInfo = 
-		Debug.Log ("purchase success, change to reward. rsp data:"+data);
-		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
-		if (rsp != null && rsp.bonus != null ) {
-			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
-
-
-//			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
-//			UIManager.Instance.ChangeScene (SceneEnum.Reward);
-		}
-	}
+//	void OnRequest(object data){
+//			//		bbproto.BonusInfo bsInfo = 
+//		Debug.Log ("purchase success, change to reward. rsp data:"+data);
+//		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
+//		if (rsp != null && rsp.bonus != null ) {
+//			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
+//
+//
+////			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
+////			UIManager.Instance.ChangeScene (SceneEnum.Reward);
+//		}
+//	}
 
 	public override void HideUI() {
 		base.HideUI();
@@ -89,6 +89,15 @@ public class RewardView : UIComponentUnity {
 					}
 				}
 			}
+			DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+			DataCenter.Instance.AccountInfo.Money = rsp.money;
+			DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+			DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.newUnitList);
+
+			MsgCenter.Instance.Invoke(CommandEnum.SyncChips);
+			
+//			MsgCenter.Instance.Invoke(CommandEnum.SyncStamina);
+			MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin);
 
 			MsgCenter.Instance.Invoke (CommandEnum.RefreshRewardList);
 		}
