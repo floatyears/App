@@ -95,6 +95,7 @@ public class TUserInfo : ProtobufDataBase
 	{
 		instance.exp = rspClearQuest.exp;
 		instance.rank = rspClearQuest.rank;
+//		UnityEngine.Debug.LogError ("TUserInfo RefreshUserInfo : " + instance.exp + " instance.rank : " + instance.rank);
 		instance.staminaMax = rspClearQuest.staminaMax;
 		instance.staminaNow = rspClearQuest.staminaNow;
 		instance.staminaRecover = rspClearQuest.staminaRecover;
