@@ -75,8 +75,11 @@ public class FriendWindows : FriendHelperView {
 
 	bool CheckEvolve(HelperRequire hr, TUserUnit tuu) {
 		bool level = tuu.Level >= hr.level;
+//		Debug.LogError ("CheckEvolve level : " + tuu.Level + " hr.level : " + hr.level);
 		bool race = (hr.race == 0) || (tuu.UnitRace == (int)hr.race);
+//		Debug.LogError ("CheckEvolve race : " + tuu.UnitRace + " hr.race : " +hr.race);
 		bool type = (hr.type == 0) || (tuu.UnitType == (int)hr.type);
+//		Debug.LogError ("CheckEvolve type : " + tuu.UnitType + " hr.type : " +hr.type);
 //		Debug.LogError ("level && race && type : " + (level && race && type));
 		if (level && race && type) {
 			return true;	

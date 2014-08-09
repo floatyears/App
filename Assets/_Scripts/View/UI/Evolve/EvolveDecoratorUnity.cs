@@ -105,7 +105,6 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
-//	private EvolveItem highLightItem;
 	
 	void PickFriendUnitInfo(object data) {
 		TFriendInfo tuu = data as TFriendInfo;
@@ -353,6 +352,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			if(friendWindow == null) {
 				return;
 			}
+
+//			friendWindow.transform.localPosition -= new Vector3(0f, 50f, 0f);
 		}
 
 		friendWindow.evolveItem = baseItem;

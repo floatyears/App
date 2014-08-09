@@ -987,7 +987,7 @@ public class ResultDecorator : DecoratorBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(SceneEnum.LevelUp);
+		sceneInfoBar.SetBackScene(SceneEnum.None);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RESULT));
 	}
 	

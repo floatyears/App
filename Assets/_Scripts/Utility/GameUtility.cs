@@ -785,8 +785,10 @@ public class DGTools {
 		insTrans.parent = ViewManager.Instance.BottomPanel.transform;
 		insTrans.localPosition = Vector3.zero;
 		insTrans.localScale = Vector3.one;
+//		Debug.LogError ("CreatFriendWindow : 1 " + instance.transform.localPosition);
 		FriendWindows fw = instance.GetComponent<FriendWindows>();
 		fw.Init (null, null);
+//		Debug.LogError ("CreatFriendWindow : 2 " + instance.transform.localPosition);
 		return fw;
 	}
 }
