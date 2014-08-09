@@ -8,6 +8,7 @@ public class ResultView : UIComponentUnity {
 	UILabel idLabel;
 	UILabel gotFriPointLabel;
 	UILabel totalFriPointLabel;
+	UILabel addFriendTipsLabel;
 	UIButton checkBtn;
 	UIButton okBtn;
 	UIButton cancelBtn;
@@ -35,6 +36,7 @@ public class ResultView : UIComponentUnity {
 
 		gotFriPointLabel = rootCenter.transform.FindChild("Label_Top").GetComponent<UILabel>();
 		totalFriPointLabel = rootCenter.transform.FindChild("Label_Bottom").GetComponent<UILabel>();
+		addFriendTipsLabel = rootCenter.transform.FindChild ("Label_Add").GetComponent<UILabel> ();
 
 		avatarTex = rootTop.transform.FindChild("Avatar/Texture").GetComponent<UISprite>();
 		avatarBgSpr = rootTop.transform.FindChild("Avatar/Background").GetComponent<UISprite>();
@@ -111,8 +113,9 @@ public class ResultView : UIComponentUnity {
 		DGTools.ChangeToQuest();
 	}
 
+	bool canStylize = false;
 	void Stylize(object msg){
-		bool canStylize = (bool)msg;
+		canStylize = (bool)msg;
 		SetButtonActive(canStylize);
 	}
 
@@ -142,6 +145,12 @@ public class ResultView : UIComponentUnity {
 			gotFriPointLabel.text = TextCenter.GetText("GotFriendPoint", friPoint);
 		}
 		totalFriPointLabel.text = TextCenter.GetText("TotalFriendPoint", DataCenter.Instance.AccountInfo.FriendPoint);
+
+		if (canStylize) {
+			addFriendTipsLabel.text = TextCenter.GetText ("AddFriendTips");	
+		} else {
+			addFriendTipsLabel.text = "";
+		}
 	}
 
 	void SetButtonActive(bool active){

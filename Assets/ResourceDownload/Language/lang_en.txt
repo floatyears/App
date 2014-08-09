@@ -81,6 +81,7 @@ Text_Name_Colon=Name:
 Text_Name=Name
 
 #result view
+AddFriendTips=Are you sure to add him as your friend?
 Support_Friend=Support Friend
 NO_NAME=No Name
 Last_LoginTimeD={0} days ago
