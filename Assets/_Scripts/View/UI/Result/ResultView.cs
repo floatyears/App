@@ -57,11 +57,15 @@ public class ResultView : UIComponentUnity {
 		UIEventListener.Get(cancelBtn.gameObject).onClick = ClickCancel;
 	}
 	public override void ShowUI(){
+		MsgCenter.Instance.Invoke (CommandEnum.EnableMenuBtns, false);
+
 		base.ShowUI();
 		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
+		MsgCenter.Instance.Invoke (CommandEnum.EnableMenuBtns, true);
+
 		base.HideUI();
 	}
 

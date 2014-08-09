@@ -247,6 +247,7 @@ public class VictoryEffect : UIComponentUnity {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
 			bool isNull = friendHelper == null;
 			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+
 			if (!isNull && addFriend) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
