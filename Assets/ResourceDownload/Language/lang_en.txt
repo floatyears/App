@@ -14,6 +14,9 @@ Exit=Exit
 Retry=Retry
 Error=Error
 
+QuitGameTitle=Quit
+QuitGameContent=Are you sure to quit the game?
+
 ##Button Label Text
 Btn_JumpScene_FriendList=Friend List
 Btn_JumpScene_Apply=Apply
