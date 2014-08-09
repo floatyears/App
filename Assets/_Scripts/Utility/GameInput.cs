@@ -69,9 +69,9 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void Update() {
-//		if(Input.GetKey(KeyCode.Escape)){
-//			Application.Quit();
-//		}
+		if(Input.GetKey(KeyCode.Escape)){
+			QuitGame();
+		}
 
 		if(Time.timeScale < 0.5f)
 			return;
@@ -94,6 +94,33 @@ public class GameInput : MonoBehaviour  {
 //#elif UNITY_EDITOR 
 		ProcessMouse();
 //#endif
+	}
+
+	void QuitGame() {
+		MsgWindowParams mwp = new MsgWindowParams ();
+		mwp.btnParams = new BtnParam[2];
+		mwp.titleText = TextCenter.GetText("QuitGameTitle");
+		mwp.contentText = TextCenter.GetText("QuitGameContent");
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = SureQuit;
+		sure.text = TextCenter.GetText("OK");
+		mwp.btnParams[0] = sure;
+		
+		sure = new BtnParam ();
+		sure.callback = CancelQuit;
+		sure.text = TextCenter.GetText("Cancel");
+		mwp.btnParams[1] = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+	}
+
+	void SureQuit(object data) {
+		Application.Quit ();
+	}
+
+	void CancelQuit(object data) {
+
 	}
 
 	void LateUpdate() {
