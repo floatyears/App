@@ -178,8 +178,8 @@ SCENE_NAME_NICKNAME=Change Name
 SCENE_NAME_EVENTSTAGE=Event Dungeon
 SCENE_NAME_EVOLVETAGE=Evolve Dungeon
 
-Stage_Event_Close=Start in 
-Stage_Event_Remain=Remain 
+Stage_Event_Close=Start in {0}
+Stage_Event_Remain=Remain {0}
 Stage_Locked=Locked
 Stamina=STAMINA
 Floor=FLOOR

@@ -115,7 +115,7 @@ public class EventItemView : MonoBehaviour{
 			if(currentTime < data.endTime){
 //				time.enabled = false;
 				ShowIconByState (StageState.EVENT_OPEN);
-				time.text = TextCenter.GetText("Stage_Event_Remain") + GameTimer.GetFormatRemainTime(data.endTime - currentTime);
+				time.text = string.Format(TextCenter.GetText("Stage_Event_Remain") , GameTimer.GetFormatRemainTime(data.endTime - currentTime));
 				timeBg.spriteName = "remain_bg";
 			}
 			else{
@@ -124,7 +124,7 @@ public class EventItemView : MonoBehaviour{
 
 		} else {
 //			time.enabled = true;
-			time.text = TextCenter.GetText("Stage_Event_Close") + GameTimer.GetFormatRemainTime(data.StartTime - currentTime);
+			time.text = string.Format(TextCenter.GetText("Stage_Event_Close") , GameTimer.GetFormatRemainTime(data.StartTime - currentTime));
 			timeBg.spriteName = "start_bg";
 			ShowIconByState (StageState.EVENT_CLOSE);
 		}

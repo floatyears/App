@@ -178,8 +178,8 @@ SCENE_NAME_NICKNAME=修改昵称
 SCENE_NAME_EVENTSTAGE=活动关卡
 SCENE_NAME_EVOLVETAGE=进化关卡
 
-Stage_Event_Close=开始时间：
-Stage_Event_Remain=剩余时间：
+Stage_Event_Close=开始时间：{0}
+Stage_Event_Remain=剩余时间：{0}
 Stage_Locked=未解锁
 Stamina=体力
 Floor=层
