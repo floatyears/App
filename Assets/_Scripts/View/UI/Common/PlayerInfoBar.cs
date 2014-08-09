@@ -42,6 +42,8 @@ public class PlayerInfoBar : UIComponentUnity{
 
 		uint.TryParse(GameTimer.GetInstance().recovertime + "",out currentTime);
 		InvokeRepeating ("AddStamina", 0, 1.0f);
+
+
 	}
 
 	public override void ShowUI() {
@@ -55,6 +57,12 @@ public class PlayerInfoBar : UIComponentUnity{
 		RemoveCommandListener();
 		base.HideUI();          
 	}
+
+//	public override void DestoryUI ()
+//	{
+//		base.DestoryUI ();
+//
+//	}
 
 	private void InitUI(){
 		infoBox = FindChild("InfoBox");
@@ -78,6 +86,8 @@ public class PlayerInfoBar : UIComponentUnity{
 		UIEventListener.Get(rightCollider.gameObject).onPress = ShowInfoBox;
 
 		infoBox.SetActive(false);
+
+//		MsgCenter.Instance.AddListener (CommandEnum.UpdatePartyInfoPanel,UpdateData);
 	}
 
 	/// <summary>
@@ -93,7 +103,7 @@ public class PlayerInfoBar : UIComponentUnity{
 		floatTotalExoTextLabel = transform.FindChild("InfoBox/Label_Text_TotalExp").GetComponent<UILabel>();
 		floatTotalExoTextLabel.text = TextCenter.GetText("Float_TotalExp");
 
-		transform.FindChild ("InfoBox/Label_Text_TotalExp").GetComponent<UILabel> ().text = TextCenter.GetText ("Float_Rank");
+		transform.FindChild ("InfoBox/Label_Text_Rank").GetComponent<UILabel> ().text = TextCenter.GetText ("Float_Rank");
 	}
 
 	/// <summary>
