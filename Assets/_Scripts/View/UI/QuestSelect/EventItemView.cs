@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class EventItemView : MonoBehaviour{
 	UILabel time;
 	UIAtlas atlas;
+	UISprite timeBg;
 
 	public List<string> stageOrderList1 = new List<string>(){
 		{"icon_stage_special"},
@@ -62,8 +63,11 @@ public class EventItemView : MonoBehaviour{
 		}
 		set{
 			data = value;
-			if(time == null)
+			if(time == null){
 				time = gameObject.transform.FindChild ("Time").GetComponent<UILabel>();
+				timeBg = gameObject.transform.FindChild("TimeBg").GetComponent<UISprite>();
+			}
+				
 			if(data == null){
 				Debug.LogError("StageItemView, Data is NULL!");
 				return;
@@ -112,6 +116,7 @@ public class EventItemView : MonoBehaviour{
 //				time.enabled = false;
 				ShowIconByState (StageState.EVENT_OPEN);
 				time.text = TextCenter.GetText("Stage_Event_Remain") + GameTimer.GetFormatRemainTime(data.endTime - currentTime);
+				timeBg.spriteName = "remain_bg";
 			}
 			else{
 				Destroy(this.gameObject);
@@ -120,6 +125,7 @@ public class EventItemView : MonoBehaviour{
 		} else {
 //			time.enabled = true;
 			time.text = TextCenter.GetText("Stage_Event_Close") + GameTimer.GetFormatRemainTime(data.StartTime - currentTime);
+			timeBg.spriteName = "start_bg";
 			ShowIconByState (StageState.EVENT_CLOSE);
 		}
 
