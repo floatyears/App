@@ -88,7 +88,7 @@ public class ResourceUpdate : MonoBehaviour {
 #if LANGUAGE_CN
 	"版本：";
 #elif LANGUAGE_EN
-	"AppVersion:";
+	"Version:";
 #else
 	"";
 #endif
@@ -181,7 +181,7 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.value = (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
+			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "MB)";
 		}
 
 		versionTxt.text = appVersion + version;
@@ -192,7 +192,7 @@ public class ResourceUpdate : MonoBehaviour {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
 			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
-				Debug.Log("download error");
+				Debug.Log("download.count: "+ i + "/" + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
 			}else if(item.www.isDone) {
@@ -401,7 +401,7 @@ public class ResourceUpdate : MonoBehaviour {
 		//check the MD5, if not mamtch ,reload the file
 		if (serverVersionDic [downloadItem.name].md5 == hash) {
 			try{
-				Debug.Log("md5 is ok.  local res path: " + localResFullPath);
+				Debug.Log("md5 is ok.  local res path: " + localResFullPath +" downloadItem.name:"+downloadItem.name);
 				//File.WriteAllBytes (localResPath + "/" + serverVersionDic [name] [0] + ".unity3d", resBytes);
 				//only for test
 				File.WriteAllBytes ( localResFullPath + downloadItem.name + ".unity3d",downloadItem.www.bytes);
