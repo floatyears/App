@@ -666,6 +666,50 @@ public class DownloadItemInfo {
 		}
 		www = new WWW (ResourceUpdate.serverResURL + name + ".unity3d?"+ Random.Range(10000,1000000));
 		Debug.Log ("url: " +ResourceUpdate.serverResURL + name + ".unity3d");
+
+//		if (!string.IsNullOrEmpty (www.error)) {
+//			Debug.Log (www.error + " : " + www.url);
+//			
+//			Umeng.GA.Event("DownloadError","FileErr:" + www.url);
+//			
+//			MsgWindowParams mwp = new MsgWindowParams ();
+//			mwp.btnParam = new BtnParam();
+//			
+//			mwp.titleText = 
+//				#if LANGUAGE_CN
+//				"下载错误";
+//			#else
+//			"File Download Error";
+//			#endif
+//			mwp.contentText = 
+//				#if LANGUAGE_CN
+//				"此文件下载错误：" + url;
+//			#else
+//			"Network error.Please check your network connection and try again later.";
+//			#endif
+//			
+//			BtnParam sure = new BtnParam ();
+//			sure.callback = null;
+//			sure.text = 
+//			#if LANGUAGE_CN
+//				"确定";
+//			#else
+//				"OK";
+//			#endif
+//			//			mwp.btnParam = null;
+//			
+//			//			sure = new BtnParam ();
+//			//			sure.callback = ExitGame;
+//			//			sure.text = 
+//			//			#if LANGUAGE_CN
+//			//				"重试";
+//			//			#else
+//			//				"Retry";
+//			//			#endif
+//			mwp.btnParam = sure;
+//			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+//			
+//		}
 	}
 
 	public static DownloadItemInfo ParseSting(string info) {
