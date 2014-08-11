@@ -181,7 +181,7 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.value = (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
+			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "MB)";
 		}
 
 		versionTxt.text = appVersion + version;
@@ -192,7 +192,7 @@ public class ResourceUpdate : MonoBehaviour {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
 			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
-				Debug.Log("download error: "+item.www.error + " url:"+item.www.url);
+				Debug.Log("download.count: "+ i + "/" + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
 			}else if(item.www.isDone) {
