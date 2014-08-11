@@ -196,7 +196,7 @@ public class ResourceUpdate : MonoBehaviour {
 				Debug.Log("download error");
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
-				Umeng.GA.Event("DownloadError","downloaded:" + alreadyDone + " bytes. err:"+item.www.error+" ("+i+"/"+downLoadItemList.Count+")");
+				Umeng.GA.Event("DownloadError",new Dictionary<string,string>(){{"downloaded" , alreadyDone + "bytes"},{"err", item.www.error},{"count",i+"/"+downLoadItemList.Count+")"}});
 
 			}else if(item.www.isDone) {
 				downLoadItemList.Remove(item);
