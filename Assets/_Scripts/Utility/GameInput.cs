@@ -69,6 +69,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void Update() {
+
 		if(Input.GetKey(KeyCode.Escape)){
 			QuitGame();
 		}
@@ -157,6 +158,8 @@ public class GameInput : MonoBehaviour  {
 
 
 	void ProcessMouse() {
+	
+
 		if(Input.GetMouseButtonDown(0)) {
 			OnPress();
 		} else if(Input.GetMouseButtonUp(0)) {
