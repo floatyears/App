@@ -7,7 +7,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	private UILabel backBtnLabel;
 	private IUICallback iuiCallback; 
 	private bool temp = false;
-	private bool isTweenDone = false;
+//	private bool isTweenDone = false;
 	
 	public override void Init ( UIInsConfig config, IUICallback origin ) {
 		base.Init (config, origin);
@@ -17,9 +17,9 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 	
 	public override void ShowUI () {
-		SetGameObjectActive (true);
+//		SetGameObjectActive (true);
 
-		isTweenDone = false;
+//		isTweenDone = false;
 		GameTimer.GetInstance ().AddCountDown (0.5f, RefreshState);
 		base.ShowUI ();
 		ShowTween();
@@ -27,8 +27,9 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	
 	public override void HideUI () {
 		GameTimer.GetInstance ().ExitCountDonw (RefreshState);
+		iTween.Stop ();
 		base.HideUI ();
-		SetGameObjectActive (false);
+//		SetGameObjectActive (false);
 	}
 	
 	public override void DestoryUI () {
@@ -36,7 +37,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	void RefreshState () {
-		isTweenDone = true;
+//		isTweenDone = true;
 	}
 
 	private void InitUI() {
@@ -65,9 +66,6 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	}
 
 	public void BackPreScene (GameObject go) {
-		if (!isTweenDone) {
-			return;	
-		}
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail ) {
 			SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
@@ -84,7 +82,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 
 	private void ShowTween(){
 		gameObject.transform.localPosition = new Vector3(0, 1000, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.4f, "islocal", true,"oncomplete","TweenDone","oncompletetarget",gameObject));
+		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.2f, "islocal", true, "oncomplete", "TweenDone", "oncompletetarget", gameObject));
 	}
 
 	void TweenDone() { }
