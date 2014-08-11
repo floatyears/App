@@ -383,8 +383,6 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 		}
 		normalSkill2NameLabel.text = TextCenter.GetText ("SkillName_"+skill.id); //skill.name;
 		normalSkill2DscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill.id);//skill.description;
-
-
 	}
 
 	void ShowLeaderSkillContent( TUserUnit data ){
@@ -725,16 +723,12 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	void LevelupExpRiseEnd() {
 		isNoviceGUide = false;
-		ClickTexture (null);
-//		LevelUpEnd ();
-
-
+		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 	}
 
 	void ExpRise () {
 		if (gotExp <= 0) {
 			if(levelDone) {
-//				isNovceGuide = false;
 				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
 				levelDone = false;
 				GameTimer.GetInstance().AddCountDown(1f, LevelupExpRiseEnd);
