@@ -151,9 +151,7 @@ public class ResourceUpdate : MonoBehaviour {
 			for (int i = 0; i < downLoadItemList.Count; i++) {
 				DownloadItemInfo item = downLoadItemList[i];
 				WWW www = item.www;
-
 				if(www != null && string.IsNullOrEmpty(www.error)){
-
 					current += item.size * www.progress;
 //					Debug.Log("download current: " + www.progress);
 				}
@@ -172,7 +170,6 @@ public class ResourceUpdate : MonoBehaviour {
 					Debug.LogWarning(i+"/"+downLoadItemList.Count+"). www.isDone:"+www.url);
 					UpdateLocalRes(item);
 					alreadyDone += item.size;
-
 				}
 			}
 		}
