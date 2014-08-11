@@ -290,7 +290,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 	private void DownloadAgain(object data){
-		Umeng.GA.Event ("DownloadAgain",alreadyDone);
+		Umeng.GA.Event ("DownloadAgain",alreadyDone+"");
 		downLoadItemList.Clear ();
 		total = 0;
 		alreadyDone =  0;
