@@ -114,7 +114,8 @@ public class GameTimer : MonoBehaviour {
 	}
 
 	public uint GetCurrentSeonds() {
-		return Seconds += (uint)addSeconds;
+		uint seconds = Seconds + (uint)addSeconds;
+		return seconds;
 	}
 
 	public DateTime GenerateTimeBySeconds() {
