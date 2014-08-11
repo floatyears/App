@@ -34,6 +34,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	public override void HideUI () {
+		if(selectedItem[baseItemIndex].UserUnit != null) {
+			selectedItem[baseItemIndex].UserUnit.isEnable = true;
+			selectedItem[baseItemIndex].UserUnit.isFocus = false;
+		}
+
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);

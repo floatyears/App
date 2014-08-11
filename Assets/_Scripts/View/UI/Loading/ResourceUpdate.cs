@@ -151,9 +151,7 @@ public class ResourceUpdate : MonoBehaviour {
 			for (int i = 0; i < downLoadItemList.Count; i++) {
 				DownloadItemInfo item = downLoadItemList[i];
 				WWW www = item.www;
-
 				if(www != null && string.IsNullOrEmpty(www.error)){
-
 					current += item.size * www.progress;
 //					Debug.Log("download current: " + www.progress);
 				}
@@ -169,12 +167,15 @@ public class ResourceUpdate : MonoBehaviour {
 //				}
 				if(www.isDone && string.IsNullOrEmpty(www.error)) {
 					//TODO download done.
+					Debug.LogWarning(i+"/"+downLoadItemList.Count+"). www.isDone:"+www.url);
 					UpdateLocalRes(item);
 					alreadyDone += item.size;
-
 				}
 			}
 		}
+
+		versionTxt.text = "download.count:"+downLoadItemList.Count+" retry.count:"+retryItemList.Count;
+
 //		Debug.Log (globalWWW);
 //		Debug.Log ("============progress1: " + current + " already: " + alreadyDone);
 		if (total > 0) {
@@ -195,9 +196,13 @@ public class ResourceUpdate : MonoBehaviour {
 				Debug.Log("download error");
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
+				Umeng.GA.Event("DownloadError","downloaded:" + alreadyDone + " bytes. err:"+item.www.error+" ("+i+"/"+downLoadItemList.Count+")");
+
 			}else if(item.www.isDone) {
 				downLoadItemList.Remove(item);
 				item.Dispose();
+			}else {
+				Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
 			}
 		}
 		//Debug.Log ("download list item: " + downLoadItemList.Count);
@@ -207,7 +212,6 @@ public class ResourceUpdate : MonoBehaviour {
 					if(!isShowRetry){
 						isShowRetry = true;
 
-						Umeng.GA.Event("DownloadError","downloaded:" + alreadyDone + " bytes");
 						MsgWindowParams mwp = new MsgWindowParams ();
 						mwp.btnParam = new BtnParam();
 						

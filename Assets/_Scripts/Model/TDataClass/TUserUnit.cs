@@ -27,6 +27,10 @@ public class TUserUnit : ProtobufDataBase {
         MsgCenter.Instance.RemoveListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
     }
 
+	public void ResetState () {
+		isEnable = true;
+		isFocus = false;
+	}
 //    private int currentBlood = -1;
     private float attackMultiple = 1;
     public float AttackMultiple {
