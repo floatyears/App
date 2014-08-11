@@ -696,9 +696,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		if (oldBlendUnit != null) {
 			if(curLevel >= oldBlendUnit.UnitInfo.MaxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
-//				Debug.Log("evolve parts: " + (int)NoviceGuideStage.UNIT_EVOLVE);
 				UserguideEvoUnit.SendRequest(o=>{
-//					Debug.Log("evolve parts");
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
 						if (rsp != null ) {
