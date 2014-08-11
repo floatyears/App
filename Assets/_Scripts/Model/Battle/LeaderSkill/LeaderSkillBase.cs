@@ -3,6 +3,9 @@ using System.Collections;
 using bbproto;
 
 public class SkillBaseInfo : ProtobufDataBase {
+	public const string SkillNamePrefix = "SkillName_";
+	public const string SkillDescribeFix = "SkillDesc_";
+
 	private int _initSkillCooling = 0;
 
 	public int initSkillCooling {
