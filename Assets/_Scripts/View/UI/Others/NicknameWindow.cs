@@ -108,7 +108,7 @@ public class NicknameWindow : UIComponentUnity {
 			}
 		}
 		
-		UIManager.Instance.ChangeScene(SceneEnum.Others);
+		UIManager.Instance.ChangeScene(SceneEnum.Home);
 //		HideUI ();
 	}
 
