@@ -14,7 +14,6 @@ public class HelperUnitItem : FriendUnitItem {
 		if(callback != null) {
 			callback(this);
 		}
-
 	}
 
 	protected override void SetEmptyState(){

@@ -72,7 +72,7 @@ public class VictoryEffect : UIComponentUnity {
 
 	}
 	
-	float currentExp = 0;
+	float currentLevelExp = 0;
 	float gotExp = 0;
 	float add = 0;
 	int currentTotalExp = 0;
@@ -98,8 +98,8 @@ public class VictoryEffect : UIComponentUnity {
 		int maxEmp = clearQuest.exp;
 		gotExp= clearQuest.gotExp;
 		rank = DataCenter.Instance.oldAccountInfo.Rank;
-		int totleExp = DataCenter.Instance.oldAccountInfo.CurPrevExp;
-		currentExp = clearQuest.exp - totleExp ;
+		int totalPreExp = DataCenter.Instance.oldAccountInfo.CurPrevExp;
+		currentLevelExp = clearQuest.exp - totalPreExp ;
 		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
 		add = (float)gotExp * 0.05f;
 		int curCoin = DataCenter.Instance.AccountInfo.Money;
@@ -174,13 +174,12 @@ public class VictoryEffect : UIComponentUnity {
 				add = gotExp;
 			}
 			gotExp -= add;
-			currentExp += add;
-			int showValue = (int)currentExp;
-//			empiricalLabel.text = showValue.ToString();
-			float progress = currentExp / currentTotalExp;
+			currentLevelExp += add;
+			int showValue = (int)currentLevelExp;
+			float progress = currentLevelExp / currentTotalExp;
 			levelProgress.value = progress;
-			if(currentExp >= currentTotalExp) {
-				currentExp -= currentTotalExp;
+			if(currentLevelExp >= currentTotalExp) {
+				currentLevelExp -= currentTotalExp;
 				rank++;
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
 				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
@@ -247,6 +246,7 @@ public class VictoryEffect : UIComponentUnity {
 			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
 			bool isNull = friendHelper == null;
 			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+
 			if (!isNull && addFriend) {
 				UIManager.Instance.ChangeScene(SceneEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);

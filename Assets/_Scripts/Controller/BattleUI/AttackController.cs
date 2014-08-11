@@ -266,7 +266,7 @@ public class AttackController {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);	
 		}
 		AttackInfo ai = attackInfoQueue.Dequeue();
-
+//		ai.AttackValue *= 10;
 		BeginAttack (ai);
 		InvokeAttack ();
 	}

@@ -3,11 +3,16 @@ using System.Collections;
 
 public sealed class ServerConfig {
 
-
-#if LANGUAGE_EN
+#if INNER_TEST 
+//测试服务器
+	public const string ServerHost = "http://61.153.100.131:8080/";
+	public const string ResourceHost = "http://61.153.100.131";
+#elif LANGUAGE_EN
+//美国服务器
 	public const string ServerHost = "http://us.yeedion.com:8080/";
 	public const string ResourceHost = "http://us.yeedion.com";
 #elif LANGUAGE_CN
+//中国服务器(ucloud)
 	public const string ServerHost = "http://61.153.100.131:8080/";
 	public const string ResourceHost = "http://61.153.100.131";
 #else
