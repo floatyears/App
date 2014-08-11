@@ -185,6 +185,12 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 		}
 	}
 
+	protected void SetGameObjectActive(bool active) {
+		if (gameObject.activeSelf != active) {
+			gameObject.SetActive(active);		
+		}
+	}
+
 }
 
 
