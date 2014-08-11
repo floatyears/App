@@ -88,7 +88,7 @@ public class ResourceUpdate : MonoBehaviour {
 #if LANGUAGE_CN
 	"版本：";
 #elif LANGUAGE_EN
-	"Version:";
+	"AppVersion:";
 #else
 	"";
 #endif
@@ -182,7 +182,7 @@ public class ResourceUpdate : MonoBehaviour {
 			pro.value = (total >0 ? (current+alreadyDone)/ (float)total: 1);
 			//		Debug.Log ("============progress2: " + pro.value);
 			
-			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "MB)";
+			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "M)";
 		}
 
 		versionTxt.text = appVersion + version;
@@ -193,10 +193,10 @@ public class ResourceUpdate : MonoBehaviour {
 		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
 			DownloadItemInfo item = downLoadItemList[i];
 			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
-				Debug.Log("download.count: "+ i + "/" + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
+				Debug.Log("download error");
 				downLoadItemList.Remove(item);
 				retryItemList.Add(item);
-				Umeng.GA.Event("DownloadError","downloaded:" + alreadyDone + " bytes. err:"+item.www.error+" ("+i+"/"+downLoadItemList.Count+")");
+				Umeng.GA.Event("DownloadError",new Dictionary<string,string>(){{"downloaded" , alreadyDone + "bytes"},{"err", item.www.error},{"count",i+"/"+downLoadItemList.Count+")"}});
 
 			}else if(item.www.isDone) {
 				downLoadItemList.Remove(item);
@@ -405,7 +405,7 @@ public class ResourceUpdate : MonoBehaviour {
 		//check the MD5, if not mamtch ,reload the file
 		if (serverVersionDic [downloadItem.name].md5 == hash) {
 			try{
-				Debug.Log("md5 is ok.  local res path: " + localResFullPath +" downloadItem.name:"+downloadItem.name);
+				Debug.Log("md5 is ok.  local res path: " + localResFullPath);
 				//File.WriteAllBytes (localResPath + "/" + serverVersionDic [name] [0] + ".unity3d", resBytes);
 				//only for test
 				File.WriteAllBytes ( localResFullPath + downloadItem.name + ".unity3d",downloadItem.www.bytes);
@@ -496,7 +496,7 @@ public class ResourceUpdate : MonoBehaviour {
 			{
 				DownloadItemInfo localItem = localVersionDic[name];
 				DownloadItemInfo serverItem = serverVersionDic[name];
-				if(localItem.version < serverItem.version) {
+				if(localItem.version != serverItem.version) {
 					Debug.Log("server version: " + serverItem.version + "  local version: " + localItem.version);
 					downLoadItemList.Add(serverItem);
 					total += serverItem.size;
@@ -526,7 +526,6 @@ public class ResourceUpdate : MonoBehaviour {
 		}
 		startDown = true;
 		if (total > 0) {
-
 			pro.enabled = true;
 			proText.enabled = true;
 			tipText.enabled = true;
@@ -670,6 +669,50 @@ public class DownloadItemInfo {
 		}
 		www = new WWW (ResourceUpdate.serverResURL + name + ".unity3d?"+ Random.Range(10000,1000000));
 		Debug.Log ("url: " +ResourceUpdate.serverResURL + name + ".unity3d");
+
+//		if (!string.IsNullOrEmpty (www.error)) {
+//			Debug.Log (www.error + " : " + www.url);
+//			
+//			Umeng.GA.Event("DownloadError","FileErr:" + www.url);
+//			
+//			MsgWindowParams mwp = new MsgWindowParams ();
+//			mwp.btnParam = new BtnParam();
+//			
+//			mwp.titleText = 
+//				#if LANGUAGE_CN
+//				"下载错误";
+//			#else
+//			"File Download Error";
+//			#endif
+//			mwp.contentText = 
+//				#if LANGUAGE_CN
+//				"此文件下载错误：" + url;
+//			#else
+//			"Network error.Please check your network connection and try again later.";
+//			#endif
+//			
+//			BtnParam sure = new BtnParam ();
+//			sure.callback = null;
+//			sure.text = 
+//			#if LANGUAGE_CN
+//				"确定";
+//			#else
+//				"OK";
+//			#endif
+//			//			mwp.btnParam = null;
+//			
+//			//			sure = new BtnParam ();
+//			//			sure.callback = ExitGame;
+//			//			sure.text = 
+//			//			#if LANGUAGE_CN
+//			//				"重试";
+//			//			#else
+//			//				"Retry";
+//			//			#endif
+//			mwp.btnParam = sure;
+//			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+//			
+//		}
 	}
 
 	public static DownloadItemInfo ParseSting(string info) {

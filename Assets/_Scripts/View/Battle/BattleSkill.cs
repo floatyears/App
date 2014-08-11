@@ -194,8 +194,8 @@ public class SkillItem {
 		skillTypeLabel.enabled = true;
 		string id = sbi.skillBase.id.ToString ();
 
-		skillName.text = TextCenter.GetText ("SkillName_" + id);
-		skillDescribeLabel.text = TextCenter.GetText ("SkillDesc_" + id);
+		skillName.text = TextCenter.GetText (SkillBaseInfo.SkillNamePrefix + id);
+		skillDescribeLabel.text = TextCenter.GetText (SkillBaseInfo.SkillDescribeFix + id);
 
 		TNormalSkill tns = sbi as TNormalSkill;
 		if (tns != null) {

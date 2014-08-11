@@ -28,7 +28,10 @@ public class LoadingView : UIComponentUnity {
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
 
 		base.ShowUI ();
-		#if UNITY_ANDROID
+		#if INNER_TEST
+		Umeng.GA.StartWithAppKeyAndChannelId ("53e7f407fd98c594da01b21f", ServerConfig.Channel);
+
+		#elif UNITY_ANDROID
 //		Debug.Log ("Umeng.Start('android')...");
 
 		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", ServerConfig.Channel);

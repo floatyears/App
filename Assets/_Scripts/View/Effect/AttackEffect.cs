@@ -48,7 +48,7 @@ public class AttackEffect : MonoBehaviour {
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID);
 		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTexture);
 		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
-		skillName = sbi == null ? "" : sbi.SkillName;
+		skillName = sbi == null ? "" : TextCenter.GetText (SkillBaseInfo.SkillNamePrefix + sbi.skillBase.id);//sbi.SkillName;
 		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleCardArea.startPosition, "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutQuad));  
 //		Debug.LogError ("PlayActiveSkill MoveTo");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_fly);
