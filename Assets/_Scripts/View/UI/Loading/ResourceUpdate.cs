@@ -206,7 +206,8 @@ public class ResourceUpdate : MonoBehaviour {
 				if(retryItemList.Count > 0){
 					if(!isShowRetry){
 						isShowRetry = true;
-						
+
+						Umeng.GA.Event("DownloadError","downloaded:" + alreadyDone + " bytes");
 						MsgWindowParams mwp = new MsgWindowParams ();
 						mwp.btnParam = new BtnParam();
 						
@@ -289,6 +290,7 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 	private void DownloadAgain(object data){
+		Umeng.GA.Event ("DownloadAgain",alreadyDone);
 		downLoadItemList.Clear ();
 		total = 0;
 		alreadyDone =  0;
@@ -301,6 +303,7 @@ public class ResourceUpdate : MonoBehaviour {
 		}
 		retryItemList.Clear ();
 		isShowRetry = false;
+
 	}
 
 
@@ -539,6 +542,8 @@ public class ResourceUpdate : MonoBehaviour {
 //		Debug.Log ("error: " + www.error);
 		if (!string.IsNullOrEmpty (www.error) && !ignoreErr) {
 			Debug.Log (www.error + " : " + url);
+
+			Umeng.GA.Event("DownloadError","FileErr:" + url);
 
 			MsgWindowParams mwp = new MsgWindowParams ();
 			mwp.btnParam = new BtnParam();
