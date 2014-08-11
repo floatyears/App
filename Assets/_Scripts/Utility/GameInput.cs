@@ -100,9 +100,19 @@ public class GameInput : MonoBehaviour  {
 	void QuitGame() {
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = TextCenter.GetText("QuitGameTitle");
-		mwp.contentText = TextCenter.GetText("QuitGameContent");
-		
+		string title = "";
+		string content = "";
+#if LANGUAGE_EN
+		title = "Quit";
+		content = "Are you sure to quit the Game ?";
+#elif LANGUAGE_CN
+		title = "退出";
+		content = "确定退出游戏？";
+#endif
+
+		mwp.titleText = title;
+		mwp.contentText = content;
+
 		BtnParam sure = new BtnParam ();
 		sure.callback = SureQuit;
 		sure.text = TextCenter.GetText("OK");
