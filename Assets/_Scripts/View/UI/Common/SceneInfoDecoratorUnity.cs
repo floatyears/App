@@ -42,6 +42,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	private void InitUI() {
 		sceneNameLabel = FindChild< UILabel >( "SceneTip/Label" );
 		backBtn =  FindChild< UIButton >( "Button_Back" );
+		backBtnLabel = FindChild<UILabel> ("Button_Back/Label");
 		backBtnLabel.text = TextCenter.GetText("Btn_SceneBack");
 		UIEventListener.Get( backBtn.gameObject ).onClick = BackPreScene;
 	}
