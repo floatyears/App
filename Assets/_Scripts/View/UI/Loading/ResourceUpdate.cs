@@ -192,32 +192,33 @@ public class ResourceUpdate : MonoBehaviour {
 
 	void LateUpdate() {
 //		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
-		if (downLoadItemList.Count <= 0)
-			return;
-		DownloadItemInfo item = downLoadItemList.Peek ();//downLoadItemList[i];
-		if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
-			Debug.Log("download.count: " + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
+		if (downLoadItemList.Count > 0){
+		
+			DownloadItemInfo item = downLoadItemList.Peek ();//downLoadItemList[i];
+			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
+				Debug.Log("download.count: " + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
 
-//			downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
-			DownloadItemInfo item2 = downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
-			item2.Dispose();
-			if(downLoadItemList.Count > 0){
-				downLoadItemList.Peek().StartDownload();
-			}
-			retryItemList.Enqueue(item);//retryItemList.Add(item);
-			Umeng.GA.Event("DownloadError",new Dictionary<string,string>(){{"downloaded" , alreadyDone + "bytes"},{"err", item.www.error},{"count","count: " + downLoadItemList.Count+")"},{"device",SystemInfo.deviceUniqueIdentifier}});
+	//			downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
+				DownloadItemInfo item2 = downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
+				item2.Dispose();
+				if(downLoadItemList.Count > 0){
+					downLoadItemList.Peek().StartDownload();
+				}
+				retryItemList.Enqueue(item);//retryItemList.Add(item);
+				Umeng.GA.Event("DownloadError",new Dictionary<string,string>(){{"downloaded" , alreadyDone + "bytes"},{"err", item.www.error},{"count","count: " + downLoadItemList.Count+")"},{"device",SystemInfo.deviceUniqueIdentifier}});
 
-		}else if(item.www.isDone) {
-			DownloadItemInfo item1 = downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
-			item1.Dispose();
-//			DownloadItemInfo i = ;
-			if(downLoadItemList.Count > 0){
-				downLoadItemList.Peek().StartDownload();
+			}else if(item.www.isDone) {
+				DownloadItemInfo item1 = downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
+				item1.Dispose();
+	//			DownloadItemInfo i = ;
+				if(downLoadItemList.Count > 0){
+					downLoadItemList.Peek().StartDownload();
+				}
+			}else {
+	#if INNER_TEST
+				Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
+	#endif
 			}
-		}else {
-#if INNER_TEST
-			Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
-#endif
 		}
 //		}
 		//Debug.Log ("download list item: " + downLoadItemList.Count);
