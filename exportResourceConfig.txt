@@ -1,1 +1,1 @@
-FSavePath:/Users/Resource/Output;Filename:Language_cn;Extension:unity3dty3dion:unity3dd
+NSavePath:/Users/Resource/Output/android;Filename:Protobuf_en;Extension:unity3dunity3dd
