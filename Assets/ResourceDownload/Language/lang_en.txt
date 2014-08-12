@@ -302,8 +302,8 @@ UnitDetail_LevelUpContent=Power-up for normal monsters, will provide [FFB14A]{0}
 UnitDetail_LevelUpAttr=Power-up for [FFB14A]{0}[-] type monsters, will provide [FFB14A]{1}[-] exp.
 
 #time format
-Time_Day=d
-Time_Hour=h
+Time_Day=days
+Time_Hour=hr
 Time_Min=min
 
 # shop
