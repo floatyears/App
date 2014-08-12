@@ -128,11 +128,6 @@ public class HttpManager : INetSendPost {
 			msgParams.btnParam.callback = CallbackRetry;
 			msgParams.btnParam.args = post;
 			msgParams.btnParam.text = TextCenter.GetText("Retry");
-
-//            msgParams.btnParams[0].text = TextCenter.GetText("Retry");
-//            msgParams.btnParams[0].callback = CallbackRetry;
-//            msgParams.btnParams[0].args = post;
-//            msgParams.btnParams[1].callback = CallbackCancelRequest;
         }
         else if (text.StartsWith("500 Internal Server Error")){
 //			Debug.LogError("OpenMsgWindowByError(), 500 Internal Server Error");
