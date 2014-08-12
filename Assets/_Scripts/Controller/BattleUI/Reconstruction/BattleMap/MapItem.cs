@@ -195,8 +195,6 @@ public class MapItem : UIBaseUnity {
 			return;	
 		}
 
-//		TweenAlpha ta = gridItemSprite.GetComponent<TweenAlpha>();
-//		ta.ResetToBeginning ();
 		ShowFootTips ();
 	}
 
