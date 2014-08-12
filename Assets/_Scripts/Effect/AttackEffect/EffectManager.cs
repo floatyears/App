@@ -89,7 +89,7 @@ public class EffectManager {
 
 	public void GetSkillEffectObject(int skillID, string userUnitID, ResourceCallback resouceCb) {
 		if (skillID == 0) {
-			Debug.LogError ("skillStoreID : " + skillID + " userUnitID : " + userUnitID);
+//			Debug.LogError ("skillStoreID : " + skillID + " userUnitID : " + userUnitID);
 			resouceCb(null);
 			return;	
 		}
@@ -109,7 +109,6 @@ public class EffectManager {
 				GetAttackTargetType (sbi as ActiveAttackTargetType, sb);
 			} else if (type == typeof(ActiveChangeCardColor)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_as_color_change);
-
 				sb.Append ("color");
 			} else if (type == typeof(ActiveDeferAttackRound)) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);

@@ -98,10 +98,19 @@ public class MapItem : UIBaseUnity {
 			backSpriteName = "";
 			switch (gridItem.Type) {
 			case bbproto.EQuestGridType.Q_NONE:
+				if(mapBackSprite != null) {
+					mapBackSprite.spriteName = backSpriteName;
+				}
 				break;
 			case bbproto.EQuestGridType.Q_KEY:
+				if(mapBackSprite != null) {
+					mapBackSprite.spriteName = backSpriteName;
+				}
 				break;
 			case bbproto.EQuestGridType.Q_EXCLAMATION:
+				if(mapBackSprite != null) {
+					mapBackSprite.spriteName = backSpriteName;
+				}
 				break;
 			case bbproto.EQuestGridType.Q_ENEMY:
 				if(gridItem.Enemy.Count != 0) {
@@ -113,18 +122,28 @@ public class MapItem : UIBaseUnity {
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
-				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
+//				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
+				if(mapBackSprite != null) {
+					mapBackSprite.spriteName = gridItem.TrapInfo.GetTrapSpriteName();
+				}
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
-				backSpriteName = BattleMap.chestSpriteName; //"S";
-
+//				backSpriteName = BattleMap.chestSpriteName; //"S";
+				if(mapBackSprite != null) {
+					mapBackSprite.spriteName = BattleMap.chestSpriteName;
+				}
 				break;
 			default:
+				if(mapBackSprite != null) {
+					mapBackSprite.spriteName = backSpriteName;
+				}
 				break;
 			}
-			if(mapBackSprite != null) {
-				mapBackSprite.spriteName = backSpriteName;
-			}
+
+//			if(mapBackSprite != null) {
+//				mapBackSprite.spriteName = backSpriteName;
+//			}
+
 			mapBack.SetActive(false);
 		}
 	}

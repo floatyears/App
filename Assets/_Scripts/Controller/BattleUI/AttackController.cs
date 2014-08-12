@@ -166,7 +166,7 @@ public class AttackController {
 	int endCount = 0;
 	int extraAttackCount = 0;
 	public void StartAttack (List<AttackInfo> attack) {
-		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
+//		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
 		if (attack.Count > 0) {
 			List<AttackInfo> extraAttack = leaderSkilllExtarAttack.ExtraAttack ();
@@ -234,6 +234,8 @@ public class AttackController {
 	void Attack () {
 		enemyIndex = 0;
 		if (attackInfoQueue.Count == 0) {
+			msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
+
 			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
 
 			bud.AddBlood(blood);
