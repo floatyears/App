@@ -91,9 +91,9 @@ public class GameCurrencyEventHandler {
 
 		Umeng.GA.Event("OnBuyOK", pvi.ItemId);
 
-		double price = getProductInfo(pvi.ItemId).Price;
-		double gotStones = getProductInfo(pvi.ItemId).Stones;
-		Umeng.GA.Pay (price, Umeng.GA.PaySource.AppStore, gotStones);
+//		double price = getProductInfo(pvi.ItemId).Price;
+//		double gotStones = getProductInfo(pvi.ItemId).Stones;
+//		Umeng.GA.Pay (price, Umeng.GA.PaySource.AppStore, gotStones);
 
 		ShopBuy.SendRequest(OnRspShopBuy, pvi.ItemId);
 	}
