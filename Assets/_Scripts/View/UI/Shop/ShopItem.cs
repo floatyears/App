@@ -92,7 +92,7 @@ public class ShopItem : MonoBehaviour {
 
 	void OnBuyHandler(object d){
 		Dictionary<string,string> dic = d as Dictionary<string,string>;
-		if (dic.ContainsKey ["id"] && dic ["id"] == data.itemId) {
+		if (dic.ContainsKey("id") && dic ["id"] == data.itemId) {
 			MsgCenter.Instance.RemoveListener (CommandEnum.OnBuyEvent,OnBuyHandler);
 			if (dic.ContainsKey ("success") && dic ["success"] == "1") {
 				Umeng.GA.Pay (double.Parse (data.money), Umeng.GA.PaySource.AppStore, double.Parse (data.count + ""));	
