@@ -17,7 +17,9 @@ public class HttpManager : INetSendPost {
 	public static string baseUrl = ServerConfig.ServerHost;
 
 
-    private List<IWWWPost> wwwRequst = new List<IWWWPost>();
+//    private List<IWWWPost> wwwRequst = new List<IWWWPost>();
+	private IWWWPost currentRequest = null;
+	private Queue<IWWWPost> wwwRequestQueue = new Queue<IWWWPost>();
 
     private HttpManager() {
         GameInput.OnUpdate += HttpUpdate;
@@ -49,50 +51,63 @@ public class HttpManager : INetSendPost {
     }
 	
     public void SendHttpPost(IWWWPost post) {
-//		Debug.LogError("SendHttpPost : " + post.Url + " post.wwwinfo != null : " + (post.WwwInfo != null));
         if (post.WwwInfo != null) {
-            wwwRequst.Add(post);
-//			Debug.LogWarning("SendHttpPost:" + post.Url + " wwwRequst.count : " + wwwRequst.Count);
+//            wwwRequst.Add(post);
+			wwwRequestQueue.Enqueue(post);
         }
     }
 	
     public void SendAssetPost(IWWWPost post) {
         post.WwwInfo = WWW.LoadFromCacheOrDownload(post.Url, post.Version);
-        wwwRequst.Add(post);
+//        wwwRequst.Add(post);
+		wwwRequestQueue.Enqueue(post);
     }
 
     void HttpUpdate() {
-        int count = wwwRequst.Count;
-        if (count == 0) {
+		if (wwwRequestQueue.Count == 0 && currentRequest == null) {
             return;	
         }
-        for (int i = wwwRequst.Count - 1; i >= 0; i--) {
-            WWW www = wwwRequst[i].WwwInfo;
-//			Debug.LogWarning("HttpUpdate() TRACE www["+i+"]. wwwRequst.Count="+wwwRequst.Count + " url : " + www.url);	
 
-			if (www == null) {
-//				UnityEngine.Debug.LogError("remove null www["+i+"]. wwwRequst.Count="+ wwwRequst.Count);	
-				wwwRequst.RemoveAt(i);
-				continue;
-			}
+		if (currentRequest == null) {
+			currentRequest = wwwRequestQueue.Dequeue();
+		}
 
-            if (www.isDone && string.IsNullOrEmpty(www.error)) {
-//				Debug.LogError("www is done : [" + i + "] wwwRequest.Count = " + wwwRequst.Count + " url : " + www.url);
-                RequestDone(wwwRequst[i]);
-            } else if (!string.IsNullOrEmpty(www.error)) {
-                IWWWPost post = wwwRequst[i];
-                wwwRequst.RemoveAt(i);
-//				Debug.LogError("HttpUpdate(), remove this httpconnect received www error: " + www.error + " url : " + www.url);
-				OpenMsgWindowByError(www.error, post);
-            } else {
-				//Debug.LogError("HttpUpdate(), www["+i+"] not done or done and error.  wwwRequst.Count="+wwwRequst.Count+ " www.error:"+www.error);
-            }
-        }
+		if (currentRequest == null) {
+			return;	
+		}
+
+		if (currentRequest.WwwInfo.isDone && string.IsNullOrEmpty (currentRequest.WwwInfo.error)) {
+			RequestDone(currentRequest);
+			currentRequest = null;
+		} else if(!string.IsNullOrEmpty(currentRequest.WwwInfo.error)) {
+			OpenMsgWindowByError(currentRequest.WwwInfo.error, currentRequest);
+			currentRequest = null;
+		}
+
+
+//        for (int i = wwwRequst.Count - 1; i >= 0; i--) {
+//            WWW www = wwwRequst[i].WwwInfo;
+//
+//			if (www == null) {
+//				wwwRequst.RemoveAt(i);
+//				continue;
+//			}
+//
+//            if (www.isDone && string.IsNullOrEmpty(www.error)) {
+//                RequestDone(wwwRequst[i]);
+//            } else if (!string.IsNullOrEmpty(www.error)) {
+//                IWWWPost post = wwwRequst[i];
+//                wwwRequst.RemoveAt(i);
+//				OpenMsgWindowByError(www.error, post);
+//            } else {
+//
+//            }
+//        }
     }
 
     void RequestDone(IWWWPost wwwPost) {
 //		Debug.LogError ("RequestDone:"+wwwPost.WwwInfo.url);
-        wwwRequst.Remove(wwwPost);
+//        wwwRequst.Remove(wwwPost);
         wwwPost.ExcuteCallback();
     }
 
