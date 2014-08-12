@@ -24,17 +24,24 @@ public sealed class ServerConfig {
 
 	public const string touchToLogin = "点击屏幕进入游戏";
 
-	public const string Channel = 
+
 #if UNITY_ANDROID
-	#if LANGUAGE_EN
-	"GooglePlay";
+	#if INNER_TEST
+	public const string Channel = "AndroidTest";
+	public const string UmengAppKey = "53e7f407fd98c594da01b21f"; //AndroidTest
+	#elif LANGUAGE_EN
+	public const string Channel = "GooglePlay";
+	public const string UmengAppKey = "5374a17156240b3916013ee8"; //GooglePlay Umeng AppKey
 	#else
-	"AndroidCN";
+	public const string Channel = "AndroidCN";
+	public const string UmengAppKey = "53e7f407fd98c594da01b21f"; //AndroidTest
 	#endif
 #elif UNITY_IOS
-	"AppStore";
+	public const string Channel = "AppStore";
+	public const string UmengAppKey = "539a56ce56240b8c1f074094"; //iOS
 #else
-	"Editor";
+	public const string Channel = "UnityEditor";
+	public const string UmengAppKey = "53e7f407fd98c594da01b21f"; //AndroidTest
 #endif
 
 }

@@ -70,7 +70,7 @@ public class FriendDecoratorUnity : UIComponentUnity {
 
 		bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
 		if(data != null){
-			FindChild<UILabel>("Top/Info").text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet);//nItem.message;
+			FindChild<UILabel>("Top/Info").text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.FriendPoint);//nItem.message;
 		}
     }
 

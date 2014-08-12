@@ -82,7 +82,7 @@ public class ShopItem : MonoBehaviour {
 
 	private void OnBuy(GameObject obj){
 		StoreInventory.BuyItem (data.itemId);
-		Umeng.GA.Pay (double.Parse(data.money),Umeng.GA.PaySource.AppStore,double.Parse(data.count+""));
+		Umeng.GA.Event ("OnBuy", data.itemId);
 	}
 
 	public void Destroy(){

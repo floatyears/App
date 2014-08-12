@@ -202,7 +202,9 @@ public class ResourceUpdate : MonoBehaviour {
 				downLoadItemList.Remove(item);
 				item.Dispose();
 			}else {
+#if INNER_TEST
 				Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
+#endif
 			}
 		}
 		//Debug.Log ("download list item: " + downLoadItemList.Count);

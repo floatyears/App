@@ -293,7 +293,7 @@ RewardMonthCard=Day {0}
 
 #notice
 Notice_HelperTitle=Welcome Back!
-Notice_HelperContent=You have logined for [FFB14A]{0}[-] days, helped [FFB14A]{1}[-] Friends and [FFB14A]{2}[-] Adventurers, got [FFB14A]{3}[-] pals points.
+Notice_HelperContent=You have logined for [FFB14A]{0}[-] days, helped [FFB14A]{1}[-] Friends and [FFB14A]{2}[-] Adventurers, got [FFB14A]{3}[-] pal points.\n\nNow you have [FFB14A]{4}[-] pal points.
 
 #unit detail
 UnitDetail_EvolveTitle=[FFB14A]Acquired from:
@@ -1365,15 +1365,15 @@ RecoverHpSkillDesc=Recover {0}% HP
 ##level up
 guide41_title=How to Power-up
 guide41_content=Power-up fusion will make your card growing up.\n\nLet's try Power-up.
-guide42_title=Choose Base Card
+guide42_title=Choose base card
 guide42_content=Choose base card which you want to power up. \nClick the leader to have a try.
 guide43_title=Choose material cards
 guide43_content=Next let's choose the material cards.\nThe cards as materials will be consumed after Power-up fusion.
 guide44_title=Choose your helper
 guide44_content=Then you need a friend to help you to complete Power-up fusion.\n\nClick the Friend grid to choose a helper.
 guide45_title=Helper bonus
-guide45_content=If the friend's card Type/Race is same as your Base card, your card will get more additional Exp after fusion.
-guide46_title=Power-up completed
+guide45_content=If the helper's card Type/Race is same as your Base card, your card will get more additional Exp in Power-up fusion.
+guide46_title=Congratulations!
 guide46_content=Power-up fusion completed, your card has become stronger.
 
 ##evolve
