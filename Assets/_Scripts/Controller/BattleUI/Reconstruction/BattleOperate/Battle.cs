@@ -545,7 +545,7 @@ public class Battle : UIBase {
 		IsBoss = isBoss;
 //		Debug.LogError ("IsBoss : " + IsBoss);
 		battleEnemy.Refresh(count);
-		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
+//		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
 		TStoreBattleData tsbd = battleData.storeBattleData;
 		tsbd.tEnemyInfo = count;
 		battleData.storeBattleData.attackRound ++;
@@ -866,7 +866,7 @@ public class Battle : UIBase {
 		} else {
 			ResetClick();
 			ShieldInput (false);
-			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
+//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
 			showCountDown = false;
 			battleCardArea.ShowCountDown (false, (int)time);
 			ShieldNGUIInput (true);
