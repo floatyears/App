@@ -39,9 +39,10 @@ public class GameCurrencyEventHandler {
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			Debug.LogError("OnRspShopBuy code: "+rsp.header.code+", error:"+rsp.header.error);
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			MsgCenter.Instance.Invoke(CommandEnum.OnBuyEvent,new Dictionary<string,string>(){{"id",rsp.productId},{"success","0"}});
 			return;
 		}
-
+		MsgCenter.Instance.Invoke(CommandEnum.OnBuyEvent,new Dictionary<string,string>(){{"id",rsp.productId},{"success","1"}});
 		//update user's account
 		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
 		DataCenter.Instance.AccountInfo.StonePay = rsp.stonePay;
@@ -88,6 +89,13 @@ public class GameCurrencyEventHandler {
 
 	public void onItemPurchased(PurchasableVirtualItem pvi){
 		Debug.Log ("onItemPurchased: productId=" + pvi.ItemId);
+
+		Umeng.GA.Event("OnBuyOK", pvi.ItemId);
+
+		double price = getProductInfo(pvi.ItemId).Price;
+		double gotStones = getProductInfo(pvi.ItemId).Stones;
+		Umeng.GA.Pay (price, Umeng.GA.PaySource.AppStore, gotStones);
+
 		ShopBuy.SendRequest(OnRspShopBuy, pvi.ItemId);
 	}
 
@@ -105,7 +113,9 @@ public class GameCurrencyEventHandler {
 		sure.callback = null;
 		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
-		
+
+		Umeng.GA.Event("BillingNotSupport");
+
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 	}
 
@@ -114,7 +124,7 @@ public class GameCurrencyEventHandler {
 	}
 
 	public void onUnexpectedErrorInStore(string err){
-		
+		Umeng.GA.Event("UnexpectedErrorOnBuy", err);
 	}
 
 	public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi){

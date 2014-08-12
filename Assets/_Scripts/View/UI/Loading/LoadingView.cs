@@ -28,19 +28,9 @@ public class LoadingView : UIComponentUnity {
 //		GameDataStore.Instance.StoreData (GameDataStore.USER_ID, "");
 
 		base.ShowUI ();
-		#if INNER_TEST
-		Umeng.GA.StartWithAppKeyAndChannelId ("53e7f407fd98c594da01b21f", ServerConfig.Channel);
 
-		#elif UNITY_ANDROID
-//		Debug.Log ("Umeng.Start('android')...");
-
-		Umeng.GA.StartWithAppKeyAndChannelId ("5374a17156240b3916013ee8", ServerConfig.Channel);
-		//		Umeng.GA.Bonus.
-		#elif UNITY_IPHONE
-		Debug.Log ("Umeng.Start('ios')...");
-
-		Umeng.GA.StartWithAppKeyAndChannelId ("539a56ce56240b8c1f074094", ServerConfig.Channel);
-		#endif
+		//友盟初始化
+		Umeng.GA.StartWithAppKeyAndChannelId (ServerConfig.UmengAppKey, ServerConfig.Channel);
 		
 		#if !UNITY_EDITOR
 		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);

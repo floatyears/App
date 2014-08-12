@@ -299,6 +299,7 @@ public enum CommandEnum{
 	ShowLevelupInfo,
 	GotoRewardMonthCardTab,
 	RefreshRewardList,
+	OnBuyEvent,
 	//-----------------Server Protocol-----------------------//
 	// user - 5000
 //	ReqAuthUser					= 5000,
