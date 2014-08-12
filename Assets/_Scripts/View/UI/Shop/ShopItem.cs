@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Soomla;
 
 public class ShopItem : MonoBehaviour {
@@ -82,12 +83,25 @@ public class ShopItem : MonoBehaviour {
 
 	private void OnBuy(GameObject obj){
 		StoreInventory.BuyItem (data.itemId);
-		Umeng.GA.Event ("OnBuy", data.itemId);
+		MsgCenter.Instance.AddListener (CommandEnum.OnBuyEvent,OnBuyHandler);
 	}
 
 	public void Destroy(){
 		UIEventListenerCustom.Get(transform.FindChild("BuyBtn").gameObject).onClick = null;
 	}
+
+	void OnBuyHandler(object d){
+		Dictionary<string,string> dic = d as Dictionary<string,string>;
+		if (dic.ContainsKey ["id"] && dic ["id"] == data.itemId) {
+			MsgCenter.Instance.RemoveListener (CommandEnum.OnBuyEvent,OnBuyHandler);
+			if (dic.ContainsKey ("success") && dic ["success"] == "1") {
+				Umeng.GA.Pay (double.Parse (data.money), Umeng.GA.PaySource.AppStore, double.Parse (data.count + ""));	
+			}
+		}
+
+//		
+	}
+
 }
 
 public class ShopItemData{

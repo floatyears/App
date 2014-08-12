@@ -39,9 +39,10 @@ public class GameCurrencyEventHandler {
 		if (rsp.header.code != (int)ErrorCode.SUCCESS){
 			Debug.LogError("OnRspShopBuy code: "+rsp.header.code+", error:"+rsp.header.error);
 			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			MsgCenter.Instance.Invoke(CommandEnum.OnBuyEvent,new Dictionary<string,string>(){{"id",rsp.productId},{"success","0"}});
 			return;
 		}
-
+		MsgCenter.Instance.Invoke(CommandEnum.OnBuyEvent,new Dictionary<string,string>(){{"id",rsp.productId},{"success","1"}});
 		//update user's account
 		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
 		DataCenter.Instance.AccountInfo.StonePay = rsp.stonePay;
