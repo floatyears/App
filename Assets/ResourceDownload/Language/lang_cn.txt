@@ -289,7 +289,7 @@ MonthCard=月卡
 
 #notice
 Notice_HelperTitle=友情战报
-Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位好友和{2}位冒险者，获得{3}友情点数
+Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位好友和{2}位冒险者，最近获得{3}友情点数。\n\n你当前总共拥有友情点数：{4}点
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径

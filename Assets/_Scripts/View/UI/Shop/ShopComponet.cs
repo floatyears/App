@@ -157,7 +157,7 @@ public class ShopComponent : ConcreteComponent {
 
     void CallbackFriendExpansion(object args){
         MsgCenter.Instance.Invoke(CommandEnum.FriendExpansion);
-		Umeng.GA.Buy ("FriendExpansion", 1, 6);
+		Umeng.GA.Buy ("FriendExpansion", 1, DataCenter.friendExpansionStone);
     }
 
     void OnFriendExpansion(object args){
@@ -230,7 +230,7 @@ public class ShopComponent : ConcreteComponent {
     void CallbackStaminaRecover(object args){
         MsgCenter.Instance.Invoke(CommandEnum.StaminaRecover);
 
-		Umeng.GA.Buy ("StaminaRecover", 1, 6);
+		Umeng.GA.Buy ("StaminaRecover", 1, DataCenter.staminaRecoverStone);
     }
 
     void OnRspStartminaRecover(object data){
@@ -295,7 +295,7 @@ public class ShopComponent : ConcreteComponent {
     }
 
     void CallbackUnitpansion(object args){
-		Umeng.GA.Buy ("UnitExpansion",1,6);
+		Umeng.GA.Buy ("UnitExpansion",1, DataCenter.unitExpansionStone);
 
         MsgCenter.Instance.Invoke(CommandEnum.UnitExpansion);
     }
