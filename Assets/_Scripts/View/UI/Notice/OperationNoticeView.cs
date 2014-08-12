@@ -74,7 +74,7 @@ public class OperationNoticeView : UIComponentUnity {
 				bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
 				if(data != null){
 					GameObject item1 = NGUITools.AddChild(content,prefab);
-					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet));
+					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.FriendPoint));
 //					item1.transform.FindChild(titleLabel).GetComponent<UILabel>().text = ;//data.title;
 //					item1.transform.FindChild(contentLabel).GetComponent<UILabel>().text = ;//nItem.message;
 				}
