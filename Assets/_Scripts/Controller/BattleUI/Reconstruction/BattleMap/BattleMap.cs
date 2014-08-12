@@ -194,11 +194,7 @@ public class BattleMap : UIBaseUnity {
 	private Callback cb;
 	public void BattleEndRotate (Callback callback) {
 		cb = callback;
-		bool allShow = false;
-		if (cb == null) {
-			allShow = true;
-		}
-						
+		bool allShow = cb == null ? true : false;
 		StartCoroutine (EndRotate (allShow));
 	}
 
