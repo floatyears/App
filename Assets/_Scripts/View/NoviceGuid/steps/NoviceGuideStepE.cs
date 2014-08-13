@@ -43,6 +43,8 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
 				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
 				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
+
+				UIManager.Instance.ChangeScene(SceneEnum.Home);
 			}
 
 		} else if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.NickName) {
@@ -56,7 +58,6 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 	{
 
 		if (JumpToNextState) {
-			
 			stepEntity.GetStateMachine ().ChangeState (null);
 		}
 		else{
