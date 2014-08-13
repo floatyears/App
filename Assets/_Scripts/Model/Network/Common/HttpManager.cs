@@ -84,7 +84,6 @@ public class HttpManager : INetSendPost {
 			currentRequest = null;
 		}
 
-
 //        for (int i = wwwRequst.Count - 1; i >= 0; i--) {
 //            WWW www = wwwRequst[i].WwwInfo;
 //

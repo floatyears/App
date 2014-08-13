@@ -100,7 +100,7 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
 		}
 
-		if (BattleQuest.reduceDefense == true) {
+		if (BattleQuest.reduceDefense) {
 			BattleQuest.reduceDefense  = false;
 		}
 
