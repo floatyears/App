@@ -10,13 +10,12 @@ public class DragChangeViewSpring : MonoBehaviour {
 	void Update () {
 		Vector3 befoure = targetObject.localPosition;
 		Vector3 after = Vector3.Lerp (befoure, toPos, RealTime.deltaTime * speed);
-		if ((after - toPos).sqrMagnitude <= 0.01f) {
+		if ((after - toPos).sqrMagnitude <= 1f) {
+			enabled = false;
 			after = toPos;
 			if(callback != null) {
 				callback();
 			}
-
-			enabled = false;
 		}
 
 		targetObject.localPosition = after;

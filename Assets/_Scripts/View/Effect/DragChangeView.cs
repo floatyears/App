@@ -127,6 +127,7 @@ public class DragChangeView : MonoBehaviour {
 		moveParent = cacheLeftParent;
 		cacheLeftParent = temp;
 		dragChangeViewData.RefreshParty (true);
+
 		MoveEnd ();
 	}
 
@@ -136,6 +137,7 @@ public class DragChangeView : MonoBehaviour {
 		moveParent = cacheRightParent;
 		cacheRightParent = temp;
 		dragChangeViewData.RefreshParty (false);
+
 		MoveEnd ();
 	}
 
