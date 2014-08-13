@@ -265,9 +265,7 @@ public class BattleQuest : UIBase {
 
 	}
 
-	void ShowScene () {
-//		mainCamera.enabled = true;
-	}
+	void ShowScene () { }
 	
 	public Vector3 GetPosition(Coordinate coor) {
 		return battleMap.GetPosition(coor.x, coor.y);

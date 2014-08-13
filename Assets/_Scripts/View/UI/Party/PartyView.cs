@@ -155,8 +155,7 @@ public class PartyView : UIComponentUnity{
 				pickedFromUnitList.IsFocus = false;
 				pickedFromUnitList.IsParty = true;
 				pickedFromUnitList = null;
-			}
-			else{
+			} else {
 				focusedOnParty = pickedFromParty;
 				focusedOnParty.IsFocus = true;
 			}
@@ -235,14 +234,12 @@ public class PartyView : UIComponentUnity{
 			pickedFromUnitList = puv;
 
 			if(focusedOnParty == null){
-//				Debug.Log("focus on-party-unit is null");
 				if(! AddUnitToPartyByOrder(1, puv)){
 					pickedFromUnitList = puv;
 					pickedFromUnitList.IsFocus = true;
 				}
 			}
 			else{
-//				Debug.Log("focus on-party-unit is  not null");
 				if(focusedOnParty.UserUnit != null){
 					ReplaceFocusWithPickedUnit();
 				}
@@ -255,7 +252,6 @@ public class PartyView : UIComponentUnity{
 
 	private void AddToFocusWithPickedUnit(){
 		int focusPos = GetUnitPosInParty(focusedOnParty);
-//		Debug.Log("AddToFocusWithPickedUnit(), focus pos is : " + focusPos);
 		if(! DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID))  {
 			ClearUnitListFocusState();
 			ClearPartyFocusState();
@@ -269,7 +265,6 @@ public class PartyView : UIComponentUnity{
 	}
 
 	private void ReplaceFocusWithPickedUnit(){
-//		Debug.Log("Replace Focus With PickedUnit...");
 		int focusPos = GetUnitPosInParty(focusedOnParty);
 
 		if(!DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID)){
@@ -393,16 +388,7 @@ public class PartyView : UIComponentUnity{
 		myUnitDataList = GetUnitList();
 		dragPanel.AddItem(myUnitDataList.Count, MyUnitItem.ItemPrefab);
 
-//		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
-//			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-//			puv.Init(myUnitDataList[ i - 1 ]);
-//			puv.callback = OutPartyItemClick;
-//			partyUnitViewList.Add(puv);
-//		}
-
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.PartyView);//DEFAULT_SORT_RULE;
-//		Debug.LogError ("InitUnitListView curSortRule");
-		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	private void RejectPartyMember(GameObject item){

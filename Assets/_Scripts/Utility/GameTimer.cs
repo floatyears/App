@@ -6,6 +6,8 @@ public class GameTimer : MonoBehaviour {
 	private static GameTimer instance;
 
 	public uint recovertime;
+
+
 	public static GameTimer GetInstance() {
 		if(instance == null) {
 			instance = FindObjectOfType(typeof(GameTimer)) as GameTimer;
@@ -35,7 +37,7 @@ public class GameTimer : MonoBehaviour {
 		}
 	}
 
-	private List<CountDownUtility> freeCountDown = new List<CountDownUtility> ();
+	private Queue<CountDownUtility> freeCountDown = new Queue<CountDownUtility> ();
 
 	private List<CountDownUtility> countDown = new List<CountDownUtility> ();
 
@@ -53,8 +55,7 @@ public class GameTimer : MonoBehaviour {
 		if (cdu != null) {
 			countDown.Remove (cdu);
 			return true;
-		} 
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -63,17 +64,15 @@ public class GameTimer : MonoBehaviour {
 		countDown.Remove (countDownUtility);
 		countDownUtility.callback ();
 		if (freeCountDown.Count < 10) {
-			freeCountDown.Add (countDownUtility);	
+			freeCountDown.Enqueue (countDownUtility);	
 		}
 	}
 
 	CountDownUtility AllocationCountDown (float time, Callback callback) {
 		CountDownUtility temp = null;
 		if (freeCountDown.Count > 0) {
-			temp = freeCountDown[0];
-			freeCountDown.RemoveAt(0);
-		} 
-		else {
+			temp = freeCountDown.Dequeue();
+		} else {
 			temp = new CountDownUtility();
 		}
 
