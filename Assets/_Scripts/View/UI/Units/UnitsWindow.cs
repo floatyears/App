@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsWindow : UIComponentUnity{
+public class UnitsWindow : UIComponentUnity, IDragChangeView{
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
 	private UISprite pageIndexSpr;
@@ -10,7 +10,8 @@ public class UnitsWindow : UIComponentUnity{
 	private GameObject bottomRoot;
 
 	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
-	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
+
+	private DragChangeView dragChangeView;
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
@@ -22,7 +23,13 @@ public class UnitsWindow : UIComponentUnity{
 	public override void ShowUI(){
 		base.ShowUI();
 		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		RefreshParty(curParty);
+//		RefreshParty();
+
+		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
+		dragChangeView.RefreshParty ();
+
+
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
 		ShowUIAnimation();
 	}
@@ -69,7 +76,10 @@ public class UnitsWindow : UIComponentUnity{
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
 		buttonInfo.Add(go, SceneEnum.UnitList);
-		
+
+		dragChangeView = FindChild<DragChangeView> ("Top/DragParty");
+		dragChangeView.SetDataInterface (this);
+
 		foreach (var item in buttonInfo.Keys)
 			UIEventListener.Get(item).onClick = OnClickCallback;
 	}
@@ -107,36 +117,54 @@ public class UnitsWindow : UIComponentUnity{
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 
-		for (int i = 0; i < PartyView.PARTY_MEMBER_COUNT; i++){
-			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
-			PageUnitItem puv = item.GetComponent<PageUnitItem>();
-			partyItems.Add(i, puv);
-		}
+//		for (int i = 0; i < PartyView.PARTY_MEMBER_COUNT; i++){
+//			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
+//			PageUnitItem puv = item.GetComponent<PageUnitItem>();
+//			partyItems.Add(i, puv);
+//		}
 	}
 
-	void RefreshParty(TUnitParty party){
-		List<TUserUnit> partyMemberList = party.GetUserUnit();
-		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
-		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
+//	void RefreshParty(TUnitParty party){
+//		List<TUserUnit> partyMemberList = party.GetUserUnit();
+//		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+//		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
+//
+//		for (int i = 0; i < partyMemberList.Count; i++){
+//			partyItems[i].UserUnit = partyMemberList[i];
+//		}
+//	}
 
-		for (int i = 0; i < partyMemberList.Count; i++){
-			partyItems[i].UserUnit = partyMemberList[i];
-		}
-	}
+
 
 	void PrevPage(GameObject go){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-
-		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
-		RefreshParty(preParty);  
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, preParty);         
+		RefreshParty(true);  
 	}
 	
 	void NextPage(GameObject go){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-
-		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
-		RefreshParty(nextParty);
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, nextParty);
+		RefreshParty(false);
 	}
+
+	public void RefreshParty (bool isRight){
+		TUnitParty tup = null;
+		if (isRight) {
+			tup = DataCenter.Instance.PartyInfo.PrevParty;
+		} else {
+			tup = DataCenter.Instance.PartyInfo.NextParty;
+		}
+		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
+		dragChangeView.RefreshParty ();
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   
+	}
+
+
+	public int xInterv {
+		get {
+			return 450;
+		}
+	}
+
+
 }
