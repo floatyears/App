@@ -216,7 +216,7 @@ public class ResourceUpdate : MonoBehaviour {
 				}
 			}else {
 	#if INNER_TEST
-				Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
+//				Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
 	#endif
 			}
 		}
