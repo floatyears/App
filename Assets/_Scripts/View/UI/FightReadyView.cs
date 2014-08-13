@@ -125,7 +125,6 @@ public class FightReadyView : UIComponentUnity {
 	private TFriendInfo pickedHelperInfo;
 
 	private void RecordPickedInfoForFight(object msg){
-//		Debug.Log("StartbyView.RecordPickedInfoForFight(), received info...");
 		pickedInfoForFight = msg as Dictionary<string, object>;
 		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
 		ShowHelper(pickedHelperInfo);
@@ -144,7 +143,6 @@ public class FightReadyView : UIComponentUnity {
 
 	void RefreshParty(List<TUserUnit> evolveParty) {
 		for (int i = 0; i < evolveParty.Count; i++){
-//			Debug.LogError(evolveParty[i].UnitInfo.GetAsset(UnitAssetType.Avatar));
 			partyView[ i ].Init(evolveParty [ i ]);
 		}
 

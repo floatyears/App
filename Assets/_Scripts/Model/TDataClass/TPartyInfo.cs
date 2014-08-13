@@ -127,6 +127,40 @@ public class TPartyInfo : ProtobufDataBase {
         } 
     }
 
+	public TUnitParty GetNextPartyData {
+		get {
+			if (this.partyList == null)
+				return null;
+			
+			int nextPartyID = CurrentPartyId + 1;
+			
+			if (nextPartyID > MAX_PARTY_GROUP_NUM - 1)
+				nextPartyID = 0;
+			if (nextPartyID > this.partyList.Count - 1)
+				return null;
+
+			return this.partyList[nextPartyID]; 
+		}
+	}
+
+	public TUnitParty GetPrePartyData {
+		get {
+			if (this.partyList == null)
+				return null;
+			
+			int prePartyID = CurrentPartyId - 1;
+
+			if (prePartyID < 0)
+				prePartyID = MAX_PARTY_GROUP_NUM - 1;
+			
+			if (prePartyID > this.partyList.Count - 1) {
+				return null;
+			}
+
+			return this.partyList[prePartyID]; 
+		}
+	}
+
     public TUnitParty PrevParty { 
 		get { 
             if (this.partyList == null)
