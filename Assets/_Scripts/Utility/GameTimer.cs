@@ -72,7 +72,6 @@ public class GameTimer : MonoBehaviour {
 		CountDownUtility temp = null;
 		if (freeCountDown.Count > 0) {
 			temp = freeCountDown.Dequeue();
-//			freeCountDown.RemoveAt(0);
 		} else {
 			temp = new CountDownUtility();
 		}
