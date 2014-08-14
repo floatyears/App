@@ -53,9 +53,13 @@ public class DragChangeView : MonoBehaviour {
 		TUnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
 		TUnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
 
-		moveParent.GetComponent<RefreshPartyInfo> ().RefreshView (current);
+		RefreshPartyInfo rpi = moveParent.GetComponent<RefreshPartyInfo> ();
+		rpi.RefreshView (current);
+
 		cacheLeftParent.GetComponent<RefreshPartyInfo> ().RefreshView (prev);
 		cacheRightParent.GetComponent<RefreshPartyInfo> ().RefreshView (next);
+
+		dragChangeViewData.RefreshView (rpi.partyView);
 	}
 
 	public void SetDataInterface (IDragChangeView idcv) {
