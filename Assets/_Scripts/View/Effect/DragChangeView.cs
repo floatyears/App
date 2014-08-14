@@ -53,9 +53,13 @@ public class DragChangeView : MonoBehaviour {
 		TUnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
 		TUnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
 
-		moveParent.GetComponent<RefreshPartyInfo> ().RefreshView (current);
+		RefreshPartyInfo rpi = moveParent.GetComponent<RefreshPartyInfo> ();
+		rpi.RefreshView (current);
+
 		cacheLeftParent.GetComponent<RefreshPartyInfo> ().RefreshView (prev);
 		cacheRightParent.GetComponent<RefreshPartyInfo> ().RefreshView (next);
+
+		dragChangeViewData.RefreshView (rpi.partyView);
 	}
 
 	public void SetDataInterface (IDragChangeView idcv) {
@@ -156,5 +160,9 @@ public class DragChangeView : MonoBehaviour {
 		moveToRight = deltaX > 0;
 		cacheLeftParent.localPosition = moveParent.localPosition - intervDistance;
 		cacheRightParent.localPosition = moveParent.localPosition + intervDistance;
+	}
+
+	public void AddFriend(TFriendInfo tfi) {
+
 	}
 }

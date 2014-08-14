@@ -165,6 +165,6 @@ public class UnitsWindow : UIComponentUnity, IDragChangeView{
 			return 450;
 		}
 	}
-
-
+	
+	public void RefreshView (List<PageUnitItem> view) { 	}
 }
