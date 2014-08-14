@@ -80,7 +80,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 
 	private void ClickOK1(object data){
 
-//		GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().SetItemVisible(99);
+		GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().SetItemVisible(99);
 //		GameTimer.GetInstance ().AddCountDown (1f, Callback);
 		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity> ().GetPartyUnitItem (99).gameObject;
 		
