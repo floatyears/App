@@ -85,6 +85,7 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 
 		dragChangeView = FindChild<DragChangeView>("Top/DragParty");
+		dragChangeView.SetDataInterface (this);
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o=>{
 			rejectItem = o as GameObject;
@@ -116,8 +117,13 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 
 	public void RefreshView (List<PageUnitItem> view) {
-		for (int i = 0; i < partyItems.Count; i++) {
+		foreach (var item in partyItems) {
+
+		}
+
+		for (int i = 0; i < view.Count; i++) {
 			partyItems[i] = view[i];
+			partyItems[i].callback = PartyItemClick;
 		}
 	}
 
@@ -456,8 +462,9 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 	
 	void RejectByOrder(int pos){
-		Debug.Log("RejectByOrder : " + pos);
+//		Debug.Log("RejectByOrder : " + pos);
 		if(pos == 0) return;//Leader can not be rejected
+//		Debug.LogError ("RejectByOrder pos : " + pos);
 		if(partyItems[ pos ].UserUnit == null){
 			pos--;
 			RejectByOrder(pos);
@@ -467,7 +474,7 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 
 	void RejectFocus(int pos){
-		Debug.Log("RejectFocus : " + pos);
+//		Debug.Log("RejectFocus : " + pos);
 		if(pos == 0) return;//Leader can not be rejected
 		Reject(pos);
 	}
@@ -483,7 +490,7 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 			}
 		}
 		//When reject every time, record party state change
-		Debug.LogError("Reject pos : " + pos);
+//		Debug.LogError("Reject pos : " + pos);
 		DataCenter.Instance.PartyInfo.ChangeParty(pos, 0); 
 		ClearPartyFocusState();
 	}

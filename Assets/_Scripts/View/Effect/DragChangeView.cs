@@ -161,4 +161,8 @@ public class DragChangeView : MonoBehaviour {
 		cacheLeftParent.localPosition = moveParent.localPosition - intervDistance;
 		cacheRightParent.localPosition = moveParent.localPosition + intervDistance;
 	}
+
+	public void AddFriend(TFriendInfo tfi) {
+
+	}
 }
