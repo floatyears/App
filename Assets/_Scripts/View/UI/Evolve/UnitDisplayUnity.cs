@@ -387,4 +387,17 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 		return null;
 	}
+
+	public void SetItemVisible(uint unitId){
+		foreach (var item in allData) {
+			if(item.UnitID == unitId)
+			{
+				allData.Remove(item);
+				allData.Add(item);
+				allData.Reverse();
+				break;
+			}
+		}
+		unitItemDragPanel.RefreshItem (allData);
+	}
 }

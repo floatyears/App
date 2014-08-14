@@ -859,20 +859,25 @@ public class LevelUpOperateUnity : UIComponentUnity {
 	}
 
 	public void SetItemVisible(uint unitId){
-		int i = 0;
-		int count = myUnit.Count;
-		for (; i < count; i++) {
-			if(myUnit[i].UnitID == unitId){
+		foreach (var item in myUnit) {
+			if(item.UnitID == unitId)
+			{
+				myUnit.Remove(item);
+				myUnit.Add(item);
+				myUnit.Reverse();
 				break;
-			}		
+			}
 		}
 
-		int total = Mathf.CeilToInt(count / 3);
-		int index = Mathf.CeilToInt(i / 3);
-		if (total <= 6)
-			return;
-		Debug.Log ("value: " + (float)index / total);
-		myUnitDragPanel.dragPanelView.scrollBar.value = (float)index / total;
+		myUnitDragPanel.RefreshItem (myUnit);
+
+
+//		int total = Mathf.CeilToInt(count / 3);
+//		int index = Mathf.CeilToInt(i / 3);
+//		if (total <= 6)
+//			return;
+//		Debug.Log ("value: " + (float)index / total);
+//		myUnitDragPanel.dragPanelView.scrollBar.value = (float)index / total;
 
 	}
 
