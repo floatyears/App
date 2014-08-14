@@ -62,7 +62,7 @@ public class DragChangeView : MonoBehaviour {
 		dragChangeViewData = idcv;
 
 		intervDistance = new Vector3 (idcv.xInterv, 0f, 0f);
-		changeDistance = idcv.xInterv >> 1;
+		changeDistance = System.Convert.ToInt32 (idcv.xInterv * 0.3f);
 
 		if (dragChangeViewData == null) {
 			Debug.LogError("drag change view data is null");
