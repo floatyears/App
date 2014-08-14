@@ -152,7 +152,7 @@ SCENE_NAME_FIGHTREADY=战斗准备
 SCENE_NAME_FRIEND=好友
 SCENE_NAME_FRIEND_LIST=好友列表
 SCENE_NAME_FRIEND_SELECT=好友选择
-SCENE_NAME_HOME=主页
+SCENE_NAME_HOME=战场
 SCENE_NAME_INFORMATION=通知信息
 SCENE_NAME_LEVEL_UP=强化
 SCENE_NAME_OTHERS=其它
@@ -244,7 +244,7 @@ RefreshFriend=刷新好友
 ConfirmRefreshFriend=确定立即更新好友列表吗？
 
 FriendSearch_Title=查找好友
-FriendSearch_Content=请输入你像查找的用户ID
+FriendSearch_Content=请输入你想查找的用户ID
 
 FriendApply=好友申请
 ConfirmApply=确定要申请添加他为好友吗？
@@ -491,7 +491,7 @@ StaminaLackNoteContent=当前体力不足，不能进入此场战斗！
 
 ##select role
 SelectRoleTitle=选定主角
-SelectRoleBtn=确定
+SelectRoleBtn=确定选择
 SelectRoleContent=确定选择此角色开始游戏吗?
 SelectRole_ATK=攻击
 SelectRole_Fav=最爱
@@ -1297,19 +1297,19 @@ guide11_title=编队结束
 guide11_content=最多4个队员即可组成一支队伍。\n那么先返回到上一个界面吧。
 
 guide12_title=开始任务
-guide12_content=为了打开关闭的大门，首先需要xx格子里找出钥匙。
+guide12_content=为了打开关闭的大门，首先需要从战场中格子里取到钥匙。
 guide13_title=移动方法
-guide13_content=点击想要前进的方向。\n地砖因五星数量不同，其内容也会变化。
-guide14_title=宝箱地砖
-guide14_content=得到金币了！\n金币是强化和进化的必需品，多多收集吧！
+guide13_content=点击想要前进的方向。\n地砖因骷髅数量不同，其内容也会变化。
+guide14_title=获得宝箱
+guide14_content=恭喜，你得到金币了！\n\n金币是强化和进化所必需消耗的，多多收集吧！
 guide15_title=移动与SP
-guide15_content=每前进一步便会消耗一点左下的SP。\n所以注意不要让SP变为0了。
+guide15_content=每前进一步便会消耗一点SP（请见屏幕左下角:蓝色小点数量代表SP点数）。\n\n注意: 当SP消耗变为0后，每移动一步都会被扣除HP；所以请多关注SP的消耗变化。
 guide16_title=敌人地砖
-guide16_content=五星的颜色代表危险值，移动的时候要注意了。\n那么开始体验一下战斗吧。
-guide17_title=xxx老师开课了
+guide16_content=战场格子上的骷髅颜色代表危险程度，移动的时候要注意了。\n那么开始体验一下战斗吧！
+guide17_title=Angela老师开课了
 guide17_content=真拿你没办法。\n那让我来示范一次吧。
-guide18_title=xxx老师亲自示范
-guide18_content=看清楚了我华丽的手法了么？
+guide18_title=操作提示
+guide18_content=就像刚才我这样用手指拖动色块就能发起攻击。\n\n你看清楚我华丽的操作手法了么？
 guide18_once_again=再看一次
 
 ##attack once
@@ -1359,8 +1359,8 @@ RecoverHpSkillName=Recover HP: Lv{0}
 RecoverHpSkillDesc=Recover {0}% HP
 
 ##level up
-guide41_title=强化合成的方法
-guide41_content=接下来通过强化合成来让角色成长。\n点击level up试试吧。
+guide41_title=强化合成
+guide41_content=接下来通过强化合成来让角色成长。\n点击"强化"试试吧。
 guide42_title=选择基础卡牌
 guide42_content=选择想强化的卡牌。\n点击现在的队长来试试吧。
 guide43_title=选择素材卡牌
@@ -1383,9 +1383,9 @@ guide53_content=要让角色进化，帮手必须满足属性、种族和lv这�
 guide54_title=关于进化任务
 guide54_content=要让角色进化，最后还需要完成进化任务。
 guide55_title=进化任务最终确认
-guide55_content=基础卡牌，素材卡牌，帮手，就用这个队伍来挑战吧。\n那么，let's go！
-guide56_title=xxx老师笔记
-guide56_content=趁SP还有的时候，尽量多移动，收集金币，打倒更多的敌人！\n如果得到卡牌后，即可用来强化或者进化。
+guide55_content=基础卡牌，素材卡牌，帮手，就用这个队伍来挑战吧。\nSo, let's go！
+guide56_title=Angela提醒您
+guide56_content=尽量多移动，收集金币，打倒更多的敌人！\n如果得到卡牌后，即可用来强化或者进化。
 guide57_title=任务要点
 guide57_content=1-找到钥匙\n2-前往打开的大门\n3-注意剩余SP\n那么，祝你好运了！
 guide58_title=进化成功
@@ -1416,7 +1416,7 @@ guide_tips_8=将红心方块一起拖放吧！
 Tips_A_1=怪物传奇是一个滑动方块来战斗的恶魔题材卡牌游戏。
 Tips_A_2=点击地图中闪烁的格子后即可移动。
 Tips_A_3=每移动一个格子都会耗费一点SP（行动力）。
-Tips_A_4=SP为零后就将代扣HP，直至HP剩下1点。
+Tips_A_4=当SP为零后，每移动一步将被扣除HP，直至HP剩下1点。
 Tips_A_5=踩上格子后，可能获得宝箱或遭遇敌人或踩中陷阱。
 Tips_A_6=一般情况下，将≥2个与己方某张卡牌属性颜色相同的方块放入同一个战斗槽后即可攻击。
 Tips_A_7=战斗槽共5个，一个战斗槽中最多放入5个方块。

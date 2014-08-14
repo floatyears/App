@@ -358,7 +358,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 		string[] records = content.Split (new string[]{"\n"},System.StringSplitOptions.RemoveEmptyEntries);
 		int i = 0;
-		Debug.Log ("version content: " + content);
+		Debug.Log ("serverHost:"+ServerConfig.ServerHost+" version content: " + content);
 		if (records [0].IndexOf ("version") >= 0) {
 			version = records[0].Split(':')[1];
 			i = 1;
