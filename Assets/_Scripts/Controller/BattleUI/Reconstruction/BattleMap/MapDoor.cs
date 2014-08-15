@@ -30,7 +30,6 @@ public class MapDoor : UIBaseUnity {
 	public override void ShowUI () {
 		base.ShowUI ();
 		doorOpen = ConfigBattleUseData.Instance.storeBattleData.HitKey;
-//		Debug.LogError ("doorOpen : " + doorOpen);
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
 	}
@@ -41,7 +40,6 @@ public class MapDoor : UIBaseUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.QuestEnd, QuestEnd);
 		doorOpen = false;
 		canEnterDoor = false;
-//		isClick = false;
 		checkOut = false;
 		TapToBattle.spriteName = QuestFullScreenTips.BossBattle;
 	}
@@ -69,7 +67,6 @@ public class MapDoor : UIBaseUnity {
 	}
 	
 	void ClickDoor(GameObject go) {
-//		Debug.LogError ("ClickDoor TapToBattle.enabled : " + TapToBattle.enabled + "  TapToBattle.spriteName : " + TapToBattle.spriteName + " canEnterDoor : " + canEnterDoor);
 		if (!TapToBattle.enabled) {
 			return;	
 		}

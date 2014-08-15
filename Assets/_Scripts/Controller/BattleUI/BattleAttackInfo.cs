@@ -2,37 +2,63 @@
 using System.Collections;
 
 public class BattleAttackInfo : UIBaseUnity {
-	private UISprite firstSprite;
+//	private UISprite firstSprite;
 	private Vector3 fsInitPosition;
 
-	private UISprite secondSprite;
+//	private UISprite secondSprite;
 	private Vector3 ssInitPosition;
 
-	private UISprite handsSprite;
+//	private UISprite handsSprite;
 	private Vector3 hsInitPosition; 
 
-	private UISprite hitFirstSprite;
-	private UISprite hitSecondSprite;
+//	private UISprite hitFirstSprite;
+//	private UISprite hitSecondSprite;
 	private UILabel rateLabel;
 	private UILabel hitLabel;
 
+	//---------new label ---------------
+	private UILabel firstLabel;
+	private UILabel secondLabel;
+	private UILabel handsLabel;
+	private UILabel hitFirstLabel;
+	private UILabel hitSecondLabel;
+	//----------------------------------
+
 	public void Init() {
-		firstSprite = FindChild<UISprite>("FirstSprite");
-		firstSprite.spriteName = string.Empty;
-		fsInitPosition = firstSprite.transform.localPosition;
+//		firstSprite = FindChild<UISprite>("FirstSprite");
+//		firstSprite.spriteName = string.Empty;
+//		fsInitPosition = firstSprite.transform.localPosition;
+//
+//		secondSprite = FindChild<UISprite>("SecondSprite");
+//		secondSprite.spriteName = string.Empty;
+//		ssInitPosition = secondSprite.transform.localPosition;
+//
+//		handsSprite = FindChild<UISprite>("HandsSprite");
+//		handsSprite.spriteName = string.Empty;
+//		hsInitPosition = handsSprite.transform.localPosition;
+//
+//		hitFirstSprite = FindChild<UISprite>("HitFirstSprite");
+//		hitFirstSprite.spriteName = string.Empty;
+//		hitSecondSprite = FindChild<UISprite>("HitSecondSprite");
+//		hitSecondSprite.spriteName = string.Empty;
 
-		secondSprite = FindChild<UISprite>("SecondSprite");
-		secondSprite.spriteName = string.Empty;
-		ssInitPosition = secondSprite.transform.localPosition;
+		firstLabel = FindChild<UILabel>("FirstLabel");
+		firstLabel.text = "";
+		fsInitPosition = firstLabel.transform.localPosition;
 
-		handsSprite = FindChild<UISprite>("HandsSprite");
-		handsSprite.spriteName = string.Empty;
-		hsInitPosition = handsSprite.transform.localPosition;
+		secondLabel = FindChild<UILabel>("SecondLabel");
+		secondLabel.text = "";
+		ssInitPosition = secondLabel.transform.localPosition;
 
-		hitFirstSprite = FindChild<UISprite>("HitFirstSprite");
-		hitFirstSprite.spriteName = string.Empty;
-		hitSecondSprite = FindChild<UISprite>("HitSecondSprite");
-		hitSecondSprite.spriteName = string.Empty;
+		handsLabel = FindChild<UILabel>("HandsLabel");
+		handsLabel.text = string.Empty;
+		hsInitPosition = handsLabel.transform.localPosition;
+
+		hitFirstLabel = FindChild<UILabel>("HitFirstLabel");
+		hitFirstLabel.text = string.Empty;
+		hitSecondLabel = FindChild<UILabel>("HitSecondLabel");
+		hitSecondLabel.text = "";
+
 		rateLabel = FindChild<UILabel>("RateLabel");
 		rateLabel.text = string.Empty;
 		hitLabel = FindChild<UILabel>("Label");
@@ -58,18 +84,28 @@ public class BattleAttackInfo : UIBaseUnity {
 	public void StartAttack(object data) {
 		int allAttack = (int)data;
 
-		firstSprite.spriteName = (allAttack / 10).ToString ();
-		secondSprite.spriteName =(allAttack % 10).ToString ();
-		handsSprite.spriteName = "hands";
+//		firstSprite.spriteName = (allAttack / 10).ToString ();
+//		secondSprite.spriteName =(allAttack % 10).ToString ();
+//		handsSprite.spriteName = "hands";
+
+		firstLabel.text = (allAttack / 10).ToString ();
+		secondLabel.text = (allAttack % 10).ToString ();
+		handsLabel.text = "HANDS !";
+
 		Invoke ("MoveNumberSprite", 0.2f);
 	}
 
 	void MoveNumberSprite() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_combo);
 
-		iTween.MoveTo(firstSprite.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
-		iTween.MoveTo(secondSprite.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
-		iTween.MoveTo (handsSprite.gameObject, iTween.Hash ("y", -50f, "time", 0.3f, "islocal",true, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "StartMoveEnd", "oncompletetarget", gameObject));
+//		iTween.MoveTo(firstSprite.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
+//		iTween.MoveTo(secondSprite.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
+//		iTween.MoveTo (handsSprite.gameObject, iTween.Hash ("y", -50f, "time", 0.3f, "islocal",true, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "StartMoveEnd", "oncompletetarget", gameObject));
+
+		iTween.MoveTo(firstLabel.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
+		iTween.MoveTo(secondLabel.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
+		iTween.MoveTo (handsLabel.gameObject, iTween.Hash ("y", -50f, "time", 0.3f, "islocal",true, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "StartMoveEnd", "oncompletetarget", gameObject));
+
 	}
 
 	void AttackEnemyEnd(object data) {
@@ -78,8 +114,12 @@ public class BattleAttackInfo : UIBaseUnity {
 	}
 
 	void ClearAttackInfo() {
-		hitFirstSprite.spriteName = string.Empty;
-		hitSecondSprite.spriteName = string.Empty;
+//		hitFirstSprite.spriteName = string.Empty;
+//		hitSecondSprite.spriteName = string.Empty;
+
+		hitFirstLabel.text = "";
+		hitSecondLabel.text = "";
+
 		rateLabel.text = string.Empty;
 		hitLabel.enabled = false;
 	}
@@ -89,12 +129,19 @@ public class BattleAttackInfo : UIBaseUnity {
 	}
 
 	void Clear() {
-		firstSprite.transform.localPosition = fsInitPosition;
-		secondSprite.transform.localPosition = ssInitPosition;
-		handsSprite.transform.localPosition = hsInitPosition;
-		firstSprite.spriteName = string.Empty;
-		secondSprite.spriteName = string.Empty;
-		handsSprite.spriteName = string.Empty;
+//		firstSprite.transform.localPosition = fsInitPosition;
+//		secondSprite.transform.localPosition = ssInitPosition;
+//		handsSprite.transform.localPosition = hsInitPosition;
+//		firstSprite.spriteName = string.Empty;
+//		secondSprite.spriteName = string.Empty;
+//		handsSprite.spriteName = string.Empty;
+
+		firstLabel.transform.localPosition = fsInitPosition;
+		secondLabel.transform.localPosition = ssInitPosition;
+		handsLabel.transform.localPosition = hsInitPosition;
+		firstLabel.text = string.Empty;
+		secondLabel.text = string.Empty;
+		handsLabel.text = string.Empty;
 	}
 
 	AttackInfo prevAttack;
@@ -103,8 +150,12 @@ public class BattleAttackInfo : UIBaseUnity {
 			return;	
 		}
 		if(prevAttack != null){
-			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
-			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
+//			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
+//			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
+
+			hitFirstLabel.text = (prevAttack.ContinuAttackMultip / 10).ToString ();
+			hitSecondLabel.text = (prevAttack.ContinuAttackMultip % 10).ToString ();
+
 			hitLabel.enabled = true;
 			rateLabel.text = "Rate x " + prevAttack.AttackRate;
 		}
