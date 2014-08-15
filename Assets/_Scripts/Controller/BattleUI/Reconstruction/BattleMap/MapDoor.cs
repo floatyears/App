@@ -3,8 +3,6 @@ using System.Collections;
 
 public class MapDoor : UIBaseUnity {
 	public BattleMap battleMap;
-//	private UISprite TapToBattle;
-//	private TweenAlpha tweenA;
 
 	private UILabel topLabel;
 	private UILabel bottomLabel;
@@ -26,8 +24,6 @@ public class MapDoor : UIBaseUnity {
 
 	public override void Init (string name) {
 		base.Init (name);
-//		TapToBattle = FindChild<UISprite>("Sprite");
-//		tweenA = FindChild<TweenAlpha>("Sprite");
 		topLabel = FindChild<UILabel> ("Top");
 		bottomLabel = FindChild<UILabel> ("Bottom");
 		topAlpha = topLabel.GetComponent<TweenAlpha>();
@@ -54,8 +50,7 @@ public class MapDoor : UIBaseUnity {
 		doorOpen = false;
 		canEnterDoor = false;
 		checkOut = false;
-
-//		TapToBattle.spriteName = QuestFullScreenTips.BossBattle;
+	
 		SetName (QuestFullScreenTips.BossBattle);
 	}
 
@@ -77,7 +72,6 @@ public class MapDoor : UIBaseUnity {
 
 	void OpenDoor (object data) {
 		doorOpen = true;
-//		ShowTapToBattle ();
 	}
 
 	void QuestEnd(object data) {
