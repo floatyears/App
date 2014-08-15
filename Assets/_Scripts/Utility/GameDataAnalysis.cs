@@ -130,5 +130,6 @@ public static class GameDataAnalysis {
 }
 
 public enum GameDataAnalysisEventType{
+	NewUser,
 	Login,
 }
