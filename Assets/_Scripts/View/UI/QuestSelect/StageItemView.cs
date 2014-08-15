@@ -134,7 +134,10 @@ public class StageItemView : MonoBehaviour{
 		tipLabel.depth = 6;
 		tipLabel.trueTypeFont = ViewManager.Instance.DynamicFont;
 		tipLabel.fontSize = 36;
-		tipLabel.color = Color.yellow;
+		tipLabel.color = Color.red;
+//		tipLabel.fon
+		tipLabel.effectStyle = UILabel.Effect.Outline;
+		tipLabel.effectColor = Color.white;
 		tipLabel.width = 200;
 		tipObj.transform.parent = transform;
 		tipObj.transform.localScale = Vector3.one;

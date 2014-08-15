@@ -269,6 +269,7 @@ public class ResourceUpdate : MonoBehaviour {
 					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
 						Umeng.GA.FinishLevel("NewUserDownload");
 						Umeng.GA.EventEnd("NewUserDownloadTime");
+						GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadComplete");
 					}
 				}	
 			}
@@ -341,6 +342,7 @@ public class ResourceUpdate : MonoBehaviour {
 		if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
 			Umeng.GA.StartLevel("NewUserDownload");
 			Umeng.GA.EventBegin("NewUserDownloadTime");
+			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadStart");
 		}
 
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {

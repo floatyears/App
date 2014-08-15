@@ -55,7 +55,7 @@ namespace HTMLEngine
         /// <summary>
         /// Default font face
         /// </summary>
-        public static string DefaultFontFace = "default";
+        public static string DefaultFontFace = "Dimbo Regular";
 
         /// <summary>
         /// Default font size
