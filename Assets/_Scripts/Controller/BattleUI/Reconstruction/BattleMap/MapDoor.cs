@@ -3,8 +3,14 @@ using System.Collections;
 
 public class MapDoor : UIBaseUnity {
 	public BattleMap battleMap;
-	private UISprite TapToBattle;
-	private TweenAlpha tweenA;
+//	private UISprite TapToBattle;
+//	private TweenAlpha tweenA;
+
+	private UILabel topLabel;
+	private UILabel bottomLabel;
+
+	private TweenAlpha topAlpha;
+	private TweenAlpha bottomAlpha;
 
 	private bool _doorOpen = false;
 	[HideInInspector]
@@ -16,10 +22,17 @@ public class MapDoor : UIBaseUnity {
 	public bool canEnterDoor = false;
 	private bool checkOut = false;
 
+	private string currentShowInfo;
+
 	public override void Init (string name) {
 		base.Init (name);
-		TapToBattle = FindChild<UISprite>("Sprite");
-		tweenA = FindChild<TweenAlpha>("Sprite");
+//		TapToBattle = FindChild<UISprite>("Sprite");
+//		tweenA = FindChild<TweenAlpha>("Sprite");
+		topLabel = FindChild<UILabel> ("Top");
+		bottomLabel = FindChild<UILabel> ("Bottom");
+		topAlpha = topLabel.GetComponent<TweenAlpha>();
+		bottomAlpha = bottomLabel.GetComponent<TweenAlpha>();
+
 		UIEventListener.Get (gameObject).onClick = ClickDoor;
 	}
 
@@ -41,7 +54,17 @@ public class MapDoor : UIBaseUnity {
 		doorOpen = false;
 		canEnterDoor = false;
 		checkOut = false;
-		TapToBattle.spriteName = QuestFullScreenTips.BossBattle;
+
+//		TapToBattle.spriteName = QuestFullScreenTips.BossBattle;
+		SetName (QuestFullScreenTips.BossBattle);
+	}
+
+	void SetName(string name) {
+		currentShowInfo = name;
+
+		string[] info = currentShowInfo.Split('|');
+		topLabel.text = info [0];
+		topLabel.text = info [1];
 	}
 
 	public override void DestoryUI () {
@@ -62,37 +85,46 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	public void ShowTapToBattle () {
-		TapToBattle.enabled = doorOpen;	
-		tweenA.enabled = doorOpen;
+		topLabel.enabled = doorOpen;	
+		bottomLabel.enabled = doorOpen;
+		topAlpha.enabled = doorOpen;
+		bottomAlpha.enabled = doorOpen;
 	}
 	
 	void ClickDoor(GameObject go) {
-		if (!TapToBattle.enabled) {
+		if (!topLabel.enabled) {
 			return;	
 		}
 
-		if (TapToBattle.spriteName == QuestFullScreenTips.BossBattle && TapToBattle.enabled) {
+		if (currentShowInfo == QuestFullScreenTips.BossBattle && topLabel.enabled) {
 			if(!canEnterDoor) {
 				return;
 			}
 			battleMap.bQuest.ClickDoor();
-			TapToBattle.enabled = false;	
-			tweenA.enabled = false;
+			topLabel.enabled = false;
+			bottomLabel.enabled = false;
+			topAlpha.enabled = false;
+			bottomAlpha.enabled = false;
 			return;
 		}
 
-		if (TapToBattle.spriteName == QuestFullScreenTips.CheckOut && checkOut) {
+		if (currentShowInfo == QuestFullScreenTips.CheckOut && checkOut) {
 			checkOut = false;
-			TapToBattle.enabled = checkOut;	
-			tweenA.enabled = checkOut;
+			topLabel.enabled = checkOut;	
+			topAlpha.enabled = checkOut;
+			topLabel.enabled = checkOut;	
+			topAlpha.enabled = checkOut;
 			battleMap.bQuest.CheckOut();
 		}
 	}
 
 	public void ShowTapToCheckOut () {
-		TapToBattle.enabled = true;
-		tweenA.enabled = true;
-		TapToBattle.spriteName = QuestFullScreenTips.CheckOut;
+		topLabel.enabled = true;
+		topAlpha.enabled = true;
+		bottomLabel.enabled = true;
+		bottomAlpha.enabled = true;
+
+		SetName (QuestFullScreenTips.CheckOut);
 		checkOut = true;
 	}
 }
