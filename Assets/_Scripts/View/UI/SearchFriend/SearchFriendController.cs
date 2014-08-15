@@ -68,8 +68,13 @@ public class SearchFriendController : ConcreteComponent{
 		}
 		else{
             searchFriendUid = System.Convert.ToUInt32(idString);
-            Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + searchFriendUid);
-            OnRearchFriendWithId(searchFriendUid);
+			if(searchFriendUid < 10000){
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(-203);
+			}else{
+				Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + searchFriendUid);
+				OnRearchFriendWithId(searchFriendUid);
+			}
+            
 		}
 	}
 
