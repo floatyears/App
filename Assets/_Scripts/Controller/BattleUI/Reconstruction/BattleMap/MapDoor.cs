@@ -11,11 +11,13 @@ public class MapDoor : UIBaseUnity {
 	private TweenAlpha bottomAlpha;
 
 	private bool _doorOpen = false;
+
 	[HideInInspector]
 	public bool doorOpen {
 		get {return _doorOpen; }
 		set { _doorOpen = value;  ShowTapToBattle(); }
 	}
+
 	[HideInInspector]
 	public bool canEnterDoor = false;
 	private bool checkOut = false;

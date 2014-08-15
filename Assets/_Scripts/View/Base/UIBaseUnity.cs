@@ -67,7 +67,7 @@ public class UIBaseUnity : MonoBehaviour ,IUIInterface
 	{
 		if(string.IsNullOrEmpty(path))
 			return null;
-
+//		Debug.LogError ("path : " + path);
 		return transform.Find(path).GetComponent<T>();
 	}
 

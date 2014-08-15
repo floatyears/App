@@ -7,9 +7,6 @@ public class QuestFullScreenTips : UIBaseUnity {
 		initLocalPosition = transform.localPosition;
 		initLocalScale = transform.localScale;
 
-//		sprite = FindChild<UISprite>("Sprite");
-//		tweenAlpha = FindChild<TweenAlpha>("Sprite");
-
 		UILabel uilabel = FindChild<UILabel>("TopLabel");
 		TweenAlpha ta = uilabel.GetComponent<TweenAlpha>();
 		label [0] = uilabel;

@@ -18,10 +18,10 @@ public class BattleAttackInfo : UIBaseUnity {
 
 	//---------new label ---------------
 	private UILabel firstLabel;
-	private UILabel secondLabel;
+//	private UILabel secondLabel;
 	private UILabel handsLabel;
 	private UILabel hitFirstLabel;
-	private UILabel hitSecondLabel;
+//	private UILabel hitSecondLabel;
 	//----------------------------------
 
 	public void Init() {
@@ -46,9 +46,9 @@ public class BattleAttackInfo : UIBaseUnity {
 		firstLabel.text = "";
 		fsInitPosition = firstLabel.transform.localPosition;
 
-		secondLabel = FindChild<UILabel>("SecondLabel");
-		secondLabel.text = "";
-		ssInitPosition = secondLabel.transform.localPosition;
+//		secondLabel = FindChild<UILabel>("SecondLabel");
+//		secondLabel.text = "";
+//		ssInitPosition = secondLabel.transform.localPosition;
 
 		handsLabel = FindChild<UILabel>("HandsLabel");
 		handsLabel.text = string.Empty;
@@ -56,8 +56,8 @@ public class BattleAttackInfo : UIBaseUnity {
 
 		hitFirstLabel = FindChild<UILabel>("HitFirstLabel");
 		hitFirstLabel.text = string.Empty;
-		hitSecondLabel = FindChild<UILabel>("HitSecondLabel");
-		hitSecondLabel.text = "";
+//		hitSecondLabel = FindChild<UILabel>("HitSecondLabel");
+//		hitSecondLabel.text = "";
 
 		rateLabel = FindChild<UILabel>("RateLabel");
 		rateLabel.text = string.Empty;
@@ -88,8 +88,8 @@ public class BattleAttackInfo : UIBaseUnity {
 //		secondSprite.spriteName =(allAttack % 10).ToString ();
 //		handsSprite.spriteName = "hands";
 
-		firstLabel.text = (allAttack / 10).ToString ();
-		secondLabel.text = (allAttack % 10).ToString ();
+		firstLabel.text = allAttack.ToString (); //(allAttack / 10).ToString ();
+//		secondLabel.text = (allAttack % 10).ToString ();
 		handsLabel.text = "HANDS !";
 
 		Invoke ("MoveNumberSprite", 0.2f);
@@ -103,7 +103,7 @@ public class BattleAttackInfo : UIBaseUnity {
 //		iTween.MoveTo (handsSprite.gameObject, iTween.Hash ("y", -50f, "time", 0.3f, "islocal",true, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "StartMoveEnd", "oncompletetarget", gameObject));
 
 		iTween.MoveTo(firstLabel.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
-		iTween.MoveTo(secondLabel.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
+//		iTween.MoveTo(secondLabel.gameObject,iTween.Hash("y",72f,"time",0.3f,"islocal",true,"easetype",iTween.EaseType.easeInQuart));
 		iTween.MoveTo (handsLabel.gameObject, iTween.Hash ("y", -50f, "time", 0.3f, "islocal",true, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "StartMoveEnd", "oncompletetarget", gameObject));
 
 	}
@@ -118,7 +118,7 @@ public class BattleAttackInfo : UIBaseUnity {
 //		hitSecondSprite.spriteName = string.Empty;
 
 		hitFirstLabel.text = "";
-		hitSecondLabel.text = "";
+//		hitSecondLabel.text = "";
 
 		rateLabel.text = string.Empty;
 		hitLabel.enabled = false;
@@ -137,10 +137,10 @@ public class BattleAttackInfo : UIBaseUnity {
 //		handsSprite.spriteName = string.Empty;
 
 		firstLabel.transform.localPosition = fsInitPosition;
-		secondLabel.transform.localPosition = ssInitPosition;
+//		secondLabel.transform.localPosition = ssInitPosition;
 		handsLabel.transform.localPosition = hsInitPosition;
 		firstLabel.text = string.Empty;
-		secondLabel.text = string.Empty;
+//		secondLabel.text = string.Empty;
 		handsLabel.text = string.Empty;
 	}
 
@@ -153,8 +153,8 @@ public class BattleAttackInfo : UIBaseUnity {
 //			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
 //			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
 
-			hitFirstLabel.text = (prevAttack.ContinuAttackMultip / 10).ToString ();
-			hitSecondLabel.text = (prevAttack.ContinuAttackMultip % 10).ToString ();
+			hitFirstLabel.text = prevAttack.ContinuAttackMultip.ToString(); //(prevAttack.ContinuAttackMultip / 10).ToString ();
+//			hitSecondLabel.text = (prevAttack.ContinuAttackMultip % 10).ToString ();
 
 			hitLabel.enabled = true;
 			rateLabel.text = "Rate x " + prevAttack.AttackRate;

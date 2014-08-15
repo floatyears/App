@@ -51,12 +51,10 @@
      <None Include="Assets\ResourceDownload\Language\lang_cn.txt" />
      <None Include="Assets\Resources\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
-     <None Include="Assets\_UIResource\BMFont副本 2\TFont.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\ResourceDownload\Config\UnitInfo.txt" />
      <None Include="Assets\Resources\Shaders\Custon_Mobile-Particle-Add.shader" />
-     <None Include="Assets\_UIResource\BMFont\TFont.txt" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
      <None Include="Assets\Resources\Shaders\DepthMask.shader" />
@@ -64,7 +62,6 @@
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
      <None Include="Assets\Resources\Shaders\Mask.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
-     <None Include="Assets\_UIResource\BMFont副本\TFont.txt" />
      <None Include="Assets\ResourceDownload\Config\Config.txt" />
      <None Include="Assets\Resources\Shaders\Dissolve_TexturCoords.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
