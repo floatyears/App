@@ -490,8 +490,8 @@ CounterMax=/{0}
 
 StageStateNew=New
 StageStateClear=Clear
-StaminaLackNoteTitle=Friendly Reminder
-StaminaLackNoteContent=Current Stamina is not enough to battle!
+StaminaLackNoteTitle=Stamina Limited
+StaminaLackNoteContent=Current stamina is not enough to battle!
 
 ##select role
 SelectRoleTitle=Select Role
