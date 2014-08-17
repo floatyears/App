@@ -156,8 +156,10 @@ public class LoadingLogic : ConcreteComponent {
 			}
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
+#if UNITY_EDITOR
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+#endif
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {

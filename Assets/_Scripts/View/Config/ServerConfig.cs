@@ -20,7 +20,7 @@ public sealed class ServerConfig {
 #endif
 	
 
-	public const int AppVersion = 100; //1.0.0
+	public const int AppVersion = 101; //1.0.0
 
 	public const string touchToLogin = "点击屏幕进入游戏";
 

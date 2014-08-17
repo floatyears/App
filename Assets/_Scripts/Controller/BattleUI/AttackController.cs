@@ -100,7 +100,7 @@ public class AttackController {
 			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
 		}
 
-		if (BattleQuest.reduceDefense == true) {
+		if (BattleQuest.reduceDefense) {
 			BattleQuest.reduceDefense  = false;
 		}
 
@@ -241,15 +241,21 @@ public class AttackController {
 			bud.AddBlood(blood);
 
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
+
 			endCount = 0;
+
 			if (!CheckBattleSuccess ()) {
 				return;
 			}
+
 			bud.battleQuest.battle.ShieldInput(false);
+
 			GameTimer.GetInstance ().AddCountDown (GetEnemyTime(), AttackPlayer);
 			return;
 		}
+
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [2]);
+
 		AttackEnemy ();
 	}
 
@@ -268,7 +274,6 @@ public class AttackController {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);	
 		}
 		AttackInfo ai = attackInfoQueue.Dequeue();
-//		ai.AttackValue *= 10;
 		BeginAttack (ai);
 		InvokeAttack ();
 	}
@@ -313,7 +318,6 @@ public class AttackController {
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			} else if(dropUnit != null){
-//				Debug.LogError("boss drop : " + dropUnit.DropPos);
 				msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 			}
 		}
@@ -328,7 +332,6 @@ public class AttackController {
 				if(te.Equals(targetEnemy)) {
 					targetEnemy = null;
 				}
-//				Debug.LogError("CheckBattleSuccess enemyInfo : " + enemyInfo.Count);
 				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				if(grid != null) {
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
@@ -337,14 +340,13 @@ public class AttackController {
 				}
 			}
 		}
-//		Debug.LogError ("CheckBattleSuccess : " + (enemyInfo.Count == 0));
+
 		if (enemyInfo.Count == 0) {
 			BattleBottom.notClick = false;
 			GameTimer.GetInstance().AddCountDown(1f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
 
-//		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		return true;
 	}
 

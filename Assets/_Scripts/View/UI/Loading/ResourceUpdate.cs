@@ -80,8 +80,8 @@ public class ResourceUpdate : MonoBehaviour {
 	private WWW globalWWW;
 	private bool startDown = false;
 
-	private List<DownloadItemInfo> downLoadItemList = new List<DownloadItemInfo>();
-	private List<DownloadItemInfo> retryItemList = new List<DownloadItemInfo>();
+	private Queue<DownloadItemInfo> downLoadItemList = new Queue<DownloadItemInfo>();
+	private Queue<DownloadItemInfo> retryItemList = new Queue<DownloadItemInfo>();
 
 
 	private string appVersion = 
@@ -148,8 +148,8 @@ public class ResourceUpdate : MonoBehaviour {
 	void Update(){
 		if (downLoadItemList.Count > 0) {
 			current = 0;
-			for (int i = 0; i < downLoadItemList.Count; i++) {
-				DownloadItemInfo item = downLoadItemList[i];
+//			for (int i = 0; i < downLoadItemList.Count; i++) {
+			DownloadItemInfo item = downLoadItemList.Peek();//downLoadItemList[i];
 				WWW www = item.www;
 				if(www != null && string.IsNullOrEmpty(www.error)){
 					current += item.size * www.progress;
@@ -167,11 +167,11 @@ public class ResourceUpdate : MonoBehaviour {
 //				}
 				if(www.isDone && string.IsNullOrEmpty(www.error)) {
 					//TODO download done.
-					Debug.LogWarning(i+"/"+downLoadItemList.Count+"). www.isDone:"+www.url);
+					Debug.LogWarning("downloadListItem: " + downLoadItemList.Count+"). www.isDone:"+www.url);
 					UpdateLocalRes(item);
 					alreadyDone += item.size;
 				}
-			}
+//			}
 		}
 
 //		Debug.Log (globalWWW);
@@ -191,24 +191,36 @@ public class ResourceUpdate : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
-			DownloadItemInfo item = downLoadItemList[i];
+//		for (int i = downLoadItemList.Count - 1; i >= 0; i--) {
+		if (downLoadItemList.Count > 0){
+		
+			DownloadItemInfo item = downLoadItemList.Peek ();//downLoadItemList[i];
 			if(!string.IsNullOrEmpty( item.www.error) /*&& item.retryCount <=0*/){
-				Debug.Log("download.count: "+ i + "/" + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
+				Debug.Log("download.count: " + downLoadItemList.Count + " => download error: "+item.www.error + " url:"+item.www.url);
 
-				downLoadItemList.Remove(item);
-				retryItemList.Add(item);
-				Umeng.GA.Event("DownloadError",new Dictionary<string,string>(){{"downloaded" , alreadyDone + "bytes"},{"err", item.www.error},{"count",i+"/"+downLoadItemList.Count+")"}});
+	//			downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
+				DownloadItemInfo item2 = downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
+				item2.Dispose();
+				if(downLoadItemList.Count > 0){
+					downLoadItemList.Peek().StartDownload();
+				}
+				retryItemList.Enqueue(item);//retryItemList.Add(item);
+				Umeng.GA.Event("DownloadError",new Dictionary<string,string>(){{"downloaded" , alreadyDone + "bytes"},{"err", item.www.error},{"count","count: " + downLoadItemList.Count+")"},{"device",SystemInfo.deviceUniqueIdentifier}});
 
 			}else if(item.www.isDone) {
-				downLoadItemList.Remove(item);
-				item.Dispose();
+				DownloadItemInfo item1 = downLoadItemList.Dequeue();//downLoadItemList.Remove(item);
+				item1.Dispose();
+	//			DownloadItemInfo i = ;
+				if(downLoadItemList.Count > 0){
+					downLoadItemList.Peek().StartDownload();
+				}
 			}else {
-#if INNER_TEST
+	#if INNER_TEST
 //				Debug.LogWarning(i+"/"+downLoadItemList.Count+") url:"+item.www.url+" www.isDone=false progress:"+item.www.progress+" www.err:"+item.www.error);
-#endif
+	#endif
 			}
 		}
+//		}
 		//Debug.Log ("download list item: " + downLoadItemList.Count);
 		if (!isLoginSent) {
 			if (downLoadItemList.Count <= 0 && startDown) {
@@ -257,6 +269,7 @@ public class ResourceUpdate : MonoBehaviour {
 					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
 						Umeng.GA.FinishLevel("NewUserDownload");
 						Umeng.GA.EventEnd("NewUserDownloadTime");
+						GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadComplete");
 					}
 				}	
 			}
@@ -302,13 +315,20 @@ public class ResourceUpdate : MonoBehaviour {
 		downLoadItemList.Clear ();
 		total = 0;
 		alreadyDone =  0;
-		foreach (var item in retryItemList) {
-//			item.retryCount = 3;
-			downLoadItemList.Add(item);
+//		foreach (var item in retryItemList) {
+////			item.retryCount = 3;
+//			downLoadItemList.Add(item);
+//			total += item.size;
+//			item.StartDownload();
+//
+//		}
+		while (retryItemList.Count > 0) {
+			DownloadItemInfo item = retryItemList.Dequeue();
+			downLoadItemList.Enqueue(item);
 			total += item.size;
-			item.StartDownload();
-
+//			item.StartDownload();
 		}
+		downLoadItemList.Peek().StartDownload ();
 		retryItemList.Clear ();
 		isShowRetry = false;
 
@@ -322,6 +342,7 @@ public class ResourceUpdate : MonoBehaviour {
 		if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
 			Umeng.GA.StartLevel("NewUserDownload");
 			Umeng.GA.EventBegin("NewUserDownloadTime");
+			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadStart");
 		}
 
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
@@ -491,9 +512,9 @@ public class ResourceUpdate : MonoBehaviour {
 			if(!localVersionDic.ContainsKey(name))
 			{
 				DownloadItemInfo serverItem = serverVersionDic[name];
-				downLoadItemList.Add(serverItem);
+				downLoadItemList.Enqueue(serverItem);
 				total += serverItem.size;
-				serverItem.StartDownload();
+//				serverItem.StartDownload();
 				//load the resource
 //				LoadRes(serverVersionDic[name][1],name);
 //				int.TryParse(serverVersionDic[name][4],out total);
@@ -503,9 +524,9 @@ public class ResourceUpdate : MonoBehaviour {
 				DownloadItemInfo serverItem = serverVersionDic[name];
 				if(localItem.version != serverItem.version) {
 					Debug.Log("server version: " + serverItem.version + "  local version: " + localItem.version);
-					downLoadItemList.Add(serverItem);
+					downLoadItemList.Enqueue(serverItem);
 					total += serverItem.size;
-					serverItem.StartDownload();
+//					serverItem.StartDownload();
 				}
 				else if(localItem.version == serverItem.version) {
 					//skip
@@ -529,6 +550,11 @@ public class ResourceUpdate : MonoBehaviour {
 //				}
 			}
 		}
+		Debug.Log ("count: " + downLoadItemList.Count );
+		if (downLoadItemList.Count > 0) {
+			downLoadItemList.Peek ().StartDownload ();	
+		}
+
 		startDown = true;
 		if (total > 0) {
 			pro.enabled = true;
