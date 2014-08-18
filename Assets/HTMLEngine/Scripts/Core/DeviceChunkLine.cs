@@ -93,7 +93,7 @@ namespace HTMLEngine.Core
             
             // check if we can put new chunk into line
             var freeX = prev == null ? 0 : prev.Rect.Right + prev.Font.WhiteSize;
-            if (freeX + chunk.Rect.Width > MaxWidth) return false;
+			if ( (freeX + chunk.Rect.Width > MaxWidth)) return false;
 
             // we can, so add extra space into prev chunk
             if (prev != null && prevIsWord)
