@@ -1,4 +1,4 @@
-召唤##common text
+##common text
 
 OK=确定
 NEXT=下一步
