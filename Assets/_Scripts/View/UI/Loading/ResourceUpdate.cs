@@ -136,13 +136,27 @@ public class ResourceUpdate : MonoBehaviour {
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
 
-		//load the server version.txt
-		StartDownload ();
+//		if (string.IsNullOrEmpty (GameDataStore.USER_ID)) {
+//			SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);	
+//		} else {
+//			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
+//			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
+//			Debug.Log("quest: " + DataCenter.Instance.QuestClearInfo.GetStoryCityState(2));
+//			if (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR)) {
+				//load the server version.txt
+				StartDownload ();
+				
+				if (!Directory.Exists (localResFullPath)) {
+					Directory.CreateDirectory (localResFullPath);
+					Debug.Log ("create path: " + localResFullPath);
+				}
+				
+//			} 
+//	else {
+//				SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);	
+//			}
+//		}
 
-		if (!Directory.Exists (localResFullPath)) {
-			Directory.CreateDirectory(localResFullPath);
-			Debug.Log("create path: " + localResFullPath);
-		}
 	}
 
 	void Update(){
@@ -267,9 +281,10 @@ public class ResourceUpdate : MonoBehaviour {
 					isLoginSent = true;
 					SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);
 					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
+
 						Umeng.GA.FinishLevel("NewUserDownload");
 						Umeng.GA.EventEnd("NewUserDownloadTime");
-						GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadComplete");
+						GameDataAnalysis.Event(GameDataAnalysisEventType.DownloadEnd,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
 					}
 				}	
 			}
@@ -342,9 +357,10 @@ public class ResourceUpdate : MonoBehaviour {
 		if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
 			Umeng.GA.StartLevel("NewUserDownload");
 			Umeng.GA.EventBegin("NewUserDownloadTime");
-			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadStart");
+//			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadStart");
+			GameDataAnalysis.Event(GameDataAnalysisEventType.GetVersion,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
 		}
-
+		
 		StartCoroutine (Download (serverVersionURL + "?t=" + Random.Range(1000,1000000), delegate(WWW serverVersion) {
 //			Debug.Log ("download serverVersion from " + serverVersionURL + ", version text:"+serverVersion.text);
 			if(string.IsNullOrEmpty(serverVersion.error)){
@@ -554,7 +570,8 @@ public class ResourceUpdate : MonoBehaviour {
 		if (downLoadItemList.Count > 0) {
 			downLoadItemList.Peek ().StartDownload ();	
 		}
-
+		if(string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID)))
+			GameDataAnalysis.Event(GameDataAnalysisEventType.DownloadStart,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
 		startDown = true;
 		if (total > 0) {
 			pro.enabled = true;

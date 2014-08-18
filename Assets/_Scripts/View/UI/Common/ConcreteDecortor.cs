@@ -1272,7 +1272,7 @@ public class NicknameDecorator : DecoratorBase{
 	}
 }
 
-	//--------------------------------Raider------------------------------------------
+	//--------------------------------Preface------------------------------------------
 public class PrefaceDecorator : DecoratorBase{
 	//	private SceneInfoComponent sceneInfoBar;
 	public PrefaceDecorator(SceneEnum sEnum) : base(sEnum){}
@@ -1296,6 +1296,34 @@ public class PrefaceDecorator : DecoratorBase{
 		preface.SetComponent (decorator);
 		
 		lastDecorator = preface;
+		lastDecorator.CreatUIAsyn (this);
+	}
+}
+
+//--------------------------------ResourceDownload------------------------------------------
+public class ResourceDownloadDecorator : DecoratorBase{
+	//	private SceneInfoComponent sceneInfoBar;
+	public ResourceDownloadDecorator(SceneEnum sEnum) : base(sEnum){}
+	
+	public override void ShowScene(){
+		base.ShowScene();
+		
+	}
+	
+	public override void HideScene(){
+		base.HideScene();
+	}
+	
+	public override void DestoryScene(){
+		base.DestoryScene();
+	}
+	
+	public override void DecoratorScene(){
+		ResourceDownloadComponent rsdownload = CreatComponent<ResourceDownloadComponent>(UIConfig.resourceDownloadWindowName);
+		
+		rsdownload.SetComponent (decorator);
+		
+		lastDecorator = rsdownload;
 		lastDecorator.CreatUIAsyn (this);
 	}
 }

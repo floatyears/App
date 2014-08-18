@@ -17,7 +17,7 @@ public class SelectRoleView : UIComponentUnity {
 
 		//NoviceGuideStepEntityManager.Instance ().StartStep ();
 		Umeng.GA.StartLevel ("SelectRole");
-		GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"SelectRoleStart");
+		GameDataAnalysis.Event(GameDataAnalysisEventType.SelectRole, new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier},{"Stage","Start"}});
 	}
 
 	public override void HideUI(){
@@ -158,7 +158,7 @@ public class SelectRoleView : UIComponentUnity {
 		ExcuteCallback(call);
 
 		Umeng.GA.FinishLevel ("SelectRole");
-		GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"SelectRoleComplete");
+		GameDataAnalysis.Event(GameDataAnalysisEventType.SelectRole, new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier},{"Stage","End"}});
 	}
 
 }
