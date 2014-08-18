@@ -81,6 +81,8 @@ public enum SceneEnum
 	Victory,
 
 	Preface,
+
+	ResourceDownload,
 }
 
 public enum CommandEnum{

@@ -130,6 +130,10 @@ public static class GameDataAnalysis {
 }
 
 public enum GameDataAnalysisEventType{
-	NewUser,
+	FirstStart,
+	GetVersion,
+	DownloadStart,
+	DownloadEnd,
+	SelectRole,
 	Login,
 }
