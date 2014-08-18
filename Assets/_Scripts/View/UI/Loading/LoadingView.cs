@@ -32,7 +32,10 @@ public class LoadingView : UIComponentUnity {
 		//友盟初始化
 		Umeng.GA.StartWithAppKeyAndChannelId (ServerConfig.UmengAppKey, ServerConfig.Channel);
 
-		GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
+		if (string.IsNullOrEmpty (GameDataStore.USER_ID)) {
+			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
+		}
+
 		#if !UNITY_EDITOR
 		Debug.Log("device info: " + SystemInfo.deviceUniqueIdentifier);
 		//		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());

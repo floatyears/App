@@ -22,6 +22,7 @@ public class UploadStat: ProtoManager {
 	public static void SendRequest(DataListener callBack, List<EventData> events) {
 		
 		UploadStat req = new UploadStat();
+		req.events = new List<EventData> ();
 		req.events.AddRange( events );
 		req.OnRequest(null, callBack);
 	}

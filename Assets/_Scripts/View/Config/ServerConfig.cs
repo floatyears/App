@@ -3,7 +3,7 @@ using System.Collections;
 
 public sealed class ServerConfig {
 
-#if INNER_TEST || UNITY_EDITOR
+#if INNER_TEST
 //测试服务器
 	public const string ServerHost = "http://61.153.100.131:8080/";
 	public const string ResourceHost = "http://61.153.100.131";
