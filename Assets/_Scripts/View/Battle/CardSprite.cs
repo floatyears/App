@@ -80,7 +80,6 @@ public class CardSprite : UIBaseUnity
 		this.itemID = itemID;
 		if(!actorSprite.enabled)
 			actorSprite.enabled = true;
-
 		actorSprite.spriteName = itemID.ToString ();
 
 		if (!canAttack) {

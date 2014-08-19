@@ -18,17 +18,36 @@ public class DragChangeView : MonoBehaviour {
 	private Vector3 intervDistance;
 	private int changeDistance = 0;
 
+	private UIPanel panel = null;
+
 	private bool moveToRight;
 
 	private bool stopOperate = false;
 
 	void Awake() {
-		CheckMessageReceive();
-
+//		CheckMessageReceive();
+		panel = GetComponent<UIPanel> ();
 		startPos = moveParent.localPosition;
 		rightStartPos = cacheRightParent.localPosition;
 		leftStartPos = cacheLeftParent.localPosition;
 	}	
+
+	void OnEnable() {
+		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
+	}
+
+	void OnDisable() {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
+	}
+
+	void ChangeSceneComplete(object data) {
+		SceneEnum se = (SceneEnum)data;
+		if (se == SceneEnum.UnitDetail) {
+			panel.enabled = false;
+		} else if (!panel.enabled) {
+			panel.enabled = true;	
+		}
+	}
 
 	void CheckMessageReceive() {
 		if (dragCollider == null) {
