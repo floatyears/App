@@ -70,7 +70,7 @@ public class GameInput : MonoBehaviour  {
 
 	void Update() {
 
-		if(Input.GetKey(KeyCode.Escape)){
+		if(Input.GetKeyDown(KeyCode.Escape)){
 			QuitGame();
 		}
 
@@ -98,7 +98,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void QuitGame() {
-		Debug.LogError ("QuitGame befoure camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
+//		Debug.LogError ("QuitGame befoure camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
@@ -126,7 +126,7 @@ public class GameInput : MonoBehaviour  {
 
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
-		Debug.LogError ("QuitGame end camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
+//		Debug.LogError ("QuitGame end camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 	}
 
 	void SureQuit(object data) {
@@ -134,7 +134,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void CancelQuit(object data) {
-		Debug.LogError ("CancelQuit camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
+//		Debug.LogError ("CancelQuit camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 	}
 
 	void LateUpdate() {

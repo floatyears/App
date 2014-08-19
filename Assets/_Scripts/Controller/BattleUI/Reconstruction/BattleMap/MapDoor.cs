@@ -53,7 +53,7 @@ public class MapDoor : UIBaseUnity {
 		canEnterDoor = false;
 		checkOut = false;
 	
-		SetName (QuestFullScreenTips.BossBattle);
+//		SetName (QuestFullScreenTips.BossBattle);
 	}
 
 	void SetName(string name) {
@@ -61,7 +61,7 @@ public class MapDoor : UIBaseUnity {
 
 		string[] info = currentShowInfo.Split('|');
 		topLabel.text = info [0];
-		topLabel.text = info [1];
+		bottomLabel.text = info [1];
 	}
 
 	public override void DestoryUI () {
@@ -77,6 +77,7 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	void QuestEnd(object data) {
+		Debug.LogError ("QuestEnd : " + data);
 		canEnterDoor = (bool)data;
 	}
 
@@ -85,9 +86,11 @@ public class MapDoor : UIBaseUnity {
 		bottomLabel.enabled = doorOpen;
 		topAlpha.enabled = doorOpen;
 		bottomAlpha.enabled = doorOpen;
+		SetName (QuestFullScreenTips.BossBattle);
 	}
 	
 	void ClickDoor(GameObject go) {
+		Debug.LogError ("topLabel.enabled : " + topLabel.enabled + " content equal : " + (currentShowInfo == QuestFullScreenTips.BossBattle) + " canEnterDoor : " + canEnterDoor);
 		if (!topLabel.enabled) {
 			return;	
 		}
@@ -123,4 +126,6 @@ public class MapDoor : UIBaseUnity {
 		SetName (QuestFullScreenTips.CheckOut);
 		checkOut = true;
 	}
+
+
 }

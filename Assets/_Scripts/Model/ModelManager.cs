@@ -86,8 +86,7 @@ public class ModelManager {
     public void SetData(ModelEnum modelType, object model) {
         if (modelDataDic.ContainsKey(modelType)) {
             modelDataDic[modelType] = model;
-        }
-        else {
+        } else {
             modelDataDic.Add(modelType, model);	
         }
     }
