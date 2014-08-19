@@ -5,7 +5,7 @@ public class ResourceDownloadView : UIComponentUnity {
 
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
-//		InitUI();
+		InitUI();
 	}
 	
 	public override void ShowUI(){
@@ -19,5 +19,9 @@ public class ResourceDownloadView : UIComponentUnity {
 //		GameTimer.GetInstance ().CheckRefreshServer ();
 		
 //		ShowRewardInfo ();
+	}
+
+	private void InitUI(){
+		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Title_ResourceDownload");
 	}
 }

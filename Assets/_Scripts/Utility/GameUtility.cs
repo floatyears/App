@@ -6,6 +6,8 @@ using UnityEngine;
 using bbproto;
 
 public class DGTools {
+	public static bool DownloadComplete = false;
+
 	private static float TWO_Sprite_Interv = 2f;
 	public static void SortStateItem(Dictionary<StateEnum,GameObject> dic, Transform target, float width) {
 		foreach (var item in dic.Values) {

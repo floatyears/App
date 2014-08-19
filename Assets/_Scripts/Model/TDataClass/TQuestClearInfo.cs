@@ -169,6 +169,9 @@ public class TQuestClearInfo : ProtobufDataBase {
 		if ( questId > storyClear.QuestId ) {
 			storyClear.QuestId = questId;
 		}
+		if (stageId >= 17 && questId >= 175) {
+			GameDataStore.Instance.StoreData("ResrouceDownload","Start");
+		}
 	}
 
 	public	void UpdateEventQuestClear(uint stageId, uint questId) {

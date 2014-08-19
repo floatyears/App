@@ -202,7 +202,7 @@ public class UIManager {
 
 	public static bool CheckIsPopUpWindow(SceneEnum sEnum){
 //		if (prevScene == SceneEnum.None) {
-			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice || sEnum == SceneEnum.Reward || sEnum == SceneEnum.UnitDetail)
+			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice || sEnum == SceneEnum.Reward || sEnum == SceneEnum.UnitDetail || sEnum == SceneEnum.ResourceDownload)
 				return true;
 			return false;	
 //		}else{

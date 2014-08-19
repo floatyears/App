@@ -100,6 +100,7 @@ City_Name_102=周末任务
 City_Event=活动关卡
 
 Title_YourID=用户ID
+Title_ResourceDownload=资源下载
 ##Game setting options
 Game_Setting_Option_Music=音乐设置
 Game_Setting_Option_NickName=修改昵称
