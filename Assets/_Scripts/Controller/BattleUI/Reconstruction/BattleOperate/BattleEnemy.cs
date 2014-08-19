@@ -15,9 +15,10 @@ public class BattleEnemy : UIBaseUnity {
 	private GameObject effectItemPrefab;
 	[HideInInspector]
 	public Battle battle;
-	private UISprite attackInfoLabel;
-	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};
 
+	private UILabel attackInfoLabel;
+//	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};
+	private string[] attackInfo = new string[4] {"Nice !", "BEAUTY !", "great !", "Excellent !"};
 	private BattleAttackInfo battleAttackInfo;
 
 	public override void Init (string name) {
@@ -27,8 +28,8 @@ public class BattleEnemy : UIBaseUnity {
 		effectItemPrefab = transform.Find ("Enemy/EnemyItem").gameObject;
 		effectItemPrefab.SetActive (false);
 		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
-		attackInfoLabel = FindChild<UISprite>("Enemy/Label");
-		attackInfoLabel.spriteName = "";
+		attackInfoLabel = FindChild<UILabel>("Enemy/Label");
+		attackInfoLabel.text = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 		battleAttackInfo = FindChild<BattleAttackInfo>("Enemy/AttackInfo");
 		battleAttackInfo.Init ();
@@ -79,7 +80,7 @@ public class BattleEnemy : UIBaseUnity {
 			return;	
 		}
 		int index = DGTools.RandomToInt (0, 4);
-		attackInfoLabel.spriteName = attackInfo [index];
+		attackInfoLabel.text = attackInfo [index];
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
 	}
 	
@@ -120,7 +121,7 @@ public class BattleEnemy : UIBaseUnity {
 	}
 
 	void HideAttackInfo() {
-		attackInfoLabel.spriteName = "";
+		attackInfoLabel.text = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 		attackInfoLabel.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
 	}

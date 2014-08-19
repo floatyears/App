@@ -20,10 +20,10 @@ public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 
 		int type = (int)trapBase;
 		EUnitType et = (EUnitType)type;
-		Debug.LogError ("TSkillAntiAttack et : " + et + " instance.attackSource : " + instance.attackSource);
+//		Debug.LogError ("TSkillAntiAttack et : " + et + " instance.attackSource : " + instance.attackSource);
 		if (instance.attackSource == EUnitType.UALL || et == instance.attackSource) {
 			float value = DGTools.RandomToFloat ();
-			Debug.LogError ("random ratio : " + value + " instance.antiAtkRatio : " + instance.antiAtkRatio);
+//			Debug.LogError ("random ratio : " + value + " instance.antiAtkRatio : " + instance.antiAtkRatio);
 			if (value <= instance.antiAtkRatio) {
 				AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 				ai.AttackValue = instance.probability;
