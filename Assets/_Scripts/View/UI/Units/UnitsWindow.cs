@@ -133,9 +133,7 @@ public class UnitsWindow : UIComponentUnity, IDragChangeView{
 //			partyItems[i].UserUnit = partyMemberList[i];
 //		}
 //	}
-
-
-
+	
 	void PrevPage(GameObject go){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 		RefreshParty(true);  
