@@ -366,6 +366,10 @@ public class UIManager {
 		case SceneEnum.Preface:
 			temp = new PrefaceDecorator(sEnum);
 			break;
+
+		case SceneEnum.ResourceDownload:
+			temp = new ResourceDownloadDecorator(sEnum);
+			break;
         }
 
 		if (temp != null) {

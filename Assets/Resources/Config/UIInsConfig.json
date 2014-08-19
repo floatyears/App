@@ -545,5 +545,13 @@
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
+    },
+    "ResourceDownload": {
+        "uiName":"ResourceDownload",
+        "resoucePath": "Prefabs/UI/Preface/",
+        "parent": 4,
+        "positionx": 0,
+        "positiony": 0,
+        "positionz": 0
     }
 }

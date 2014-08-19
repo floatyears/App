@@ -35,7 +35,7 @@ public class UploadStat: ProtoManager {
 		reqUploadStat = new ReqUploadStat();
 		reqUploadStat.header = new ProtoHeader();
 		reqUploadStat.header.apiVer = Protocol.API_VERSION;
-		reqUploadStat.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqUploadStat.header.userId = DataCenter.Instance.UserInfo != null ? DataCenter.Instance.UserInfo.UserId : 0;
 		
 		//request params
 		reqUploadStat.events.AddRange( this.events );

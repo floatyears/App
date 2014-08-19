@@ -33,7 +33,7 @@ public class LoadingView : UIComponentUnity {
 		Umeng.GA.StartWithAppKeyAndChannelId (ServerConfig.UmengAppKey, ServerConfig.Channel);
 
 		if (string.IsNullOrEmpty (GameDataStore.USER_ID)) {
-			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
+			GameDataAnalysis.Event(GameDataAnalysisEventType.FirstStart,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
 		}
 
 		#if !UNITY_EDITOR

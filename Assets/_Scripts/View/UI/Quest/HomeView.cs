@@ -219,6 +219,11 @@ public class HomeView : UIComponentUnity{
 		if (DataCenter.Instance.QuestClearInfo.GetStoryCityState (cityViewInfo [item].ID) == StageState.LOCKED) {
 			ViewManager.Instance.ShowTipsLabel (TextCenter.GetText ("Stage_Locked"), item);
 		} else {
+//			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
+//			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
+			if(DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+			}
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
@@ -229,6 +234,10 @@ public class HomeView : UIComponentUnity{
 	private void PressEventDoor(GameObject item, bool isPressed){
 		if(!isPressed){
 			Debug.Log("PressEventDoor()...");
+			if(CheckUnitsLimit()){
+				return;
+			}
+
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
