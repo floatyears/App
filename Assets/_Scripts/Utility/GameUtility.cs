@@ -450,17 +450,12 @@ public class DGTools {
 			return false;
 		}
 	}
-	
-//	public static int GetValue (UserUnit uu, int type) {
-//		return DataCenter.Instance.GetUnitValue(type,uu.level);
-//	}
 
 	public static string GetNormalSkillSpriteName (AttackInfo ai) {
 		Debug.LogError ("ai.FixRecoverHP : " + ai.FixRecoverHP + " ai.AttackRange :" + ai.AttackRange);
 		if (ai.FixRecoverHP || ai.AttackRange == 2) {
 			return "7_1";
 		}
-//		Debug.LogError ("ai.AttackType : " + ai.AttackType + " ai.AttackRange : " + ai.AttackRange + " ai.FixRecoverHP : " + ai.FixRecoverHP);
 		string name1 = ai.AttackType.ToString ();
 		string name2 = ai.AttackRange.ToString ();
 		return name1 + "_" + name2;

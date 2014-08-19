@@ -77,7 +77,7 @@ public class MapDoor : UIBaseUnity {
 	}
 
 	void QuestEnd(object data) {
-		Debug.LogError ("QuestEnd : " + data);
+//		Debug.LogError ("QuestEnd : " + data);
 		canEnterDoor = (bool)data;
 	}
 

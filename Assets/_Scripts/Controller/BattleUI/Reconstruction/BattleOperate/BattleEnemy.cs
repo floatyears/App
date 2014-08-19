@@ -20,6 +20,7 @@ public class BattleEnemy : UIBaseUnity {
 //	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};
 	private string[] attackInfo = new string[4] {"Nice !", "BEAUTY !", "great !", "Excellent !"};
 	private BattleAttackInfo battleAttackInfo;
+	private UITexture bgTexture;
 
 	public override void Init (string name) {
 		base.Init (name);
@@ -33,6 +34,11 @@ public class BattleEnemy : UIBaseUnity {
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
 		battleAttackInfo = FindChild<BattleAttackInfo>("Enemy/AttackInfo");
 		battleAttackInfo.Init ();
+		bgTexture = FindChild<UITexture>("Texture");
+		string path = "Texture/Map/fight_" + ConfigBattleUseData.Instance.GetMapID ().ToString ();
+		ResourceManager.Instance.LoadLocalAsset (path, o => {
+						bgTexture.mainTexture = o as Texture2D;
+		});
 	}
 
 	int count = 0;

@@ -56,20 +56,8 @@ public class BattleMap : UIBaseUnity {
 		if(mapBGTexture == null)
 			mapBGTexture = FindChild<UITexture>("BG");
 
-		uint mapID = 0;
-		TStageInfo tsi = ConfigBattleUseData.Instance.currentStageInfo;
+		int mapID = ConfigBattleUseData.Instance.GetMapID();
 
-		if (tsi == null) {
-			mapID = 2;
-		} else {
-//			Debug.LogError ("tsi : " + tsi.ID);
-			uint stageID = tsi.ID % 10;
-			if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
-				mapID = stageID == 1 ? 7 : -- stageID;
-			} else {
-				mapID = stageID;
-			}
-		}
 
 		string path = "Texture/Map/battlemap_" + mapID.ToString ();
 //		Debug.LogError ("path : " + path);
