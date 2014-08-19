@@ -548,7 +548,7 @@
     },
     "ResourceDownload": {
         "uiName":"ResourceDownload",
-        "resoucePath": "Prefabs/UI/Preface/",
+        "resoucePath": "Prefabs/UI/ResourceDownload/",
         "parent": 4,
         "positionx": 0,
         "positiony": 0,

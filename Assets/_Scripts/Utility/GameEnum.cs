@@ -193,6 +193,7 @@ public enum CommandEnum{
 	FriendBack,
 	ShiledInput,
 	HideSortView,
+	ResourceDownloadComplete,
 //	ActiveSkillCooling
 
 	//-----------------View Cmd-----------------------//
