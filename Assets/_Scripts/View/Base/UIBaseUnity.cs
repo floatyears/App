@@ -192,14 +192,3 @@ public class UIComponentUnity : MonoBehaviour,IUIComponentUnity,IUICallback {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -15,7 +15,6 @@ public class BattleEnemy : UIBaseUnity {
 	private GameObject effectItemPrefab;
 	[HideInInspector]
 	public Battle battle;
-//	private UISprite attackInfoLabel;
 
 	private UILabel attackInfoLabel;
 //	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};

@@ -98,6 +98,8 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void QuitGame() {
+		Debug.LogError ("QuitGame befoure camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
+
 		MsgWindowParams mwp = new MsgWindowParams ();
 		mwp.btnParams = new BtnParam[2];
 		string title = "";
@@ -109,7 +111,6 @@ public class GameInput : MonoBehaviour  {
 		title = "退出";
 		content = "确定退出游戏？";
 #endif
-
 		mwp.titleText = title;
 		mwp.contentText = content;
 
@@ -122,8 +123,10 @@ public class GameInput : MonoBehaviour  {
 		sure.callback = CancelQuit;
 		sure.text = TextCenter.GetText("Cancel");
 		mwp.btnParams[1] = sure;
-		
+
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+		Debug.LogError ("QuitGame end camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 	}
 
 	void SureQuit(object data) {
@@ -131,7 +134,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void CancelQuit(object data) {
-
+		Debug.LogError ("CancelQuit camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 	}
 
 	void LateUpdate() {
