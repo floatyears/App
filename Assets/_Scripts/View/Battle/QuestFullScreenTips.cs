@@ -6,8 +6,22 @@ public class QuestFullScreenTips : UIBaseUnity {
 		base.Init (name);
 		initLocalPosition = transform.localPosition;
 		initLocalScale = transform.localScale;
-		sprite = FindChild<UISprite>("Sprite");
-		tweenAlpha = FindChild<TweenAlpha>("Sprite");
+
+		UILabel uilabel = FindChild<UILabel>("TopLabel");
+		TweenAlpha ta = uilabel.GetComponent<TweenAlpha>();
+		label [0] = uilabel;
+		tweenAlpha [0] = ta;
+
+		uilabel = FindChild<UILabel>("BottomLabel");
+		ta = uilabel.GetComponent<TweenAlpha>();
+		label [1] = uilabel;
+		tweenAlpha [1] = ta;
+
+		uilabel = FindChild<UILabel>("CenterLabel");
+		ta = uilabel.GetComponent<TweenAlpha>();
+		label [2] = uilabel;
+		tweenAlpha [2] = ta;
+
 		HideUI ();
 	}
 	
@@ -25,15 +39,27 @@ public class QuestFullScreenTips : UIBaseUnity {
 		base.DestoryUI ();
 	}
 	
-	private UISprite sprite;
-	private TweenAlpha tweenAlpha;
+//	private UISprite sprite;
+//	private TweenAlpha tweenAlpha;
+
+	private UILabel[] label = new UILabel[3];// 0=top, 1=bottom, 2=center
+	private TweenAlpha[] tweenAlpha = new TweenAlpha[3];
+
+//	private UILabel topLabel;
+//	private UILabel bottomLabel;
+//	private UILabel centerLabel;
+
 	private Vector3 initLocalPosition = Vector3.zero;
 	private Vector3 initLocalScale = Vector3.zero;
 	private Callback callBack;
 
 	void HideUI(bool b) {
 		if (b) {
-			sprite.spriteName = string.Empty;	
+//			sprite.spriteName = string.Empty;
+			foreach (var item in label) {
+				item.text = "";
+			}
+
 			transform.localPosition = initLocalPosition;
 			transform.localScale = initLocalScale;
 		} 
@@ -42,7 +68,17 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public void ShowTexture(string name,Callback cb,float time = 0f) {
 		ShowUI ();
 		tempTime = time;
-		sprite.spriteName = name;
+//		sprite.spriteName = name;
+
+		string[] splitName = name.Split('|');
+
+		if (splitName.Length == 2) {
+			label [0].text = splitName [0];
+			label [1].text = splitName [1];
+		} else if (splitName.Length == 1) {
+			label[2].text = name;	
+		}
+
 		callBack = cb;
 		PlayAnimation (name);
 	}
@@ -66,19 +102,28 @@ public class QuestFullScreenTips : UIBaseUnity {
 
 	void PlayReadyMove() {
 		transform.localPosition = initLocalPosition;
-		tweenAlpha.enabled = true;
-		tweenAlpha.ResetToBeginning ();
-
+//		tweenAlpha.enabled = true;
+//		tweenAlpha.ResetToBeginning ();
+		ActiveTweenAlpha ();
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_ready);
 
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
 	void PlayAll () {
-		tweenAlpha.enabled = true;
-		tweenAlpha.ResetToBeginning ();
+//		tweenAlpha.enabled = true;
+//		tweenAlpha.ResetToBeginning ();
+
+		ActiveTweenAlpha ();
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 
+	}
+
+	void ActiveTweenAlpha() {
+		foreach (var item in tweenAlpha) {
+			item.enabled = true;
+			item.ResetToBeginning();
+		}
 	}
 
 	void PlayEnd () {
@@ -114,16 +159,16 @@ public class QuestFullScreenTips : UIBaseUnity {
 	}
 
 	//---------------------------------------------appear-----------------------------------------------------
-	public const string GameOver = "GAME-OVER-";
-	public const string BossAppears = "boss-APPEARS";
-	public const string OpenGate = "go-to-the-OPENED-GATE";
-	public const string BossBattle = "tap-to-boss-battle!";
-	public const string CheckOut = "tap-to-Check-Out-!";
-	public const string SPLimit = "SP-LIMIT-OVER!-";
-	public const string RankUp = "rank-up";
-	public const string ReadyMove = "Ready-to-move-on";
-	public const string QuestClear = "Quest--Clear!";
-	public const string FirstAttack = "FIRST-ATTACK-";
-	public const string BackAttack = "BACK-ATTACK-";
-	public const string standReady = "stand-ready";
+	public const string GameOver = "Game Over"; //"GAME-OVER-";
+	public const string BossAppears = "BOSS|APPEARS"; //"boss-APPEARS";
+	public const string OpenGate = "GO TO THE|OPEN GATE !"; //"go-to-the-OPENED-GATE";
+	public const string BossBattle = "TAP TO|BOSS BATTLE !"; //"tap-to-boss-battle!";
+	public const string CheckOut = "TAP TO|CHECK OUT !"; //"tap-to-Check-Out-!";
+	public const string SPLimit = "SP LIMIT OVER !"; //"SP-LIMIT-OVER!-";
+	public const string RankUp = "RANK UP"; //"rank-up";
+	public const string ReadyMove = "READY TO|MOVE ON !!"; //"Ready-to-move-on";
+	public const string QuestClear = "QUEST CLEAR !"; //"Quest--Clear!";
+	public const string FirstAttack = "FIRST ATTACK"; //"FIRST-ATTACK-";
+	public const string BackAttack = "BACK ATTACK"; //"BACK-ATTACK-";
+	public const string standReady = "STADN READY"; //"stand-ready";
 }

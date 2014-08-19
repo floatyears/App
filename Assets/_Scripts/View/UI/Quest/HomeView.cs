@@ -72,6 +72,7 @@ public class HomeView : UIComponentUnity{
 
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
+		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
 	}
 	
 	public override void CallbackView(object data){
@@ -221,14 +222,22 @@ public class HomeView : UIComponentUnity{
 		} else {
 //			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-			if(DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && !DGTools.DownloadComplete){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
 				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+				return;
 			}
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
 		}
+	}
+
+	void DownloadComplete(object data){
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+		UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
+		MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, (uint)2);
 	}
 
 	private void PressEventDoor(GameObject item, bool isPressed){

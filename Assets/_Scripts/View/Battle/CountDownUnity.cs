@@ -2,14 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 public class CountDownUnity : UIBaseUnity {
-	private UISprite numberSprite;
+//	private UISprite numberSprite;
+	private UILabel numberLabel;
 	private UISprite circleSprite;
 	private float countDownValue = 1f;
 	private bool Stop = true;
 
 	public override void Init (string name) {
 		base.Init (name);
-		numberSprite = FindChild<UISprite>("Number");
+//		numberSprite = FindChild<UISprite>("Number");
+		numberLabel = FindChild<UILabel>("Number");
 		circleSprite = FindChild<UISprite>("Circle");
 		transform.localPosition = new Vector3 (0f, 100f, 0f);
 		HideUI ();
@@ -57,9 +59,7 @@ public class CountDownUnity : UIBaseUnity {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_count_down);
 		iTween.ScaleFrom (gameObject, new Vector3 (1.25f, 1.25f, 1.25f), 0.3f);
 		countDownValue = 1f;
-		numberSprite.spriteName = time.ToString ();
-//		numberSprite.width = numberSprite.GetAtlasSprite ().width;
-//		numberSprite.height = numberSprite.GetAtlasSprite ().height;
+		numberLabel.text = time.ToString ();
 	}
 
 }

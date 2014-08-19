@@ -6,6 +6,8 @@ using UnityEngine;
 using bbproto;
 
 public class DGTools {
+	public static bool DownloadComplete = false;
+
 	private static float TWO_Sprite_Interv = 2f;
 	public static void SortStateItem(Dictionary<StateEnum,GameObject> dic, Transform target, float width) {
 		foreach (var item in dic.Values) {
@@ -159,7 +161,8 @@ public class DGTools {
 	/// <summary>
 	/// 0:player, 1:enemy, 2:normal, 3:passive, 4:active.
 	/// </summary>
-	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
+//	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
+	public static string[] stateInfo = new string[] {"Player Phase","Enemy Phase","Normal Skill","Passive Skill","Active Skill"};
 
 	public static int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);

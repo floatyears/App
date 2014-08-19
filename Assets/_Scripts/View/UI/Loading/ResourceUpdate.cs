@@ -65,6 +65,8 @@ public class ResourceUpdate : MonoBehaviour {
 
 	private bool isShowRetry = false;
 
+	private bool downloadLimit = true;
+
 	private WWW www = null;
 
 	private UIProgressBar pro;
@@ -120,10 +122,11 @@ public class ResourceUpdate : MonoBehaviour {
 		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
 
-		bg = GameObject.Find ("Background").GetComponent<UISprite>();
+		bg = GameObject.Find ("LoadProgress/Background").GetComponent<UISprite>();
 		fg = GameObject.Find ("Foreground").GetComponent<UISprite>();
 
-		versionTxt = GameObject.Find ("Version").GetComponent<UILabel> ();
+		if(GameObject.Find("Version") != null)
+			versionTxt = GameObject.Find ("Version").GetComponent<UILabel> ();
 
 		InvokeRepeating ("ShowTipText", 0, 5);
 
@@ -136,20 +139,17 @@ public class ResourceUpdate : MonoBehaviour {
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
 
-//		if (string.IsNullOrEmpty (GameDataStore.USER_ID)) {
-//			SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);	
-//		} else {
 //			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
 //			Debug.Log("quest: " + DataCenter.Instance.QuestClearInfo.GetStoryCityState(2));
 //			if (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR)) {
 				//load the server version.txt
-				StartDownload ();
-				
-				if (!Directory.Exists (localResFullPath)) {
-					Directory.CreateDirectory (localResFullPath);
-					Debug.Log ("create path: " + localResFullPath);
-				}
+		StartDownload ();
+		
+		if (!Directory.Exists (localResFullPath)) {
+			Directory.CreateDirectory (localResFullPath);
+			Debug.Log ("create path: " + localResFullPath);
+		}
 				
 //			} 
 //	else {
@@ -197,7 +197,8 @@ public class ResourceUpdate : MonoBehaviour {
 			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "MB)";
 		}
 
-		versionTxt.text = appVersion + version;
+		if(versionTxt != null)
+			versionTxt.text = appVersion + version;
 
 		//#if INNER_TEST
 		//		versionTxt.text = "download.count:"+downLoadItemList.Count+" retry.count:"+retryItemList.Count;
@@ -238,20 +239,20 @@ public class ResourceUpdate : MonoBehaviour {
 		//Debug.Log ("download list item: " + downLoadItemList.Count);
 		if (!isLoginSent) {
 			if (downLoadItemList.Count <= 0 && startDown) {
-				if(retryItemList.Count > 0){
-					if(!isShowRetry){
+				if (retryItemList.Count > 0) {
+					if (!isShowRetry) {
 						isShowRetry = true;
 
 						MsgWindowParams mwp = new MsgWindowParams ();
-						mwp.btnParam = new BtnParam();
-						
+						mwp.btnParam = new BtnParam ();
+
 						mwp.titleText = 
 #if LANGUAGE_EN
 						"Download Error";
 #else
 						"下载错误";
 #endif
-							//TextCenter.GetText("DownloadErrorTitle");
+						//TextCenter.GetText("DownloadErrorTitle");
 						mwp.contentText = //TextCenter.GetText("DownloadErrorContent");
 #if LANGUAGE_EN
 						"There is an error occured when dowloading resources, please connect to the Internet and Retry!";
@@ -274,21 +275,52 @@ public class ResourceUpdate : MonoBehaviour {
 //						sure.callback = ExitGame;
 //						sure.text = TextCenter.GetText("Cancel");
 //						mwp.btnParams[1] = sure;
-						MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+						MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
 					}
-					
-				}else {
-					isLoginSent = true;
-					SendMessageUpwards("CouldLogin",SendMessageOptions.DontRequireReceiver);
-					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
+	
+				} else {
+						isLoginSent = true;
+						if(!downloadLimit)
+							DGTools.DownloadComplete = true;
+						if (this.transform.parent.name == "ResourceDownload(Clone)") {
+								
+//								StartCoroutine(CallLater());
+						UIManager.Instance.ChangeScene (SceneEnum.Home);
+						MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
+								
+								Umeng.GA.FinishLevel ("NewUserDownload");
+								Umeng.GA.EventEnd ("NewUserDownloadTime");
+								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
+						} else {
+								SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);
+								Umeng.GA.FinishLevel ("NewUserDownload");
+								Umeng.GA.EventEnd ("NewUserDownloadTime");
+								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
+						}
 
-						Umeng.GA.FinishLevel("NewUserDownload");
-						Umeng.GA.EventEnd("NewUserDownloadTime");
-						GameDataAnalysis.Event(GameDataAnalysisEventType.DownloadEnd,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
-					}
-				}	
-			}
-		}
+//					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
+//
+//
+//						Umeng.GA.EventEnd("NewUserDownloadTime");
+//						GameDataAnalysis.Event(GameDataAnalysisEventType.DownloadEnd);//,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
+//					}
+					}	
+				}
+			} 
+//		else {
+//			if (this.transform.parent.name == "ResourceDownload(Clone)") {
+//				UIManager.Instance.ChangeScene (SceneEnum.Home);
+//				MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
+////				Umeng.GA.FinishLevel ("NewUserDownload");
+////				Umeng.GA.EventEnd ("NewUserDownloadTime");
+////				GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
+//			} else {
+//				SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);
+////				Umeng.GA.FinishLevel ("NewUserDownload");
+////				Umeng.GA.EventEnd ("NewUserDownloadTime");
+////				GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
+//			}
+//				}
 			
 		//Debug.LogError ("LateUpdate : " + retryItemList.Count);
 //		for (int i = 0; i < retryItemList.Count; i++) {
@@ -296,6 +328,12 @@ public class ResourceUpdate : MonoBehaviour {
 //			downLoadItemList.Add(retryItemList[i]);
 //		}
 	}
+//
+//	IEnumerator CallLater(){
+//		yield return new WaitForSeconds(1f);
+//		UIManager.Instance.ChangeScene (SceneEnum.Home);
+//		MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
+//	}
 
 	private void ShowTipText(){
 		if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
@@ -524,10 +562,27 @@ public class ResourceUpdate : MonoBehaviour {
 		total = 0;
 		downLoadItemList.Clear ();
 		startDown = false;
+		if (this.transform.parent.name == "Loading(Clone)") {
+			if (GameDataStore.Instance.GetData ("ResrouceDownload") == "Start") {
+					//					SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);	
+					//					return;
+				downloadLimit = false;
+			}
+		} else {
+			downloadLimit = false;
+		}
+
+
 		foreach (string name in serverVersionDic.Keys) {
+
+			DownloadItemInfo serverItem = serverVersionDic[name];
+			if(downloadLimit){
+				if(serverItem.name.IndexOf("Protobuf") < 0 && serverItem.name.IndexOf("Language") < 0 )
+					break;
+			} 
 			if(!localVersionDic.ContainsKey(name))
 			{
-				DownloadItemInfo serverItem = serverVersionDic[name];
+
 				downLoadItemList.Enqueue(serverItem);
 				total += serverItem.size;
 //				serverItem.StartDownload();
@@ -537,7 +592,6 @@ public class ResourceUpdate : MonoBehaviour {
 			}else
 			{
 				DownloadItemInfo localItem = localVersionDic[name];
-				DownloadItemInfo serverItem = serverVersionDic[name];
 				if(localItem.version != serverItem.version) {
 					Debug.Log("server version: " + serverItem.version + "  local version: " + localItem.version);
 					downLoadItemList.Enqueue(serverItem);

@@ -6,7 +6,7 @@ public class BattleCardArea : UIBaseUnity {
 	private UISprite backTexture;
 	[HideInInspector]
 	public BattleCardAreaItem[] battleCardAreaItem;
-	private UISprite stateLabel;
+	private UILabel stateLabel;
 	private Vector3 sourcePosition;
 	private const int oneWordSize = 42;
 
@@ -27,14 +27,13 @@ public class BattleCardArea : UIBaseUnity {
 		base.Init (name); 
 		backTexture = FindChild<UISprite>("Back"); 
 		backTexture.gameObject.SetActive(false);
-		stateLabel = FindChild<UISprite>("StateLabel");
-		stateLabel.spriteName = string.Empty;
+		stateLabel = FindChild<UILabel>("StateLabel");
+		stateLabel.text = string.Empty;
 		if (cardItem == null) {
 			LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab,o=>{
 				GameObject go = o as GameObject;
 				cardItem = go.transform.Find("Texture").gameObject;
 			});
-
 		}
 	}
 
@@ -82,7 +81,7 @@ public class BattleCardArea : UIBaseUnity {
 
 	void StateInfo(object data) {
 		string info = (string)data;
-		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.spriteName)) {
+		if (string.IsNullOrEmpty (info) && !string.IsNullOrEmpty(stateLabel.text)) {
 			HideStateLabel(string.Empty);
 			return;
 		}			
@@ -91,22 +90,22 @@ public class BattleCardArea : UIBaseUnity {
 			SetBoost();
 		}
 
-		if (stateLabel.spriteName == info) {
+		if (stateLabel.text == info) {
 			return;	
 		}
 
 		if (info == DGTools.stateInfo [4]) {
-			prevInfo = stateLabel.spriteName;
+			prevInfo = stateLabel.text;
 		}
 
-		if (stateLabel.spriteName == string.Empty) {
+		if (stateLabel.text == string.Empty) {
 			stateLabel.transform.localPosition = HidePosition;	
 			ShowStateLabel ();
 		} else {
 			HideStateLabel("ShowStateLabel");
 		}
 
-		DGTools.ShowSprite (stateLabel, info);
+		stateLabel.text = info;
 	}
 
 	void RecoverStateInfo(object data) {
@@ -123,7 +122,7 @@ public class BattleCardArea : UIBaseUnity {
 	}
 
 	void ClearTexture () {
-		stateLabel.spriteName = string.Empty;
+		stateLabel.text = string.Empty;
 	}
 
 	void ShowStateLabel () {

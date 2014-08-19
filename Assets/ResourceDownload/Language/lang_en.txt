@@ -104,6 +104,7 @@ City_Name_102=Weekend Battle
 City_Event=Event
 
 Title_YourID=User ID
+Title_ResourceDownload=Resource Download
 ##Game setting options
 Game_Setting_Option_Music=Music
 Game_Setting_Option_NickName=Change Name
