@@ -282,11 +282,11 @@ public class ResourceUpdate : MonoBehaviour {
 						isLoginSent = true;
 						if(!downloadLimit)
 							DGTools.DownloadComplete = true;
-						if (this.transform.parent.name == "ResourceDownload(Clone)") {
+						if (this.transform.parent.name == "ResourceDownloadWindow(Clone)") {
 								
 //								StartCoroutine(CallLater());
-						UIManager.Instance.ChangeScene (SceneEnum.Home);
-						MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
+								UIManager.Instance.ChangeScene (SceneEnum.Home);
+								MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
 								
 								Umeng.GA.FinishLevel ("NewUserDownload");
 								Umeng.GA.EventEnd ("NewUserDownloadTime");
