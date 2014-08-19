@@ -23,7 +23,7 @@ public class DragChangeView : MonoBehaviour {
 	private bool stopOperate = false;
 
 	void Awake() {
-		CheckMessageReceive();
+//		CheckMessageReceive();
 
 		startPos = moveParent.localPosition;
 		rightStartPos = cacheRightParent.localPosition;
