@@ -81,12 +81,12 @@ public class TouchEventBlocker{
 		camLayerObj.isBlocked = isBlocked;
 
 		if (isBlocked) {
-//			Debug.Log("en queue: " + camLayerObj.reason);
+			Debug.Log("en queue: " + camLayerObj.reason);
 			cameraLayerChanges.Push (camLayerObj);
 			SetBlocked(camLayerObj);
 		}else if(cameraLayerChanges.Count > 0){
 			if(cameraLayerChanges.Peek ().reason == reason){
-//				Debug.Log("dequeue: " + cameraLayerChanges.Peek().reason);
+				Debug.Log("dequeue: " + cameraLayerChanges.Peek().reason);
 				CameraLayerObj obj = cameraLayerChanges.Pop();
 				obj.isBlocked = false;
 				SetBlocked(obj);

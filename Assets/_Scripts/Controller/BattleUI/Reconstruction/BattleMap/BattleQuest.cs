@@ -387,6 +387,7 @@ public class BattleQuest : UIBase {
 		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 
 		Coordinate coor = configBattleUseData.storeBattleData.roleCoordinate;
+//		currentCoor = coor;
 		InitContinueData ();
 //		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
 		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
@@ -475,6 +476,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
+		Debug.LogError ("coor : " + coor.x + " coor : " + coor.y);
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.prevMapItem.HideGridNoAnim ();
@@ -622,6 +624,9 @@ public class BattleQuest : UIBase {
 	}
 
 	public void QuestCoorEnd() {
+//		Debug.LogError ("current coor x : " + currentCoor.x + " y : " + currentCoor.y);
+//		Debug.LogError ("MapConfig.endCoor x : " + MapConfig.endCoor.x + " y : " + MapConfig.endCoor.y);
+
 		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
 			MsgCenter.Instance.Invoke (CommandEnum.QuestEnd, true);
 		} else {

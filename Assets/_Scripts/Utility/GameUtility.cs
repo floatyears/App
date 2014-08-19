@@ -161,7 +161,8 @@ public class DGTools {
 	/// <summary>
 	/// 0:player, 1:enemy, 2:normal, 3:passive, 4:active.
 	/// </summary>
-	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
+//	public static string[] stateInfo = new string[] {"Player-Phase","Enemy-Phase","Normal-Skill","Passive-Skill","Active-Skill"};
+	public static string[] stateInfo = new string[] {"Player Phase","Enemy Phase","Normal Skill","Passive Skill","Active Skill"};
 
 	public static int RandomToInt(int min,int max) {
 		return UnityEngine.Random.Range(min,max);
