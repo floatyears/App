@@ -116,7 +116,7 @@ Game_Setting_Option_Contact=Contact Us
 Text_ResetData=Reset
 Text_BGM=BGM
 Text_Sound=Sound
-ContactUsContent=Support Email: MonsterStory@yeedion.com
+ContactUsContent=Support Email: cs@yeedion.com
 ContactUs=Contact us
 
 Text_Leader_Skill=Leader Skill
@@ -510,9 +510,9 @@ SelectRole_No=No.:
 DeleteNoteTitle=Delete Friend
 DeleteNoteContent=Are you sure to delete this friend?
 
-ZeroFriendPoint=You got pal 0 point from this quest.
-GotFriendPoint=You have got {0} pal point from this quest.
-TotalFriendPoint=Total pal point: {0}.
+ZeroFriendPoint=You got [FFB14A]0[-] pal point from this quest.
+GotFriendPoint=You have got [FFB14A]{0}[-] pal points from this quest.
+TotalFriendPoint=Now your total pal points: [FFB14A]{0}[-]
 
 ##preface
 Preface_Content1=Look out! Assassin!
