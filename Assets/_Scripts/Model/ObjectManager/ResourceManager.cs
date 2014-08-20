@@ -23,9 +23,7 @@ public class ResourceManager : MonoBehaviour{
 			return instance;
 		}
 	}
-
-
-
+	
 	public void Init(DataListener callback){
 		int num = 1;
 		assetBundles[ResourceAssetBundle.PROTOBUF] = new AssetBundleObj(ResourceAssetBundle.PROTOBUF,ResourceManager.ResourceInit,new List<ResourceCallback>{o=>{num--; if(num <= 0)callback(null);}},GetBundleTypeByKey(ResourceAssetBundle.PROTOBUF));

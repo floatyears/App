@@ -63,18 +63,17 @@ public class ModelManager {
     }
 
     public void InitData() {
-//        ConfigUnitInfo cui = new ConfigUnitInfo();
+//      ConfigUnitInfo cui = new ConfigUnitInfo();
 //		Debug.LogWarning ("InitData ConfigSkill");
         ConfigSkill cs = new ConfigSkill();
-//        ConfigEnermy ce = new ConfigEnermy();
+//      ConfigEnermy ce = new ConfigEnermy();
         ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo();
         ConfigTrap ct = new ConfigTrap();
 
         ConfigFriendList configFriendList = new ConfigFriendList();
         ConfigAudio audioConfig = new ConfigAudio();
-//        ConfigStage stage = new ConfigStage();
+//      ConfigStage stage = new ConfigStage();
         ConfigViewData tempViewData = new ConfigViewData();
-
 //		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
     }
 	
