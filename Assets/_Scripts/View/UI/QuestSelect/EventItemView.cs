@@ -8,7 +8,6 @@ public class EventItemView : MonoBehaviour{
 	UISprite timeBg;
 
 	public List<string> stageOrderList1 = new List<string>(){
-		{"icon_stage_special"},
 		{"icon_stage_fire"},
 		{"icon_stage_water"},
 		{"icon_stage_wind"},
@@ -185,17 +184,43 @@ public class EventItemView : MonoBehaviour{
 			atlas = (o as GameObject).GetComponent<UIAtlas>();
 
 			UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+			UISprite attr = transform.FindChild("Icon/Attr").GetComponent<UISprite>();
+			UISprite bg = transform.FindChild("Background").GetComponent<UISprite>();
 			icon.atlas = atlas;
+			attr.atlas = atlas;
+			bg.atlas = atlas;
+
+			if(data.CityId == 101){
+				bg.spriteName = "icon_event_1";
+			}else{
+				bg.spriteName = "icon_event_2";
+			}
+			TweenRotation ro = attr.GetComponent<TweenRotation>();
+			TweenRotation ro1 = icon.GetComponent<TweenRotation>();
 
 			if(state == StageState.EVENT_OPEN){
-				ShowIconAccessState(icon);
+				ShowIconAccessState(attr);
 				
 				//			string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";
 				//			GameObject prefab = Resources.Load(sourcePath) as GameObject;
 				//			NGUITools.AddChild(gameObject, prefab);
+				icon.spriteName = "icon_event_a";
+				icon.width = 73;
+				icon.height = 73;
+//				attr.spriteName = data.Type;
+
+				ro.enabled = true;
+				ro.ResetToBeginning();
+				ro1.enabled = true;
+				ro1.ResetToBeginning();
+
 				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 			}else if(state == StageState.EVENT_CLOSE){
-				icon.spriteName = "icon_stage_lock";
+				icon.spriteName = "icon_event_b";
+				icon.width = 78;
+				icon.height = 78;
+				ro.enabled = false;
+				ro1.enabled = false;
 				UIEventListener.Get(this.gameObject).onClick = ShowTip;
 			}
 		});
@@ -203,16 +228,10 @@ public class EventItemView : MonoBehaviour{
 	}
 
 	private void ShowIconAccessState(UISprite icon){
-		int stagePos = int.Parse(gameObject.name);
+//		int stagePos;
+//		int.TryParse(,out stagePos);
 
-		if(data.CityId == 1){
-			//first city by the order of list1
-			icon.spriteName = stageOrderList1[ stagePos ];
-		}
-		else{
-			//others by order of list2
-			icon.spriteName = stageOrderList2[ stagePos ];
-		}
+		icon.spriteName = stageOrderList1[ (int)data.ID%10 - 1 ];
 	}
 
 
