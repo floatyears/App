@@ -15,7 +15,7 @@ public class EnemyItem : UIBaseUnity {
     private UISprite bloodSprite;
 	private UISprite bloodBgSprite;
     private UILabel nextLabel;
-	private UISprite stateSprite;
+	private UILabel stateSprite;
 
     private UIPanel effect;
     private Vector3 attackPosition;
@@ -88,16 +88,19 @@ public class EnemyItem : UIBaseUnity {
 		battleEnemy.EnemyItemPlayEffect (this, ai);
     }
 
+	const string weak = "Weak";
+	const string guard = "Guard";
+
 	void DisposeRestraint(AttackInfo ai) {
-		if (!string.IsNullOrEmpty (stateSprite.spriteName)) {
-			stateSprite.spriteName = string.Empty;
+		if (!string.IsNullOrEmpty (stateSprite.text)) {
+			stateSprite.text = string.Empty;
 		}
 
 		if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType ())) {
-			DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
+			stateLabel.text = weak; // DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
 			ShakeStateSprite ();
 		} else if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType (), true)) {
-			DGTools.ShowSprite (stateSprite, "Guard"); // weak == attack count atlas sprite name.
+			stateLabel.text = guard;// DGTools.ShowSprite (stateSprite, "Guard"); // weak == attack count atlas sprite name.
 			ShakeStateSprite ();
 		}
 	}
@@ -107,7 +110,7 @@ public class EnemyItem : UIBaseUnity {
 	}
 
 	void HideStateSprite () {
-		stateSprite.spriteName = string.Empty;
+		stateSprite.text = string.Empty;
 	}
 
     void ShowHurtInfo(int injuredValue) {
@@ -186,8 +189,8 @@ public class EnemyItem : UIBaseUnity {
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
 
-		stateSprite = FindChild<UISprite>("StateSprite");
-		stateSprite.spriteName = string.Empty;
+		stateSprite = FindChild<UILabel>("StateSprite");
+		stateSprite.text = string.Empty;
 
 		stateExceptionSprite = FindChild<UISprite>("StateExceptionSprite");
 		initStateExceptionSprite = stateExceptionSprite.transform.localPosition;

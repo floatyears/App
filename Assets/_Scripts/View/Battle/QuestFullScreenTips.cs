@@ -38,16 +38,9 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
-	
-//	private UISprite sprite;
-//	private TweenAlpha tweenAlpha;
 
 	private UILabel[] label = new UILabel[3];// 0=top, 1=bottom, 2=center
 	private TweenAlpha[] tweenAlpha = new TweenAlpha[3];
-
-//	private UILabel topLabel;
-//	private UILabel bottomLabel;
-//	private UILabel centerLabel;
 
 	private Vector3 initLocalPosition = Vector3.zero;
 	private Vector3 initLocalScale = Vector3.zero;
@@ -55,7 +48,6 @@ public class QuestFullScreenTips : UIBaseUnity {
 
 	void HideUI(bool b) {
 		if (b) {
-//			sprite.spriteName = string.Empty;
 			foreach (var item in label) {
 				item.text = "";
 			}
@@ -68,15 +60,33 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public void ShowTexture(string name,Callback cb,float time = 0f) {
 		ShowUI ();
 		tempTime = time;
-//		sprite.spriteName = name;
 
 		string[] splitName = name.Split('|');
+		Color32[] colors = new Color32[2];
+	
+		switch (name) {
+		case FirstAttack:
+			colors = firstGroupColor;
+			break;
+		case SPLimit:
+		case BackAttack:
+		case GameOver:
+		case BossAppears:
+			colors = thirdGroupColor;
+			break;
+		default:
+			colors = secondGroupColor;
+			break;
+		}
 
 		if (splitName.Length == 2) {
 			label [0].text = splitName [0];
 			label [1].text = splitName [1];
+			SetLabelGradient(label[0], colors);
+			SetLabelGradient(label[1], colors);
 		} else if (splitName.Length == 1) {
 			label[2].text = name;	
+			SetLabelGradient(label[2], colors);
 		}
 
 		callBack = cb;
@@ -102,21 +112,14 @@ public class QuestFullScreenTips : UIBaseUnity {
 
 	void PlayReadyMove() {
 		transform.localPosition = initLocalPosition;
-//		tweenAlpha.enabled = true;
-//		tweenAlpha.ResetToBeginning ();
 		ActiveTweenAlpha ();
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_ready);
-
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
 	void PlayAll () {
-//		tweenAlpha.enabled = true;
-//		tweenAlpha.ResetToBeginning ();
-
 		ActiveTweenAlpha ();
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
-
 	}
 
 	void ActiveTweenAlpha() {
@@ -156,6 +159,16 @@ public class QuestFullScreenTips : UIBaseUnity {
 
 	void BossAppearAnim() {
 		iTween.ScaleTo (gameObject, iTween.Hash ("y", 1f, "time", 0.3f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
+	}
+
+	//---------------------------------------------color-----------------------------------------------------
+	public static Color32[] firstGroupColor = new Color32[2] { new Color32(141, 227, 246, 255), new Color32(68, 149, 208, 255)};
+	public static Color32[] secondGroupColor = new Color32[2] { new Color32(238, 232, 0, 255), new Color32(251, 149, 0, 255)};
+	public static Color32[] thirdGroupColor = new Color32[2] { new Color32(247, 8, 8, 255), new Color32(210, 43, 43, 255)};
+
+	public static void SetLabelGradient(UILabel label, Color32[] colors) {
+		label.gradientTop = colors [0];
+		label.gradientBottom = colors [1];
 	}
 
 	//---------------------------------------------appear-----------------------------------------------------

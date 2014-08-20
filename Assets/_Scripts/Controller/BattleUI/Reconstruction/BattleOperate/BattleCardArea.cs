@@ -98,6 +98,16 @@ public class BattleCardArea : UIBaseUnity {
 			prevInfo = stateLabel.text;
 		}
 
+		Color32[] colors;
+
+		if (info == DGTools.stateInfo [0] || info == DGTools.stateInfo [1]) {
+			colors = QuestFullScreenTips.thirdGroupColor;		
+		} else {
+			colors = QuestFullScreenTips.secondGroupColor;
+		}
+
+		QuestFullScreenTips.SetLabelGradient (stateLabel, colors);
+
 		if (stateLabel.text == string.Empty) {
 			stateLabel.transform.localPosition = HidePosition;	
 			ShowStateLabel ();
