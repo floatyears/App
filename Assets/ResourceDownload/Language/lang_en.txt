@@ -116,7 +116,7 @@ Game_Setting_Option_Contact=Contact Us
 Text_ResetData=Reset
 Text_BGM=BGM
 Text_Sound=Sound
-ContactUsContent=Support Email: MonsterStory@yeedion.com
+ContactUsContent=Support Email: cs@yeedion.com
 ContactUs=Contact us
 
 Text_Leader_Skill=Leader Skill
