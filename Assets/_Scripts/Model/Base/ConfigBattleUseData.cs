@@ -426,4 +426,17 @@ public class ConfigBattleUseData {
 
 		return data;
 	}
+
+	public int GetMapID () {
+		if (currentStageInfo == null) {
+			return 2; // 2 is default stage id.
+		} else {
+			int stageID = ((int)currentStageInfo.ID) % 10;
+			if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
+				return stageID == 1 ? 7 : -- stageID;
+			} else {
+				return stageID;
+			}
+		}
+	}
 }

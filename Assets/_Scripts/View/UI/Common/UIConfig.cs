@@ -103,7 +103,7 @@ public class UIConfig{
 	public const string settingWindowName = "MusicWindow";
 	public const string nicknameWindowName = "NicknameWindow";
 	public const string prefaceWindowName = "PrefaceWindow";
-	public const string resourceDownloadWindowName = "ResourceDownload";
+	public const string resourceDownloadWindowName = "ResourceDownloadWindow";
 
 	public const string fightReadyWindowName = "FightReadyWindow";
 

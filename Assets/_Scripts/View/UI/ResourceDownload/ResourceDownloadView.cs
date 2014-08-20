@@ -21,6 +21,10 @@ public class ResourceDownloadView : UIComponentUnity {
 //		ShowRewardInfo ();
 	}
 
+	public override void HideUI(){
+		base.HideUI ();
+	}
+
 	private void InitUI(){
 		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Title_ResourceDownload");
 	}

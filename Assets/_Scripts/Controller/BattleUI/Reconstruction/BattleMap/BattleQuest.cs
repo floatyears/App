@@ -476,7 +476,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void RoleCoordinate(Coordinate coor) {
-		Debug.LogError ("coor : " + coor.x + " coor : " + coor.y);
+//		Debug.LogError ("coor : " + coor.x + " coor : " + coor.y);
 		if (!battleMap.ReachMapItem (coor)) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				battleMap.prevMapItem.HideGridNoAnim ();

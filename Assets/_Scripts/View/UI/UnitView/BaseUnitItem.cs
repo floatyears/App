@@ -158,6 +158,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void ClickItem(GameObject item){}
 	protected virtual void PressItem(GameObject item){
+//		Debug.LogError ("userUnit == null : " + (userUnit == null));
 		if (userUnit == null) {
 			return;	
 		}
