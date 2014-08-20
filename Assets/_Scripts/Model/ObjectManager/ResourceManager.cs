@@ -13,6 +13,8 @@ public class ResourceManager : MonoBehaviour{
 
 	private static ResourceManager instance;
 
+	public static List<int> exceptionList = new List<int>(){49,50,51,52,53,54,55,56,57,58,59,60,61,63,65,67,69,71,73,75,77,79,81,83,86,88,90,92,94,96,122,124,126,128,130,132,187,190,193,196,199,202};
+
 	public static ResourceManager Instance
 	{
 		get {
@@ -49,7 +51,7 @@ public class ResourceManager : MonoBehaviour{
 //			}
 //		}
 
-		if (path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0 || path.IndexOf("Atlas") == 0) {
+		if (path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || (path.IndexOf ("Avatar") == 0 && path.IndexOf("100") < 0) || (path.IndexOf ("Profile") == 0 && exceptionList.IndexOf(int.Parse(path.Substring(8))) < 0) || path.IndexOf("Atlas") == 0) {
 #if UNITY_EDITOR
 			
 
@@ -245,6 +247,9 @@ public class ResourceManager : MonoBehaviour{
 		}else if(path.IndexOf ("Avatar") == 0){
 			int num = 0;
 			int.TryParse(path.Substring(path.LastIndexOf('_')+1),out num);
+//			if(exceptionList.IndexOf(num) >= 0){
+//				return ResourceAssetBundle.AVATAR_EXCEPTION;
+//			}
 			switch(num){
 			case 0:
 				return ResourceAssetBundle.AVATAR_0;
@@ -277,6 +282,9 @@ public class ResourceManager : MonoBehaviour{
 			int num = 0;
 			//Debug.Log("profile:-----------------" + path.Substring(path.LastIndexOf('/')));
 			int.TryParse(path.Substring(path.LastIndexOf('/') + 1),out num);
+//			if(exceptionList.IndexOf(num) >= 0){
+//				return ResourceAssetBundle.PROFILE_EXCEPTION;
+//			}
 			switch((int)((num-1)/20)){
 				case 0:
 					return ResourceAssetBundle.PROFILE_0;
@@ -340,6 +348,8 @@ public class ResourceManager : MonoBehaviour{
 				return langStr;
 			case ResourceAssetBundle.PROTOBUF:
 				return protoStr;
+//			case ResourceAssetBundle.PROFILE_EXCEPTION:
+//				return "Profile_";
 			case ResourceAssetBundle.PROFILE_0:
 				return "Profile_0.unity3d";
 			case ResourceAssetBundle.PROFILE_1:
@@ -362,36 +372,36 @@ public class ResourceManager : MonoBehaviour{
 				return "Profile_9.unity3d";
 			case ResourceAssetBundle.PROFILE_10:
 				return "Profile_10.unity3d";
-		case ResourceAssetBundle.PROFILE_11:
-			return "Profile_11.unity3d";
-			
-			
+			case ResourceAssetBundle.PROFILE_11:
+				return "Profile_11.unity3d";
 			case ResourceAssetBundle.AVATAR_0:
-			return "Atlas_Avatar_0.unity3d";
+				return "Atlas_Avatar_0.unity3d";
 			case ResourceAssetBundle.AVATAR_1:
-			return "Atlas_Avatar_1.unity3d";
+				return "Atlas_Avatar_1.unity3d";
 			case ResourceAssetBundle.AVATAR_2:
-			return "Atlas_Avatar_2.unity3d";
+				return "Atlas_Avatar_2.unity3d";
 			case ResourceAssetBundle.AVATAR_3:
-			return "Atlas_Avatar_3.unity3d";
+				return "Atlas_Avatar_3.unity3d";
 			case ResourceAssetBundle.AVATAR_4:
-			return "Atlas_Avatar_4.unity3d";
+				return "Atlas_Avatar_4.unity3d";
 			case ResourceAssetBundle.AVATAR_5:
-			return "Atlas_Avatar_5.unity3d";
+				return "Atlas_Avatar_5.unity3d";
 			case ResourceAssetBundle.AVATAR_6:
-			return "Atlas_Avatar_6.unity3d";
+				return "Atlas_Avatar_6.unity3d";
 			case ResourceAssetBundle.AVATAR_7:
-			return "Atlas_Avatar_7.unity3d";
+				return "Atlas_Avatar_7.unity3d";
 			case ResourceAssetBundle.AVATAR_8:
-			return "Atlas_Avatar_8.unity3d";
+				return "Atlas_Avatar_8.unity3d";
 			case ResourceAssetBundle.AVATAR_9:
-			return "Atlas_Avatar_9.unity3d";
+				return "Atlas_Avatar_9.unity3d";
 			case ResourceAssetBundle.AVATAR_10:
-			return "Atlas_Avatar_10.unity3d";
-		case ResourceAssetBundle.AVATAR_11:
-			return "Atlas_Avatar_11.unity3d";
-		case ResourceAssetBundle.EventAtlas:
-			return "Event_Atlas.unity3d";
+				return "Atlas_Avatar_10.unity3d";
+			case ResourceAssetBundle.AVATAR_11:
+				return "Atlas_Avatar_11.unity3d";
+//			case ResourceAssetBundle.AVATAR_EXCEPTION:
+//				return "";
+			case ResourceAssetBundle.EventAtlas:
+				return "Event_Atlas.unity3d";
 			default:
 				break;
 		}
@@ -504,6 +514,7 @@ public enum ResourceAssetBundle{
 	PROFILE_9,
 	PROFILE_10,
 	PROFILE_11,
+//	PROFILE_EXCEPTION,
 
 	AVATAR_0,
 	AVATAR_1,
@@ -517,6 +528,7 @@ public enum ResourceAssetBundle{
 	AVATAR_9,
 	AVATAR_10,
 	AVATAR_11,
+//	AVATAR_EXCEPTION,
 
 	EventAtlas
 }

@@ -575,8 +575,12 @@ public class DataCenter {
 	public Dictionary<uint, UIAtlas> AvatarAtalsDic{get{return avatarAtalsDic;}}
 
 	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
+
 		uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
 		UIAtlas atlas = null;
+		if (ResourceManager.exceptionList.IndexOf ((int)unitID) >= 0) {
+			index = 100;
+		}
 		if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
 			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
 			ResourceManager.Instance.LoadLocalAsset (sourcePath, o=> {
