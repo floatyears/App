@@ -53,20 +53,20 @@ public class GameCurrencyAssets :  IStoreAssets{
 	
 	/** Static Final Members **/
 	
-	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ms";
+	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ml";
 
-	public const string PID_MONTH_CARD = "ms.chip.monthcard";
-	public const string PID_WEEK_CARD = "ms.chip.weekcard";
+	public const string PID_MONTH_CARD = "ml.chip.monthcard";
+	public const string PID_WEEK_CARD = "ml.chip.weekcard";
 
-	public const string PID_CHIP_PACK1 = "ms.chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
+	public const string PID_CHIP_PACK1 = "ml.chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
 	
-	public const string PID_CHIP_PACK2 = "ms.chip.pack2";//"android.test.purchased";//"slotsempire.gems.pack2";
+	public const string PID_CHIP_PACK2 = "ml.chip.pack2";//"android.test.purchased";//"slotsempire.gems.pack2";
 
-	public const string PID_CHIP_PACK3 = "ms.chip.pack3";
+	public const string PID_CHIP_PACK3 = "ml.chip.pack3";
 
-	public const string PID_CHIP_PACK4 = "ms.chip.pack4";
+	public const string PID_CHIP_PACK4 = "ml.chip.pack4";
 
-	public const string PID_CHIP_PACK5 = "ms.chip.pack5";
+	public const string PID_CHIP_PACK5 = "ml.chip.pack5";
 
 	public const string PID_CHIP_PACK6 = "android.test.purchased";
 	

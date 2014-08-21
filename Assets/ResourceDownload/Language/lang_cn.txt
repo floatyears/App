@@ -101,6 +101,10 @@ City_Event=活动关卡
 
 Title_YourID=用户ID
 Title_ResourceDownload=资源下载
+EventRankNeedTitle=等级不够
+EventRankNeedContent=需要10级及以上才能进入活动关卡!
+DownloadResourceTipTile=资源下载
+DownloadResourceTipContent=问了更好的游戏体验，将下载部分游戏资源
 ##Game setting options
 Game_Setting_Option_Music=音乐设置
 Game_Setting_Option_NickName=修改昵称

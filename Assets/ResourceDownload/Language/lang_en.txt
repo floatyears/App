@@ -105,6 +105,10 @@ City_Event=Event
 
 Title_YourID=User ID
 Title_ResourceDownload=Resource Download
+EventRankNeedTitle=Rank 10 Needed
+EventRankNeedContent=Only above rank 10 could enter the event stage!
+DownloadResourceTipTile=Resource Download
+DownloadResourceTipContent=It will download some resources for better game experience.
 ##Game setting options
 Game_Setting_Option_Music=Music
 Game_Setting_Option_NickName=Change Name

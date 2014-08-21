@@ -31,7 +31,7 @@ public sealed class ServerConfig {
 	public const string UmengAppKey = "53e7f407fd98c594da01b21f"; //AndroidTest
 	#elif LANGUAGE_EN
 	public const string Channel = "GooglePlay";
-	public const string UmengAppKey = "5374a17156240b3916013ee8"; //GooglePlay Umeng AppKey
+	public const string UmengAppKey = "53f59e2ffd98c5e80b045f1c"; //GooglePlay Umeng AppKey
 	#else
 	public const string Channel = "AndroidCN";
 	public const string UmengAppKey = "53e7f407fd98c594da01b21f"; //AndroidTest
