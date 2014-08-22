@@ -293,9 +293,9 @@ public class ResourceUpdate : MonoBehaviour {
 								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
 						} else {
 								SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);
-								Umeng.GA.FinishLevel ("NewUserDownload");
-								Umeng.GA.EventEnd ("NewUserDownloadTime");
-								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
+//								Umeng.GA.FinishLevel ("NewUserDownload");
+//								Umeng.GA.EventEnd ("NewUserDownloadTime");
+//								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
 						}
 
 //					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
@@ -577,8 +577,11 @@ public class ResourceUpdate : MonoBehaviour {
 
 			DownloadItemInfo serverItem = serverVersionDic[name];
 			if(downloadLimit){
-				if(serverItem.name.IndexOf("Protobuf") < 0 && serverItem.name.IndexOf("Language") < 0 )
-					break;
+				if(serverItem.name.IndexOf("Protobuf") < 0 && serverItem.name.IndexOf("Language") < 0 ){
+//					Debug.Log("log: " + serverItem.name);
+					continue;
+				}
+					
 			} 
 			if(!localVersionDic.ContainsKey(name))
 			{
