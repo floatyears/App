@@ -5,7 +5,7 @@ public sealed class ServerConfig {
 
 	public const int AppVersion = 102; //1.0.0
 
-#if INNER_TEST
+#if INNER_TEST || UNITY_EDITOR
 //测试服务器
 	public const string ServerHost = "http://61.153.100.131:8080/";
 	public static string ResourceHost = "http://61.153.100.131/resource/" + AppVersion;

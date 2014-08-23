@@ -33,7 +33,7 @@ public class ResourceManager : MonoBehaviour{
 	private Dictionary<string,object> objectDic = new Dictionary<string, object>();
 
 	public Object LoadLocalAsset( string path, ResourceCallback callback ) {
-		//Debug.Log ("load res: " + path);
+		Debug.Log ("load res: " + path);
 		//the following resource will not be dynamiclly download.
 		if (string.IsNullOrEmpty (path)) {
 			return null;	
@@ -53,33 +53,38 @@ public class ResourceManager : MonoBehaviour{
 #if UNITY_EDITOR
 			
 
-//			ResourceAssetBundle key = GetBundleKeyByPath(path);
-//			
-//			if(!assetBundles.ContainsKey(key)){
-//							assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
-//				StartCoroutine(DownloadResource(key));
-//			}else{
-//				if(assetBundles[key].isLoading){
-////					Debug.Log("======path: " + path);
-//					if(assetBundles[key].callbackList.ContainsKey(path)){
-////						Debug.Log("add callback1: " + path + " " + callback);
-//						assetBundles[key].callbackList[path].Add(callback);
-//					}else {
-////						Debug.Log("add callback2: " + path + " " + callback);
-//						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
-//					}
-//				}else{
-//					if(callback != null){
-////						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
-//						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
-//						return null;
-//					}else{
-//						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
-//					}
-//				}
-//				
-//			}
-//			return null;
+			ResourceAssetBundle key = GetBundleKeyByPath(path);
+			
+			if(!assetBundles.ContainsKey(key)){
+							assetBundles[key] = new AssetBundleObj(key,path,new List<ResourceCallback>(){callback},GetBundleTypeByKey(key));
+				StartCoroutine(DownloadResource(key));
+			}else{
+				if(assetBundles[key].isLoading){
+//					Debug.Log("======path: " + path);
+					if(assetBundles[key].callbackList.ContainsKey(path)){
+//						Debug.Log("add callback1: " + path + " " + callback);
+						assetBundles[key].callbackList[path].Add(callback);
+					}else {
+//						Debug.Log("add callback2: " + path + " " + callback);
+						assetBundles[key].callbackList.Add(path,new List<ResourceCallback>(){callback});
+					}
+				}else{
+					if(callback != null){
+//						Debug.Log("resource load: " + path + " key: " + assetBundles[key].assetBundle);
+						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
+						return null;
+					}else{
+						if(assetBundles[key].assetBundle != null){
+							return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+						}else{
+							Debug.LogError("item without callback has no resource: " + path);
+							return null;
+						}
+					}
+				}
+				
+			}
+			return null;
 
 			string ext = null;
 			if(path.IndexOf ("Prefabs") == 0){
@@ -152,7 +157,13 @@ public class ResourceManager : MonoBehaviour{
 						callback(assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1), GetBundleTypeByKey(key)));
 						return null;
 					}else{
-						return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+						if(assetBundles[key].assetBundle != null){
+							return assetBundles[key].assetBundle.Load(path.Substring(path.LastIndexOf('/')+1),  GetBundleTypeByKey(key));
+						}else{
+							Debug.LogError("item without callback has no resource: " + path);
+							return null;
+						}
+
 					}
 				}
 				
@@ -215,8 +226,41 @@ public class ResourceManager : MonoBehaviour{
 			if(checkRelies(assetBundles [key])){
 				assetBundles [key].ExeCallback ();
 			}	
+
+
 		}else{
 			Debug.LogError("load err: " + www.error);
+
+			//-------------
+			MsgWindowParams mwp = new MsgWindowParams ();
+			//mwp.btnParams = new BtnParam[1];
+			mwp.btnParams = new BtnParam[2];
+			mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
+			mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
+			
+			BtnParam sure = new BtnParam ();
+			sure.callback = o=>{
+				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,param=>{
+					DownloadResource(key);
+				});
+				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+			};
+			sure.text = TextCenter.GetText("OK");
+
+			BtnParam cancel = new BtnParam();
+			cancel.callback = o1=>{
+				assetBundles [key].assetBundle = null;
+				assetBundles [key].isLoading = false;
+				
+				if(checkRelies(assetBundles [key])){
+					assetBundles [key].ExeCallback ();
+				}
+			};
+			cancel.text = TextCenter.GetText("Cancel");
+			mwp.btnParams = new BtnParam[2]{sure,cancel};
+			
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//			return;
 		}
 
 
@@ -579,7 +623,13 @@ public class AssetBundleObj{
 				}else{
 					foreach(var c1 in item.Value){
 						Debug.Log("callback item: " + item.Key);
-						c1(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
+						if(assetBundle != null){
+							c1(assetBundle.Load(item.Key.Substring(item.Key.LastIndexOf('/')+1),type));
+						}else{
+							Debug.LogError("callback item assetbundle is null: " + item.Key);
+							c1(null);
+						}
+
 					}
 				}
 

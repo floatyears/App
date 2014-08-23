@@ -98,6 +98,7 @@ public class OthersWindow : UIComponentUnity {
 		case "ResetData":
 			GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
 			GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
+			GameDataStore.Instance.StoreData("ResrouceDownload","");
 			UIManager.Instance.ChangeScene(SceneEnum.Loading);
 			break;
 		case "Reward":

@@ -261,16 +261,16 @@ public class PartyPageView : UIComponentUnity {
 
 	void RefreshItemView(object args){
 		List<Texture2D> tex2dList = args as List<Texture2D>;
-		for (int i = 0; i < tex2dList.Count; i++) {
-			if(tex2dList[ i ] == null){
-				texureList[ i ].mainTexture = null;
-//				texureList[ i ].transform.FindChild("Sprite_Type").GetComponent<UISprite>().color = Color.white;
-				continue;
-			} 
-			else {
-				texureList[ i ].mainTexture = tex2dList[ i ];
-			}
-		}
+//		for (int i = 0; i < tex2dList.Count; i++) {
+//			if(tex2dList[ i ] == null){
+//				texureList[ i ].mainTexture = null;
+////				texureList[ i ].transform.FindChild("Sprite_Type").GetComponent<UISprite>().color = Color.white;
+//				continue;
+//			} 
+//			else {
+//				texureList[ i ].mainTexture = tex2dList[ i ];
+//			}
+//		}
 
 		foreach (var item in itemDic){
 			OnLightSprite(item.Key);
