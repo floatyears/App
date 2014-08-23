@@ -56,6 +56,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ml";
 
 	public const string PID_MONTH_CARD = "ml.chip.monthcard";
+
 	public const string PID_WEEK_CARD = "ml.chip.weekcard";
 
 	public const string PID_CHIP_PACK1 = "ml.chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";

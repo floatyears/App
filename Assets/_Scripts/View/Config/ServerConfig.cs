@@ -3,24 +3,26 @@ using System.Collections;
 
 public sealed class ServerConfig {
 
+	public const int AppVersion = 102; //1.0.0
+
 #if INNER_TEST
 //测试服务器
 	public const string ServerHost = "http://61.153.100.131:8080/";
-	public const string ResourceHost = "http://61.153.100.131";
+	public static string ResourceHost = "http://61.153.100.131/resource/" + AppVersion;
 #elif LANGUAGE_EN
 //美国服务器
 	public const string ServerHost = "http://us.yeedion.com:8080/";
-	public const string ResourceHost = "http://us.yeedion.com";
+	public static string ResourceHost = "http://us.yeedion.com/resource/" + AppVersion;
 #elif LANGUAGE_CN
 //中国服务器(ucloud)
 	public const string ServerHost = "http://61.153.100.131:8080/";
-	public const string ResourceHost = "http://61.153.100.131";
+	public static string ResourceHost = "http://61.153.100.131/resource/" + AppVersion;
 #else
 		"";
 #endif
 	
 
-	public const int AppVersion = 101; //1.0.0
+
 
 	public const string touchToLogin = "点击屏幕进入游戏";
 

@@ -13,7 +13,7 @@ public class ResourceManager : MonoBehaviour{
 
 	private static ResourceManager instance;
 
-	public static List<int> exceptionList = new List<int>(){49,50,51,52,53,54,55,56,57,58,59,60,61,63,65,67,69,71,73,75,77,79,81,83,86,88,90,92,94,96,122,124,126,128,130,132,187,190,193,196,199,202};
+	public static List<int> exceptionList = new List<int>(){1,5,9,49,50,51,52,53,54,55,56,57,58,59,60,61,63,65,67,69,71,73,75,77,79,81,83,86,88,90,92,94,96,122,124,126,128,130,132,187,190,193,196,199,202};
 
 	public static ResourceManager Instance
 	{
