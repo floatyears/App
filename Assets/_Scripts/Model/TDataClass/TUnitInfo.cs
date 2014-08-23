@@ -303,6 +303,7 @@ public class TUnitInfo : ProtobufDataBase {
 
 		if (uat == UnitAssetType.Avatar) {
 			if (avatarTexture == null) {
+//				DataCenter.Instance.GetAvatarAtlas(ID,avatarTexture);
 				path = string.Format ("Avatar/{0}", ID);
 				ResourceManager.Instance.LoadLocalAsset (path,o=>{
 					avatarTexture = o as Texture2D;

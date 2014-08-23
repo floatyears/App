@@ -139,6 +139,7 @@ public class BattleEnemy : UIBaseUnity {
 		sortCount = 0;
 		enemys.Clear ();
 		if (enemy.Count == 0) {
+			Debug.Log("no enemy");
 			sortCount++;
 			BeginSort ();
 		} else {

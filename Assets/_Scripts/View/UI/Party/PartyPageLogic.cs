@@ -108,7 +108,7 @@ public class PartyPageLogic : ConcreteComponent{
 		}
 		
 		List<TUserUnit> curUserUnitList = unitParty.GetUserUnit();
-		List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);
+//		List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);
 		
 //		int curPartyIndex = 1;
 		int curPartyIndex = GetPartyIndex();
@@ -116,8 +116,8 @@ public class PartyPageLogic : ConcreteComponent{
 		CallBackDispatcherArgs cbdIndex = new CallBackDispatcherArgs("RefreshPartyIndexView", curPartyIndex);
 		ExcuteCallback(cbdIndex);
 		
-		CallBackDispatcherArgs cbdTexture = new CallBackDispatcherArgs("RefreshPartyItemView", curPartyTexList);
-		ExcuteCallback(cbdTexture);
+//		CallBackDispatcherArgs cbdTexture = new CallBackDispatcherArgs("RefreshPartyItemView", curPartyTexList);
+//		ExcuteCallback(cbdTexture);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, unitParty);
 	}
 

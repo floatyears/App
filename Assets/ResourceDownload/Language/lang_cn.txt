@@ -59,6 +59,7 @@ Btn_Evolve=进化
 Btn_Fight=开始战斗
 
 Btn_ToDetail=查看详情
+Btn_TriggerSkill=使用
 
 ##Label Text
 Divided_Line=/

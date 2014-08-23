@@ -223,25 +223,25 @@ public class HomeView : UIComponentUnity{
 		} else {
 //			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && !DGTools.DownloadComplete){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
-
-				MsgWindowParams mwp = new MsgWindowParams ();
-				//mwp.btnParams = new BtnParam[1];
-				mwp.btnParam = new BtnParam ();
-				mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
-				mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
-				
-				BtnParam sure = new BtnParam ();
-				sure.callback = o=>{
-					MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
-					UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
-				};
-				sure.text = TextCenter.GetText("OK");
-				mwp.btnParam = sure;
-				
-				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-				return;
-			}
+//			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && !DGTools.DownloadComplete){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+//
+//				MsgWindowParams mwp = new MsgWindowParams ();
+//				//mwp.btnParams = new BtnParam[1];
+//				mwp.btnParam = new BtnParam ();
+//				mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
+//				mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
+//				
+//				BtnParam sure = new BtnParam ();
+//				sure.callback = o=>{
+//					MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
+//					UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+//				};
+//				sure.text = TextCenter.GetText("OK");
+//				mwp.btnParam = sure;
+//				
+//				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//				return;
+//			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 			UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
@@ -286,11 +286,11 @@ public class HomeView : UIComponentUnity{
 			}
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-			if(!DGTools.DownloadComplete){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
-				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
-				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
-				return;
-			}
+//			if(!DGTools.DownloadComplete){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+//				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
+//				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+//				return;
+//			}
 
 
 			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);

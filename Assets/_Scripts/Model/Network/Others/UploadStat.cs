@@ -44,6 +44,12 @@ public class UploadStat: ProtoManager {
 		
 		return (err.Code == (int)ErrorCode.SUCCESS);
 	}
+
+	public override void SetBlockMask (bool flag)
+	{
+		//no detail
+//		Debug.Log ("");
+	}
 	
 }
 
