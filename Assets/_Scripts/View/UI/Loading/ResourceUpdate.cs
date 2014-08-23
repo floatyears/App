@@ -8,18 +8,18 @@ using System.IO;
 public class ResourceUpdate : MonoBehaviour {
 
 	//private static string serverResURL = "file://" + Application.dataPath +"/ServerTest/";
-	public const string serverHost = ServerConfig.ResourceHost;
+	public static string serverHost = ServerConfig.ResourceHost;
 
-	public const string serverResURL =
+	public static string serverResURL =
 #if UNITY_EDITOR || UNITY_STANDALONE
-		serverHost+"/resource/android/";
+		serverHost+"/android/";
 #elif UNITY_ANDROID
-	serverHost+"/resource/android/";
+	serverHost+"/android/";
 #elif UNITY_IOS
-	serverHost+"/resource/ios/";
+	serverHost+"/ios/";
 #endif
 
-	public const string serverVersionURL = serverResURL + "version.txt";
+	public static string serverVersionURL = serverResURL + "version.txt";
 	//private static string serverVersionURL = serverResURL + "version.txt";
 
 	public static string localResPath = 
@@ -293,9 +293,9 @@ public class ResourceUpdate : MonoBehaviour {
 								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
 						} else {
 								SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);
-								Umeng.GA.FinishLevel ("NewUserDownload");
-								Umeng.GA.EventEnd ("NewUserDownloadTime");
-								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
+//								Umeng.GA.FinishLevel ("NewUserDownload");
+//								Umeng.GA.EventEnd ("NewUserDownloadTime");
+//								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
 						}
 
 //					if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
@@ -577,8 +577,11 @@ public class ResourceUpdate : MonoBehaviour {
 
 			DownloadItemInfo serverItem = serverVersionDic[name];
 			if(downloadLimit){
-				if(serverItem.name.IndexOf("Protobuf") < 0 && serverItem.name.IndexOf("Language") < 0 )
-					break;
+				if(serverItem.name.IndexOf("Protobuf") < 0 && serverItem.name.IndexOf("Language") < 0 ){
+//					Debug.Log("log: " + serverItem.name);
+					continue;
+				}
+					
 			} 
 			if(!localVersionDic.ContainsKey(name))
 			{

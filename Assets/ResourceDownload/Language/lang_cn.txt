@@ -87,6 +87,9 @@ Last_LoginTimeD={0}天前
 Last_LoginTimeH={0}小时前
 Last_LoginTimeM={0}分钟前
 Less_OneMin=少于一分钟
+Default_Nickname=暂未取名
+NameIsNullTitle=名字不能为空
+NameIsNullContent=请输入一个有效的名字
 
 ##City Name
 City_Name_1=雾隐山脉

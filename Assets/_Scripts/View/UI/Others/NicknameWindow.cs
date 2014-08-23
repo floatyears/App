@@ -18,6 +18,8 @@ public class NicknameWindow : UIComponentUnity {
 		base.ShowUI ();
 		//		SetUIElement();
 
+//		nickNameInput.isSelected = true;
+//		nickNameInput.gameObject.SendMessage ("OnPress",true);
 //		MsgCenter.Instance.Invoke (CommandEnum.SetBlocker,new BlockerMaskParams(BlockerReason.MessageWindow,true));
 	}
 	
@@ -43,6 +45,10 @@ public class NicknameWindow : UIComponentUnity {
 		nickNameInput = FindChild< UIInput >("NickNameInput" );
 //		nickNameInput.
 
+		if (string.IsNullOrEmpty(DataCenter.Instance.UserInfo.NickName)) {
+			nickNameInput.value = TextCenter.GetText ("Default_Nickname");
+//			FindChild<UILabel>("NickNameInput/Label").text = TextCenter.GetText ("Default_Nickname");	
+		}
 
 	}
 
@@ -55,10 +61,21 @@ public class NicknameWindow : UIComponentUnity {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		LogHelper.Log("ClickOkButton to rename");
 //		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		if (nickNameInput.value == null || nickNameInput.value == "") {
-
+		if (string.IsNullOrEmpty(nickNameInput.value) && string.IsNullOrEmpty(nickNameInput.defaultText)){// == null || nickNameInput.value == "") {
+			MsgWindowParams mwp = new MsgWindowParams ();
+			//mwp.btnParams = new BtnParam[1];
+			mwp.btnParam = new BtnParam ();
+			mwp.titleText = TextCenter.GetText("NameIsNullTitle");
+			mwp.contentText = TextCenter.GetText("NameIsNullContent");
+			
+			BtnParam sure = new BtnParam ();
+			sure.callback = null;
+			sure.text = TextCenter.GetText("OK");
+			mwp.btnParam = sure;
+			
+			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 		} else {
-			ChangeName (nickNameInput.value);
+			ChangeName (!string.IsNullOrEmpty(nickNameInput.value) ? nickNameInput.value : nickNameInput.defaultText);
 		}
 
 	}
