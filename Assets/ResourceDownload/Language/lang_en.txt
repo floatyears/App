@@ -394,7 +394,7 @@ RareGachaStoneNotEnough=Rare summon need [FFB14A]{0}[-] magic stones\nYou donot 
 EventGacha=Event Summon
 EventGachaTitle=Event Summon
 EventGachaDescription=Spend magic stones to summon rare cards?
-EventGachaStatus=1 Summon:  [FFB14A]{0}[-] magic stones\n [FFB14A]{1}[-] Summons:  [FFB14A]{2}[-] magic stones.
+EventGachaStatus=1 Summon:  [FFB14A]{0}[-] magic stones\n {1} Summons:  [FFB14A]{2}[-] magic stones.
 
 ConfirmOneEventGacha=Summon Once
 ConfirmMaxEventGacha=Summon {0} Times
