@@ -91,6 +91,9 @@ Last_LoginTimeD={0} days ago
 Last_LoginTimeH={0} hours ago
 Last_LoginTimeM={0} minutes ago
 Less_OneMin=Less Than One Minute
+Default_Nickname=Your Name
+NameIsNullTitle=Input Name is Null
+NameIsNullContent=You haven't enter your name.
 
 ##City Name
 City_Name_1=Misty Mountain

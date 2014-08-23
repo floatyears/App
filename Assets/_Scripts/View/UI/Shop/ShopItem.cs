@@ -83,6 +83,7 @@ public class ShopItem : MonoBehaviour {
 
 	private void OnBuy(GameObject obj){
 		StoreInventory.BuyItem (data.itemId);
+		Debug.Log("item id: " + data.itemId);
 		MsgCenter.Instance.AddListener (CommandEnum.OnBuyEvent,OnBuyHandler);
 	}
 
@@ -92,6 +93,7 @@ public class ShopItem : MonoBehaviour {
 
 	void OnBuyHandler(object d){
 		Dictionary<string,string> dic = d as Dictionary<string,string>;
+		Debug.Log("item id: " + data.itemId);
 		if (dic.ContainsKey("id") && dic ["id"] == data.itemId) {
 			MsgCenter.Instance.RemoveListener (CommandEnum.OnBuyEvent,OnBuyHandler);
 			if (dic.ContainsKey ("success") && dic ["success"] == "1") {

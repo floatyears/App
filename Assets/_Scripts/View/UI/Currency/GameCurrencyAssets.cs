@@ -69,7 +69,7 @@ public class GameCurrencyAssets :  IStoreAssets{
 
 	public const string PID_CHIP_PACK5 = "ml.chip.pack5";
 
-	public const string PID_CHIP_PACK6 = "android.test.purchased";
+	public const string PID_CHIP_PACK6 = "ml.chip.pack6";//"android.test.purchased";
 	
 //	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
 //	
