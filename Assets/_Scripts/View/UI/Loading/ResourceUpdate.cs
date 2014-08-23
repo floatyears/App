@@ -125,8 +125,11 @@ public class ResourceUpdate : MonoBehaviour {
 		bg = GameObject.Find ("LoadProgress/Background").GetComponent<UISprite>();
 		fg = GameObject.Find ("Foreground").GetComponent<UISprite>();
 
-		if(GameObject.Find("Version") != null)
+		if (GameObject.Find ("Version") != null) {
 			versionTxt = GameObject.Find ("Version").GetComponent<UILabel> ();
+			versionTxt.enabled = false;	
+		}
+			
 
 		InvokeRepeating ("ShowTipText", 0, 5);
 
@@ -135,6 +138,7 @@ public class ResourceUpdate : MonoBehaviour {
 		tipText.enabled = false;
 		bg.enabled = false;
 		fg.enabled = false;
+
 
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
@@ -197,8 +201,11 @@ public class ResourceUpdate : MonoBehaviour {
 			proText.text = currentDownload + (pro.value*100).ToString("F2") + "%(" + totalDownload + ((float)total / (float)(1024*1024)).ToString("F2") + "MB)";
 		}
 
-		if(versionTxt != null)
-			versionTxt.text = appVersion + version;
+//		if (versionTxt != null) {
+//			versionTxt.text = appVersion + version;
+//			versionTxt.enabled = true;
+//		}
+			
 
 		//#if INNER_TEST
 		//		versionTxt.text = "download.count:"+downLoadItemList.Count+" retry.count:"+retryItemList.Count;
@@ -408,7 +415,10 @@ public class ResourceUpdate : MonoBehaviour {
 				return;
 			}
 
-			
+			if (versionTxt != null) {
+				versionTxt.text = appVersion + version;
+				versionTxt.enabled = true;
+			}
 			//load the local version.txt. if not exists, jump through the init.
 
 			StartCoroutine(Download(localResPath + "version.txt",delegate(WWW localVersion) {
@@ -420,6 +430,7 @@ public class ResourceUpdate : MonoBehaviour {
 				{
 					LoadVersionConfig(localVersion.text,localVersionDic);
 				}
+
 				CompareVersion();
 			},true));
 		}));

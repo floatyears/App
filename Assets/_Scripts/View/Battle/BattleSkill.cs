@@ -98,6 +98,7 @@ public class BattleSkill : UIBaseUnity {
 		skillDic.Add(info, si);
 		roundLabel = FindChild<UILabel>("RoundLabel");
 		boostButton = FindChild<UIButton>("BoostButton");
+		FindChild<UILabel> ("BoostButton/Label").text = TextCenter.GetText ("Btn_TriggerSkill");
 		UIEventListener.Get (boostButton.gameObject).onClick = Boost;
 		Transform trans = FindChild<Transform>("Title/Button_Close");
 		UIEventListener.Get (trans.gameObject).onClick = Close;

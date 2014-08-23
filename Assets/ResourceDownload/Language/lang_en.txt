@@ -62,6 +62,7 @@ Btn_Evolve=Evolve
 Btn_Fight=Battle
 
 Btn_ToDetail=View Info
+Btn_TriggerSkill=Trigger Skill
 
 ##Label Text
 Divided_Line=/

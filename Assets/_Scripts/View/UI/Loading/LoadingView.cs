@@ -94,6 +94,7 @@ public class LoadingView : UIComponentUnity {
 #else
 	"TAP SCREEN TO START";
 #endif
+
 		//TextCenter.GetText("Text_TapToLogin");
 
 	}
