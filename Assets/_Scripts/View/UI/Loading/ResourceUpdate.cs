@@ -288,8 +288,10 @@ public class ResourceUpdate : MonoBehaviour {
 				} else {
 						isLoginSent = true;
 						if(!downloadLimit)
-							DGTools.DownloadComplete = true;
+							GameDataStore.Instance.StoreData("ResourceComplete","true");
+							
 						if (this.transform.parent.name == "ResourceDownloadWindow(Clone)") {
+								
 								
 //								StartCoroutine(CallLater());
 								UIManager.Instance.ChangeScene (SceneEnum.Home);
@@ -299,6 +301,7 @@ public class ResourceUpdate : MonoBehaviour {
 								Umeng.GA.EventEnd ("NewUserDownloadTime");
 								GameDataAnalysis.Event (GameDataAnalysisEventType.DownloadEnd);
 						} else {
+								
 								SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);
 //								Umeng.GA.FinishLevel ("NewUserDownload");
 //								Umeng.GA.EventEnd ("NewUserDownloadTime");
