@@ -141,6 +141,7 @@ public class BattleQuest : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 		MsgCenter.Instance.AddListener (CommandEnum.LeaderSkillEnd, LeaderSkillEnd);
 		Resources.UnloadUnusedAssets ();
+
 		GameTimer.GetInstance ().AddCountDown (0.5f, ShowScene);
 		base.ShowUI ();
 		AddListener ();
