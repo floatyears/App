@@ -154,7 +154,8 @@ public class Battle : UIBase {
 		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
 	}
 
-	const float moveTime = 0.2f;
+	const float dragTime = 0.28f;
+	const float moveTime = 0.4f;
 
 	GameTimer gameTimer;
 	public void GuideCardAnim() {
@@ -169,7 +170,7 @@ public class Battle : UIBase {
 		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime) );
 		MoveFinger (target.transform.position, toPosition, moveTime);
 
-		gameTimer.AddCountDown ( 0.22f, AnimStep1 );
+		gameTimer.AddCountDown ( dragTime, AnimStep1 );
 	}
 
 	void MoveFinger(Vector3 startPosition, Vector3 toPosition, float time) {
@@ -281,7 +282,7 @@ public class Battle : UIBase {
 		selectTarget.Add (ci);
 		MoveFinger (target.transform.position, toPosition, moveTime);
 		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime));
-		gameTimer.AddCountDown (0.23f, GenerateCardEnd);
+		gameTimer.AddCountDown (dragTime, GenerateCardEnd);
 	} 
 
 	int cardIndex = 0;
@@ -310,7 +311,7 @@ public class Battle : UIBase {
 		if (nextIndex == fromIndexCache.Count) {
 			iTween.MoveTo (target, battleCardArea.battleCardAreaItem [generateIndex].transform.position, moveTime);
 
-			gameTimer.AddCountDown(0.24f, MoveAllToPosition);
+			gameTimer.AddCountDown(dragTime, MoveAllToPosition);
 
 			MoveFinger(target.transform.position, battleCardArea.battleCardAreaItem [generateIndex].transform.position, moveTime);
 		} else {
@@ -320,7 +321,7 @@ public class Battle : UIBase {
 
 			iTween.MoveTo (target, nextCi.transform.position, 0.2f);
 
-			gameTimer.AddCountDown (0.2f, MoveAllEnd);
+			gameTimer.AddCountDown (dragTime, MoveAllEnd);
 
 			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
 		}

@@ -183,5 +183,5 @@ public class QuestFullScreenTips : UIBaseUnity {
 	public const string QuestClear = "QUEST CLEAR !"; //"Quest--Clear!";
 	public const string FirstAttack = "FIRST ATTACK"; //"FIRST-ATTACK-";
 	public const string BackAttack = "BACK ATTACK"; //"BACK-ATTACK-";
-	public const string standReady = "STADN READY"; //"stand-ready";
+	public const string standReady = "STAND READY"; //"stand-ready";
 }
