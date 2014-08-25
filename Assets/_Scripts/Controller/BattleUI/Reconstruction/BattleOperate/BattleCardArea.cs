@@ -146,7 +146,7 @@ public class BattleCardArea : UIBaseUnity {
 				return;
 		battleCardAreaItem = new BattleCardAreaItem[position.Length];
 		float xOffset = backTexture.width * -0.5f;
-		float yOffset = backTexture.height * 1.8f;
+		float yOffset = backTexture.height * 1.7f;
 		stateLabel.transform.localPosition = position [0] + new Vector3 (xOffset, yOffset, 0f);
 		showPosition = stateLabel.transform.localPosition;
 		HidePosition = stateLabel.transform.localPosition + Vector3.right * -(stateLabel.mainTexture.width + Screen.width * 0.5f);

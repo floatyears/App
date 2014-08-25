@@ -17,8 +17,9 @@ public class ExcuteActiveSkill {
 	/// </summary>
 	public static void CoolingDoneLeaderActiveSkill() {
 		TUserUnit tuu = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit [0];
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.ActiveSkill, SkillType.ActiveSkill);
+		ActiveSkill sbi = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.ActiveSkill, SkillType.ActiveSkill) as ActiveSkill;
 		sbi.skillBase.skillCooling = 0;
+		sbi.RefreashCooling ();
 	}
 
 
@@ -59,6 +60,8 @@ public class ExcuteActiveSkill {
 		if (userUnit != null) {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id, out iase)) {
+//				Debug.LogError("activeSkill.TryGetValue true  : " + iase);
+
 				MsgCenter.Instance.Invoke(CommandEnum.StateInfo, DGTools.stateInfo[4]);
 
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_active_skill);
@@ -68,11 +71,14 @@ public class ExcuteActiveSkill {
 				ai.SkillID = (iase as ActiveSkill).skillBase.id;
 				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, ai);
 				GameTimer.GetInstance().AddCountDown(AttackEffect.activeSkillEffectTime, WaitActiveEffect);
+			} else {
+//				Debug.LogError("activeSkill.TryGetValue false  : ");
 			}
 		}
 	}
 	
      void WaitActiveEffect() {
+//		Debug.LogError("WaitActiveEffect ");
 		MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
 		GameTimer.GetInstance().AddCountDown(1f,Excute);
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
@@ -81,6 +87,7 @@ public class ExcuteActiveSkill {
 	}
    
 	void Excute() {
+//		Debug.LogError ("Excute active skill iase: " + iase + " userUnit : " + userUnit);
 		if (iase == null || userUnit == null) {
 			return;	
 		}
@@ -93,6 +100,7 @@ public class ExcuteActiveSkill {
 	}
 
 	void ActiveSkillEnd() {
+//		Debug.LogError ("ActiveSkillEnd");
 		MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, false);
 	}
 
