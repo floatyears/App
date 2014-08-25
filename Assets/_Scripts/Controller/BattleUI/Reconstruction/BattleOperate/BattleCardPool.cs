@@ -4,7 +4,7 @@ using System.Collections;
 public class BattleCardPool : UIBaseUnity
 {
 	[HideInInspector]
-	public UISprite templateBackTexture ;
+	public UISprite templateBackTexture;
 
 	private Vector3[] cardPosition;
 
@@ -27,7 +27,6 @@ public class BattleCardPool : UIBaseUnity
 		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
 			cardPosition[i] = new Vector3(initPosition.x + i * cardInterv,initPosition.y,initPosition.z);
-//			Debug.LogError("initposition : " + initPosition + " cardPosition[i] : " + cardPosition[i]);
 			tempObject.transform.localPosition = cardPosition[i];
 			backTextureIns[i] = tempObject.GetComponent<UISprite>();
 		}
