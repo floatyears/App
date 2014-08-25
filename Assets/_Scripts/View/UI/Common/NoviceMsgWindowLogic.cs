@@ -16,14 +16,16 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 	}
 	
 	public override void DestoryUI(){
-		base.DestoryUI();
 		RemoveListener ();
+		base.DestoryUI();
 	}
 	
 	void AddListener(){
 		//LogHelper.Log ("------------open novice guide msg window add listener");
 		MsgCenter.Instance.AddListener(CommandEnum.OpenGuideMsgWindow, OpenGuideMsgWindow);
 		MsgCenter.Instance.AddListener(CommandEnum.CloseGuideMsgWindow, CloseGuideMsgWindow);
+
+		MsgCenter.Instance.AddListener (CommandEnum.DestoryGuideMsgWindow, DestoryGuideMsgWindow);
 	}
 	
 	
@@ -31,6 +33,8 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 		//LogHelper.Log ("------------open novice guide msg window remove listener");
 		MsgCenter.Instance.RemoveListener(CommandEnum.OpenGuideMsgWindow, OpenGuideMsgWindow);
 		MsgCenter.Instance.RemoveListener(CommandEnum.CloseGuideMsgWindow, CloseGuideMsgWindow);
+
+		MsgCenter.Instance.RemoveListener (CommandEnum.DestoryGuideMsgWindow, DestoryGuideMsgWindow);
 	}
 	
 	
@@ -44,6 +48,10 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 	void CloseGuideMsgWindow(object msg){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
 		ExcuteCallback(cbdArgs);
+	}
+
+	void DestoryGuideMsgWindow(object data) {
+		DestoryUI ();
 	}
 	
 }

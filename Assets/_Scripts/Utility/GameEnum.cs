@@ -295,6 +295,7 @@ public enum CommandEnum{
 	ExcuteActiveSkill,
 	OpenGuideMsgWindow,
 	CloseGuideMsgWindow,
+	DestoryGuideMsgWindow,
 	TakeAward,
 	GachaWindowInfo,
 	PlayAllEffect,
