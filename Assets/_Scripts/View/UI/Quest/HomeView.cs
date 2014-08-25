@@ -307,7 +307,12 @@ public class HomeView : UIComponentUnity{
 	
 		if(userUnitMaxCount < userCurrGotUnitCount){
 //			Debug.Log("current user's unit count is outnumber of the max!");
+			Umeng.GA.Event("UnitLimited");
+			Umeng.GA.StartLevel ("UnitLimited");
+			Umeng.GA.FinishLevel ("UnitLimited");
+
 			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
+
 			return true;
 		}
 		else
