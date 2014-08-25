@@ -6,9 +6,11 @@ public class MapDoor : UIBaseUnity {
 
 	private UILabel topLabel;
 	private UILabel bottomLabel;
+	private UISprite arrowSprite;
 
 	private TweenAlpha topAlpha;
 	private TweenAlpha bottomAlpha;
+	private TweenAlpha arrowAlpha;
 
 	private bool _doorOpen = false;
 
@@ -28,8 +30,10 @@ public class MapDoor : UIBaseUnity {
 		base.Init (name);
 		topLabel = FindChild<UILabel> ("Top");
 		bottomLabel = FindChild<UILabel> ("Bottom");
+		arrowSprite = FindChild<UISprite> ("Sprite");
 		topAlpha = topLabel.GetComponent<TweenAlpha>();
 		bottomAlpha = bottomLabel.GetComponent<TweenAlpha>();
+		arrowAlpha = arrowSprite.GetComponent<TweenAlpha>();
 
 		UIEventListener.Get (gameObject).onClick = ClickDoor;
 	}
@@ -86,11 +90,13 @@ public class MapDoor : UIBaseUnity {
 		bottomLabel.enabled = doorOpen;
 		topAlpha.enabled = doorOpen;
 		bottomAlpha.enabled = doorOpen;
+		arrowSprite.enabled = doorOpen;
+		arrowAlpha.enabled = doorOpen;
 		SetName (QuestFullScreenTips.BossBattle);
 	}
 	
 	void ClickDoor(GameObject go) {
-		Debug.LogError ("topLabel.enabled : " + topLabel.enabled + " content equal : " + (currentShowInfo == QuestFullScreenTips.BossBattle) + " canEnterDoor : " + canEnterDoor);
+//		Debug.LogError ("topLabel.enabled : " + topLabel.enabled + " content equal : " + (currentShowInfo == QuestFullScreenTips.BossBattle) + " canEnterDoor : " + canEnterDoor);
 		if (!topLabel.enabled) {
 			return;	
 		}
@@ -104,6 +110,8 @@ public class MapDoor : UIBaseUnity {
 			bottomLabel.enabled = false;
 			topAlpha.enabled = false;
 			bottomAlpha.enabled = false;
+			arrowSprite.enabled = false;
+			arrowAlpha.enabled = false;
 			return;
 		}
 
@@ -122,6 +130,8 @@ public class MapDoor : UIBaseUnity {
 		topAlpha.enabled = true;
 		bottomLabel.enabled = true;
 		bottomAlpha.enabled = true;
+		arrowSprite.enabled = true;
+		arrowAlpha.enabled = true;
 
 		SetName (QuestFullScreenTips.CheckOut);
 		checkOut = true;
