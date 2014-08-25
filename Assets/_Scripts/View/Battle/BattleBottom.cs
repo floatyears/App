@@ -294,6 +294,7 @@ public class BattleBottom : MonoBehaviour {
 	public void Boost() {
 		CloseSkillWindow ();
 		RemoveSkillEffect (prevID);
+//		Debug.LogError("Boost Active Skill : " + tuu);
 		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
 	}
 

@@ -44,6 +44,7 @@ public class TSkillSingleAttack : ActiveSkill  {
 	}
 
 	public override object Excute (string userUnitID, int atk = -1) {
+//		Debug.LogError ("TSkillSingleAttack cooling one : " + coolingDone);
 		if (!coolingDone) {
 			return null;		
 		}
@@ -55,6 +56,7 @@ public class TSkillSingleAttack : ActiveSkill  {
 		ai.SkillID = skillBase.id;
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackRange;
+//		Debug.LogError ("instance attack range : " + instance.attackRange + " type : " + instance.type);
 		if (instance.attackRange == EAttackType.RECOVER_HP) {
 			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, instance.value);
 		} else {
