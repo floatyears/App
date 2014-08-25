@@ -20,7 +20,6 @@ public class ExcuteActiveSkill {
 		ActiveSkill sbi = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.ActiveSkill, SkillType.ActiveSkill) as ActiveSkill;
 		sbi.skillBase.skillCooling = 0;
 		sbi.RefreashCooling ();
-//		Debug.LogError ("sbi : " + sbi.CoolingDone);
 	}
 
 
