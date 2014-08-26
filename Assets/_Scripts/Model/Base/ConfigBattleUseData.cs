@@ -32,7 +32,7 @@ public class ConfigBattleUseData {
 
 	private TStageInfo _currentStageInfo;
 	public TStageInfo currentStageInfo {
-		set { _currentStageInfo = value; }// Debug.LogError("currentStageInfo : " + value + " id : " + value.ID) ; }
+		set { _currentStageInfo = value;  Debug.LogError("currentStageInfo : " + value + " id : " + value.ID) ; }
 		get { return _currentStageInfo; }
 	}
 
@@ -428,8 +428,9 @@ public class ConfigBattleUseData {
 	}
 
 	public int GetMapID () {
-		if (currentStageInfo == null) {
-			return 2; // 2 is default stage id.
+//		Debug.LogError ("currentStageInfo == null :  " + (currentStageInfo == null));
+		if (currentStageInfo == null || NoviceGuideStepEntityManager.isInNoviceGuide()) {
+			return 3; //2 is default stage id.
 		} else {
 			int stageID = ((int)currentStageInfo.ID) % 10;
 			if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	

@@ -87,7 +87,7 @@ public class CardItem : UIBaseUnity {
 		tweenPosition.eventReceiver = gameObject;
 		tweenPosition.callWhenFinished = "TweenPositionCallback";
 		initPosition = actorTexture.transform.localPosition;
-		Debug.LogError ("initPosition : " + initPosition + "gameobject : " + gameObject);
+//		Debug.LogError ("initPosition : " + initPosition + "gameobject : " + gameObject);
 		initDepth = actorTexture.depth;
 		CanDrag = true;
 
@@ -119,7 +119,7 @@ public class CardItem : UIBaseUnity {
 //	}
 
 	public void SetPosition(Vector3 localposition) {
-		Debug.LogError ("gameobject : " + gameObject + "card item set position : " + localposition);
+//		Debug.LogError ("gameobject : " + gameObject + "card item set position : " + localposition);
 		transform.localPosition = localposition;
 	}
 
@@ -162,7 +162,7 @@ public class CardItem : UIBaseUnity {
 	}
 //	bool b = false;
 	public void Reset() {
-		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
+//		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
 //		transform.localPosition = initPosition;
 		SetPosition (initPosition);
 //		Debug.LogError ("transform.localPosition : " + transform.localPosition);

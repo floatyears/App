@@ -7,8 +7,8 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 	}
 	
 	public override void ShowUI(){
+
 		base.ShowUI();
-		
 	}
 	
 	public override void HideUI(){
@@ -19,7 +19,7 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 		RemoveListener ();
 		base.DestoryUI();
 	}
-	
+
 	void AddListener(){https://files.slack.com/files-pri/T02FJAEE5-F02H47HB0/___qq______.png
 		//LogHelper.Log ("------------open novice guide msg window add listener");
 		MsgCenter.Instance.AddListener(CommandEnum.OpenGuideMsgWindow, OpenGuideMsgWindow);
@@ -51,8 +51,6 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 	}
 
 	void DestoryGuideMsgWindow(object data) {
-
-
 		DestoryUI ();
 	}
 	

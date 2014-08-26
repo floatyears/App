@@ -40,7 +40,8 @@ public class GuideWindowParams{
 public class NoviceMsgWindowView : UIComponentUnity{
 
 	UISprite guidePicTex;
-	
+	GameObject guideAtlas;
+
 	GameObject window;
 	
 	UILabel titleLabel;
@@ -86,12 +87,19 @@ public class NoviceMsgWindowView : UIComponentUnity{
 		ResetUIElement();
 		ShowSelf(false);
 	}
+
+	public override void DestoryUI () {
+//		Debug.LogError ("DestoryUI : " + guideAtlas);
+//		DestroyImmediate (guideAtlas);
+//		Resources.UnloadAsset (guideAtlas);
+	}
 	
 	void FindUIElement(){
 		window = FindChild("Window");
 		mask = FindChild<UISprite>("Mask");
 
 		guidePicTex = FindChild<UISprite> ("Window/TipPic");
+		guideAtlas = guidePicTex.atlas.gameObject;
 
 		btnLeft = FindChild<UIButton>("Window/Button_Left");
 		btnRight = FindChild<UIButton>("Window/Button_Right");

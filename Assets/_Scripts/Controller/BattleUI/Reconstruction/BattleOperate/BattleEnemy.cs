@@ -36,6 +36,7 @@ public class BattleEnemy : UIBaseUnity {
 		battleAttackInfo.Init ();
 		bgTexture = FindChild<UITexture>("Texture");
 		string path = "Texture/Map/fight_" + ConfigBattleUseData.Instance.GetMapID ().ToString ();
+//		Debug.LogError ("BattleEnemy path : " + path);
 		ResourceManager.Instance.LoadLocalAsset (path, o => {
 						bgTexture.mainTexture = o as Texture2D;
 		});
