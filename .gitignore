@@ -15,3 +15,5 @@ Server/bbsvr/src/src
 bbsvr.iml
 Assets/GameAssets/EffectAsset/Texture/归档.zip
 Assets/GameAssets/EffectAsset/Texture/归档.zip.meta
+Assets/_Scripts/Test/TestNGUIMemory.cs
+Assets/_Scripts/Test/TestNGUIMemory.cs.meta
