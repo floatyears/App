@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class NoviceMsgWindowLogic : ConcreteComponent{
 	public NoviceMsgWindowLogic(string uiName):base(uiName){
@@ -20,7 +20,7 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 		base.DestoryUI();
 	}
 	
-	void AddListener(){
+	void AddListener(){https://files.slack.com/files-pri/T02FJAEE5-F02H47HB0/___qq______.png
 		//LogHelper.Log ("------------open novice guide msg window add listener");
 		MsgCenter.Instance.AddListener(CommandEnum.OpenGuideMsgWindow, OpenGuideMsgWindow);
 		MsgCenter.Instance.AddListener(CommandEnum.CloseGuideMsgWindow, CloseGuideMsgWindow);
@@ -51,6 +51,8 @@ public class NoviceMsgWindowLogic : ConcreteComponent{
 	}
 
 	void DestoryGuideMsgWindow(object data) {
+
+
 		DestoryUI ();
 	}
 	
