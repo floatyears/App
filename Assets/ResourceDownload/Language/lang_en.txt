@@ -479,7 +479,7 @@ BigRareWarning=Warning
 BigRareWarningText=Include cards bigger than 3 Star. Are you sure to sell them?
 
 UnitOverflow=Monster Box Overflow
-UnitOverflowText=Your current Monster Box capacity is [ff0000]{0}[-]/{1}.\n\nYou need to:\n 1. Extend Monster Box capacity. \n 2. Sell some monsters. \n 3. Use some monsters as materials in Power-up fusion.
+UnitOverflowText=Your current Monster Box capacity is [ff0000]{0}[-]/{1}.\n\nYou can:\n 1. Extend Monster Box capacity.  2. Sell some monsters. 3. Use some monsters as materials in Power-up fusion.
 
 FirendOverflow=Firend Overflow
 FriendOverflowText=Your current card capacity is {0}/{1}.Would you like to do friend expansion?
