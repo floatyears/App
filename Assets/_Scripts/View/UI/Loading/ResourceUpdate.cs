@@ -577,7 +577,7 @@ public class ResourceUpdate : MonoBehaviour {
 		downLoadItemList.Clear ();
 		startDown = false;
 		if (this.transform.parent.name == "Loading(Clone)") {
-			if (GameDataStore.Instance.GetData ("ResrouceDownload") == "Start") {
+			if (GameDataStore.Instance.GetData ("ResrouceDownload") == "Start" || (GameDataStore.Instance.GetData ("ResourceComplete") == "true")) {
 					//					SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);	
 					//					return;
 				downloadLimit = false;
