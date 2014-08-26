@@ -69,6 +69,17 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void Update() {
+		if (Input.GetKeyDown (KeyCode.A)) {
+			foreach (var item in UIDrawCall.inactiveList) {
+//				item.gameObject.SetActive(true);
+//				UIDrawCall draw = item.gameObject.GetComponent<UIDrawCall>();
+				Debug.LogError("uidrawcall inactive list : " + item.baseMaterial + " dynamic material : " + item.dynamicMaterial);
+			}	
+
+			foreach (var item in UIDrawCall.activeList) {
+				Debug.LogError("uidrawcall activeList list : " + item.baseMaterial + " dynamic material : " + item.dynamicMaterial);
+			}	
+		}
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			QuitGame();
