@@ -66,7 +66,7 @@ Divided_Line=/
 Float_User_ID=用户ID:
 Float_NextExp=升级还需经验:
 Float_TotalExp=累计经验:
-Float_Rank=Rank:
+Float_Rank=等级:
 
 LeaderSkillText=队长技能: 
 PARTY=队伍
@@ -106,9 +106,9 @@ City_Event=活动关卡
 Title_YourID=用户ID
 Title_ResourceDownload=资源下载
 EventRankNeedTitle=等级不够
-EventRankNeedContent=需要10级及以上才能进入活动关卡!
+EventRankNeedContent=需要达到10级以上才能进入活动关卡!
 DownloadResourceTipTile=资源下载
-DownloadResourceTipContent=问了更好的游戏体验，将下载部分游戏资源
+DownloadResourceTipContent=为了更好的游戏体验，将下载部分游戏资源
 ##Game setting options
 Game_Setting_Option_Music=音乐设置
 Game_Setting_Option_NickName=修改昵称
