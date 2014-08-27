@@ -58,7 +58,7 @@ public class ShowNewCardView : UIComponentUnity {
 		backEffect = transform.Find ("scratch1").gameObject;
 		bombEffect = transform.Find ("scratch2").gameObject;
 		bombEffect.gameObject.SetActive (false);
-		profileTexture = FindChild<UITexture> ("Texture");
+		profileTexture = FindChild<UITexture> ("TexturePanel/Texture");
 		starSpr = FindChild<UISprite>("Star/Star1");
 		starBgSpr = FindChild<UISprite> ("Star/Starbg1");
 		starParent = starSpr.transform.parent.gameObject;

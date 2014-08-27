@@ -66,6 +66,7 @@
      <None Include="Assets\Resources\Shaders\Dissolve_TexturCoords.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
+     <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored 4.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\External\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
      <None Include="Assets\Resources\Shaders\Custom_Particle Alpha Blend.shader" />
