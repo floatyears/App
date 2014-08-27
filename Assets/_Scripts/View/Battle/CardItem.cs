@@ -87,7 +87,7 @@ public class CardItem : UIBaseUnity {
 		tweenPosition.eventReceiver = gameObject;
 		tweenPosition.callWhenFinished = "TweenPositionCallback";
 		initPosition = actorTexture.transform.localPosition;
-		Debug.LogError ("initPosition : " + initPosition + "gameobject : " + gameObject);
+//		Debug.LogError ("initPosition : " + initPosition + "gameobject : " + gameObject);
 		initDepth = actorTexture.depth;
 		CanDrag = true;
 

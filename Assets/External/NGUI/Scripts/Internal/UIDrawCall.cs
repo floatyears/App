@@ -707,6 +707,7 @@ public class UIDrawCall : MonoBehaviour
 
 	static UIDrawCall Create (string name)
 	{
+//		Debug.LogError("UIDrawCall Creat name : " + name);
 #if SHOW_HIDDEN_OBJECTS && UNITY_EDITOR
 		name = (name != null) ? "_UIDrawCall [" + name + "]" : "DrawCall";
 #endif
@@ -721,14 +722,14 @@ public class UIDrawCall : MonoBehaviour
 
 #if UNITY_EDITOR
 		// If we're in the editor, create the game object with hide flags set right away
-		GameObject go = new GameObject(name);//UnityEditor.EditorUtility.CreateGameObjectWithHideFlags(name,
-		UIDrawCall newDC = go.AddComponent<UIDrawCall>();
+		GameObject go = UnityEditor.EditorUtility.CreateGameObjectWithHideFlags(name,
+//		UIDrawCall newDC = go.AddComponent<UIDrawCall>();
  #if SHOW_HIDDEN_OBJECTS
-//			HideFlags.DontSave | HideFlags.NotEditable, typeof(UIDrawCall));
+			HideFlags.DontSave | HideFlags.NotEditable, typeof(UIDrawCall));
  #else
-//			HideFlags.HideAndDontSave, typeof(UIDrawCall));
+			HideFlags.HideAndDontSave, typeof(UIDrawCall));
  #endif
-//		UIDrawCall newDC = go.GetComponent<UIDrawCall>();
+		UIDrawCall newDC = go.GetComponent<UIDrawCall>();
 #else
 		GameObject go = new GameObject(name);
 		DontDestroyOnLoad(go);

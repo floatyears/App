@@ -80,8 +80,18 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 		}
 	}
 
+	int zOffset = -1;
+	bool isAdd = false;
 	private void ShowTween(){
-		gameObject.transform.localPosition = new Vector3(0, 1000, 0);
+
+		if (UIManager.Instance.current.CurrentDecoratorScene == SceneEnum.UnitCatalog) {
+			isAdd = true;
+			backBtnLabel.transform.localPosition += zOffset * Vector3.forward;
+		} else if(isAdd) {
+			backBtnLabel.transform.localPosition -= zOffset * Vector3.forward;
+		}
+
+		gameObject.transform.localPosition = new Vector3(0, 500, 0);
 		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.2f, "islocal", true, "oncomplete", "TweenDone", "oncompletetarget", gameObject));
 	}
 

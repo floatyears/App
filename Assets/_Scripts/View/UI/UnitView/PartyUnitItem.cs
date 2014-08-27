@@ -98,9 +98,9 @@ public class LevelUpUnitItem : MyUnitItem {
 	protected override void RefreshState(){
 		base.RefreshState();
 		if(userUnit != null){
-			Debug.LogError("---   1 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
+//			Debug.LogError("---   1 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
-			Debug.LogError("---   2 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
+//			Debug.LogError("---   2 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
 		}
 	}
 
