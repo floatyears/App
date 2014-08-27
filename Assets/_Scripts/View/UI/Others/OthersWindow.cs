@@ -99,6 +99,7 @@ public class OthersWindow : UIComponentUnity {
 			GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
 			GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 			GameDataStore.Instance.StoreData("ResrouceDownload","");
+			GameDataStore.Instance.StoreData("ResourceComplete","");
 			UIManager.Instance.ChangeScene(SceneEnum.Loading);
 			break;
 		case "Reward":
