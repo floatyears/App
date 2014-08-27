@@ -117,9 +117,9 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 
 	public void RefreshView (List<PageUnitItem> view) {
-		foreach (var item in partyItems) {
-
-		}
+//		foreach (var item in partyItems) {
+//
+//		}
 
 		for (int i = 0; i < view.Count; i++) {
 			partyItems[i] = view[i];
@@ -181,6 +181,7 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	/// Click the item which have been partyed
 	/// </summary>
 	void OnPartyItemClick() {
+//		Debug.LogError ("focusedOnParty : " + (focusedOnParty == null));
 		if (focusedOnParty == null) {
 			if(pickedFromUnitList != null){
 				int afterpos = GetUnitPosInParty(pickedFromParty);
@@ -237,9 +238,12 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 
 			TUserUnit tuu = pickedFromParty.UserUnit; 
 			pickedFromParty.UserUnit = focusedOnParty.UserUnit;
+//			Debug.LogError("focusedOnParty : " + focusedOnParty.UserUnit.ID + " tuu : " + tuu.ID);
 			focusedOnParty.UserUnit = tuu;
 			ClearPartyFocusState();
-		}		
+		}	
+
+		RefreshUnitListByCurId ();
 	}
 
 
@@ -287,6 +291,8 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 				}
 			}
 		}
+
+		RefreshUnitListByCurId ();
 	}
 
 	private void AddToFocusWithPickedUnit(){

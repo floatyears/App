@@ -721,13 +721,14 @@ public class UIDrawCall : MonoBehaviour
 
 #if UNITY_EDITOR
 		// If we're in the editor, create the game object with hide flags set right away
-		GameObject go = UnityEditor.EditorUtility.CreateGameObjectWithHideFlags(name,
+		GameObject go = new GameObject(name);//UnityEditor.EditorUtility.CreateGameObjectWithHideFlags(name,
+		UIDrawCall newDC = go.AddComponent<UIDrawCall>();
  #if SHOW_HIDDEN_OBJECTS
-			HideFlags.DontSave | HideFlags.NotEditable, typeof(UIDrawCall));
+//			HideFlags.DontSave | HideFlags.NotEditable, typeof(UIDrawCall));
  #else
-			HideFlags.HideAndDontSave, typeof(UIDrawCall));
+//			HideFlags.HideAndDontSave, typeof(UIDrawCall));
  #endif
-		UIDrawCall newDC = go.GetComponent<UIDrawCall>();
+//		UIDrawCall newDC = go.GetComponent<UIDrawCall>();
 #else
 		GameObject go = new GameObject(name);
 		DontDestroyOnLoad(go);
