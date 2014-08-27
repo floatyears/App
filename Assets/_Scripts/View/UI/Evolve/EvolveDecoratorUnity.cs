@@ -22,6 +22,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+
+		topObject.transform.localPosition = new Vector3 (0, 1000, 0);
+		iTween.MoveTo(topObject, iTween.Hash("y", 0, "time", 0.4f, "islocal", true));
 	}
 	
 	public override void HideUI () {
@@ -105,6 +108,8 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	private FriendWindows friendWindow;
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
+
+	private GameObject topObject;
 	
 	void PickFriendUnitInfo(object data) {
 		TFriendInfo tuu = data as TFriendInfo;
@@ -394,6 +399,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	
 	void InitItem () {
 		string path = rootPath + "/title/";
+
+		topObject = FindChild (rootPath);
+
 		for (int i = 1; i < 6; i++) {
 			GameObject go = FindChild(path + i);
 			UIEventListenerCustom ui = UIEventListenerCustom.Get(go);

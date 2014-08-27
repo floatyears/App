@@ -14,6 +14,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
+
+		transform.localPosition = new Vector3 (-1000, transform.localPosition.y, 0);
+		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 
 	public override void HideUI () {
@@ -65,6 +68,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 	private TUserUnit baseData = null;
 	
 	private SortRule _sortRule;
+
+//	private GameObject bottomObject;
 
 	List<TUserUnit> materialInfo = new List<TUserUnit> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
