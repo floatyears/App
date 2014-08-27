@@ -691,6 +691,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	} 
 
 	void LevelUpEnd() {
+		gotExp = 0;
+
 		RecoverEffectCamera ();
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 

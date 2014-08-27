@@ -26,6 +26,9 @@ public class CatalogView : UIComponentUnity {
 		base.ShowUI ();
 		RefreshItemCounter();
 		StartCoroutine("InitDragPanel");
+
+		transform.localPosition = new Vector3 (-1000, -260, 0);
+		iTween.MoveTo (gameObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true));
 	}
 	
 	public override void HideUI () {
