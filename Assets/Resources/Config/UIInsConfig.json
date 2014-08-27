@@ -115,9 +115,9 @@
      "ShowNewCard": {
         "uiName":"ShowNewCard",
         "resoucePath": "Prefabs/UI/Scratch/",
-        "parent": 1,
+        "parent": 2,
         "positionx": 0,
-        "positiony": -880,
+        "positiony": 0,
         "positionz": 0
     },
      "ShopWindow": {
