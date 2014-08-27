@@ -60,6 +60,15 @@ public class MapDoor : UIBaseUnity {
 //		SetName (QuestFullScreenTips.BossBattle);
 	}
 
+	void OnEnable() {
+		if(topAlpha != null)
+			topAlpha.ResetToBeginning ();
+		if(bottomAlpha != null)
+			bottomAlpha.ResetToBeginning ();
+		if(arrowAlpha != null)
+			arrowAlpha.ResetToBeginning ();
+	}
+
 	void SetName(string name) {
 		currentShowInfo = name;
 
