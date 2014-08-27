@@ -233,7 +233,7 @@ BattleContinueContent=你有还未结束的战斗，你要继续进行未完成�
 Connecting=连接中...
 HighVersionToLoadTitle=升级程序
 HighVersionToLoad=游戏有新版本，请升级
-AppVersion=版本：
+AppVersion=
 ProgressCurrent=已下载：
 ProgressTotal=总大小：
 
