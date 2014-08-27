@@ -232,34 +232,34 @@ public class ResourceManager : MonoBehaviour{
 			Debug.LogError("load err: " + www.error);
 
 			//-------------
-			MsgWindowParams mwp = new MsgWindowParams ();
-			//mwp.btnParams = new BtnParam[1];
-			mwp.btnParams = new BtnParam[2];
-			mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
-			mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
-			
-			BtnParam sure = new BtnParam ();
-			sure.callback = o=>{
-				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,param=>{
-					DownloadResource(key);
-				});
-				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
-			};
-			sure.text = TextCenter.GetText("OK");
-
-			BtnParam cancel = new BtnParam();
-			cancel.callback = o1=>{
-				assetBundles [key].assetBundle = null;
-				assetBundles [key].isLoading = false;
-				
-				if(checkRelies(assetBundles [key])){
-					assetBundles [key].ExeCallback ();
-				}
-			};
-			cancel.text = TextCenter.GetText("Cancel");
-			mwp.btnParams = new BtnParam[2]{sure,cancel};
-			
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//			MsgWindowParams mwp = new MsgWindowParams ();
+//			//mwp.btnParams = new BtnParam[1];
+//			mwp.btnParams = new BtnParam[2];
+//			mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
+//			mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
+//			
+//			BtnParam sure = new BtnParam ();
+//			sure.callback = o=>{
+//				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,param=>{
+//					DownloadResource(key);
+//				});
+//				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+//			};
+//			sure.text = TextCenter.GetText("OK");
+//
+//			BtnParam cancel = new BtnParam();
+//			cancel.callback = o1=>{
+//				assetBundles [key].assetBundle = null;
+//				assetBundles [key].isLoading = false;
+//				
+//				if(checkRelies(assetBundles [key])){
+//					assetBundles [key].ExeCallback ();
+//				}
+//			};
+//			cancel.text = TextCenter.GetText("Cancel");
+//			mwp.btnParams = new BtnParam[2]{sure,cancel};
+//			
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 //			return;
 		}
 

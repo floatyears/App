@@ -160,6 +160,7 @@ public class Battle : UIBase {
 	const float moveTime = 0.21f;
 
 	GameTimer gameTimer;
+
 	public void GuideCardAnim() {
 		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		ConfigBattleUseData.Instance.NotDeadEnemy = true;
@@ -190,6 +191,10 @@ public class Battle : UIBase {
 	}
 
 	void AnimStep1() {
+<<<<<<< HEAD
+=======
+//		Debug.LogError("AnimStep1 ");
+>>>>>>> 35be36af967ccbfcc3e3306cb8a4c5e3d8479746
 		Vector3 point = selectTarget[0].transform.localPosition;
 		int indexID = battleCardPool.CaculateSortIndex( point );
 		battleCard.SortCard (indexID, selectTarget);
@@ -197,6 +202,10 @@ public class Battle : UIBase {
 	}
 
 	void AnimStep1End() {
+<<<<<<< HEAD
+=======
+//		Debug.LogError("AnimStep1 end");
+>>>>>>> 35be36af967ccbfcc3e3306cb8a4c5e3d8479746
 		battleCard.CallBack -= AnimStep1End;
 		ResetClick ();
 		AnimStep2 ();
