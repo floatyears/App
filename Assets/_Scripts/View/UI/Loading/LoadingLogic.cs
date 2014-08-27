@@ -162,7 +162,7 @@ public class LoadingLogic : ConcreteComponent {
 //#endif
 #if UNITY_EDITOR
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
+			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 #endif
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();

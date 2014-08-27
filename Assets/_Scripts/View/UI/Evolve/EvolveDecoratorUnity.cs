@@ -243,7 +243,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 
 		showInfoLabel [hp].text = tuu.Hp + " -> [FF6666]" + tuu.CalculateHP (tui) + "[-]";
 		showInfoLabel [atk].text = tuu.Attack + " -> [FF6666]" + tuu.CalculateATK (tui) + "[-]";
-		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> [FF6666]" + tui.MaxLevel + "[-]";
+		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> [FF6666]" + (tui == null ? "no max info": tui.MaxLevel.ToString()) + "[-]";
 		showInfoLabel [type].text = tui.UnitTypeText;
 		showInfoLabel [race].text = tui.UnitRace;//GetRaceText(tui.Race);
 		showInfoLabel [coins].text = (tui.MaxLevel * 500).ToString ();
@@ -469,16 +469,35 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 			return;
 		}
 
-		List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
-		evolveInfoList.Add (baseItem.userUnit);
-		evolveInfoList.Add (friendInfo);
-		foreach (var item in materialItem.Values) {
-			TUserUnit tuu = item.userUnit;
-			if(tuu != null) {
-				evolveInfoList.Add(tuu);
-			}
-		}
-		ExcuteCallback (evolveInfoList);
+		MsgWindowParams mwp = new MsgWindowParams ();
+		//mwp.btnParams = new BtnParam[1];
+		mwp.btnParam = new BtnParam ();
+		mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
+		mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
+		
+		BtnParam sure = new BtnParam ();
+		sure.callback = o=>{
+			MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,o1 =>{
+				List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
+				evolveInfoList.Add (baseItem.userUnit);
+				evolveInfoList.Add (friendInfo);
+				foreach (var item in materialItem.Values) {
+					TUserUnit tuu = item.userUnit;
+					if(tuu != null) {
+						evolveInfoList.Add(tuu);
+					}
+				}
+				ExcuteCallback (evolveInfoList);
+			});
+			UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+		};
+		sure.text = TextCenter.GetText("OK");
+		mwp.btnParam = sure;
+		
+		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		return;
+
+
 	}
 
 	void ShieldEvolveButton (bool b) {
