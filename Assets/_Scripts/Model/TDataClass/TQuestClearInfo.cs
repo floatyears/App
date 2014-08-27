@@ -111,8 +111,7 @@ public class TQuestClearInfo : ProtobufDataBase {
 
 		if (stageInfo.ID == StoryClear.StageId) {
 			//Last quest of stage is clear, so the stage is clear.
-			bool isClear = ( StoryClear.QuestId == stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].ID );
-			return isClear;
+			return ( StoryClear.QuestId >= stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].ID );
 		}
 
 		return ( stageInfo.ID < StoryClear.StageId );

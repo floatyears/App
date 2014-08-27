@@ -192,6 +192,7 @@ public class DataCenter {
 		set { setData(ModelEnum.HelperInfo, value); }
 	}
 
+
 	public TLoginInfo LoginInfo { 
 		get { return getData(ModelEnum.LoginInfo) as TLoginInfo; }
 		set { setData(ModelEnum.LoginInfo, value); }
