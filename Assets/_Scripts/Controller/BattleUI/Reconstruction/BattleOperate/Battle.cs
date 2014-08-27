@@ -191,7 +191,7 @@ public class Battle : UIBase {
 	}
 
 	void AnimStep1() {
-		Debug.LogError("AnimStep1 ");
+//		Debug.LogError("AnimStep1 ");
 		Vector3 point = selectTarget[0].transform.localPosition;
 		int indexID = battleCardPool.CaculateSortIndex( point );
 		battleCard.SortCard (indexID, selectTarget);
@@ -199,7 +199,7 @@ public class Battle : UIBase {
 	}
 
 	void AnimStep1End() {
-		Debug.LogError("AnimStep1 end");
+//		Debug.LogError("AnimStep1 end");
 		battleCard.CallBack -= AnimStep1End;
 		ResetClick ();
 		AnimStep2 ();
@@ -208,14 +208,14 @@ public class Battle : UIBase {
 	List<int> indexCache = new List<int>();
 
 	void AnimStep2 () {
-		Debug.LogError("AnimStep2");
+//		Debug.LogError("AnimStep2");
 		indexCache.Clear ();
 		indexCache.Add (3);
 		GenerateAllCard (indexCache, 3 , AnimStep2End);
 	}
 
 	void AnimStep2End() {
-		Debug.LogError("AnimStep2 end");
+//		Debug.LogError("AnimStep2 end");
 		GenerateAllCard (new List<int> { 3 }, 3 , AnimStep3);
 	}
 
@@ -230,17 +230,17 @@ public class Battle : UIBase {
 	// 9) 2,3,4-2
 
 	void AnimStep3() {
-		Debug.LogError("AnimStep3");
+//		Debug.LogError("AnimStep3");
 		GenerateAllCard (new List<int> { 1, 2 }, 2 , AnimStep4);
 	}
 
 	void AnimStep4() {
-		Debug.LogError("AnimStep4");
+//		Debug.LogError("AnimStep4");
 		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep5);
 	}
 
 	void AnimStep5() {
-		Debug.LogError("AnimStep5");
+//		Debug.LogError("AnimStep5");
 		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep6);
 	}
 
@@ -657,7 +657,7 @@ public class Battle : UIBase {
 
 	void ResetClick() {
 		for (int i = 0; i < selectTarget.Count; i++) {
-			Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
+//			Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
 			selectTarget[i].OnPress(false, -1);
 		}
 		selectTarget.Clear();
