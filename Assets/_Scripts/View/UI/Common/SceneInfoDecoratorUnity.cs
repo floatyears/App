@@ -83,6 +83,9 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 	int zOffset = -1;
 	bool isAdd = false;
 	private void ShowTween(){
+		if (UIManager.Instance.current == null) {
+			return;		
+		}
 
 		if (UIManager.Instance.current.CurrentDecoratorScene == SceneEnum.UnitCatalog) {
 			isAdd = true;
