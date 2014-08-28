@@ -788,13 +788,12 @@ public class Battle : UIBase {
 			if(selectTarget.Contains(ci))
 				return;
 			if(ci.CanDrag) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
-				
 				ci.OnPress(true, selectTarget.Count);
 				ci.ActorTexture.depth = ci.InitDepth;
 				selectTarget.Add(ci);
 				
 				if(selectTarget.Count == 1) { //one select not effect.
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 					return;
 				}
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
