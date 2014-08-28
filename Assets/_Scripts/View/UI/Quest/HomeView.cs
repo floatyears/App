@@ -162,6 +162,7 @@ public class HomeView : UIComponentUnity{
 	}
 
 	void ClickStoryItem(GameObject item){
+		Debug.LogError("ClickStoryItem ");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickStoryItem", stageInfo[item].StageInfo);
 		ExcuteCallback(cbdArgs);
 	}
