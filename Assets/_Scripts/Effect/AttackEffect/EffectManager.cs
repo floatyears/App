@@ -91,7 +91,7 @@ public class EffectManager {
 		if (skillID == 0) {
 //			Debug.LogError ("skillStoreID : " + skillID + " userUnitID : " + userUnitID);
 			resouceCb(null);
-			return;	
+			return; 
 		}
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
 		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
