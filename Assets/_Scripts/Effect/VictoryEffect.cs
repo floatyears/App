@@ -14,7 +14,7 @@ public class VictoryEffect : UIComponentUnity {
 	private UISprite backCircle;
 
 	private TweenScale rankUpScale;
-	private UISprite rankUpSprite;
+	private UILabel rankUpSprite;
 
 	private UIButton sureButton;
 	private GameObject parent;
@@ -193,7 +193,7 @@ public class VictoryEffect : UIComponentUnity {
 	}
 
 	void SetRankUpEnable(bool enable) {
-		rankUpSprite.enabled = enable;
+		rankUpSprite.text = enable ? QuestFullScreenTips.RankUp : "";
 		rankUpScale.enabled = enable;
 	}
 	
@@ -230,7 +230,7 @@ public class VictoryEffect : UIComponentUnity {
 		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
 		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
 		rankUpScale = FindChild<TweenScale>("RankPanel/RankUp");
-		rankUpSprite = rankUpScale.GetComponent<UISprite> ();
+		rankUpSprite = rankUpScale.GetComponent<UILabel> ();
 	}
 
 	void Sure(GameObject go) {
