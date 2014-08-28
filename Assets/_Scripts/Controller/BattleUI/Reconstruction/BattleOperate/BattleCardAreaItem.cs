@@ -100,6 +100,9 @@ public class BattleCardAreaItem : UIBaseUnity {
 			return 0;
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
 		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
+
+		int preAttackCount = attackImage.Count;
+
 		for (int i = 0; i < maxLimit; i++) {
 			GameObject go = cardList[cardItemList.Count].gameObject;
 			CardSprite ci = go.AddComponent<CardSprite>();
@@ -113,11 +116,18 @@ public class BattleCardAreaItem : UIBaseUnity {
 			haveCard.Add(source[i].itemID);
 		}
 
+		if (attackImage.Count > preAttackCount) {
+//			Debug.LogError(" sound_title_success ");
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_success);
+		} else {
+//			Debug.LogError(" sound_title_invalid ");
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_invalid);
+		}
+
 		if (cardItemList.Count == Config.cardCollectionCount) {
 			cardList[5].enabled = true;
 		}
 
-//		MsgCenter.Instance.Invoke (CommandEnum.RefreshLine);
 		return maxLimit;
 	}
 
@@ -127,13 +137,17 @@ public class BattleCardAreaItem : UIBaseUnity {
 		if (battleUseData == null) {
 			battleUseData = BattleQuest.bud;	
 		}
+
 		attackImage = battleUseData.CaculateFight (areaItemID, id, isBoost);
 
-		if (attackImage.Count > 0) {
-			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_success);
-		} else {
-			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_invalid);
-		}
+
+//		if (generateImage.Count > attackImage.Count) {
+//			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_success);
+//		} else {
+//			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_invalid);
+//		}
+
+//		attackImage = generateImage;
 
 		InstnaceCard ();
 	}
