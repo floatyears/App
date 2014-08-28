@@ -517,7 +517,8 @@ public class BattleQuest : UIBase {
 				case EQuestGridType.Q_TREATURE:
 					BattleMap.waitMove = true;
 					MsgCenter.Instance.Invoke(CommandEnum.ShowCoin, currentMapData.Coins);
-					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
+					MapItemCoin();
+//					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
 					break;
 				case EQuestGridType.Q_TRAP:
 					BattleMap.waitMove = true;
