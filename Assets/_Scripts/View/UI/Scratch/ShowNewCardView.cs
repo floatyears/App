@@ -46,6 +46,8 @@ public class ShowNewCardView : UIComponentUnity {
 	private UISprite starBgSpr;
 	private Vector3 starPosition = Vector3.zero;
 
+	private UILabel cardNameLabel;
+
 	private int starSprWidth = 0;
 	private GameObject starParent;
 
@@ -59,6 +61,7 @@ public class ShowNewCardView : UIComponentUnity {
 		bombEffect = transform.Find ("scratch2").gameObject;
 		bombEffect.gameObject.SetActive (false);
 		profileTexture = FindChild<UITexture> ("TexturePanel/Texture");
+		cardNameLabel = FindChild<UILabel>("Star/CardName");
 		starSpr = FindChild<UISprite>("Star/Star1");
 		starBgSpr = FindChild<UISprite> ("Star/Starbg1");
 		starParent = starSpr.transform.parent.gameObject;
@@ -79,9 +82,12 @@ public class ShowNewCardView : UIComponentUnity {
 
 	void ShowProfile(object data) {
 		userUnit = data as TUserUnit;
+
 		if (userUnit== null) {
 			return;	
 		}
+
+		cardNameLabel.text = userUnit.UnitInfo.Name;
 
 		int maxRare = userUnit.UnitInfo.MaxRare == 0 ? userUnit.UnitInfo.Rare : userUnit.UnitInfo.MaxRare;
 

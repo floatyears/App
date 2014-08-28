@@ -30,7 +30,7 @@ public class EffectManager {
 	public const float AllSkillDangerLevel = 1.8f;
 
 	private Dictionary<int, string> effectName = new Dictionary<int, string>();
-	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
+//	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
 	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
 
 	public void GetOtherEffect(EffectEnum effect, ResourceCallback resouceCB) {
@@ -341,5 +341,10 @@ public class EffectManager {
 		effectIns.transform.localScale = localScale;
 		effectIns.transform.eulerAngles = rotation;
 		return effectIns;
+	}
+
+	public void ClearCache() {
+		effectName.Clear ();
+		skillEffectObject.Clear ();
 	}
 }
