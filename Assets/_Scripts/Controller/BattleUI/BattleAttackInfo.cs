@@ -88,7 +88,8 @@ public class BattleAttackInfo : UIBaseUnity {
 //		secondSprite.spriteName =(allAttack % 10).ToString ();
 //		handsSprite.spriteName = "hands";
 
-		firstLabel.text = allAttack.ToString (); //(allAttack / 10).ToString ();
+//		string info = allAttack < 10 ? ("0" + allAttack.ToString()) : allAttack.ToString();
+		firstLabel.text = GetFormatAttackCount(allAttack); //(allAttack / 10).ToString ();
 //		secondLabel.text = (allAttack % 10).ToString ();
 		handsLabel.text = "HANDS !";
 
@@ -153,12 +154,16 @@ public class BattleAttackInfo : UIBaseUnity {
 //			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
 //			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
 
-			hitFirstLabel.text = prevAttack.ContinuAttackMultip.ToString(); //(prevAttack.ContinuAttackMultip / 10).ToString ();
+			hitFirstLabel.text = GetFormatAttackCount(prevAttack.ContinuAttackMultip); //prevAttack.ContinuAttackMultip.ToString(); //(prevAttack.ContinuAttackMultip / 10).ToString ();
 //			hitSecondLabel.text = (prevAttack.ContinuAttackMultip % 10).ToString ();
 
 			hitLabel.enabled = true;
 			rateLabel.text = "Rate x " + prevAttack.AttackRate;
 		}
 		prevAttack = data as AttackInfo;
+	}
+
+	string GetFormatAttackCount (int count) {
+		return count < 10 ? ("0" + count.ToString ()) : count.ToString ();
 	}
 }
