@@ -577,18 +577,22 @@ public class ResourceUpdate : MonoBehaviour {
 		downLoadItemList.Clear ();
 		startDown = false;
 
-		if (ServerConfig.Channel == "AndroidTest") {
+		if (ServerConfig.Channel != "AndroidTest") {
+
 			if (this.transform.parent.name == "Loading(Clone)") {
 				if (GameDataStore.Instance.GetData ("ResrouceDownload") == "Start" || (GameDataStore.Instance.GetData ("ResourceComplete") == "true")) {
 					//					SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);	
 					//					return;
-					downloadLimit = false;
+				downloadLimit = false;
 				}
 			} else {
-				downloadLimit = false;
+					downloadLimit = false;
 			}		
+		} else {
+			downloadLimit = false;		
 		}
 
+		Debug.Log("chanel-------"+downloadLimit);
 		foreach (string name in serverVersionDic.Keys) {
 
 			DownloadItemInfo serverItem = serverVersionDic[name];
