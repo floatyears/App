@@ -156,9 +156,10 @@ public class LoadingLogic : ConcreteComponent {
 			}
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
-#if !NOVICE_ENABLE
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
-#endif
+
+//#if !NOVICE_ENABLE
+//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//#endif
 #if UNITY_EDITOR
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;

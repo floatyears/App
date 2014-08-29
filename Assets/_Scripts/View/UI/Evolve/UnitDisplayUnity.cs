@@ -384,7 +384,15 @@ public class UnitDisplayUnity : UIComponentUnity {
 		}
 	}
 
-	public GameObject GetMaxLvUnit(){
+	public uint GetMaxLvUnitID(){
+		foreach (var item in unitItemDragPanel.scrollItem) {
+			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
+				return item.UserUnit.UnitID;
+			}
+		}
+		return 0;
+	}
+	public GameObject GetMaxLvUnitItem(){
 		foreach (var item in unitItemDragPanel.scrollItem) {
 			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
 				return item.gameObject;
