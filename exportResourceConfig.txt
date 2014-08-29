@@ -1,1 +1,1 @@
-NSavePath:/Users/Resource/Output/android;Filename:Language_cn;Extension:unity3dty3dy3dd
+RSavePath:/Users/Resource/Output/android;Filename:Atlas_Avatar_11;Extension:unity3dy3dd
