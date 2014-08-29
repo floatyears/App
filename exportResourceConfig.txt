@@ -1,1 +1,1 @@
-NSavePath:/Users/Resource/Output/android;Filename:Event_Atlas;Extension:unity3dty3dy3dd
+NSavePath:/Users/Resource/Output/android;Filename:Language_cn;Extension:unity3dty3dy3dd
