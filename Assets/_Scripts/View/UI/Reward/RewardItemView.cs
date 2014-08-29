@@ -123,7 +123,7 @@ public class RewardItemView : MonoBehaviour {
 			obj.GetComponent<UIEventListenerCustom>().enabled = true;
 			obj.GetComponent<UIDragScrollView>().enabled = true;
 
-			GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
+			DataCenter.Instance.GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
 			int type = (int)DataCenter.Instance.GetUnitInfo((uint)gift.value).Type;
 			obj.transform.FindChild("Bg").GetComponent<UISprite>().spriteName = GetAvatarBgSpriteName(type);
 			obj.transform.FindChild("Border").GetComponent<UISprite>().spriteName = GetBorderSpriteName(type);
@@ -188,28 +188,7 @@ public class RewardItemView : MonoBehaviour {
 			break;
 		}
 	}
-	
-	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
-		uint index = unitID / DataCenter.AVATAR_ATLAS_CAPACITY;
-		UIAtlas atlas = null;
-		if (!DataCenter.Instance.AvatarAtalsDic.TryGetValue (index, out atlas)) {
-			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
-			ResourceManager.Instance.LoadLocalAsset (sourcePath, o => {
-				GameObject source = o as GameObject;
-				atlas = source.GetComponent<UIAtlas> ();
-				if (!DataCenter.Instance.AvatarAtalsDic.ContainsKey (index))
-					DataCenter.Instance.AvatarAtalsDic.Add (index, atlas);
-				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-				if (resouceCB != null)
-					resouceCB (atlas);
-				//				Debug.LogError ("load avatar atlas success : " + atlas.name);
-			});
-		} else {
-			BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-			if (resouceCB != null)
-				resouceCB (atlas);
-		}
-	}
+
 
 	private void ClickUnit(GameObject obj){
 
