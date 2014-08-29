@@ -31,6 +31,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+
+		topObject.transform.localPosition = new Vector3 (0, 1000, 0);
+		bottomObject.transform.localPosition = new Vector3(-1000, 0, 0);
+
+		iTween.MoveTo(topObject, iTween.Hash("y", 20, "time", 0.4f,"islocal", true));
+
+		iTween.MoveTo (bottomObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject)); 
 	}
 
 	public override void HideUI () {
@@ -165,6 +172,10 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	private FriendWindows friendWindow;
 
+	private GameObject topObject;
+
+	private GameObject bottomObject;
+
 	void ShowData () {
 //		Debug.LogError ("clear : " + clear);
 		if (!clear) {
@@ -202,6 +213,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void InitUI() {
 		dataCenter = DataCenter.Instance;
+//		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
+//		iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject)); 
+
+		topObject = FindChild("Top");
+		bottomObject = FindChild ("Middle");
+
 		for (int i = 1; i < 7; i++) {	//gameobject name is 1 ~ 6.
 			LevelUpItem pui = FindChild<LevelUpItem>("Top/" + i.ToString());
 			selectedItem[i -1] = pui;

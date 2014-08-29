@@ -178,6 +178,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			return;	
 		}
 
+		AudioManager.Instance.StopAudio (AudioEnum.sound_level_up);
+
 		ShowTexture = false;
 		StopAllCoroutines ();
 		ClearEffectCache ();
@@ -691,6 +693,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 	} 
 
 	void LevelUpEnd() {
+		gotExp = 0;
+
 		RecoverEffectCamera ();
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 

@@ -157,7 +157,7 @@ public class Battle : UIBase {
 	/// drag time must bigger than move time
 	/// </summary>
 	const float dragTime = 0.25f;
-	const float moveTime = 0.21f;
+	const float moveTime = 0.20f;
 
 	GameTimer gameTimer;
 	public void GuideCardAnim() {
@@ -259,7 +259,9 @@ public class Battle : UIBase {
 
 	void AnimEnd() {
 		battleCard.fingerObject.SetActive (false);
-		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false);
+
+//		System.Action action = ;
+		GameTimer.GetInstance().AddCountDown(1f, () => { MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false); } );
 	}
 
 	int generateIndex = 0;
@@ -788,13 +790,12 @@ public class Battle : UIBase {
 			if(selectTarget.Contains(ci))
 				return;
 			if(ci.CanDrag) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
-				
 				ci.OnPress(true, selectTarget.Count);
 				ci.ActorTexture.depth = ci.InitDepth;
 				selectTarget.Add(ci);
 				
 				if(selectTarget.Count == 1) { //one select not effect.
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_drag_tile);
 					return;
 				}
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
