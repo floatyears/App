@@ -2,9 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BattleMenu : UIBaseUnity {
+public class BattleMenu : UIComponentUnity {
 	public override void Init (string name) {
 		base.Init (name);
+
+	}
+
+	public override void Init (UIInsConfig config, IUICallback origin)
+	{
+		base.Init (config, origin);
 		InitUIComponent ();
 	}
 

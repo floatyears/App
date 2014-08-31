@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class QuestFullScreenTips : UIBaseUnity {
+public class QuestFullScreenTips : UIComponentUnity {
 	public override void Init (string name) {
 		base.Init (name);
 		initLocalPosition = transform.localPosition;

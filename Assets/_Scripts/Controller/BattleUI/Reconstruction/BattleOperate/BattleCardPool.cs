@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleCardPool : UIBaseUnity
+public class BattleCardPool : UIComponentUnity
 {
 	[HideInInspector]
 	public UISprite templateBackTexture;

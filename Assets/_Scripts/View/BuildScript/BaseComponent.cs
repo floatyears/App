@@ -1,74 +1,74 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class RootComponent
-{
-	protected UIInsConfig config = null;
+//public class RootComponent
+//{
+//	protected UIInsConfig config = null;
+//
+//	public UIInsConfig uiConfig
+//	{
+//		get
+//		{
+//			return config;
+//		}
+//	}
+//
+//	protected UIComponentUnity viewComponent;
+//
+//	public UIComponentUnity ViewComponent {
+//		get { return viewComponent; }
+//	}
+//
+//	protected ErrorMsg errMsg = new ErrorMsg();
+//
+//	public RootComponent()
+//	{
+//
+//	}
+//
+//	public RootComponent(string name)
+//	{
+//		config = GetUIInsConfig(name, errMsg);
+////		Debug.Log ("config: " + config + " name: " + name + config.localPosition);
+//	}
+//
+//	public static UIInsConfig GetUIInsConfig(string name, ErrorMsg errMsg)
+//	{
+//		UIIns ins = ModelManager.Instance.GetData(ModelEnum.UIInsConfig, errMsg) as UIIns;
+//		return ins.GetData(name);
+//	}
+//}
 
-	public UIInsConfig uiConfig
-	{
-		get
-		{
-			return config;
-		}
-	}
-
-	protected UIComponentUnity viewComponent;
-
-	public UIComponentUnity ViewComponent {
-		get { return viewComponent; }
-	}
-
-	protected ErrorMsg errMsg = new ErrorMsg();
-
-	public RootComponent()
-	{
-
-	}
-
-	public RootComponent(string name)
-	{
-		config = GetUIInsConfig(name, errMsg);
-//		Debug.Log ("config: " + config + " name: " + name + config.localPosition);
-	}
-
-	public static UIInsConfig GetUIInsConfig(string name, ErrorMsg errMsg)
-	{
-		UIIns ins = ModelManager.Instance.GetData(ModelEnum.UIInsConfig, errMsg) as UIIns;
-		return ins.GetData(name);
-	}
-}
-
-/// <summary>
-/// decorator class
-/// </summary>
-public class BaseComponent :RootComponent, IUIComponent
-{
-
-	public BaseComponent(string name) : base (name)	{
-
-	}
-
-	public void CreatUIAsyn (DecoratorBase decoratorBase) {
-		throw new System.NotImplementedException ();
-	}
-
-	public virtual void CreatUI() {
-
-	}
-
-	public virtual void ShowUI(){ }
-
-	public virtual void HideUI(){ }
-
-	public virtual void DestoryUI(){ }
-	
-}
+///// <summary>
+///// decorator class
+///// </summary>
+//public class BaseComponent :RootComponent, IUIComponent
+//{
+//
+//	public BaseComponent(string name) : base (name)	{
+//
+//	}
+//
+//	public void CreatUIAsyn (DecoratorBase decoratorBase) {
+//		throw new System.NotImplementedException ();
+//	}
+//
+//	public virtual void CreatUI() {
+//
+//	}
+//
+//	public virtual void ShowUI(){ }
+//
+//	public virtual void HideUI(){ }
+//
+//	public virtual void DestoryUI(){ }
+//	
+//}
 
 /// <summary>
 /// concrete decorate class
 /// </summary>
-public class ConcreteComponent : RootComponent, IUIComponent ,IUICallback{	
+public class ConcreteComponent{	
     protected bool willClearState = true;
     public bool WillClearState{
         get { return willClearState; }

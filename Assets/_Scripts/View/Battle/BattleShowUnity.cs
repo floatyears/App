@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleShowUnity : UIBaseUnity 
+public class BattleShowUnity : UIComponentUnity 
 {
 	private Transform topLeft;
 	public Transform TopLeft

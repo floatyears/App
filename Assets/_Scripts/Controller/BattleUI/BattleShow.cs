@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class BattleShow : UIBase 
+public class BattleShow : ConcreteComponent 
 {
 	#region IUIInterface implementation
 

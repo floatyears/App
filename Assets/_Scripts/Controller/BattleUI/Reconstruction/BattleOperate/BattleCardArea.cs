@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleCardArea : UIBaseUnity {
+public class BattleCardArea : UIComponentUnity {
 	private UISprite backTexture;
 	[HideInInspector]
 	public BattleCardAreaItem[] battleCardAreaItem;

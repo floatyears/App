@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StartScene : BaseComponent {
+public class StartScene : ConcreteComponent {
 //	StartDecorator dis;
     StartDecorator dis;
 	public StartScene(string uiName) : base(uiName) {}

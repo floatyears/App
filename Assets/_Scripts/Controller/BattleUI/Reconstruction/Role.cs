@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class Role : UIBaseUnity {
+public class Role : UIComponentUnity {
 	private Coordinate currentCoor;
 	public Coordinate CurrentCoor {
 		get{ return currentCoor; }

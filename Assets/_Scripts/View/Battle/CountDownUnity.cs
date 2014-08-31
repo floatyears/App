@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CountDownUnity : UIBaseUnity {
+public class CountDownUnity : UIComponentUnity {
 //	private UISprite numberSprite;
 	private UILabel numberLabel;
 	private UISprite circleSprite;

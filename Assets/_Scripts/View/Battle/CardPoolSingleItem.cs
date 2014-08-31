@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CardPoolSingleItem : UIBaseUnity 
+public class CardPoolSingleItem : UIComponentUnity 
 {
 	protected UITexture templateBackTexture ;
 

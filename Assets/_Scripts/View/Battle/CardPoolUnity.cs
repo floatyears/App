@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardPoolUnity : UIBaseUnity
+public class CardPoolUnity : UIComponentUnity
 {
 	public override void Init (string name)
 	{

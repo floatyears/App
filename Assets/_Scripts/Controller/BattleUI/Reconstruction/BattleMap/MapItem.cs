@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class MapItem : UIBaseUnity {
+public class MapItem : UIComponentUnity {
 	private Coordinate coor; 
 	public Coordinate Coor {
 		get{ return coor; }

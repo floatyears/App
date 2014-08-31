@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleSkill : UIBaseUnity {
+public class BattleSkill : UIComponentUnity {
 	public override void Init (string name) {
 		base.Init (name);
 		InitUI ();

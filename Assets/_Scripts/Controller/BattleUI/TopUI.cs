@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TopUI : UIBaseUnity {
+public class TopUI : UIComponentUnity {
 	[HideInInspector]
 	public UILabel coinLabel;
 	private UILabel dropLabel;

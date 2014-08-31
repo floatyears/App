@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class EnemyItem : UIBaseUnity {
+public class EnemyItem : UIComponentUnity {
     [HideInInspector]
     public TEnemyInfo enemyInfo;
     [HideInInspector]

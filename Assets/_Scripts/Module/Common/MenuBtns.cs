@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuBtns : UIBaseUnity 
+public class MenuBtns : UIComponentUnity 
 {
 	void Start()
 	{

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleEnemy : UIBaseUnity {
+public class BattleEnemy : UIComponentUnity {
 	private static Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
 	public static Dictionary<uint, EnemyItem> Monster {
 		get {

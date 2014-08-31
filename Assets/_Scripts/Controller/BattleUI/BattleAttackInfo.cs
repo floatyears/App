@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleAttackInfo : UIBaseUnity {
+public class BattleAttackInfo : UIComponentUnity {
 //	private UISprite firstSprite;
 	private Vector3 fsInitPosition;
 

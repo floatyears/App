@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleMap : UIBaseUnity {
+public class BattleMap : UIComponentUnity {
 	public const string trapSpriteName = "icon_trap"; //private const string trapName = "";
 	public const string chestSpriteName = "icon_chest";
 

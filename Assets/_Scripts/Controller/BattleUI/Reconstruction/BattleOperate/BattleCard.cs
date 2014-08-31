@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleCard : UIBaseUnity {
+public class BattleCard : UIComponentUnity {
 	public event Callback CallBack;
 
 	private Vector3[] cardPosition;

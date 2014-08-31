@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleCardAreaItem : UIBaseUnity {
+public class BattleCardAreaItem : UIComponentUnity {
 	public static GameObject boostObject;
 
 	private const int itemInterv = 17;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanelView : UIBaseUnity {
+public class DragPanelView : UIComponentUnity {
 	public const string DragPanelPath = "Prefabs/UI/Common/DragPanelView";
 
 	[HideInInspector]

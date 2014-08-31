@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapDoor : UIBaseUnity {
+public class MapDoor : UIComponentUnity {
 	public BattleMap battleMap;
 
 	private UILabel topLabel;

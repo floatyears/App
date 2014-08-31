@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneInfoBar : UIBaseUnity
+public class SceneInfoBar : UIComponentUnity
 {
 	private UIImageButton backBtn;
 	public UIImageButton BackBtn 

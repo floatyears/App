@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CardItem : UIBaseUnity {
+public class CardItem : UIComponentUnity {
 	public static Color32 NoAttackColor = new Color32 (174, 174, 174, 255);
 	public event UICallback<CardItem> tweenCallback;
 	[HideInInspector]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleArea : UIBase
+public class BattleArea : ConcreteComponent
 {
 
 	public BattleArea(string uiName):base(uiName)

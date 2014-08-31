@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ActorShow : UIBaseUnity{
+public class ActorShow : UIComponentUnity{
 
 	private Vector3[] initPos = new Vector3[3] {new Vector3(-600f,0f,0f), new Vector3(0f,0f,0f), new Vector3(600f,0f,0f)};
 

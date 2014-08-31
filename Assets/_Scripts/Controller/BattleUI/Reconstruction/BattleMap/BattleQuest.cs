@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using bbproto;
 
-public class BattleQuest : UIBase {
+public class BattleQuest : ConcreteComponent {
 	private GameObject rootObject;
 	private TQuestGrid currentMapData;
 	public TQuestDungeonData questDungeonData;

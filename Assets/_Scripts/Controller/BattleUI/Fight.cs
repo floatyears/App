@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Fight : UIBase
+public class Fight : ConcreteComponent
 {
 	public static Transform dragParent;
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardSprite : UIBaseUnity 
+public class CardSprite : UIComponentUnity 
 {
 	public event UICallback<CardSprite> tweenCallback;
 	

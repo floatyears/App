@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleBackground : UIBaseUnity {
+public class BattleBackground : UIComponentUnity {
 	private UITexture background;
 	private Camera bottomCamera;
 	private UITexture[] actor;
