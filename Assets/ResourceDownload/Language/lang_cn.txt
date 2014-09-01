@@ -76,7 +76,7 @@ PARTY=队伍
 Text_None=无
 Text_Sell_Price=卖出价格
 Text_Next=下一级
-Text_Max=最大
+Text_Max=满级
 Text_Support=冒险者
 Text_Point=点
 Text_Rank=等级
@@ -110,7 +110,7 @@ City_Event=精彩活动
 Title_YourID=用户ID
 Title_ResourceDownload=资源下载
 EventRankNeedTitle=等级不够
-EventRankNeedContent=需要达到10级以上才能进入活动关卡!
+EventRankNeedContent=你的等级需要达到10级以上，才能进入活动关卡!\n\n先去加油努力升级吧！
 DownloadResourceTipTile=资源下载
 DownloadResourceTipContent=为了更好的游戏体验，将下载部分游戏资源
 ##Game setting options
@@ -188,7 +188,7 @@ SCENE_NAME_RAIDER=游戏攻略
 SCENE_NAME_CURRENCY=购买测试
 SCENE_NAME_MUSIC=设置
 SCENE_NAME_NICKNAME=修改昵称
-SCENE_NAME_EVENTSTAGE=活动关卡
+SCENE_NAME_EVENTSTAGE=精彩活动
 SCENE_NAME_EVOLVETAGE=进化关卡
 
 Stage_Event_Close=开始时间：{0}
