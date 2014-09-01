@@ -14,6 +14,9 @@ Exit=退出
 Retry=重试
 Error=错误
 
+QuitGameTitle=退出
+QuitGameContent=你确定要退出游戏吗？
+
 ##Button Label Text
 Btn_JumpScene_FriendList=好友列表
 Btn_JumpScene_Apply=申请好友
@@ -82,6 +85,7 @@ Text_Name_Colon=名称：
 Text_Name=名称
 
 #result view
+AddFriendTips=[FFB14A]你确定将TA添加为好友吗?[-]
 Support_Friend=添加好友
 NO_NAME=暂无名称
 Last_LoginTimeD={0}天前
@@ -101,7 +105,7 @@ City_Name_5=恶魔外城
 City_Name_100=进化魔境
 City_Name_101=紧急任务
 City_Name_102=周末任务
-City_Event=活动关卡
+City_Event=精彩活动
 
 Title_YourID=用户ID
 Title_ResourceDownload=资源下载
@@ -216,9 +220,9 @@ Type_Wind=风
 RedoQuest=重打
 GoOnQuest=通关
 RedoQuestTitle=战斗重打确认
-RedoQuestContent=是否花费 {0} 个魔法石来重打此层战斗？\n\n你当前拥有{1}颗魔法石.
+RedoQuestContent=是否花费 [FFB14A]{0}[-] 个魔法石来重打此层战斗？\n\n你当前拥有[FFB14A]{1}[-]颗魔法石.
 ResumeQuestTitle=战斗续打确认
-ResumeQuestContent=是否花费 {0} 个魔法石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
+ResumeQuestContent=是否花费 [FFB14A]{0}[-] 个魔法石来接着继续战斗？ \n (你的血量和SP都会全部恢复.)
 NotEnoughStone=没有足够的魔法石。
 RetryClearQuestNet=网络异常，请点击确认按钮重试。
 RetryClearQuestTitle=服务器错误
@@ -239,8 +243,8 @@ ProgressTotal=总大小：
 
 #Friend search
 SearchError=查找错误
-SearchFriendNotExist=未找到好友: {0} 。
-UserAlreadyFriend=你要添加的用户 {0} 已经是你的好友了!\n请到好友列表中查看。
+SearchFriendNotExist=未找到好友: [FFB14A]{0}[-] 。
+UserAlreadyFriend=你要添加的用户 [FFB14A]{0}[-] 已经是你的好友了!\n请到好友列表中查看。
 NotPremiumFriend=不能选择高级好友。
 
 InputError=输入错误
@@ -293,12 +297,13 @@ Reward_Tab_Info4=购买月卡后，每天可领取100颗魔法石
 Reward_Tab_Info5=其他奖励
 ChainLogin=连续登录 {0} 天
 TotalLogin=累计登录 {0} 天
-RankReach=等级 {0} 
-MonthCard=月卡     
+RankReach=等级:{0} 
+OtherRewards={0}
+RewardMonthCard=第{0}天
 
 #notice
 Notice_HelperTitle=友情战报
-Notice_HelperContent=你已累计登陆{0}天，帮助过{1}位好友和{2}位冒险者，最近获得{3}友情点数。\n\n你当前总共拥有友情点数：{4}点
+Notice_HelperContent=你已累计登陆[FFB14A]{0}[-]天，帮助过[FFB14A]{1}[-]位好友和[FFB14A]{2}[-]位冒险者，最近获得[FFB14A]{3}[-]友情点数。\n\n你当前总共拥有友情点数：[FFB14A]{4}[-]点。
 
 #unit detail
 UnitDetail_EvolveTitle=获得途径
@@ -322,8 +327,8 @@ Btn_Unit_Expand=卡牌扩容
 Btn_Stamina_Recover=恢复体力
 
 FriendExpand=好友扩容
-FriendExpansionConfirm=确定花费 {0} 颗魔法石来扩充 {1} 个好友上限吗？
-FriendExpansionInfo=当前好友数量： {0}/{1}
+FriendExpansionConfirm=确定花费 [FFB14A]{0}[-] 颗魔法石来扩充 [FFB14A]{1}[-] 个好友上限吗？
+FriendExpansionInfo=当前好友数量： [FFB14A]{0}[-]/{1}
 DoFriendExpand=扩容
 
 FriendExpansionFailed=好友扩容失败
@@ -331,10 +336,10 @@ FriendCountLimitReachedMax=你的好友容量已达到等级上限，必须先�
 FriendExpandStonesNotEnough=你的魔法石数量不足，无法扩容好友。请先进行充值！
 
 FriendExpansionFinish=好友扩容成功
-FriendExpansionResult=好友上限达到 {0}!
+FriendExpansionResult=好友上限达到 [FFB14A]{0}[-]!
 
 StaminaRecover=恢复体力
-StaminaRecoverConfirm=确定花费{0}颗魔法石来恢复体力吗？
+StaminaRecoverConfirm=确定花费[FFB14A]{0}[-]颗魔法石来恢复体力吗？
 DoStaminaRecover=恢复
 
 StaminaRecoverFailed=体力恢复失败
@@ -342,11 +347,11 @@ StaminaStillFull=你的体力已满，无需恢复。
 StaminaRecoverStonesNotEnough=你的魔法石余额不足，无法恢复体力。请先充值！
 
 StaminaRecoverFinish=体力恢复成功
-StaminaRecoverResult=当前体力值达到：{0}.
+StaminaRecoverResult=当前体力值达到：[FFB14A]{0}[-].
 
 UnitExpand=卡牌容量扩充
-UnitExpansionConfirm=确定花费 {0} 颗魔法石来扩充卡牌容量?
-UnitExpansionInfo=现有卡牌数量：{0}/{1}
+UnitExpansionConfirm=确定花费 [FFB14A]{0}[-] 颗魔法石来扩充卡牌容量?
+UnitExpansionInfo=现有卡牌数量：[FFB14A]{0}[-]/{1}
 DoUnitExpansion=扩容
 
 UnitExpansionFailed=卡牌扩容失败
@@ -354,7 +359,7 @@ UnitCountLimitReachedMax=你的卡牌容量已达到等级上限限制。请先�
 UnitExpandStonesNotEnough=你的魔法石余额不足，无法扩充卡牌容量。请先充值！
 
 UnitExpansionFinish=卡牌扩容成功
-UnitExpansionResult=当前卡牌容量达到：{0}
+UnitExpansionResult=当前卡牌容量达到：[FFB14A]{0}[-]
 
 MonthCard=月卡     
 MonthCardDesc=每天获得[FFB14A]100[-]魔法石 ([FFB14A]X30[-]天)
@@ -368,46 +373,46 @@ WeekCard=周卡
 WeekCardDesc=每天获得[FFB14A]100[-]魔法石 ([FFB14A]X7[-]天)
 
 ##### gacha
-FriendGacha=友情点数召唤
-FriendGachaTitle=友情点数召唤
-FriendGachaDescription=消耗友情点数来召唤
-FriendGachaStatus=1抽: {0} 点  {1} 抽: {2} 点\n你当前拥有点数： {3}
+FriendGacha=友情召唤
+FriendGachaTitle=友情召唤
+FriendGachaDescription=友情召唤将消耗你的友情点数。
+FriendGachaStatus=召唤1次: [FFB14A]{0}[-] 点  召唤{1}次: [FFB14A]{2}[-] 点\n你当前拥有点数： [FFB14A]{3}[-] 点。
 
-ConfirmOneFriendGacha=抽一次
-ConfirmMaxFriendGacha={0}连抽 
+ConfirmOneFriendGacha=召唤1次
+ConfirmMaxFriendGacha=召唤{0}次
 
 FriendGachaFailed=[FF0000]召唤失败[-]
 UnitCountReachedMax=你的卡牌数量超过上限:[FF0000]{0}/[-]{1}, 请先扩充卡牌容量!
-GachaFriendPointNotEnough=你的友情点数不足！\n召唤一次需要 {0} 友情点。
+GachaFriendPointNotEnough=你的友情点数不足！\n召唤一次需要 [FFB14A]{0}[-] 友情点。
 
 RareGacha=稀有召唤
 RareGachaTitle=稀有召唤
-RareGachaDescription=花费魔法石来召唤
-RareGachaStatus=1抽: {0} 魔法石 {1} 抽: {2} 魔法石\n\n你当前拥有 {3} 魔法石.
+RareGachaDescription=稀有召唤可获得强力的卡牌，将花费一定数量的魔法石。
+RareGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石 召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
 
-ConfirmOneRareGacha=抽一次
-ConfirmMaxRareGacha={0}连抽 
+ConfirmOneRareGacha=召唤1次
+ConfirmMaxRareGacha=召唤{0}次
 
-RareGachaFailed=[FF0000]召唤失败[-]
-RareGachaStoneNotEnough=你的魔法石余额不足！召唤一次需要 {0} 魔法石.
+RareGachaFailed=召唤失败
+RareGachaStoneNotEnough=你的魔法石余额不足！\n召唤一次需要 [FFB14A]{0}[-] 魔法石.\n\n请先充值!
 
 EventGacha=限时活动召唤
 EventGachaTitle=限时活动召唤
 EventGachaDescription=限时活动召唤
-EventGachaStatus=1抽: {0} 魔法石 {1} 抽: {2} 魔法石\n\n你当前拥有 {3} 魔法石.
+EventGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石 召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
 
-ConfirmOneEventGacha=抽一次
-ConfirmMaxEventGacha={0}连抽
+ConfirmOneEventGacha=召唤1次
+ConfirmMaxEventGacha=召唤{0}次
 
-EventGachaFailed=[FF0000]召唤失败[-]
+EventGachaFailed=召唤失败
 EventGachaNotOpen=限时活动召唤会定期开放。请关注登录公告！
-EventGachaStoneNotEnough=你的魔法石余额不足！召唤一次需要 {0} 魔法石.
+EventGachaStoneNotEnough=你的魔法石余额不足！\n召唤一次需要 [FFB14A]{0}[-] 魔法石.\n\n请先充值!
 
 FriendScratch=友情召唤
 RareScratch=稀有召唤
 EventScratch=活动召唤
 
-GachaChances=可召唤： {0}/{1}
+GachaChances=可召唤： [FFB14A]0}[-]/{1}
 Lv=Lv {0}
 
 
@@ -1291,9 +1296,9 @@ guide2_content=选择和你一起冒险的伙伴。\n未选择的伙伴会在之
 guide4_title=开始探险
 guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
 guide5_title=关于召唤
-guide5_content=接下来就是重中之重的召唤！\n召唤可是能得到各种各样的强卡哦！
+guide5_content=接下来就是重中之重的召唤！\n召唤能得到各种各样的强大卡牌哦！
 guide6_title=关于稀有召唤
-guide6_content=这次就来一次稀有召唤吧。\n友情召唤咱等以后再说。
+guide6_content=这次就来一次稀有召唤吧。\n\n稀有召唤有几率能获得最好的卡牌哦
 #guide7_title=a rare card need something
 #guide7_content=a rare card need something!
 guide8_title=选择一张卡
@@ -1301,67 +1306,67 @@ guide8_content=请随意挑选一张卡
 guide9_title=获得卡牌
 guide9_content=运气不错，此次获得卡牌很强！\n别忘了在编队中把它派上阵哦。
 guide10_title=编队方法
-guide10_content=点击empty（空格子）后，再点击想编入的角色。
+guide10_content=点击Empty（空格子）后，再点击你想派上阵的角色。
 guide11_title=编队结束
 guide11_content=最多4个队员即可组成一支队伍。\n那么先返回到上一个界面吧。
 
 guide12_title=开始任务
-guide12_content=为了打开关闭的大门，首先需要从战场中格子里取到钥匙。
+guide12_content=为了通关，你首先需要从战场中格子里取到钥匙。
 guide13_title=移动方法
 guide13_content=点击想要前进的方向。\n地砖因骷髅数量不同，其内容也会变化。
 guide14_title=获得宝箱
-guide14_content=恭喜，你得到金币了！\n\n金币是强化和进化所必需消耗的，多多收集吧！
+guide14_content=恭喜，你得到金币了！\n\n金币是强化和进化所必需消耗的，你需要尽量多收集！
 guide15_title=移动与SP
 guide15_content=每前进一步便会消耗一点SP（请见屏幕左下角:蓝色小点数量代表SP点数）。\n\n注意: 当SP消耗变为0后，每移动一步都会被扣除HP；所以请多关注SP的消耗变化。
-guide16_title=敌人地砖
-guide16_content=战场格子上的骷髅颜色代表危险程度，移动的时候要注意了。\n那么开始体验一下战斗吧！
+guide16_title=骷髅颜色
+guide16_content=战场格子上的骷髅颜色代表危险程度，移动的时候要注意哦。\n\n那么开始体验一下战斗吧！
 guide17_title=Angela老师开课了
-guide17_content=真拿你没办法。\n那让我来示范一次吧。
+guide17_content=让我来示范一下，如何操作才能发出攻击。
 guide18_title=操作提示
-guide18_content=就像刚才我这样用手指拖动色块就能发起攻击。\n\n你看清楚我华丽的操作手法了么？
+guide18_content=就像刚才我这样用手指拖动色块就能发起攻击。\n\n你看清我的操作手法了么？
 guide18_once_again=再看一次
 
 ##attack once
 guide19_title=攻击方法
-guide19_content=同一个格子里放上2块以上的方块即可发动攻击。
-guide20_title=这次该你了
-guide20_content=那么尽量把蓝色水方块放进一个格子吧。一个格子最多5个方块。
+guide19_content=在同一个格子里放入2个以上的相同颜色方块，即可发动攻击。
+guide20_title=这次该你了!
+guide20_content=那么尽量把相同颜色的方块放进一个格子吧。\n\nPS: 一个格子最多只能容纳5个方块哦。
 
 ##attack twice
 guide21_title=攻击成功
-guide21_content=尽量拖放与右下单位同色的方块。\n详情可以点击单位来查看。
+guide21_content=尽量拖放与右下方角色同色的方块。\n可以点击下方的头像查看详情。
 guide22_title=攻击要点
-guide22_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多5个方块。\n\n那么，正式战斗开始了。
+guide22_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多容纳5个方块。\n\n那么，正式战斗开始了。
 guide23_title=击败敌人
-guide23_content=恭喜了！\n那么接下来就是拿钥匙了！
+guide23_content=恭喜，你已击败敌人！\n那么接下来就是去取得钥匙了！
 guide24_title=钥匙地砖
-guide24_content=xxx地砖里拿到钥匙了！\n这样一来，门就打开了。向门那里进发吧！
+guide24_content=恭喜，你拿到钥匙了！\n这样一来，门就打开了。向门那里进发吧！
 guide25_title=到达门前
-guide25_content=这里绝对有BOSS等着！\n不过，大胆地点击大门迎战BOSS吧！
+guide25_content=这里的BOSS等你已久！\n大胆地点击大门迎战BOSS吧！
 
 ##boss attck
 guide26_title= BOSS战
-guide26_content=按住方块向两侧滑动即可对方块进行排序！
+guide26_content=拖动方块向左右两侧滑动，即可对方块进行排序！\n\n先排序好方块，更容易发出攻击哦
 guide27_title=敌人攻击
 guide27_content=由于敌人发动攻击，我方HP减少了。\n现在准备补充红心方块，稍等！
-guide28_title=红心max
+guide28_title=如何恢复HP
 guide28_content=放置2块即可恢复HP。\n同色相邻的方块，可以一起拖放！
 guide29_title=恢复成功
 guide29_content=1-同色方块放同一个格子。\n2-同色方块凑够2个即可发动攻击。\n3-一个格子最多5个方块。\n\n那么加油打倒BOSS吧！
 
 ##skill
 guide30_title=主动技能
-guide30_content=单位在闪光了！\n这种时候点击单位就对了！
+guide30_content=请注意下方：角色头像在闪光了！\n这种时候点击头像即可释放主动技能！
 guide31_title=发动主动技
-guide31_content=在任务中移动或者战斗，经过一定回合即可发动主动技。\n那么来一个主动技试试吧！
+guide31_content=在战场中移动或者战斗，经过一定回合后，即可激活主动技能。\n让我们来发一个主动技能试试看！
 guide32_title=势头不错
 guide32_content=不同角色有不同的主动技，所有多多搜集各种角色吧。
-guide33_title=关于boost
-guide33_content=boost格子上的攻击和恢复，效果都是1.5倍哦！\n积极利用boost吧！
+guide33_title=关于Boost
+guide33_content=Boost格子上的攻击和恢复，效果都是1.5倍哦！\n积极利用Boost吧！
 guide34_title=闯关成功
-guide34_content=找到钥匙，打倒BOSS，即可闯关成功！\n闯关最后，所有的地砖都会打开，注意看看有无稀有敌人。
-guide35_title=确认任务结果
-guide35_content=那么，确认一下任务结果吧，报酬可是多种多样哦。
+guide34_content=打倒BOSS，即可闯关成功！\n闯关结束后，所有的地板都会翻开，注意看看有无稀有怪物。
+guide35_title=确认战利品
+guide35_content=那么，确认一下战斗结果吧，奖励可是多种多样哦。
 
 ##skillName & skillDescription
 RecoverHpSkillName=Recover HP: Lv{0}
@@ -1371,32 +1376,32 @@ RecoverHpSkillDesc=Recover {0}% HP
 guide41_title=强化合成
 guide41_content=接下来通过强化合成来让角色成长。\n点击"强化"试试吧。
 guide42_title=选择基础卡牌
-guide42_content=选择想强化的卡牌。\n点击现在的队长来试试吧。
+guide42_content=选择想强化的卡牌。\n让我们点选主角来试试吧。
 guide43_title=选择素材卡牌
-guide43_content=接下来选择素材卡牌。\n作为素材的卡牌将会被消耗。这次就用我给你的卡牌吧。
+guide43_content=接下来选择强化素材，作为素材的卡牌将会被消耗掉哦。
 guide44_title=选择帮手
 guide44_content=接下来要见证合成了，选择一位帮手吧。
 guide45_title=帮手奖励
-guide45_content=若帮手与基础卡牌的属性、种族相同，则会得到大量经验值。
+guide45_content=若帮手的卡牌与基础卡牌的属性/种族相同，那么强化后的经验值将获得加成。
 guide46_title=合成结束
-guide46_content=LV已达max，接下来开始进化吧。
+guide46_content=恭喜，强化合成成功！现在你的怪物卡牌已变强大了！
 
 ##evolve
 base_Item_Null=基础卡牌数据为空。
 guide51_title=选择进化用基础卡牌
-guide51_content=选择想要进化的卡牌。\n点击lv-max的角色试试吧。
+guide51_content=选择想要进化的卡牌。\n\n注意：只有Lv满级的角色才能进化哦。
 guide52_title=选择帮手
 guide52_content=进化也需要见证人，选择一位帮手吧。
 guide53_title=进化帮手的条件
 guide53_content=要让角色进化，帮手必须满足属性、种族和lv这几个条件。
 guide54_title=关于进化任务
-guide54_content=要让角色进化，最后还需要完成进化任务。
+guide54_content=要让角色获得进化，最后还需要完成进化任务：通关进化副本。
 guide55_title=进化任务最终确认
 guide55_content=基础卡牌，素材卡牌，帮手，就用这个队伍来挑战吧。\nSo, let's go！
 guide56_title=Angela提醒您
-guide56_content=尽量多移动，收集金币，打倒更多的敌人！\n如果得到卡牌后，即可用来强化或者进化。
+guide56_content=尽量在战场中探索更多的格子，收集更多金币，打倒更多的敌人！\n如果得到卡牌后，即可用来强化或者进化。
 guide57_title=任务要点
-guide57_content=1-找到钥匙\n2-前往打开的大门\n3-注意剩余SP\n那么，祝你好运了！
+guide57_content=1-找到钥匙\n2-前往最前方的大门\n3-关注剩余SP点数\n那么，祝你好运了！
 guide58_title=进化成功
 guide58_content=漂亮！角色成功进化了！\n属性不同，进化时间也不同，这点请一定注意！
 guide59_title=进化星期
@@ -1406,14 +1411,14 @@ guide59_content=...
 guide61_title=准备结束
 guide61_content=那么准备完毕了。\n嘛，再陪你一会，走到最初的大门那吧。
 guide62_title=指引结束
-guide62_content=点击quest start。\n我的指引就到这了，前进吧！Divine gate！
+guide62_content=我的指引就到这了哦。\n\n独自前进吧！少年！
 
-notmaxleveltips=基础卡牌等级未达到最高等级。
+notmaxleveltips=基础卡牌等级未达到满级。\n提示：只有Lv满级的卡牌才能进化。
 clearQuest=已通关
 
 #novice guide tips
-guide_tips_1=请把同一颜色的多个色块拖到一个格子里
-guide_tips_2=尽量拖放方块来打倒敌人。
+guide_tips_1=请把同一颜色的色块拖到同一个格子里
+guide_tips_2=尽量同一颜色的色块拖到同一个格子里
 guide_tips_3=选择一张卡牌，更换其所处在队伍中的位置
 guide_tips_4=选择要更换的目标位置
 guide_tips_5=长按卡牌头像来查看其详情信息
