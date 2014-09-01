@@ -66,7 +66,7 @@ public class MusicWIndow : ViewBase {
 	void ClickOk(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		UIManager.Instance.ChangeScene (ModuleEnum.Others);
+		UIManager.Instance.ChangeScene (ModuleEnum.OthersModule);
 //		HideUI ();
 	}
 

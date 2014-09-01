@@ -50,7 +50,7 @@ public class UserIDWindow : ViewBase{
 
 	void ClickButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene(ModuleEnum.Friends);
+		UIManager.Instance.ChangeScene(ModuleEnum.FriendsModule);
 	}
 
 	void ShowTween(){

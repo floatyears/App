@@ -81,7 +81,7 @@ public class DGTools {
 		TCityInfo tci = dataCenter.GetCityInfo (cityID);
 
 		if (tsi == null || tqi == null || tci == null) {
-			manager.ChangeScene (ModuleEnum.Home);
+			manager.ChangeScene (ModuleEnum.HomeModule);
 			return;
 		}
 
@@ -89,10 +89,10 @@ public class DGTools {
 
 		if (questStage == StageState.NEW) {
 
-			manager.ChangeScene (ModuleEnum.StageSelect);
+			manager.ChangeScene (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-			manager.ChangeScene(ModuleEnum.QuestSelect);
+			manager.ChangeScene(ModuleEnum.QuestSelectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, tsi);
 
 			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -103,35 +103,35 @@ public class DGTools {
 
 		if (questStage == StageState.CLEAR) { 	
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].ID != tqi.ID) { // current quest not the last quest.
-				manager.ChangeScene (ModuleEnum.StageSelect);
+				manager.ChangeScene (ModuleEnum.StageSelectModule);
 				MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-				manager.ChangeScene (ModuleEnum.QuestSelect);
+				manager.ChangeScene (ModuleEnum.QuestSelectModule);
 				msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
 
 				MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 			} else {
 				if (stageClearStage == StageState.CLEAR) {
 					if (tci.cityInfo.stages [tci.cityInfo.stages.Count - 1].id != tsi.ID) {	// current stage not the last stage
-						manager.ChangeScene (ModuleEnum.StageSelect);
+						manager.ChangeScene (ModuleEnum.StageSelectModule);
 						MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
 						MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 					} else {
-						manager.ChangeScene (ModuleEnum.Home);
+						manager.ChangeScene (ModuleEnum.HomeModule);
 					}
 				} else {
-					manager.ChangeScene (ModuleEnum.StageSelect);
+					manager.ChangeScene (ModuleEnum.StageSelectModule);
 					MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
 					MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 				}
 			}
 		} else {
-			manager.ChangeScene (ModuleEnum.StageSelect);
+			manager.ChangeScene (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-			manager.ChangeScene (ModuleEnum.QuestSelect);
+			manager.ChangeScene (ModuleEnum.QuestSelectModule);
 			msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
 
 			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -229,7 +229,7 @@ public class DGTools {
 		userUnit.unitId = (uint)unitID;
 		TUserUnit tuu = new TUserUnit(userUnit);
 
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 	}
 

@@ -39,7 +39,7 @@ public class StartModule : ModuleBase {
 		prevScene = currentScene;
 		currentScene = sEnum;
 
-		if (sEnum == ModuleEnum.Start) {
+		if (sEnum == ModuleEnum.StartModule) {
 			dis = new StartScene (sEnum);
 //			dis.SetDecorator (this);
 			dis.InitSceneList ();

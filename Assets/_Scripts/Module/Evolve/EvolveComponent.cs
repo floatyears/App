@@ -20,7 +20,7 @@ public class EvolveComponent : ModuleBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 
-		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
 			base.DestoryUI();
 		}
 	}
@@ -68,7 +68,7 @@ public class EvolveComponent : ModuleBase {
 		}
 
 		DataCenter.gameState = GameState.Evolve;
-		UIManager.Instance.ChangeScene (ModuleEnum.StageSelect);
+		UIManager.Instance.ChangeScene (ModuleEnum.StageSelectModule);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 
 	}
@@ -87,8 +87,8 @@ public class EvolveComponent : ModuleBase {
 
 	void ReturnPreScene(object data) {
 		ModuleEnum se = (ModuleEnum)data;
-		bool showDetail = se == ModuleEnum.UnitDetail;
-		bool enterEvolve = se == ModuleEnum.StageSelect;
+		bool showDetail = se == ModuleEnum.UnitDetailModule;
+		bool enterEvolve = se == ModuleEnum.StageSelectModule;
 		if (!showDetail && !enterEvolve) {
 			DataCenter.gameState = GameState.Normal;
 		}

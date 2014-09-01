@@ -171,7 +171,7 @@ public class PartyPageLogic : ModuleBase{
             tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1];
         }
 
-        UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
         MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
     }
 	

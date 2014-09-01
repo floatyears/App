@@ -28,7 +28,7 @@ public class EvolveDecoratorUnity : ViewBase {
 	}
 	
 	public override void HideUI () {
-		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
 			fromUnitDetail = true; 
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
@@ -293,7 +293,7 @@ public class EvolveDecoratorUnity : ViewBase {
 	void LongPress (GameObject go) {
 		EvolveItem ei = evolveItem [go];
 
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail );
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, ei.userUnit);
 	}
 
@@ -301,7 +301,7 @@ public class EvolveDecoratorUnity : ViewBase {
 	void ClickItem (GameObject go) {
 		if ( baseItem.userUnit == null) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
-			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("base_Item_Null"));
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("base_Item_Null"));
 			return;
 		}
 
@@ -473,7 +473,7 @@ public class EvolveDecoratorUnity : ViewBase {
 	void Evolve(GameObject go) {
 		TUserUnit baseUserUnit = baseItem.userUnit;
 		if (baseUserUnit.Level < baseUserUnit.UnitInfo.MaxLevel) {
-			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("notmaxleveltips"));
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("notmaxleveltips"));
 			return;
 		}
 
@@ -497,7 +497,7 @@ public class EvolveDecoratorUnity : ViewBase {
 				}
 //				ExcuteCallback (evolveInfoList);
 			});
-			UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownload);
+			UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownloadModule);
 		};
 		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
@@ -567,7 +567,7 @@ public class EvolveItem {
 	}
 
 	void LongPress(GameObject target) {
-		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
 	}
 

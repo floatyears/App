@@ -39,12 +39,12 @@ public class SceneInfoComponent : ModuleBase {
 //		}
 
 		if (DataCenter.gameState == GameState.Evolve) {
-			if(backScene == ModuleEnum.Home) {
-				backScene = ModuleEnum.Evolve;
+			if(backScene == ModuleEnum.HomeModule) {
+				backScene = ModuleEnum.EvolveModule;
 			}
 
-			if(backScene == ModuleEnum.FriendSelect) {
-				backScene = ModuleEnum.QuestSelect;
+			if(backScene == ModuleEnum.FriendSelectModule) {
+				backScene = ModuleEnum.QuestSelectModule;
 			}
 		}
 

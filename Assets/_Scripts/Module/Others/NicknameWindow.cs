@@ -83,7 +83,7 @@ public class NicknameWindow : ViewBase {
 	void ClickCancelButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		//		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		UIManager.Instance.ChangeScene(ModuleEnum.Others);
+		UIManager.Instance.ChangeScene(ModuleEnum.OthersModule);
 	}
 
 
@@ -125,7 +125,7 @@ public class NicknameWindow : ViewBase {
 			}
 		}
 		
-		UIManager.Instance.ChangeScene(ModuleEnum.Others);
+		UIManager.Instance.ChangeScene(ModuleEnum.OthersModule);
 //		HideUI ();
 	}
 

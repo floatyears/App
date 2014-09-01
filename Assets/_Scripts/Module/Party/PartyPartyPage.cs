@@ -115,7 +115,7 @@ public class PartyPartyPage : PartyPageLogic{
 		if (currentFoucsPosition == 0)   return;
 		
 		TUserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, targetUnit);
 	}
 

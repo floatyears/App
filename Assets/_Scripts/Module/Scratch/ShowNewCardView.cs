@@ -139,7 +139,7 @@ public class ShowNewCardView : ViewBase {
 	}
 
 	void DetailButtonCallback(GameObject go) {
-		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
 //		UIManager.Instance.baseScene.PrevScene = sEnum;
 

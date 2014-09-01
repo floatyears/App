@@ -47,22 +47,22 @@ public class FriendDecoratorUnity : ViewBase {
         go = FindChild("Btn_FriendList");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_FriendList");
-        btns.Add(go, ModuleEnum.FriendList);
+        btns.Add(go, ModuleEnum.FriendListModule);
 
         go = FindChild("Btn_SearchFriend");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Search");
-        btns.Add(go, ModuleEnum.SearchFriend);
+		btns.Add(go, ModuleEnum.SearchFriendModule);
 
         go = FindChild("Btn_Apply");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Apply");
-        btns.Add(go, ModuleEnum.Apply);
+		btns.Add(go, ModuleEnum.ApplyModule);
 
         go = FindChild("Btn_Reception");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Reception");
-        btns.Add(go, ModuleEnum.Reception);
+		btns.Add(go, ModuleEnum.ReceptionModule);
 
         foreach (var btn in btns.Keys) {
             UIEventListener.Get(btn).onClick = ClickBtn;
@@ -79,13 +79,13 @@ public class FriendDecoratorUnity : ViewBase {
 
         nextScene = btns[btn];
         switch (nextScene) {
-			case ModuleEnum.Apply:
+		case ModuleEnum.ApplyModule:
 				SyncFriendListFromServer();
             	break;
-        	case ModuleEnum.FriendList:
+        	case ModuleEnum.FriendListModule:
             	SyncFriendListFromServer();
             	break;
-        	case ModuleEnum.Reception:
+			case ModuleEnum.ReceptionModule:
             	SyncFriendListFromServer();
             	break;
         	default:

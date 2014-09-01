@@ -49,7 +49,7 @@ public class LevelUpView : ViewBase {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
-		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
 			fromUnitDetail = true;
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
@@ -507,7 +507,7 @@ public class LevelUpView : ViewBase {
 	
 	void LevelUpCallback(GameObject go) {
 		if (dataCenter.AccountInfo.Money < coinNeed) {
-			ViewManager.Instance.ShowTipsLabel("not enough money");
+			TipsManager.Instance.ShowTipsLabel("not enough money");
 			return;
 		}
 		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;

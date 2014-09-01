@@ -74,7 +74,7 @@ public class LevelUpMaterialWindow : ViewBase {
 
 	void PressItem(GameObject item){  
 		UserUnit unitInfo = materialUnitInfoDic[ item ];
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail );
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 	}
 

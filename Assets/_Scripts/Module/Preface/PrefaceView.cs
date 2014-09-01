@@ -44,7 +44,7 @@ public class PrefaceView : ViewBase {
 	{
 		if(i > 5){
 			Umeng.GA.FinishLevel("Preface");
-			UIManager.Instance.ChangeScene(ModuleEnum.SelectRole);
+			UIManager.Instance.ChangeScene(ModuleEnum.SelectRoleModule);
 
 			return;
 		}

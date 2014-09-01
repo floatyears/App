@@ -87,7 +87,7 @@ public class SceneInfoDecoratorUnity : ViewBase{
 			return;		
 		}
 
-		if (UIManager.Instance.current.CurrentDecoratorScene == ModuleEnum.UnitCatalog) {
+		if (UIManager.Instance.current.CurrentDecoratorScene == ModuleEnum.UnitCatalogModule) {
 			isAdd = true;
 			backBtnLabel.transform.localPosition += zOffset * Vector3.forward;
 		} else if(isAdd) {

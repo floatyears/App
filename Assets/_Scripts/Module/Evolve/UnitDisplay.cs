@@ -16,7 +16,7 @@ public class UnitDisplay : ModuleBase {
 	public override void HideUI () {
 		base.HideUI ();
 
-		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
 			base.DestoryUI();
 		}
 	}

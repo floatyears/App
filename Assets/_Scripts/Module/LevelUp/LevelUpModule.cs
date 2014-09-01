@@ -7,7 +7,7 @@ public class LevelUpModule : ModuleBase {
 	public override void HideUI () {
 		base.HideUI ();
 
-		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
 			base.DestoryUI();
 		}
 	}
@@ -74,7 +74,7 @@ public class LevelUpModule : ModuleBase {
 	
 			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
-			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
+			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 

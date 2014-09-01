@@ -141,7 +141,7 @@ public class OperationNoticeView : ViewBase {
 //		if (UIManager.Instance.baseScene.PrevScene == ModuleEnum.Others)
 //			backHome = true;
 		if (!backHome) {
-			UIManager.Instance.ChangeScene (ModuleEnum.Home);
+			UIManager.Instance.ChangeScene (ModuleEnum.HomeModule);
 			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
 			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 && firstShow) {
 				//			Debug.LogError ("show Reward scene... ");
@@ -149,7 +149,7 @@ public class OperationNoticeView : ViewBase {
 				firstShow = false;
 				foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
 					if(item.enabled == 1){
-						UIManager.Instance.ChangeScene (ModuleEnum.Reward);
+						UIManager.Instance.ChangeScene (ModuleEnum.RewardModule);
 						return;
 					}
 				}
@@ -158,7 +158,7 @@ public class OperationNoticeView : ViewBase {
 //				HideUI();
 			}	
 		}else{
-			UIManager.Instance.ChangeScene(ModuleEnum.Others);
+			UIManager.Instance.ChangeScene(ModuleEnum.OthersModule);
 //			HideUI();
 		}
 

@@ -48,7 +48,7 @@ public class GachaWindowView : ViewBase {
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
 
-		if(UIManager.Instance.nextScene != ModuleEnum.ShowCardEffect)
+		if(UIManager.Instance.nextScene != ModuleEnum.ShowCardEffectModule)
 			Reset();
     }
     
@@ -194,7 +194,7 @@ public class GachaWindowView : ViewBase {
 				AutoShowOneCard ();
 			} else {
 				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.UnitID);
-				UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffect);
+				UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffectModule);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserUnit);
 			}
 		});
@@ -429,7 +429,7 @@ public class GachaWindowView : ViewBase {
 			ShowUnitGrid ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
-			UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffect);
+			UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
 		}
     }
@@ -439,7 +439,7 @@ public class GachaWindowView : ViewBase {
         if (newUnitId == 0){
             return;
         }
-        UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
         TUserUnit unit = DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId);
         MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, unit);
     }
@@ -474,9 +474,9 @@ public class GachaWindowView : ViewBase {
 		showIndex = 0;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
 			Debug.Log("goto home view==================");
-			UIManager.Instance.ChangeScene (ModuleEnum.Home);	
+			UIManager.Instance.ChangeScene (ModuleEnum.HomeModule);	
 		} else {
-			UIManager.Instance.ChangeScene (ModuleEnum.Scratch);	
+			UIManager.Instance.ChangeScene (ModuleEnum.ScratchModule);	
 		}
         
         yield return null;

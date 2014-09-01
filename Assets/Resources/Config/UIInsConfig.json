@@ -1,5 +1,5 @@
 {
-    "PlayerInfo": {
+    "PlayerInfoBarModule": {
         "moduleName":"PlayerInfoBar",
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,

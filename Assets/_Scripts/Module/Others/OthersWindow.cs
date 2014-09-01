@@ -83,30 +83,30 @@ public class OthersWindow : ViewBase {
 	void ClicItems(GameObject obj){
 		switch (obj.name) {
 		case "Music":
-			UIManager.Instance.ChangeScene(ModuleEnum.Music);
+			UIManager.Instance.ChangeScene(ModuleEnum.MusicModule);
 			break;
 		case "Nickname":
-			UIManager.Instance.ChangeScene(ModuleEnum.NickName);
+			UIManager.Instance.ChangeScene(ModuleEnum.NickNameModule);
 			break;
 		case "Raider":
-			UIManager.Instance.ChangeScene(ModuleEnum.Raider);
+			UIManager.Instance.ChangeScene(ModuleEnum.RaiderModule);
 			break;
 		case "ResetData":
 			GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
 			GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 			GameDataStore.Instance.StoreData("ResrouceDownload","");
 			GameDataStore.Instance.StoreData("ResourceComplete","");
-			UIManager.Instance.ChangeScene(ModuleEnum.Loading);
+			UIManager.Instance.ChangeScene(ModuleEnum.LoadingModule);
 			break;
 		case "Reward":
 //			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
-			UIManager.Instance.ChangeScene(ModuleEnum.Reward);
+			UIManager.Instance.ChangeScene(ModuleEnum.RewardModule);
 			break;
 		case "Contact":
 			ShowContact();
 			break;
 		case "Notice":
-			UIManager.Instance.ChangeScene(ModuleEnum.OperationNotice);
+			UIManager.Instance.ChangeScene(ModuleEnum.OperationNoticeModule);
 			break;
 		}
 	}

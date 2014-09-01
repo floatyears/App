@@ -50,32 +50,32 @@ public class UnitsWindow : ViewBase, IDragChangeView{
 		go = FindChild("Bottom/Catalog");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Catalog");
-		buttonInfo.Add(go, ModuleEnum.UnitCatalog);
+		buttonInfo.Add(go, ModuleEnum.UnitCatalogModule);
 		
 		go = FindChild("Bottom/Evolve");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Evolve");
-		buttonInfo.Add(go, ModuleEnum.Evolve);
+		buttonInfo.Add(go, ModuleEnum.EvolveModule);
 		
 		go = FindChild("Bottom/LevelUp");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
-		buttonInfo.Add(go, ModuleEnum.LevelUp);
+		buttonInfo.Add(go, ModuleEnum.LevelUpModule);
 
 		go = FindChild("Bottom/Party");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Party");
-		buttonInfo.Add(go, ModuleEnum.Party);
+		buttonInfo.Add(go, ModuleEnum.PartyModule);
 		
 		go = FindChild("Bottom/Sell");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Sell");
-		buttonInfo.Add(go, ModuleEnum.Sell);
+		buttonInfo.Add(go, ModuleEnum.SellModule);
 		
 		go = FindChild("Bottom/UnitList");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
-		buttonInfo.Add(go, ModuleEnum.UnitList);
+		buttonInfo.Add(go, ModuleEnum.UnitListModule);
 
 		dragChangeView = FindChild<DragChangeView> ("Top/DragParty");
 		dragChangeView.SetDataInterface (this);
@@ -91,12 +91,12 @@ public class UnitsWindow : ViewBase, IDragChangeView{
 
 //		ViewManager.Instance.ShowTipsLabel ("Click", caller);
 		ModuleEnum se = buttonInfo [caller];
-		if (se == ModuleEnum.UnitCatalog) {
+		if (se == ModuleEnum.UnitCatalogModule) {
 			Umeng.GA.Event("Catalog");	
 		}
 //		iuiCallback.CallbackView(se);
 
-		ModuleManger.SendMessage (ModuleEnum.LevelUp,se);
+		ModuleManger.SendMessage (ModuleEnum.LevelUpModule,se);
 	}
 	
 	void ShowUIAnimation(){

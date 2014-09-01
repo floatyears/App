@@ -162,7 +162,7 @@ public class VictoryEffect : ViewBase {
 			StartShowGetCard ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.Object.unitId);
-			UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffect);
+			UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, showUserUnit);
 		}
 	}
@@ -237,7 +237,7 @@ public class VictoryEffect : ViewBase {
 		DestoryUI ();
 		if (DataCenter.gameState == GameState.Evolve) {
 			UnitDetailPanel.isEvolve = true;
-			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
+			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
 //			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Home;
 			HideUI ();
@@ -248,13 +248,13 @@ public class VictoryEffect : ViewBase {
 			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
 
 			if (!isNull && addFriend) {
-				UIManager.Instance.ChangeScene(ModuleEnum.Result);
+				UIManager.Instance.ChangeScene(ModuleEnum.ResultModule);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
 			} else {
 				DGTools.ChangeToQuest();
 			}
 		} else {
-			UIManager.Instance.ChangeScene (ModuleEnum.Home);
+			UIManager.Instance.ChangeScene (ModuleEnum.HomeModule);
 		}
 	}
 

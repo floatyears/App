@@ -29,7 +29,7 @@ public class UIManager {
 //		baseScene = new StartScene ("Game Start");
 //		baseScene.CreatUI ();
 //		baseScene.ShowUI ();
-		ChangeScene (ModuleEnum.Start);
+		ChangeScene (ModuleEnum.StartModule);
 	}
 
 	/// <summary>
@@ -112,7 +112,7 @@ public class UIManager {
 		ClearAllUIObject ();
 		Resources.UnloadUnusedAssets ();
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
-		UIManager.Instance.ChangeScene(ModuleEnum.Fight);
+		UIManager.Instance.ChangeScene(ModuleEnum.FightModule);
 	}
 
 	public void ExitBattle () {
@@ -206,7 +206,7 @@ public class UIManager {
 
 	public static bool CheckIsPopUpWindow(ModuleEnum sEnum){
 //		if (prevScene == ModuleEnum.None) {
-			if (sEnum == ModuleEnum.Music || sEnum == ModuleEnum.NickName || sEnum == ModuleEnum.OperationNotice || sEnum == ModuleEnum.Reward || sEnum == ModuleEnum.UnitDetail || sEnum == ModuleEnum.ResourceDownload)
+		if (sEnum == ModuleEnum.MusicModule || sEnum == ModuleEnum.NickNameModule || sEnum == ModuleEnum.OperationNoticeModule || sEnum == ModuleEnum.RewardModule || sEnum == ModuleEnum.UnitDetailModule || sEnum == ModuleEnum.ResourceDownloadModule)
 				return true;
 			return false;	
 //		}else{
@@ -223,155 +223,155 @@ public class UIManager {
 		switch (sEnum)
 		{
 
-        case ModuleEnum.Loading:
+        case ModuleEnum.LoadingModule:
             temp = new LoadingDecorator( sEnum );
             break;
 
-		case ModuleEnum.Home:
+		case ModuleEnum.HomeModule:
 			temp = new HomeScene( sEnum );
 			break;
 
-		case ModuleEnum.Friends:
+		case ModuleEnum.FriendsModule:
 			temp = new FriendScene( sEnum );
 			break;
 
-		case ModuleEnum.Scratch:
+		case ModuleEnum.ScratchModule:
 			temp = new ScratchScene( sEnum );
 			break;
 
-		case ModuleEnum.Shop:
+		case ModuleEnum.ShopModule:
 			temp = new ShopScene( sEnum );
 			break;
 
-		case ModuleEnum.Others:
+		case ModuleEnum.OthersModule:
 			temp = new OthersScene( sEnum );
 			break;
 
-		case ModuleEnum.Units:
+		case ModuleEnum.UnitsModule:
 //			Debug.LogError("ModuleEnum.Units");
 			temp = new UnitsScene( sEnum );
 			break;
 
-		case ModuleEnum.Party:
+		case ModuleEnum.PartyModule:
 			temp = new PartyScene( sEnum );
 			break;
 
-		case ModuleEnum.Sell:
+		case ModuleEnum.SellModule:
 			temp = new SellScene( sEnum );
 			break;
 
-		case ModuleEnum.Evolve:
+		case ModuleEnum.EvolveModule:
 			temp = new EvolveScene( sEnum );
 			break;
 
-		case ModuleEnum.UnitList:
+		case ModuleEnum.UnitListModule:
 			temp = new UnitListScene( sEnum );
 			break;
 
-		case ModuleEnum.LevelUp:
+		case ModuleEnum.LevelUpModule:
 			temp = new LevelUpScene( sEnum );
 			break;
 
-		case ModuleEnum.UnitCatalog:
+		case ModuleEnum.UnitCatalogModule:
 			temp = new CatalogScene( sEnum );
 			break;
 
-		case ModuleEnum.StageSelect:
+		case ModuleEnum.StageSelectModule:
 			temp = new StageSelectScene( sEnum );
 			break;
 			
-		case ModuleEnum.FriendSelect:
+		case ModuleEnum.FriendSelectModule:
 			temp = new FriendSelectScene( sEnum );
 			break;
 
-		case ModuleEnum.FriendList:
+		case ModuleEnum.FriendListModule:
 			temp = new FriendListScene( sEnum );
 			break;
 			
-		case ModuleEnum.SearchFriend:
+		case ModuleEnum.SearchFriendModule:
 			temp = new FriendSearchScene( sEnum );
 			break;
 			
-		case ModuleEnum.Information:
+		case ModuleEnum.InformationModule:
 			temp = new InformationScene( sEnum );
 			break;
 			
-		case ModuleEnum.Apply:
+		case ModuleEnum.ApplyModule:
 			temp = new ApplyScene( sEnum );
 			break;
 			
-		case ModuleEnum.Reception:
+		case ModuleEnum.ReceptionModule:
 			temp = new ReceptionScene( sEnum );
 			break;
 			
-		case ModuleEnum.YourID:
+		case ModuleEnum.YourIDModule:
 			temp = new UserIDScene( sEnum );
 			break;
 
-		case ModuleEnum.UnitDetail:
+		case ModuleEnum.UnitDetailModule:
 			temp = new UnitDetailScene( sEnum );
 			break;
 
-        case ModuleEnum.FriendScratch:
+        case ModuleEnum.FriendScratchModule:
             temp = new GachaWindowScene( sEnum );
             break;
 
-        case ModuleEnum.RareScratch:
+		case ModuleEnum.RareScratchModule:
             temp = new GachaWindowScene( sEnum );
             break;
 
-        case ModuleEnum.EventScratch:
+		case ModuleEnum.EventScratchModule:
             temp = new GachaWindowScene( sEnum );
             break;
 
-		case ModuleEnum.SelectRole:
+		case ModuleEnum.SelectRoleModule:
 			temp = new SelectRoleScene( sEnum );
 			break;
 
-		case ModuleEnum.Result:
+		case ModuleEnum.ResultModule:
 			temp = new ResultScene( sEnum );
 			break;
 
-		case ModuleEnum.FightReady:
+		case ModuleEnum.FightReadyModule:
 			temp = new FightReadyScene( sEnum );
 			break;
 
-		case ModuleEnum.QuestSelect:
+		case ModuleEnum.QuestSelectModule:
 			temp = new QuestSelectScene( sEnum );
 			break;
 
-		case ModuleEnum.OperationNotice:
+		case ModuleEnum.OperationNoticeModule:
 			temp = new OperationNoticeScene(sEnum);
 			break;
-		case ModuleEnum.Reward:
+		case ModuleEnum.RewardModule:
 			temp = new RewardScene(sEnum);
 			break;
-		case ModuleEnum.Raider:
+		case ModuleEnum.RaiderModule:
 			temp = new GameRaiderScene(sEnum);
 			break;
-		case ModuleEnum.Currency:
-			temp = new GameCurrencyScene(sEnum);
-			break;
-		case ModuleEnum.Music:
+//		case ModuleEnum.CurrencyModule:
+//			temp = new GameCurrencyScene(sEnum);
+//			break;
+		case ModuleEnum.MusicModule:
 			temp = new MusicScene(sEnum);
 			break;
-		case ModuleEnum.NickName:
+		case ModuleEnum.NickNameModule:
 			temp = new NicknameScene(sEnum);
 			break;
 
-		case ModuleEnum.ShowCardEffect:
+		case ModuleEnum.ShowCardEffectModule:
 			temp = new ShowNewCardScene(sEnum);
 			break;
 
-		case ModuleEnum.Victory:
+		case ModuleEnum.VictoryModule:
 			temp = new VictoryScene(sEnum);
 			break;
 
-		case ModuleEnum.Preface:
+		case ModuleEnum.PrefaceModule:
 			temp = new PrefaceScene(sEnum);
 			break;
 
-		case ModuleEnum.ResourceDownload:
+		case ModuleEnum.ResourceDownloadModule:
 			temp = new ResourceDownloadScene(sEnum);
 			break;
         }
@@ -389,14 +389,14 @@ public class UIManager {
 			return;	
 		}
 //		Debug.LogError("DataCenter.gameState 1 : " + DataCenter.gameState + " nextScene : " + nextScene);
-		if (nextScene == ModuleEnum.QuestSelect ||
-			nextScene == ModuleEnum.FightReady || 
-			nextScene == ModuleEnum.StageSelect || 
-			nextScene == ModuleEnum.Evolve || 
-			nextScene == ModuleEnum.UnitDetail ||
-		    nextScene == ModuleEnum.Victory ||
-		    nextScene == ModuleEnum.ShowCardEffect ||
-		    nextScene == ModuleEnum.Start)  {
+		if (nextScene == ModuleEnum.QuestSelectModule ||
+		    nextScene == ModuleEnum.FightReadyModule || 
+		    nextScene == ModuleEnum.StageSelectModule || 
+		    nextScene == ModuleEnum.EvolveModule || 
+		    nextScene == ModuleEnum.UnitDetailModule ||
+		    nextScene == ModuleEnum.VictoryModule ||
+		    nextScene == ModuleEnum.ShowCardEffectModule ||
+		    nextScene == ModuleEnum.StartModule)  {
 			return;
 		}
 		DataCenter.gameState = GameState.Normal;
@@ -431,6 +431,6 @@ public class UIManager {
 
 	public void ClearAllUIObject () {
 		sceneDecorator.Clear ();
-		ViewManager.Instance.CleartComponent ();
+		ModuleManger.Instance.ClearModules ();
 	}
 }

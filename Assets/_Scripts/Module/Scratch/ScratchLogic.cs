@@ -100,7 +100,7 @@ public class ScratchLogic : ModuleBase {
 
 //			Debug.LogError("server return data is null");
 			UIManager.Instance.GoBackToPrevScene();
-			ViewManager.Instance.ShowTipsLabel("server return data is null");
+			TipsManager.Instance.ShowTipsLabel("server return data is null");
 			return;
 		}
 
@@ -177,7 +177,7 @@ public class ScratchLogic : ModuleBase {
 
 	private void ClickOK(object data){
 		Debug.Log ("scratch: ");
-		UIManager.Instance.ChangeScene (ModuleEnum.Scratch);
+		UIManager.Instance.ChangeScene (ModuleEnum.ScratchModule);
 	}
 
     MsgWindowParams GetFriendGachaMsgWindowParams(){
@@ -292,7 +292,7 @@ public class ScratchLogic : ModuleBase {
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
 //            return;
 //        }
-        ModuleEnum nextScene = ModuleEnum.FriendScratch;
+        ModuleEnum nextScene = ModuleEnum.FriendScratchModule;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
     }
@@ -310,7 +310,7 @@ public class ScratchLogic : ModuleBase {
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
 //            return;
 //        }
-        ModuleEnum nextScene = ModuleEnum.RareScratch;
+		ModuleEnum nextScene = ModuleEnum.RareScratchModule;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
 
@@ -332,7 +332,7 @@ public class ScratchLogic : ModuleBase {
             return;
         }
         // TODO eventGacha
-        ModuleEnum nextScene = ModuleEnum.EventScratch;
+		ModuleEnum nextScene = ModuleEnum.EventScratchModule;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
     }

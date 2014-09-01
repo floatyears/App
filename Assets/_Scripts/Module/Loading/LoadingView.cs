@@ -99,14 +99,14 @@ public class LoadingView : ViewBase {
 
 	}
 
-	protected T CreatComponent<T>(string name) where T : ModuleBase {
-		T component = ViewManager.Instance.GetComponent (name) as T;
-		if (component == null) {
-			component = System.Activator.CreateInstance(typeof(T), name) as T;
-		}
-		LogHelper.Log ("component: " + component);
-		return component;
-	}
+//	protected T CreatComponent<T>(string name) where T : ModuleBase {
+//		T component = ViewManager.Instance.GetComponent (name) as T;
+//		if (component == null) {
+//			component = System.Activator.CreateInstance(typeof(T), name) as T;
+//		}
+//		LogHelper.Log ("component: " + component);
+//		return component;
+//	}
 
     private bool CheckIfFirstLogin(){
         bool ret = false;
@@ -144,7 +144,7 @@ public class LoadingView : ViewBase {
 
     private void SelectRoleFirst(){
 //		UIManager.Instance.ChangeScene (ModuleEnum.Preface);
-		UIManager.Instance.ChangeScene (ModuleEnum.SelectRole);
+		UIManager.Instance.ChangeScene (ModuleEnum.SelectRoleModule);
     }
 
 //	private void checkResourceUpdate(){

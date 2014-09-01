@@ -32,7 +32,7 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		UIEventListener.Get (cityObj).onClick += TapCityItem;
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
-		UIManager.Instance.ChangeScene (ModuleEnum.Others);
+		UIManager.Instance.ChangeScene (ModuleEnum.OthersModule);
 	}
 
 	void OnChange(object data){

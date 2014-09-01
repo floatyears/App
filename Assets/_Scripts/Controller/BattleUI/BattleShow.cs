@@ -64,7 +64,7 @@ public class BattleShow : ModuleBase
 
 	void ClickQuest(GameObject go)
 	{
-		UIManager.Instance.ChangeScene(ModuleEnum.StageSelect);
+		UIManager.Instance.ChangeScene(ModuleEnum.StageSelectModule);
 	}
 
 }

@@ -104,6 +104,7 @@ public class ViewBase : MonoBehaviour {
 			transform.localScale = Vector3.one;
 		}
 		InitHide ();
+//		GetComponent<MonoBehaviour> ();
 
 	}
 

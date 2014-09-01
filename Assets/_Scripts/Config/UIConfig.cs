@@ -169,6 +169,7 @@ public class UIConfigData : JsonOriginData
 			ins = new UIConfigItem();
 			try{
 				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData [i].ToString());
+				Debug.Log("module name: " + ins.moduleName);
 			}catch(ArgumentException){
 				Debug.LogError("ModuleEnum Convert Err: "+ jsonData [i] ["moduleName"]+ " is not a member of the ModuleEnum");
 			}

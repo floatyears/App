@@ -339,7 +339,7 @@ public class BattleQuest : ModuleBase {
 
 	public void HaveFriendExit() {
 		UIManager.Instance.ExitBattle ();
-		UIManager.Instance.ChangeScene(ModuleEnum.Result);
+		UIManager.Instance.ChangeScene(ModuleEnum.ResultModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, configBattleUseData.BattleFriend);
 	}
 
@@ -354,7 +354,7 @@ public class BattleQuest : ModuleBase {
 
 		NoFriendExit();
 
-		UIManager.Instance.ChangeScene (ModuleEnum.Victory);
+		UIManager.Instance.ChangeScene (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
@@ -362,7 +362,7 @@ public class BattleQuest : ModuleBase {
 		UIManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 
-		UIManager.Instance.ChangeScene (ModuleEnum.Victory);
+		UIManager.Instance.ChangeScene (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 

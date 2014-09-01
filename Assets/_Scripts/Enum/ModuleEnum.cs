@@ -100,6 +100,16 @@ public enum ModuleEnum
 	SortModule,
 
 	ItemCounterModule,
+
+	RequestFriendModule,
+
+	DeleteFriendModule,
+
+	AccpetFriendApplyModule,
+
+	UserIDModule,
+
+	GameRaiderModule,
 }
 
 public enum SceneEnum {

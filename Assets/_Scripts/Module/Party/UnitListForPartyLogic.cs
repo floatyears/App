@@ -116,7 +116,7 @@ public class UnitListForPartyLogic : ModuleBase{
 		int position = (int)args;
 //		TUserUnit unitInfo = onPartyViewItemList [position - 1].DataItem;
 		TUserUnit unitInfo = partyDataList[position - 1];
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
 	}
 

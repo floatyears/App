@@ -64,9 +64,7 @@ public class DataCenter {
     }
     private static DataCenter instance;
     private DataCenter() { 
-		supportFriendManager = new SupportFriendManager ();
 
-		InitData ();
 	}
 
 	private Dictionary<ModelEnum, object> modelDataDic = new Dictionary<ModelEnum, object>();
@@ -573,9 +571,11 @@ public class DataCenter {
         return GetData(modelType, errMsg);
     }
 	
-	public void InitData() {
+	public void Init() {
 		//      ConfigUnitInfo cui = new ConfigUnitInfo();
 		//		Debug.LogWarning ("InitData ConfigSkill");
+		supportFriendManager = new SupportFriendManager ();
+
 		ResourceManager.Instance.LoadLocalAsset(UIConfig.UIInsConfigPath,o => {
 			TextAsset obj = o as TextAsset;
 			string info = obj.text;

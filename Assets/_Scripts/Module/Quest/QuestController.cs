@@ -66,7 +66,7 @@ public class QuestController : ModuleBase{
 		if (stageSelected != null) {
 
 				ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
-				UIManager.Instance.ChangeScene(ModuleEnum.StageSelect);
+				UIManager.Instance.ChangeScene(ModuleEnum.StageSelectModule);
 				MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 
 		}

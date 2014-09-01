@@ -304,7 +304,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 //		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
 //		NoviceGuideUtil.ForceOneBtnClick (gm);
 
-		UIManager.Instance.ChangeScene (ModuleEnum.Scratch);
+		UIManager.Instance.ChangeScene (ModuleEnum.ScratchModule);
 	}
 
 	private void OnClickBack(GameObject gm){

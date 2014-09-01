@@ -18,7 +18,7 @@ public class MainMenuController : ModuleBase {
 	public void CallbackView (object data){
 		try {
 			ModuleEnum se = (ModuleEnum)data;
-			if(se == ModuleEnum.QuestSelect){
+			if(se == ModuleEnum.QuestSelectModule){
 				if(CheckUnitCountLimit()){
 					//msg box show 
 					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgParams());
@@ -56,6 +56,6 @@ public class MainMenuController : ModuleBase {
 	}
 
 	void CallBackScratchScene(object args){
-		UIManager.Instance.ChangeScene(ModuleEnum.Shop);
+		UIManager.Instance.ChangeScene(ModuleEnum.ShopModule);
 	}
 }

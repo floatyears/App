@@ -135,7 +135,7 @@ public class HomeScene : SceneBase{
 	}
 
 	public override void InitSceneList(){
-//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
 		QuestController quest = AddModuleToScene< QuestController >(ModuleEnum.QuestSelectModule);
@@ -191,7 +191,7 @@ public class ScratchScene : SceneBase{
 		sceneInfoBar.SetBackScene(ModuleEnum.None);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_SCRATCH));
 
-		if(ModuleEnum.Scratch == currentDecoratorScene)
+		if(ModuleEnum.ScratchModule == currentDecoratorScene)
 			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 	}
 	
@@ -235,7 +235,7 @@ public class ShowNewCardScene : SceneBase {
 	}
 
 	public override void InitSceneList () {
-		ShowNewCard sn = AddModuleToScene<ShowNewCard> (UIConfig.showNewCardName);
+		ShowNewCard sn = AddModuleToScene<ShowNewCard> (ModuleEnum.ShowCardEffectModule);
 //		controllerList.Add (sn);
 
 //		lastDecorator = sn;
@@ -304,13 +304,13 @@ public class GachaWindowScene : SceneBase{
 			gachaWin = AddModuleToScene< FriendGachaWindowLogic >(currentDecoratorScene);
 //            break;
 //        case ModuleEnum.RareScratchModule:
-//            gachaWin = AddModuleToScene< FriendGachaWindowLogic >(UIConfig.gachaWindowName);
+//            gachaWin = AddModuleToScene< FriendGachaWindowLogic >(ModuleEnum.gachaWindowName);
 //            break;
 //        case ModuleEnum.EventScratchModule:
-//            gachaWin = AddModuleToScene< EventGachaWindowLogic >(UIConfig.gachaWindowName);
+//            gachaWin = AddModuleToScene< EventGachaWindowLogic >(ModuleEnum.gachaWindowName);
 //            break;
 //        default:
-//            gachaWin = AddModuleToScene< GachaWindowLogic >(UIConfig.gachaWindowName);
+//            gachaWin = AddModuleToScene< GachaWindowLogic >(ModuleEnum.gachaWindowName);
 //            break;
 //        }
 //        gachaWin.SetComponent(sceneInfoBar);
@@ -408,9 +408,9 @@ public class UnitsScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 		UnitsController units = AddModuleToScene< UnitsController >(ModuleEnum.UnitsModule);
-		//UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(UIConfig.unitsInfoPanelName);
+		//UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(ModuleEnum.unitsInfoPanelName);
 
 //		sceneInfoBar.SetComponent(decorator);
 		//partyInfo.SetComponent(sceneInfoBar);
@@ -450,7 +450,7 @@ public class StageSelectScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
@@ -485,7 +485,7 @@ public class FriendSelectScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 		
@@ -521,10 +521,10 @@ public class PartyScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
 		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
-//		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(UIConfig.partyInfoPanelName);
+//		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(ModuleEnum.partyInfoPanelName);
 		PartyPartyPage partyPage = AddModuleToScene<PartyPartyPage>(ModuleEnum.PartyModule);
 
 //		sceneInfoBar.SetComponent(decorator);
@@ -568,7 +568,7 @@ public class LevelUpScene : SceneBase {
 	}
 	
 	public override void InitSceneList() {
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
 		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
@@ -597,7 +597,7 @@ public class SellScene : SceneBase{
 		base.ShowScene();
 //		Debug.LogError ("SellDecorator ShowScene 2");
         MsgCenter.Instance.AddListener(CommandEnum.SellUnitSaveState, SetKeepState);
-		sceneInfoBar.SetBackScene(ModuleEnum.Units);
+		sceneInfoBar.SetBackScene(ModuleEnum.UnitsModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_UNIT_SELL));	}
 	
 	public override void HideScene(){
@@ -609,7 +609,7 @@ public class SellScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
 		SellModule sell = AddModuleToScene< SellModule >(ModuleEnum.SellModule);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
@@ -635,7 +635,7 @@ public class EvolveScene : SceneBase{
 //		Debug.Log("EvolveDecorator ShowScene 1");
 		base.ShowScene();
 //		Debug.Log("EvolveDecorator ShowScene 2 sceneInfoBar : " + sceneInfoBar);
-		sceneInfoBar.SetBackScene(ModuleEnum.Units);
+		sceneInfoBar.SetBackScene(ModuleEnum.UnitsModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_EVOLVE));
 //		Debug.Log("EvolveDecorator ShowScene 3");
 	}
@@ -650,10 +650,10 @@ public class EvolveScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
-//		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+//		ItemCounterController counter = CreatComponent<ItemCounterController>(ModuleEnum.itemCounterBarName);
 //		counter.SetComponent (sceneInfoBar);
 
 		SortController sc = AddModuleToScene<SortController> (ModuleEnum.SortModule);
@@ -698,7 +698,7 @@ public class CatalogScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
 		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
@@ -732,7 +732,7 @@ public class UnitListScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.SceneInfoBarModule);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.SceneInfoBarModule);
 		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
 		MyUnitListLogic unitList = AddModuleToScene< MyUnitListLogic >(ModuleEnum.UnitListModule);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
@@ -772,14 +772,14 @@ public class FriendListScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene<SceneInfoComponent>(UIConfig.sceneInfoBarName);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(UIConfig.itemCounterBarName);
+//		sceneInfoBar = AddModuleToScene<SceneInfoComponent>(ModuleEnum.sceneInfoBarName);
+		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
 
-		SortController sortPanel = AddModuleToScene<SortController>(UIConfig.friendUnitSortPanelName);
+		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
 
-		FriendListUserBriefInfo briefInfo = AddModuleToScene<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+//		FriendListUserBriefInfo briefInfo = AddModuleToScene<FriendListUserBriefInfo>(ModuleEnum.friend);
 
-		FriendListLogic friendList = AddModuleToScene<FriendListLogic>(UIConfig.friendListWindowName);
+		FriendListLogic friendList = AddModuleToScene<FriendListLogic>(ModuleEnum.FriendListModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		counter.SetComponent(sceneInfoBar);
@@ -799,7 +799,7 @@ public class InformationScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.Friends);
+		sceneInfoBar.SetBackScene(ModuleEnum.FriendsModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_INFORMATION));
          
 	}
@@ -813,8 +813,8 @@ public class InformationScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		InformationComponent infoWindow = AddModuleToScene< InformationComponent >(UIConfig.informationWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		InformationComponent infoWindow = AddModuleToScene< InformationComponent >(ModuleEnum.InformationModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		infoWindow.SetComponent(sceneInfoBar);
@@ -833,7 +833,7 @@ public class FriendSearchScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.Friends);
+		sceneInfoBar.SetBackScene(ModuleEnum.FriendsModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND_SEARCH));
 	}
 	
@@ -846,9 +846,9 @@ public class FriendSearchScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		SearchFriendController searchMainUI = AddModuleToScene< SearchFriendController >(UIConfig.searchMainWindowName);
-		RequestFriendApply requestApply = AddModuleToScene<RequestFriendApply>(UIConfig.applyMessageWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		SearchFriendController searchMainUI = AddModuleToScene< SearchFriendController >(ModuleEnum.SearchFriendModule);
+		RequestFriendApply requestApply = AddModuleToScene<RequestFriendApply>(ModuleEnum.RequestFriendModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		searchMainUI.SetComponent(sceneInfoBar);
@@ -868,7 +868,7 @@ public class ApplyScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.Friends);
+		sceneInfoBar.SetBackScene(ModuleEnum.FriendsModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_APPLY));
 	}
 	
@@ -881,11 +881,11 @@ public class ApplyScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(UIConfig.itemCounterBarName);
-		SortController sortPanel = AddModuleToScene<SortController>(UIConfig.friendUnitSortPanelName);
-		ApplyController applyWindow = AddModuleToScene< ApplyController >(UIConfig.applyWindowName);
-		DeleteFriendApply deleteApply = AddModuleToScene<DeleteFriendApply>(UIConfig.applyMessageWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
+		ApplyController applyWindow = AddModuleToScene< ApplyController >(ModuleEnum.ApplyModule);
+		DeleteFriendApply deleteApply = AddModuleToScene<DeleteFriendApply>(ModuleEnum.DeleteFriendModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		counter.SetComponent(sceneInfoBar);
@@ -907,7 +907,7 @@ public class ReceptionScene : SceneBase{
 //		Debug.LogError ("ReceptionDecorator ShowScene 1");
 		base.ShowScene();
 //		Debug.LogError ("ReceptionDecorator ShowScene 2");
-		sceneInfoBar.SetBackScene(ModuleEnum.Friends);
+		sceneInfoBar.SetBackScene(ModuleEnum.FriendsModule);
 //		Debug.LogError ("ReceptionDecorator ShowScene 3");
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RECEPTION));
 //		Debug.LogError ("ReceptionDecorator ShowScene 4");
@@ -922,11 +922,11 @@ public class ReceptionScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		SortController sortPanel = AddModuleToScene<SortController>(UIConfig.friendUnitSortPanelName);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(UIConfig.itemCounterBarName);
-		ReceptionController recptionWin = AddModuleToScene< ReceptionController >(UIConfig.receptionWindowName);
-		AccpetFriendApply acceptApply = AddModuleToScene<AccpetFriendApply>(UIConfig.acceptApplyMessageWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
+		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ReceptionController recptionWin = AddModuleToScene< ReceptionController >(ModuleEnum.ReceptionModule);
+		AccpetFriendApply acceptApply = AddModuleToScene<AccpetFriendApply>(ModuleEnum.AccpetFriendApplyModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //
@@ -947,7 +947,7 @@ public class UserIDScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.Friends);
+		sceneInfoBar.SetBackScene(ModuleEnum.FriendsModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_YOUR_ID));
 	}
 	
@@ -960,8 +960,8 @@ public class UserIDScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		UserIDComponent userIDWindow = AddModuleToScene< UserIDComponent >(UIConfig.userIDWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		UserIDComponent userIDWindow = AddModuleToScene< UserIDComponent >(ModuleEnum.UserIDModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		userIDWindow.SetComponent(sceneInfoBar);
@@ -995,13 +995,13 @@ public class UnitDetailScene : SceneBase{
 	
 	public override void InitSceneList(){
 
-//		UnitDetailTopComponent unitDetailTop = CreatComponent< UnitDetailTopComponent >(UIConfig.unitDetailTopPanelName);
+//		UnitDetailTopComponent unitDetailTop = CreatComponent< UnitDetailTopComponent >(ModuleEnum.unitDetailTopPanelName);
 //		unitDetailTop.SetComponent(decorator);
 //
-//		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (UIConfig.unitDetailCenterPanelName);
+//		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (ModuleEnum.unitDetailCenterPanelName);
 //		unitDetailCenter.SetComponent (unitDetailTop);
 
-		unitDetail = AddModuleToScene< UnitDetailComponent >(UIConfig.unitDetailPanelName);
+		unitDetail = AddModuleToScene< UnitDetailComponent >(ModuleEnum.UnitDetailModule);
 //		unitDetail.SetComponent(unitDetailCenter);
 //
 //		lastDecorator = unitDetail;
@@ -1031,10 +1031,10 @@ public class ResultScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.SceneInfoBarModule);
 //		sceneInfoBar.SetComponent(decorator);
 		
-		ResultController resultWindow = AddModuleToScene<ResultController>(UIConfig.resultWindowName);
+		ResultController resultWindow = AddModuleToScene<ResultController>(ModuleEnum.ResultModule);
 //		resultWindow.SetComponent(sceneInfoBar);
 		
 //		lastDecorator = resultWindow;
@@ -1050,7 +1050,7 @@ public class FightReadyScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.FriendSelect);
+		sceneInfoBar.SetBackScene(ModuleEnum.FriendSelectModule);
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FIGHT_READY));
 	}
 	
@@ -1063,8 +1063,8 @@ public class FightReadyScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		FightReadyController standByWindow = AddModuleToScene<FightReadyController>(UIConfig.fightReadyWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		FightReadyController standByWindow = AddModuleToScene<FightReadyController>(ModuleEnum.FightReadyModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		standByWindow.SetComponent(sceneInfoBar);
@@ -1083,7 +1083,7 @@ public class QuestSelectScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.StageSelect);
+		sceneInfoBar.SetBackScene(ModuleEnum.StageSelectModule);
 //		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_QUEST_SELECT));
 	}
 	
@@ -1096,8 +1096,8 @@ public class QuestSelectScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		QuestSelectController questSelect = AddModuleToScene<QuestSelectController>(UIConfig.questSelectWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		QuestSelectController questSelect = AddModuleToScene<QuestSelectController>(ModuleEnum.QuestSelectModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		questSelect.SetComponent(sceneInfoBar);
@@ -1128,8 +1128,8 @@ public class OperationNoticeScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		OperationNoticeComponent operationNotice = AddModuleToScene<OperationNoticeComponent>(UIConfig.operationNoticeWindowName);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		OperationNoticeComponent operationNotice = AddModuleToScene<OperationNoticeComponent>(ModuleEnum.OperationNoticeModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		operationNotice.SetComponent (decorator);//sceneInfoBar);
@@ -1161,8 +1161,8 @@ public class RewardScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		RewardComponent reward = AddModuleToScene<RewardComponent>(UIConfig.rewardViewName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		RewardComponent reward = AddModuleToScene<RewardComponent>(ModuleEnum.RewardModule);
 //		
 //		sceneInfoBar.SetComponent(decorator);
 //		reward.SetComponent (sceneInfoBar);
@@ -1180,7 +1180,7 @@ public class GameRaiderScene : SceneBase{
 	
 	public override void ShowScene(){
 		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.Others);
+		sceneInfoBar.SetBackScene(ModuleEnum.OthersModule);
 		//LogHelper.Log ("reward scene name: " + TextCenter.GetText(TextConst.SCENE_NAME_REWARD));
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_RAIDER));
 	}
@@ -1194,8 +1194,8 @@ public class GameRaiderScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		GameRaiderModule raider = AddModuleToScene<GameRaiderModule>(UIConfig.gameRaiderWindowName);
+//		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sc);
+		GameRaiderModule raider = AddModuleToScene<GameRaiderModule>(ModuleEnum.GameRaiderModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		raider.SetComponent (sceneInfoBar);
@@ -1206,37 +1206,37 @@ public class GameRaiderScene : SceneBase{
 	}
 }
 
-//--------------------------------Raider------------------------------------------
-public class GameCurrencyScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
-	public GameCurrencyScene(ModuleEnum sEnum) : base(sEnum){}
-	
-	public override void ShowScene(){
-		base.ShowScene();
-		sceneInfoBar.SetBackScene(ModuleEnum.Home);
-		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_CURRENCY));
-	}
-	
-	public override void HideScene(){
-		base.HideScene();
-	}
-	
-	public override void DestoryScene(){
-		base.DestoryScene();
-	}
-	
-	public override void InitSceneList(){
-		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		GameCurrencyComponent currency = AddModuleToScene<GameCurrencyComponent>(UIConfig.gameCurrencyWindowName);
-		
-//		sceneInfoBar.SetComponent(decorator);
-//		currency.SetComponent (sceneInfoBar);
+////--------------------------------Raider------------------------------------------
+//public class GameCurrencyScene : SceneBase{
+//	private SceneInfoComponent sceneInfoBar;
+//	public GameCurrencyScene(ModuleEnum sEnum) : base(sEnum){}
+//	
+//	public override void ShowScene(){
+//		base.ShowScene();
+//		sceneInfoBar.SetBackScene(ModuleEnum.HomeModule);
+//		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_CURRENCY));
+//	}
+//	
+//	public override void HideScene(){
+//		base.HideScene();
+//	}
+//	
+//	public override void DestoryScene(){
+//		base.DestoryScene();
+//	}
+//	
+//	public override void InitSceneList(){
+////		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+//		GameCurrencyComponent currency = AddModuleToScene<GameCurrencyComponent>(ModuleEnum.ga);
 //		
-//		lastDecorator = currency;
-//		lastDecorator.CreatUIAsyn (this);
-//		lastDecorator.CreatUI();
-	}
-}
+////		sceneInfoBar.SetComponent(decorator);
+////		currency.SetComponent (sceneInfoBar);
+////		
+////		lastDecorator = currency;
+////		lastDecorator.CreatUIAsyn (this);
+////		lastDecorator.CreatUI();
+//	}
+//}
 
 //--------------------------------Music------------------------------------------
 public class MusicScene : SceneBase{
@@ -1259,8 +1259,8 @@ public class MusicScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		MusicComponent currency = AddModuleToScene<MusicComponent>(UIConfig.settingWindowName);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		MusicComponent currency = AddModuleToScene<MusicComponent>(ModuleEnum.MusicModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		currency.SetComponent (decorator);
@@ -1291,8 +1291,8 @@ public class NicknameScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-//		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
-		NicknameComponent currency = AddModuleToScene<NicknameComponent>(UIConfig.nicknameWindowName);
+//		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
+		NicknameComponent currency = AddModuleToScene<NicknameComponent>(ModuleEnum.NickNameModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		currency.SetComponent (decorator);
@@ -1322,7 +1322,7 @@ public class PrefaceScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		PrefaceComponent preface = AddModuleToScene<PrefaceComponent>(UIConfig.prefaceWindowName);
+		PrefaceComponent preface = AddModuleToScene<PrefaceComponent>(ModuleEnum.PrefaceModule);
 
 //		preface.SetComponent (decorator);
 //		
@@ -1350,7 +1350,7 @@ public class ResourceDownloadScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		ResourceDownloadComponent rsdownload = AddModuleToScene<ResourceDownloadComponent>(UIConfig.resourceDownloadWindowName);
+		ResourceDownloadComponent rsdownload = AddModuleToScene<ResourceDownloadComponent>(ModuleEnum.ResourceDownloadModule);
 		
 //		rsdownload.SetComponent (decorator);
 //		

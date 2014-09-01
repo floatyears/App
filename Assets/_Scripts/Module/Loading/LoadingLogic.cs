@@ -243,14 +243,14 @@ public class LoadingLogic : ModuleBase {
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 		} else {
-			UIManager.Instance.ChangeScene(ModuleEnum.Start);
+			UIManager.Instance.ChangeScene(ModuleEnum.StartModule);
 			
-			UIManager.Instance.ChangeScene(ModuleEnum.Home);
+			UIManager.Instance.ChangeScene(ModuleEnum.HomeModule);
 
 			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-					UIManager.Instance.ChangeScene (ModuleEnum.OperationNotice);	
+					UIManager.Instance.ChangeScene (ModuleEnum.OperationNoticeModule);	
 				}
 				else { // no 
 					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
@@ -258,7 +258,7 @@ public class LoadingLogic : ModuleBase {
 //						Debug.LogError("show Reward scene... ");
 						foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
 							if(item.enabled == 1){
-								UIManager.Instance.ChangeScene (ModuleEnum.Reward);
+								UIManager.Instance.ChangeScene (ModuleEnum.RewardModule);
 								return;
 							}
 						}
@@ -308,7 +308,7 @@ public class LoadingLogic : ModuleBase {
         }
         
         if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
-            UIManager.Instance.ChangeScene(ModuleEnum.Others);
+			UIManager.Instance.ChangeScene(ModuleEnum.OthersModule);
 //            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         

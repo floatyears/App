@@ -49,27 +49,27 @@ public class MainMenuView : ViewBase{
 	private void InitButton() {
 		GameObject go = FindChild ("Btn_Friends");
 		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");
-		buttonInfo.Add (go, ModuleEnum.Friends);
+		buttonInfo.Add (go, ModuleEnum.FriendsModule);
 
 		go = FindChild ("Btn_Home");
 		FindChild ("Btn_Home/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_HOME");
-		buttonInfo.Add (go, ModuleEnum.Home);
+		buttonInfo.Add (go, ModuleEnum.HomeModule);
 
 		go = FindChild ("Btn_Scratch");
 		FindChild ("Btn_Scratch/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_SCRATCH");
-		buttonInfo.Add (go, ModuleEnum.Scratch);
+		buttonInfo.Add (go, ModuleEnum.ScratchModule);
 
 		go = FindChild ("Btn_Shop");
 		FindChild ("Btn_Shop/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_SHOP");
-		buttonInfo.Add (go, ModuleEnum.Shop);
+		buttonInfo.Add (go, ModuleEnum.ShopModule);
 
 		go = FindChild ("Btn_Others");
 		FindChild ("Btn_Others/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_OTHERS");
-		buttonInfo.Add (go, ModuleEnum.Others);
+		buttonInfo.Add (go, ModuleEnum.OthersModule);
 
 		go = FindChild ("Btn_Units");
 		FindChild ("Btn_Units/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_UNITS");
-		buttonInfo.Add (go, ModuleEnum.Units);
+		buttonInfo.Add (go, ModuleEnum.UnitsModule);
 
 		foreach (var item in buttonInfo.Keys) {
 			UIEventListener.Get(item).onClick = ClickMenuBtn;

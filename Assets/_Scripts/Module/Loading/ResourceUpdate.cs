@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -53,7 +53,7 @@ public class ResourceUpdate : MonoBehaviour {
 //	private Dictionary<string, string[]> serverVersionDic;
 	private Dictionary<string, DownloadItemInfo> serverVersionDic;
 
-	static private char[] encryptKey = new char[]{'D','ß','˚','ø','∑','…','å','O','~','©'};
+//	static private char[] encryptKey = new char[]{'D','ß','˚','ø','∑','…','å','O','~','©'};
 
 	private int total = 0;
 
@@ -294,7 +294,7 @@ public class ResourceUpdate : MonoBehaviour {
 								
 								
 //								StartCoroutine(CallLater());
-								UIManager.Instance.ChangeScene (ModuleEnum.Home);
+								UIManager.Instance.ChangeScene (ModuleEnum.HomeModule);
 								MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
 								
 								Umeng.GA.FinishLevel ("NewUserDownload");

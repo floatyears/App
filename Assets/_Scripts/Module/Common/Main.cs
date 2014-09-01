@@ -75,8 +75,8 @@ public class Main : MonoBehaviour {
     void OnEnable() {
 		SetResolution();
 
-		DataCenter.Instance.InitConfigData ();
-		UIManager.Instance.ChangeScene(ModuleEnum.Loading);
+		DataCenter.Instance.Init ();
+		UIManager.Instance.ChangeScene(ModuleEnum.LoadingModule);
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }

@@ -61,8 +61,8 @@ public class GameCurrencyEventHandler {
 			if (rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard") {
 				GetBonusList.SendRequest (OnBonusList);
 			} else {
-				UIManager.Instance.ChangeScene(ModuleEnum.Home);
-				UIManager.Instance.ChangeScene(ModuleEnum.Shop);
+				UIManager.Instance.ChangeScene(ModuleEnum.HomeModule);
+				UIManager.Instance.ChangeScene(ModuleEnum.ShopModule);
 			}
 		};
 		sure.text = TextCenter.GetText("OK");
@@ -82,7 +82,7 @@ public class GameCurrencyEventHandler {
 		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
 		if (rsp != null && rsp.bonus != null ) {
 			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
-			UIManager.Instance.ChangeScene (ModuleEnum.Reward);
+			UIManager.Instance.ChangeScene (ModuleEnum.RewardModule);
 			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 		}
 	}

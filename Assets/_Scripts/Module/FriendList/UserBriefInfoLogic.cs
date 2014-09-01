@@ -33,7 +33,7 @@ public class UserBriefInfoLogic : ModuleBase{
 	}
 
 	void ViewUserUnitDetailInfo(object args){
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
 		if (currentPickedUserUnit == null) return;
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, currentPickedUserUnit);
 	}
