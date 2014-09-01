@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class MainBgView : UIComponentUnity {
+public class MainBgView : ViewBase {
 	private UISprite background;
 	private UITexture otherBg;
-	public override void Init (UIInsConfig config, IUICallback origin){
-		base.Init (config,origin);
+	public override void Init (UIInsConfig config){
+		base.Init (config);
 		background = transform.FindChild("HomeBG").GetComponent<UISprite>();
 		otherBg = FindChild<UITexture> ("OtherBG");
 		otherBg.enabled = false;
@@ -29,12 +29,12 @@ public class MainBgView : UIComponentUnity {
 		base.DestoryUI ();
 	}
 
-	void OnClickCallback(GameObject caller) {
-		if(origin != null && origin is IUICallback){
-			IUICallback callback = origin as IUICallback;
-			callback.CallbackView (caller);	
-		}
-	}
+//	void OnClickCallback(GameObject caller) {
+//		if(origin != null && origin is IUICallback){
+//			IUICallback callback = origin as IUICallback;
+//			callback.CallbackView (caller);	
+//		}
+//	}
 
 	private void ShowMask(object msg){
 		bool isMask = (bool)msg;

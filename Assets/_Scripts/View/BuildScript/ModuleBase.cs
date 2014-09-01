@@ -68,30 +68,47 @@ using System.Collections.Generic;
 /// <summary>
 /// concrete decorate class
 /// </summary>
-public class ConcreteComponent{	
+public class ModuleBase{	
     protected bool willClearState = true;
+
+	protected UIInsConfig config = null;
+	
+	public UIInsConfig uiConfig {
+		get {
+			return config;
+		}
+	}
+
+	protected ViewBase viewComponent;
+
+	public ViewBase ViewComponent{
+		get{
+			return viewComponent;
+		}
+	}
+
     public bool WillClearState{
         get { return willClearState; }
         set { willClearState = value; }
     }
 
-	public ConcreteComponent(string name) : base(name){
+	public ModuleBase(string name){
 		ViewManager.Instance.AddComponent(this);
 	}
 
-	private DecoratorBase decoratorBase = null;
+//	private DecoratorBase decoratorBase = null;
 
-	public void CreatUIAsyn(DecoratorBase decoratorBase) {
-		this.decoratorBase = decoratorBase;
-		CreatUI ();
-	}
+//	public void CreatUIAsyn(DecoratorBase decoratorBase) {
+////		this.decoratorBase = decoratorBase;
+//		CreatUI ();
+//	}
 	
 	public virtual void CreatUI() {
 //		if(this is UnitDisplay)
 //		Debug.Log ("ConcreteComponent CreatUI  " + this + " component : " + component);
-		if (component != null){
-			component.CreatUI();
-		}
+//		if (component != null){
+//			component.CreatUI();
+//		}
 
 		CreatViewComponent();
 //		if(this is UnitDisplay)
@@ -101,9 +118,9 @@ public class ConcreteComponent{
 	public virtual void ShowUI() {
 //		if(this is ItemCounterController)
 //			Debug.LogError ("ConcreteComponent ShowUI 1  " + this + " component : " + component);
-		if (component != null) {
-			component.ShowUI();		
-		}
+//		if (component != null) {
+//			component.ShowUI();		
+//		}
 
 		if (viewComponent != null) {
 			viewComponent.ShowUI();
@@ -113,9 +130,9 @@ public class ConcreteComponent{
 	}
 
 	public virtual void HideUI() {
-		if (component != null) {
-			component.HideUI();		
-		}
+//		if (component != null) {
+//			component.HideUI();		
+//		}
 
 		if (viewComponent != null) {
 			viewComponent.HideUI ();
@@ -140,28 +157,29 @@ public class ConcreteComponent{
 
 //	public 
 
-    public virtual void ResetUIState(bool clear = true) {
-        if (!clear){
-            return;
-        }
-        if (component != null) {
-            ConcreteComponent controller = component as ConcreteComponent;
-            if (controller != null){
-                controller.ResetUIState(clear);
-            }
-        }
-
-        if (viewComponent != null) {
-            viewComponent.ResetUIState();
-        }
-    }
+//    public virtual void ResetUIState(bool clear = true) {
+//        if (!clear){
+//            return;
+//        }
+////        if (component != null) {
+////            ConcreteComponent controller = component as ConcreteComponent;
+////            if (controller != null){
+////                controller.ResetUIState(clear);
+////            }
+////        }
+//
+//        if (viewComponent != null) {
+//            viewComponent.ResetUIState();
+//        }
+//    }
 
 	protected void CreatViewComponent() {
 		if (viewComponent == null) {
-			ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath, CreateCallback);
-		} else if (decoratorBase != null){
-				decoratorBase.ShowScene();	
-		}
+						ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath, CreateCallback);
+				}
+//		} else if (decoratorBase != null){
+//				decoratorBase.ShowScene();	
+//		}
 	}
 
 	private void CreateCallback(Object o){
@@ -174,7 +192,7 @@ public class ConcreteComponent{
 		}
 
 		GameObject go = GameObject.Instantiate(o) as GameObject;
-		viewComponent = go.GetComponent<UIComponentUnity>();
+		viewComponent = go.GetComponent<ViewBase>();
 
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent CreateCallback 2 " + this + " viewComponent : " + viewComponent);
@@ -184,30 +202,30 @@ public class ConcreteComponent{
 			return;
 		}
 		
-		viewCallback = viewComponent;
-		viewComponent.Init(uiConfig, this);
+//		viewCallback = viewComponent;
+		viewComponent.Init(uiConfig);
 
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent CreateCallback 3 " + this + " decoratorBase : " + decoratorBase);
 
-		if (decoratorBase != null){
-			decoratorBase.ShowScene();	
-		}
+//		if (decoratorBase != null){
+//			decoratorBase.ShowScene();	
+//		}
 
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent CreateCallback 4 " + this);
 	}
 
-	protected IUIComponent component;
+//	protected IUIComponent component;
 	
 	/// <summary>
 	/// Sets the decorator
 	/// </summary>
 	/// <param name="component">Component.</param>
-	public void SetComponent(IUIComponent component)
-	{
-		this.component = component;
-	}
+//	public void SetComponent(IUIComponent component)
+//	{
+//		this.component = component;
+//	}
 
 	/// <summary>
 	/// IUICallback implement. UI Part will use 
@@ -218,14 +236,14 @@ public class ConcreteComponent{
 
 	}
 
-	protected IUICallback viewCallback;
+//	protected IUICallback viewCallback;
 
 	protected void ExcuteCallback(object data)
 	{
 //		Debug.LogError(viewCallback);
-		if (viewCallback != null)
+		if (viewComponent != null)
 		{
-			viewCallback.CallbackView(data);
+			viewComponent.CallbackView(data);
 		}
 	}
 }

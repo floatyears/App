@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PartyPageLogic : ConcreteComponent{
+public class PartyPageLogic : ModuleBase{
 	int currentFoucsPosition;
 
     public PartyPageLogic(string uiName):base(uiName){
@@ -150,8 +150,8 @@ public class PartyPageLogic : ConcreteComponent{
     }
 	
     void NoticeServerUpdatePartyInfo() {
-		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
-        	DataCenter.Instance.PartyInfo.ExitParty();
+//		if(UIManager.Instance.baseScene.CurrentScene != ModuleEnum.UnitDetail)
+//        	DataCenter.Instance.PartyInfo.ExitParty();
     }
 
     void NoticeInfoPanel(TUnitParty tup) {
@@ -171,7 +171,7 @@ public class PartyPageLogic : ConcreteComponent{
             tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1];
         }
 
-        UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+        UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
         MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
     }
 	

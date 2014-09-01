@@ -1,9 +1,9 @@
-﻿using bbproto;
+using bbproto;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitDetailComponent : ConcreteComponent {
+public class UnitDetailComponent : ModuleBase {
 	public UnitDetailComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {

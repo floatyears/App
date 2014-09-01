@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanelNew : ConcreteComponent,IDragPanel {
+public class DragPanelNew : ModuleBase,IDragPanel {
     private event UICallback callback;
     private List<GameObject> item = new List<GameObject>();
     public List<GameObject> GetItem {

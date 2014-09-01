@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SelectRoleView : UIComponentUnity {
+public class SelectRoleView : ViewBase {
 	UIButton selectBtn;
 	List<GameObject> tabList = new List<GameObject>();
 	List<GameObject> contentList = new List<GameObject>();
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 	}
 
@@ -149,13 +149,13 @@ public class SelectRoleView : UIComponentUnity {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int pos = tabList.IndexOf(tab);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickTab", pos);
-		ExcuteCallback(call);
+//		ExcuteCallback(call);
 	}
 
 	void ClickButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickButton", null);
-		ExcuteCallback(call);
+//		ExcuteCallback(call);
 
 		Umeng.GA.FinishLevel ("SelectRole");
 		GameDataAnalysis.Event(GameDataAnalysisEventType.SelectRole, new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier},{"Stage","End"}});

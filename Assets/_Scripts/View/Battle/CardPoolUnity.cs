@@ -1,18 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardPoolUnity : UIComponentUnity
+public class CardPoolUnity : ViewBase
 {
-	public override void Init (string name)
+	public override void Init (UIInsConfig config)
 	{
-		base.Init (name);
+		base.Init (config);
 
-
-	}
-
-	public override  void CreatUI ()
-	{
-		base.CreatUI ();
 	}
 
 	public override void HideUI ()

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class ResultController : ConcreteComponent {
+public class ResultController : ModuleBase {
 	TFriendInfo curFriendInfo;
 	public ResultController(string uiName) : base(uiName){}
 

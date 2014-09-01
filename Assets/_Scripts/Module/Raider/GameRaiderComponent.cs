@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class GameRaiderComponent : ConcreteComponent {
+public class GameRaiderComponent : ModuleBase {
 
 	public GameRaiderComponent(string uiName):base(uiName) {}
 	

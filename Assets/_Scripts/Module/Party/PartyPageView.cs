@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PartyPageView : UIComponentUnity {
+public class PartyPageView : ViewBase {
 	UILabel curPartyIndexLabel;
 	UILabel partyCountLabel;
 	UILabel curPartyPrefixLabel;
@@ -24,8 +24,8 @@ public class PartyPageView : UIComponentUnity {
 		currentPartyData = party.GetUserUnit();
 	}
 	
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		FindUIElement();
 		InitUIElement();
 	}
@@ -41,10 +41,10 @@ public class PartyPageView : UIComponentUnity {
 //		ResetUIElement();
 	}
 
-    public override void ResetUIState() {
-        ResetUIElement();
-        SetUIElement();
-    }
+//    public override void ResetUIState() {
+//        ResetUIElement();
+//        SetUIElement();
+//    }
 	
 	public override void CallbackView(object data){
 		base.CallbackView(data);
@@ -169,7 +169,7 @@ public class PartyPageView : UIComponentUnity {
 		int pos = itemDic[ go ];
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
-		ExcuteCallback( cbd );
+//		ExcuteCallback( cbd );
 	}
 
 	void PressItem(GameObject go){
@@ -181,7 +181,7 @@ public class PartyPageView : UIComponentUnity {
 
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", itemDic[ go ]);
 
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 	
 	void PagePrev(GameObject button){
@@ -190,7 +190,7 @@ public class PartyPageView : UIComponentUnity {
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 
-		ExcuteCallback( cbd );
+//		ExcuteCallback( cbd );
 	} 
 
 	void PageNext(GameObject go){
@@ -198,7 +198,7 @@ public class PartyPageView : UIComponentUnity {
 
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
-		ExcuteCallback( cbd );
+//		ExcuteCallback( cbd );
 	}
 	
 	void ResetUIElement(){

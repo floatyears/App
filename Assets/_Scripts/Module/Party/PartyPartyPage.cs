@@ -29,13 +29,13 @@ public class PartyPartyPage : PartyPageLogic{
     }
 
     
-    public override void ResetUIState(bool clear) {
-        if (!clear){
-            return;
-        }
-        base.ResetUIState(clear);
-        RefreshCurrentPartyInfo("current");
-    }
+//    public override void ResetUIState(bool clear) {
+//        if (!clear){
+//            return;
+//        }
+//        base.ResetUIState(clear);
+//        RefreshCurrentPartyInfo("current");
+//    }
 
 	public override void CallbackView(object data){
 		base.CallbackView(data);
@@ -60,7 +60,7 @@ public class PartyPartyPage : PartyPageLogic{
 	}
 
 	void FocusOnPositionFromView(object args) {
-		if (UIManager.Instance.baseScene.CurrentScene != SceneEnum.Party) return;
+//		if (UIManager.Instance.baseScene.CurrentScene != ModuleEnum.Party) return;
 				
 		int position = (int)args;
 		SetFocusPostion(position);
@@ -115,7 +115,7 @@ public class PartyPartyPage : PartyPageLogic{
 		if (currentFoucsPosition == 0)   return;
 		
 		TUserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, targetUnit);
 	}
 

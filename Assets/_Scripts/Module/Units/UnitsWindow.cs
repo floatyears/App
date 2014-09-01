@@ -1,22 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsWindow : UIComponentUnity, IDragChangeView{
+public class UnitsWindow : ViewBase, IDragChangeView{
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
 	private UISprite pageIndexSpr;
-	IUICallback iuiCallback;
+//	IUICallback iuiCallback;
 	private GameObject topRoot;
 	private GameObject bottomRoot;
 
-	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum>();
+	private Dictionary<GameObject,ModuleEnum> buttonInfo = new Dictionary<GameObject, ModuleEnum>();
 
 	private DragChangeView dragChangeView;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitChildScenes();
-		iuiCallback = origin as IUICallback;
+//		iuiCallback = origin as IUICallback;
 		InitPagePanel();
 	}
 	
@@ -50,32 +50,32 @@ public class UnitsWindow : UIComponentUnity, IDragChangeView{
 		go = FindChild("Bottom/Catalog");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Catalog");
-		buttonInfo.Add(go, SceneEnum.UnitCatalog);
+		buttonInfo.Add(go, ModuleEnum.UnitCatalog);
 		
 		go = FindChild("Bottom/Evolve");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Evolve");
-		buttonInfo.Add(go, SceneEnum.Evolve);
+		buttonInfo.Add(go, ModuleEnum.Evolve);
 		
 		go = FindChild("Bottom/LevelUp");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
-		buttonInfo.Add(go, SceneEnum.LevelUp);
+		buttonInfo.Add(go, ModuleEnum.LevelUp);
 
 		go = FindChild("Bottom/Party");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Party");
-		buttonInfo.Add(go, SceneEnum.Party);
+		buttonInfo.Add(go, ModuleEnum.Party);
 		
 		go = FindChild("Bottom/Sell");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Sell");
-		buttonInfo.Add(go, SceneEnum.Sell);
+		buttonInfo.Add(go, ModuleEnum.Sell);
 		
 		go = FindChild("Bottom/UnitList");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
-		buttonInfo.Add(go, SceneEnum.UnitList);
+		buttonInfo.Add(go, ModuleEnum.UnitList);
 
 		dragChangeView = FindChild<DragChangeView> ("Top/DragParty");
 		dragChangeView.SetDataInterface (this);
@@ -86,15 +86,17 @@ public class UnitsWindow : UIComponentUnity, IDragChangeView{
 
 	void OnClickCallback(GameObject caller){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		if (iuiCallback == null)
-			return;
+//		if (iuiCallback == null)
+//			return;
 
 //		ViewManager.Instance.ShowTipsLabel ("Click", caller);
-		SceneEnum se = buttonInfo [caller];
-		if (se == SceneEnum.UnitCatalog) {
+		ModuleEnum se = buttonInfo [caller];
+		if (se == ModuleEnum.UnitCatalog) {
 			Umeng.GA.Event("Catalog");	
 		}
-		iuiCallback.CallbackView(se);
+//		iuiCallback.CallbackView(se);
+
+		ModuleManger.SendMessage (ModuleEnum.LevelUp,se);
 	}
 	
 	void ShowUIAnimation(){

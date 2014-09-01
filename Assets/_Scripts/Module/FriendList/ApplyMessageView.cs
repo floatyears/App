@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ApplyMessageView : UIComponentUnity{
+public class ApplyMessageView : ViewBase{
 	GameObject rootPanel;
 
 	UILabel titleLabel;
@@ -16,8 +16,8 @@ public class ApplyMessageView : UIComponentUnity{
 
 //	UITexture avatarTexture;
 	
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUIElement();
 	}
 
@@ -88,7 +88,7 @@ public class ApplyMessageView : UIComponentUnity{
 //		Debug.LogError("ApplyMessageView.ClickSure(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	
@@ -96,7 +96,7 @@ public class ApplyMessageView : UIComponentUnity{
 //		Debug.LogError("ApplyMessageView.ClickCancel(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickCancel", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	void ShowSelf(bool canShow){

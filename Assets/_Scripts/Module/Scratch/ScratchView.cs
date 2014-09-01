@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ScratchView : UIComponentUnity {
+public class ScratchView : ViewBase {
 
     private UIButton btnFriendGacha;
     private UIButton btnRareGacha;
@@ -21,8 +21,8 @@ public class ScratchView : UIComponentUnity {
 
 	private UILabel scratchContent;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		InitUI();
 	}
 	
@@ -89,21 +89,21 @@ public class ScratchView : UIComponentUnity {
 //        LogHelper.Log("OnClickFriendGacha");
         OnClickButton(btn);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenFriendGachaWindow", null);
-        ExcuteCallback(cbdArgs);
+//        ExcuteCallback(cbdArgs);
     }
 
     private void OnClickRareGacha(GameObject btn){
 //        LogHelper.Log("OnClickRareGacha");
 		OnClickButton(btn);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
     private void OnClickEventGacha(GameObject btn){
 //        LogHelper.Log("OnClickEventGacha");
         OnClickButton(btn);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenEventGachaWindow", null);
-        ExcuteCallback(cbdArgs);
+//        ExcuteCallback(cbdArgs);
     }
 
     private void UpdateGachaTimes(){

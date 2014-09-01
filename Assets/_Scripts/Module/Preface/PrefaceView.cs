@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class PrefaceView : UIComponentUnity {
+public class PrefaceView : ViewBase {
 
 	private UILabel text;
 
@@ -11,8 +11,8 @@ public class PrefaceView : UIComponentUnity {
 
 	private TweenAlpha ta;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 
 	}
@@ -44,7 +44,7 @@ public class PrefaceView : UIComponentUnity {
 	{
 		if(i > 5){
 			Umeng.GA.FinishLevel("Preface");
-			UIManager.Instance.ChangeScene(SceneEnum.SelectRole);
+			UIManager.Instance.ChangeScene(ModuleEnum.SelectRole);
 
 			return;
 		}

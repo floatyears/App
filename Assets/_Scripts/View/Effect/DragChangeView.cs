@@ -41,8 +41,8 @@ public class DragChangeView : MonoBehaviour {
 	}
 
 	void ChangeSceneComplete(object data) {
-		SceneEnum se = (SceneEnum)data;
-		if (se == SceneEnum.UnitDetail) {
+		ModuleEnum se = (ModuleEnum)data;
+		if (se == ModuleEnum.UnitDetail) {
 			panel.enabled = false;
 		} else if (!panel.enabled) {
 			panel.enabled = true;	

@@ -6,8 +6,8 @@
 //public class UnitDetailCenterPanel : UIComponentUnity,IUICallback  {
 //
 //
-//	public override void Init ( UIInsConfig config, IUICallback origin ) {
-//		base.Init (config, origin);
+//	public override void Init ( UIInsConfig config ) {
+//		base.Init (config);
 //		InitUI();
 //		InitEffect ();
 //	}

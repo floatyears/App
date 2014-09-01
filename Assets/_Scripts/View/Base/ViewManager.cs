@@ -136,14 +136,14 @@ public class ViewManager {
 		tipsLabelUI.ShowInfo (content, target);
 	}
 
-	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
+//	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
-	public void RegistUIBaseUnity(UIBaseUnity obj) {
-		if(uiObjectDic.ContainsKey(obj.UIName))
-			uiObjectDic[obj.UIName] = obj;
-		else
-			uiObjectDic.Add(obj.UIName,obj);
-	}
+//	public void RegistUIBaseUnity(UIComponentUnity obj) {
+//		if(uiObjectDic.ContainsKey(obj.uiConfig.uiName))
+//			uiObjectDic[obj.uiConfig.uiName] = obj;
+//		else
+//			uiObjectDic.Add(obj.uiConfig.uiName,obj);
+//	}
 
 	public void GetViewObject(string name, ResourceCallback callback) {
 //		if(uiObjectDic.ContainsKey(name)) {	
@@ -158,44 +158,46 @@ public class ViewManager {
 
 	void CreatNoUIObject (string name,ResourceCallback callback) {
 
-		LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab, o=>{
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name, o=>{
 			GameObject go = GameObject.Instantiate (o) as GameObject;
-			UIBaseUnity goScript = go.GetComponent<UIBaseUnity>();
+			ViewBase goScript = go.GetComponent<ViewBase>();
 			callback(goScript);
 		});
+
+
 
 //		uiObjectDic.Add(name,goScript);
 	}
 
 	void CreatObject(string name,ResourceCallback callback) {	
-		LoadAsset.Instance.LoadAssetFromResources (name, ResourceEuum.Prefab, o => {
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name, o => {
 			GameObject sourceObject = o as GameObject;
 			GameObject go = NGUITools.AddChild (centerPanel, sourceObject);
-			UIBaseUnity goScript = go.GetComponent<UIBaseUnity> ();
+			ViewBase goScript = go.GetComponent<ViewBase> ();
 //			uiObjectDic.Add(name,goScript);
 			callback (goScript);
 		});
 
 	}
 
-	public void DestoryUI(UIBaseUnity ui) {
-		RemoveUI(ui.name);
-		GameObject.Destroy(ui.gameObject);
-	}
+//	public void DestoryUI(UIComponentUnity ui) {
+////		RemoveUI(ui.uiConfig.uiName);
+//		GameObject.Destroy(ui.gameObject);
+//	}
 
-	void RemoveUI(string uiName)
-	{
-		if(uiObjectDic.ContainsKey(uiName))
-			uiObjectDic.Remove(uiName);
-	}
+//	void RemoveUI(string uiName)
+//	{
+//		if(uiObjectDic.ContainsKey(uiName))
+//			uiObjectDic.Remove(uiName);
+//	}
 
 	//-----------------------------------------------------------------------------------------------------------------------
 	// new 
 	//-----------------------------------------------------------------------------------------------------------------------
 
-	private IUIComponent temp = null;
+//	private IUIComponent temp = null;
 	
-	private Dictionary<string,IUIComponent> UIComponentDic = new Dictionary<string, IUIComponent>();
+	private Dictionary<string,ModuleBase> UIComponentDic = new Dictionary<string, ModuleBase>();
 	
 	private static Vector3 hidePos = new Vector3(0f,10000f,10000f);
 	public static Vector3 HidePos {
@@ -204,14 +206,15 @@ public class ViewManager {
 		}
 	}
 	
-	public void AddComponent(IUIComponent component) {
+	public void AddComponent(ModuleBase component) {
 		if (component == null) {
 			return;	
 		}
 
 		UIInsConfig config = component.uiConfig;
 		string name = config.uiName;
-		
+
+		ModuleBase temp = null;
 		if (UIComponentDic.TryGetValue (name, out temp)) {
 			UIComponentDic [name] = component;	
 			temp = null;
@@ -221,7 +224,7 @@ public class ViewManager {
 		}
 	}
 	
-	public IUIComponent GetComponent(string name) {
+	public ModuleBase GetComponent(string name) {
 		if (UIComponentDic.ContainsKey (name)) {
 			return UIComponentDic [name];	
 		}
@@ -238,6 +241,8 @@ public class ViewManager {
 	}
 	
 	public void DeleteComponent(string name) {
+		ModuleBase temp = null;
+
 		if (UIComponentDic.TryGetValue (name,out temp)) {
 			temp.DestoryUI ();
 			UIComponentDic.Remove(name);
@@ -246,14 +251,14 @@ public class ViewManager {
 	}
 
 	public void CleartComponent () {
-		List<ConcreteComponent> cclist = new List<ConcreteComponent> ();
+		List<ModuleBase> cclist = new List<ModuleBase> ();
 		List<string> ccID = new List<string> ();
 		System.Type ty = typeof(MsgWindowLogic);
 		System.Type ty1 = typeof(MaskController);
 		System.Type ty2 = typeof(NoviceMsgWindowLogic);
 		foreach (var item in UIComponentDic) {
 			string key = item.Key;
-			ConcreteComponent cc = item.Value as ConcreteComponent;
+			ModuleBase cc = item.Value as ModuleBase;
 			System.Type tempType = cc.GetType();
 
 			if(tempType == ty || tempType == ty1 || tempType == ty2) {

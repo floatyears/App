@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class SellController : ConcreteComponent {
+public class SellController : ModuleBase {
 	int maxPickCount = 12;
 	int totalSaleValue = 0;
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
@@ -86,7 +86,7 @@ public class SellController : ConcreteComponent {
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
 		base.HideUI ();
 		SellView view = viewComponent as SellView;
-		view.ResetUIState();
+//		view.ResetUIState();
 		base.ShowUI ();
 	}
 

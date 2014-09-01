@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class OthersComponent : ConcreteComponent
+public class OthersComponent : ModuleBase
 {
 	private Dictionary< object, object > optionsDic = new Dictionary<object, object>();
 

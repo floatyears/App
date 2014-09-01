@@ -1,22 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitDisplay : ConcreteComponent {
+public class UnitDisplay : ModuleBase {
 	public UnitDisplay (string name) : base (name) {
 	}
 	
 	public override void ShowUI () {
 	
 		base.ShowUI ();
-		if(UIManager.Instance.baseScene.PrevScene != SceneEnum.UnitDetail)
-			ReadData ();
+//		if(UIManager.Instance.baseScene.PrevScene != ModuleEnum.UnitDetail)
+//			ReadData ();
 	
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 
-		if (UIManager.Instance.nextScene != SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetail) {
 			base.DestoryUI();
 		}
 	}

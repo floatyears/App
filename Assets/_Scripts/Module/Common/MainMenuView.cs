@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class MainMenuView : UIComponentUnity{
+public class MainMenuView : ViewBase{
 	private UITexture leaderAvatarTex;
 	private UISprite leaderAvatarSpr;
 
-	private Dictionary<GameObject,SceneEnum> buttonInfo = new Dictionary<GameObject, SceneEnum> ();
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		base.Init (config, origin);
+	private Dictionary<GameObject,ModuleEnum> buttonInfo = new Dictionary<GameObject, ModuleEnum> ();
+	public override void Init (UIInsConfig config) {
+		base.Init (config);
 		InitButton ();
 		UpdateLeaderAvatar(null);
 		AddListener();
@@ -49,27 +49,27 @@ public class MainMenuView : UIComponentUnity{
 	private void InitButton() {
 		GameObject go = FindChild ("Btn_Friends");
 		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");
-		buttonInfo.Add (go, SceneEnum.Friends);
+		buttonInfo.Add (go, ModuleEnum.Friends);
 
 		go = FindChild ("Btn_Home");
 		FindChild ("Btn_Home/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_HOME");
-		buttonInfo.Add (go, SceneEnum.Home);
+		buttonInfo.Add (go, ModuleEnum.Home);
 
 		go = FindChild ("Btn_Scratch");
 		FindChild ("Btn_Scratch/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_SCRATCH");
-		buttonInfo.Add (go, SceneEnum.Scratch);
+		buttonInfo.Add (go, ModuleEnum.Scratch);
 
 		go = FindChild ("Btn_Shop");
 		FindChild ("Btn_Shop/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_SHOP");
-		buttonInfo.Add (go, SceneEnum.Shop);
+		buttonInfo.Add (go, ModuleEnum.Shop);
 
 		go = FindChild ("Btn_Others");
 		FindChild ("Btn_Others/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_OTHERS");
-		buttonInfo.Add (go, SceneEnum.Others);
+		buttonInfo.Add (go, ModuleEnum.Others);
 
 		go = FindChild ("Btn_Units");
 		FindChild ("Btn_Units/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_UNITS");
-		buttonInfo.Add (go, SceneEnum.Units);
+		buttonInfo.Add (go, ModuleEnum.Units);
 
 		foreach (var item in buttonInfo.Keys) {
 			UIEventListener.Get(item).onClick = ClickMenuBtn;
@@ -81,7 +81,7 @@ public class MainMenuView : UIComponentUnity{
 
 	private void ClickMenuBtn( GameObject btn ) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-		SceneEnum targetScene = buttonInfo [ btn ];
+		ModuleEnum targetScene = buttonInfo [ btn ];
 		UIManager.Instance.ChangeScene(targetScene);
 
 		Umeng.GA.Event ("BottomMenu",targetScene.ToString ());

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class QuestSelectView : UIComponentUnity {
+public class QuestSelectView : ViewBase {
 	private DragPanel dragPanel;
 
 	public override void ShowUI(){
@@ -65,7 +65,7 @@ public class QuestSelectView : UIComponentUnity {
 			dragPanel.DestoryUI ();
 
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		int dataCount = accessQuestList.Count;
 		dragPanel.AddItem (dataCount);
 		CustomDragPanel();
@@ -143,7 +143,7 @@ public class QuestSelectView : UIComponentUnity {
 		if (dragPanel != null)
 			dragPanel.DestoryUI ();
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(1);
 		TQuestInfo quest = questInfo.Find (a => a.ID == targetStage.QuestId);
 		CustomDragPanel();
@@ -160,7 +160,7 @@ public class QuestSelectView : UIComponentUnity {
 	}
 
 	void EvolveCallback() {
-		UIManager.Instance.ChangeScene(SceneEnum.FightReady);//before
+		UIManager.Instance.ChangeScene(ModuleEnum.FightReady);//before
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
 	}
 

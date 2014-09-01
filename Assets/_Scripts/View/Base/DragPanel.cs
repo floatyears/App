@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanel : UIComponentUnity{
+public class DragPanel : ViewBase{
 	public event UICallback DragCallback;
 
 	protected DragPanelView dragPanelView;
@@ -24,17 +24,19 @@ public class DragPanel : UIComponentUnity{
 
 	public static GameObject dragObject;
 
-	public DragPanel(string name,GameObject obj) : base(name){
+	public DragPanel(string name,GameObject obj){
+		UIInsConfig config = null;
+		base.Init (config);
 		sourceObject = obj;
 		if(dragObject == null){
 			ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView", o => dragObject = o as GameObject);
 		}
 	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
-		CreatPanel ();
-	}
+//	public override void CreatUI () {
+//		base.CreatUI ();
+//		CreatPanel ();
+//	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
@@ -64,8 +66,8 @@ public class DragPanel : UIComponentUnity{
 
 	protected void CreatPanel() {
 		dragPanelView = NGUITools.AddChild(
-			viewManager.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
-		dragPanelView.Init (uiName);
+			ViewManager.Instance.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
+//		dragPanelView.Init (uiName);
 	}
 	
 	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {

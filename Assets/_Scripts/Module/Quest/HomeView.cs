@@ -2,7 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class HomeView : UIComponentUnity{
+public class HomeView : ViewBase{
 	private GameObject storyRoot;
 	private GameObject eventRoot;
 	private GameObject dragItemPrefab;
@@ -13,8 +13,8 @@ public class HomeView : UIComponentUnity{
 
 	private UISprite fog;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 	}
 
@@ -53,11 +53,11 @@ public class HomeView : UIComponentUnity{
 	}
 
 	private void OnChangeSceneComplete(object data ){
-		if((SceneEnum)data == SceneEnum.Home){
+		if((ModuleEnum)data == ModuleEnum.Home){
 			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE_EXE) {
-				UIManager.Instance.ChangeScene (SceneEnum.Units);	
+				UIManager.Instance.ChangeScene (ModuleEnum.Units);	
 			} else if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
-				UIManager.Instance.ChangeScene(SceneEnum.Scratch);
+				UIManager.Instance.ChangeScene(ModuleEnum.Scratch);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT){
 				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.QUEST);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.INPUT_NAME){
@@ -100,15 +100,15 @@ public class HomeView : UIComponentUnity{
 	}
 
 	void ClickReward(GameObject obj){
-		UIManager.Instance.ChangeScene (SceneEnum.Reward);
+		UIManager.Instance.ChangeScene (ModuleEnum.Reward);
 	}
 
 	void ClickNotice(GameObject obj){
-		UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);
+		UIManager.Instance.ChangeScene (ModuleEnum.OperationNotice);
 	}
 
 	void ClickPurchase(GameObject obj){
-		UIManager.Instance.ChangeScene (SceneEnum.Shop);
+		UIManager.Instance.ChangeScene (ModuleEnum.Shop);
 	}
 
 	void CreateStoryView(object args){
@@ -118,7 +118,7 @@ public class HomeView : UIComponentUnity{
 	}
 
 	void CreateScrollView(DragPanel panel, List<TCityInfo> cityList){
-		panel.CreatUI();
+//		panel.CreatUI();
 		panel.AddItem(GetDragPanelCellCount(cityList));               
 		panel.DragPanelView.SetScrollView(ConfigDragPanel.StoryStageDragPanelArgs, storyRoot.transform);
 		UpdateInfo (panel, cityList);
@@ -164,7 +164,7 @@ public class HomeView : UIComponentUnity{
 	void ClickStoryItem(GameObject item){
 		Debug.LogError("ClickStoryItem ");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickStoryItem", stageInfo[item].StageInfo);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	//----New
@@ -235,7 +235,7 @@ public class HomeView : UIComponentUnity{
 				BtnParam sure = new BtnParam ();
 				sure.callback = o=>{
 					MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
-					UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+					UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownload);
 				};
 				sure.text = TextCenter.GetText("OK");
 				mwp.btnParam = sure;
@@ -245,7 +245,7 @@ public class HomeView : UIComponentUnity{
 			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-			UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
+			UIManager.Instance.ChangeScene (ModuleEnum.StageSelect);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
 		}
@@ -253,13 +253,13 @@ public class HomeView : UIComponentUnity{
 
 	void DownloadComplete(object data){
 //		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
+		UIManager.Instance.ChangeScene (ModuleEnum.StageSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, (uint)2);
 	}
 
 	void DownloadCompleteEx(object data){
 //		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
+		UIManager.Instance.ChangeScene(ModuleEnum.StageSelect);
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 	}
 
@@ -289,12 +289,12 @@ public class HomeView : UIComponentUnity{
 
 			if((GameDataStore.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
-				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+				UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownload);
 				return;
 			}
 
 
-			UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
+			UIManager.Instance.ChangeScene(ModuleEnum.StageSelect);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
 	}
@@ -333,7 +333,7 @@ public class HomeView : UIComponentUnity{
 	}
 
 	void TurnScene(object msg){
-		UIManager.Instance.ChangeScene(SceneEnum.Shop);
+		UIManager.Instance.ChangeScene(ModuleEnum.Shop);
 	}
 
 	public void FogFly(){

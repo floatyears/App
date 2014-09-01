@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class UserIDComponent : ConcreteComponent
+public class UserIDComponent : ModuleBase
 {
 
 	public UserIDComponent(string uiName) : base( uiName )

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class GameCurrencyComponent : ConcreteComponent {
+public class GameCurrencyComponent : ModuleBase {
 
 	public GameCurrencyComponent (string name) : base (name) {
 	}

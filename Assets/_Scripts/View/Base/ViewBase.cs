@@ -4,9 +4,9 @@ using System.Collections.Generic;
 //public class UIBaseUnity : MonoBehaviour ,IUIInterface
 //{
 //	#region IUIInterface implementation
-//	protected SceneEnum sEnum;
+//	protected ModuleEnum sEnum;
 //
-//	public SceneEnum GetScene {
+//	public ModuleEnum GetScene {
 //		get {
 //			return sEnum;
 //		}
@@ -79,23 +79,24 @@ using System.Collections.Generic;
 //	#endregion
 //}
 //
-public class UIComponentUnity : MonoBehaviour {
+public class ViewBase : MonoBehaviour {
 
 	protected UIInsConfig config = null;
+
 	public UIInsConfig uiConfig {
 		get {
 			return config;
 		}
 	}
 
-	protected IUICallback origin;
+//	protected ConcreteComponent origin;
 
-	public virtual void Init(UIInsConfig config,IUICallback origin = null) {
+	public virtual void Init(UIInsConfig config/*,ConcreteComponent origin = null*/) {
 
 		if(this.config == config)
 			return;
 
-		this.origin = origin;
+//		this.origin = origin;
 		this.config = config;
 
 		if (config != null && config.parent != null) {
@@ -122,7 +123,7 @@ public class UIComponentUnity : MonoBehaviour {
 		}
 	}
 
-    public virtual void ResetUIState() {}
+//    public virtual void ResetUIState() {}
 
 	private void InitHide() {
 		transform.localPosition = ViewManager.HidePos;
@@ -179,11 +180,11 @@ public class UIComponentUnity : MonoBehaviour {
 
 	}
 	
-	protected void ExcuteCallback (object data) {
-		if (origin != null) {
-			origin.CallbackView (data);	
-		}
-	}
+//	protected void ExcuteCallback (object data) {
+//		if (origin != null) {
+//			origin.CallbackView (data);	
+//		}
+//	}
 
 	protected void SetGameObjectActive(bool active) {
 		if (gameObject.activeSelf != active) {

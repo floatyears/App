@@ -13,7 +13,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public class LoadingLogic : ConcreteComponent {
+public class LoadingLogic : ModuleBase {
     
 	public int currentVersion = -1;
 
@@ -243,14 +243,14 @@ public class LoadingLogic : ConcreteComponent {
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 		} else {
-			UIManager.Instance.ChangeScene(SceneEnum.Start);
+			UIManager.Instance.ChangeScene(ModuleEnum.Start);
 			
-			UIManager.Instance.ChangeScene(SceneEnum.Home);
+			UIManager.Instance.ChangeScene(ModuleEnum.Home);
 
 			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-					UIManager.Instance.ChangeScene (SceneEnum.OperationNotice);	
+					UIManager.Instance.ChangeScene (ModuleEnum.OperationNotice);	
 				}
 				else { // no 
 					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
@@ -258,7 +258,7 @@ public class LoadingLogic : ConcreteComponent {
 //						Debug.LogError("show Reward scene... ");
 						foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
 							if(item.enabled == 1){
-								UIManager.Instance.ChangeScene (SceneEnum.Reward);
+								UIManager.Instance.ChangeScene (ModuleEnum.Reward);
 								return;
 							}
 						}
@@ -308,7 +308,7 @@ public class LoadingLogic : ConcreteComponent {
         }
         
         if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
-            UIManager.Instance.ChangeScene(SceneEnum.Others);
+            UIManager.Instance.ChangeScene(ModuleEnum.Others);
 //            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         

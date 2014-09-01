@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class QuestSelectController : ConcreteComponent {
+public class QuestSelectController : ModuleBase {
 	public QuestSelectController(string uiName) : base(uiName){}
 }

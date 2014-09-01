@@ -46,7 +46,7 @@
 //    public List<UnitBaseInfo> selectMaterial = new List<UnitBaseInfo>();
 //
 //    public override void Init(UIInsConfig config, IUICallback origin) {
-//        base.Init(config, origin);
+//        base.Init(config);
 //        InitUI();
 //    }
 //
@@ -268,7 +268,7 @@
 //    }
 //
 //    private void LevelUp(GameObject go) {
-//        UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+//        UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
 //    }
 //
 //

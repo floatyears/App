@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class MapItem : UIComponentUnity {
+public class MapItem : ViewBase {
 	private Coordinate coor; 
 	public Coordinate Coor {
 		get{ return coor; }
@@ -55,8 +55,11 @@ public class MapItem : UIComponentUnity {
 	[HideInInspector]
 	public BattleMap battleMap;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
+//	}
+//		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
 		gridItemSprite = FindChild<UISprite>("GridBackground");

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class MusicWIndow : UIComponentUnity {
+public class MusicWIndow : ViewBase {
 	
 //	UIButton bgmOnBtn;
 //	UIButton bgmOffBtn;
@@ -13,10 +13,10 @@ public class MusicWIndow : UIComponentUnity {
 	UISlider bgmSlider;
 	GameObject okBtn;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ){
+	public override void Init ( UIInsConfig config ){
 		FindUIElement();
 		//		SetOption();
-		base.Init (config, origin);
+		base.Init (config);
 
 		SetMusicPanel ();
 	}
@@ -66,7 +66,7 @@ public class MusicWIndow : UIComponentUnity {
 	void ClickOk(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		UIManager.Instance.ChangeScene (SceneEnum.Others);
+		UIManager.Instance.ChangeScene (ModuleEnum.Others);
 //		HideUI ();
 	}
 

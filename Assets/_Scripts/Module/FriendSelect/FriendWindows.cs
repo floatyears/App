@@ -8,8 +8,8 @@ public class FriendWindows : FriendHelperView {
 
 	public EvolveItem evolveItem;
 
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		base.Init (config, origin);
+	public override void Init (UIInsConfig config) {
+		base.Init (config);
 		premiumBtn.gameObject.SetActive (true);
 	}
 

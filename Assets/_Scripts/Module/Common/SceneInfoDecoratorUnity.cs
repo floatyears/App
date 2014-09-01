@@ -1,19 +1,19 @@
 using UnityEngine;
 using System.Collections;
 
-public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool{
+public class SceneInfoDecoratorUnity : ViewBase{
 	private UILabel sceneNameLabel;
 	private UIButton backBtn;
 	private UILabel backBtnLabel;
-	private IUICallback iuiCallback; 
+//	private IUICallback iuiCallback; 
 	private bool temp = false;
 //	private bool isTweenDone = false;
 	
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		InitUI();
 
-		temp = origin is IUICallback;
+//		temp = origin is IUICallback;
 	}
 	
 	public override void ShowUI () {
@@ -67,17 +67,17 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 
 	public void BackPreScene (GameObject go) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-		if( UIManager.Instance.baseScene.CurrentScene == SceneEnum.UnitDetail ) {
-			SceneEnum preScene = UIManager.Instance.baseScene.PrevScene;
-			MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, preScene);
-			UIManager.Instance.ChangeScene( preScene );
-			return;
-		}
+//		if( UIManager.Instance.baseScene.CurrentScene == ModuleEnum.UnitDetail ) {
+//			ModuleEnum preScene = UIManager.Instance.baseScene.PrevScene;
+//			MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, preScene);
+//			UIManager.Instance.ChangeScene( preScene );
+//			return;
+//		}
 
-		if(temp) {
-			IUICallback call = origin as IUICallback;
-			call.CallbackView(go);
-		}
+//		if(temp) {
+//			IUICallback call = origin as IUICallback;
+//			call.CallbackView(go);
+//		}
 	}
 
 	int zOffset = -1;
@@ -87,7 +87,7 @@ public class SceneInfoDecoratorUnity : UIComponentUnity ,IUICallback, IUISetBool
 			return;		
 		}
 
-		if (UIManager.Instance.current.CurrentDecoratorScene == SceneEnum.UnitCatalog) {
+		if (UIManager.Instance.current.CurrentDecoratorScene == ModuleEnum.UnitCatalog) {
 			isAdd = true;
 			backBtnLabel.transform.localPosition += zOffset * Vector3.forward;
 		} else if(isAdd) {

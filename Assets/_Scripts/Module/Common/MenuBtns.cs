@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MenuBtns : UIComponentUnity 
+public class MenuBtns : ViewBase 
 {
 	void Start()
 	{
-		Init("MenuBtns");
+//		Init("MenuBtns");
 	}
 	
 	
-	public override void Init (string name)
+	public override void Init (UIInsConfig config)
 	{
-		base.Init (name);
+		base.Init (config);
 		
 		UIEventListener.Get (transform.Find ("ImgBtn_Friends").gameObject).onClick = TurnToFriends;
 		
@@ -28,32 +28,32 @@ public class MenuBtns : UIComponentUnity
 	
 	public void TurnToQuest(GameObject go)
 	{
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Quest);
+		//ControllerManager.Instance.ChangeScene(ModuleEnum.Quest);
 	}
 	
 	public void TurnToFriends(GameObject go)
 	{
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Friends);
+		//ControllerManager.Instance.ChangeScene(ModuleEnum.Friends);
 	}
 	
 	public void TurnToScratch(GameObject go)
 	{
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Scratch);
+		//ControllerManager.Instance.ChangeScene(ModuleEnum.Scratch);
 	}
 	
 	public void TurnToOthers(GameObject go)
 	{
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Others);
+		//ControllerManager.Instance.ChangeScene(ModuleEnum.Others);
 	}
 	
 	public void TurnToUnits(GameObject go)
 	{
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Units);
+		//ControllerManager.Instance.ChangeScene(ModuleEnum.Units);
 	}
 	
 	public void TurnToShop(GameObject go)
 	{
-		//ControllerManager.Instance.ChangeScene(SceneEnum.Shop);
+		//ControllerManager.Instance.ChangeScene(ModuleEnum.Shop);
 	}
 	
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ApplyController : ConcreteComponent{
+public class ApplyController : ModuleBase{
 	public ApplyController( string uiName ) : base( uiName ){}
 
 	public override void HideUI () {

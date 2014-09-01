@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MainMenuController : ConcreteComponent, IUICallback {
+public class MainMenuController : ModuleBase {
 	public MainMenuController (string uiName) : base(uiName) {
 
 	}
@@ -17,8 +17,8 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 
 	public void CallbackView (object data){
 		try {
-			SceneEnum se = (SceneEnum)data;
-			if(se == SceneEnum.QuestSelect){
+			ModuleEnum se = (ModuleEnum)data;
+			if(se == ModuleEnum.QuestSelect){
 				if(CheckUnitCountLimit()){
 					//msg box show 
 					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgParams());
@@ -56,6 +56,6 @@ public class MainMenuController : ConcreteComponent, IUICallback {
 	}
 
 	void CallBackScratchScene(object args){
-		UIManager.Instance.ChangeScene(SceneEnum.Shop);
+		UIManager.Instance.ChangeScene(ModuleEnum.Shop);
 	}
 }

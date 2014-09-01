@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapDoor : UIComponentUnity {
+public class MapDoor : ViewBase {
 	public BattleMap battleMap;
 
 	private UILabel topLabel;
@@ -26,8 +26,11 @@ public class MapDoor : UIComponentUnity {
 
 	private string currentShowInfo;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
+//	}
+//		base.Init (name);
 		topLabel = FindChild<UILabel> ("Top");
 		bottomLabel = FindChild<UILabel> ("Bottom");
 		arrowSprite = FindChild<UISprite> ("Sprite");
@@ -37,10 +40,10 @@ public class MapDoor : UIComponentUnity {
 
 		UIEventListener.Get (gameObject).onClick = ClickDoor;
 	}
-
-	public override void CreatUI () {
-		base.CreatUI ();
-	}
+//
+//	public override void CreatUI () {
+//		base.CreatUI ();
+//	}
 
 	public override void ShowUI () {
 		base.ShowUI ();

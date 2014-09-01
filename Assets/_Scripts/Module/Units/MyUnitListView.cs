@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MyUnitListView : UIComponentUnity {
+public class MyUnitListView : ViewBase {
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
 
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		InitUIElement();
 	}
 	
@@ -34,7 +34,7 @@ public class MyUnitListView : UIComponentUnity {
 	private void CreateDragPanel(){
 		myUnitDataList = GetUnitList();
 		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(myUnitDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.UnitListDragPanelArgs, transform);
 

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class FightReadyController : ConcreteComponent {
+public class FightReadyController : ModuleBase {
 	public FightReadyController(string uiName) : base(uiName){}
 }

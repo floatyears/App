@@ -4,15 +4,19 @@ using System.Collections.Generic;
 
 public class ModuleManger {
 
-	private static Dictionary<ModuleEnum,ConcreteComponent> moduleDic = new Dictionary<ModuleEnum, ConcreteComponent>();
+	private static Dictionary<ModuleEnum,ModuleBase> moduleDic = new Dictionary<ModuleEnum, ModuleBase>();
 
-	// Use this for initialization
-	void Start () {
-	
+	private static ModuleManger instance;
+
+	public static ModuleManger Instance{
+		get{
+			return instance;
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public static void SendMessage(ModuleEnum module, object data){
+		if(moduleDic.ContainsKey(module)){
+			moduleDic[module].CallbackView(data);
+		}
 	}
 }

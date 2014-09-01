@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class UnitDetailTopComponent : ConcreteComponent {
+public class UnitDetailTopComponent : ModuleBase {
 	
 	public UnitDetailTopComponent(string uiName):base(uiName) {}
 	

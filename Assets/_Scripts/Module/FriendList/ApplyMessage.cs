@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ApplyMessage : ConcreteComponent{
+public class ApplyMessage : ModuleBase{
 	public ApplyMessage(string uiName) : base( uiName ){}
 
 	public override void ShowUI(){

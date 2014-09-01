@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class PrefaceComponent : ConcreteComponent {
+public class PrefaceComponent : ModuleBase {
 
 	public PrefaceComponent(string uiName):base(uiName){}
 	public override void ShowUI(){

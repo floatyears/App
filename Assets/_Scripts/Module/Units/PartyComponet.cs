@@ -28,7 +28,7 @@
 //	public void CallbackView (object data)
 //	{
 //		try {
-//			SceneEnum scene = (SceneEnum)data;
+//			ModuleEnum scene = (ModuleEnum)data;
 //			UIManager.Instance.ChangeScene( scene );
 //
 //		} 

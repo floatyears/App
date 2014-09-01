@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardSprite : UIComponentUnity 
+public class CardSprite : ViewBase 
 {
 	public event UICallback<CardSprite> tweenCallback;
 	
@@ -33,8 +33,9 @@ public class CardSprite : UIComponentUnity
 	[HideInInspector]
 	public int location = -1;
 
-	public override void Init (string name) {
-		base.Init (name); 
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 		parentObject = transform.parent;
 		actorSprite = GetComponent<UISprite>();
 		if (actorSprite.enabled) {
@@ -141,7 +142,7 @@ public class CardSprite : UIComponentUnity
 	void SetPosition(int sortID) {
 		gameObject.layer = GameLayer.IgnoreCard;
 		actorSprite.depth = initDepth + sortID + 1;
-		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
+		Vector3 pos = Battle.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 		Vector3 offset = new Vector3(sortID * (float)actorSprite.width / 2f , - sortID * (float)actorSprite.height / 2, 0f) - transform.parent.localPosition;
 		transform.localPosition  = new Vector3(pos.x,pos.y,transform.localPosition.z) + offset ;
 	}

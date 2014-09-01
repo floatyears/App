@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class LevelUpOperateUnity : UIComponentUnity {
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		base.Init (config, origin);
+public class LevelUpView : ViewBase {
+	public override void Init (UIInsConfig config) {
+		base.Init (config);
 		InitUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
@@ -49,7 +49,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
-		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetail) {
 			fromUnitDetail = true;
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
@@ -70,12 +70,12 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
-	bool clear = true;
-	public override void ResetUIState () {
-		clear = true;
-		ClearData ();
-		CheckLevelUp ();
-	}
+//	bool clear = true;
+//	public override void ResetUIState () {
+//		clear = true;
+//		ClearData ();
+//		CheckLevelUp ();
+//	}
 
 	public override void CallbackView (object data) {
 		base.CallbackView (data);
@@ -178,11 +178,11 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void ShowData () {
 //		Debug.LogError ("clear : " + clear);
-		if (!clear) {
-			return;	
-		}
-
-		clear = false;
+//		if (!clear) {
+//			return;	
+//		}
+//
+//		clear = false;
 
 		if (myUnitDragPanel == null) {
 			InitDragPanel();
@@ -290,7 +290,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
 		selectedItem [baseItemIndex].UserUnit = tuu;
-		clear = true;
+//		clear = true;
 		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
@@ -511,7 +511,7 @@ public class LevelUpOperateUnity : UIComponentUnity {
 			return;
 		}
 		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;
-		ExcuteCallback (levelUpInfo);
+//		ExcuteCallback (levelUpInfo);
 	}
 
 //	void SortCallback(GameObject go) {

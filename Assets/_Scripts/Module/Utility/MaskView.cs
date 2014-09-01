@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class MaskView : UIComponentUnity {
+public class MaskView : ViewBase {
 	UISprite background;
 	GameObject connecting;
 	UILabel tips;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 	}
 

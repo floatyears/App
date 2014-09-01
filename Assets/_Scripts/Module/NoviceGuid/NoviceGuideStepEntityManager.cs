@@ -76,10 +76,10 @@ public class NoviceGuideStepEntityManager {
 //	private void OnChangeScene(object msg)
 //	{
 //		
-//		SceneEnum se = (SceneEnum)msg;
+//		ModuleEnum se = (ModuleEnum)msg;
 //		Debug.Log ("change scene to: " + se.ToString ());
 //		switch (se) {
-//		case SceneEnum.SelectRole:
+//		case ModuleEnum.SelectRole:
 //			CreateStepEntityByID(NoviceGuideStepEntityID.StepA);
 //			break;
 //		}
@@ -94,25 +94,25 @@ public class NoviceGuideStepEntityManager {
 //
 //		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
 //		switch (UIManager.Instance.baseScene.CurrentScene) {
-//			case SceneEnum.Loading:
+//			case ModuleEnum.Loading:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
 //				break;
-//			case SceneEnum.SelectRole:
+//			case ModuleEnum.SelectRole:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
 //				break;
-//			case SceneEnum.Scratch:
+//			case ModuleEnum.Scratch:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH,NoviceGuideStepC_StateOne.Instance());
 //				break;
-//			case SceneEnum.RareScratch:
+//			case ModuleEnum.RareScratch:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH,NoviceGuideStepD_StateOne.Instance());
 //				break;
-//			case SceneEnum.Quest:
+//			case ModuleEnum.Quest:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepE_StateOne.Instance());
 //				break;
-//			case SceneEnum.Party:
+//			case ModuleEnum.Party:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.PARTY,NoviceGuideStepF_StateOne.Instance());
 //				break;
-//			case SceneEnum.Units:
+//			case ModuleEnum.Units:
 //				if(currentNoviceGuideStage == 16){
 //					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateThree.Instance());
 //				}else if(currentNoviceGuideStage == 15){
@@ -121,14 +121,14 @@ public class NoviceGuideStepEntityManager {
 //					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateOne.Instance());	
 //				}
 //				break;
-//			case SceneEnum.Fight:
+//			case ModuleEnum.Fight:
 //				
 //				CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
 //				break;
-//			case SceneEnum.LevelUp:
+//			case ModuleEnum.LevelUp:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP,NoviceGuideStepI_StateOne.Instance());
 //				break;
-//			case SceneEnum.Evolve:
+//			case ModuleEnum.Evolve:
 //				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
 //				break;
 //		}

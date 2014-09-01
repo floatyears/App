@@ -13,7 +13,7 @@ public class BlockerMaskParams{
 	public bool isMaskActive = false;
 }
 
-public class MaskController : ConcreteComponent {
+public class MaskController : ModuleBase {
 	public MaskController(string name) : base(name){
         AddCommandListener();
     }

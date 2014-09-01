@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CardItem : UIComponentUnity {
+public class CardItem : ViewBase {
 	public static Color32 NoAttackColor = new Color32 (174, 174, 174, 255);
 	public event UICallback<CardItem> tweenCallback;
 	[HideInInspector]
@@ -66,8 +66,9 @@ public class CardItem : UIComponentUnity {
 	[HideInInspector]
 	public int color = -1;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 		parentObject = transform.parent;
 		actorTexture = GetComponent<UISprite>();
 		if (!actorTexture.enabled) {
@@ -227,7 +228,7 @@ public class CardItem : UIComponentUnity {
 
 		actorTexture.depth = initDepth + sortID + 1;
 
-		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
+		Vector3 pos = Battle.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 
 		Vector3 offset = new Vector3(sortID * (float)actorTexture.width / 2f , - sortID * (float)actorTexture.height / 2, 0f) - transform.parent.localPosition;
 

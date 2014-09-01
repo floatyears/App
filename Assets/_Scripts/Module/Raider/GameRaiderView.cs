@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using HTMLEngine;
 using HTMLEngine.NGUI;
 
-public class GameRaiderView : UIComponentUnity {
+public class GameRaiderView : ViewBase {
 
 	NGUIHTML html;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ){
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ){
+		base.Init (config);
 
 		//HtEngine.RegisterLogger(new Unity3DLogger());
 		// our device

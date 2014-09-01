@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class PlayerInfoBarComponent : ConcreteComponent  {
+public class PlayerInfoBarComponent : ModuleBase  {
 
 	public PlayerInfoBarComponent(string uiName):base(uiName) {
 

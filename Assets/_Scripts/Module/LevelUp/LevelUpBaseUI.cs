@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LevelUpBaseUI : ConcreteComponent {
+public class LevelUpBaseUI : ModuleBase {
 	public LevelUpBaseUI(string uiName):base(uiName) {
     }
 	public override void CreatUI(){

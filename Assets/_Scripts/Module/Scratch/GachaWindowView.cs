@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class GachaWindowView : UIComponentUnity {
+public class GachaWindowView : ViewBase {
 	private const int rareAudioLevel = 4;
 	
     private UILabel chancesLabel;
@@ -18,28 +18,28 @@ public class GachaWindowView : UIComponentUnity {
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
 
-    public override void Init ( UIInsConfig config, IUICallback origin ) {
-        base.Init (config, origin);
+    public override void Init ( UIInsConfig config ) {
+        base.Init (config);
         InitUI();
     }
-
-    public override void ResetUIState() {
-        base.ResetUIState();
-        SetActive(false);
-    }
+//
+//    public override void ResetUIState() {
+//        base.ResetUIState();
+//        SetActive(false);
+//    }
     
     public override void ShowUI () {
         base.ShowUI ();
         AddListener();
-		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
-			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
-			SetMenuBtnEnable(false);
-			if(gachaInfo.totalChances == 1) {
-				ShowUnitGrid();
-			} else {
-				AutoShowOneCard();
-			}
-		}
+//		if (UIManager.Instance.baseScene.PrevScene == ModuleEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == ModuleEnum.ShowCardEffect) {
+//			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
+//			SetMenuBtnEnable(false);
+//			if(gachaInfo.totalChances == 1) {
+//				ShowUnitGrid();
+//			} else {
+//				AutoShowOneCard();
+//			}
+//		}
 	}
     
     public override void HideUI () {
@@ -48,7 +48,7 @@ public class GachaWindowView : UIComponentUnity {
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
 
-		if(UIManager.Instance.nextScene != SceneEnum.ShowCardEffect)
+		if(UIManager.Instance.nextScene != ModuleEnum.ShowCardEffect)
 			Reset();
     }
     
@@ -194,7 +194,7 @@ public class GachaWindowView : UIComponentUnity {
 				AutoShowOneCard ();
 			} else {
 				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.UnitID);
-				UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
+				UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffect);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserUnit);
 			}
 		});
@@ -429,7 +429,7 @@ public class GachaWindowView : UIComponentUnity {
 			ShowUnitGrid ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
-			UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
+			UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffect);
 			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
 		}
     }
@@ -439,7 +439,7 @@ public class GachaWindowView : UIComponentUnity {
         if (newUnitId == 0){
             return;
         }
-        UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+        UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
         TUserUnit unit = DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId);
         MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, unit);
     }
@@ -474,9 +474,9 @@ public class GachaWindowView : UIComponentUnity {
 		showIndex = 0;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
 			Debug.Log("goto home view==================");
-			UIManager.Instance.ChangeScene (SceneEnum.Home);	
+			UIManager.Instance.ChangeScene (ModuleEnum.Home);	
 		} else {
-			UIManager.Instance.ChangeScene (SceneEnum.Scratch);	
+			UIManager.Instance.ChangeScene (ModuleEnum.Scratch);	
 		}
         
         yield return null;

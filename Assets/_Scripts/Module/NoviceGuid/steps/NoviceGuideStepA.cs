@@ -84,7 +84,7 @@ public class NoviceGuideStepA_StateOne:NoviceGuidState
 		//selectRole
 		//NoviceGuideStepEntityManager.FinishCurrentStep ();
 //		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SELECT_ROLE;
-		UIManager.Instance.ChangeScene (SceneEnum.SelectRole);
+		UIManager.Instance.ChangeScene (ModuleEnum.SelectRole);
 	}
 }
 

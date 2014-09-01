@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class ItemCounterController : ConcreteComponent{
+public class ItemCounterController : ModuleBase{
 	public ItemCounterController(string name) : base(name){}
 
 	public override void ShowUI () {

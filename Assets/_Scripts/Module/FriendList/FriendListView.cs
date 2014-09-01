@@ -2,15 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendListView : UIComponentUnity{
+public class FriendListView : ViewBase{
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
 	private TFriendInfo curPickedFriend;
 	private UIButton updateBtn;
 	private List<TFriendInfo> friendDataList = new List<TFriendInfo>();
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUIElement();
 	}
 
@@ -37,7 +37,7 @@ public class FriendListView : UIComponentUnity{
 	void ClickRefuseButton(GameObject args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	void InitUIElement(){
@@ -50,7 +50,7 @@ public class FriendListView : UIComponentUnity{
 		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
 		friendDataList = DataCenter.Instance.FriendList.Friend;
 		dragPanel = new DragPanel("FriendDragPanel", FriendUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(friendDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 

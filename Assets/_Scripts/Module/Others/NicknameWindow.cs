@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class NicknameWindow : UIComponentUnity {
+public class NicknameWindow : ViewBase {
 
 	UIButton okButton;
 	UIButton CancelButton;
 	UIInput nickNameInput;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ){
+	public override void Init ( UIInsConfig config ){
 		FindUIElement();
 		SetNickNamePanel ();
 		//		SetOption();
-		base.Init (config, origin);
+		base.Init (config);
 	}
 	
 	public override void ShowUI(){
@@ -83,7 +83,7 @@ public class NicknameWindow : UIComponentUnity {
 	void ClickCancelButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		//		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		UIManager.Instance.ChangeScene(SceneEnum.Others);
+		UIManager.Instance.ChangeScene(ModuleEnum.Others);
 	}
 
 
@@ -96,7 +96,7 @@ public class NicknameWindow : UIComponentUnity {
 		//		{
 		changeName = new RenameNick();
 		changeName.OnRequest(name, ReName);
-		//			UIManager.Instance.ChangeScene(SceneEnum.Start);
+		//			UIManager.Instance.ChangeScene(ModuleEnum.Start);
 		//		}
 	}
 
@@ -125,7 +125,7 @@ public class NicknameWindow : UIComponentUnity {
 			}
 		}
 		
-		UIManager.Instance.ChangeScene(SceneEnum.Others);
+		UIManager.Instance.ChangeScene(ModuleEnum.Others);
 //		HideUI ();
 	}
 

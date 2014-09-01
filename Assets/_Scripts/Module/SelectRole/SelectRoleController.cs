@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SelectRoleController : ConcreteComponent {
+public class SelectRoleController : ModuleBase {
 
 	int curSelectPos = 0;
 

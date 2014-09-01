@@ -243,7 +243,7 @@ public class ResourceManager : MonoBehaviour{
 //				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,param=>{
 //					DownloadResource(key);
 //				});
-//				UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+//				UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownload);
 //			};
 //			sure.text = TextCenter.GetText("OK");
 //

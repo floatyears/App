@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 using System.Collections.Generic;
 
-public class UnitDetailPanel : UIComponentUnity,IUICallback{
+public class UnitDetailPanel : ViewBase{
 	public UILabel hpTextLabel;
 	public UILabel atkTextLabel;
 	public UILabel raceTextLabel;
@@ -77,8 +77,8 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 	public static bool isEvolve = false;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		GetUnitMaterial();
 		InitEffect();
 		InitUI();
@@ -187,7 +187,7 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 
-		UIManager.Instance.ChangeScene( UIManager.Instance.baseScene.PrevScene );	
+		UIManager.Instance.GoBackToPrevScene ();	
 
 
 		unitBodyTex.mainTexture = null;
@@ -716,11 +716,11 @@ public class UnitDetailPanel : UIComponentUnity,IUICallback{
 			oldBlendUnit = null;	
 		}
 
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
-			UIManager.Instance.baseScene.PrevScene = SceneEnum.Scratch;
-		} else if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
-			UIManager.Instance.baseScene.PrevScene = SceneEnum.Units;
-		}
+//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
+//			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Scratch;
+//		} else if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+//			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Units;
+//		}
 	}
 
 	void LevelupExpRiseEnd() {

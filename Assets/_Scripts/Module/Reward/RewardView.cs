@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class RewardView : UIComponentUnity {
+public class RewardView : ViewBase {
 
 	public static List<int> bonusIDs = new List<int>();
 
@@ -22,8 +22,8 @@ public class RewardView : UIComponentUnity {
 	UILabel tabInfo;
 
 
-	public override void Init(UIInsConfig config, IUICallback origin) {
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config) {
+		base.Init(config);
 		InitUI();
 	}
 	
@@ -50,7 +50,7 @@ public class RewardView : UIComponentUnity {
 //
 //
 ////			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
-////			UIManager.Instance.ChangeScene (SceneEnum.Reward);
+////			UIManager.Instance.ChangeScene (ModuleEnum.Reward);
 //		}
 //	}
 
@@ -164,7 +164,7 @@ public class RewardView : UIComponentUnity {
 
 	private void CreateDragView(){
 		dragPanel = new DragPanel("RewardDragPanel", RewardItemView.Prefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem (0);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.RewardListDragPanelArgs, content.transform);
 	}

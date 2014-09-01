@@ -2,21 +2,21 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BattleMenu : UIComponentUnity {
-	public override void Init (string name) {
-		base.Init (name);
+public class BattleMenu : ViewBase {
+//	public override void Init (string name) {
+//		base.Init (name);
+//
+//	}
 
-	}
-
-	public override void Init (UIInsConfig config, IUICallback origin)
+	public override void Init (UIInsConfig config)
 	{
-		base.Init (config, origin);
+		base.Init (config);
 		InitUIComponent ();
 	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
-	}
+//	public override void CreatUI () {
+//		base.CreatUI ();
+//	}
 
 	public override void ShowUI () {
 		gameObject.SetActive (true);

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class NicknameComponent : ConcreteComponent {
+public class NicknameComponent : ModuleBase {
 
 	public NicknameComponent(string uiName):base(uiName){}
 	

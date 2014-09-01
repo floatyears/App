@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class PartyInfoView : UIComponentUnity {
+public class PartyInfoView : ViewBase {
 	
 	private UILabel totalHpLabel;
 	private UILabel curCostLabel;
@@ -17,8 +17,8 @@ public class PartyInfoView : UIComponentUnity {
 	private UILabel leaderSkillNameLabel;
 	private UILabel leaderSkillDscpLabel;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitPartyInfoPanel();
 	}
 
@@ -96,12 +96,12 @@ public class PartyInfoView : UIComponentUnity {
 	private void ShowUIAnimation(){
 		transform.localPosition = 1000 * Vector3.up;
 		float offsetY = 0;
-		if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Units){
-			offsetY = -410;
-		}
-		else if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.Party){
-			offsetY = -386;
-		}
+//		if(UIManager.Instance.baseScene.CurrentScene == ModuleEnum.Units){
+//			offsetY = -410;
+//		}
+//		else if(UIManager.Instance.baseScene.CurrentScene == ModuleEnum.Party){
+//			offsetY = -386;
+//		}
 		iTween.MoveTo(gameObject, iTween.Hash("y", offsetY, "time", 0.4f, "islocal", true));  
 	}
 

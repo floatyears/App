@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class EvolveDecoratorUnity : UIComponentUnity {
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+public class EvolveDecoratorUnity : ViewBase {
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		InitUI ();
 	}
 	
@@ -28,7 +28,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	}
 	
 	public override void HideUI () {
-		if (UIManager.Instance.nextScene == SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetail) {
 			fromUnitDetail = true; 
 			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
 				friendWindow.gameObject.SetActive (false);
@@ -58,24 +58,24 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 		}
 	}
 
-	public override void ResetUIState () {
-		state = 1;
-		if(baseItem != null)
-			baseItem.Refresh( null);
-		if(friendItem != null)
-			friendItem.Refresh( null);
-		if (materialItem != null) {
-			foreach (var item in materialItem.Values) {
-				if(item == null) {
-					continue;
-				}
-				item.Refresh(null);
-			}
-		}
-		if (materialUnit != null) 
-			materialUnit.Clear ();	
-		prevItem = null;
-	}
+//	public override void ResetUIState () {
+//		state = 1;
+//		if(baseItem != null)
+//			baseItem.Refresh( null);
+//		if(friendItem != null)
+//			friendItem.Refresh( null);
+//		if (materialItem != null) {
+//			foreach (var item in materialItem.Values) {
+//				if(item == null) {
+//					continue;
+//				}
+//				item.Refresh(null);
+//			}
+//		}
+//		if (materialUnit != null) 
+//			materialUnit.Clear ();	
+//		prevItem = null;
+//	}
 	
 	public void SetUnitDisplay(GameObject go) {
 		unitDisplay = go;
@@ -293,7 +293,7 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 	void LongPress (GameObject go) {
 		EvolveItem ei = evolveItem [go];
 
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, ei.userUnit);
 	}
 
@@ -495,9 +495,9 @@ public class EvolveDecoratorUnity : UIComponentUnity {
 						evolveInfoList.Add(tuu);
 					}
 				}
-				ExcuteCallback (evolveInfoList);
+//				ExcuteCallback (evolveInfoList);
 			});
-			UIManager.Instance.ChangeScene(SceneEnum.ResourceDownload);
+			UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownload);
 		};
 		sure.text = TextCenter.GetText("OK");
 		mwp.btnParam = sure;
@@ -567,7 +567,7 @@ public class EvolveItem {
 	}
 
 	void LongPress(GameObject target) {
-		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
 	}
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class EnemyItem : UIComponentUnity {
+public class EnemyItem : ViewBase {
     [HideInInspector]
     public TEnemyInfo enemyInfo;
     [HideInInspector]
@@ -214,9 +214,9 @@ public class EnemyItem : UIComponentUnity {
     }
 
     public override void DestoryUI() {
-		if (currentState == UIState.UIDestory) {
-			return;
-		}
+//		if (currentState == UIState.UIDestory) {
+//			return;
+//		}
         base.DestoryUI();
 		if (gameObject != null) {
 			Destroy(gameObject);

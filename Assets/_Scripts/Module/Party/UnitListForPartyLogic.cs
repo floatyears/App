@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitListForPartyLogic : ConcreteComponent{
+public class UnitListForPartyLogic : ModuleBase{
 	PartyUnitItem currentPickedUnit;
 //	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
 	List<TUserUnit> partyDataList = new List<TUserUnit>();
@@ -22,16 +22,16 @@ public class UnitListForPartyLogic : ConcreteComponent{
 //		DestoryUnitList();
 	}
 
-    public override void ResetUIState(bool clear) {
-        if (!clear){
-            return;
-        }
-        base.ResetUIState(clear);
-        DestoryUnitList();
-        GetOnPartyViewItemList();
-        CreateUnitList();
-
-    }
+//    public override void ResetUIState(bool clear) {
+//        if (!clear){
+//            return;
+//        }
+//        base.ResetUIState(clear);
+//        DestoryUnitList();
+//        GetOnPartyViewItemList();
+//        CreateUnitList();
+//
+//    }
 
 	void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.ActivateMyUnitDragPanelState, ActivatePickableState);
@@ -116,7 +116,7 @@ public class UnitListForPartyLogic : ConcreteComponent{
 		int position = (int)args;
 //		TUserUnit unitInfo = onPartyViewItemList [position - 1].DataItem;
 		TUserUnit unitInfo = partyDataList[position - 1];
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);	
 	}
 

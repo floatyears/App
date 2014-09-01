@@ -294,7 +294,7 @@ public class ResourceUpdate : MonoBehaviour {
 								
 								
 //								StartCoroutine(CallLater());
-								UIManager.Instance.ChangeScene (SceneEnum.Home);
+								UIManager.Instance.ChangeScene (ModuleEnum.Home);
 								MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
 								
 								Umeng.GA.FinishLevel ("NewUserDownload");
@@ -319,7 +319,7 @@ public class ResourceUpdate : MonoBehaviour {
 			} 
 //		else {
 //			if (this.transform.parent.name == "ResourceDownload(Clone)") {
-//				UIManager.Instance.ChangeScene (SceneEnum.Home);
+//				UIManager.Instance.ChangeScene (ModuleEnum.Home);
 //				MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
 ////				Umeng.GA.FinishLevel ("NewUserDownload");
 ////				Umeng.GA.EventEnd ("NewUserDownloadTime");
@@ -341,7 +341,7 @@ public class ResourceUpdate : MonoBehaviour {
 //
 //	IEnumerator CallLater(){
 //		yield return new WaitForSeconds(1f);
-//		UIManager.Instance.ChangeScene (SceneEnum.Home);
+//		UIManager.Instance.ChangeScene (ModuleEnum.Home);
 //		MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
 //	}
 

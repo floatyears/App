@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemCounterView : UIComponentUnity{
+public class ItemCounterView : ViewBase{
 	UILabel maxLabel;
 
-	public override void Init(UIInsConfig config,IUICallback origin) {
-		base.Init(config,origin);
+	public override void Init(UIInsConfig config) {
+		base.Init(config);
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
 		MsgCenter.Instance.AddListener (CommandEnum.HideItemCount, HideItemCount);
 		InitUIElement();

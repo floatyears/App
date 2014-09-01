@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class RewardComponent : ConcreteComponent {
+public class RewardComponent : ModuleBase {
 
 	public RewardComponent(string uiName):base(uiName){}
 	public override void ShowUI(){

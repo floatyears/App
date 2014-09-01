@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CardPoolSingleItem : UIComponentUnity 
+public class CardPoolSingleItem : ViewBase 
 {
 	protected UITexture templateBackTexture ;
 
@@ -36,9 +36,9 @@ public class CardPoolSingleItem : UIComponentUnity
 //	private GameObject tempObject;
 	private UITexture tempTexture;
 
-	public override void Init (string name)
+	public override void Init (UIInsConfig config)
 	{
-		base.Init (name);
+		base.Init (config);
 
 		cardPosition = new Vector3[Config.cardPoolSingle];
 
@@ -49,6 +49,8 @@ public class CardPoolSingleItem : UIComponentUnity
 		GameObject go = templateTexture.gameObject;
 
 		initPosition = go.transform.localPosition;
+
+		GameObject tempObject = null;
 
 		for (int i = 0; i < cardPosition.Length; i++) 
 		{
@@ -107,7 +109,7 @@ public class CardPoolSingleItem : UIComponentUnity
 			itemCardList.Add(cardItem);
 		}
 
-		itemCardList[0].Init(itemData.itemName);
+//		itemCardList[0].Init(itemData.itemName);
 
 		//itemCardList[0].SetTexture(image,backTexture.width,backTexture.height,location,id);
 //

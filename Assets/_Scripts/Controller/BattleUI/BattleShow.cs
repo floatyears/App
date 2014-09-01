@@ -1,13 +1,16 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class BattleShow : ConcreteComponent 
+public class BattleShow : ModuleBase 
 {
 	#region IUIInterface implementation
 
 	private ScrollView topUI;
 
 	private ScrollView downUI;
+
+	private	Dictionary<string, ViewBase> currentUIDic = new Dictionary<string, ViewBase> ();
 
 	public BattleShow(string uiName):base(uiName)
 	{
@@ -18,7 +21,7 @@ public class BattleShow : ConcreteComponent
 	{
 		ViewManager.Instance.GetViewObject("BattleShow" , o =>{
 			BattleShowUnity bsu = o  as BattleShowUnity;
-			currentUIDic.Add(bsu.UIName,bsu);
+			currentUIDic.Add(bsu.uiConfig.uiName,bsu);
 			
 			topUI = new ScrollView(bsu.TopLeft,bsu.TopRight,bsu.DragItem);
 			
@@ -61,7 +64,7 @@ public class BattleShow : ConcreteComponent
 
 	void ClickQuest(GameObject go)
 	{
-		ControllerManager.Instance.ChangeScene(SceneEnum.StageSelect);
+		UIManager.Instance.ChangeScene(ModuleEnum.StageSelect);
 	}
 
 }

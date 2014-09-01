@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleSkill : UIComponentUnity {
-	public override void Init (string name) {
-		base.Init (name);
+public class BattleSkill : ViewBase {
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 		InitUI ();
 	}
 
@@ -142,7 +143,7 @@ public class BattleSkill : UIComponentUnity {
 		bool notNull = sbi != null;
 		bool isCooling = notNull && (sbi.skillBase.skillCooling == 0);
 		isRecoveSP = notNull && sbi.GetType () == typeof(TSkillRecoverSP);
-		isBattle = battleQuest.battle.GetState == UIState.UIShow;
+//		isBattle = battleQuest.battle.GetState == UIState.UIShow;
 		if (notNull && isCooling) {
 			if(!isRecoveSP && !isBattle) {
 				boostButton.isEnabled = false;

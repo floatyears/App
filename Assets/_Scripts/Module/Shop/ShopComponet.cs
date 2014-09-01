@@ -13,7 +13,7 @@ public enum BuyFailType {
     NoNeedToBuy    = 2,
 }
 
-public class ShopComponent : ConcreteComponent {
+public class ShopComponent : ModuleBase {
 	
 	public ShopComponent(string uiName):base(uiName) {}
 	

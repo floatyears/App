@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ApplyView : UIComponentUnity{
+public class ApplyView : ViewBase{
 	private SortRule curSortRule;
 	private TFriendInfo curPickedFriend;
 	private DragPanel dragPanel;
 	private List<TFriendInfo> friendOutDataList = new List<TFriendInfo>();
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUIElement();
 	}
 	
@@ -35,7 +35,7 @@ public class ApplyView : UIComponentUnity{
 	private void CreateDragView(){
 		friendOutDataList = DataCenter.Instance.FriendList.FriendOut;
 		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(friendOutDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 		

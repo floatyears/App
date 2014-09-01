@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class EvolveComponent : ConcreteComponent, ICheckUIState {
+public class EvolveComponent : ModuleBase, ICheckUIState {
 	public EvolveComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {
@@ -20,7 +20,7 @@ public class EvolveComponent : ConcreteComponent, ICheckUIState {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 
-		if (UIManager.Instance.nextScene != SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetail) {
 			base.DestoryUI();
 		}
 	}
@@ -68,7 +68,7 @@ public class EvolveComponent : ConcreteComponent, ICheckUIState {
 		}
 
 		DataCenter.gameState = GameState.Evolve;
-		UIManager.Instance.ChangeScene (SceneEnum.StageSelect);
+		UIManager.Instance.ChangeScene (ModuleEnum.StageSelect);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 
 	}
@@ -86,9 +86,9 @@ public class EvolveComponent : ConcreteComponent, ICheckUIState {
 	private const uint EvolveCityID = 100;
 
 	void ReturnPreScene(object data) {
-		SceneEnum se = (SceneEnum)data;
-		bool showDetail = se == SceneEnum.UnitDetail;
-		bool enterEvolve = se == SceneEnum.StageSelect;
+		ModuleEnum se = (ModuleEnum)data;
+		bool showDetail = se == ModuleEnum.UnitDetail;
+		bool enterEvolve = se == ModuleEnum.StageSelect;
 		if (!showDetail && !enterEvolve) {
 			DataCenter.gameState = GameState.Normal;
 		}

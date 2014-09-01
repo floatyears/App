@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class PartyView : UIComponentUnity, IDragChangeView{
+public class PartyView : ViewBase, IDragChangeView{
 	public const int PARTY_MEMBER_COUNT = 4;
 	public const int UNIT_ITEM_START_POS = 1;
 	private SortRule curSortRule;
@@ -38,8 +38,8 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	private UILabel leaderSkillNameLabel;
 	private UILabel leaderSkillDscpLabel;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitPagePanel();
 		InitDragPanel();
 		InitPartyInfoPanel();
@@ -65,8 +65,8 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 
 	public override void HideUI(){
 		base.HideUI();
-		if(UIManager.Instance.baseScene.CurrentScene != SceneEnum.UnitDetail)
-			DataCenter.Instance.PartyInfo.ExitParty();
+//		if(UIManager.Instance.baseScene.CurrentScene != ModuleEnum.UnitDetail)
+//			DataCenter.Instance.PartyInfo.ExitParty();
 		RmvCmdListener();
 	}
 
@@ -415,7 +415,7 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 
 	private void InitDragPanel(){
 		dragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.PartyListDragPanelArgs, bottomRoot.transform);
 		InitRejectBtn();
 		InitUnitListView();

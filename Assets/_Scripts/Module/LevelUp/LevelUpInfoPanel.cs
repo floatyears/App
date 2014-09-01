@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class LevelUpInfoPanel : UIComponentUnity{
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+public class LevelUpInfoPanel : ViewBase{
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 	}
 	
 	public override void ShowUI(){

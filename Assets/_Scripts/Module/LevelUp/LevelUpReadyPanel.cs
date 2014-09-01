@@ -56,10 +56,10 @@
 //		}
 //	}
 //
-//	public override void Init(UIInsConfig config, IUICallback origin){
+//	public override void Init(UIInsConfig config){
 //        MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetAfterLevelUp);
 ////        MsgCenter.Instance.AddListener (CommandEnum.FocusLevelUpPanel, CallFocusOnTab);
-//		base.Init(config, origin);
+//		base.Init(config);
 //		InitUI();
 //	}
 //

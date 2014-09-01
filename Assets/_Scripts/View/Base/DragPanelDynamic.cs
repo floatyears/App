@@ -256,7 +256,7 @@ public class DragPanelDynamic {
 
 	void CreatPanel(GameObject parent) {
 		dragPanelView = NGUITools.AddChild( parent, DragPanelPrefab ).GetComponent<DragPanelView>(); 
-		dragPanelView.Init ( "DragPanelDynamic" );
+//		dragPanelView.Init ( "DragPanelDynamic" );
 		dragPanelView.grid.maxPerLine = this.maxPerLine;
 		dragPanelView.dragPanelDynamic = this;
 	}

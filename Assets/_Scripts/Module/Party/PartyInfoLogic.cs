@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PartyInfoLogic : ConcreteComponent {
+public class PartyInfoLogic : ModuleBase {
 	public PartyInfoLogic(string uiName):base(uiName) {}
 
 	public override void HideUI () {
@@ -12,7 +12,7 @@ public class PartyInfoLogic : ConcreteComponent {
 	}
 }
 
-public class UnitInfoLogic : ConcreteComponent {
+public class UnitInfoLogic : ModuleBase {
 	public UnitInfoLogic(string uiName):base(uiName) {}
 
 	public override void HideUI () {

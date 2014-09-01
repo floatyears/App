@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class SellView : UIComponentUnity{
+public class SellView : ViewBase{
 	private int totalSaleValue = 0;
 	private int maxItemCount = 12;
 	private DragPanel dragPanel;
@@ -21,15 +21,15 @@ public class SellView : UIComponentUnity{
 	private List<GameObject> pickItemList = new List<GameObject>();
 	private List<GameObject> readyItemList = new List<GameObject>();
 	
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUIElement();
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
-		ResetUIState();
+//		ResetUIState();
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
 		SortUnitByCurRule();
@@ -63,18 +63,18 @@ public class SellView : UIComponentUnity{
 		}
 	}
 
-    public override void ResetUIState() {
-		ResetUIElement();
-        SellController controller = origin as SellController;
-		mainRoot.transform.localPosition = pos;
-        if (controller != null){
-            controller.ResetUI();
-        }
-		else{
-			Debug.LogError("controller == null");
-		}
-
-    }
+//    public override void ResetUIState() {
+//		ResetUIElement();
+//        SellController controller = origin as SellController;
+//		mainRoot.transform.localPosition = pos;
+//        if (controller != null){
+//            controller.ResetUI();
+//        }
+//		else{
+//			Debug.LogError("controller == null");
+//		}
+//
+//    }
     Vector3 pos = Vector3.zero;
     void BackToMainWindow(object args) {
 		mainRoot.transform.localPosition = pos;
@@ -131,7 +131,7 @@ public class SellView : UIComponentUnity{
 	void ClickSellOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	void ClickSellCancel(GameObject btn){
@@ -262,7 +262,7 @@ public class SellView : UIComponentUnity{
 			picked.Add(sellUnitItem.UserUnit);
 		}
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", picked);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 	void ClickClearBtn(GameObject btn){
@@ -304,7 +304,7 @@ public class SellView : UIComponentUnity{
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
 		dragPanel = new DragPanel("OnSaleDragPanel", SellUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.OnSaleUnitDragPanelArgs, mainRoot.transform);
 		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {

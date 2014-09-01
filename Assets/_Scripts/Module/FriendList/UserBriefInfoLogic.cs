@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class UserBriefInfoLogic : ConcreteComponent{
+public class UserBriefInfoLogic : ModuleBase{
 	TUserUnit currentPickedUserUnit;
 
 	public UserBriefInfoLogic(string uiName):base(uiName){}
@@ -33,7 +33,7 @@ public class UserBriefInfoLogic : ConcreteComponent{
 	}
 
 	void ViewUserUnitDetailInfo(object args){
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
 		if (currentPickedUserUnit == null) return;
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, currentPickedUserUnit);
 	}

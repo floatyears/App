@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class OthersWindow : UIComponentUnity {
+public class OthersWindow : ViewBase {
 
 //	GameObject scrollerItem;
 //	DragPanel othersScroller;
@@ -21,10 +21,10 @@ public class OthersWindow : UIComponentUnity {
 
 	Dictionary< GameObject, GameObject > options = new Dictionary< GameObject, GameObject>();
 
-	public override void Init ( UIInsConfig config, IUICallback origin ){
+	public override void Init ( UIInsConfig config ){
 		FindUIElement();
 //		SetOption();
-		base.Init (config, origin);
+		base.Init (config);
 	}
 	
 	public override void ShowUI(){
@@ -87,30 +87,30 @@ public class OthersWindow : UIComponentUnity {
 	void ClicItems(GameObject obj){
 		switch (obj.name) {
 		case "Music":
-			UIManager.Instance.ChangeScene(SceneEnum.Music);
+			UIManager.Instance.ChangeScene(ModuleEnum.Music);
 			break;
 		case "Nickname":
-			UIManager.Instance.ChangeScene(SceneEnum.NickName);
+			UIManager.Instance.ChangeScene(ModuleEnum.NickName);
 			break;
 		case "Raider":
-			UIManager.Instance.ChangeScene(SceneEnum.Raider);
+			UIManager.Instance.ChangeScene(ModuleEnum.Raider);
 			break;
 		case "ResetData":
 			GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
 			GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
 			GameDataStore.Instance.StoreData("ResrouceDownload","");
 			GameDataStore.Instance.StoreData("ResourceComplete","");
-			UIManager.Instance.ChangeScene(SceneEnum.Loading);
+			UIManager.Instance.ChangeScene(ModuleEnum.Loading);
 			break;
 		case "Reward":
 //			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
-			UIManager.Instance.ChangeScene(SceneEnum.Reward);
+			UIManager.Instance.ChangeScene(ModuleEnum.Reward);
 			break;
 		case "Contact":
 			ShowContact();
 			break;
 		case "Notice":
-			UIManager.Instance.ChangeScene(SceneEnum.OperationNotice);
+			UIManager.Instance.ChangeScene(ModuleEnum.OperationNotice);
 			break;
 		}
 	}

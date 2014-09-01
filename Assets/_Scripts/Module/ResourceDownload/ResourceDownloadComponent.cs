@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class ResourceDownloadComponent : ConcreteComponent {
+public class ResourceDownloadComponent : ModuleBase {
 
 	public ResourceDownloadComponent(string uiName):base(uiName){}
 	

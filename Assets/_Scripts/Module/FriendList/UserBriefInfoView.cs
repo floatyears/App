@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UserBriefInfoView : UIComponentUnity{
+public class UserBriefInfoView : ViewBase{
 	GameObject window;
 	GameObject buttonChoose;
 	GameObject buttonViewInfo;
@@ -23,8 +23,8 @@ public class UserBriefInfoView : UIComponentUnity{
 	UISprite avatarTex;
 	
 	int originLayer = 1;
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUIElement();
 //		ShowSelf(false);
 	}
@@ -92,7 +92,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	void Choose(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 		ShowSelf(false);
 
 	}
@@ -100,7 +100,7 @@ public class UserBriefInfoView : UIComponentUnity{
 	void ViewInfo(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ViewDetailInfo", null);
-		ExcuteCallback(cbd);
+//		ExcuteCallback(cbd);
 		ShowSelf(false);
 	}
 	
@@ -164,7 +164,7 @@ public class UserBriefInfoView : UIComponentUnity{
 		//Debug.LogError("Receive delete click, call logic to respone.....");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 		ShowSelf(false);
 	}
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class PartyUnitsView : UIComponentUnity {
+public class PartyUnitsView : ViewBase {
 	DragPanel dragPanel;
 	GameObject unitItem;
 	GameObject rejectItem;
@@ -15,8 +15,8 @@ public class PartyUnitsView : UIComponentUnity {
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
 	List<TUserUnit> currentPaty = new List<TUserUnit>();
 	List<PartyUnitItem> partyViewList = new List<PartyUnitItem>();
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitDragPanel();
 	}
 
@@ -60,7 +60,7 @@ public class PartyUnitsView : UIComponentUnity {
 
 	DragPanel CreateDragPanel( string name, int count){
 		DragPanel panel = new DragPanel(name, unitItem);
-		panel.CreatUI();
+//		panel.CreatUI();
 		panel.AddItem( 1, rejectItem);
 		panel.AddItem( count, unitItem);
 		return panel;
@@ -69,13 +69,13 @@ public class PartyUnitsView : UIComponentUnity {
 	void ClickItem(PartyUnitItem puv){
 //		PartyUnitView puv = item.GetComponent<PartyUnitView>();
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", puv);
-		ExcuteCallback( cbd );
+//		ExcuteCallback( cbd );
 	}
 
 	void PressItem(GameObject item ){
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
 //		LogHelper.Log("PartyUnitsView.PressItem(), click drag item, call view respone...");
-		ExcuteCallback( cbd );
+//		ExcuteCallback( cbd );
 	}
 
 	void AddEventListener( GameObject item){
@@ -133,7 +133,7 @@ public class PartyUnitsView : UIComponentUnity {
 	void ClickRejectItem(GameObject go){
 		Debug.Log("PartyUnitsView.ClickRejectItem(), Receive reject item click, request logic...");
 		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickReject", null);
-		ExcuteCallback(cbd);
+//		ExcuteCallback(cbd);
 	}
 
 	void UpdateUnitItemEnableState(object args){
@@ -231,7 +231,7 @@ public class PartyUnitsView : UIComponentUnity {
 		partyViewList.Clear();
 		List<TUserUnit> data = args as List<TUserUnit>;
 		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(data.Count);
 //		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		

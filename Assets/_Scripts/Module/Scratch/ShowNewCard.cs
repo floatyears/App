@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class ShowNewCard : ConcreteComponent {
+public class ShowNewCard : ModuleBase {
 	public ShowNewCard(string name) : base(name) {
 
 	}

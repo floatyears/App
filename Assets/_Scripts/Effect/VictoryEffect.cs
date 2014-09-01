@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class VictoryEffect : UIComponentUnity {
+public class VictoryEffect : ViewBase {
 	private UISlider levelProgress;
 	private UILabel coinLabel;
 	private UILabel empiricalLabel;
@@ -37,8 +37,8 @@ public class VictoryEffect : UIComponentUnity {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		base.Init (config, origin);
+	public override void Init (UIInsConfig config) {
+		base.Init (config);
 		FindComponent ();
 	}
 
@@ -47,18 +47,18 @@ public class VictoryEffect : UIComponentUnity {
 		gameObject.SetActive (true);
 		MsgCenter.Instance.AddListener (CommandEnum.VictoryData, VictoryData);
 
-		UIManager.Instance.HideBaseScene ();
+//		UIManager.Instance.HideBaseScene ();
 
-		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == SceneEnum.ShowCardEffect) {
-			StartShowGetCard();
-		}
+//		if (UIManager.Instance.baseScene.PrevScene == ModuleEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == ModuleEnum.ShowCardEffect) {
+//			StartShowGetCard();
+//		}
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
 		MsgCenter.Instance.RemoveListener (CommandEnum.VictoryData, VictoryData);
-		UIManager.Instance.ShowBaseScene ();
+//		UIManager.Instance.ShowBaseScene ();
 	}
 
 	public override void DestoryUI () {
@@ -162,7 +162,7 @@ public class VictoryEffect : UIComponentUnity {
 			StartShowGetCard ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.Object.unitId);
-			UIManager.Instance.ChangeScene(SceneEnum.ShowCardEffect);
+			UIManager.Instance.ChangeScene(ModuleEnum.ShowCardEffect);
 			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, showUserUnit);
 		}
 	}
@@ -237,9 +237,9 @@ public class VictoryEffect : UIComponentUnity {
 		DestoryUI ();
 		if (DataCenter.gameState == GameState.Evolve) {
 			UnitDetailPanel.isEvolve = true;
-			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
 			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
-			UIManager.Instance.baseScene.PrevScene = SceneEnum.Home;
+//			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Home;
 			HideUI ();
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
@@ -248,13 +248,13 @@ public class VictoryEffect : UIComponentUnity {
 			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
 
 			if (!isNull && addFriend) {
-				UIManager.Instance.ChangeScene(SceneEnum.Result);
+				UIManager.Instance.ChangeScene(ModuleEnum.Result);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
 			} else {
 				DGTools.ChangeToQuest();
 			}
 		} else {
-			UIManager.Instance.ChangeScene (SceneEnum.Home);
+			UIManager.Instance.ChangeScene (ModuleEnum.Home);
 		}
 	}
 

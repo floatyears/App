@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Soomla;
 
-public class ShopView : UIComponentUnity {
+public class ShopView : ViewBase {
 	private Dictionary<string,UIButton> buttonDic = new Dictionary<string, UIButton>();
     private UIButton btnFriendsExpansion;
     private UIButton btnStaminaRecover;
@@ -15,8 +15,8 @@ public class ShopView : UIComponentUnity {
 
 	private DragPanel dragPanel;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		InitUI();
 
 		handler = new GameCurrencyEventHandler ();
@@ -112,7 +112,7 @@ public class ShopView : UIComponentUnity {
 
 
 		dragPanel = new DragPanel("RewardDragPanel", ShopItem.Prefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem (friendOutDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.ShopListDragPanelArgs,windowRoot.transform);
 
@@ -130,19 +130,19 @@ public class ShopView : UIComponentUnity {
     private void OnClickFriendExpansion( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoFriendExpansion", null);
-        ExcuteCallback(cbdArgs);
+//        ExcuteCallback(cbdArgs);
     }
 
     private void OnClickStaminaRecover( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoStaminaRecover", null);
-        ExcuteCallback(cbdArgs);
+//        ExcuteCallback(cbdArgs);
     }
 
     private void OnClickUnitExpansion( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoUnitExpansion", null);
-        ExcuteCallback(cbdArgs);
+//        ExcuteCallback(cbdArgs);
     }
 
 	private void ShowUIAnimation(){

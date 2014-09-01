@@ -61,7 +61,7 @@ public class BattleBottom : MonoBehaviour {
 			battleSkillObject = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 			battleSkillObject.layer = GameLayer.BottomInfo;
 			battleSkill = battleSkillObject.GetComponent<BattleSkill> ();
-			battleSkill.Init ("BattleSkill");
+//			battleSkill.Init ("BattleSkill");
 			battleSkillObject.transform.localPosition = new Vector3(2f, -110f, 0f);
 			battleSkillObject.SetActive (false);
 		});

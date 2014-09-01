@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class FriendHelperView : UIComponentUnity{
+public class FriendHelperView : ViewBase{
 	protected DragPanel generalDragPanel = null;
 	protected DragPanel premiumDragPanel = null;
 
@@ -16,8 +16,8 @@ public class FriendHelperView : UIComponentUnity{
 
 	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
 
-	public override void Init(UIInsConfig config, IUICallback origin) {
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config) {
+		base.Init(config);
 		InitUI();
 		transform.localPosition -= transform.parent.localPosition;
 		premiumBtn.gameObject.SetActive (false);
@@ -138,7 +138,7 @@ public class FriendHelperView : UIComponentUnity{
 		}
 
 		dragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		CustomDragPanel(dragPanel);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
@@ -180,7 +180,7 @@ public class FriendHelperView : UIComponentUnity{
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);
 		pickedInfo.Add("HelperInfo", item.FriendInfo);
 
-		UIManager.Instance.ChangeScene(SceneEnum.FightReady);//before
+		UIManager.Instance.ChangeScene(ModuleEnum.FightReady);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
 

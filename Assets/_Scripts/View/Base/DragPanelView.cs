@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanelView : UIComponentUnity {
+public class DragPanelView : ViewBase {
 	public const string DragPanelPath = "Prefabs/UI/Common/DragPanelView";
 
 	[HideInInspector]
@@ -19,17 +19,15 @@ public class DragPanelView : UIComponentUnity {
 	[HideInInspector]
 	public DragPanelDynamic dragPanelDynamic;
 
-	public override void Init (string name){
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 		clip = FindChild<UIPanel>("Scroll View");
 		scrollView = FindChild<UIScrollView>("Scroll View");
 		scrollBar = FindChild<UIScrollBar>("Scroll Bar");
 		grid = FindChild<UIGrid>("Scroll View/UIGrid");
 	}
 
-	public override void CreatUI (){
-		base.CreatUI ();
-	}
 
 	public override void ShowUI (){
 		base.ShowUI ();
@@ -44,6 +42,8 @@ public class DragPanelView : UIComponentUnity {
 	}
 	int a = 0;
 	public GameObject AddObject(GameObject obj) {
+		GameObject tempObject = null;
+
 		tempObject = NGUITools.AddChild (grid.gameObject, obj);
 
 		tempObject.name = a.ToString();
@@ -64,7 +64,8 @@ public class DragPanelView : UIComponentUnity {
 	}
 
 	public GameObject AddObject(GameObject obj, int name) {
-		
+		GameObject tempObject = null;
+
 		tempObject = NGUITools.AddChild (grid.gameObject, obj);
 		
 		tempObject.name = name.ToString();

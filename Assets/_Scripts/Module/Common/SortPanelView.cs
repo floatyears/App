@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SortPanelView : UIComponentUnity {
+public class SortPanelView : ViewBase {
 	private UIButton sortBtn;
 	private UILabel sortBtnLabel;
 	private UISprite sortBtnMask;
@@ -11,8 +11,8 @@ public class SortPanelView : UIComponentUnity {
 	SortRule targetRule = SortRule.None;
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitBtns();
 	}
 
@@ -109,33 +109,33 @@ public class SortPanelView : UIComponentUnity {
 			
 		SortRuleByUI srui = 0;
 
-		switch(UIManager.Instance.baseScene.CurrentScene) {
-			case SceneEnum.Apply:
-				srui = SortRuleByUI.ApplyView;
-				break;
-			case SceneEnum.Sell:
-				srui = SortRuleByUI.SellView;
-				break;
-			case SceneEnum.FriendList:
-				srui = SortRuleByUI.FriendListView;
-				break;
-			case SceneEnum.Party:
-				srui = SortRuleByUI.PartyView;
-				break;
-			case SceneEnum.LevelUp:
-				srui = SortRuleByUI.LevelUp;
-				break;
-			case SceneEnum.Evolve:
-				srui = SortRuleByUI.Evolve;
-				break;
-			case SceneEnum.UnitList:
-				srui = SortRuleByUI.MyUnitListView;
-			break;
-//		case SceneEnum.Evolve:
-//			srui = SortRuleByUI.
-			default:
-				break;
-		}
+//		switch(UIManager.Instance) {
+//			case ModuleEnum.Apply:
+//				srui = SortRuleByUI.ApplyView;
+//				break;
+//			case ModuleEnum.Sell:
+//				srui = SortRuleByUI.SellView;
+//				break;
+//			case ModuleEnum.FriendList:
+//				srui = SortRuleByUI.FriendListView;
+//				break;
+//			case ModuleEnum.Party:
+//				srui = SortRuleByUI.PartyView;
+//				break;
+//			case ModuleEnum.LevelUp:
+//				srui = SortRuleByUI.LevelUp;
+//				break;
+//			case ModuleEnum.Evolve:
+//				srui = SortRuleByUI.Evolve;
+//				break;
+//			case ModuleEnum.UnitList:
+//				srui = SortRuleByUI.MyUnitListView;
+//			break;
+////		case ModuleEnum.Evolve:
+////			srui = SortRuleByUI.
+//			default:
+//				break;
+//		}
 
 		SortRule sr = SortUnitTool.GetSortRule (srui);
 		foreach (var item in sortRuleSelectDic) {

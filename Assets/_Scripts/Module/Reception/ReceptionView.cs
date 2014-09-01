@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ReceptionView : UIComponentUnity {
+public class ReceptionView : ViewBase {
 	private SortRule curSortRule;
 	private TFriendInfo curPickedFriend;
 	private DragPanel dragPanel;
 	private UIButton refuseAllBtn;
 	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
 
-	public override void Init(UIInsConfig config, IUICallback origin){
+	public override void Init(UIInsConfig config){
 //		Debug.LogError("ReceptionView Init 1");
-		base.Init(config, origin);
+		base.Init(config);
 //		Debug.LogError("ReceptionView Init 2");
 		InitUIElement();
 //		Debug.LogError("ReceptionView Init 3");
@@ -54,7 +54,7 @@ public class ReceptionView : UIComponentUnity {
 //		Debug.LogError("CreateDragView(), Reception...");
 		friendInDataList = DataCenter.Instance.FriendList.FriendIn;
 		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitItem.ItemPrefab);
-		dragPanel.CreatUI();
+//		dragPanel.CreatUI();
 		dragPanel.AddItem(friendInDataList.Count);
 		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 		
@@ -205,7 +205,7 @@ public class ReceptionView : UIComponentUnity {
 	}
 
 	void CallBackScratchScene(object args){
-		UIManager.Instance.ChangeScene(SceneEnum.Shop);
+		UIManager.Instance.ChangeScene(ModuleEnum.Shop);
 	}
 
 	private void SortUnitByCurRule(){

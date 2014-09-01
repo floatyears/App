@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class GachaWindowLogic : ConcreteComponent {
+public class GachaWindowLogic : ModuleBase {
 
     protected string titleText = "";
 

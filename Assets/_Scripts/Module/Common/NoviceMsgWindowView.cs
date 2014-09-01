@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public sealed class GuidePicPath{
@@ -37,7 +37,7 @@ public class GuideWindowParams{
 	public bool fullScreenClick = true;
 }
 
-public class NoviceMsgWindowView : UIComponentUnity{
+public class NoviceMsgWindowView : ViewBase{
 
 	UISprite guidePicTex;
 	GameObject guideAtlas;
@@ -71,9 +71,9 @@ public class NoviceMsgWindowView : UIComponentUnity{
 	private int chagnedWidth = 360;
 
 	
-	public override void Init(UIInsConfig config, IUICallback origin){
+	public override void Init(UIInsConfig config){
 		FindUIElement();
-		base.Init(config, origin);
+		base.Init(config);
 	}
 	
 	public override void ShowUI(){

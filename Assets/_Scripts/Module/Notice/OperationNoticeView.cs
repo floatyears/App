@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class OperationNoticeView : UIComponentUnity {
+public class OperationNoticeView : ViewBase {
 
 	private bool firstShow = true;
 
@@ -21,8 +21,8 @@ public class OperationNoticeView : UIComponentUnity {
 
 //	private GameObject okBtn;
 
-	public override void Init(UIInsConfig config, IUICallback origin) {
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config) {
+		base.Init(config);
 		InitUI();
 	}
 
@@ -138,10 +138,10 @@ public class OperationNoticeView : UIComponentUnity {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
 		bool backHome = false;
-		if (UIManager.Instance.baseScene.PrevScene == SceneEnum.Others)
-			backHome = true;
+//		if (UIManager.Instance.baseScene.PrevScene == ModuleEnum.Others)
+//			backHome = true;
 		if (!backHome) {
-			UIManager.Instance.ChangeScene (SceneEnum.Home);
+			UIManager.Instance.ChangeScene (ModuleEnum.Home);
 			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
 			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 && firstShow) {
 				//			Debug.LogError ("show Reward scene... ");
@@ -149,16 +149,16 @@ public class OperationNoticeView : UIComponentUnity {
 				firstShow = false;
 				foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
 					if(item.enabled == 1){
-						UIManager.Instance.ChangeScene (SceneEnum.Reward);
+						UIManager.Instance.ChangeScene (ModuleEnum.Reward);
 						return;
 					}
 				}
-//				UIManager.Instance.ChangeScene (SceneEnum.Reward);
+//				UIManager.Instance.ChangeScene (ModuleEnum.Reward);
 //				MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 //				HideUI();
 			}	
 		}else{
-			UIManager.Instance.ChangeScene(SceneEnum.Others);
+			UIManager.Instance.ChangeScene(ModuleEnum.Others);
 //			HideUI();
 		}
 

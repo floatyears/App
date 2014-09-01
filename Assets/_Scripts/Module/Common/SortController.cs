@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class SortController : ConcreteComponent {
+public class SortController : ModuleBase {
 	public SortController(string uiName) : base(uiName){}
 
 	public override void CreatUI () {

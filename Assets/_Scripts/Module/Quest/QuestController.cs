@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class QuestController : ConcreteComponent{
+public class QuestController : ModuleBase{
 	private List<TCityInfo> storyCityList = new List<TCityInfo>();
 	private List<TStageInfo> storyStageList = new List<TStageInfo>();
 
@@ -66,7 +66,7 @@ public class QuestController : ConcreteComponent{
 		if (stageSelected != null) {
 
 				ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
-				UIManager.Instance.ChangeScene(SceneEnum.StageSelect);
+				UIManager.Instance.ChangeScene(ModuleEnum.StageSelect);
 				MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 
 		}

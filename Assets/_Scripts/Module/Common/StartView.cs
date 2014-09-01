@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class StartScene : ConcreteComponent {
+public class StartModule : ModuleBase {
 //	StartDecorator dis;
-    StartDecorator dis;
-	public StartScene(string uiName) : base(uiName) {}
+    StartScene dis;
+	public StartModule(string uiName) : base(uiName) {}
 	
 	public override void CreatUI () {}
 
@@ -16,33 +16,33 @@ public class StartScene : ConcreteComponent {
 
 	public override void DestoryUI () {}
 
-	private SceneEnum currentScene = SceneEnum.None;
+	private ModuleEnum currentScene = ModuleEnum.None;
 
-	public SceneEnum CurrentScene {
+	public ModuleEnum CurrentScene {
 		get {return currentScene ;}
 		set {currentScene = value;}
 	}
 
-	private SceneEnum prevScene = SceneEnum.None;
-	public SceneEnum PrevScene {
+	private ModuleEnum prevScene = ModuleEnum.None;
+	public ModuleEnum PrevScene {
 		get { return prevScene; }
 		set { prevScene = value; }
 
 	}
 
-	public void SetScene(SceneEnum sEnum) {
+	public void SetScene(ModuleEnum sEnum) {
 //		Debug.LogError ("senum : " + sEnum);
-		if (prevScene != SceneEnum.None && prevScene == currentScene) {
+		if (prevScene != ModuleEnum.None && prevScene == currentScene) {
 			return;		
 		}
 
 		prevScene = currentScene;
 		currentScene = sEnum;
 
-		if (sEnum == SceneEnum.Start) {
-			dis = new StartDecorator (sEnum);
-			dis.SetDecorator (this);
-			dis.DecoratorScene ();
+		if (sEnum == ModuleEnum.Start) {
+			dis = new StartScene (sEnum);
+//			dis.SetDecorator (this);
+			dis.InitSceneList ();
 //			dis.ShowScene ();
 		}
 	}

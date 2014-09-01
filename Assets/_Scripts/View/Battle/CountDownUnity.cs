@@ -1,24 +1,21 @@
 using UnityEngine;
 using System.Collections;
 
-public class CountDownUnity : UIComponentUnity {
+public class CountDownUnity : ViewBase {
 //	private UISprite numberSprite;
 	private UILabel numberLabel;
 	private UISprite circleSprite;
 	private float countDownValue = 1f;
 	private bool Stop = true;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 //		numberSprite = FindChild<UISprite>("Number");
 		numberLabel = FindChild<UILabel>("Number");
 		circleSprite = FindChild<UISprite>("Circle");
 		transform.localPosition = new Vector3 (0f, 100f, 0f);
 		HideUI ();
-	}
-
-	public override void CreatUI () {
-		base.CreatUI ();
 	}
 
 	public override void DestoryUI () {

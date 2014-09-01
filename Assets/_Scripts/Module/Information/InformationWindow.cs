@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InformationWindow : UIComponentUnity {
+public class InformationWindow : ViewBase {
 	
-	public override void Init(UIInsConfig config, IUICallback origin)
+	public override void Init(UIInsConfig config)
 	{
-		base.Init(config, origin);
+		base.Init(config);
 		InitUI();
 	}
 

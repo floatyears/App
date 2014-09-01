@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class UserIDWindow : UIComponentUnity, IUICallback{
+public class UserIDWindow : ViewBase{
 	UILabel idLabel;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 	}
 
@@ -50,7 +50,7 @@ public class UserIDWindow : UIComponentUnity, IUICallback{
 
 	void ClickButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene(SceneEnum.Friends);
+		UIManager.Instance.ChangeScene(ModuleEnum.Friends);
 	}
 
 	void ShowTween(){

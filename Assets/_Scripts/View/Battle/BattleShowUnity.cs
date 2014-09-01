@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleShowUnity : UIComponentUnity 
+public class BattleShowUnity : ViewBase 
 {
 	private Transform topLeft;
 	public Transform TopLeft
@@ -34,9 +34,9 @@ public class BattleShowUnity : UIComponentUnity
 		get{return dragItem;}
 	}
 
-	public override void Init (string name)
+	public override void Init (UIInsConfig config)
 	{
-		base.Init (name);
+		base.Init (config);
 
 		topLeft = transform.Find("Top_Left");
 		topRight = transform.Find("Top_Right");

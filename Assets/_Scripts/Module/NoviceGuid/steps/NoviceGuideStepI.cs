@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //level up
@@ -51,7 +51,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 //			break;
 //		}
 
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(leaderId).gameObject;
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView>().GetPartyUnitItem(leaderId).gameObject;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
 
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem;
@@ -80,9 +80,9 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 
 	private void ClickOK1(object data){
 
-		GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().SetItemVisible(67);
+		GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView>().SetItemVisible(67);
 //		GameTimer.GetInstance ().AddCountDown (1f, Callback);
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity> ().GetPartyUnitItem (67).gameObject;
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView> ().GetPartyUnitItem (67).gameObject;
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3 (0, 0, 2)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
@@ -91,7 +91,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	}
 
 	private void Callback(){
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity> ().GetPartyUnitItem (67).gameObject;
+		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView> ().GetPartyUnitItem (67).gameObject;
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3 (0, 0, 2)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
@@ -304,7 +304,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 //		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
 //		NoviceGuideUtil.ForceOneBtnClick (gm);
 
-		UIManager.Instance.ChangeScene (SceneEnum.Scratch);
+		UIManager.Instance.ChangeScene (ModuleEnum.Scratch);
 	}
 
 	private void OnClickBack(GameObject gm){

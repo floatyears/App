@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class SearchFriendWindow : UIComponentUnity{
+public class SearchFriendWindow : ViewBase{
 	UIButton buttonSearch;
 	UIInput input;
 	
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitWindow();
 	}
 
@@ -30,7 +30,7 @@ public class SearchFriendWindow : UIComponentUnity{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		//Debug.LogError("SearchFriendWindow.ClickButton(),  call controller respones....");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSearch", input.value);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 	
 }

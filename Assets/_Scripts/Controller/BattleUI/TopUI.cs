@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TopUI : UIComponentUnity {
+public class TopUI : ViewBase {
 	[HideInInspector]
 	public UILabel coinLabel;
 	private UILabel dropLabel;
@@ -16,8 +16,11 @@ public class TopUI : UIComponentUnity {
 
 	private BattleMenu battleMenu;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
+//	}
+//		base.Init (name);
 
 		coinLabel = FindChild<UILabel> ("Top/CoinLabel");
 		dropLabel = FindChild<UILabel> ("Top/DropLabel");
@@ -123,7 +126,7 @@ public class TopUI : UIComponentUnity {
 			go.layer = GameLayer.BottomInfo;
 			battleMenu = go.GetComponent<BattleMenu> ();
 			battleMenu.battleQuest = battleQuest;
-			battleMenu.Init ("BattleMenu");
+//			battleMenu.Init ("BattleMenu");
 			battleMenu.ShowUI();
 		});
 

@@ -12,7 +12,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MsgWindowLogic : ConcreteComponent{
+public class MsgWindowLogic : ModuleBase{
     public MsgWindowLogic(string uiName):base(uiName){
 		AddListener ();
 	}

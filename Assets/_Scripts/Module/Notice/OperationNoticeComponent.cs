@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class OperationNoticeComponent : ConcreteComponent {
+public class OperationNoticeComponent : ModuleBase {
 
 	public OperationNoticeComponent(string uiName):base(uiName){}
 	public override void ShowUI(){

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleCardArea : UIComponentUnity {
+public class BattleCardArea : ViewBase {
 	private UISprite backTexture;
 	[HideInInspector]
 	public BattleCardAreaItem[] battleCardAreaItem;
@@ -23,14 +23,15 @@ public class BattleCardArea : UIComponentUnity {
 	public static Vector3 activeSkillStartPosition;
 	public static Vector3 activeSkillEndPosition;
 
-	public override void Init (string name) {
-		base.Init (name); 
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 		backTexture = FindChild<UISprite>("Back"); 
 		backTexture.gameObject.SetActive(false);
 		stateLabel = FindChild<UILabel>("StateLabel");
 		stateLabel.text = string.Empty;
 		if (cardItem == null) {
-			LoadAsset.Instance.LoadAssetFromResources (Config.battleCardName, ResourceEuum.Prefab,o=>{
+			ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + Config.battleCardName,o=>{
 				GameObject go = o as GameObject;
 				cardItem = go.transform.Find("Texture").gameObject;
 			});
@@ -152,13 +153,16 @@ public class BattleCardArea : UIComponentUnity {
 		HidePosition = stateLabel.transform.localPosition + Vector3.right * -(stateLabel.mainTexture.width + Screen.width * 0.5f);
 		stateLabel.enabled = true;
 		int length = position.Length;
+
+		GameObject tempObject = null;
+
 		for (int i = 0; i < length; i++) {
 				tempObject = NGUITools.AddChild (gameObject, backTexture.gameObject);
 				tempObject.SetActive (true);
 				tempObject.layer = GameLayer.BattleCard;
 				tempObject.transform.localPosition = new Vector3 (position [i].x + 5f, position [i].y + 3f + height, position [i].z);
 				BattleCardAreaItem bca = tempObject.AddComponent<BattleCardAreaItem> ();
-				bca.Init (tempObject.name);
+//				bca.Init (tempObject.name);
 				bca.AreaItemID = i;
 				battleCardAreaItem [i] = bca;
 		}

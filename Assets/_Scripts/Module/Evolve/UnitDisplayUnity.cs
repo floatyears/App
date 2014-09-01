@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitDisplayUnity : UIComponentUnity {
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		base.Init (config, origin);
+public class UnitDisplayUnity : ViewBase {
+	public override void Init (UIInsConfig config) {
+		base.Init (config);
 		InitUI ();
 	}
 
@@ -38,9 +38,9 @@ public class UnitDisplayUnity : UIComponentUnity {
 		unitItemDragPanel.DestoryDragPanel ();
 	}
 
-	public override void ResetUIState () {
-		state = 1;
-	}
+//	public override void ResetUIState () {
+//		state = 1;
+//	}
 
 	public override void CallbackView (object data) {
 		Dictionary<string,object> dic = data as Dictionary<string,object>;
@@ -85,7 +85,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 			selectBase = evolveItem.UserUnit;
 			TranferData.Clear();
 			TranferData.Add(SelectBase, selectBase);
-			ExcuteCallback(TranferData);
+//			ExcuteCallback(TranferData);
 
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 

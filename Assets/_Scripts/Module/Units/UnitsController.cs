@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitsController : ConcreteComponent, IUICallback {
+public class UnitsController : ModuleBase {
 	TUnitParty unitPartyInfo;
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
@@ -23,7 +23,7 @@ public class UnitsController : ConcreteComponent, IUICallback {
 
 	public void CallbackView (object data){
 		try {
-			SceneEnum se = (SceneEnum)data;
+			ModuleEnum se = (ModuleEnum)data;
 			UIManager.Instance.ChangeScene(se);
 		} 
 		catch (System.Exception ex) {

@@ -11,9 +11,9 @@ public class CardPoolMutilItem : CardPoolSingleItem
 	
 	Vector3 scale;
 
-	public override void Init (string name)
+	public override void Init (UIInsConfig config)
 	{
-		base.Init (name);
+		base.Init (config);
 
 		//backTexture.depth = GetDepth(-1);
 
@@ -54,7 +54,7 @@ public class CardPoolMutilItem : CardPoolSingleItem
 
 		CardItem card = go.GetComponent<CardItem>();
 
-		card.Init(go.name);
+//		card.Init(go.name);
 
 		card.ActorTexture.enabled = true;
 

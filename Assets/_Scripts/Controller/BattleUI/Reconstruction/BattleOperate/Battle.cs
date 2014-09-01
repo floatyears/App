@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Battle : ConcreteComponent {
+public class Battle : ModuleBase {
 	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
@@ -71,6 +71,8 @@ public class Battle : ConcreteComponent {
 	private int initEnd = 0;
 
 	public override void CreatUI () {
+		base.CreatUI ();
+
 		initEnd = 0;
 
 		CreatBack ();
@@ -79,10 +81,10 @@ public class Battle : ConcreteComponent {
 		CreatEnemy ();
 		CreatCountDown ();
 
-		AddSelfObject (battleCardPool);
-		AddSelfObject (battleCard);
-		AddSelfObject (battleCardArea);
-		AddSelfObject (battleEnemy);
+//		AddSelfObject (battleCardPool);
+//		AddSelfObject (battleCard);
+//		AddSelfObject (battleCardArea);
+//		AddSelfObject (battleEnemy);
 	}
 
 	public override void ShowUI() {
@@ -462,11 +464,11 @@ public class Battle : ConcreteComponent {
 		string name = "CountDown";
 		GetPrefabsObject (name,o=>{
 			tempObject = o as GameObject;
-			tempObject.transform.parent = viewManager.CenterPanel.transform;
+			tempObject.transform.parent = ViewManager.Instance.CenterPanel.transform;
 
 			countDownUI = tempObject.GetComponent<CountDownUnity> ();
 //			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
-			countDownUI.Init ("CountDown");
+//			countDownUI.Init ("CountDown");
 
 			initEnd++;
 		});
@@ -477,7 +479,7 @@ public class Battle : ConcreteComponent {
 		GetPrefabsObject(backName, o=>{
 			tempObject = o as GameObject;
 			battleCardPool = tempObject.AddComponent<BattleCardPool>();
-			battleCardPool.Init(backName);
+//			battleCardPool.Init(backName);
 			NGUITools.AddWidgetCollider(tempObject);
 			BoxCollider bc = tempObject.GetComponent<BoxCollider> ();
 			battleCardPool.XRange = bc.size.x;
@@ -494,7 +496,7 @@ public class Battle : ConcreteComponent {
 			tempObject.layer = GameLayer.ActorCard;
 			battleCard = tempObject.AddComponent<BattleCard>();
 			battleCard.CardPosition = battleCardPool.CardPosition;
-			battleCard.Init(Config.battleCardName);
+//			battleCard.Init(Config.battleCardName);
 			battleCard.battleCardArea = battleCardArea;
 
 			initEnd++;
@@ -523,7 +525,7 @@ public class Battle : ConcreteComponent {
 			tempObject.layer = GameLayer.BattleCard;
 			battleCardArea = tempObject.AddComponent<BattleCardArea>();
 			battleCardArea.BQuest = this;
-			battleCardArea.Init(areaName);
+//			battleCardArea.Init(areaName);
 			battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
 
 			initEnd++;
@@ -538,7 +540,7 @@ public class Battle : ConcreteComponent {
 			tempObject.layer = GameLayer.EnemyCard;
 			battleEnemy = tempObject.AddComponent<BattleEnemy>();
 			battleEnemy.battle = this;
-			battleEnemy.Init(enemyName);
+//			battleEnemy.Init(enemyName);
 			battleEnemy.ShowUI ();
 
 			initEnd++;
@@ -575,7 +577,7 @@ public class Battle : ConcreteComponent {
 
 
 	void GetPrefabsObject(string name,ResourceCallback callback) {
-		LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab,o =>{
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name,o =>{
 			tempObject = o  as GameObject;
 			GameObject go = GameObject.Instantiate(tempObject) as GameObject;
 			
@@ -616,11 +618,11 @@ public class Battle : ConcreteComponent {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-		main.GInput.IsCheckInput = !isShield;
+		Main.Instance.GInput.IsCheckInput = !isShield;
 	}
 
 	public void ShieldGameInput(bool isShield) {
-		main.GInput.IsCheckInput = isShield;
+		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 
 	public void ShieldNGUIInput(bool isShield) {
@@ -635,7 +637,7 @@ public class Battle : ConcreteComponent {
 //			return;	
 //		}
 		nguiMainCamera.enabled = isShield;
-		main.GInput.IsCheckInput = isShield;
+		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 
 	void HandleOnPressEvent () {
@@ -715,12 +717,12 @@ public class Battle : ConcreteComponent {
 		Vector3 point = selectTarget[0].transform.localPosition;
 		int indexID = battleCardPool.CaculateSortIndex(point);
 		if(indexID >= 0) {
-			main.GInput.IsCheckInput = false;
+			Main.Instance.GInput.IsCheckInput = false;
 			if(battleCard.SortCard(indexID, selectTarget)) {
 				battleCard.CallBack += HandleCallBack;
 			}
 			else {
-				main.GInput.IsCheckInput = true; 
+				Main.Instance.GInput.IsCheckInput = true; 
 				ResetClick();
 			}
 		}
@@ -731,19 +733,19 @@ public class Battle : ConcreteComponent {
 	
 	void HandleCallBack () {
 		battleCard.CallBack -= HandleCallBack;
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 		ResetClick();
 	}
 
 	void TweenCallback(GameObject go) {
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 	}
 	
 	private BattleCardAreaItem prevTempBCA;
 
 	void DisposeOnDrag(Vector2 obj) {
 		SetDrag();
-		Vector3 vec = ChangeCameraPosition(obj) - viewManager.ParentPanel.transform.localPosition;
+		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
 
 		for (int i = 0; i < selectTarget.Count; i++) {
 			selectTarget [i].OnDrag (vec, i);
@@ -801,7 +803,7 @@ public class Battle : ConcreteComponent {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
 				EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.DragCard, returnValue => {
 					GameObject prefab = returnValue as GameObject;
-					GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, prefab);
+					GameObject effectIns = EffectManager.InstantiateEffect(ViewManager.Instance.EffectPanel, prefab);
 					Transform card = ci.transform;
 					effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;}
 				);

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneInfoBar : UIComponentUnity
+public class SceneInfoBar : ViewBase
 {
 	private UIImageButton backBtn;
 	public UIImageButton BackBtn 
@@ -20,11 +20,12 @@ public class SceneInfoBar : UIComponentUnity
 	}
 	
 	void Start(){
-		Init("SceneInoBar");
+//		Init("SceneInoBar");
 	}
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
 		uiTitleLab = FindChild<UILabel>("Lab_UI_Name");
 		backBtn = FindChild<UIImageButton>("ImgBtn_Arrow");
 	}

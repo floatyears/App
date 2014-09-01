@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class CardContainer : UIComponentUnity
+public class CardContainer : ViewBase
 {
 
 	public List<GameObject> cardQueue;

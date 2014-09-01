@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class LevelUpMaterialWindow : UIComponentUnity {
+public class LevelUpMaterialWindow : ViewBase {
 	DragPanel materialDragPanel;
 	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 	}
 
@@ -74,7 +74,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 
 	void PressItem(GameObject item){  
 		UserUnit unitInfo = materialUnitInfoDic[ item ];
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 	}
 
@@ -93,7 +93,7 @@ public class LevelUpMaterialWindow : UIComponentUnity {
 	
 	private DragPanel CreateDragPanel( string name, int count, GameObject item){
 		DragPanel panel = new DragPanel(name,item);
-		panel.CreatUI();
+//		panel.CreatUI();
 		panel.AddItem( count);
 		return panel;
 	}

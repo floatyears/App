@@ -22,14 +22,14 @@ public class UIManager {
 	private UIManager () {
 //		InitUIManager ();
 		camera = Main.Instance.NguiCamera;
-		baseScene = new StartScene ("Game Start");
+//		baseScene = new StartScene ("Game Start");
 	}
 
 	public void InitUIManager () {
-		baseScene = new StartScene ("Game Start");
-		baseScene.CreatUI ();
-		baseScene.ShowUI ();
-		ChangeScene (SceneEnum.Start);
+//		baseScene = new StartScene ("Game Start");
+//		baseScene.CreatUI ();
+//		baseScene.ShowUI ();
+		ChangeScene (ModuleEnum.Start);
 	}
 
 	/// <summary>
@@ -40,20 +40,20 @@ public class UIManager {
 	/// <summary>
 	/// current scene class
 	/// </summary>
-	public DecoratorBase current;
+	public SceneBase current;
 
-	private DecoratorBase currentPopUp;
+	private SceneBase currentPopUp;
 
-	private SceneEnum storePrevScene = SceneEnum.None;
+	private ModuleEnum storePrevScene = ModuleEnum.None;
 
-	private Dictionary<SceneEnum,DecoratorBase> sceneDecorator = new Dictionary<SceneEnum, DecoratorBase>();
+	private Dictionary<ModuleEnum,SceneBase> sceneDecorator = new Dictionary<ModuleEnum, SceneBase>();
 
 	/// <summary>
 	/// add ui to uimanager
 	/// </summary>
 	/// <param name="uiName">ui name.</param>
 	/// <param name="ui">ui object.</param>
-	public void AddUIObject(SceneEnum sEnum, DecoratorBase decorator) {
+	public void AddUIObject(ModuleEnum sEnum, SceneBase decorator) {
 		if(!sceneDecorator.ContainsKey(sEnum))
 			sceneDecorator.Add(sEnum,decorator);
 		else
@@ -65,7 +65,7 @@ public class UIManager {
 	/// </summary>
 	/// <returns><c>true</c> if this instance has user interface object the specified uiName; otherwise, <c>false</c>.</returns>
 	/// <param name="uiName">ui name.</param>
-	public bool HasUIObject(SceneEnum sEnum) {
+	public bool HasUIObject(ModuleEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum))
 			return true;
 		
@@ -77,7 +77,7 @@ public class UIManager {
 	/// </summary>
 	/// <returns>ui object.</returns>
 	/// <param name="uiName">ui name.</param>
-	public DecoratorBase GetUI(SceneEnum sEnum) {
+	public SceneBase GetUI(ModuleEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum))
 			return sceneDecorator[sEnum];
 		else
@@ -88,7 +88,7 @@ public class UIManager {
 	/// Remove UI
 	/// </summary>
 	/// <param name="uiName">User interface name.</param>
-	public void RemoveUI(SceneEnum sEnum) {
+	public void RemoveUI(ModuleEnum sEnum) {
 		if(sceneDecorator.ContainsKey(sEnum)) {
 			if(current == sceneDecorator[sEnum] || currentPopUp == sceneDecorator[sEnum])
 				return;
@@ -104,15 +104,15 @@ public class UIManager {
 		if(sceneDecorator.ContainsKey(storePrevScene)) {
 			sceneDecorator.Remove(storePrevScene);
 		}
-		storePrevScene = SceneEnum.None;
+		storePrevScene = ModuleEnum.None;
 	}
 
 	public void EnterBattle () {
-		baseScene.CurrentScene = SceneEnum.Fight;
+//		baseScene.CurrentScene = ModuleEnum.Fight;
 		ClearAllUIObject ();
 		Resources.UnloadUnusedAssets ();
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
-		ControllerManager.Instance.ChangeScene(SceneEnum.Fight);
+		UIManager.Instance.ChangeScene(ModuleEnum.Fight);
 	}
 
 	public void ExitBattle () {
@@ -120,18 +120,18 @@ public class UIManager {
 		DGTools.ChangeToQuest();
 	}
 
-	public void HideBaseScene () {
-		baseScene.HideBase ();
-	}
+//	public void HideBaseScene () {
+////		baseScene.HideBase ();
+//	}
+//
+//	public void ShowBaseScene () {
+////		baseScene.ShowBase ();
+//	}
 
-	public void ShowBaseScene () {
-		baseScene.ShowBase ();
-	}
-
-	public SceneEnum nextScene;	
+	public ModuleEnum nextScene;	
 	private UICamera camera;
 
-	public void ChangeScene(SceneEnum sEnum) {
+	public void ChangeScene(ModuleEnum sEnum) {
 		camera.enabled = false;
 
 		if (forbidChangeScene) {
@@ -141,10 +141,10 @@ public class UIManager {
 
 		SwitchGameState (sEnum);
 
-		if (baseScene.CurrentScene == sEnum) {
-			camera.enabled = true;
-			return;
-		} else {
+//		if (baseScene.CurrentScene == sEnum) {
+//			camera.enabled = true;
+//			return;
+//		} else {
 			nextScene = sEnum;
 			InvokeSceneClear (sEnum);
 			if(CheckIsPopUpWindow(sEnum)) {
@@ -159,7 +159,7 @@ public class UIManager {
 
 				if (current != null) {
 					if(current.CurrentDecoratorScene == sEnum){
-						baseScene.SetScene (sEnum);
+//						baseScene.SetScene (sEnum);
 						storePrevScene = sEnum;
 						MsgCenter.Instance.Invoke (CommandEnum.ChangeSceneComplete, sEnum);	
 
@@ -170,9 +170,9 @@ public class UIManager {
 				}
 			}
 
-			baseScene.SetScene (sEnum);
+//			baseScene.SetScene (sEnum);
 			storePrevScene = sEnum;
-		}
+//		}
 
 		if (HasUIObject (sEnum)) {
 			if(CheckIsPopUpWindow(sEnum)){
@@ -187,7 +187,7 @@ public class UIManager {
 				}
 			}
 		} else {
-			DecoratorBase db = CreatScene (sEnum);
+			SceneBase db = CreatScene (sEnum);
 			if(CheckIsPopUpWindow(sEnum)){
 				currentPopUp = db;
 			}else{
@@ -200,9 +200,13 @@ public class UIManager {
 		camera.enabled = true;
 	}
 
-	public static bool CheckIsPopUpWindow(SceneEnum sEnum){
-//		if (prevScene == SceneEnum.None) {
-			if (sEnum == SceneEnum.Music || sEnum == SceneEnum.NickName || sEnum == SceneEnum.OperationNotice || sEnum == SceneEnum.Reward || sEnum == SceneEnum.UnitDetail || sEnum == SceneEnum.ResourceDownload)
+	public void GoBackToPrevScene(){
+
+	}
+
+	public static bool CheckIsPopUpWindow(ModuleEnum sEnum){
+//		if (prevScene == ModuleEnum.None) {
+			if (sEnum == ModuleEnum.Music || sEnum == ModuleEnum.NickName || sEnum == ModuleEnum.OperationNotice || sEnum == ModuleEnum.Reward || sEnum == ModuleEnum.UnitDetail || sEnum == ModuleEnum.ResourceDownload)
 				return true;
 			return false;	
 //		}else{
@@ -213,216 +217,216 @@ public class UIManager {
 //		return false;
 	}
 	
-	DecoratorBase CreatScene(SceneEnum sEnum) {
+	SceneBase CreatScene(ModuleEnum sEnum) {
 //		Debug.LogError ("CreatScene senum : " + sEnum);
-		DecoratorBase temp = null;
+		SceneBase temp = null;
 		switch (sEnum)
 		{
 
-        case SceneEnum.Loading:
+        case ModuleEnum.Loading:
             temp = new LoadingDecorator( sEnum );
             break;
 
-		case SceneEnum.Home:
-			temp = new HomeDecorator( sEnum );
+		case ModuleEnum.Home:
+			temp = new HomeScene( sEnum );
 			break;
 
-		case SceneEnum.Friends:
-			temp = new FriendDecorator( sEnum );
+		case ModuleEnum.Friends:
+			temp = new FriendScene( sEnum );
 			break;
 
-		case SceneEnum.Scratch:
-			temp = new ScratchDecorator( sEnum );
+		case ModuleEnum.Scratch:
+			temp = new ScratchScene( sEnum );
 			break;
 
-		case SceneEnum.Shop:
-			temp = new ShopDecorator( sEnum );
+		case ModuleEnum.Shop:
+			temp = new ShopScene( sEnum );
 			break;
 
-		case SceneEnum.Others:
-			temp = new OthersDecorator( sEnum );
+		case ModuleEnum.Others:
+			temp = new OthersScene( sEnum );
 			break;
 
-		case SceneEnum.Units:
-//			Debug.LogError("SceneEnum.Units");
-			temp = new UnitsDecorator( sEnum );
+		case ModuleEnum.Units:
+//			Debug.LogError("ModuleEnum.Units");
+			temp = new UnitsScene( sEnum );
 			break;
 
-		case SceneEnum.Party:
-			temp = new PartyDecorator( sEnum );
+		case ModuleEnum.Party:
+			temp = new PartyScene( sEnum );
 			break;
 
-		case SceneEnum.Sell:
-			temp = new SellDecorator( sEnum );
+		case ModuleEnum.Sell:
+			temp = new SellScene( sEnum );
 			break;
 
-		case SceneEnum.Evolve:
-			temp = new EvolveDecorator( sEnum );
+		case ModuleEnum.Evolve:
+			temp = new EvolveScene( sEnum );
 			break;
 
-		case SceneEnum.UnitList:
-			temp = new UnitListDecorator( sEnum );
+		case ModuleEnum.UnitList:
+			temp = new UnitListScene( sEnum );
 			break;
 
-		case SceneEnum.LevelUp:
-			temp = new LevelUpDecorator( sEnum );
+		case ModuleEnum.LevelUp:
+			temp = new LevelUpScene( sEnum );
 			break;
 
-		case SceneEnum.UnitCatalog:
-			temp = new CatalogDecorator( sEnum );
+		case ModuleEnum.UnitCatalog:
+			temp = new CatalogScene( sEnum );
 			break;
 
-		case SceneEnum.StageSelect:
-			temp = new StageSelectDecorrator( sEnum );
+		case ModuleEnum.StageSelect:
+			temp = new StageSelectScene( sEnum );
 			break;
 			
-		case SceneEnum.FriendSelect:
-			temp = new FriendSelectDecorator( sEnum );
+		case ModuleEnum.FriendSelect:
+			temp = new FriendSelectScene( sEnum );
 			break;
 
-		case SceneEnum.FriendList:
-			temp = new FriendListDecorator( sEnum );
+		case ModuleEnum.FriendList:
+			temp = new FriendListScene( sEnum );
 			break;
 			
-		case SceneEnum.SearchFriend:
-			temp = new FriendSearchDecorator( sEnum );
+		case ModuleEnum.SearchFriend:
+			temp = new FriendSearchScene( sEnum );
 			break;
 			
-		case SceneEnum.Information:
-			temp = new InformationDecorator( sEnum );
+		case ModuleEnum.Information:
+			temp = new InformationScene( sEnum );
 			break;
 			
-		case SceneEnum.Apply:
-			temp = new ApplyDecorator( sEnum );
+		case ModuleEnum.Apply:
+			temp = new ApplyScene( sEnum );
 			break;
 			
-		case SceneEnum.Reception:
-			temp = new ReceptionDecorator( sEnum );
+		case ModuleEnum.Reception:
+			temp = new ReceptionScene( sEnum );
 			break;
 			
-		case SceneEnum.YourID:
-			temp = new UserIDDecorator( sEnum );
+		case ModuleEnum.YourID:
+			temp = new UserIDScene( sEnum );
 			break;
 
-		case SceneEnum.UnitDetail:
-			temp = new UnitDetailDecorator( sEnum );
+		case ModuleEnum.UnitDetail:
+			temp = new UnitDetailScene( sEnum );
 			break;
 
-        case SceneEnum.FriendScratch:
-            temp = new GachaWindowDecorator( sEnum );
+        case ModuleEnum.FriendScratch:
+            temp = new GachaWindowScene( sEnum );
             break;
 
-        case SceneEnum.RareScratch:
-            temp = new GachaWindowDecorator( sEnum );
+        case ModuleEnum.RareScratch:
+            temp = new GachaWindowScene( sEnum );
             break;
 
-        case SceneEnum.EventScratch:
-            temp = new GachaWindowDecorator( sEnum );
+        case ModuleEnum.EventScratch:
+            temp = new GachaWindowScene( sEnum );
             break;
 
-		case SceneEnum.SelectRole:
-			temp = new SelectRoleDecorator( sEnum );
+		case ModuleEnum.SelectRole:
+			temp = new SelectRoleScene( sEnum );
 			break;
 
-		case SceneEnum.Result:
-			temp = new ResultDecorator( sEnum );
+		case ModuleEnum.Result:
+			temp = new ResultScene( sEnum );
 			break;
 
-		case SceneEnum.FightReady:
-			temp = new FightReadyDecorator( sEnum );
+		case ModuleEnum.FightReady:
+			temp = new FightReadyScene( sEnum );
 			break;
 
-		case SceneEnum.QuestSelect:
-			temp = new QuestSelectDecorator( sEnum );
+		case ModuleEnum.QuestSelect:
+			temp = new QuestSelectScene( sEnum );
 			break;
 
-		case SceneEnum.OperationNotice:
-			temp = new OperationNoticeDecorator(sEnum);
+		case ModuleEnum.OperationNotice:
+			temp = new OperationNoticeScene(sEnum);
 			break;
-		case SceneEnum.Reward:
-			temp = new RewardDecorator(sEnum);
+		case ModuleEnum.Reward:
+			temp = new RewardScene(sEnum);
 			break;
-		case SceneEnum.Raider:
-			temp = new GameRaiderDecorator(sEnum);
+		case ModuleEnum.Raider:
+			temp = new GameRaiderScene(sEnum);
 			break;
-		case SceneEnum.Currency:
-			temp = new GameCurrencyDecorator(sEnum);
+		case ModuleEnum.Currency:
+			temp = new GameCurrencyScene(sEnum);
 			break;
-		case SceneEnum.Music:
-			temp = new MusicDecorator(sEnum);
+		case ModuleEnum.Music:
+			temp = new MusicScene(sEnum);
 			break;
-		case SceneEnum.NickName:
-			temp = new NicknameDecorator(sEnum);
-			break;
-
-		case SceneEnum.ShowCardEffect:
-			temp = new ShowNewCardDecorator(sEnum);
+		case ModuleEnum.NickName:
+			temp = new NicknameScene(sEnum);
 			break;
 
-		case SceneEnum.Victory:
-			temp = new VictoryDecorator(sEnum);
+		case ModuleEnum.ShowCardEffect:
+			temp = new ShowNewCardScene(sEnum);
 			break;
 
-		case SceneEnum.Preface:
-			temp = new PrefaceDecorator(sEnum);
+		case ModuleEnum.Victory:
+			temp = new VictoryScene(sEnum);
 			break;
 
-		case SceneEnum.ResourceDownload:
-			temp = new ResourceDownloadDecorator(sEnum);
+		case ModuleEnum.Preface:
+			temp = new PrefaceScene(sEnum);
+			break;
+
+		case ModuleEnum.ResourceDownload:
+			temp = new ResourceDownloadScene(sEnum);
 			break;
         }
 
 		if (temp != null) {
-			temp.SetDecorator (baseScene);
-			temp.DecoratorScene ();
+//			temp.SetDecorator (baseScene);
+			temp.InitSceneList ();
 			AddUIObject (sEnum, temp);
 		}
 		return temp;
 	}
 
-	void SwitchGameState(SceneEnum nextScene) {
+	void SwitchGameState(ModuleEnum nextScene) {
 		if (DataCenter.gameState == GameState.Normal) {
 			return;	
 		}
 //		Debug.LogError("DataCenter.gameState 1 : " + DataCenter.gameState + " nextScene : " + nextScene);
-		if (nextScene == SceneEnum.QuestSelect ||
-			nextScene == SceneEnum.FightReady || 
-			nextScene == SceneEnum.StageSelect || 
-			nextScene == SceneEnum.Evolve || 
-			nextScene == SceneEnum.UnitDetail ||
-		    nextScene == SceneEnum.Victory ||
-		    nextScene == SceneEnum.ShowCardEffect ||
-		    nextScene == SceneEnum.Start)  {
+		if (nextScene == ModuleEnum.QuestSelect ||
+			nextScene == ModuleEnum.FightReady || 
+			nextScene == ModuleEnum.StageSelect || 
+			nextScene == ModuleEnum.Evolve || 
+			nextScene == ModuleEnum.UnitDetail ||
+		    nextScene == ModuleEnum.Victory ||
+		    nextScene == ModuleEnum.ShowCardEffect ||
+		    nextScene == ModuleEnum.Start)  {
 			return;
 		}
 		DataCenter.gameState = GameState.Normal;
 //		Debug.LogError ("DataCenter.gameState 2 : " + DataCenter.gameState + " nextScene : " + nextScene);
 	}
 
-    private void InvokeSceneClear(SceneEnum nextScene){
-        if (baseScene.CurrentScene == SceneEnum.FriendSelect && nextScene == SceneEnum.StageSelect){
-            MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
-		} else if (baseScene.CurrentScene == SceneEnum.UnitDetail) {
-            if (nextScene == SceneEnum.LevelUp){
-                MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
-			} else if (nextScene == SceneEnum.Sell) {
-                MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
-			} else if (nextScene == SceneEnum.Party) {
-                MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
-			} else if (nextScene == SceneEnum.Evolve) {
-				MsgCenter.Instance.Invoke (CommandEnum.EvolveSaveState);
-			} else if(nextScene == SceneEnum.EventScratch || nextScene == SceneEnum.FriendScratch || nextScene == SceneEnum.RareScratch) {
-				MsgCenter.Instance.Invoke(CommandEnum.ShowGachaWindow);
-			}
-		} else if(baseScene.CurrentScene == SceneEnum.ShowCardEffect) {
-			if(nextScene == SceneEnum.EventScratch || nextScene == SceneEnum.FriendScratch || nextScene == SceneEnum.RareScratch) {
-				MsgCenter.Instance.Invoke(CommandEnum.ShowGachaWindow);
-			}
-		} else if (DataCenter.gameState == GameState.Evolve) {
-			if(nextScene == SceneEnum.QuestSelect || nextScene == SceneEnum.FightReady || nextScene == SceneEnum.StageSelect) {
-				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);
-			}
-        }
+    private void InvokeSceneClear(ModuleEnum nextScene){
+//        if (baseScene.CurrentScene == ModuleEnum.FriendSelect && nextScene == ModuleEnum.StageSelect){
+//            MsgCenter.Instance.Invoke(CommandEnum.QuestSelectSaveState);
+//		} else if (baseScene.CurrentScene == ModuleEnum.UnitDetail) {
+//            if (nextScene == ModuleEnum.LevelUp){
+//                MsgCenter.Instance.Invoke(CommandEnum.LevelUpSaveState);
+//			} else if (nextScene == ModuleEnum.Sell) {
+//                MsgCenter.Instance.Invoke(CommandEnum.SellUnitSaveState);
+//			} else if (nextScene == ModuleEnum.Party) {
+//                MsgCenter.Instance.Invoke(CommandEnum.PartySaveState);
+//			} else if (nextScene == ModuleEnum.Evolve) {
+//				MsgCenter.Instance.Invoke (CommandEnum.EvolveSaveState);
+//			} else if(nextScene == ModuleEnum.EventScratch || nextScene == ModuleEnum.FriendScratch || nextScene == ModuleEnum.RareScratch) {
+//				MsgCenter.Instance.Invoke(CommandEnum.ShowGachaWindow);
+//			}
+//		} else if(baseScene.CurrentScene == ModuleEnum.ShowCardEffect) {
+//			if(nextScene == ModuleEnum.EventScratch || nextScene == ModuleEnum.FriendScratch || nextScene == ModuleEnum.RareScratch) {
+//				MsgCenter.Instance.Invoke(CommandEnum.ShowGachaWindow);
+//			}
+//		} else if (DataCenter.gameState == GameState.Evolve) {
+//			if(nextScene == ModuleEnum.QuestSelect || nextScene == ModuleEnum.FightReady || nextScene == ModuleEnum.StageSelect) {
+//				MsgCenter.Instance.Invoke(CommandEnum.EvolveSaveState);
+//			}
+//        }
     }
 
 	public void ClearAllUIObject () {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class ActorShow : UIComponentUnity{
+public class ActorShow : ViewBase{
 
 	private Vector3[] initPos = new Vector3[3] {new Vector3(-600f,0f,0f), new Vector3(0f,0f,0f), new Vector3(600f,0f,0f)};
 
@@ -16,12 +16,15 @@ public class ActorShow : UIComponentUnity{
 	private int currentID = -1;
 	private static bool isInit =false;
 
-	public override void Init (string name){
+	public override void Init (UIInsConfig config)
+	{
+
 		if(isInit)
 			return;
 		isInit = true;
-		base.Init (name);
-		transform.parent = vManager.BottomPanel.transform;
+		base.Init (config);
+//		base.Init (name);
+//		transform.parent = vManager.BottomPanel.transform;
 		showTexture = FindChild<UITexture> ("Texture0");
 		freeTexture = FindChild<UITexture> ("Texture1");
 		showTexture.enabled = false;
@@ -55,10 +58,10 @@ public class ActorShow : UIComponentUnity{
 
 	}
 
-	public override void CreatUI (){
-		base.CreatUI ();
-		Destroy (gameObject);
-	}
+//	public override void CreatUI (){
+//		base.CreatUI ();
+//		Destroy (gameObject);
+//	}
 
 	public override void HideUI (){
 		base.HideUI ();

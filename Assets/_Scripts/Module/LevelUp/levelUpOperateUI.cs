@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
+public class levelUpOperateUI : ModuleBase, ICheckUIState {
 	public levelUpOperateUI(string uiName) : base(uiName) { }
 
 	public override void HideUI () {
 		base.HideUI ();
 
-		if (UIManager.Instance.nextScene != SceneEnum.UnitDetail) {
+		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetail) {
 			base.DestoryUI();
 		}
 	}
@@ -74,7 +74,7 @@ public class levelUpOperateUI : ConcreteComponent, ICheckUIState {
 	
 			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
-			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 

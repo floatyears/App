@@ -4,8 +4,8 @@ using System.Collections;
 public class AcceptApplyMessageView : ApplyMessageView{
 	UIButton deleteButton;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUIElement();
 	}
 
@@ -30,7 +30,7 @@ public class AcceptApplyMessageView : ApplyMessageView{
 		//Debug.LogError("Click the delete button, call controller to response...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
-		ExcuteCallback(cbdArgs);
+//		ExcuteCallback(cbdArgs);
 	}
 
 }

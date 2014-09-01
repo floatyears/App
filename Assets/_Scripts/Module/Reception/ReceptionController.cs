@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class ReceptionController : ConcreteComponent {
+public class ReceptionController : ModuleBase {
 	public ReceptionController(string uiName) : base( uiName ){}
 
 

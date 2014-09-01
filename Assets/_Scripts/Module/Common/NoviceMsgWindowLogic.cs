@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class NoviceMsgWindowLogic : ConcreteComponent{
+public class NoviceMsgWindowLogic : ModuleBase{
 	public NoviceMsgWindowLogic(string uiName):base(uiName){
 		AddListener ();
 	}

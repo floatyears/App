@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class FriendComponent : ConcreteComponent{
+public class FriendComponent : ModuleBase{
 	public FriendComponent(string uiName):base(uiName){}
 	public override void ShowUI(){
 		base.ShowUI();

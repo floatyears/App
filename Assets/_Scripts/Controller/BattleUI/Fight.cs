@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Fight : ConcreteComponent
+public class Fight : ModuleBase
 {
 	public static Transform dragParent;
 
@@ -56,7 +56,7 @@ public class Fight : ConcreteComponent
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-		main.GInput.IsCheckInput = !isShield;
+		Main.Instance.GInput.IsCheckInput = !isShield;
 	}
 
 	public override void CreatUI () {
@@ -72,7 +72,7 @@ public class Fight : ConcreteComponent
 
 	void CreateMulti()
 	{
-		LoadAsset.Instance.LoadAssetFromResources("Card",ResourceEuum.Prefab,o=>{
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/Card",o=>{
 			GameObject go = o as GameObject;
 			multiPoolParent = NGUITools.AddChild(parentObject);
 			
@@ -82,22 +82,22 @@ public class Fight : ConcreteComponent
 			
 			cardMultiItem = new CardPoolMutilItem[Config.cardPoolSingle];
 			
-			for (int i = 0; i < Config.cardPoolSingle; i++)
-			{
-				tempObject = NGUITools.AddChild(multiPoolParent,go);
-				
-				tempObject.layer = GameLayer.BattleCard;
-				
-				NGUITools.AddWidgetCollider(tempObject);
-				
-				CardPoolMutilItem cpmi = tempObject.AddComponent<CardPoolMutilItem>();
-				
-				cpmi.Init("CardMultiPool" + i);
-				
-				cpmi.SetInitPosition(i);
-				
-				cardMultiItem[i] = cpmi;
-			}
+//			for (int i = 0; i < Config.cardPoolSingle; i++)
+//			{
+//				tempObject = NGUITools.AddChild(multiPoolParent,go);
+//				
+//				tempObject.layer = GameLayer.BattleCard;
+//				
+//				NGUITools.AddWidgetCollider(tempObject);
+//				
+//				CardPoolMutilItem cpmi = tempObject.AddComponent<CardPoolMutilItem>();
+//				
+//				cpmi.Init("CardMultiPool" + i);
+//				
+//				cpmi.SetInitPosition(i);
+//				
+//				cardMultiItem[i] = cpmi;
+//			}
 		});
 
 

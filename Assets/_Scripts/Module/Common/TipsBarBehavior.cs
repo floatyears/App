@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TipsBarBehavior : UIComponentUnity {
+public class TipsBarBehavior : ViewBase {
 
 	private UILabel labelTips;
 
 	private int times;
 
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		InitUI();
 	}
 	

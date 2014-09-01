@@ -21,10 +21,10 @@
 //
 //    bool beginOnAfterLevelUp = false; // if == true, turn to material tab at start;
 //
-//	public override void Init(UIInsConfig config, IUICallback origin){
+//	public override void Init(UIInsConfig config){
 //        InitUI();
 //        MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
-//        base.Init(config, origin);
+//        base.Init(config);
 //	}
 //
 //	public override void ShowUI(){
@@ -300,7 +300,7 @@
 //
 //	void PressItem(GameObject item ){
 //		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
-//		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail );
+//		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail );
 //		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 //	}
 //

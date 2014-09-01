@@ -2,7 +2,7 @@ using bbproto;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class StageSelectView : UIComponentUnity{
+public class StageSelectView : ViewBase{
 	private UIImageButton selectBtn;
 	private UILabel doorLabel;
 	private UILabel labDoorType;
@@ -34,8 +34,8 @@ public class StageSelectView : UIComponentUnity{
 
 	private string currentCityName = "";
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		storyStageRoot = transform.FindChild("StoryStages").gameObject;
 		eventStageRoot = transform.FindChild("EventStages").gameObject;
 	}

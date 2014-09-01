@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class FriendDecoratorUnity : UIComponentUnity {
-    Dictionary< GameObject, SceneEnum > btns = new Dictionary< GameObject, SceneEnum >();
-    SceneEnum nextScene;
+public class FriendDecoratorUnity : ViewBase {
+    Dictionary< GameObject, ModuleEnum > btns = new Dictionary< GameObject, ModuleEnum >();
+    ModuleEnum nextScene;
 	
-    public override void Init(UIInsConfig config, IUICallback origin) {
-        base.Init(config, origin);
+    public override void Init(UIInsConfig config) {
+        base.Init(config);
         InitUI();
     }
 	
@@ -47,22 +47,22 @@ public class FriendDecoratorUnity : UIComponentUnity {
         go = FindChild("Btn_FriendList");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_FriendList");
-        btns.Add(go, SceneEnum.FriendList);
+        btns.Add(go, ModuleEnum.FriendList);
 
         go = FindChild("Btn_SearchFriend");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Search");
-        btns.Add(go, SceneEnum.SearchFriend);
+        btns.Add(go, ModuleEnum.SearchFriend);
 
         go = FindChild("Btn_Apply");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Apply");
-        btns.Add(go, SceneEnum.Apply);
+        btns.Add(go, ModuleEnum.Apply);
 
         go = FindChild("Btn_Reception");
 		btnLabel = go.GetComponentInChildren<UILabel>();
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Reception");
-        btns.Add(go, SceneEnum.Reception);
+        btns.Add(go, ModuleEnum.Reception);
 
         foreach (var btn in btns.Keys) {
             UIEventListener.Get(btn).onClick = ClickBtn;
@@ -79,13 +79,13 @@ public class FriendDecoratorUnity : UIComponentUnity {
 
         nextScene = btns[btn];
         switch (nextScene) {
-			case SceneEnum.Apply:
+			case ModuleEnum.Apply:
 				SyncFriendListFromServer();
             	break;
-        	case SceneEnum.FriendList:
+        	case ModuleEnum.FriendList:
             	SyncFriendListFromServer();
             	break;
-        	case SceneEnum.Reception:
+        	case ModuleEnum.Reception:
             	SyncFriendListFromServer();
             	break;
         	default:
@@ -96,7 +96,7 @@ public class FriendDecoratorUnity : UIComponentUnity {
 
     void SyncFriendListFromServer() {
         CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SyncFriendList", nextScene);
-        ExcuteCallback(cbdArgs);
+//        ExcuteCallback(cbdArgs);
     }
 
     void TurnToNextScene(object obj) {

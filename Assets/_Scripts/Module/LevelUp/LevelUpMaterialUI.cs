@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class LevelUpMaterialUI : ConcreteComponent, IUICallback{
+public class LevelUpMaterialUI : ModuleBase{
 
 	private List< UserUnit > ownUnits;
 

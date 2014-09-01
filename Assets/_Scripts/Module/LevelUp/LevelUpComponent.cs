@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LevelUpComponent : ConcreteComponent, IUICallback {
+public class LevelUpComponent : ModuleBase {
 
 	public LevelUpComponent(string uiName):base(uiName) {}
 	
@@ -23,11 +23,11 @@ public class LevelUpComponent : ConcreteComponent, IUICallback {
 		base.DestoryUI ();
 	}
 
-	public void CallbackView (object data)
-	{
-		IUICallback call = viewComponent as IUICallback;
-		if(call != null) {
-			call.CallbackView(data);
-		}
-	}
+//	public void CallbackView (object data)
+//	{
+//		IUICallback call = viewComponent as IUICallback;
+//		if(call != null) {
+//			call.CallbackView(data);
+//		}
+//	}
 }

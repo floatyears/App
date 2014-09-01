@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SearchInfoUI : ConcreteComponent {
+public class SearchInfoUI : ModuleBase {
 
 	public SearchInfoUI( string uiName ) : base( uiName ) {}
 
@@ -14,11 +14,11 @@ public class SearchInfoUI : ConcreteComponent {
 	}
 
 	public void ShowSelf(){
-		IUICallback caller = viewComponent as IUICallback;
-		bool isCaller;
-		isCaller = viewComponent is IUICallback;
-		//Debug.Log( viewComponent.ToString() );
-		if( !isCaller )	return;
-		caller.CallbackView( true );
+//		IUICallback caller = viewComponent as IUICallback;
+//		bool isCaller;
+//		isCaller = viewComponent is IUICallback;
+//		//Debug.Log( viewComponent.ToString() );
+//		if( !isCaller )	return;
+//		caller.CallbackView( true );
 	}
 }

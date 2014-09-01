@@ -36,7 +36,7 @@ public interface ICheckUIState {
 //
 //    UIState GetState{ get; }
 //
-//    SceneEnum GetScene{ get; set; }
+//    ModuleEnum GetScene{ get; set; }
 //}
 //#endregion
 
@@ -47,24 +47,24 @@ public interface ICheckUIState {
 /// <summary>
 /// view interface
 /// </summary>
-public interface IUIBaseComponent {
-    UIInsConfig uiConfig{ get; }
-    void ShowUI();
-    void HideUI();
-    void DestoryUI();
-}
-
-public interface IUIComponentUnity :  IUIBaseComponent {
-    void Init(UIInsConfig config, IUICallback originInterface);
-}
-
-/// <summary>
-/// logic ui interface
-/// </summary>
-public interface IUIComponent :  IUIBaseComponent {
-	void CreatUI();
-	void CreatUIAsyn(DecoratorBase decoratorBase);
-}
+//public interface IUIBaseComponent {
+//    UIInsConfig uiConfig{ get; }
+//    void ShowUI();
+//    void HideUI();
+//    void DestoryUI();
+//}
+//
+//public interface IUIComponentUnity :  IUIBaseComponent {
+//    void Init(UIInsConfig config, IUICallback originInterface);
+//}
+//
+///// <summary>
+///// logic ui interface
+///// </summary>
+//public interface IUIComponent :  IUIBaseComponent {
+//	void CreatUI();
+//	void CreatUIAsyn(DecoratorBase decoratorBase);
+//}
 
 //public interface IUICallback {
 //
@@ -73,13 +73,13 @@ public interface IUIComponent :  IUIBaseComponent {
 /// <summary>
 /// ui callback interface
 /// </summary>
-public interface IUICallback {
-    void CallbackView(object data);
-}
+//public interface IUICallback {
+//    void CallbackView(object data);
+//}
 
-public interface IUISetBool {
-    void SetBackBtnActive(bool b);
-}
+//public interface IUISetBool {
+//    void SetBackBtnActive(bool b);
+//}
 
 public interface ILeaderSkill {
     Dictionary<string, ProtobufDataBase> LeadSkill { get; }
@@ -165,13 +165,13 @@ public interface IPassiveExcute {
     object Excute(object trapBase, IExcutePassiveSkill excutePS);
 }
 
-public interface IUIParty : IUICallback {
-    void PartyPaging(object textures);
-}
-
-public interface IUIFriendList : IUICallback {
-    void CustomExtraFunction(object message);
-}
+//public interface IUIParty  {
+//    void PartyPaging(object textures);
+//}
+//
+//public interface IUIFriendList {
+//    void CustomExtraFunction(object message);
+//}
 
 public interface INetBase {
     void OnRequest(object data, DataListener callback);

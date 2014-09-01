@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class CatalogView : UIComponentUnity {
+public class CatalogView : ViewBase {
 	private int TOTAL_CATALOG_COUNT;
 	private DragPanel dragPanel;
 	private List<CatalogUnitItem> catalogUnitItemList = new List<CatalogUnitItem>();
@@ -17,8 +17,8 @@ public class CatalogView : UIComponentUnity {
 	private bool canDoRightCacheMove = true;
 
        
-	public override void Init ( UIInsConfig config, IUICallback origin ) {
-		base.Init (config, origin);
+	public override void Init ( UIInsConfig config ) {
+		base.Init (config);
 		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
 	}
 	
@@ -42,7 +42,7 @@ public class CatalogView : UIComponentUnity {
 		ResourceManager.Instance.LoadLocalAsset(sourcePath, o =>{
 			emptyItem = o  as GameObject;
 			dragPanel = new DragPanel("CatalogDragPanel", emptyItem);
-			dragPanel.CreatUI();
+//			dragPanel.CreatUI();
 			dragPanel.AddItem(TOTAL_CATALOG_COUNT);
 			dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.CatalogDragPanelArgs, transform);
 			

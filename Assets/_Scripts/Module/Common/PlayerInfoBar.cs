@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerInfoBar : UIComponentUnity{
+public class PlayerInfoBar : ViewBase{
 	GameObject infoBox;
 	GameObject leftCollider;
 	GameObject rightCollider;
@@ -36,8 +36,8 @@ public class PlayerInfoBar : UIComponentUnity{
 	Vector3 leftPosition;
 	Vector3 rightPosition;
 
-	public override void Init(UIInsConfig config, IUICallback origin) {
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config) {
+		base.Init(config);
 		InitUI();
 
 		uint.TryParse(GameTimer.GetInstance().recovertime + "",out currentTime);

@@ -1,25 +1,25 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ShowNewCardView : UIComponentUnity {
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		base.Init (config, origin);
+public class ShowNewCardView : ViewBase {
+	public override void Init (UIInsConfig config) {
+		base.Init (config);
 		InitComponent ();
 		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
 
 	public override void ShowUI () {
-		UIManager.Instance.HideBaseScene ();
+//		UIManager.Instance.HideBaseScene ();
 
-		sEnum = UIManager.Instance.baseScene.PrevScene;
+//		sEnum = UIManager.Instance.baseScene.PrevScene;
 		base.ShowUI ();
 		ActiveButton (false);
 		ActiveEffect (true);
 	}
 
 	public override void HideUI () {
-		UIManager.Instance.ShowBaseScene ();
+//		UIManager.Instance.ShowBaseScene ();
 		ActiveEffect (false);
 		base.HideUI ();
 		ClearStar ();
@@ -30,7 +30,7 @@ public class ShowNewCardView : UIComponentUnity {
 		base.DestoryUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
-	private SceneEnum sEnum;
+	private ModuleEnum sEnum;
 
 	private GameObject backEffect;
 	private GameObject bombEffect;
@@ -139,9 +139,9 @@ public class ShowNewCardView : UIComponentUnity {
 	}
 
 	void DetailButtonCallback(GameObject go) {
-		UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
-		UIManager.Instance.baseScene.PrevScene = sEnum;
+//		UIManager.Instance.baseScene.PrevScene = sEnum;
 
 //		ClearStar ();
 		HideUI ();

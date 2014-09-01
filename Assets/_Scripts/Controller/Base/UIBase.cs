@@ -32,8 +32,8 @@
 //	}
 //
 //	#region IUIInterface implementation
-//	protected SceneEnum sEnum;
-//	public SceneEnum GetScene {
+//	protected ModuleEnum sEnum;
+//	public ModuleEnum GetScene {
 //		get {
 //			return sEnum;
 //		}
@@ -112,7 +112,7 @@
 //		currentUIDic.Clear ();
 //	}
 //
-//	protected void ChangeScene(SceneEnum se) {
+//	protected void ChangeScene(ModuleEnum se) {
 //		controllerManger.ChangeScene(se);
 //	}
 //

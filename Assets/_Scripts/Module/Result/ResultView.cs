@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ResultView : UIComponentUnity {
+public class ResultView : ViewBase {
 	UILabel nameLabel;
 	UILabel rankLabel;
 	UILabel latestPlayLabel;
@@ -19,8 +19,8 @@ public class ResultView : UIComponentUnity {
 	GameObject rootCenter;
 	GameObject rootBottom;
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+	public override void Init(UIInsConfig config){
+		base.Init(config);
 		InitUI();
 	}
 
@@ -93,7 +93,7 @@ public class ResultView : UIComponentUnity {
 	void ClickCheck(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
-//		UIManager.Instance.ChangeScene(SceneEnum.Home);
+//		UIManager.Instance.ChangeScene(ModuleEnum.Home);
 
 		DGTools.ChangeToQuest();
 	}
@@ -103,12 +103,12 @@ public class ResultView : UIComponentUnity {
 		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
 //		Debug.LogError("Click ok");
 		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
-		ExcuteCallback(call);
+//		ExcuteCallback(call);
 	}
 
 	void ClickCancel(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		UIManager.Instance.ChangeScene(SceneEnum.Home);
+//		UIManager.Instance.ChangeScene(ModuleEnum.Home);
 
 		DGTools.ChangeToQuest();
 	}

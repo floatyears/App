@@ -27,7 +27,7 @@ public class GachaWindowInfo{
     public List<uint> newUnitIdList = new List<uint>();
 }
 
-public class ScratchLogic : ConcreteComponent {
+public class ScratchLogic : ModuleBase {
 	private GachaType gachaType;
     private int gachaCount;
 
@@ -99,7 +99,7 @@ public class ScratchLogic : ConcreteComponent {
 //			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow("No Card Return",ClickOK);
 
 //			Debug.LogError("server return data is null");
-			UIManager.Instance.ChangeScene(UIManager.Instance.baseScene.PrevScene);
+			UIManager.Instance.GoBackToPrevScene();
 			ViewManager.Instance.ShowTipsLabel("server return data is null");
 			return;
 		}
@@ -177,7 +177,7 @@ public class ScratchLogic : ConcreteComponent {
 
 	private void ClickOK(object data){
 		Debug.Log ("scratch: ");
-		UIManager.Instance.ChangeScene (SceneEnum.Scratch);
+		UIManager.Instance.ChangeScene (ModuleEnum.Scratch);
 	}
 
     MsgWindowParams GetFriendGachaMsgWindowParams(){
@@ -292,7 +292,7 @@ public class ScratchLogic : ConcreteComponent {
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
 //            return;
 //        }
-        SceneEnum nextScene = SceneEnum.FriendScratch;
+        ModuleEnum nextScene = ModuleEnum.FriendScratch;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
     }
@@ -310,7 +310,7 @@ public class ScratchLogic : ConcreteComponent {
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
 //            return;
 //        }
-        SceneEnum nextScene = SceneEnum.RareScratch;
+        ModuleEnum nextScene = ModuleEnum.RareScratch;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
 
@@ -332,7 +332,7 @@ public class ScratchLogic : ConcreteComponent {
             return;
         }
         // TODO eventGacha
-        SceneEnum nextScene = SceneEnum.EventScratch;
+        ModuleEnum nextScene = ModuleEnum.EventScratch;
         UIManager.Instance.ChangeScene(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
     }

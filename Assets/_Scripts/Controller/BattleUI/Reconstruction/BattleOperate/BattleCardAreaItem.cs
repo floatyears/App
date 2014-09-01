@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleCardAreaItem : UIComponentUnity {
+public class BattleCardAreaItem : ViewBase {
 	public static GameObject boostObject;
 
 	private const int itemInterv = 17;
@@ -45,8 +45,11 @@ public class BattleCardAreaItem : UIComponentUnity {
 
 	private UILabel boostLabel;
 
-	public override void Init(string name) {
-		base.Init(name);
+	public override void Init (UIInsConfig config)
+	{
+		base.Init (config);
+//	}
+//		base.Init(name);
 		UISprite tex = GetComponent<UISprite>();
 		utilityScale = new Vector3 ((float)tex.width / 4f, (float)tex.height / 4f, 1f);
 		pos = transform.localPosition;
@@ -99,14 +102,14 @@ public class BattleCardAreaItem : UIComponentUnity {
 		if(maxLimit <= 0)
 			return 0;
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
-		Vector3 pos = Battle.ChangeCameraPosition() - vManager.ParentPanel.transform.localPosition;
+		Vector3 pos = Battle.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 
 		int preAttackCount = attackImage.Count;
 
 		for (int i = 0; i < maxLimit; i++) {
 			GameObject go = cardList[cardItemList.Count].gameObject;
 			CardSprite ci = go.AddComponent<CardSprite>();
-			ci.Init("aaa");
+//			ci.Init("aaa");
 			DisposeTweenPosition(ci);
 			DisposeTweenScale(ci);
 			ci.ActorSprite.depth = GetDepth(cardItemList.Count);

@@ -57,7 +57,7 @@
 ////				LogHelper.Log("rspLevelUp add to myUserUnit.count: {0}", rspLevelUp.unitList.Count);
 //		
 //
-//			UIManager.Instance.ChangeScene (SceneEnum.UnitDetail);
+//			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetail);
 //			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 ////			Debug.LogError("rspLevelUp.blendUniqueId : " + rspLevelUp.blendUniqueId);
 //            MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);

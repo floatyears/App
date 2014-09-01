@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SearchFriendController : ConcreteComponent{
+public class SearchFriendController : ModuleBase{
 	TFriendInfo currentSearchFriend;
     uint searchFriendUid;
 

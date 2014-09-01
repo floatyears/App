@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BgComponent : ConcreteComponent , IUICallback {
+public class BgComponent : ModuleBase {
 	
 	public BgComponent(string uiName) : base (uiName) {}
 

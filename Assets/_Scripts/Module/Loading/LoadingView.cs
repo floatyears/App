@@ -13,13 +13,13 @@ using System.Collections.Generic;
 using bbproto;
 
 
-public class LoadingView : UIComponentUnity {
+public class LoadingView : ViewBase {
 	private UILabel tapLogin;
 
 	private bool initComplete = false;
 
-    public override void Init ( UIInsConfig config, IUICallback origin ) {
-        base.Init (config, origin);
+    public override void Init ( UIInsConfig config ) {
+        base.Init (config);
         InitUI();
     }
     
@@ -99,7 +99,7 @@ public class LoadingView : UIComponentUnity {
 
 	}
 
-	protected T CreatComponent<T>(string name) where T : ConcreteComponent {
+	protected T CreatComponent<T>(string name) where T : ModuleBase {
 		T component = ViewManager.Instance.GetComponent (name) as T;
 		if (component == null) {
 			component = System.Activator.CreateInstance(typeof(T), name) as T;
@@ -138,13 +138,13 @@ public class LoadingView : UIComponentUnity {
 	
 	private void LoginDirectly(){
 		Umeng.GA.Event ("Login");
-		LoadingLogic loadingLogic = origin as LoadingLogic;
-        loadingLogic.StartLogin();
+//		LoadingLogic loadingLogic = origin as LoadingLogic;
+//        loadingLogic.StartLogin();
     }
 
     private void SelectRoleFirst(){
-//		UIManager.Instance.ChangeScene (SceneEnum.Preface);
-		UIManager.Instance.ChangeScene (SceneEnum.SelectRole);
+//		UIManager.Instance.ChangeScene (ModuleEnum.Preface);
+		UIManager.Instance.ChangeScene (ModuleEnum.SelectRole);
     }
 
 //	private void checkResourceUpdate(){

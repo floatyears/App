@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class TipsBarComponent : ConcreteComponent  {
+public class TipsBarComponent : ModuleBase  {
 
 	public TipsBarComponent(string uiName):base(uiName) {
 

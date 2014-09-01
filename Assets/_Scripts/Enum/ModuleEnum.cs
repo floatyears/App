@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum SceneEnum
+public enum ModuleEnum
 {
 	None,
 	
@@ -88,7 +88,7 @@ public enum SceneEnum
 	ResourceDownload,
 }
 
-public enum ModuleEnum {
+public enum SceneEnum {
 
 
 }

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class QuestStartController : ConcreteComponent {
+public class QuestStartController : ModuleBase {
 
 	public QuestStartController(string uiName):base(uiName) {}
 	

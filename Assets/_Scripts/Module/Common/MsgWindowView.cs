@@ -19,7 +19,7 @@ public class MsgWindowParams {
 	public bool fullScreenClick = false;
 }
 
-public class MsgWindowView : UIComponentUnity{
+public class MsgWindowView : ViewBase{
     GameObject window;
     UILabel titleLabel;
 
@@ -41,9 +41,9 @@ public class MsgWindowView : UIComponentUnity{
 
     MsgWindowParams msgWindowParams = new MsgWindowParams();
     
-    public override void Init(UIInsConfig config, IUICallback origin){
+    public override void Init(UIInsConfig config){
         FindUIElement();
-        base.Init(config, origin);
+        base.Init(config);
     }
     
     public override void ShowUI(){

@@ -25,7 +25,7 @@ public class NoviceGuideUtil {
 
 		Vector3 dir;
 		int i = 0,len = posAndDir.Length;
-		LoadAsset.Instance.LoadAssetFromResources ("NoviceGuideArrow", ResourceEuum.Prefab, o => {
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/NoviceGuideArrow", o => {
 			GameObject obj = o as GameObject;
 			foreach (GameObject parent in parents) {
 				//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;
@@ -134,7 +134,7 @@ public class NoviceGuideUtil {
 	public static void showTipText(string text,Vector2 pos = default(Vector2)){
 		Debug.Log ("--------------///////tip text: " + text);
 		if (tipText == null) {
-			LoadAsset.Instance.LoadAssetFromResources ("TipText", ResourceEuum.Prefab, o => {
+			ResourceManager.Instance.LoadLocalAsset("Prefabs/TipText", o => {
 				GameObject tip = o as GameObject;
 				tipText = GameObject.Instantiate (tip) as GameObject;
 				Transform trans = tipText.transform;

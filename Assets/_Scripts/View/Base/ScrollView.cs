@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ScrollView : UIComponentUnity
+public class ScrollView : ViewBase
 {
 	public static Object DragUIPrefabs;
 
@@ -30,9 +30,14 @@ public class ScrollView : UIComponentUnity
 //	private Vector3 initPosition = Vector3.zero;
 
 	private List<GameObject> dragList = new List<GameObject>();
+
+	public GameObject insUIObject = null;
 	
-	public ScrollView(Transform left,Transform right,GameObject itemObject = null) : base("ScrollView")
+	public ScrollView(Transform left,Transform right,GameObject itemObject = null)
 	{
+		UIInsConfig config = null;
+		base.Init (config);
+
 		if(left == null || right == null)
 			return;
 

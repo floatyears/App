@@ -32,25 +32,25 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		UIEventListener.Get (cityObj).onClick += TapCityItem;
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
-		UIManager.Instance.ChangeScene (SceneEnum.Others);
+		UIManager.Instance.ChangeScene (ModuleEnum.Others);
 	}
 
 	void OnChange(object data){
-		if (UIManager.Instance.baseScene.CurrentScene == SceneEnum.Others) {
-			if (!changeEnd) {
-				UIManager.Instance.ChangeScene (SceneEnum.NickName);
-			}else{
-				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
-				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
-				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
-
-				UIManager.Instance.ChangeScene(SceneEnum.Home);
-			}
-
-		} else if(UIManager.Instance.baseScene.CurrentScene == SceneEnum.NickName) {
-			GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = false;
-			changeEnd = true;
-		}
+//		if (UIManager.Instance.baseScene.CurrentScene == ModuleEnum.Others) {
+//			if (!changeEnd) {
+//				UIManager.Instance.ChangeScene (ModuleEnum.NickName);
+//			}else{
+//				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
+//				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
+//				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
+//
+//				UIManager.Instance.ChangeScene(ModuleEnum.Home);
+//			}
+//
+//		} else if(UIManager.Instance.baseScene.CurrentScene == ModuleEnum.NickName) {
+//			GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = false;
+//			changeEnd = true;
+//		}
 
 	}
 

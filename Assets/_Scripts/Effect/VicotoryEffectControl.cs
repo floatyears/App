@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class VicotoryEffectControl : ConcreteComponent {
+public class VicotoryEffectControl : ModuleBase {
 	public VicotoryEffectControl(string name) : base (name) {
 
 	}

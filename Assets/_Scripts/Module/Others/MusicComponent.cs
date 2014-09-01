@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class MusicComponent : ConcreteComponent {
+public class MusicComponent : ModuleBase {
 
 	public MusicComponent(string uiName):base(uiName){}
 	
