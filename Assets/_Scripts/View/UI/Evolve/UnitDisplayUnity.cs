@@ -9,7 +9,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		itemCounterEvolve.ShowUI ();
+//		itemCounterEvolve.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
@@ -21,7 +21,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	public override void HideUI () {
 		base.HideUI ();
-		itemCounterEvolve.HideUI ();
+//		itemCounterEvolve.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
 		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
@@ -34,7 +34,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		itemCounterEvolve.DestoryUI ();
+//		itemCounterEvolve.DestoryUI ();
 		unitItemDragPanel.DestoryDragPanel ();
 	}
 
@@ -55,7 +55,7 @@ public class UnitDisplayUnity : UIComponentUnity {
 	public const string SelectMaterial = "selectMaterial";
 	//========================================== interface end ==========================
 
-	private ItemCounterEvolve itemCounterEvolve;
+//	private ItemCounterEvolve itemCounterEvolve;
 
 	private GameObject unitItem;
 
@@ -255,8 +255,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 		CreatPanel ();
 		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
 
-		itemCounterEvolve = FindChild<ItemCounterEvolve> ("ItemCounterBar");
-		itemCounterEvolve.Init ();
+//		itemCounterEvolve = FindChild<ItemCounterEvolve> ("ItemCounterBar");
+//		itemCounterEvolve.Init ();
 	}
 
 	void CreatPanel () {
@@ -354,8 +354,8 @@ public class UnitDisplayUnity : UIComponentUnity {
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
-		countArgs.Add ("posy",-295);
-		itemCounterEvolve.UpdateView (countArgs);
+		countArgs.Add ("posy",-725);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
 	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
