@@ -76,8 +76,8 @@ public class ConfigDragPanel{
 		FriendListDragPanelArgs.Add("clipRange",						 new Vector4(0, -210, 640, 600)		);
 		FriendListDragPanelArgs.Add("gridArrange",					 UIGrid.Arrangement.Vertical			);
 		FriendListDragPanelArgs.Add("scrollBarPosition",			 new Vector3(-320, -540, 0)				);
-		FriendListDragPanelArgs.Add("cellWidth",						 140												);
-		FriendListDragPanelArgs.Add("cellHeight",						 140												);
+		FriendListDragPanelArgs.Add("cellWidth",						 120												);
+		FriendListDragPanelArgs.Add("cellHeight",						 120												);
 		FriendListDragPanelArgs.Add("maxPerLine",					  4													);
 		FriendListDragPanelArgs.Add("depth",						 	  1													);
 	}

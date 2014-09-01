@@ -622,11 +622,11 @@ public class EvolveDecorator : DecoratorBase{
 		sceneInfoBar = CreatComponent< SceneInfoComponent >(UIConfig.sceneInfoBarName);
 		sceneInfoBar.SetComponent(decorator);
 
-//		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
-//		counter.SetComponent (sceneInfoBar);
+		ItemCounterController counter = CreatComponent<ItemCounterController>(UIConfig.itemCounterBarName);
+		counter.SetComponent (sceneInfoBar);
 
 		SortController sc = CreatComponent<SortController> (UIConfig.userUnitSortPanelName);
-		sc.SetComponent (sceneInfoBar);
+		sc.SetComponent (counter);
 
 		EvolveComponent evolve = CreatComponent< EvolveComponent >(UIConfig.evolveWindowName);
 		evolve.SetComponent(sc);
@@ -723,13 +723,9 @@ public class FriendListDecorator : DecoratorBase{
 	public FriendListDecorator(SceneEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
-//		Debug.LogError("ShowScene 1");
 		base.ShowScene();
-//		Debug.LogError("ShowScene 2");
 		sceneInfoBar.SetBackScene(SceneEnum.Friends);
-//		Debug.LogError("ShowScene 3");
 		sceneInfoBar.SetCurSceneName(TextCenter.GetText(TextConst.SCENE_NAME_FRIEND_LIST));
-//		Debug.LogError("ShowScene 4");
 	}
 	
 	public override void HideScene(){
@@ -746,15 +742,20 @@ public class FriendListDecorator : DecoratorBase{
 
 		SortController sortPanel = CreatComponent<SortController>(UIConfig.friendUnitSortPanelName);
 
-		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+//		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
+
+//		ApplyController apply
+		FriendListApplyMessage deleteApply = CreatComponent<FriendListApplyMessage>(UIConfig.applyMessageWindowName);
 
 		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
 
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
 		sortPanel.SetComponent(counter);
-		briefInfo.SetComponent(sortPanel);
-		friendList.SetComponent(briefInfo);
+//		briefInfo.SetComponent(sortPanel);
+		deleteApply.SetComponent (sortPanel);
+
+		friendList.SetComponent(deleteApply);
 
 		lastDecorator = friendList;
 		lastDecorator.CreatUIAsyn (this);
@@ -859,7 +860,7 @@ public class ApplyDecorator : DecoratorBase{
 		sceneInfoBar.SetComponent(decorator);
 		counter.SetComponent(sceneInfoBar);
 		sortPanel.SetComponent(counter);
-		applyWindow.SetComponent(counter);
+		applyWindow.SetComponent(sortPanel);
 		deleteApply.SetComponent(applyWindow);
 
 		lastDecorator = deleteApply;
