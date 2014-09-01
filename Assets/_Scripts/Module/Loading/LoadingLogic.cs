@@ -137,7 +137,7 @@ public class LoadingLogic : ModuleBase {
             if (rspAuthUser.party != null && rspAuthUser.party.partyList != null) {
                 DataCenter.Instance.PartyInfo = new TPartyInfo(rspAuthUser.party);
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
-                ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+				DataCenter.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }
             
             if (rspAuthUser.questClear != null) {
@@ -220,7 +220,7 @@ public class LoadingLogic : ModuleBase {
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }

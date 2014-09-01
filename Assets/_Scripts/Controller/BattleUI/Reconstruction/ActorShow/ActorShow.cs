@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class ActorShow : ViewBase{
@@ -16,7 +16,7 @@ public class ActorShow : ViewBase{
 	private int currentID = -1;
 	private static bool isInit =false;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 
 		if(isInit)

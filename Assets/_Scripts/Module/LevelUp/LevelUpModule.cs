@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class levelUpOperateUI : ModuleBase, ICheckUIState {
-	public levelUpOperateUI(string uiName) : base(uiName) { }
+public class LevelUpModule : ModuleBase {
+	public LevelUpModule(string uiName) : base(uiName) { }
 
 	public override void HideUI () {
 		base.HideUI ();
@@ -36,13 +36,13 @@ public class levelUpOperateUI : ModuleBase, ICheckUIState {
 		netBase.OnRequest (null, NetCallback);
 	}
 	
-	public bool CheckState() {
-		if (viewComponent.gameObject.activeSelf) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public bool CheckState() {
+//		if (view.gameObject.activeSelf) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	void NetCallback(object data) {
 		//TODO: moving to logic

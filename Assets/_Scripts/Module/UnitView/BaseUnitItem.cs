@@ -237,7 +237,7 @@ public class BaseUnitItem : MonoBehaviour {
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
 //		Debug.LogError ("gameobject : " + gameObject + "set common state : " + avatar.spriteName + " userUnit.UnitID : " + userUnit.UnitID);
-		DataCenter.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
+		ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
 	}
 
 	string GetBorderSpriteName () {

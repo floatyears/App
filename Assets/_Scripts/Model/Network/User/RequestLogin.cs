@@ -84,7 +84,7 @@ public class RequestLoginToServer {
 			if (rspAuthUser.party != null && rspAuthUser.party.partyList != null) {
 				DataCenter.Instance.PartyInfo = new TPartyInfo(rspAuthUser.party);
 				//TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
-				ModelManager.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+				DataCenter.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 			}
 			
 			if (rspAuthUser.questClear != null) {

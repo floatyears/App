@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TipsBarBehavior : ViewBase {
@@ -7,7 +7,7 @@ public class TipsBarBehavior : ViewBase {
 
 	private int times;
 
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		InitUI();
 	}

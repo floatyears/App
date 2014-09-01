@@ -13,7 +13,7 @@ public class MusicWIndow : ViewBase {
 	UISlider bgmSlider;
 	GameObject okBtn;
 
-	public override void Init ( UIInsConfig config ){
+	public override void Init ( UIConfigItem config ){
 		FindUIElement();
 		//		SetOption();
 		base.Init (config);

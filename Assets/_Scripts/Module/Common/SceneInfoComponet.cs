@@ -25,18 +25,18 @@ public class SceneInfoComponent : ModuleBase {
 		base.DestoryUI ();
 	}
 		
-	public ICheckUIState checkUiState;
+//	public ICheckUIState checkUiState;
 
 	public void CallbackView (object data) {
-		if (checkUiState != null) {
-			ModuleEnum current = ModuleEnum.None;//UIManager.Instance.baseScene;
-			if (current == ModuleEnum.LevelUp || current == ModuleEnum.Evolve) {
-				if(!checkUiState.CheckState()) {
-					MsgCenter.Instance.Invoke(CommandEnum.FriendBack);
-					return;
-				}
-			}	
-		}
+//		if (checkUiState != null) {
+//			ModuleEnum current = ModuleEnum.None;//UIManager.Instance.baseScene;
+//			if (current == ModuleEnum.LevelUp || current == ModuleEnum.Evolve) {
+//				if(!checkUiState.CheckState()) {
+//					MsgCenter.Instance.Invoke(CommandEnum.FriendBack);
+//					return;
+//				}
+//			}	
+//		}
 
 		if (DataCenter.gameState == GameState.Evolve) {
 			if(backScene == ModuleEnum.Home) {

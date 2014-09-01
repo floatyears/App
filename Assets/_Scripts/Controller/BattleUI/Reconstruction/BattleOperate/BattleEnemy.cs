@@ -22,7 +22,7 @@ public class BattleEnemy : ViewBase {
 	private BattleAttackInfo battleAttackInfo;
 	private UITexture bgTexture;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //	}

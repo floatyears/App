@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleCard : ViewBase {
@@ -27,7 +27,7 @@ public class BattleCard : ViewBase {
 	[HideInInspector]
 	public CardItem[] cardItemArray;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //	}

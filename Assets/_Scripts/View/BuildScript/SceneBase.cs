@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 
@@ -93,20 +93,17 @@ public class SceneBase {
         ResetStateFlag = false;
     }
 
-	protected T CreatComponent<T>(string name) where T : ModuleBase {
-		T component = ViewManager.Instance.GetComponent (name) as T;
-		if (component == null) {
-			component = Activator.CreateInstance(typeof(T), name) as T;
-		}
-		LogHelper.Log ("component: " + component);
+	protected T AddModuleToScene<T>(ModuleEnum name) where T : ModuleBase {
+		T component = ModuleManger.Instance.GetModule (name) as T;
+
 		controllerList.Add (component);
 		return component;
 	}
 
 	public bool CheckIsPopUpWindow(){
 		ModuleBase controller = controllerList [0];
-		if (controller != null && controller.ViewComponent != null && controller.ViewComponent.gameObject != null && controller.ViewComponent.gameObject.transform.parent != null) {
-			return controller.ViewComponent.gameObject.transform.parent == ViewManager.Instance.PopupPanel.transform;	
+		if (controller != null && controller.View != null && controller.View.gameObject != null && controller.View.gameObject.transform.parent != null) {
+			return controller.View.gameObject.transform.parent == ViewManager.Instance.PopupPanel.transform;	
 		}else{
 			return false;
 		}

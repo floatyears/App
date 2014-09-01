@@ -34,7 +34,7 @@ public class StageSelectView : ViewBase{
 
 	private string currentCityName = "";
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		storyStageRoot = transform.FindChild("StoryStages").gameObject;
 		eventStageRoot = transform.FindChild("EventStages").gameObject;

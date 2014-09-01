@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MapDoor : ViewBase {
@@ -26,7 +26,7 @@ public class MapDoor : ViewBase {
 
 	private string currentShowInfo;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //	}

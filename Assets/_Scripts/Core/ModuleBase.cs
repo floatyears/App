@@ -71,19 +71,19 @@ using System.Collections.Generic;
 public class ModuleBase{	
     protected bool willClearState = true;
 
-	protected UIInsConfig config = null;
+	protected UIConfigItem config = null;
 	
-	public UIInsConfig uiConfig {
+	public UIConfigItem UIConfig {
 		get {
 			return config;
 		}
 	}
 
-	protected ViewBase viewComponent;
+	protected ViewBase view;
 
-	public ViewBase ViewComponent{
+	public ViewBase View{
 		get{
-			return viewComponent;
+			return view;
 		}
 	}
 
@@ -93,7 +93,7 @@ public class ModuleBase{
     }
 
 	public ModuleBase(string name){
-		ViewManager.Instance.AddComponent(this);
+
 	}
 
 //	private DecoratorBase decoratorBase = null;
@@ -122,8 +122,8 @@ public class ModuleBase{
 //			component.ShowUI();		
 //		}
 
-		if (viewComponent != null) {
-			viewComponent.ShowUI();
+		if (view != null) {
+			view.ShowUI();
 		}
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent ShowUI 2  " + this);
@@ -134,21 +134,21 @@ public class ModuleBase{
 //			component.HideUI();		
 //		}
 
-		if (viewComponent != null) {
-			viewComponent.HideUI ();
+		if (view != null) {
+			view.HideUI ();
 		}
 	}
 
 	public virtual void DestoryUI() {
-		if (viewComponent != null) {
-			viewComponent.DestoryUI();
+		if (view != null) {
+			view.DestoryUI();
 		}
 
-		if (viewComponent != null) {
-			GameObject.Destroy (viewComponent.gameObject);
+		if (view != null) {
+			GameObject.Destroy (view.gameObject);
 		}
 
-		ViewManager.Instance.RemoveComponent(uiConfig.uiName);
+		ModuleManger.Instance.RemoveModule(UIConfig.moduleName);
 
 		UIManager.Instance.RemoveUI ();
 
@@ -174,8 +174,8 @@ public class ModuleBase{
 //    }
 
 	protected void CreatViewComponent() {
-		if (viewComponent == null) {
-						ResourceManager.Instance.LoadLocalAsset (uiConfig.resourcePath, CreateCallback);
+		if (view == null) {
+						ResourceManager.Instance.LoadLocalAsset (UIConfig.resourcePath, CreateCallback);
 				}
 //		} else if (decoratorBase != null){
 //				decoratorBase.ShowScene();	
@@ -187,23 +187,23 @@ public class ModuleBase{
 //		Debug.LogError ("ConcreteComponent CreateCallback 1 " + this + " o : " + o);
 
 		if (o == null){
-			LogHelper.LogError("there is no ui with the path:" + uiConfig.resourcePath);
+			LogHelper.LogError("there is no ui with the path:" + UIConfig.resourcePath);
 			return;
 		}
 
 		GameObject go = GameObject.Instantiate(o) as GameObject;
-		viewComponent = go.GetComponent<ViewBase>();
+		view = go.GetComponent<ViewBase>();
 
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent CreateCallback 2 " + this + " viewComponent : " + viewComponent);
 
-		if (viewComponent == null){
-			LogHelper.LogError("the component of the ui:{0} is null",uiConfig.resourcePath);
+		if (view == null){
+			LogHelper.LogError("the component of the ui:{0} is null",UIConfig.resourcePath);
 			return;
 		}
 		
 //		viewCallback = viewComponent;
-		viewComponent.Init(uiConfig);
+		view.Init(UIConfig);
 
 //		if(this is ItemCounterController)
 //		Debug.LogError ("ConcreteComponent CreateCallback 3 " + this + " decoratorBase : " + decoratorBase);
@@ -241,9 +241,9 @@ public class ModuleBase{
 	protected void ExcuteCallback(object data)
 	{
 //		Debug.LogError(viewCallback);
-		if (viewComponent != null)
+		if (view != null)
 		{
-			viewComponent.CallbackView(data);
+			view.CallbackView(data);
 		}
 	}
 }

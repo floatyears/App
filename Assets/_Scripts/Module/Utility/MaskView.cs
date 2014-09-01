@@ -6,7 +6,7 @@ public class MaskView : ViewBase {
 	GameObject connecting;
 	UILabel tips;
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUI();
 	}

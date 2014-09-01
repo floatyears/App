@@ -35,7 +35,7 @@ public class ScrollView : ViewBase
 	
 	public ScrollView(Transform left,Transform right,GameObject itemObject = null)
 	{
-		UIInsConfig config = null;
+		UIConfigItem config = null;
 		base.Init (config);
 
 		if(left == null || right == null)

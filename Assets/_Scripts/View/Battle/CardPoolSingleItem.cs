@@ -36,7 +36,7 @@ public class CardPoolSingleItem : ViewBase
 //	private GameObject tempObject;
 	private UITexture tempTexture;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 

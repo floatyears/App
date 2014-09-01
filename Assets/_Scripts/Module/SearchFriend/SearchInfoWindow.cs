@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SearchInfoWindow : ViewBase {
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitWindow();
 	}

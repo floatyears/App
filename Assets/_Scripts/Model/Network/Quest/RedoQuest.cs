@@ -55,7 +55,7 @@ public class RedoQuest: ProtoManager {
 
 		if (rrq.header.code != 0) {
 //			Debug.LogError("rrq.header.code : " + rrq.header.code + rrq.header.error);
-			ViewManager.Instance.ShowTipsLabel(rrq.header.code.ToString() , " : ", rrq.header.error);
+			TipsManager.Instance.ShowTipsLabel(rrq.header.code.ToString() , " : ", rrq.header.error);
 			return;
 		}
 

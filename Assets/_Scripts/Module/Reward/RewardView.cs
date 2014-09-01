@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -22,7 +22,7 @@ public class RewardView : ViewBase {
 	UILabel tabInfo;
 
 
-	public override void Init(UIInsConfig config) {
+	public override void Init(UIConfigItem config) {
 		base.Init(config);
 		InitUI();
 	}
@@ -36,7 +36,7 @@ public class RewardView : ViewBase {
 
 		RefreshView ();
 
-		ShowUIAnimation ();
+//		ShowUIAnimation ();
 
 //		GetBonusList.SendRequest (OnRequest);
 	}
@@ -157,10 +157,6 @@ public class RewardView : ViewBase {
 //		HideUI ();
 	}
 
-	void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
-	}
 
 	private void CreateDragView(){
 		dragPanel = new DragPanel("RewardDragPanel", RewardItemView.Prefab);

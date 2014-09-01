@@ -19,7 +19,7 @@ public class DragPanelView : ViewBase {
 	[HideInInspector]
 	public DragPanelDynamic dragPanelDynamic;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 		clip = FindChild<UIPanel>("Scroll View");
@@ -49,6 +49,7 @@ public class DragPanelView : ViewBase {
 		tempObject.name = a.ToString();
 		a++;
 		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
+
 
 		if (uidrag == null) {
 			Debug.LogError("drag item is illegal");

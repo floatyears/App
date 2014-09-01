@@ -65,7 +65,11 @@ public class DataCenter {
     private static DataCenter instance;
     private DataCenter() { 
 		supportFriendManager = new SupportFriendManager ();
+
+		InitData ();
 	}
+
+	private Dictionary<ModelEnum, object> modelDataDic = new Dictionary<ModelEnum, object>();
 
 	private static GameState _gameState = GameState.Normal;
 	public static GameState gameState {
@@ -561,79 +565,65 @@ public class DataCenter {
 
     
     private void setData(ModelEnum modelType, object modelData) {
-        ModelManager.Instance.SetData(modelType, modelData);
+        SetData(modelType, modelData);
     }
     
     private object getData(ModelEnum modelType) {
         ErrorMsg errMsg = new ErrorMsg();
-        return ModelManager.Instance.GetData(modelType, errMsg);
+        return GetData(modelType, errMsg);
     }
 	
-	public const uint AVATAR_ATLAS_COUNT = 11;
-	public const uint AVATAR_ATLAS_CAPACITY = 20;
-	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
+	public void InitData() {
+		//      ConfigUnitInfo cui = new ConfigUnitInfo();
+		//		Debug.LogWarning ("InitData ConfigSkill");
+		ResourceManager.Instance.LoadLocalAsset(UIConfig.UIInsConfigPath,o => {
+			TextAsset obj = o as TextAsset;
+			string info = obj.text;
+			UIConfigData ins = new UIConfigData(info);
+			SetData(ModelEnum.UIInsConfig, ins);
+		});
 
-	public Dictionary<uint, UIAtlas> AvatarAtalsDic{get{return avatarAtalsDic;}}
-
-	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
-
-		uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
-		UIAtlas atlas = null;
-		if (ResourceManager.exceptionList.IndexOf ((int)unitID) >= 0) {
-			index = 100;
-		}
-		if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
-			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
-			ResourceManager.Instance.LoadLocalAsset (sourcePath, o=> {
-				GameObject source = o as GameObject;
-				atlas = source.GetComponent<UIAtlas> ();
-				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-
-				if (!avatarAtalsDic.ContainsKey (index))
-					avatarAtalsDic.Add (index, atlas);
-
-				if (resouceCB != null)
-					resouceCB (atlas);
-			} );
+		ConfigSkill cs = new ConfigSkill();
+		//      ConfigEnermy ce = new ConfigEnermy();
+		ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo();
+		ConfigTrap ct = new ConfigTrap();
+		
+		ConfigFriendList configFriendList = new ConfigFriendList();
+		ConfigAudio audioConfig = new ConfigAudio();
+		//      ConfigStage stage = new ConfigStage();
+		ConfigViewData tempViewData = new ConfigViewData();
+		//		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
+	}
+	
+	/// <summary>
+	/// Adds the data.
+	/// </summary>
+	/// <param name="modelType">Model type.</param>
+	/// <param name="model">Model.</param>
+	public void SetData(ModelEnum modelType, object model) {
+		if (modelDataDic.ContainsKey(modelType)) {
+			modelDataDic[modelType] = model;
 		} else {
-				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
-				if (resouceCB != null)
-						resouceCB (atlas);
+			modelDataDic.Add(modelType, model);	
 		}
 	}
-
-
-	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
-
-	public void GetProfile(uint unitID, UITexture uiTexture = null, ResourceCallback resouceCB = null) {
-		Texture2D profile = null;
-		if (!profileCache.TryGetValue (unitID, out profile)) {
-			string path = string.Format ("Profile/{0}", unitID);
-			ResourceManager.Instance.LoadLocalAsset (path, o => {
-				profile = o as Texture2D;	
-//				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
-				if(profileCache.ContainsKey(unitID)) {
-					profileCache[unitID] =  profile;
-				} else {
-					profileCache.Add(unitID, profile);
-				}
-
-				if (uiTexture != null) {
-					uiTexture.mainTexture = profile;
-				}
-
-				if (resouceCB != null) {
-					resouceCB (profile);
-				}
-			});
-		} else {
-			if (uiTexture != null) {
-				uiTexture.mainTexture = profile;
-			}
-			
-			if (resouceCB != null) {
-				resouceCB (profile);
-			}
+	
+	/// <summary>
+	/// get the data to use
+	/// </summary>
+	/// <returns>The data.</returns>
+	/// <param name="modelType">Model type.</param>
+	/// <param name="erroMsg">Erro message.</param>
+	public object GetData(ModelEnum modelType, ErrorMsg erroMsg) {
+		object origin = null;
+		
+		if (!modelDataDic.TryGetValue(modelType, out origin)) {
+			erroMsg.Code = (int)ErrorCode.INVALID_MODEL_NAME;
+			erroMsg.Msg = string.Format("required key {0}, but it not exist in ModelManager", modelType);
 		}
+		
+		return origin;
 	}
+	
+
 }

@@ -11,7 +11,7 @@ public class PrefaceView : ViewBase {
 
 	private TweenAlpha ta;
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUI();
 

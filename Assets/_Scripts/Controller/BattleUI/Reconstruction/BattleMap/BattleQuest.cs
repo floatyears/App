@@ -46,43 +46,43 @@ public class BattleQuest : ModuleBase {
 		InitData ();
 		rootObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
 		string tempName = "Map";
-		ViewManager.Instance.GetBattleMap(tempName, o =>{
-			battleMap = o as BattleMap;
-			battleMap.transform.parent = ViewManager.Instance.CenterPanel.transform;
-			battleMap.transform.localPosition = new Vector3 (0f, 589f, 0f);
-			battleMap.transform.localScale = Vector3.one;
-			battleMap.BQuest = this;
-//			Init(battleMap);//,tempName);
-			initCount++;
-		});
-
-		tempName = "Role";
-		ViewManager.Instance.GetBattleMap(tempName, o =>{
-			role = o as Role;
-			role.transform.parent = ViewManager.Instance.CenterPanel.transform;
-			role.transform.localPosition = Vector3.zero;
-			role.transform.localScale = Vector3.one;
-			role.BQuest = this;
-//			Init(role);//,tempName);
-			initCount++;
-		});
-
-		ViewManager.Instance.GetViewObject(backgroundName , o=>{
-			background = o as BattleBackground;
-			background.transform.parent = ViewManager.Instance.BottomPanel.transform;
-			background.transform.localPosition = new Vector3(0f,25f,0f);
-//			background.Init (backgroundName);
-			background.SetBattleQuest (this);
-			questData.questId = questDungeonData.QuestId;
-			InitTopUI ();
-//			AddSelfObject (battleMap);
-//			AddSelfObject (role);
-//			AddSelfObject (background);
-			
-			roleStateException = new RoleStateException ();
-			roleStateException.AddListener ();
-			initCount++;
-		});
+//		ViewManager.Instance.GetBattleMap(tempName, o =>{
+//			battleMap = o as BattleMap;
+//			battleMap.transform.parent = ViewManager.Instance.CenterPanel.transform;
+//			battleMap.transform.localPosition = new Vector3 (0f, 589f, 0f);
+//			battleMap.transform.localScale = Vector3.one;
+//			battleMap.BQuest = this;
+////			Init(battleMap);//,tempName);
+//			initCount++;
+//		});
+//
+//		tempName = "Role";
+//		ViewManager.Instance.GetBattleMap(tempName, o =>{
+//			role = o as Role;
+//			role.transform.parent = ViewManager.Instance.CenterPanel.transform;
+//			role.transform.localPosition = Vector3.zero;
+//			role.transform.localScale = Vector3.one;
+//			role.BQuest = this;
+////			Init(role);//,tempName);
+//			initCount++;
+//		});
+//
+//		ViewManager.Instance.GetViewObject(backgroundName , o=>{
+//			background = o as BattleBackground;
+//			background.transform.parent = ViewManager.Instance.BottomPanel.transform;
+//			background.transform.localPosition = new Vector3(0f,25f,0f);
+////			background.Init (backgroundName);
+//			background.SetBattleQuest (this);
+//			questData.questId = questDungeonData.QuestId;
+//			InitTopUI ();
+////			AddSelfObject (battleMap);
+////			AddSelfObject (role);
+////			AddSelfObject (background);
+//			
+//			roleStateException = new RoleStateException ();
+//			roleStateException.AddListener ();
+//			initCount++;
+//		});
 
 		battle = new Battle("Battle");
 		battle.CreatUI( );
@@ -889,7 +889,7 @@ public class BattleQuest : ModuleBase {
 	
 	void SureInitiativeRetry(object data) {
 		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
-			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
 
@@ -1113,7 +1113,7 @@ public class BattleQuest : ModuleBase {
 
 	void BattleFailRecover(object data) {
 		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
-			ViewManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
 

@@ -65,7 +65,7 @@ public class QuestItemView : MonoBehaviour {
 	public Callback evolveCallback;
 	
 	private void ShowQuestInfo(){
-		DataCenter.Instance.GetAvatarAtlas(data.BossID[ 0 ], bossAvatarSpr);
+		ResourceManager.Instance.GetAvatarAtlas(data.BossID[ 0 ], bossAvatarSpr);
 	
 		nameLabel.text = data.Name;
 		//staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);

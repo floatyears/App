@@ -163,7 +163,7 @@ public class UnitListForPartyLogic : ModuleBase{
 	void CreateUnitList(){
 		//Debug.LogError("CreateUnitList(), partyUnitItemViewList count is " + partyUnitItemViewList.Count);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", partyDataList);
-		Debug.LogError("CreateUnitList : " + viewComponent);
+		Debug.LogError("CreateUnitList : " + view);
 		ExcuteCallback(cbdArgs);
 	}
 

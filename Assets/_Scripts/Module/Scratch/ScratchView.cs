@@ -21,7 +21,7 @@ public class ScratchView : ViewBase {
 
 	private UILabel scratchContent;
 
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		InitUI();
 	}

@@ -77,7 +77,7 @@ public class UnitDetailPanel : ViewBase{
 
 	public static bool isEvolve = false;
 
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		GetUnitMaterial();
 		InitEffect();
@@ -497,7 +497,7 @@ public class UnitDetailPanel : ViewBase{
 		curUserUnit = newBlendUnit;
 		ShowLevelInfo (oldBlendUnit);
 		TUserUnit tuu = DataCenter.Instance.levelUpFriend;
-		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
 		friendEffect.gameObject.SetActive (true);
 		friendEffect.spriteName = tuu.UnitType.ToString ();
 		Transform effectTrans = friendEffect.transform;
@@ -527,7 +527,7 @@ public class UnitDetailPanel : ViewBase{
 			GameObject go = NGUITools.AddChild(parent, materilItem);
 			go.SetActive(true);
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
-			DataCenter.Instance.GetAvatarAtlas(tui.ID, sprite);
+			ResourceManager.Instance.GetAvatarAtlas(tui.ID, sprite);
 			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.Type);
 			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.Type);
 			material.Enqueue(go);

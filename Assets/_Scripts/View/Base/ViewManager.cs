@@ -90,13 +90,19 @@ public class ViewManager {
 		set { battleBottom = value; }
 	}
 
-	private Font dynamicFont;
+//	private Font dynamicFont;
+//
+//	public Font DynamicFont {
+//		get{return dynamicFont;}
+//	}
 
-	public Font DynamicFont {
-		get{return dynamicFont;}
+	private static Vector3 hidePos = new Vector3(0f,10000f,10000f);
+	public static Vector3 HidePos {
+		get {
+			return hidePos;
+		}
 	}
 
-	private TipsLabelUI tipsLabelUI;
 
 	private GameObject popUpBg;
 
@@ -112,29 +118,21 @@ public class ViewManager {
 		bottomPanel = trans.Find ("Bottom").gameObject;
 		effectPanel = trans.Find ("Anchor/EffectPanel").gameObject;
 		centerPanel = trans.Find ("Center").gameObject;
-		tipsLabelUI = centerPanel.transform.Find ("Panel/LabelPanel/Label").GetComponent<TipsLabelUI> ();
+
 
 		bottomLeftPanel =  trans.Find ("BottomLeft").gameObject;
 
-		ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular", o =>{
-			dynamicFont = o as Font;
-			manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
-		}
-		);
+//		ResourceManager.Instance.LoadLocalAsset("Font/Dimbo Regular", o =>{
+//			dynamicFont = o as Font;
+//			manualHeight = mainUIRoot.GetComponent<UIRoot>().manualHeight;
+//		}
+//		);
+	}
+	
+	public void TogglePopUpWindow(bool show){
+		popUpBg.SetActive(show);
 	}
 
-	public void ShowTipsLabel (string content) {
-		tipsLabelUI.ShowInfo (content);
-	}
-
-	public void ShowTipsLabel (string content, params object[] data) {
-		string info = string.Format (content, data);
-		tipsLabelUI.ShowInfo (info);
-	}
-
-	public void ShowTipsLabel(string content, GameObject target) {
-		tipsLabelUI.ShowInfo (content, target);
-	}
 
 //	private Dictionary<string,UIBaseUnity> uiObjectDic = new Dictionary<string, UIBaseUnity>();
 
@@ -145,40 +143,40 @@ public class ViewManager {
 //			uiObjectDic.Add(obj.uiConfig.uiName,obj);
 //	}
 
-	public void GetViewObject(string name, ResourceCallback callback) {
-//		if(uiObjectDic.ContainsKey(name)) {	
-//			return uiObjectDic[name];
-//		}
-		CreatObject(name, callback);
-	}
-
-	public void GetBattleMap (string name, ResourceCallback callback) {
-		CreatNoUIObject (name,callback);
-	}
-
-	void CreatNoUIObject (string name,ResourceCallback callback) {
-
-		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name, o=>{
-			GameObject go = GameObject.Instantiate (o) as GameObject;
-			ViewBase goScript = go.GetComponent<ViewBase>();
-			callback(goScript);
-		});
-
-
-
-//		uiObjectDic.Add(name,goScript);
-	}
-
-	void CreatObject(string name,ResourceCallback callback) {	
-		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name, o => {
-			GameObject sourceObject = o as GameObject;
-			GameObject go = NGUITools.AddChild (centerPanel, sourceObject);
-			ViewBase goScript = go.GetComponent<ViewBase> ();
-//			uiObjectDic.Add(name,goScript);
-			callback (goScript);
-		});
-
-	}
+//	public void GetViewObject(string name, ResourceCallback callback) {
+////		if(uiObjectDic.ContainsKey(name)) {	
+////			return uiObjectDic[name];
+////		}
+//		CreatObject(name, callback);
+//	}
+//
+//	public void GetBattleMap (string name, ResourceCallback callback) {
+//		CreatNoUIObject (name,callback);
+//	}
+//
+//	void CreatNoUIObject (string name,ResourceCallback callback) {
+//
+//		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name, o=>{
+//			GameObject go = GameObject.Instantiate (o) as GameObject;
+//			ViewBase goScript = go.GetComponent<ViewBase>();
+//			callback(goScript);
+//		});
+//
+//
+//
+////		uiObjectDic.Add(name,goScript);
+//	}
+//
+//	void CreatObject(string name,ResourceCallback callback) {	
+//		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name, o => {
+//			GameObject sourceObject = o as GameObject;
+//			GameObject go = NGUITools.AddChild (centerPanel, sourceObject);
+//			ViewBase goScript = go.GetComponent<ViewBase> ();
+////			uiObjectDic.Add(name,goScript);
+//			callback (goScript);
+//		});
+//
+//	}
 
 //	public void DestoryUI(UIComponentUnity ui) {
 ////		RemoveUI(ui.uiConfig.uiName);
@@ -196,89 +194,5 @@ public class ViewManager {
 	//-----------------------------------------------------------------------------------------------------------------------
 
 //	private IUIComponent temp = null;
-	
-	private Dictionary<string,ModuleBase> UIComponentDic = new Dictionary<string, ModuleBase>();
-	
-	private static Vector3 hidePos = new Vector3(0f,10000f,10000f);
-	public static Vector3 HidePos {
-		get {
-			return hidePos;
-		}
-	}
-	
-	public void AddComponent(ModuleBase component) {
-		if (component == null) {
-			return;	
-		}
 
-		UIInsConfig config = component.uiConfig;
-		string name = config.uiName;
-
-		ModuleBase temp = null;
-		if (UIComponentDic.TryGetValue (name, out temp)) {
-			UIComponentDic [name] = component;	
-			temp = null;
-		}
-		else {
-			UIComponentDic.Add(name,component);
-		}
-	}
-	
-	public ModuleBase GetComponent(string name) {
-		if (UIComponentDic.ContainsKey (name)) {
-			return UIComponentDic [name];	
-		}
-		else {
-			return null;
-		}
-	}
-	
-	public void RemoveComponent(string name) {
-		if (!UIComponentDic.ContainsKey (name)) {
-			return;
-		}	
-		UIComponentDic.Remove (name);
-	}
-	
-	public void DeleteComponent(string name) {
-		ModuleBase temp = null;
-
-		if (UIComponentDic.TryGetValue (name,out temp)) {
-			temp.DestoryUI ();
-			UIComponentDic.Remove(name);
-			temp = null;
-		}
-	}
-
-	public void CleartComponent () {
-		List<ModuleBase> cclist = new List<ModuleBase> ();
-		List<string> ccID = new List<string> ();
-		System.Type ty = typeof(MsgWindowLogic);
-		System.Type ty1 = typeof(MaskController);
-		System.Type ty2 = typeof(NoviceMsgWindowLogic);
-		foreach (var item in UIComponentDic) {
-			string key = item.Key;
-			ModuleBase cc = item.Value as ModuleBase;
-			System.Type tempType = cc.GetType();
-
-			if(tempType == ty || tempType == ty1 || tempType == ty2) {
-				continue;
-			}
-
-			ccID.Add(key);
-			cclist.Add(cc);
-		}
-		for (int i = 0; i < ccID.Count; i++) {
-			UIComponentDic.Remove(ccID[i]);
-		}
-		for (int i = cclist.Count - 1; i >= 0; i--) {
-//			Debug.LogError("CleartComponent : " + cclist[i]);
-			cclist[i].DestoryUI();
-		}
-		cclist.Clear ();
-	}
-
-	public void TogglePopUpWindow(bool show){
-		popUpBg.SetActive(show);
-	}
 }

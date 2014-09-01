@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -23,7 +23,7 @@ public class BattleCardArea : ViewBase {
 	public static Vector3 activeSkillStartPosition;
 	public static Vector3 activeSkillEndPosition;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 		backTexture = FindChild<UISprite>("Back"); 

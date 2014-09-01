@@ -33,7 +33,7 @@ public class CardSprite : ViewBase
 	[HideInInspector]
 	public int location = -1;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 		parentObject = transform.parent;

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -55,7 +55,7 @@ public class MapItem : ViewBase {
 	[HideInInspector]
 	public BattleMap battleMap;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //	}
@@ -120,7 +120,7 @@ public class MapItem : ViewBase {
 					uint unitID = gridItem.Enemy [0].UnitID;
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
-						DataCenter.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
+						ResourceManager.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
 					}
 				}
 				break;

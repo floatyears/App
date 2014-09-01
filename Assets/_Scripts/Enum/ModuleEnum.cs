@@ -5,87 +5,101 @@ public enum ModuleEnum
 {
 	None,
 	
-	Loading,
+	LoadingModule,
 	
-	Start,
+	StartModule,
+
+	SceneInfoBarModule,
+
+	PlayerInfoBarModule,
+
+	MainBackgroundModule,
+
+	MainMenuModule,
+
+	TipsBarModule,
+
+	HomeModule,
 	
-	Home,
+	QuestSelectModule,
 	
-	QuestSelect,
+	FriendsModule,
 	
-	Friends,
+	ScratchModule,
 	
-	Scratch,
+	FriendScratchModule,
 	
-	FriendScratch,
+	RareScratchModule,
 	
-	RareScratch,
+	EventScratchModule,
 	
-	EventScratch,
+	ShopModule,
 	
-	Shop,
+	OthersModule,
 	
-	Others,
+	UnitsModule,
 	
-	Units,
+	StageSelectModule,
 	
-	StageSelect,
+	FriendSelectModule,
 	
-	FriendSelect,
+	FriendListModule,
 	
-	FriendList,
+	InformationModule,
 	
-	Information,
+	SearchFriendModule,
 	
-	SearchFriend,
+	ApplyModule,
 	
-	Apply,
+	ReceptionModule,
 	
-	Reception,
+	YourIDModule,
 	
-	YourID,
+	PartyModule,
 	
-	Party,
+	LevelUpModule,
 	
-	LevelUp,
+	EvolveModule,
 	
-	Evolve,
+	SellModule,
 	
-	Sell,
+	UnitListModule,
 	
-	UnitList,
+	UnitCatalogModule,
 	
-	UnitCatalog,
+	UnitDetailModule,
 	
-	UnitDetail,
+	FightModule,
 	
-	Fight,
+	SelectRoleModule,
 	
-	SelectRole,
+	ResultModule,
 	
-	Result,
+	FightReadyModule,
 	
-	FightReady,
+	OperationNoticeModule,
 	
-	OperationNotice,
+	RewardModule,
 	
-	Reward,
+	RaiderModule,
 	
-	Raider,
+	CurrencyModule,
 	
-	Currency,
+	MusicModule,
 	
-	Music,
+	NickNameModule,
 	
-	NickName,
+	ShowCardEffectModule,
 	
-	ShowCardEffect,
+	VictoryModule,
 	
-	Victory,
+	PrefaceModule,
 	
-	Preface,
-	
-	ResourceDownload,
+	ResourceDownloadModule,
+
+	SortModule,
+
+	ItemCounterModule,
 }
 
 public enum SceneEnum {

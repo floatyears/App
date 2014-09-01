@@ -5,7 +5,7 @@ public class FriendDecoratorUnity : ViewBase {
     Dictionary< GameObject, ModuleEnum > btns = new Dictionary< GameObject, ModuleEnum >();
     ModuleEnum nextScene;
 	
-    public override void Init(UIInsConfig config) {
+    public override void Init(UIConfigItem config) {
         base.Init(config);
         InitUI();
     }

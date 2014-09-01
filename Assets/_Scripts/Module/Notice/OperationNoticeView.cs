@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,7 +21,7 @@ public class OperationNoticeView : ViewBase {
 
 //	private GameObject okBtn;
 
-	public override void Init(UIInsConfig config) {
+	public override void Init(UIConfigItem config) {
 		base.Init(config);
 		InitUI();
 	}
@@ -130,8 +130,8 @@ public class OperationNoticeView : ViewBase {
 	}
 
 	void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+//		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+//		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 	}
 
 	public void ClickOK(){

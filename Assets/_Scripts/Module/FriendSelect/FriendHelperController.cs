@@ -81,7 +81,7 @@ public class FriendHelperController : ModuleBase{
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 //		tqdd.assignData ();
-		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 
 		EnterBattle ();
 	}
@@ -102,7 +102,7 @@ public class FriendHelperController : ModuleBase{
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData (rspStartQuest.dungeonData);
 //			tqdd.assignData();
-			ModelManager.Instance.SetData (ModelEnum.MapConfig, tqdd);
+			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
 		} 
 		
 		if (data == null || tqdd == null) {

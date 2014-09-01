@@ -9,7 +9,7 @@ public class SceneInfoDecoratorUnity : ViewBase{
 	private bool temp = false;
 //	private bool isTweenDone = false;
 	
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		InitUI();
 

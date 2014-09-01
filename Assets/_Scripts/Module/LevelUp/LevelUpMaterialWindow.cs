@@ -7,7 +7,7 @@ public class LevelUpMaterialWindow : ViewBase {
 	DragPanel materialDragPanel;
 	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUI();
 	}

@@ -101,9 +101,9 @@ public class CatalogUnitItem : MyUnitItem {
 			switch (state) {
 				case CatalogState.Got : 
 //				Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID + " state: " + state);
-//				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-				DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
-//					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+//				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
+//					avatarSprite.atlas = ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = false;
 					maskSprite.enabled = false;
@@ -114,9 +114,9 @@ public class CatalogUnitItem : MyUnitItem {
 					bg.spriteName = GetAvatarBgSpriteName();
 					break;
 				case CatalogState.Meet : 
-//					avatarSprite.atlas = DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
+//					avatarSprite.atlas = ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
-					DataCenter.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
+					ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
 					maskSprite.enabled = true;
 					erotemeSpr.enabled = false;
 					//translucentMaskSpr.enabled = true;

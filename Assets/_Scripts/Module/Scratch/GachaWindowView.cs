@@ -18,7 +18,7 @@ public class GachaWindowView : ViewBase {
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
 
-    public override void Init ( UIInsConfig config ) {
+    public override void Init ( UIConfigItem config ) {
         base.Init (config);
         InitUI();
     }
@@ -164,7 +164,7 @@ public class GachaWindowView : ViewBase {
 		currentGrid = grid;
 		sprite = currentGrid.transform.Find ("Cell/Texture").GetComponent<UISprite> ();
 		TUnitInfo tui = currentUserUnit.UnitInfo;
-		DataCenter.Instance.GetAvatarAtlas(tui.ID, sprite, o => {
+		ResourceManager.Instance.GetAvatarAtlas(tui.ID, sprite, o => {
 			sprite.enabled = false;
 		});
 
@@ -340,7 +340,7 @@ public class GachaWindowView : ViewBase {
             level = 1;
         }
 
-		DataCenter.Instance.GetAvatarAtlas (currentUnitInfo.ID, texture);
+		ResourceManager.Instance.GetAvatarAtlas (currentUnitInfo.ID, texture);
 //		currentUnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //			texture.mainTexture = o as Texture2D;
 //		});

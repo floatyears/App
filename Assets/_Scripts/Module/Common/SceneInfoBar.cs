@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SceneInfoBar : ViewBase
@@ -23,7 +23,7 @@ public class SceneInfoBar : ViewBase
 //		Init("SceneInoBar");
 	}
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 		uiTitleLab = FindChild<UILabel>("Lab_UI_Name");

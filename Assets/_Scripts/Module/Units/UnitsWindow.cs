@@ -13,7 +13,7 @@ public class UnitsWindow : ViewBase, IDragChangeView{
 
 	private DragChangeView dragChangeView;
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitChildScenes();
 //		iuiCallback = origin as IUICallback;

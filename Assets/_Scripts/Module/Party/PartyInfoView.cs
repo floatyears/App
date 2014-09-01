@@ -17,7 +17,7 @@ public class PartyInfoView : ViewBase {
 	private UILabel leaderSkillNameLabel;
 	private UILabel leaderSkillDscpLabel;
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitPartyInfoPanel();
 	}

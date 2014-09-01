@@ -21,7 +21,7 @@ public class SellView : ViewBase{
 	private List<GameObject> pickItemList = new List<GameObject>();
 	private List<GameObject> readyItemList = new List<GameObject>();
 	
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUIElement();
 	}
@@ -118,7 +118,7 @@ public class SellView : ViewBase{
 
 	void FillLastSureWindow(List<TUserUnit> dataInfoList){
 		for (int i = 0; i < dataInfoList.Count; i++){
-			DataCenter.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.ID, FindTextureWithPosition( i, readyItemList) );
+			ResourceManager.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.ID, FindTextureWithPosition( i, readyItemList) );
 
 			string level = dataInfoList[ i ].Level.ToString();
 			FindLabelWithPosition(i, readyItemList).text = "LV" + level;
@@ -362,7 +362,7 @@ public class SellView : ViewBase{
 
 			GameObject targetItem = pickItemList[ poolPos ];
 			UISprite sprite = targetItem.transform.Find("Texture").GetComponent<UISprite>();
-			DataCenter.Instance.GetAvatarAtlas(item.UserUnit.UnitInfo.ID, sprite, returnValue => {
+			ResourceManager.Instance.GetAvatarAtlas(item.UserUnit.UnitInfo.ID, sprite, returnValue => {
 				string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
 				temp.Add("background", sprName);
 				sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();

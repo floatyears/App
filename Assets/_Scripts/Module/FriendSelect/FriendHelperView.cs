@@ -16,7 +16,7 @@ public class FriendHelperView : ViewBase{
 
 	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
 
-	public override void Init(UIInsConfig config) {
+	public override void Init(UIConfigItem config) {
 		base.Init(config);
 		InitUI();
 		transform.localPosition -= transform.parent.localPosition;

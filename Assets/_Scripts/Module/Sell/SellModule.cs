@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class SellController : ModuleBase {
+public class SellModule : ModuleBase {
 	int maxPickCount = 12;
 	int totalSaleValue = 0;
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public SellController(string uiName):base(uiName) {}
+	public SellModule(string uiName):base(uiName) {}
 	public override void CreatUI () { 
 //		Debug.LogError("SellController.CreatUI()...1"); 
 		base.CreatUI (); 
@@ -85,7 +85,7 @@ public class SellController : ModuleBase {
 		pickedUnitList.Clear();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
 		base.HideUI ();
-		SellView view = viewComponent as SellView;
+//		SellView view = view as SellView;
 //		view.ResetUIState();
 		base.ShowUI ();
 	}

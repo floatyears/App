@@ -23,7 +23,7 @@ public class UserBriefInfoView : ViewBase{
 	UISprite avatarTex;
 	
 	int originLayer = 1;
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUIElement();
 //		ShowSelf(false);
@@ -179,7 +179,7 @@ public class UserBriefInfoView : ViewBase{
 //			avatarTex.mainTexture = o as Texture2D;
 //		});
 
-		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTex);
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTex);
 
 		slvLabel.text = tuu.UnitInfo.ActiveSkill.ToString();
 	}

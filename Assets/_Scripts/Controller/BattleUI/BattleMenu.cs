@@ -8,7 +8,7 @@ public class BattleMenu : ViewBase {
 //
 //	}
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 		InitUIComponent ();

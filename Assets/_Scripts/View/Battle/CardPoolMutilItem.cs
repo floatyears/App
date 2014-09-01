@@ -11,7 +11,7 @@ public class CardPoolMutilItem : CardPoolSingleItem
 	
 	Vector3 scale;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 

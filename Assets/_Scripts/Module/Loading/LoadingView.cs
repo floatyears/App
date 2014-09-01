@@ -18,7 +18,7 @@ public class LoadingView : ViewBase {
 
 	private bool initComplete = false;
 
-    public override void Init ( UIInsConfig config ) {
+    public override void Init ( UIConfigItem config ) {
         base.Init (config);
         InitUI();
     }
@@ -72,7 +72,7 @@ public class LoadingView : ViewBase {
 			TextCenter.Instance.Init (o1=>{
 				
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
-				ModelManager.Instance.Init();
+//				DataCenter.Instance.Init();
 				
 				initComplete = true;
 				//				Debug.Log("init complete: " + initComplete);

@@ -132,7 +132,7 @@ public class StageItemView : MonoBehaviour{
 		UILabel tipLabel = tipObj.AddComponent<UILabel>();
 		tipLabel.text = TextCenter.GetText("Stage_Locked");
 		tipLabel.depth = 6;
-		tipLabel.trueTypeFont = ViewManager.Instance.DynamicFont;
+//		tipLabel.trueTypeFont = ViewManager.Instance.DynamicFont;
 		tipLabel.fontSize = 36;
 		tipLabel.color = Color.red;
 //		tipLabel.fon

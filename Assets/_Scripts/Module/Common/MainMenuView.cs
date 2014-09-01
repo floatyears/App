@@ -6,7 +6,7 @@ public class MainMenuView : ViewBase{
 	private UISprite leaderAvatarSpr;
 
 	private Dictionary<GameObject,ModuleEnum> buttonInfo = new Dictionary<GameObject, ModuleEnum> ();
-	public override void Init (UIInsConfig config) {
+	public override void Init (UIConfigItem config) {
 		base.Init (config);
 		InitButton ();
 		UpdateLeaderAvatar(null);

@@ -45,7 +45,7 @@ public class BattleCardAreaItem : ViewBase {
 
 	private UILabel boostLabel;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //	}

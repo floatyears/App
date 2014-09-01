@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using bbproto;
 
 public class EvolveDecoratorUnity : ViewBase {
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		InitUI ();
 	}
@@ -562,7 +562,7 @@ public class EvolveItem {
 //			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //				showTexture.mainTexture = o as Texture2D;
 //			});
-			DataCenter.Instance.GetAvatarAtlas(userUnit.UnitInfo.ID, showTexture);
+			ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitInfo.ID, showTexture);
 		}
 	}
 

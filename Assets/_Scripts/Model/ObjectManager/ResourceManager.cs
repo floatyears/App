@@ -536,6 +536,74 @@ public class ResourceManager : MonoBehaviour{
 //		Debug.Log ("resource reply: " + allComplete);
 		return allComplete;
 	}
+
+	public const uint AVATAR_ATLAS_COUNT = 11;
+	public const uint AVATAR_ATLAS_CAPACITY = 20;
+	private Dictionary<uint, UIAtlas> avatarAtalsDic = new Dictionary<uint, UIAtlas>();
+	
+	public Dictionary<uint, UIAtlas> AvatarAtalsDic{get{return avatarAtalsDic;}}
+	
+	public void GetAvatarAtlas(uint unitID, UISprite sprite, ResourceCallback resouceCB = null){
+		
+		uint index = (unitID -1) / AVATAR_ATLAS_CAPACITY;
+		UIAtlas atlas = null;
+		if (ResourceManager.exceptionList.IndexOf ((int)unitID) >= 0) {
+			index = 100;
+		}
+		if (!avatarAtalsDic.TryGetValue (index, out atlas)) {
+			string sourcePath = string.Format ("Avatar/Atlas_Avatar_{0}", index);
+			ResourceManager.Instance.LoadLocalAsset (sourcePath, o=> {
+				GameObject source = o as GameObject;
+				atlas = source.GetComponent<UIAtlas> ();
+				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+				
+				if (!avatarAtalsDic.ContainsKey (index))
+					avatarAtalsDic.Add (index, atlas);
+				
+				if (resouceCB != null)
+					resouceCB (atlas);
+			} );
+		} else {
+			BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+			if (resouceCB != null)
+				resouceCB (atlas);
+		}
+	}
+	
+	
+	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
+	
+	public void GetProfile(uint unitID, UITexture uiTexture = null, ResourceCallback resouceCB = null) {
+		Texture2D profile = null;
+		if (!profileCache.TryGetValue (unitID, out profile)) {
+			string path = string.Format ("Profile/{0}", unitID);
+			ResourceManager.Instance.LoadLocalAsset (path, o => {
+				profile = o as Texture2D;	
+				//				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
+				if(profileCache.ContainsKey(unitID)) {
+					profileCache[unitID] =  profile;
+				} else {
+					profileCache.Add(unitID, profile);
+				}
+				
+				if (uiTexture != null) {
+					uiTexture.mainTexture = profile;
+				}
+				
+				if (resouceCB != null) {
+					resouceCB (profile);
+				}
+			});
+		} else {
+			if (uiTexture != null) {
+				uiTexture.mainTexture = profile;
+			}
+			
+			if (resouceCB != null) {
+				resouceCB (profile);
+			}
+		}
+	}
 }
 
 public enum ResourceAssetBundle{
@@ -651,5 +719,7 @@ public class AssetBundleObj{
 
 		return relies;
 	}
+
+
 
 }

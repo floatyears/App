@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class EvolveComponent : ModuleBase, ICheckUIState {
+public class EvolveComponent : ModuleBase {
 	public EvolveComponent(string uiName):base(uiName) {}
 	
 	public override void CreatUI () {
@@ -73,13 +73,13 @@ public class EvolveComponent : ModuleBase, ICheckUIState {
 
 	}
 		
-	public bool CheckState () {
-		if (viewComponent.gameObject.activeSelf) {
-			return true;	
-		} else {
-			return false;	
-		}
-	}
+//	public bool CheckState () {
+//		if (view.gameObject.activeSelf) {
+//			return true;	
+//		} else {
+//			return false;	
+//		}
+//	}
 
 	//================================================================================
 	private Dictionary<string, object> TransferData = new Dictionary<string, object> ();

@@ -37,7 +37,7 @@ public class VictoryEffect : ViewBase {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 
-	public override void Init (UIInsConfig config) {
+	public override void Init (UIConfigItem config) {
 		base.Init (config);
 		FindComponent ();
 	}
@@ -121,7 +121,7 @@ public class VictoryEffect : ViewBase {
 			uint unitID = tuu.UnitInfo.ID;
 			go.name = i.ToString();
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
-			DataCenter.Instance.GetAvatarAtlas(unitID, sprite);
+			ResourceManager.Instance.GetAvatarAtlas(unitID, sprite);
 			sprite.enabled = false;
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(tuu.UnitInfo.ID);
 			getUserUnit.Enqueue(tuu);

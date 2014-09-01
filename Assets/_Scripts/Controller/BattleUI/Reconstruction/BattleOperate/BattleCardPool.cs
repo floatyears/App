@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BattleCardPool : ViewBase
@@ -21,7 +21,7 @@ public class BattleCardPool : ViewBase
 		set { xStart = transform.localPosition.x - value / 2f; }
 	}
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //	}

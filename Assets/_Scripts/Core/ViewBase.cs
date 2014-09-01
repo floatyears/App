@@ -81,23 +81,23 @@ using System.Collections.Generic;
 //
 public class ViewBase : MonoBehaviour {
 
-	protected UIInsConfig config = null;
-
-	public UIInsConfig uiConfig {
-		get {
-			return config;
-		}
-	}
+//	protected UIConfigItem config = null;
+//
+//	public UIConfigItem uiConfig {
+//		get {
+//			return config;
+//		}
+//	}
 
 //	protected ConcreteComponent origin;
 
-	public virtual void Init(UIInsConfig config/*,ConcreteComponent origin = null*/) {
+	public virtual void Init(UIConfigItem config/*,ConcreteComponent origin = null*/) {
 
-		if(this.config == config)
-			return;
-
-//		this.origin = origin;
-		this.config = config;
+//		if(this.config == config)
+//			return;
+//
+////		this.origin = origin;
+//		this.config = config;
 
 		if (config != null && config.parent != null) {
 			transform.parent = config.parent;	
@@ -107,32 +107,31 @@ public class ViewBase : MonoBehaviour {
 
 	}
 
+	public virtual void Init(){
+
+	}
+
+
 	public virtual void ShowUI() {
-		if (config != null) {
-			transform.localPosition = config.localPosition;
-			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-				ViewManager.Instance.TogglePopUpWindow(true);
-			}
-		}
+//		if (config != null) {
+//			transform.localPosition = config.localPosition;
+//			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
+//				ViewManager.Instance.TogglePopUpWindow(true);
+//			}
+//		}
 	}
 
 	public virtual void HideUI() {
-		InitHide();
-		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-			ViewManager.Instance.TogglePopUpWindow(false);
-		}
+//		InitHide();
+//		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
+//			ViewManager.Instance.TogglePopUpWindow(false);
+//		}
 	}
 
 //    public virtual void ResetUIState() {}
 
 	private void InitHide() {
-		transform.localPosition = ViewManager.HidePos;
 
-//		if (GetType () == typeof(SceneInfoDecoratorUnity)) {
-//			Debug.LogError("SceneInfoDecoratorUnity STOP itween : " + Time.realtimeSinceStartup);
-//		}
-	
-		iTween.Stop (gameObject);
 	}
 
 	public virtual void DestoryUI() {

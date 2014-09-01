@@ -71,7 +71,7 @@ public class NoviceMsgWindowView : ViewBase{
 	private int chagnedWidth = 360;
 
 	
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		FindUIElement();
 		base.Init(config);
 	}

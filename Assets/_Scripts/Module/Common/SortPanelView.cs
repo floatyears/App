@@ -11,7 +11,7 @@ public class SortPanelView : ViewBase {
 	SortRule targetRule = SortRule.None;
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitBtns();
 	}

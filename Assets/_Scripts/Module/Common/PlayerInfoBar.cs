@@ -36,7 +36,7 @@ public class PlayerInfoBar : ViewBase{
 	Vector3 leftPosition;
 	Vector3 rightPosition;
 
-	public override void Init(UIInsConfig config) {
+	public override void Init(UIConfigItem config) {
 		base.Init(config);
 		InitUI();
 

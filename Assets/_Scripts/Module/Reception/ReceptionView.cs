@@ -9,7 +9,7 @@ public class ReceptionView : ViewBase {
 	private UIButton refuseAllBtn;
 	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 //		Debug.LogError("ReceptionView Init 1");
 		base.Init(config);
 //		Debug.LogError("ReceptionView Init 2");

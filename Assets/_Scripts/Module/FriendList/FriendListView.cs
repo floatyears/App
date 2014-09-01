@@ -9,7 +9,7 @@ public class FriendListView : ViewBase{
 	private UIButton updateBtn;
 	private List<TFriendInfo> friendDataList = new List<TFriendInfo>();
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUIElement();
 	}

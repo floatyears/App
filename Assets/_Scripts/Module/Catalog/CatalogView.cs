@@ -17,7 +17,7 @@ public class CatalogView : ViewBase {
 	private bool canDoRightCacheMove = true;
 
        
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
 	}

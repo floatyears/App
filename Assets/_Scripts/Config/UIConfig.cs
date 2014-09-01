@@ -129,12 +129,12 @@ public class UIConfig{
 }
 
 
-public class UIIns : JsonOriginData
+public class UIConfigData : JsonOriginData
 {
 
-	private Dictionary<string,UIInsConfig> uiInsData = new Dictionary<string, UIInsConfig>(); 
+	private Dictionary<ModuleEnum,UIConfigItem> uiInsData = new Dictionary<ModuleEnum, UIConfigItem>(); 
 
-	public UIIns(string info) :base(info)
+	public UIConfigData(string info) :base(info)
 	{
 		//init data and fill the dicitionay
 		DeserializeData();
@@ -144,30 +144,38 @@ public class UIIns : JsonOriginData
 		info = null;
 	}
 
-	public UIInsConfig GetData(string uiName)
+	public UIConfigItem GetData(ModuleEnum uiName)
 	{
-		UIInsConfig ins = null;
+//		UIConfigItem ins = null;
 
-		if (uiInsData.TryGetValue(uiName, out ins))
+		if (uiInsData.ContainsKey(uiName))
 		{
-			return ins;
+			return uiInsData[uiName];
 		}
+		return null;
 
-		return ins;
+//		return ins;
 	}
 
 	public override object DeserializeData()
 	{
 		base.DeserializeData();
 
-		UIInsConfig ins;
+		UIConfigItem ins;
 
 		for (int i = 0; i < jsonData.Count; i++)
 		{
 //            Debug.LogError("json config DeserializeData uiName " + (string)jsonData [i] ["uiName"]);
-			ins = new UIInsConfig();
-			ins.uiName = (string)jsonData [i] ["uiName"];
-			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.uiName;
+			ins = new UIConfigItem();
+			try{
+				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData [i].ToString());
+			}catch(ArgumentException){
+				Debug.LogError("ModuleEnum Convert Err: "+ jsonData [i] ["moduleName"]+ " is not a member of the ModuleEnum");
+			}
+
+//			ins.moduleType = Type.
+
+			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.moduleName;
 			if(jsonData [i] ["positionx"].IsDouble) {
 				double data = (double)jsonData [i] ["positionx"];
 				ins.localPosition.x = (float)data;
@@ -193,7 +201,7 @@ public class UIIns : JsonOriginData
 //			ins.localPosition.z = (int)jsonData [i] ["positionz"];
 			byte parent = (byte)((int)jsonData [i] ["parent"]);
 			ins.parent = GetParentTrans(parent);
-			uiInsData.Add(ins.uiName, ins);
+			uiInsData.Add(ins.moduleName, ins);
 //			Debug.LogError(ins.uiName);
 		}
 
@@ -261,9 +269,10 @@ public class SkillJsonConfig : JsonOriginData {
 	}
 }
 
-public class UIInsConfig
+public class UIConfigItem
 {
-	public string uiName = string.Empty;
+	public ModuleEnum moduleName = ModuleEnum.None;
+//	public Type moduleType = null;
 	public string resourcePath = string.Empty;
 	public Transform parent = null;
 	public Vector3 localPosition = Vector3.zero;

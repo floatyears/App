@@ -25,7 +25,7 @@ public class DragPanel : ViewBase{
 	public static GameObject dragObject;
 
 	public DragPanel(string name,GameObject obj){
-		UIInsConfig config = null;
+		UIConfigItem config = null;
 		base.Init (config);
 		sourceObject = obj;
 		if(dragObject == null){

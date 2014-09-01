@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -32,7 +32,7 @@ public class BattleMap : ViewBase {
 		set{ bQuest = value; }
 	}
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //		base.Init (name);

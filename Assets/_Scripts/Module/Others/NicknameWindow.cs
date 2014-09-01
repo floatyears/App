@@ -7,7 +7,7 @@ public class NicknameWindow : ViewBase {
 	UIButton CancelButton;
 	UIInput nickNameInput;
 
-	public override void Init ( UIInsConfig config ){
+	public override void Init ( UIConfigItem config ){
 		FindUIElement();
 		SetNickNamePanel ();
 		//		SetOption();

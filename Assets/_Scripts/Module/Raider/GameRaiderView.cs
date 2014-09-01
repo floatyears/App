@@ -7,7 +7,7 @@ public class GameRaiderView : ViewBase {
 
 	NGUIHTML html;
 
-	public override void Init ( UIInsConfig config ){
+	public override void Init ( UIConfigItem config ){
 		base.Init (config);
 
 		//HtEngine.RegisterLogger(new Unity3DLogger());
@@ -42,7 +42,7 @@ public class GameRaiderView : ViewBase {
 		yield return 0;
 		html.html = TextCenter.GetText ("Raider_0");
 
-		ShowUIAnimation ();
+//		ShowUIAnimation ();
 	}
 	
 	public override void HideUI(){
@@ -56,10 +56,7 @@ public class GameRaiderView : ViewBase {
 		Debug.Log ("raider destroy ui");
 		base.DestoryUI ();
 	}
+	
 
-	void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
-	}
 
 }

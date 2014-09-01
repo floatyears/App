@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BattleShowUnity : ViewBase 
@@ -34,7 +34,7 @@ public class BattleShowUnity : ViewBase
 		get{return dragItem;}
 	}
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 

@@ -21,7 +21,7 @@ public class OthersWindow : ViewBase {
 
 	Dictionary< GameObject, GameObject > options = new Dictionary< GameObject, GameObject>();
 
-	public override void Init ( UIInsConfig config ){
+	public override void Init ( UIConfigItem config ){
 		FindUIElement();
 //		SetOption();
 		base.Init (config);
@@ -31,7 +31,7 @@ public class OthersWindow : ViewBase {
 		base.ShowUI ();
 //		SetUIElement();
 
-		ShowUIAnimation ();
+//		ShowUIAnimation ();
 	}
 	
 	public override void HideUI(){
@@ -79,10 +79,6 @@ public class OthersWindow : ViewBase {
 		UIEventListenerCustom.Get (FindChild ("OptionItems/Contact")).onClick = ClicItems;
 	}
 
-	void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
-	}
 
 	void ClicItems(GameObject obj){
 		switch (obj.name) {

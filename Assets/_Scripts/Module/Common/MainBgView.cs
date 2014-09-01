@@ -4,7 +4,7 @@ using System.Collections;
 public class MainBgView : ViewBase {
 	private UISprite background;
 	private UITexture otherBg;
-	public override void Init (UIInsConfig config){
+	public override void Init (UIConfigItem config){
 		base.Init (config);
 		background = transform.FindChild("HomeBG").GetComponent<UISprite>();
 		otherBg = FindChild<UITexture> ("OtherBG");

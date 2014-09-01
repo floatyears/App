@@ -8,7 +8,7 @@ public class CountDownUnity : ViewBase {
 	private float countDownValue = 1f;
 	private bool Stop = true;
 
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 //		numberSprite = FindChild<UISprite>("Number");

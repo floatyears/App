@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShowNewCardView : ViewBase {
-	public override void Init (UIInsConfig config) {
+	public override void Init (UIConfigItem config) {
 		base.Init (config);
 		InitComponent ();
 		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
@@ -130,7 +130,7 @@ public class ShowNewCardView : ViewBase {
 	}
 
 	void ShowTexture() {
-		DataCenter.Instance.GetProfile (userUnit.Object.unitId, null, texture => {
+		ResourceManager.Instance.GetProfile (userUnit.Object.unitId, null, texture => {
 			Texture2D tex = texture as Texture2D;
 			DGTools.ShowTexture(profileTexture, tex);
 			iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.3f, "easetype", iTween.EaseType.easeOutQuart));

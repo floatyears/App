@@ -19,7 +19,7 @@ public class ResultView : ViewBase {
 	GameObject rootCenter;
 	GameObject rootBottom;
 
-	public override void Init(UIInsConfig config){
+	public override void Init(UIConfigItem config){
 		base.Init(config);
 		InitUI();
 	}
@@ -123,7 +123,7 @@ public class ResultView : ViewBase {
 		Debug.Log("ResultView.ShowTopView(), start...");
 		TFriendInfo viewData = msg as TFriendInfo;
 		TUnitInfo tui = viewData.UserUnit.UnitInfo;
-		DataCenter.Instance.GetAvatarAtlas (tui.ID, avatarTex);
+		ResourceManager.Instance.GetAvatarAtlas (tui.ID, avatarTex);
 //		viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //			avatarTex.mainTexture = o as Texture2D;
 //		});

@@ -8,7 +8,7 @@ public class FriendWindows : FriendHelperView {
 
 	public EvolveItem evolveItem;
 
-	public override void Init (UIInsConfig config) {
+	public override void Init (UIConfigItem config) {
 		base.Init (config);
 		premiumBtn.gameObject.SetActive (true);
 	}

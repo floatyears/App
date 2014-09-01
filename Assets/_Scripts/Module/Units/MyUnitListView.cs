@@ -7,7 +7,7 @@ public class MyUnitListView : ViewBase {
 	private DragPanel dragPanel;
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
 
-	public override void Init ( UIInsConfig config ) {
+	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		InitUIElement();
 	}

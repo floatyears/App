@@ -41,7 +41,7 @@ public class Role : ViewBase {
 
 	private Jump jump;
 	private Vector3 initPosition = new Vector3 (-1115f, 340f, -20f);
-	public override void Init (UIInsConfig config)
+	public override void Init (UIConfigItem config)
 	{
 		base.Init (config);
 		jump = GetComponent<Jump> ();
