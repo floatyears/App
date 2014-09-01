@@ -745,7 +745,7 @@ public class FriendListDecorator : DecoratorBase{
 //		FriendListUserBriefInfo briefInfo = CreatComponent<FriendListUserBriefInfo>(UIConfig.userBriefInfoWindowName);
 
 //		ApplyController apply
-		DeleteFriendApply deleteApply = CreatComponent<DeleteFriendApply>(UIConfig.applyMessageWindowName);
+		FriendListApplyMessage deleteApply = CreatComponent<FriendListApplyMessage>(UIConfig.applyMessageWindowName);
 
 		FriendListLogic friendList = CreatComponent<FriendListLogic>(UIConfig.friendListWindowName);
 

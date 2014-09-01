@@ -35,7 +35,7 @@ public class FriendListApplyMessage : ApplyMessage {
 	}
 	
 	void EnsureDeleteApply(object args){
-		MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteApply, null);
+		MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteFriend, null);
 	}
 	
 	void CustomizeWindow(){
@@ -44,13 +44,14 @@ public class FriendListApplyMessage : ApplyMessage {
 	}
 	
 	void CustomizeTitle(){
-		string title = TextCenter.GetText ("DeleteApply");//"";
+		string title = TextCenter.GetText ("DeleteNoteTitle");//"";
+		Debug.LogError ("title : " + title);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeTitle", title);
 		ExcuteCallback(cbdArgs);
 	}
 	
 	void CustomizeNote(){
-		string note = TextCenter.GetText ("ConfirmDelete");// "Are you sure to delete your apply?";
+		string note = TextCenter.GetText ("DeleteNoteContent");// "Are you sure to delete your apply?";
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("StylizeNote", note);
 		ExcuteCallback(cbdArgs);
 	}
