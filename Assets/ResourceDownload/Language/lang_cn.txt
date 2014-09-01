@@ -376,7 +376,7 @@ WeekCardDesc=每天获得[FFB14A]100[-]魔法石 ([FFB14A]X7[-]天)
 FriendGacha=友情召唤
 FriendGachaTitle=友情召唤
 FriendGachaDescription=友情召唤将消耗你的友情点数。
-FriendGachaStatus=召唤1次: [FFB14A]{0}[-] 点  召唤{1}次: [FFB14A]{2}[-] 点\n你当前拥有点数： [FFB14A]{3}[-] 点。
+FriendGachaStatus=召唤1次: [FFB14A]{0}[-] 点\n召唤{1}次: [FFB14A]{2}[-] 点\n你当前拥有点数： [FFB14A]{3}[-] 点。
 
 ConfirmOneFriendGacha=召唤1次
 ConfirmMaxFriendGacha=召唤{0}次
@@ -388,7 +388,7 @@ GachaFriendPointNotEnough=你的友情点数不足！\n召唤一次需要 [FFB14
 RareGacha=稀有召唤
 RareGachaTitle=稀有召唤
 RareGachaDescription=稀有召唤可获得强力的卡牌，将花费一定数量的魔法石。
-RareGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石 召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
+RareGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石  \n召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
 
 ConfirmOneRareGacha=召唤1次
 ConfirmMaxRareGacha=召唤{0}次
@@ -399,7 +399,7 @@ RareGachaStoneNotEnough=你的魔法石余额不足！\n召唤一次需要 [FFB1
 EventGacha=限时活动召唤
 EventGachaTitle=限时活动召唤
 EventGachaDescription=限时活动召唤
-EventGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石 召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
+EventGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石  \n召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
 
 ConfirmOneEventGacha=召唤1次
 ConfirmMaxEventGacha=召唤{0}次
@@ -412,7 +412,7 @@ FriendScratch=友情召唤
 RareScratch=稀有召唤
 EventScratch=活动召唤
 
-GachaChances=可召唤： [FFB14A]0}[-]/{1}
+GachaChances=可召唤： [FFB14A]{0}[-]/{1}
 Lv=Lv {0}
 
 
