@@ -53,17 +53,20 @@ public class Main : MonoBehaviour {
         }
     }
 
+	public MessageAdapt messageAdapt { get; private set; }
+
 	[HideInInspector]
 	public UIRoot root;
 
     void Awake() {
 		mainScrpit = this;
+		DontDestroyOnLoad(gameObject);
         TrapInjuredInfo tii = TrapInjuredInfo.Instance;
         globalDataSeed = (byte)Random.Range(0, 255);
 		root = uiRoot.GetComponent<UIRoot> ();
         gInput = gameObject.AddComponent<GameInput>();
         gTimer = gameObject.AddComponent<GameTimer>();
-        DontDestroyOnLoad(gameObject);
+		messageAdapt = gameObject.AddComponent<MessageAdapt> ();
 
         // init manager class
         ViewManager.Instance.Init(uiRoot);
