@@ -82,7 +82,7 @@ public class MainMenuView : ViewBase{
 	private void ClickMenuBtn( GameObject btn ) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		ModuleEnum targetScene = buttonInfo [ btn ];
-		UIManager.Instance.ChangeScene(targetScene);
+		ModuleManger.Instance.ShowModule(targetScene);
 
 		Umeng.GA.Event ("BottomMenu",targetScene.ToString ());
 

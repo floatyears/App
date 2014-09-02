@@ -143,8 +143,8 @@ public class LoadingView : ViewBase {
     }
 
     private void SelectRoleFirst(){
-//		UIManager.Instance.ChangeScene (ModuleEnum.Preface);
-		UIManager.Instance.ChangeScene (ModuleEnum.SelectRoleModule);
+//		ModuleManger.Instance.ShowModule (ModuleEnum.Preface);
+		ModuleManger.Instance.ShowModule (ModuleEnum.SelectRoleModule);
     }
 
 //	private void checkResourceUpdate(){

@@ -197,7 +197,7 @@ public class CatalogUnitItem : MyUnitItem {
 	}
 
 	private void PressItem(GameObject item){
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, catalogUserUnit);
 	}
 

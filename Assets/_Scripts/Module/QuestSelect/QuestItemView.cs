@@ -130,7 +130,7 @@ public class QuestItemView : MonoBehaviour {
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
-			UIManager.Instance.ChangeScene(ModuleEnum.FriendSelectModule);//before
+			ModuleManger.Instance.ShowModule(ModuleEnum.FriendSelectModule);//before
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
 		}
 	}

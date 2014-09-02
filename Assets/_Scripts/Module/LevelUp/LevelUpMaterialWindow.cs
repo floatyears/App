@@ -74,13 +74,13 @@ public class LevelUpMaterialWindow : ViewBase {
 
 	void PressItem(GameObject item){  
 		UserUnit unitInfo = materialUnitInfoDic[ item ];
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule );
+		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule );
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 	}
 
 	private void InitDragPanel(){
 		string name = "MaterialDragPanel";
-		int count = ConfigViewData.OwnedUnitInfoList.Count;
+		int count = DataCenter.Instance.ConfigViewData.Count;
 		string itemSourcePath = "Prefabs/UI/Friend/UnitItem";
 		ResourceManager.Instance.LoadLocalAsset( itemSourcePath ,o =>{
 			GameObject itemGo = o as GameObject;
@@ -102,7 +102,7 @@ public class LevelUpMaterialWindow : ViewBase {
 		if( panel == null )	return;
 		for( int i = 0; i < panel.ScrollItem.Count; i++){
 			GameObject currentItem = panel.ScrollItem[ i ];
-			materialUnitInfoDic.Add(currentItem, ConfigViewData.OwnedUnitInfoList[ i ]);
+			materialUnitInfoDic.Add(currentItem, DataCenter.Instance.ConfigViewData[ i ]);
                         ShowAvatar( currentItem );
                         AddEventListener( currentItem );
                 }

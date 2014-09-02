@@ -7,12 +7,12 @@ public class LevelUpMaterialUI : ModuleBase{
 
 	private List< UserUnit > ownUnits;
 
-	public LevelUpMaterialUI(string uiName):base(uiName) {
+	public LevelUpMaterialUI(UIConfigItem config):base(  config) {
 		GetUnitsData();
 	}
 
-	public override void CreatUI(){
-		base.CreatUI();
+	public override void InitUI(){
+		base.InitUI();
 	}
 	
 	public override void ShowUI(){
@@ -28,7 +28,7 @@ public class LevelUpMaterialUI : ModuleBase{
 	}
 
 	private void GetUnitsData(){
-		ownUnits = ConfigViewData.OwnedUnitInfoList;
+		ownUnits = DataCenter.Instance.ConfigViewData;
 		if( ownUnits.Count < 1 ){
 			LogHelper.LogError( "LevelUp MaterialUI : Not got Material Data" );
 		}
@@ -46,7 +46,7 @@ public class LevelUpMaterialUI : ModuleBase{
 
 	}
 	
-	public void CallbackView(object data){
+	public void OnReceiveMessage(object data){
 //		IUICallback call = viewComponent as IUICallback;
 //		call.Callback( data );
 	}

@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class LevelUpInfoPanelUI : ModuleBase{
-	public LevelUpInfoPanelUI(string uiName):base(uiName) {}
-	public override void CreatUI(){
-		base.CreatUI();
+	public LevelUpInfoPanelUI(UIConfigItem config):base(  config) {}
+	public override void InitUI(){
+		base.InitUI();
 	}
 	
 	public override void ShowUI(){

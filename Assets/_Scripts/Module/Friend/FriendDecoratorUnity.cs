@@ -89,7 +89,7 @@ public class FriendDecoratorUnity : ViewBase {
             	SyncFriendListFromServer();
             	break;
         	default:
-				UIManager.Instance.ChangeScene(nextScene);
+				ModuleManger.Instance.ShowModule(nextScene);
             	break;
         }
     }
@@ -100,7 +100,7 @@ public class FriendDecoratorUnity : ViewBase {
     }
 
     void TurnToNextScene(object obj) {
-        UIManager.Instance.ChangeScene(nextScene);
+        ModuleManger.Instance.ShowModule(nextScene);
     }
 
     void ShowUIAnimation(){

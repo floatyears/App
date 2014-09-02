@@ -1,6 +1,8 @@
 using UnityEngine;
-using System.Collections.Generic;
+
 using bbproto;
+using LitJson;
+using System.Collections.Generic;
 
 public enum ModelEnum {
     UserInfo = 100,
@@ -24,6 +26,8 @@ public enum ModelEnum {
 	HelperInfo,
 	LoginInfo,
 	EventStageList,
+	AudioList,
+	ViewData,
 
 	//new add
 	CityListInfo,
@@ -66,8 +70,56 @@ public class DataCenter {
     private DataCenter() { 
 
 	}
-
 	private Dictionary<ModelEnum, object> modelDataDic = new Dictionary<ModelEnum, object>();
+	/// <summary>
+	/// get the data to use
+	/// </summary>
+	/// <returns>The data.</returns>
+	/// <param name="modelType">Model type.</param>
+	/// <param name="erroMsg">Erro message.</param>
+	private object GetData(ModelEnum modelType) {
+		
+		if (!modelDataDic.ContainsKey(modelType)) {
+			Debug.LogError("required key [[[---" + modelType + "---]]] not exist in ModelManager");
+			return null;
+		}
+		return modelDataDic[modelType];
+	}
+	
+	public void Init() {
+		//      ConfigUnitInfo cui = new ConfigUnitInfo();
+		//		Debug.LogWarning ("InitData ConfigSkill");
+		supportFriendManager = new SupportFriendManager ();
+		
+		ResourceManager.Instance.LoadLocalAsset (UIConfig.UIInsConfigPath, o => {
+			new UIConfigData ((o as TextAsset).text);
+		});
+		new ConfigSkill();
+		//      ConfigEnermy ce = new ConfigEnermy();
+		new ConfigUnitBaseInfo();
+		new ConfigTrap();
+		
+//		ConfigFriendList configFriendList = new ConfigFriendList();
+		new ConfigAudio();
+		//      ConfigStage stage = new ConfigStage();
+		new ConfigViewData();
+		//		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
+	}
+	
+	/// <summary>
+	/// Adds the data.
+	/// </summary>
+	/// <param name="modelType">Model type.</param>
+	/// <param name="model">Model.</param>
+	public void SetData(ModelEnum modelType, object model) {
+		if (modelDataDic.ContainsKey(modelType)) {
+			modelDataDic[modelType] = model;
+		} else {
+			modelDataDic.Add(modelType, model);	
+		}
+	}
+
+	
 
 	private static GameState _gameState = GameState.Normal;
 	public static GameState gameState {
@@ -104,12 +156,12 @@ public class DataCenter {
 	public const int friendPos = 4;
 
     public TUserInfo UserInfo { 
-        get { return getData(ModelEnum.UserInfo) as TUserInfo; } 
-        set { setData(ModelEnum.UserInfo, value); } 
+        get { return GetData(ModelEnum.UserInfo) as TUserInfo; } 
+        set { SetData(ModelEnum.UserInfo, value); } 
     }
     public TAccountInfo AccountInfo {
-        get { return getData(ModelEnum.AccountInfo) as TAccountInfo; }
-        set { setData(ModelEnum.AccountInfo, value); }
+        get { return GetData(ModelEnum.AccountInfo) as TAccountInfo; }
+        set { SetData(ModelEnum.AccountInfo, value); }
     }
 
 	public SupportFriendManager supportFriendManager;
@@ -120,41 +172,41 @@ public class DataCenter {
     }
 
     public TFriendList FriendList { 
-        get { return getData(ModelEnum.FriendList) as TFriendList; }
-        set { setData(ModelEnum.FriendList, value); } 
+        get { return GetData(ModelEnum.FriendList) as TFriendList; }
+        set { SetData(ModelEnum.FriendList, value); } 
     }
 
 	public List<TStageInfo> EventStageList { 
-		get { return getData(ModelEnum.EventStageList) as List<TStageInfo>; }
-		set { setData(ModelEnum.EventStageList, value); } 
+		get { return GetData(ModelEnum.EventStageList) as List<TStageInfo>; }
+		set { SetData(ModelEnum.EventStageList, value); } 
 	}
 
 	public TQuestClearInfo QuestClearInfo {
-		get { return getData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
-		set { setData(ModelEnum.QuestClearInfo, value); }
+		get { return GetData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
+		set { SetData(ModelEnum.QuestClearInfo, value); }
 	}
 
     public bool InEventGacha {
         get {
             bool ret = true;
-            if (getData(ModelEnum.InEventGacha) == null){
-                setData(ModelEnum.InEventGacha, true);
+            if (GetData(ModelEnum.InEventGacha) == null){
+                SetData(ModelEnum.InEventGacha, true);
                 ret = true;
             } else {
-                ret = (bool)getData(ModelEnum.InEventGacha);
+                ret = (bool)GetData(ModelEnum.InEventGacha);
             }
             return ret;
         }
         set {
-            setData(ModelEnum.InEventGacha, value);
+            SetData(ModelEnum.InEventGacha, value);
         }
     }
 
     public int FriendCount {
         get {
             int ret = 0;
-            if (getData(ModelEnum.FriendCount) != null){
-                ret = (int)getData(ModelEnum.FriendCount);
+            if (GetData(ModelEnum.FriendCount) != null){
+                ret = (int)GetData(ModelEnum.FriendCount);
             }
             else{
                 List<TFriendInfo> supporters = SupportFriends;
@@ -166,38 +218,38 @@ public class DataCenter {
                     }
                     LogHelper.Log("total friends from supporters = {0}", ret);
                 }
-                setData(ModelEnum.FriendCount, ret);
+                SetData(ModelEnum.FriendCount, ret);
             }
             return ret;
         }
         set {
-            setData(ModelEnum.FriendCount, value);
+            SetData(ModelEnum.FriendCount, value);
         }
     }
     public TPartyInfo PartyInfo { 
-        get { return getData(ModelEnum.PartyInfo) as TPartyInfo; }
-        set { setData(ModelEnum.PartyInfo, value); }
+        get { return GetData(ModelEnum.PartyInfo) as TPartyInfo; }
+        set { SetData(ModelEnum.PartyInfo, value); }
     }
 
 	public TUnitCatalog CatalogInfo { 
-		get { return getData(ModelEnum.UnitCatalogInfo) as TUnitCatalog; }
-		set { setData(ModelEnum.UnitCatalogInfo, value); }
+		get { return GetData(ModelEnum.UnitCatalogInfo) as TUnitCatalog; }
+		set { SetData(ModelEnum.UnitCatalogInfo, value); }
 	}
 
 	public TNoticeInfo NoticeInfo { 
-		get { return getData(ModelEnum.NoticeInfo) as TNoticeInfo; }
-		set { setData(ModelEnum.NoticeInfo, value); }
+		get { return GetData(ModelEnum.NoticeInfo) as TNoticeInfo; }
+		set { SetData(ModelEnum.NoticeInfo, value); }
 	}
 
 	public StatHelperCount HelperCount{
-		get { return getData(ModelEnum.HelperInfo) as StatHelperCount; }
-		set { setData(ModelEnum.HelperInfo, value); }
+		get { return GetData(ModelEnum.HelperInfo) as StatHelperCount; }
+		set { SetData(ModelEnum.HelperInfo, value); }
 	}
 
 
 	public TLoginInfo LoginInfo { 
-		get { return getData(ModelEnum.LoginInfo) as TLoginInfo; }
-		set { setData(ModelEnum.LoginInfo, value); }
+		get { return GetData(ModelEnum.LoginInfo) as TLoginInfo; }
+		set { SetData(ModelEnum.LoginInfo, value); }
 	}
 
 
@@ -223,51 +275,51 @@ public class DataCenter {
 
     public UserUnitList UserUnitList {
         get { 
-            UserUnitList ret = getData(ModelEnum.UserUnitList) as UserUnitList;
+            UserUnitList ret = GetData(ModelEnum.UserUnitList) as UserUnitList;
             if (ret == null) {
                 ret = new UserUnitList();
-                setData(ModelEnum.UserUnitList, ret);
+                SetData(ModelEnum.UserUnitList, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.UserUnitList, value); } 
+        set { SetData(ModelEnum.UserUnitList, value); } 
     }
 
     // unit configs table(come from config file: ) e.g.<hp, hpLevelConfigList>
     public Dictionary<int,TPowerTableInfo> UnitValue {
         get { 
-            Dictionary<int,TPowerTableInfo> ret = getData(ModelEnum.UnitValue) as Dictionary<int, TPowerTableInfo>;
+            Dictionary<int,TPowerTableInfo> ret = GetData(ModelEnum.UnitValue) as Dictionary<int, TPowerTableInfo>;
             if (ret == null) {
                 ret = new Dictionary<int,TPowerTableInfo>();
-                setData(ModelEnum.UnitValue, ret);
+                SetData(ModelEnum.UnitValue, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.UnitValue, value); } 
+        set { SetData(ModelEnum.UnitValue, value); } 
     }
 
     public Dictionary<int, SkillBaseInfo> Skill {
         get { 
-            Dictionary<int, SkillBaseInfo> ret = getData(ModelEnum.Skill) as Dictionary<int, SkillBaseInfo>;
+            Dictionary<int, SkillBaseInfo> ret = GetData(ModelEnum.Skill) as Dictionary<int, SkillBaseInfo>;
             if (ret == null) {
                 ret = new Dictionary<int, SkillBaseInfo>();
-                setData(ModelEnum.Skill, ret);
+                SetData(ModelEnum.Skill, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.Skill, value); } 
+        set { SetData(ModelEnum.Skill, value); } 
     }
 
 	public Dictionary<string, SkillBaseInfo> AllSkill {
 		get { 
-			Dictionary<string, SkillBaseInfo> ret = getData(ModelEnum.AllSkill) as Dictionary<string, SkillBaseInfo>;
+			Dictionary<string, SkillBaseInfo> ret = GetData(ModelEnum.AllSkill) as Dictionary<string, SkillBaseInfo>;
 			if (ret == null) {
 				ret = new Dictionary<string, SkillBaseInfo>();
-				setData(ModelEnum.AllSkill, ret);
+				SetData(ModelEnum.AllSkill, ret);
 			}
 			return ret; 
 		}
-		set { setData(ModelEnum.AllSkill, value); } 
+		set { SetData(ModelEnum.AllSkill, value); } 
 	}
 
 	public SkillBaseInfo GetSkill(string userUnitID, int skillID, SkillType skillType) {
@@ -298,26 +350,26 @@ public class DataCenter {
 
     private Dictionary<uint, TUnitInfo>  UnitInfo {
         get { 
-            Dictionary<uint, TUnitInfo> ret = getData(ModelEnum.UnitInfo) as Dictionary<uint, TUnitInfo>;
+            Dictionary<uint, TUnitInfo> ret = GetData(ModelEnum.UnitInfo) as Dictionary<uint, TUnitInfo>;
             if (ret == null) {
                 ret = new Dictionary<uint, TUnitInfo>();
-                setData(ModelEnum.UnitInfo, ret);
+                SetData(ModelEnum.UnitInfo, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.UnitInfo, value); } 
+        set { SetData(ModelEnum.UnitInfo, value); } 
     }
 
     public Dictionary<uint, TEnemyInfo> EnemyInfo {
         get { 
-            Dictionary<uint, TEnemyInfo> ret = getData(ModelEnum.EnemyInfo) as Dictionary<uint, TEnemyInfo>;
+            Dictionary<uint, TEnemyInfo> ret = GetData(ModelEnum.EnemyInfo) as Dictionary<uint, TEnemyInfo>;
             if (ret == null) {
                 ret = new Dictionary<uint, TEnemyInfo>();
-                setData(ModelEnum.EnemyInfo, ret);
+                SetData(ModelEnum.EnemyInfo, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.EnemyInfo, value); } 
+        set { SetData(ModelEnum.EnemyInfo, value); } 
     }
 
 //    public Dictionary<int, UnitBaseInfo> UnitBaseInfo {
@@ -335,26 +387,26 @@ public class DataCenter {
 	//new add by Lynn
 	public List<TCityInfo> CityListInfo{
 		get { 
-			List<TCityInfo> ret = getData(ModelEnum.CityListInfo) as List<TCityInfo>;
+			List<TCityInfo> ret = GetData(ModelEnum.CityListInfo) as List<TCityInfo>;
 			if (ret == null) {
 				ret = new List<TCityInfo>();
-				setData(ModelEnum.CityListInfo, ret);
+				SetData(ModelEnum.CityListInfo, ret);
 			}
 			return ret; 
 		}
-		set { setData(ModelEnum.CityListInfo, value); } 
+		set { SetData(ModelEnum.CityListInfo, value); } 
 	}
 
 	public Dictionary<uint, TCityInfo> CityInfo {
 		get {
-			Dictionary<uint, TCityInfo> ret = getData(ModelEnum.CityInfo) as Dictionary<uint, TCityInfo>;
+			Dictionary<uint, TCityInfo> ret = GetData(ModelEnum.CityInfo) as Dictionary<uint, TCityInfo>;
 			if (ret == null) {
 				ret = new Dictionary<uint, TCityInfo>();
-				setData(ModelEnum.CityInfo, ret);
+				SetData(ModelEnum.CityInfo, ret);
 			}
 			return ret;
 		}
-		set { setData(ModelEnum.UnitBaseInfo, value); }
+		set { SetData(ModelEnum.UnitBaseInfo, value); }
 	}
 
 	//-------new add
@@ -364,14 +416,14 @@ public class DataCenter {
 
     public Dictionary<uint, TrapBase> TrapInfo {
         get { 
-            Dictionary<uint, TrapBase> ret = getData(ModelEnum.TrapInfo) as Dictionary<uint, TrapBase>;
+            Dictionary<uint, TrapBase> ret = GetData(ModelEnum.TrapInfo) as Dictionary<uint, TrapBase>;
             if (ret == null) {
                 ret = new Dictionary<uint, TrapBase>();
-                setData(ModelEnum.TrapInfo, ret);
+                SetData(ModelEnum.TrapInfo, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.TrapInfo, value); } 
+        set { SetData(ModelEnum.TrapInfo, value); } 
     }
 
 //    public UnitBaseInfo FriendBaseInfo {
@@ -389,26 +441,26 @@ public class DataCenter {
 
     public List<int> HaveCard {
         get {
-            List<int> ret = getData(ModelEnum.HaveCard) as List<int>;
+            List<int> ret = GetData(ModelEnum.HaveCard) as List<int>;
             if (ret == null) {
                 ret = new List<int>() {111,185,161,101,122,195};
-                setData(ModelEnum.HaveCard, ret);
+                SetData(ModelEnum.HaveCard, ret);
             }
             return ret; 
         }
-        set { setData(ModelEnum.HaveCard, value); }
+        set { SetData(ModelEnum.HaveCard, value); }
     }
 
     public GameObject ItemObject {
         get {
-            GameObject ret = getData(ModelEnum.ItemObject) as GameObject; 
+            GameObject ret = GetData(ModelEnum.ItemObject) as GameObject; 
             if (ret == null) {
 				ret = ResourceManager.Instance.LoadLocalAsset("Prefabs/Item/FriendScrollerItem",null) as GameObject;
-                setData(ModelEnum.ItemObject, ret);
+                SetData(ModelEnum.ItemObject, ret);
             }
             return ret;
         }
-        set { setData(ModelEnum.ItemObject, value); } 
+        set { SetData(ModelEnum.ItemObject, value); } 
     }
 
     public void RefreshUserInfo(TRspClearQuest clearQuest) {
@@ -561,69 +613,27 @@ public class DataCenter {
         return AccountInfo.Stone / GetEventGachaNeedStones();
     }
 
-    
-    private void setData(ModelEnum modelType, object modelData) {
-        SetData(modelType, modelData);
-    }
-    
-    private object getData(ModelEnum modelType) {
-        ErrorMsg errMsg = new ErrorMsg();
-        return GetData(modelType, errMsg);
-    }
-	
-	public void Init() {
-		//      ConfigUnitInfo cui = new ConfigUnitInfo();
-		//		Debug.LogWarning ("InitData ConfigSkill");
-		supportFriendManager = new SupportFriendManager ();
-
-		ResourceManager.Instance.LoadLocalAsset(UIConfig.UIInsConfigPath,o => {
-			TextAsset obj = o as TextAsset;
-			string info = obj.text;
-			UIConfigData ins = new UIConfigData(info);
-			SetData(ModelEnum.UIInsConfig, ins);
-		});
-
-		ConfigSkill cs = new ConfigSkill();
-		//      ConfigEnermy ce = new ConfigEnermy();
-		ConfigUnitBaseInfo cubi = new ConfigUnitBaseInfo();
-		ConfigTrap ct = new ConfigTrap();
-		
-		ConfigFriendList configFriendList = new ConfigFriendList();
-		ConfigAudio audioConfig = new ConfigAudio();
-		//      ConfigStage stage = new ConfigStage();
-		ConfigViewData tempViewData = new ConfigViewData();
-		//		ConfigNoteMessage noteMsgConfig = new ConfigNoteMessage();
-	}
-	
-	/// <summary>
-	/// Adds the data.
-	/// </summary>
-	/// <param name="modelType">Model type.</param>
-	/// <param name="model">Model.</param>
-	public void SetData(ModelEnum modelType, object model) {
-		if (modelDataDic.ContainsKey(modelType)) {
-			modelDataDic[modelType] = model;
-		} else {
-			modelDataDic.Add(modelType, model);	
+	public List<AudioConfigItem> ConfigAudioList{
+		get{
+			return GetData(ModelEnum.AudioList) as List<AudioConfigItem>;
 		}
 	}
-	
-	/// <summary>
-	/// get the data to use
-	/// </summary>
-	/// <returns>The data.</returns>
-	/// <param name="modelType">Model type.</param>
-	/// <param name="erroMsg">Erro message.</param>
-	public object GetData(ModelEnum modelType, ErrorMsg erroMsg) {
-		object origin = null;
-		
-		if (!modelDataDic.TryGetValue(modelType, out origin)) {
-			erroMsg.Code = (int)ErrorCode.INVALID_MODEL_NAME;
-			erroMsg.Msg = string.Format("required key {0}, but it not exist in ModelManager", modelType);
+
+	public List<UserUnit> ConfigViewData{
+		get{
+			return GetData(ModelEnum.ViewData) as List<UserUnit>;
 		}
-		
-		return origin;
 	}
-	
+
+	public UIConfigItem GetConfigUIItem(ModuleEnum name){
+		Dictionary<ModuleEnum, UIConfigItem> uiData = GetData (ModelEnum.UIInsConfig) as Dictionary<ModuleEnum, UIConfigItem>;
+		if(uiData.ContainsKey(name)){
+			return uiData[name];
+		}else{
+			Debug.LogError("No UIConfig Item: [[[---" + name + "---]]]");
+			return null;
+		}
+
+	}
 
 }

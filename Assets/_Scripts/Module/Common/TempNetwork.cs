@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TempNetwork
 {
-	public static SearchInfoUI infoUI;
+	public static SearchInfoModule infoUI;
 
 	public static void VerifySearchedID( string strID) {
 		if( strID == string.Empty ) {

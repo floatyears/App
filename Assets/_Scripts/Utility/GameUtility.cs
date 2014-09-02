@@ -229,7 +229,7 @@ public class DGTools {
 		userUnit.unitId = (uint)unitID;
 		TUserUnit tuu = new TUserUnit(userUnit);
 
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
 	}
 

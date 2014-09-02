@@ -29,7 +29,7 @@
 //	{
 //		try {
 //			ModuleEnum scene = (ModuleEnum)data;
-//			UIManager.Instance.ChangeScene( scene );
+//			ModuleManger.Instance.ShowModule( scene );
 //
 //		} 
 //		catch (System.Exception ex) {

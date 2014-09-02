@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UnitPartyPage : PartyPageLogic{
+public class UnitPartyPage : PartyPageModule{
 
-	public UnitPartyPage(string uiName) : base(uiName){}
+	public UnitPartyPage(UIConfigItem config) : base(  config){}
 
-	public override void CreatUI(){
-		base.CreatUI();
+	public override void InitUI(){
+		base.InitUI();
 		EnableIndexDisplay();
 	}
 
 	private void EnableIndexDisplay(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableLabelLeft", null);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 

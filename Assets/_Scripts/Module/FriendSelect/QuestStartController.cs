@@ -3,6 +3,6 @@ using System.Collections;
 
 public class QuestStartController : ModuleBase {
 
-	public QuestStartController(string uiName):base(uiName) {}
+	public QuestStartController(UIConfigItem config):base(  config) {}
 	
 }

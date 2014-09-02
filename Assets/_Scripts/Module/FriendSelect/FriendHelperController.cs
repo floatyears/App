@@ -10,8 +10,8 @@ public class FriendHelperController : ModuleBase{
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	private TEvolveStart evolveStart = null;
 
-	public FriendHelperController(string uiName):base(uiName) {}
-	public override void CreatUI () { base.CreatUI (); }
+	public FriendHelperController( UIConfigItem config):base( config) {}
+	public override void InitUI () { base.InitUI (); }
 	public override void ShowUI () {
 		base.ShowUI ();
 //		CreateFriendHelperViewList();
@@ -25,8 +25,8 @@ public class FriendHelperController : ModuleBase{
 //		RemoveCommandListener();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void OnReceiveMessages(object data){
+		base.OnReceiveMessages(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
 		switch (cbdArgs.funcName){
@@ -153,12 +153,12 @@ public class FriendHelperController : ModuleBase{
 
 	void CreateFriendHelperViewList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", null);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 	void DestoryFriendHelperList(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 	void ShowHelperInfo(object args){
@@ -199,7 +199,7 @@ public class FriendHelperController : ModuleBase{
 	
 		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 	
 	void RefreshFriendHelper(object data) {
@@ -208,7 +208,7 @@ public class FriendHelperController : ModuleBase{
 
 	void CanEnterBattle () {
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 	
 	void EvolveSelectQuest(object data) {

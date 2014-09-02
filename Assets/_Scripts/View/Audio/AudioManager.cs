@@ -146,11 +146,11 @@ public class AudioManager {
 
 	AudioSource Play(AudioEnum audioEnum) {
 		int audioID = (int)audioEnum;
-		if ( ConfigAudio.audioList == null ) {
-			new ConfigAudio();
+//		if ( ConfigAudio.audioList == null ) {
+//			new ConfigAudio();
 //			Debug.LogError("ERROR: ConfigAudio.audioList==null");
-		}
-		AudioConfigItem configItem = ConfigAudio.audioList.Find( item=>item.id == audioID );
+//		}
+		AudioConfigItem configItem = DataCenter.Instance.ConfigAudioList.Find( item=>item.id == audioID );
 		if(configItem == default( AudioConfigItem ) )	
 			return null;
 		

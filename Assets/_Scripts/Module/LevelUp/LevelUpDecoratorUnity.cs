@@ -268,7 +268,7 @@
 //    }
 //
 //    private void LevelUp(GameObject go) {
-//        UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail);
+//        ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetail);
 //    }
 //
 //

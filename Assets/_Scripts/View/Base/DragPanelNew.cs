@@ -18,8 +18,10 @@ public class DragPanelNew : ModuleBase,IDragPanel {
     }
 
     private GameObject sourceObject;
+	 
+	public DragPanelNew(UIConfigItem config) : base(  config) {
+		CreateUI<DragPanelView> ();
 
-    public DragPanelNew(string name) : base(name) {
 		ResourceManager.Instance.LoadLocalAsset(DragPanelView.DragPanelPath, o =>{drag = NGUITools.AddChild(ViewManager.Instance.TopPanel.transform.parent.gameObject, o as GameObject).GetComponent<DragPanelView>();});
         
     }

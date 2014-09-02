@@ -50,7 +50,7 @@ public class RewardView : ViewBase {
 //
 //
 ////			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
-////			UIManager.Instance.ChangeScene (ModuleEnum.Reward);
+////			ModuleManger.Instance.ShowModule (ModuleEnum.Reward);
 //		}
 //	}
 
@@ -153,7 +153,7 @@ public class RewardView : ViewBase {
 	void OnClickOK(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		UIManager.Instance.ChangeScene (UIManager.Instance.current.CurrentDecoratorScene);
+		ModuleManger.Instance.ShowModule (UIManager.Instance.current.CurrentDecoratorScene);
 //		HideUI ();
 	}
 

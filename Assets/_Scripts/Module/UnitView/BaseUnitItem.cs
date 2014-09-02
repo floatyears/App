@@ -163,7 +163,7 @@ public class BaseUnitItem : MonoBehaviour {
 			return;	
 		}
 
-		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetailModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
 	}
 	

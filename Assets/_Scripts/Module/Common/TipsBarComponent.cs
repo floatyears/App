@@ -3,12 +3,12 @@ using System.Collections;
 
 public class TipsBarComponent : ModuleBase  {
 
-	public TipsBarComponent(string uiName):base(uiName) {
+	public TipsBarComponent(UIConfigItem config):base(  config) {
 
 	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 	}
 
 	public override void ShowUI () {

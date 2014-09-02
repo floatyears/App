@@ -180,7 +180,7 @@ public class FriendHelperView : ViewBase{
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);
 		pickedInfo.Add("HelperInfo", item.FriendInfo);
 
-		UIManager.Instance.ChangeScene(ModuleEnum.FightReadyModule);//before
+		ModuleManger.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
 

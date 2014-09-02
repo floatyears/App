@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class OperationNoticeComponent : ModuleBase {
+public class OperationNoticeModule : ModuleBase {
 
-	public OperationNoticeComponent(string uiName):base(uiName){}
+	public OperationNoticeModule(UIConfigItem config):base(  config){}
 	public override void ShowUI(){
 		base.ShowUI();
 	}
@@ -12,8 +12,8 @@ public class OperationNoticeComponent : ModuleBase {
 		base.HideUI();
 	}
 	
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void OnReceiveMessages(object data){
+		base.OnReceiveMessages(data);
 		
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		

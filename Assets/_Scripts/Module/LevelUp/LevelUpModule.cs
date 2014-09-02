@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class LevelUpModule : ModuleBase {
-	public LevelUpModule(string uiName) : base(uiName) { }
+	public LevelUpModule(UIConfigItem config) : base( config) {
+		CreateUI<LevelUpView> ();
+	}
 
 	public override void HideUI () {
 		base.HideUI ();
@@ -14,7 +16,7 @@ public class LevelUpModule : ModuleBase {
 	
 	List<TUserUnit> levelUpInfo = null;
 
-	public override void CallbackView (object data) {
+	public override void OnReceiveMessages (object data) {
 		levelUpInfo = data as List<TUserUnit>;
 		if (levelUpInfo == null || levelUpInfo.Count <= 0) {
 			return;
@@ -74,7 +76,7 @@ public class LevelUpModule : ModuleBase {
 	
 			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
-			UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
+			ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 

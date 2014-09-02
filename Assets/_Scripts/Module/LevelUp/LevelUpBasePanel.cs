@@ -300,7 +300,7 @@
 //
 //	void PressItem(GameObject item ){
 //		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
-//		UIManager.Instance.ChangeScene(ModuleEnum.UnitDetail );
+//		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetail );
 //		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
 //	}
 //

@@ -32,19 +32,19 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		UIEventListener.Get (cityObj).onClick += TapCityItem;
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
-		UIManager.Instance.ChangeScene (ModuleEnum.OthersModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.OthersModule);
 	}
 
 	void OnChange(object data){
 //		if (UIManager.Instance.baseScene.CurrentScene == ModuleEnum.Others) {
 //			if (!changeEnd) {
-//				UIManager.Instance.ChangeScene (ModuleEnum.NickName);
+//				ModuleManger.Instance.ShowModule (ModuleEnum.NickName);
 //			}else{
 //				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
 //				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
 //				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
 //
-//				UIManager.Instance.ChangeScene(ModuleEnum.Home);
+//				ModuleManger.Instance.ShowModule(ModuleEnum.Home);
 //			}
 //
 //		} else if(UIManager.Instance.baseScene.CurrentScene == ModuleEnum.NickName) {

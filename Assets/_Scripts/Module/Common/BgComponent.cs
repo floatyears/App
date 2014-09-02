@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BgComponent : ModuleBase {
 	
-	public BgComponent(string uiName) : base (uiName) {}
+	public BgComponent(UIConfigItem config) : base (  config) {}
 
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 	}
 
 	public override void ShowUI () {
@@ -21,7 +21,7 @@ public class BgComponent : ModuleBase {
 		base.DestoryUI ();
 	}
 	
-	public void CallbackView (object caller) {
+	public void OnReceiveMessage (object caller) {
 
 	}
 	

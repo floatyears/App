@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MainBgView : ViewBase {
+public class MainBackgroundView : ViewBase {
 	private UISprite background;
 	private UITexture otherBg;
 	public override void Init (UIConfigItem config){

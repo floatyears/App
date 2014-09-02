@@ -1,22 +1,26 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using bbproto;
 
 public class ConfigTrap {
 	public ConfigTrap () {
+
 		ConfigTrapInfo ();
 	}
 
 	public void ConfigTrapMove () {
+		Dictionary<uint,TrapBase> trapList = new Dictionary<uint, TrapBase> ();
+
 		TrapInfo ti = new TrapInfo ();
 		ti.trapID = 11; // type1, lv1
 		ti.trapType = ETrapType.Move;
 		ti.effectType = 1;	// 1: blocking. 2: teleporter. 3: restart.
 		MoveTrap mt = new MoveTrap (ti);
-		if (DataCenter.Instance.TrapInfo.ContainsKey (ti.trapID)) {
-			DataCenter.Instance.TrapInfo [ti.trapID] = mt;
+		if (trapList.ContainsKey (ti.trapID)) {
+			trapList[ti.trapID] = mt;
 		} else {
-			DataCenter.Instance.TrapInfo.Add (ti.trapID, mt);
+			trapList.Add (ti.trapID, mt);
 		}
 
 		ti = new TrapInfo ();
@@ -24,10 +28,10 @@ public class ConfigTrap {
 		ti.trapType = ETrapType.Move;
 		ti.effectType = 2;	// 2: teleporter
 		mt = new MoveTrap (ti);
-		if (DataCenter.Instance.TrapInfo.ContainsKey (ti.trapID)) {
-			DataCenter.Instance.TrapInfo [ti.trapID] = mt;
+		if (trapList.ContainsKey (ti.trapID)) {
+			trapList [ti.trapID] = mt;
 		} else {
-			DataCenter.Instance.TrapInfo.Add (ti.trapID, mt);
+			trapList.Add (ti.trapID, mt);
 		}
 
 		ti = new TrapInfo ();
@@ -35,12 +39,14 @@ public class ConfigTrap {
 		ti.trapType = ETrapType.Move;
 		ti.effectType = 3;	// 3: restart: move back to start point
 		mt = new MoveTrap (ti);
-		if (DataCenter.Instance.TrapInfo.ContainsKey (ti.trapID)) {
-			DataCenter.Instance.TrapInfo [ti.trapID] = mt;
-		} else {
-			DataCenter.Instance.TrapInfo.Add (ti.trapID, mt);
-		}
 
+
+		if (trapList.ContainsKey (ti.trapID)) {
+			trapList [ti.trapID] = mt;
+		} else {
+			trapList.Add (ti.trapID, mt);
+		}
+		DataCenter.Instance.SetData (ModelEnum.TrapInfo, trapList);
 	}
 
 	public void ConfigTrapInjured (int effectType) {

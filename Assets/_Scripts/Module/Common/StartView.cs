@@ -4,9 +4,9 @@ using System.Collections;
 public class StartModule : ModuleBase {
 //	StartDecorator dis;
     StartScene dis;
-	public StartModule(string uiName) : base(uiName) {}
+	public StartModule(UIConfigItem config) : base( config) {}
 	
-	public override void CreatUI () {}
+	public override void InitUI () {}
 
 	public override void ShowUI () {
 //		MsgCenter.Instance.AddListener(CommandEnum.RspAuthUser, Login );

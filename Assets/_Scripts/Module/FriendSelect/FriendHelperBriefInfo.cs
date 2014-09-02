@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendHelperBriefInfo : UserBriefInfoLogic {
-	public FriendHelperBriefInfo(string uiName):base(uiName){}
+public class FriendHelperBriefInfo : UserBriefInfoModule {
+	public FriendHelperBriefInfo(UIConfigItem config):base(  config){}
 
-	public override void CreatUI(){
-		base.CreatUI();
+	public override void InitUI(){
+		base.InitUI();
 		//StylizeView();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void OnReceiveMessages(object data){
+		base.OnReceiveMessages(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
 		switch (cbdArgs.funcName){
@@ -27,7 +27,7 @@ public class FriendHelperBriefInfo : UserBriefInfoLogic {
 		Dictionary<string,string> styleArgs = new Dictionary<string, string>();
 		styleArgs.Add("ButtonTop", "Choose");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Stylize", styleArgs);
-		ExcuteCallback(styleArgs);
+		view.CallbackView(styleArgs);
 	}
 
 	void ChooseHelper(object args){

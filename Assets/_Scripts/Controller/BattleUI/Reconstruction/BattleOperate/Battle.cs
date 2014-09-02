@@ -32,7 +32,7 @@ public class Battle : ModuleBase {
 
 	private ConfigBattleUseData battleData;
 
-	public Battle(string name):base(name) {
+	public Battle(UIConfigItem config):base(  config) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;
@@ -53,10 +53,10 @@ public class Battle : ModuleBase {
 
 	private Callback initEndCallback = null;
 
-	public void CreatUI(Callback initEndCallback) {
+	public void InitUI(Callback initEndCallback) {
 		this.initEndCallback = initEndCallback;
 		GameInput.OnUpdate += InitUpdate;
-		CreatUI ();
+		InitUI ();
 	}
 
 	void InitUpdate() {
@@ -70,8 +70,8 @@ public class Battle : ModuleBase {
 
 	private int initEnd = 0;
 
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 
 		initEnd = 0;
 

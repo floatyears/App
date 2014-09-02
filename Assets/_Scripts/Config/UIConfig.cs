@@ -36,83 +36,6 @@ public class UIConfig{
 	public const string unitPath = "UI/Units/";
 
 	public const string UIInsConfigPath = "Config/UIInsConfig";
-	public const string HomeBackgroundName = "HomeBackground";
-	public const string topBackgroundName = "PlayerInfoBar";
-	public const string MainMenuName = "MainMenu";
-	public const string sceneInfoBarName = "SceneInfoBar";
-	public const string TipsBarName = "TipsBar";
-
-	public const string questWindowName = "QuestWindow";
-    public const string loadingWindowName = "Loading";
-	public const string friendWindowName = "FriendWindow";
-	public const string scratchWindowName = "ScratchWindow";
-	public const string showNewCardName = "ShowNewCard";
-    public const string gachaWindowName = "GachaWindow";
-	public const string shopWindowName = "ShopWindow";
-	public const string othersWindowName = "OthersWindow";
-	public const string unitsWindowName = "UnitsWindow";
-	public const string victoryName = "Victory";
-
-	public const string partyDragPanelName = "PartyDragPanel";
-	public const string partyInfoPanelName = "PartyInfoPanel";
-	public const string partyPagePanelName = "PartyPagePanel";
-	public const string PartyWindowName = "PartyWindow";
-
-	public const string partyWindowName = "PartyWindow";
-	public const string catalogWindowName = "CatalogWindow";
-	public const string levelUpWindowName = "LevelUpWindow";
-	public const string sellWindowName = "SellWindow";
-	public const string unitListWindowName = "UnitListWindow";
-	public const string evolveWindowName = "EvolveWindow";
-	public const string unitDisplay = "UnitDisplay";
-	public const string evolveFriend = "EvolveFriend";
-	public const string questSelectWindowName = "QuestSelectWindow";
-
-	public const string questSelectPanelName = "QuestSelectPanel";
-
-	public const string friendSelectWindowName = "FriendSelectWindow";
-	public const string applyWindowName = "ApplyWindow";
-	public const string friendListWindowName = "FriendListWindow";
-	public const string receptionWindowName = "ReceptionWindow";
-	public const string userIDWindowName = "UserIDWindow";
-	public const string informationWindowName = "InformationWindow";
-	public const string unitDetailPanelName = "UnitDetailPanel";
-	public const string unitDetailTopPanelName = "UnitDetailTopPanel";
-	public const string unitDetailCenterPanelName = "UnitDetailCenterPanel";
-	public const string searchMainWindowName = "SearchMainWindow";
-	public const string searchInfoWindowName = "SearchInfoWindow";
-	public const string stageWindowName = "StageSelectWindow";
-	public const string levelUpView = "LevelUpUI";
-	public const string levelUpInfoPanelName = "LevelUpInfoPanel";
-	public const string levelUpReadyPanelName = "LevelUpReadyPanel";
-	public const string levelUpMaterialWindowName = "LevelUpMaterialWindow";
-	public const string levelUpFriendWindowName = "LevelUpFriendWindow";
-	public const string levelUpBasePanelName = "LevelUpBasePanel";
-	public const string commonNoteWindowName = "CommonNoteWindow";
-	public const string noviceGuideWindowName = "NoviceGuideWindow";
-	public const string unitBriefInfoWindowName = "UnitBriefInfoWindow";
-	public const string userBriefInfoWindowName = "UserBriefInfoWindow";
-	public const string applyMessageWindowName = "ApplyMessageWindow";
-	public const string acceptApplyMessageWindowName = "AcceptApplyMessageWindow";
-	public const string selectRoleWindowName = "SelectRoleWindow";
-	public const string screenMaskName = "ScreenMask";
-	public const string itemCounterBarName = "ItemCounterBar";
-	public const string resultWindowName = "ResultWindow";
-	public const string gameRaiderWindowName = "GameRaiderView";
-	public const string gameCurrencyWindowName = "GameCurrencyView";
-	public const string settingWindowName = "MusicWindow";
-	public const string nicknameWindowName = "NicknameWindow";
-	public const string prefaceWindowName = "PrefaceWindow";
-	public const string resourceDownloadWindowName = "ResourceDownloadWindow";
-
-	public const string fightReadyWindowName = "FightReadyWindow";
-
-	public const string unitsInfoPanelName = "UnitsInfoPanel";
-	public const string userUnitSortPanelName = "UserUnitSortPanel";
-	public const string friendUnitSortPanelName = "FriendUnitSortPanel";
-	
-	public const string homeWindowName = "HomeWindow";
-	public const string stageSlidePanelName = "StageSlidePanel";
 
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
@@ -132,8 +55,6 @@ public class UIConfig{
 public class UIConfigData : JsonOriginData
 {
 
-	private Dictionary<ModuleEnum,UIConfigItem> uiInsData = new Dictionary<ModuleEnum, UIConfigItem>(); 
-
 	public UIConfigData(string info) :base(info)
 	{
 		//init data and fill the dicitionay
@@ -144,22 +65,11 @@ public class UIConfigData : JsonOriginData
 		info = null;
 	}
 
-	public UIConfigItem GetData(ModuleEnum uiName)
-	{
-//		UIConfigItem ins = null;
-
-		if (uiInsData.ContainsKey(uiName))
-		{
-			return uiInsData[uiName];
-		}
-		return null;
-
-//		return ins;
-	}
-
 	public override object DeserializeData()
 	{
 		base.DeserializeData();
+
+		Dictionary<ModuleEnum,UIConfigItem> uiInsData = new Dictionary<ModuleEnum, UIConfigItem> ();
 
 		UIConfigItem ins;
 
@@ -168,15 +78,16 @@ public class UIConfigData : JsonOriginData
 //            Debug.LogError("json config DeserializeData uiName " + (string)jsonData [i] ["uiName"]);
 			ins = new UIConfigItem();
 			try{
-				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData [i].ToString());
+				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData [i] ["moduleName"].ToString());
 				Debug.Log("module name: " + ins.moduleName);
 			}catch(ArgumentException){
-				Debug.LogError("ModuleEnum Convert Err: "+ jsonData [i] ["moduleName"]+ " is not a member of the ModuleEnum");
+				Debug.LogError("ModuleEnum Convert Err: [[[---"+ jsonData [i] ["moduleName"]+ "---]]] is not a member of the ModuleEnum");
+				continue;
 			}
 
 //			ins.moduleType = Type.
 
-			ins.resourcePath = (string)jsonData [i] ["resoucePath"] + ins.moduleName;
+			ins.resourcePath = (string)jsonData [i] ["resoucePath"];
 			if(jsonData [i] ["positionx"].IsDouble) {
 				double data = (double)jsonData [i] ["positionx"];
 				ins.localPosition.x = (float)data;
@@ -205,6 +116,8 @@ public class UIConfigData : JsonOriginData
 			uiInsData.Add(ins.moduleName, ins);
 //			Debug.LogError(ins.uiName);
 		}
+
+		DataCenter.Instance.SetData (ModelEnum.UIInsConfig, uiInsData);
 
 		return uiInsData;
 	}

@@ -5,12 +5,14 @@ using System.Collections.Generic;
 
 public class ConfigViewData 
 {
-	public static List<UserUnit> OwnedUnitInfoList = new List<UserUnit>();
+//	public static List<UserUnit> OwnedUnitInfoList = new List<UserUnit>();
 	public ConfigViewData(){
 		ConfigOwnedUnitInfo();
 	}
 
 	void ConfigOwnedUnitInfo(){
+
+		List<UserUnit> OwnedUnitInfoList = new List<UserUnit> ();
 		UserUnit tempUserUnit;
 
 		tempUserUnit= new UserUnit();
@@ -59,6 +61,7 @@ public class ConfigViewData
 		tempUserUnit.addHp = 24;
 		OwnedUnitInfoList.Add( tempUserUnit );
 
+		DataCenter.Instance.SetData (ModelEnum.ViewData, OwnedUnitInfoList);
 //		Debug.Log(string.Format( "Finlish configging owned unit info, the Count of OwnedUnitInfoList is {0}", OwnedUnitInfoList.Count) );
 
 

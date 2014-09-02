@@ -39,16 +39,6 @@ public class ResourceManager : MonoBehaviour{
 			return null;	
 		}
 
-//		if (path.IndexOf ("Loading") >= 0 || path.IndexOf ("UIInsConfig") >= 0 || path.IndexOf ("ScreenMask") >= 0 || path.IndexOf ("CommonNoteWindow") >= 0) {
-//			Debug.Log("path: " + path);
-//			if (callback != null){
-//				callback (Resources.Load (path));
-//				return null;
-//			}else{
-//				return Resources.Load (path);
-//			}
-//		}
-
 		if (path.IndexOf ("Language") == 0 || path.IndexOf ("Protobuf") == 0 || (path.IndexOf ("Avatar") == 0 && path.IndexOf("100") < 0) || (path.IndexOf ("Profile") == 0 && exceptionList.IndexOf(int.Parse(path.Substring(8))) < 0) || path.IndexOf("Atlas") == 0) {
 #if UNITY_EDITOR
 			
@@ -119,21 +109,7 @@ public class ResourceManager : MonoBehaviour{
 				return Resources.LoadAssetAtPath<Object> ("Assets/ResourceDownload/" + path + ext);
 			}
 #else 
-//			if(path.IndexOf ("Config") == 0){
-//
-//			}else if(path.IndexOf ("Prefabs") == 0){
-//				ext = ".prefab";
-//			}else if(path.IndexOf ("Language") == 0){
-//				ext = ".txt";
-//			}else if(path.IndexOf ("Protobuf") == 0){
-//				if(path.IndexOf ("skills") >= 0){
-//					ext = ".json";
-//				}else{
-//					ext = ".bytes";
-//				}
-//			}else if(path.IndexOf ("Avatar") == 0 || path.IndexOf ("Profile") == 0){
-//				ext = ".png";
-//			}
+
 
 			
 			ResourceAssetBundle key = GetBundleKeyByPath(path);
@@ -169,15 +145,6 @@ public class ResourceManager : MonoBehaviour{
 				
 			}
 			return null;
-
-//			Debug.Log ("resource load no editor");
-//			if(callback != null){
-//				callback(Resources.Load (path));
-//				return null;
-//			}else{
-//				return Resources.Load (path);
-//			}
-//			return null;
 
 #endif
 		} else {
@@ -243,7 +210,7 @@ public class ResourceManager : MonoBehaviour{
 //				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,param=>{
 //					DownloadResource(key);
 //				});
-//				UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownload);
+//				ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownload);
 //			};
 //			sure.text = TextCenter.GetText("OK");
 //

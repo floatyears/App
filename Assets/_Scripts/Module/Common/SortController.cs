@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class SortController : ModuleBase {
-	public SortController(string uiName) : base(uiName){}
+	public SortController(UIConfigItem config) : base(  config){}
 
-	public override void CreatUI () {
+	public override void InitUI () {
 //		Debug.LogError("SortController creat ui 1");
-		base.CreatUI ();
+		base.InitUI ();
 //		Debug.LogError("SortController creat ui 2");
 	}
 

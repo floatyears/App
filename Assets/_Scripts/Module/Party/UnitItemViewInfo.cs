@@ -113,7 +113,7 @@ public class UnitItemInfo : MonoBehaviour{
 	}
 
 	public void LongPress(GameObject go) {
-		UIManager.Instance.ChangeScene (ModuleEnum.UnitDetailModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnitItem);
 	}
 }

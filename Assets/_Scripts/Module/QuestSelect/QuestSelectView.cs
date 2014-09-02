@@ -160,7 +160,7 @@ public class QuestSelectView : ViewBase {
 	}
 
 	void EvolveCallback() {
-		UIManager.Instance.ChangeScene(ModuleEnum.FightReadyModule);//before
+		ModuleManger.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
 	}
 

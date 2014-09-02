@@ -70,7 +70,7 @@ public class SceneInfoDecoratorUnity : ViewBase{
 //		if( UIManager.Instance.baseScene.CurrentScene == ModuleEnum.UnitDetail ) {
 //			ModuleEnum preScene = UIManager.Instance.baseScene.PrevScene;
 //			MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, preScene);
-//			UIManager.Instance.ChangeScene( preScene );
+//			ModuleManger.Instance.ShowModule( preScene );
 //			return;
 //		}
 

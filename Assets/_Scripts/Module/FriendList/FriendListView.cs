@@ -20,7 +20,7 @@ public class FriendListView : ViewBase{
 		SortUnitByCurRule();
 		RefreshCounter();
 		AddCmdListener();
-		ShowUIAnimation();
+//		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
@@ -59,11 +59,6 @@ public class FriendListView : ViewBase{
 			fuv.Init(friendDataList[ i ]);
 			fuv.callback = ClickItem;
 		}
-	}
-
-	void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, -480, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
 
 	void ClickItem(FriendUnitItem item){

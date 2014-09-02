@@ -8,10 +8,12 @@ public class SellModule : ModuleBase {
 	int totalSaleValue = 0;
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public SellModule(string uiName):base(uiName) {}
-	public override void CreatUI () { 
+	public SellModule(UIConfigItem config):base(  config) {
+		CreateUI<SellView> ();
+	}
+	public override void InitUI () { 
 //		Debug.LogError("SellController.CreatUI()...1"); 
-		base.CreatUI (); 
+		base.InitUI (); 
 //		Debug.LogError("SellController.CreatUI()...2");
 	}
 	
@@ -26,8 +28,8 @@ public class SellModule : ModuleBase {
 		base.DestoryUI ();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void OnReceiveMessages(object data){
+		base.OnReceiveMessages(data);
 
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (cbdArgs.funcName){
@@ -50,7 +52,7 @@ public class SellModule : ModuleBase {
 	}
 	void ClearSellConfirmWindow(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("BackToMainWindow", null);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 	void CancelSell(object args){
@@ -100,7 +102,7 @@ public class SellModule : ModuleBase {
 
 	void GiveLastSaleEnsure(){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 	MsgWindowParams GetWarningMsgWindowParams(){
@@ -167,12 +169,12 @@ public class SellModule : ModuleBase {
 		if(curUseUnitList == null){
 			curUseUnitList = userUnitList;
 			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
-			ExcuteCallback(cbdArgs);
+			view.CallbackView(cbdArgs);
 		}
 		else if(!curUseUnitList.Equals(userUnitList)){
 			curUseUnitList = userUnitList;
 			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
-			ExcuteCallback(cbdArgs);
+			view.CallbackView(cbdArgs);
 		}
 		else{
 			Debug.LogError("CurUserUnitList NOT CHANGED, do nothing!");
@@ -207,7 +209,7 @@ public class SellModule : ModuleBase {
 
 	void UpdateSaleValueView(int value){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateCoinLabel", value);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 	void Pick(int clickPos, TUserUnit info){
@@ -267,10 +269,10 @@ public class SellModule : ModuleBase {
 			viewInfo.Add("texture", tex2d);
 			viewInfo.Add("label", level);
 			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("AddViewItem", viewInfo);
-			ExcuteCallback(cbdArgs);
+			view.CallbackView(cbdArgs);
 			
 			CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
-			ExcuteCallback(canSellInfo);
+			view.CallbackView(canSellInfo);
 		});
 
 	}
@@ -281,10 +283,10 @@ public class SellModule : ModuleBase {
 		info.Add("clickPos", clickPos);
 		info.Add("poolPos", poolPos);
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RmvViewItem", info);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 
 		CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
-		ExcuteCallback(canSellInfo);
+		view.CallbackView(canSellInfo);
 	}
 
     public void ResetUI(){

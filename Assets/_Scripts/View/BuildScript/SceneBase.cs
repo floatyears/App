@@ -94,7 +94,7 @@ public class SceneBase {
     }
 
 	protected T AddModuleToScene<T>(ModuleEnum name) where T : ModuleBase {
-		T component = ModuleManger.Instance.GetModule (name) as T;
+		T component = ModuleManger.Instance.GetOrCreateModule (name) as T;
 
 		controllerList.Add (component);
 		return component;

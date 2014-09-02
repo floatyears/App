@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class LevelUpBaseUI : ModuleBase {
-	public LevelUpBaseUI(string uiName):base(uiName) {
+	public LevelUpBaseUI(UIConfigItem config):base(  config) {
     }
-	public override void CreatUI(){
-		base.CreatUI();
+	public override void InitUI(){
+		base.InitUI();
 	}
 	
 	public override void ShowUI(){

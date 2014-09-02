@@ -4,15 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ConfigAudio {
-	private AudioConfigFile audioConfigfile;
-	public static List<AudioConfigItem> audioList;
+//	private ;
+//	public static ;
 	public ConfigAudio(){
-		audioConfigfile = new AudioConfigFile();
-		audioList = audioConfigfile.audioConfig;
-		Config();
+		AudioConfigFile audioConfigfile = new AudioConfigFile();
+//		audioList = ;
+		Config(audioConfigfile.audioConfig);
 	}
 
-	private void Config(){
+	private void Config(List<AudioConfigItem> audioList){
+
 		AudioConfigItem audioItem;
 		string basePath = "Audio/";
 
@@ -642,6 +643,7 @@ public class ConfigAudio {
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
 
+		DataCenter.Instance.SetData (ModelEnum.AudioList, audioList);
 //		Debug.Log("Audio's configging has completed!, the audio clip's COUNT is: " + audioList.Count);
 	}
 }

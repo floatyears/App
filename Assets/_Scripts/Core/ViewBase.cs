@@ -1,139 +1,29 @@
 using UnityEngine;
 using System.Collections.Generic;
-//
-//public class UIBaseUnity : MonoBehaviour ,IUIInterface
-//{
-//	#region IUIInterface implementation
-//	protected ModuleEnum sEnum;
-//
-//	public ModuleEnum GetScene {
-//		get {
-//			return sEnum;
-//		}
-//		set{
-//			sEnum = value;
-//		}
-//	}
-//
-//	protected string uiName;
-//
-//	public string UIName {
-//		get {
-//			return uiName;
-//		}
-//	}
-//
-//	protected UIState currentState;
-//
-//	public UIState GetState {
-//		get {
-//			return currentState;
-//		}
-//	}
-//
-//	protected ViewManager vManager;
-//
-//	protected GameObject tempObject;
-//
-//	public virtual void Init (string name) {
-//		uiName = name;
-//		gameObject.name = name;
-//		currentState = UIState.UIInit;
-//		vManager = ViewManager.Instance;
-//	}
-//	
-//	public virtual void ShowUI () {
-//		currentState = UIState.UIShow;
-//	}
-//	
-//	public virtual void HideUI () {
-//		currentState = UIState.UIHide;
-//	}
-//	
-//	public virtual void DestoryUI () {
-//		currentState = UIState.UIDestory;
-//		Destroy (gameObject);
-//		//vManager.DestoryUI(this);
-//	}
-//
-//	/// <summary>
-//	/// find child script component
-//	/// </summary>
-//	/// <returns>The child.</returns>
-//	/// <param name="path">Path.</param>
-//	/// <typeparam name="T">The 1st type parameter.</typeparam>
-//
-//	protected T FindChild<T>(string path) where T : Component
-//	{
-//		if(string.IsNullOrEmpty(path))
-//			return null;
-////		Debug.LogError ("path : " + path);
-//		return transform.Find(path).GetComponent<T>();
-//	}
-//
-//	public virtual void CreatUI ()
-//	{
-//		currentState = UIState.UICreat;
-//	}
-//
-//	#endregion
-//}
-//
+
 public class ViewBase : MonoBehaviour {
 
-//	protected UIConfigItem config = null;
-//
-//	public UIConfigItem uiConfig {
-//		get {
-//			return config;
-//		}
-//	}
+	protected UIConfigItem config;
 
-//	protected ConcreteComponent origin;
+	public virtual void Init(UIConfigItem uiconfig) {
 
-	public virtual void Init(UIConfigItem config/*,ConcreteComponent origin = null*/) {
-
-//		if(this.config == config)
-//			return;
-//
-////		this.origin = origin;
-//		this.config = config;
+		config = uiconfig;
 
 		if (config != null && config.parent != null) {
 			transform.parent = config.parent;	
 			transform.localScale = Vector3.one;
 		}
-		InitHide ();
-//		GetComponent<MonoBehaviour> ();
 
 	}
-
-	public virtual void Init(){
-
-	}
-
 
 	public virtual void ShowUI() {
-//		if (config != null) {
-//			transform.localPosition = config.localPosition;
-//			if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-//				ViewManager.Instance.TogglePopUpWindow(true);
-//			}
-//		}
+		ToggleAnimation (true);
 	}
 
 	public virtual void HideUI() {
-//		InitHide();
-//		if (config.parent == ViewManager.Instance.PopupPanel.transform) {
-//			ViewManager.Instance.TogglePopUpWindow(false);
-//		}
+		ToggleAnimation (false);
 	}
 
-//    public virtual void ResetUIState() {}
-
-	private void InitHide() {
-
-	}
 
 	public virtual void DestoryUI() {
 		Destroy (gameObject);
@@ -141,14 +31,14 @@ public class ViewBase : MonoBehaviour {
 
 	protected T FindChild<T> (string path) where T : Component {
 		if (!string.IsNullOrEmpty (path)) {
-			Transform trans = transform.Find(path);
+			Transform trans = transform.FindChild(path);
 
 			if(trans == null) {
 				Debug.LogError("find child is not exist . path is " + path);
 				return default(T);
 			}
 
-			return transform.Find(path).GetComponent<T>();
+			return transform.FindChild(path).GetComponent<T>();
 		}
 
 		return GetComponent<T>();
@@ -179,12 +69,18 @@ public class ViewBase : MonoBehaviour {
 	public virtual void CallbackView (object data) {
 
 	}
+
 	
-//	protected void ExcuteCallback (object data) {
-//		if (origin != null) {
-//			origin.CallbackView (data);	
-//		}
-//	}
+	protected void ToggleAnimation(bool isShow){
+		if (isShow) {
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+//			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true));
+		}
+
+	}
 
 	protected void SetGameObjectActive(bool active) {
 		if (gameObject.activeSelf != active) {

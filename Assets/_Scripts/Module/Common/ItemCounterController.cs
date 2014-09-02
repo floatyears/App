@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class ItemCounterController : ModuleBase{
-	public ItemCounterController(string name) : base(name){}
+	public ItemCounterController(UIConfigItem config) : base(  config){}
 
 	public override void ShowUI () {
 //		Debug.LogError("ItemCounterController showui 1 ");

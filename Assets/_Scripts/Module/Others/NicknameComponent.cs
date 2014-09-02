@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class NicknameComponent : ModuleBase {
+public class NicknameModule : ModuleBase {
 
-	public NicknameComponent(string uiName):base(uiName){}
+	public NicknameModule(UIConfigItem config):base(  config){}
 	
-	public override void CreatUI(){
-		base.CreatUI(); 
+	public override void InitUI(){
+		base.InitUI(); 
 	}
 	
 	public override void ShowUI(){

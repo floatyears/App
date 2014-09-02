@@ -110,6 +110,10 @@ public enum ModuleEnum
 	UserIDModule,
 
 	GameRaiderModule,
+
+	MsgWindowModule,
+
+	MaskModule,
 }
 
 public enum SceneEnum {

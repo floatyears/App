@@ -4,7 +4,7 @@ using UnityEngine;
 
 //--------------------------------Role Select------------------------------------------
 public class SelectRoleScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public SelectRoleScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -27,7 +27,7 @@ public class SelectRoleScene : SceneBase{
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 		
-		SelectRoleController unitSelect = AddModuleToScene<SelectRoleController>(ModuleEnum.SelectRoleModule);
+		SelectRoleModule unitSelect = AddModuleToScene<SelectRoleModule>(ModuleEnum.SelectRoleModule);
 //		unitSelect.SetComponent(sceneInfoBar);
 //		controllerList.Add (unitSelect);
 		
@@ -38,7 +38,7 @@ public class SelectRoleScene : SceneBase{
 
 //--------------------------------Start---------------------------------------
 public class StartScene : SceneBase {
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public StartScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -55,7 +55,7 @@ public class StartScene : SceneBase {
 	}
 	
 	public override void InitSceneList(){
-		PlayerInfoBarComponent playerInfoBar = AddModuleToScene<PlayerInfoBarComponent>(ModuleEnum.PlayerInfoBarModule);
+		PlayerInfoBarModule playerInfoBar = AddModuleToScene<PlayerInfoBarModule>(ModuleEnum.PlayerInfoBarModule);
 //		playerInfoBar.SetComponent(decorator);
 //		controllerList.Add (playerInfoBar);
 
@@ -63,7 +63,7 @@ public class StartScene : SceneBase {
 //		background.SetComponent(playerInfoBar);
 //		controllerList.Add (background);
 		
-		MainMenuController bottom = AddModuleToScene< MainMenuController >(ModuleEnum.MainMenuModule);
+		MainMenuModule bottom = AddModuleToScene< MainMenuModule >(ModuleEnum.MainMenuModule);
 //		bottom.SetComponent(background);
 //		controllerList.Add (bottom);
 
@@ -93,7 +93,7 @@ public class LoadingDecorator : SceneBase{
     }
     
     public override void InitSceneList(){
-		LoadingLogic background = AddModuleToScene< LoadingLogic >(ModuleEnum.LoadingModule);
+		LoadingModule background = AddModuleToScene< LoadingModule >(ModuleEnum.LoadingModule);
 //		background.SetComponent(decorator);
 
 //		MsgWindowLogic noteWindow = AddModuleToScene<MsgWindowLogic>(ModuleEnum.);
@@ -138,7 +138,7 @@ public class HomeScene : SceneBase{
 //		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
-		QuestController quest = AddModuleToScene< QuestController >(ModuleEnum.QuestSelectModule);
+		QuestModule quest = AddModuleToScene< QuestModule >(ModuleEnum.QuestSelectModule);
 //		quest.SetComponent(decorator);
 //		controllerList.Add (quest);
 
@@ -149,7 +149,7 @@ public class HomeScene : SceneBase{
 
 //--------------------------------Friend---------------------------------------
 public class FriendScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public FriendScene(ModuleEnum sEnum) : base(sEnum){ }
 	
 	public override void ShowScene(){
@@ -171,7 +171,7 @@ public class FriendScene : SceneBase{
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
-		FriendComponent friend = AddModuleToScene< FriendComponent >(ModuleEnum.FriendsModule);
+		FriendModule friend = AddModuleToScene< FriendModule >(ModuleEnum.FriendsModule);
 //		friend.SetComponent(sceneInfoBar);
 //		controllerList.Add (friend);
 
@@ -183,7 +183,7 @@ public class FriendScene : SceneBase{
 
 //--------------------------------Scratch--------------------------------------
 public class ScratchScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public ScratchScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -209,7 +209,7 @@ public class ScratchScene : SceneBase{
 //		controllerList.Add (sceneInfoBar);
 
 
-		ScratchLogic scratch = AddModuleToScene< ScratchLogic >(ModuleEnum.ScratchModule);
+		ScratchModule scratch = AddModuleToScene< ScratchModule >(ModuleEnum.ScratchModule);
 //		scratch.SetComponent(sceneInfoBar);
 //		controllerList.Add (scratch);
 
@@ -235,7 +235,7 @@ public class ShowNewCardScene : SceneBase {
 	}
 
 	public override void InitSceneList () {
-		ShowNewCard sn = AddModuleToScene<ShowNewCard> (ModuleEnum.ShowCardEffectModule);
+		ShowNewCardModule sn = AddModuleToScene<ShowNewCardModule> (ModuleEnum.ShowCardEffectModule);
 //		controllerList.Add (sn);
 
 //		lastDecorator = sn;
@@ -267,7 +267,7 @@ public class VictoryScene : SceneBase {
 }
 
 public class GachaWindowScene : SceneBase{
-    private SceneInfoComponent sceneInfoBar;
+    private SceneInfoBarModule sceneInfoBar;
     public GachaWindowScene(ModuleEnum sEnum) : base(sEnum){
 		MsgCenter.Instance.AddListener (CommandEnum.ShowGachaWindow, SetKeepState);
 	}
@@ -298,10 +298,10 @@ public class GachaWindowScene : SceneBase{
 //        sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
-        GachaWindowLogic gachaWin;
+        GachaWindowModule gachaWin;
 //        switch () {
 //        case ModuleEnum.FightReadyModule:
-			gachaWin = AddModuleToScene< FriendGachaWindowLogic >(currentDecoratorScene);
+			gachaWin = AddModuleToScene< FriendGachaWindowModule >(currentDecoratorScene);
 //            break;
 //        case ModuleEnum.RareScratchModule:
 //            gachaWin = AddModuleToScene< FriendGachaWindowLogic >(ModuleEnum.gachaWindowName);
@@ -322,7 +322,7 @@ public class GachaWindowScene : SceneBase{
 
 //--------------------------------Shop-----------------------------------------
 public class ShopScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public ShopScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -344,7 +344,7 @@ public class ShopScene : SceneBase{
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
-		ShopComponent shop = AddModuleToScene< ShopComponent >(ModuleEnum.ShopModule);
+		ShopModule shop = AddModuleToScene< ShopModule >(ModuleEnum.ShopModule);
 //		shop.SetComponent(sceneInfoBar);
 //		controllerList.Add (shop);
 
@@ -357,7 +357,7 @@ public class ShopScene : SceneBase{
 
 //--------------------------------Others---------------------------------------
 public class OthersScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public OthersScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -378,7 +378,7 @@ public class OthersScene : SceneBase{
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
-		OthersComponent others = AddModuleToScene<OthersComponent>(ModuleEnum.OthersModule);
+		OthersModule others = AddModuleToScene<OthersModule>(ModuleEnum.OthersModule);
 //		others.SetComponent(sceneInfoBar);
 //		controllerList.Add (others);
 
@@ -391,7 +391,7 @@ public class OthersScene : SceneBase{
 
 //--------------------------------Units----------------------------------------
 public class UnitsScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public UnitsScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -409,7 +409,7 @@ public class UnitsScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		UnitsController units = AddModuleToScene< UnitsController >(ModuleEnum.UnitsModule);
+		UnitsModule units = AddModuleToScene< UnitsModule >(ModuleEnum.UnitsModule);
 		//UnitInfoLogic partyInfo = CreatComponent<UnitInfoLogic>(ModuleEnum.unitsInfoPanelName);
 
 //		sceneInfoBar.SetComponent(decorator);
@@ -427,7 +427,7 @@ public class UnitsScene : SceneBase{
 //--------------------------------StageSelect----------------------------------------
 public class StageSelectScene : SceneBase{
 
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 
 	public StageSelectScene(ModuleEnum sEnum) : base(sEnum){
         MsgCenter.Instance.AddListener(CommandEnum.QuestSelectSaveState, SetKeepState);
@@ -454,7 +454,7 @@ public class StageSelectScene : SceneBase{
 //		sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
-		StageSelectController questSelect = AddModuleToScene< StageSelectController >(ModuleEnum.StageSelectModule);
+		StageSelectModule questSelect = AddModuleToScene< StageSelectModule >(ModuleEnum.StageSelectModule);
 //		questSelect.SetComponent(sceneInfoBar);
 //		controllerList.Add (questSelect);
 
@@ -466,7 +466,7 @@ public class StageSelectScene : SceneBase{
 
 //--------------------------------FriendSelect----------------------------------------
 public class FriendSelectScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	
 	public FriendSelectScene(ModuleEnum sEnum) : base(sEnum){}
 	
@@ -502,7 +502,7 @@ public class FriendSelectScene : SceneBase{
 
 //--------------------------------Party----------------------------------------
 public class PartyScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public PartyScene(ModuleEnum sEnum) : base(sEnum){
         MsgCenter.Instance.AddListener(CommandEnum.PartySaveState, SetKeepState);
     }
@@ -544,7 +544,7 @@ public class PartyScene : SceneBase{
 
 //--------------------------------LevelUp----------------------------------------
 public class LevelUpScene : SceneBase {
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public LevelUpScene(ModuleEnum sEnum) : base(sEnum){
 //		Debug.LogWarning ("levelup AddListener SetKeepState");
 		MsgCenter.Instance.AddListener(CommandEnum.LevelUpSaveState, SetKeepState);
@@ -589,7 +589,7 @@ public class LevelUpScene : SceneBase {
 }
 //--------------------------------Sell------------------------------------------
 public class SellScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public SellScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -626,7 +626,7 @@ public class SellScene : SceneBase{
 
 //--------------------------------Evolve------------------------------------------
 public class EvolveScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public EvolveScene(ModuleEnum sEnum) : base(sEnum){
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveSaveState, SetKeepState);
 	}
@@ -664,7 +664,7 @@ public class EvolveScene : SceneBase{
 
 //		sceneInfoBar.checkUiState = evolve;
 
-		UnitDisplay unitdisplay = AddModuleToScene< UnitDisplay >(ModuleEnum.UnitsModule);
+		UnitDisplayModule unitdisplay = AddModuleToScene< UnitDisplayModule >(ModuleEnum.UnitsModule);
 //		unitdisplay.SetComponent (evolve);
 //		lastDecorator = unitdisplay;
 //		lastDecorator.CreatUIAsyn (this);
@@ -680,7 +680,7 @@ public class EvolveScene : SceneBase{
 
 //--------------------------------Catalog------------------------------------------
 public class CatalogScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public CatalogScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -714,7 +714,7 @@ public class CatalogScene : SceneBase{
 
 //--------------------------------UnitList------------------------------------------
 public class UnitListScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public UnitListScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -734,7 +734,7 @@ public class UnitListScene : SceneBase{
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.SceneInfoBarModule);
 		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
-		MyUnitListLogic unitList = AddModuleToScene< MyUnitListLogic >(ModuleEnum.UnitListModule);
+		MyUnitListModule unitList = AddModuleToScene< MyUnitListModule >(ModuleEnum.UnitListModule);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
 
 //		sceneInfoBar.SetComponent(decorator);
@@ -750,7 +750,7 @@ public class UnitListScene : SceneBase{
 
 //--------------------------------FriendList------------------------------------------
 public class FriendListScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public FriendListScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -779,7 +779,7 @@ public class FriendListScene : SceneBase{
 
 //		FriendListUserBriefInfo briefInfo = AddModuleToScene<FriendListUserBriefInfo>(ModuleEnum.friend);
 
-		FriendListLogic friendList = AddModuleToScene<FriendListLogic>(ModuleEnum.FriendListModule);
+		FriendListModule friendList = AddModuleToScene<FriendListModule>(ModuleEnum.FriendListModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		counter.SetComponent(sceneInfoBar);
@@ -794,7 +794,7 @@ public class FriendListScene : SceneBase{
 
 //--------------------------------Information------------------------------------------
 public class InformationScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public InformationScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -828,7 +828,7 @@ public class InformationScene : SceneBase{
 
 //--------------------------------Friend Search------------------------------------------
 public class FriendSearchScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public FriendSearchScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -847,7 +847,7 @@ public class FriendSearchScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		SearchFriendController searchMainUI = AddModuleToScene< SearchFriendController >(ModuleEnum.SearchFriendModule);
+		SearchFriendModule searchMainUI = AddModuleToScene< SearchFriendModule >(ModuleEnum.SearchFriendModule);
 		RequestFriendApply requestApply = AddModuleToScene<RequestFriendApply>(ModuleEnum.RequestFriendModule);
 
 //		sceneInfoBar.SetComponent(decorator);
@@ -863,7 +863,7 @@ public class FriendSearchScene : SceneBase{
 
 //--------------------------------Apply------------------------------------------
 public class ApplyScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public ApplyScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -900,7 +900,7 @@ public class ApplyScene : SceneBase{
 
 //--------------------------------Reception------------------------------------------
 public class ReceptionScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public ReceptionScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -942,7 +942,7 @@ public class ReceptionScene : SceneBase{
 
 //--------------------------------YourID------------------------------------------
 public class UserIDScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public UserIDScene(ModuleEnum sEnum) : base(sEnum){ }
 	
 	public override void ShowScene(){
@@ -976,7 +976,7 @@ public class UserIDScene : SceneBase{
 
 //--------------------------------UnitDetail------------------------------------------
 public class UnitDetailScene : SceneBase{
-	private UnitDetailComponent unitDetail;
+	private UnitDetailModule unitDetail;
 	public UnitDetailScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1001,7 +1001,7 @@ public class UnitDetailScene : SceneBase{
 //		UnitDetailCenterComponent unitDetailCenter = CreatComponent<UnitDetailCenterComponent> (ModuleEnum.unitDetailCenterPanelName);
 //		unitDetailCenter.SetComponent (unitDetailTop);
 
-		unitDetail = AddModuleToScene< UnitDetailComponent >(ModuleEnum.UnitDetailModule);
+		unitDetail = AddModuleToScene< UnitDetailModule >(ModuleEnum.UnitDetailModule);
 //		unitDetail.SetComponent(unitDetailCenter);
 //
 //		lastDecorator = unitDetail;
@@ -1013,7 +1013,7 @@ public class UnitDetailScene : SceneBase{
 
 //--------------------------------Result------------------------------------------
 public class ResultScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public ResultScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1034,7 +1034,7 @@ public class ResultScene : SceneBase{
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.SceneInfoBarModule);
 //		sceneInfoBar.SetComponent(decorator);
 		
-		ResultController resultWindow = AddModuleToScene<ResultController>(ModuleEnum.ResultModule);
+		ResultModule resultWindow = AddModuleToScene<ResultModule>(ModuleEnum.ResultModule);
 //		resultWindow.SetComponent(sceneInfoBar);
 		
 //		lastDecorator = resultWindow;
@@ -1045,7 +1045,7 @@ public class ResultScene : SceneBase{
 
 //--------------------------------Fight Ready------------------------------------------
 public class FightReadyScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public FightReadyScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1064,7 +1064,7 @@ public class FightReadyScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		FightReadyController standByWindow = AddModuleToScene<FightReadyController>(ModuleEnum.FightReadyModule);
+		FightReadyModule standByWindow = AddModuleToScene<FightReadyModule>(ModuleEnum.FightReadyModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		standByWindow.SetComponent(sceneInfoBar);
@@ -1078,7 +1078,7 @@ public class FightReadyScene : SceneBase{
 
 //--------------------------------Quest Select------------------------------------------
 public class QuestSelectScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public QuestSelectScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1097,7 +1097,7 @@ public class QuestSelectScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		QuestSelectController questSelect = AddModuleToScene<QuestSelectController>(ModuleEnum.QuestSelectModule);
+		QuestSelectModule questSelect = AddModuleToScene<QuestSelectModule>(ModuleEnum.QuestSelectModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		questSelect.SetComponent(sceneInfoBar);
@@ -1110,7 +1110,7 @@ public class QuestSelectScene : SceneBase{
 
 //--------------------------------Operation Notice------------------------------------------
 public class OperationNoticeScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public OperationNoticeScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1129,7 +1129,7 @@ public class OperationNoticeScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		OperationNoticeComponent operationNotice = AddModuleToScene<OperationNoticeComponent>(ModuleEnum.OperationNoticeModule);
+		OperationNoticeModule operationNotice = AddModuleToScene<OperationNoticeModule>(ModuleEnum.OperationNoticeModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		operationNotice.SetComponent (decorator);//sceneInfoBar);
@@ -1142,7 +1142,7 @@ public class OperationNoticeScene : SceneBase{
 
 //--------------------------------Reward------------------------------------------
 public class RewardScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public RewardScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1162,7 +1162,7 @@ public class RewardScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		RewardComponent reward = AddModuleToScene<RewardComponent>(ModuleEnum.RewardModule);
+		RewardModule reward = AddModuleToScene<RewardModule>(ModuleEnum.RewardModule);
 //		
 //		sceneInfoBar.SetComponent(decorator);
 //		reward.SetComponent (sceneInfoBar);
@@ -1175,7 +1175,7 @@ public class RewardScene : SceneBase{
 
 //--------------------------------Raider------------------------------------------
 public class GameRaiderScene : SceneBase{
-	private SceneInfoComponent sceneInfoBar;
+	private SceneInfoBarModule sceneInfoBar;
 	public GameRaiderScene(ModuleEnum sEnum) : base(sEnum){}
 	
 	public override void ShowScene(){
@@ -1260,7 +1260,7 @@ public class MusicScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		MusicComponent currency = AddModuleToScene<MusicComponent>(ModuleEnum.MusicModule);
+		MusicModule currency = AddModuleToScene<MusicModule>(ModuleEnum.MusicModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		currency.SetComponent (decorator);
@@ -1292,7 +1292,7 @@ public class NicknameScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = CreatComponent< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		NicknameComponent currency = AddModuleToScene<NicknameComponent>(ModuleEnum.NickNameModule);
+		NicknameModule currency = AddModuleToScene<NicknameModule>(ModuleEnum.NickNameModule);
 		
 //		sceneInfoBar.SetComponent(decorator);
 //		currency.SetComponent (decorator);
@@ -1322,7 +1322,7 @@ public class PrefaceScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		PrefaceComponent preface = AddModuleToScene<PrefaceComponent>(ModuleEnum.PrefaceModule);
+		PrefaceModule preface = AddModuleToScene<PrefaceModule>(ModuleEnum.PrefaceModule);
 
 //		preface.SetComponent (decorator);
 //		
@@ -1350,7 +1350,7 @@ public class ResourceDownloadScene : SceneBase{
 	}
 	
 	public override void InitSceneList(){
-		ResourceDownloadComponent rsdownload = AddModuleToScene<ResourceDownloadComponent>(ModuleEnum.ResourceDownloadModule);
+		ResourceDownloadModule rsdownload = AddModuleToScene<ResourceDownloadModule>(ModuleEnum.ResourceDownloadModule);
 		
 //		rsdownload.SetComponent (decorator);
 //		

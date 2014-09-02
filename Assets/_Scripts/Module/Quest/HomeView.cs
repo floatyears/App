@@ -55,9 +55,9 @@ public class HomeView : ViewBase{
 	private void OnChangeSceneComplete(object data ){
 		if((ModuleEnum)data == ModuleEnum.HomeModule){
 			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE_EXE) {
-				UIManager.Instance.ChangeScene (ModuleEnum.UnitsModule);	
+				ModuleManger.Instance.ShowModule (ModuleEnum.UnitsModule);	
 			} else if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
-				UIManager.Instance.ChangeScene(ModuleEnum.ScratchModule);
+				ModuleManger.Instance.ShowModule(ModuleEnum.ScratchModule);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT){
 				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.QUEST);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.INPUT_NAME){
@@ -100,15 +100,15 @@ public class HomeView : ViewBase{
 	}
 
 	void ClickReward(GameObject obj){
-		UIManager.Instance.ChangeScene (ModuleEnum.RewardModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.RewardModule);
 	}
 
 	void ClickNotice(GameObject obj){
-		UIManager.Instance.ChangeScene (ModuleEnum.OperationNoticeModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
 	}
 
 	void ClickPurchase(GameObject obj){
-		UIManager.Instance.ChangeScene (ModuleEnum.ShopModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.ShopModule);
 	}
 
 	void CreateStoryView(object args){
@@ -235,7 +235,7 @@ public class HomeView : ViewBase{
 				BtnParam sure = new BtnParam ();
 				sure.callback = o=>{
 					MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
-					UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownloadModule);
+					ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
 				};
 				sure.text = TextCenter.GetText("OK");
 				mwp.btnParam = sure;
@@ -245,7 +245,7 @@ public class HomeView : ViewBase{
 			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-			UIManager.Instance.ChangeScene (ModuleEnum.StageSelectModule);
+			ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
 		}
@@ -253,13 +253,13 @@ public class HomeView : ViewBase{
 
 	void DownloadComplete(object data){
 //		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene (ModuleEnum.StageSelectModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
 		MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, (uint)2);
 	}
 
 	void DownloadCompleteEx(object data){
 //		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		UIManager.Instance.ChangeScene(ModuleEnum.StageSelectModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.StageSelectModule);
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 	}
 
@@ -289,12 +289,12 @@ public class HomeView : ViewBase{
 
 			if((GameDataStore.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
-				UIManager.Instance.ChangeScene(ModuleEnum.ResourceDownloadModule);
+				ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
 				return;
 			}
 
 
-			UIManager.Instance.ChangeScene(ModuleEnum.StageSelectModule);
+			ModuleManger.Instance.ShowModule(ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
 	}
@@ -333,7 +333,7 @@ public class HomeView : ViewBase{
 	}
 
 	void TurnScene(object msg){
-		UIManager.Instance.ChangeScene(ModuleEnum.ShopModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);
 	}
 
 	public void FogFly(){

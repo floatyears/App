@@ -3,18 +3,18 @@ using System.Collections;
 
 public class GameRaiderModule : ModuleBase {
 
-	public GameRaiderModule(string uiName):base(uiName) {}
+	public GameRaiderModule(UIConfigItem config):base(  config) {
+		CreateUI<GameRaiderView> ();
+	}
 	
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 		Debug.Log ("raider create ui");
 	}
 	
 	public override void ShowUI () {
 
 		base.ShowUI ();
-
-		ShowUIAnimation ();
 	}
 	
 	public override void HideUI () {
@@ -23,8 +23,4 @@ public class GameRaiderModule : ModuleBase {
 
 	}
 
-	void ShowUIAnimation(){
-		view.transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-		iTween.MoveTo(view.gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
-	}
 }

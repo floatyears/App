@@ -11,6 +11,7 @@ public class ConfigSkill  {
 
 	void ConfigHeartSkill () {
 		//General recoverHP skillId: [101 - 104]
+		Dictionary<int,SkillBaseInfo> infoList = new Dictionary<int, SkillBaseInfo> ();
 		for (int i = 1; i <= 4; i++) {
 			NormalSkill ns			= new NormalSkill ();
 			ns.baseInfo				= new SkillBase ();
@@ -31,11 +32,13 @@ public class ConfigSkill  {
 			}
 
 			TNormalSkill tns = new TNormalSkill(ns);
-			if(DataCenter.Instance.Skill.ContainsKey(ns.baseInfo.id)) {
-				DataCenter.Instance.Skill[ns.baseInfo.id] = tns;
+			if(infoList.ContainsKey(ns.baseInfo.id)) {
+				infoList[ns.baseInfo.id] = tns;
 			}else{
-				DataCenter.Instance.Skill.Add(ns.baseInfo.id, tns);
+				infoList.Add(ns.baseInfo.id, tns);
 			}
 		}
+
+		DataCenter.Instance.SetData(ModelEnum.Skill,infoList);
 	}
 }

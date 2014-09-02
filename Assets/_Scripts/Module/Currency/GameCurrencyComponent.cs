@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameCurrencyComponent : ModuleBase {
 
-	public GameCurrencyComponent (string name) : base (name) {
+	public GameCurrencyComponent (UIConfigItem config) : base (  config) {
 	}
 	
 	public override void ShowUI () {
@@ -14,8 +14,8 @@ public class GameCurrencyComponent : ModuleBase {
 		base.HideUI ();
 	}
 	
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 	}
 	
 	public override void DestoryUI () {

@@ -3,10 +3,10 @@ using System.Collections;
 
 public class LevelUpComponent : ModuleBase {
 
-	public LevelUpComponent(string uiName):base(uiName) {}
+	public LevelUpComponent(UIConfigItem config):base(  config) {}
 	
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 //		Debug.LogError ("LevelUpComponent : CreatUI");
 	}
 	

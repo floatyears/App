@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class QuestController : ModuleBase{
+public class QuestModule : ModuleBase{
 	private List<TCityInfo> storyCityList = new List<TCityInfo>();
 	private List<TStageInfo> storyStageList = new List<TStageInfo>();
 
-	public QuestController(string uiName):base(uiName){}
+	public QuestModule(UIConfigItem config):base(  config){
+//		CreateUI<quevi
+	}
 	public override void ShowUI(){
 		base.ShowUI();
 	}
@@ -24,8 +26,8 @@ public class QuestController : ModuleBase{
 //		base.DestoryUI ();
 //	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void OnReceiveMessages(object data){
+		base.OnReceiveMessages(data);
 		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
 		switch (cbdArgs.funcName){
@@ -53,7 +55,7 @@ public class QuestController : ModuleBase{
 
 	void CreateStage(){
 		CallBackDispatcherArgs storyArgs = new CallBackDispatcherArgs("CreateStoryView", storyCityList);
-		ExcuteCallback(storyArgs);
+		view.CallbackView(storyArgs);
 	}
 
 	void ClearStage(){
@@ -66,7 +68,7 @@ public class QuestController : ModuleBase{
 		if (stageSelected != null) {
 
 				ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
-				UIManager.Instance.ChangeScene(ModuleEnum.StageSelectModule);
+				ModuleManger.Instance.ShowModule(ModuleEnum.StageSelectModule);
 				MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 
 		}

@@ -41,7 +41,7 @@ public class BattleQuest : ModuleBase {
 
 	private int initCount = 0;
 
-	public BattleQuest (string name) : base(name) {
+	public BattleQuest (UIConfigItem config) : base(  config) {
 		configBattleUseData = ConfigBattleUseData.Instance;
 		InitData ();
 		rootObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
@@ -84,9 +84,9 @@ public class BattleQuest : ModuleBase {
 //			initCount++;
 //		});
 
-		battle = new Battle("Battle");
-		battle.CreatUI( );
-		battle.HideUI ();
+//		battle = new Battle("Battle");
+//		battle.InitUI( );
+//		battle.HideUI ();
 		CreatEffect ();
 		bud = new BattleUseData (this);
 	}
@@ -134,8 +134,8 @@ public class BattleQuest : ModuleBase {
 //		ui.Init (config);
 //	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 	}
 
 	public override void ShowUI () {
@@ -339,7 +339,7 @@ public class BattleQuest : ModuleBase {
 
 	public void HaveFriendExit() {
 		UIManager.Instance.ExitBattle ();
-		UIManager.Instance.ChangeScene(ModuleEnum.ResultModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.ResultModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, configBattleUseData.BattleFriend);
 	}
 
@@ -354,7 +354,7 @@ public class BattleQuest : ModuleBase {
 
 		NoFriendExit();
 
-		UIManager.Instance.ChangeScene (ModuleEnum.VictoryModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
@@ -362,7 +362,7 @@ public class BattleQuest : ModuleBase {
 		UIManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 
-		UIManager.Instance.ChangeScene (ModuleEnum.VictoryModule);
+		ModuleManger.Instance.ShowModule (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
@@ -725,10 +725,10 @@ public class BattleQuest : ModuleBase {
 	}
 
 	void ShowBattle() {
-		if(battle == null) {	
-			battle = new Battle("Battle");
-			battle.CreatUI();
-		}
+//		if(battle == null) {	
+//			battle = new Battle("Battle");
+//			battle.InitUI();
+//		}
 //		if(battle.GetState == UIState.UIShow)
 //			return;
 		battle.ShowUI();

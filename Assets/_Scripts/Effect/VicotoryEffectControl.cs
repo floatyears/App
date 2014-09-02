@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class VicotoryEffectControl : ModuleBase {
-	public VicotoryEffectControl(string name) : base (name) {
+	public VicotoryEffectControl(UIConfigItem config) : base (  config) {
 
 	}
 

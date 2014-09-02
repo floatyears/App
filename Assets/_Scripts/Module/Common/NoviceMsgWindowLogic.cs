@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class NoviceMsgWindowLogic : ModuleBase{
-	public NoviceMsgWindowLogic(string uiName):base(uiName){
+	public NoviceMsgWindowLogic(UIConfigItem config):base(  config){
 		AddListener ();
 	}
 	
@@ -42,12 +42,12 @@ public class NoviceMsgWindowLogic : ModuleBase{
 		LogHelper.Log ("------------open novice guide msg window"+msg.ToString());
 		//		Debug.LogError ("MsgWindowLogic : OpenMsgWindow ");
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 	
 	void CloseGuideMsgWindow(object msg){
 		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
-		ExcuteCallback(cbdArgs);
+		view.CallbackView(cbdArgs);
 	}
 
 	void DestoryGuideMsgWindow(object data) {

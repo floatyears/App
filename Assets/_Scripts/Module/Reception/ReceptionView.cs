@@ -205,7 +205,7 @@ public class ReceptionView : ViewBase {
 	}
 
 	void CallBackScratchScene(object args){
-		UIManager.Instance.ChangeScene(ModuleEnum.ShopModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);
 	}
 
 	private void SortUnitByCurRule(){

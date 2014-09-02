@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Fight : ModuleBase
@@ -27,7 +27,7 @@ public class Fight : ModuleBase
 
 	private List<CardItem> selectTarget = new List<CardItem>();
 
-	public Fight(string uiName) : base(uiName)
+	public Fight(UIConfigItem config) : base(  config)
 	{
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 
@@ -59,7 +59,7 @@ public class Fight : ModuleBase
 		Main.Instance.GInput.IsCheckInput = !isShield;
 	}
 
-	public override void CreatUI () {
+	public override void InitUI () {
 		dragParent = NGUITools.AddChild(parentObject).transform;
 		CreatSingle();
 		CreateMulti();

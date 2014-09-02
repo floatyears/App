@@ -112,7 +112,7 @@ public class UIManager {
 		ClearAllUIObject ();
 		Resources.UnloadUnusedAssets ();
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
-		UIManager.Instance.ChangeScene(ModuleEnum.FightModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.FightModule);
 	}
 
 	public void ExitBattle () {
