@@ -157,7 +157,7 @@ public class Battle : UIBase {
 	/// drag time must bigger than move time
 	/// </summary>
 	const float dragTime = 0.23f;
-	const float moveTime = 0.19f;
+	const float moveTime = 0.18f;
 
 	GameTimer gameTimer;
 	public void GuideCardAnim() {
