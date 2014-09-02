@@ -263,7 +263,7 @@ FriendApply=好友申请
 ConfirmApply=确定要申请添加他为好友吗？
 ConfirmAccept=确定要接受好友申请？
 AcceptApply=接受申请
-ConfirmDelete=确定要删除好友申请吗？
+ConfirmDelete=确定要提交好友申请吗？
 DeleteApply=删除申请
 
 #friend
@@ -387,8 +387,8 @@ GachaFriendPointNotEnough=你的友情点数不足！\n召唤一次需要 [FFB14
 
 RareGacha=稀有召唤
 RareGachaTitle=稀有召唤
-RareGachaDescription=稀有召唤可获得强力的卡牌，将花费一定数量的魔法石。
-RareGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石  \n召唤{1}次: [FFB14A]{2}[-] 魔法石\n\n你当前拥有 [FFB14A]{3}[-] 魔法石.
+RareGachaDescription=稀有召唤可获得强力的卡牌。
+RareGachaStatus=召唤1次: [FFB14A]{0}[-] 魔法石  \n召唤{1}次: [FFB14A]{2}[-] 魔法石\n你当前拥有 [FFB14A]{3}[-] 魔法石.
 
 ConfirmOneRareGacha=召唤1次
 ConfirmMaxRareGacha=召唤{0}次
