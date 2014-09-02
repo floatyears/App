@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class EvolveDecoratorUnity : ViewBase {
+public class EvolveView : ViewBase {
 	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
 		InitUI ();

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class VictoryEffect : ViewBase {
+public class VictoryView : ViewBase {
 	private UISlider levelProgress;
 	private UILabel coinLabel;
 	private UILabel empiricalLabel;

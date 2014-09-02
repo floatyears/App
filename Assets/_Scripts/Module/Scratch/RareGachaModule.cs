@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class RareGachaModule: GachaWindowModule{
+public class RareGachaModule: GachaModule{
 
 	public RareGachaModule(UIConfigItem config):base(  config) {
 //		CreateUI<RareGachaWindowLogic

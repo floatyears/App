@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class InformationWindow : ViewBase {
+public class InformationView : ViewBase {
 	
 	public override void Init(UIConfigItem config)
 	{

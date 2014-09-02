@@ -4,7 +4,9 @@ using bbproto;
 
 public class ResultModule : ModuleBase {
 	TFriendInfo curFriendInfo;
-	public ResultModule(UIConfigItem config) : base(  config){}
+	public ResultModule(UIConfigItem config) : base(  config){
+		CreateUI<ResultView> ();
+	}
 
 	public override void ShowUI(){
 		base.ShowUI();

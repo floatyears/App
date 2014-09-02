@@ -264,7 +264,7 @@ public class NetWorkEvovleTester {
         baseUnitUniqueId = 88;
         TUserUnit baseUnit = DataCenter.Instance.UserUnitList.GetMyUnit(baseUnitUniqueId);
         evolveStart.BaseUnitId = baseUnit.ID;
-        evolveStart.EvolveQuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
+        evolveStart.EvolveQuestId = EvolveModule.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
         LogHelper.LogError("TestEvovleStart(), questId {0}", evolveStart.EvolveQuestId);
 
         partUnitIdList = new List<uint>();
@@ -322,7 +322,7 @@ public class NetWorkEvovleTester {
         LogHelper.Log("TTTTTTTTTTTTTTTTTTTTTTTTTTT TestEvovleDone() start:");
         EvolveDone evolveDone = new EvolveDone();
 
-        evolveDone.QuestId = EvolveComponent.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
+        evolveDone.QuestId = EvolveModule.GetEvolveQuestID(bbproto.EUnitType.UNONE, 2);
         evolveDone.GetMoney = 1000000;
         evolveDone.GetUnit = new List<uint>();
         evolveDone.HitGrid = new List<uint>();

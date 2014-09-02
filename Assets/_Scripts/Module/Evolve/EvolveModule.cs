@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class EvolveComponent : ModuleBase {
-	public EvolveComponent(UIConfigItem config):base(  config) {}
+public class EvolveModule : ModuleBase {
+	public EvolveModule(UIConfigItem config):base(  config) {
+		CreateUI<EvolveView> ();
+	}
 	
 	public override void InitUI () {
 		base.InitUI ();
@@ -99,7 +101,7 @@ public class EvolveComponent : ModuleBase {
 			return;	
 		}
 		TransferData.Clear ();
-		TransferData.Add(EvolveDecoratorUnity.MaterialData, data);
+		TransferData.Add(EvolveView.MaterialData, data);
 		view.CallbackView (TransferData);
 	}
 
@@ -108,7 +110,7 @@ public class EvolveComponent : ModuleBase {
 			return;
 		}
 		TransferData.Clear ();
-		TransferData.Add(EvolveDecoratorUnity.BaseData, data);
+		TransferData.Add(EvolveView.BaseData, data);
 		view.CallbackView (TransferData);
 	}
 

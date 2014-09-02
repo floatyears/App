@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class UserIDComponent : ModuleBase
+public class UserIDModule : ModuleBase
 {
 
-	public UserIDComponent(UIConfigItem config) : base(config )
+	public UserIDModule(UIConfigItem config) : base(config )
 	{
 		CreateUI<UserIDView> ();
 	}

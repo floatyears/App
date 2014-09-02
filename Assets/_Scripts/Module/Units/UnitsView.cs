@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsWindow : ViewBase, IDragChangeView{
+public class UnitsView : ViewBase, IDragChangeView{
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
 	private UISprite pageIndexSpr;

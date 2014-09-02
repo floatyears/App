@@ -12,12 +12,12 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class GachaWindowModule : ModuleBase {
+public class GachaModule : ModuleBase {
 
     protected string titleText = "";
 
-	public GachaWindowModule(UIConfigItem config):base(  config) {
-		CreateUI<GachaWindowView> ();
+	public GachaModule(UIConfigItem config):base(  config) {
+		CreateUI<GachaView> ();
 	}
 
     public override void InitUI () {

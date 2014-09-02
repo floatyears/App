@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FriendUnitSortPanelView : SortPanelView {
+public class FriendUnitSortView : SortPanelView {
 	protected override void InitBtns(){
 //		Debug.LogError("FriendUnitSortPanelView InitBtns 1");
 		base.InitBtns();

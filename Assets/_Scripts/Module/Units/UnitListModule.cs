@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class UnitListComponent : ModuleBase {
+public class UnitListModule : ModuleBase {
 
-	public UnitListComponent(UIConfigItem config):base(  config) {
+	public UnitListModule(UIConfigItem config):base(  config) {
 //		CreateUI<unili
 	}
 	

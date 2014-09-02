@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitDisplayUnity : ViewBase {
+public class UnitDisplayView : ViewBase {
 	public override void Init (UIConfigItem config) {
 		base.Init (config);
 		InitUI ();

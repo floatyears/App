@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class FriendGachaWindowModule: GachaWindowModule{
+public class FriendGachaWindowModule: GachaModule{
 	public FriendGachaWindowModule(UIConfigItem config):base(  config) {
 //		CreateUI<frienga
 	}

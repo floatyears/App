@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class ApplyController : ModuleBase{
-	public ApplyController(UIConfigItem config) : base(   config ){}
+public class ApplyModule : ModuleBase{
+	public ApplyModule(UIConfigItem config) : base(   config ){}
 
 	public override void HideUI () {
 		base.HideUI ();

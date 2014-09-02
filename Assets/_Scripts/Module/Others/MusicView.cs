@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class MusicWIndow : ViewBase {
+public class MusicView : ViewBase {
 	
 //	UIButton bgmOnBtn;
 //	UIButton bgmOffBtn;

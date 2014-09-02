@@ -113,7 +113,7 @@
         "positionz": 0
     },
      "ShopModule": {
-        "moduleName":"ShopWindow",
+        "moduleName":"ShopModule",
         "resoucePath": "Prefabs/UI/Shop/ShopUI",
         "parent": 1,
         "positionx": 0,
@@ -122,47 +122,39 @@
     },
      "OthersModule": {
         "moduleName":"OthersWindow",
-        "resoucePath": "Prefabs/UI/Others/",
+        "resoucePath": "Prefabs/UI/Others/OthersUI",
         "parent": 1,
         "positionx": 0,
         "positiony": -440,
         "positionz": 0
     },
-     "UnitsWindow": {
-        "moduleName":"UnitsWindow",
-        "resoucePath": "Prefabs/UI/Units/",
+     "UnitsModule": {
+        "moduleName":"UnitsModule",
+        "resoucePath": "Prefabs/UI/Units/UnitsUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-    "LevelUp": {
-        "moduleName":"LevelUpWindow",
-        "resoucePath": "Prefabs/UI/Units/",
+    "LevelUpModule": {
+        "moduleName":"LevelUpModule",
+        "resoucePath": "Prefabs/UI/Units/LevelUpUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-    "LevelUpUI": {
-        "moduleName":"LevelUpUI",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 1,
-        "positionx": 0,
-        "positiony": -205,
-        "positionz": 0
-    },
-    "SellWindow": {
-        "moduleName":"SellWindow",
-        "resoucePath": "Prefabs/UI/Units/",
+    "SellModule": {
+        "moduleName":"SellModule",
+        "resoucePath": "Prefabs/UI/Units/SellUI",
         "parent": 1,
         "positionx": 0,
         "positiony": -290,
         "positionz": 0
     },
-    "CatalogWindow": {
-        "moduleName":"CatalogWindow",
-        "resoucePath": "Prefabs/UI/Units/",
+    "CatalogModule": {
+        "moduleName":"CatalogModule",
+        "resoucePath": "Prefabs/UI/Units/CatalogUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
@@ -170,7 +162,7 @@
     },
     "EvolveWindow": {
         "moduleName":"EvolveWindow",
-        "resoucePath": "Prefabs/UI/Units/",
+        "resoucePath": "Prefabs/UI/Units/EvolveUI",
         "parent": 1,
         "positionx": 0,
         "positiony": -442,
@@ -184,17 +176,17 @@
         "positiony": 108,
         "positionz": 0
     },
-    "UnitListWindow": {
-        "moduleName":"UnitListWindow",
-        "resoucePath": "Prefabs/UI/Units/",
+    "UnitListModule": {
+        "moduleName":"UnitListModule",
+        "resoucePath": "Prefabs/UI/Units/UnitListUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-    "QuestSelectWindow": {
-        "moduleName":"QuestSelectWindow",
-        "resoucePath": "Prefabs/UI/Home/",
+    "QuestSelectModule": {
+        "moduleName":"QuestSelectModule",
+        "resoucePath": "Prefabs/UI/Home/QuestSelectUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
@@ -202,208 +194,136 @@
     },
     "FriendSelectWindow": {
         "moduleName":"FriendSelectWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
+        "resoucePath": "Prefabs/UI/Friend/FriendSelectUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-    "UnitDetailPanel": {
-        "moduleName":"UnitDetailPanel",
-        "resoucePath": "Prefabs/UI/UnitDetail/",
+    "UnitDetailModule": {
+        "moduleName":"UnitDetailModule",
+        "resoucePath": "Prefabs/UI/UnitDetail/UnitDetailUI",
         "parent": 4,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-     "ApplyWindow": {
-        "moduleName":"ApplyWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
+     "ApplyModule": {
+        "moduleName":"ApplyModule",
+        "resoucePath": "Prefabs/UI/Friend/ApplyUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-     "ReceptionWindow": {
-        "moduleName":"ReceptionWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
+     "ReceptionModule": {
+        "moduleName":"ReceptionModule",
+        "resoucePath": "Prefabs/UI/Friend/ReceptionUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 100,
         "positionz": 0
     },
-     "UserIDWindow": {
-        "moduleName":"UserIDWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
+     "UserIDModule": {
+        "moduleName":"UserIDModule",
+        "resoucePath": "Prefabs/UI/Friend/UserIDUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-    "InformationWindow": {
-        "moduleName":"InformationWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
+     "SearchInfoModule": {
+        "moduleName":"SearchInfoModule",
+        "resoucePath": "Prefabs/UI/Friend/SearchInfoUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-     "SearchMainWindow": {
-        "moduleName":"SearchMainWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 0,
-        "positionz": 0
-    },
-     "SearchInfoWindow": {
-        "moduleName":"SearchInfoWindow",
-        "resoucePath": "Prefabs/UI/Friend/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 0,
-        "positionz": 0
-    },
-     "LevelUpReadyPanel": {
-        "moduleName":"LevelUpReadyPanel",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 315,
-        "positionz": 0
-    },
-     "LevelUpInfoPanel": {
-        "moduleName":"LevelUpInfoPanel",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 182,
-        "positionz": 0
-    },
-     "LevelUpFriendWindow": {
-        "moduleName":"LevelUpFriendWindow",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 108,
-        "positionz": 0
-    },
-     "LevelUpMaterialWindow": {
-        "moduleName":"LevelUpMaterialWindow",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 38,
-        "positionz": 0
-    },
-    "LevelUpBasePanel": {
-        "moduleName":"LevelUpBasePanel",
-        "resoucePath": "Prefabs/UI/Units/",
-        "parent": 0,
-        "positionx": 0,
-        "positiony": 38,
-        "positionz": 0
-    },
-     "PartyPagePanel": {
-        "moduleName":"PartyPagePanel",
-        "resoucePath": "Prefabs/UI/Party/",
-        "parent": 1,
-        "positionx": 0,
-        "positiony": 0,
-        "positionz": 0
-    },
-      "UnitsInfoPanel": {
-        "moduleName":"UnitsInfoPanel",
-        "resoucePath": "Prefabs/UI/Party/",
-        "parent": 1,
-        "positionx": 0,
-        "positiony": 0,
-        "positionz": 0
-    },
-      "PartyInfoPanel": {
-        "moduleName":"PartyInfoPanel",
-        "resoucePath": "Prefabs/UI/Party/",
+      "PartyInfoModule": {
+        "moduleName":"PartyInfoModule",
+        "resoucePath": "Prefabs/UI/Party/PartyInfoUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
      "PartyDragPanel": {
-        "moduleName":"PartyDragPanel",
-        "resoucePath": "Prefabs/UI/Party/",
+        "moduleName":"PartyDragPanelUI",
+        "resoucePath": "Prefabs/UI/Party/PartyDragPanelUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
 	  "UnitDisplayModule": {
-        "moduleName":"UnitDisplay",
-        "resoucePath": "Prefabs/UI/Units/",
+        "moduleName":"UnitDisplayModule",
+        "resoucePath": "Prefabs/UI/Units/UnitDisplayUI",
         "parent": 1,
         "positionx": 0,
         "positiony": -430,
         "positionz": 0
     },
     
-      "ApplyMessageWindow": {
-        "moduleName":"ApplyMessageWindow",
-        "resoucePath": "Prefabs/UI/FriendList/",
+      "ApplyMessageModule": {
+        "moduleName":"ApplyMessageModule",
+        "resoucePath": "Prefabs/UI/FriendList/ApplyMessageUI",
         "parent": 4,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-       "AcceptApplyMessageWindow": {
-        "moduleName":"AcceptApplyMessageWindow",
-        "resoucePath": "Prefabs/UI/FriendList/",
+       "AcceptApplyMessageModule": {
+        "moduleName":"AcceptApplyMessageModule",
+        "resoucePath": "Prefabs/UI/FriendList/AcceptApplyMessageUI",
         "parent": 4,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
     "GachaModule": {
-        "moduleName":"GachaWindow",
-        "resoucePath": "Prefabs/UI/Scratch/",
+        "moduleName":"GachaModule",
+        "resoucePath": "Prefabs/UI/Scratch/GachaUI",
         "parent": 1,
         "positionx": 0,
         "positiony": -180,
         "positionz": 0
     },
-       "ItemCounterBarModule": {
-        "moduleName":"ItemCounterBar",
-        "resoucePath": "Prefabs/UI/Common/",
+       "ItemCounterModule": {
+        "moduleName":"ItemCounterModule",
+        "resoucePath": "Prefabs/UI/Common/ItemCounterUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
        "SelectRoleModule": {
-        "moduleName":"SelectRoleWindow",
-        "resoucePath": "Prefabs/UI/SelectRole/",
+        "moduleName":"SelectRoleModule",
+        "resoucePath": "Prefabs/UI/SelectRole/SelectRoleUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
      "ResultModule": {
-        "moduleName":"ResultWindow",
-        "resoucePath": "Prefabs/UI/Result/",
+        "moduleName":"ResultModule",
+        "resoucePath": "Prefabs/UI/Result/ResultUI",
         "parent": 0,
         "positionx": 0,
         "positiony": -50,
         "positionz": 0
     },
      "PartyModule": {
-        "moduleName":"PartyWindow",
-        "resoucePath": "Prefabs/UI/Party/",
+        "moduleName":"PartyModule",
+        "resoucePath": "Prefabs/UI/Party/PartyUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
-     "UserUnitSortPanel": {
-        "moduleName":"UserUnitSortPanel",
-        "resoucePath": "Prefabs/UI/Common/",
+     "UserUnitSortModule": {
+        "moduleName":"UserUnitSortModule",
+        "resoucePath": "Prefabs/UI/Common/UserUnitSortUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
@@ -418,23 +338,23 @@
         "positionz": 0
     },
      "HomeModule": {
-        "moduleName":"HomeWindow",
-        "resoucePath": "Prefabs/UI/Quest/",
+        "moduleName":"HomeModule",
+        "resoucePath": "Prefabs/UI/Quest/HomeUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
     "StageSelectModule": {
-        "moduleName":"StageSelectWindow",
-        "resoucePath": "Prefabs/UI/Quest/",
+        "moduleName":"StageSelectModule",
+        "resoucePath": "Prefabs/UI/Quest/StageSelectUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
      "FightReadyModule": {
-        "moduleName":"FightReadyWindow",
+        "moduleName":"FightReadyModule",
         "resoucePath": "Prefabs/UI/Quest/",
         "parent": 0,
         "positionx": 0,
@@ -442,15 +362,15 @@
         "positionz": 0
     },
     "QuestSelectModule": {
-        "moduleName":"QuestSelectPanel",
-        "resoucePath": "Prefabs/UI/Home/",
+        "moduleName":"QuestSelectModule",
+        "resoucePath": "Prefabs/UI/Home/QuestSelectUI",
         "parent": 1,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
      "NoviceGuideModule": {
-        "moduleName":"NoviceGuideWindow",
+        "moduleName":"NoviceGuideModule",
         "resoucePath": "Prefabs/UI/Common/",
         "parent": 1,
         "positionx": 0,
@@ -458,64 +378,64 @@
         "positionz": 0
     },
     "OperationNoticeModule":{
-    "moduleName":"OperationNoticeView",
-        "resoucePath": "Prefabs/UI/Notice/",
+   		"moduleName":"OperationNoticeModule",
+        "resoucePath": "Prefabs/UI/Notice/OperationNoticeUI",
         "parent": 4,
         "positionx": 0,
         "positiony": 460,
         "positionz": 0
     },
     "RewardModule":{
-    	"moduleName":"RewardView",
-        "resoucePath": "Prefabs/UI/Reward/",
+    	"moduleName":"RewardModule",
+        "resoucePath": "Prefabs/UI/Reward/RewardUI",
         "parent": 4,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
      "GameRaiderModule": {
-        "moduleName":"GameRaiderView",
-        "resoucePath": "Prefabs/UI/Raider/",
+        "moduleName":"GameRaiderModule",
+        "resoucePath": "Prefabs/UI/Raider/GameRaiderUI",
         "parent": 1,
         "positionx": 0,
         "positiony":0,
         "positionz": 0
     },
     "MusicModule": {
-        "moduleName":"MusicWindow",
-        "resoucePath": "Prefabs/UI/Others/",
+        "moduleName":"MusicModule",
+        "resoucePath": "Prefabs/UI/Others/MusicUI",
         "parent": 4,
         "positionx": 0,
         "positiony":0,
         "positionz": 0
     },
     "NicknameModule": {
-        "moduleName":"NicknameWindow",
-        "resoucePath": "Prefabs/UI/Others/",
+        "moduleName":"NicknameModule",
+        "resoucePath": "Prefabs/UI/Others/NickNameUI",
         "parent": 4,
         "positionx": 0,
         "positiony":0,
         "positionz": 0
     },
     "VictoryModule": {
-        "moduleName":"Victory",
-        "resoucePath": "Prefabs/",
+        "moduleName":"VictoryModule",
+        "resoucePath": "Prefabs/VictoryUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
     "PrefaceModule": {
-        "moduleName":"PrefaceWindow",
-        "resoucePath": "Prefabs/UI/Preface/",
+        "moduleName":"PrefaceModule",
+        "resoucePath": "Prefabs/UI/Preface/PrefaceUI",
         "parent": 0,
         "positionx": 0,
         "positiony": 0,
         "positionz": 0
     },
     "ResourceDownloadModule": {
-        "moduleName":"ResourceDownloadWindow",
-        "resoucePath": "Prefabs/UI/ResourceDownload/",
+        "moduleName":"ResourceDownloadModule",
+        "resoucePath": "Prefabs/UI/ResourceDownload/ResourceDownloadUI",
         "parent": 4,
         "positionx": 0,
         "positiony": 0,

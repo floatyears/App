@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class CatalogController : ModuleBase {
-	public CatalogController(UIConfigItem config):base(  config) {}
+public class CatalogModule : ModuleBase {
+	public CatalogModule(UIConfigItem config):base(  config) {}
 	public override void ShowUI () {
 		base.ShowUI ();
 		//Temp for test

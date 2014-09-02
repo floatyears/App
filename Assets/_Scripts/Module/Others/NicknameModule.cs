@@ -4,7 +4,7 @@ using System.Collections;
 public class NicknameModule : ModuleBase {
 
 	public NicknameModule(UIConfigItem config):base(  config){
-		CreateUI<NicknameWindow> ();
+		CreateUI<NicknameView> ();
 	}
 	
 	public override void InitUI(){

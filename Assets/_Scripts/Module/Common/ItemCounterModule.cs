@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class ItemCounterController : ModuleBase{
-	public ItemCounterController(UIConfigItem config) : base(  config){
+public class ItemCounterModule : ModuleBase{
+	public ItemCounterModule(UIConfigItem config) : base(  config){
 		CreateUI<ItemCounterView> ();
 	}
 

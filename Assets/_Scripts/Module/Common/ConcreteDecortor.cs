@@ -298,7 +298,7 @@ public class GachaWindowScene : SceneBase{
 //        sceneInfoBar.SetComponent(decorator);
 //		controllerList.Add (sceneInfoBar);
 
-        GachaWindowModule gachaWin;
+        GachaModule gachaWin;
 //        switch () {
 //        case ModuleEnum.FightReadyModule:
 			gachaWin = AddModuleToScene< FriendGachaWindowModule >(currentDecoratorScene);
@@ -523,7 +523,7 @@ public class PartyScene : SceneBase{
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 //		PartyInfoLogic partyInfo = CreatComponent<PartyInfoLogic>(ModuleEnum.partyInfoPanelName);
 		PartyPartyPage partyPage = AddModuleToScene<PartyPartyPage>(ModuleEnum.PartyModule);
 
@@ -571,7 +571,7 @@ public class LevelUpScene : SceneBase {
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 //		counter.SetComponent (sceneInfoBar);
 
 		SortController sc = AddModuleToScene<SortController> (ModuleEnum.SortModule);
@@ -610,7 +610,7 @@ public class SellScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 		SellModule sell = AddModuleToScene< SellModule >(ModuleEnum.SellModule);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
 
@@ -659,7 +659,7 @@ public class EvolveScene : SceneBase{
 		SortController sc = AddModuleToScene<SortController> (ModuleEnum.SortModule);
 //		sc.SetComponent (sceneInfoBar);
 
-		EvolveComponent evolve = AddModuleToScene< EvolveComponent >(ModuleEnum.EvolveModule);
+		EvolveModule evolve = AddModuleToScene< EvolveModule >(ModuleEnum.EvolveModule);
 //		evolve.SetComponent(sc);
 
 //		sceneInfoBar.checkUiState = evolve;
@@ -668,7 +668,7 @@ public class EvolveScene : SceneBase{
 //		unitdisplay.SetComponent (evolve);
 //		lastDecorator = unitdisplay;
 //		lastDecorator.CreatUIAsyn (this);
-		EvolveDecoratorUnity edu = evolve.View as EvolveDecoratorUnity;
+		EvolveView edu = evolve.View as EvolveView;
 		edu.SetUnitDisplay (unitdisplay.View.gameObject);
 
 	}
@@ -701,9 +701,9 @@ public class CatalogScene : SceneBase{
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 //		sceneInfoBar.SetComponent(decorator);
 
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 //		counter.SetComponent(sceneInfoBar);
-		CatalogController catalog = AddModuleToScene< CatalogController >(ModuleEnum.UnitCatalogModule);
+		CatalogModule catalog = AddModuleToScene< CatalogModule >(ModuleEnum.UnitCatalogModule);
 //		catalog.SetComponent(counter);
 	
 //		lastDecorator = catalog;
@@ -733,7 +733,7 @@ public class UnitListScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.SceneInfoBarModule);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 		MyUnitListModule unitList = AddModuleToScene< MyUnitListModule >(ModuleEnum.UnitListModule);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
 
@@ -773,7 +773,7 @@ public class FriendListScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene<SceneInfoComponent>(ModuleEnum.sceneInfoBarName);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
 
@@ -814,7 +814,7 @@ public class InformationScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		InformationComponent infoWindow = AddModuleToScene< InformationComponent >(ModuleEnum.InformationModule);
+		InformationModule infoWindow = AddModuleToScene< InformationModule >(ModuleEnum.InformationModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		infoWindow.SetComponent(sceneInfoBar);
@@ -882,9 +882,9 @@ public class ApplyScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
-		ApplyController applyWindow = AddModuleToScene< ApplyController >(ModuleEnum.ApplyModule);
+		ApplyModule applyWindow = AddModuleToScene< ApplyModule >(ModuleEnum.ApplyModule);
 		DeleteFriendApply deleteApply = AddModuleToScene<DeleteFriendApply>(ModuleEnum.DeleteFriendModule);
 
 //		sceneInfoBar.SetComponent(decorator);
@@ -924,8 +924,8 @@ public class ReceptionScene : SceneBase{
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
 		SortController sortPanel = AddModuleToScene<SortController>(ModuleEnum.SortModule);
-		ItemCounterController counter = AddModuleToScene<ItemCounterController>(ModuleEnum.ItemCounterModule);
-		ReceptionController recptionWin = AddModuleToScene< ReceptionController >(ModuleEnum.ReceptionModule);
+		ItemCounterModule counter = AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
+		ReceptionModule recptionWin = AddModuleToScene< ReceptionModule >(ModuleEnum.ReceptionModule);
 		AccpetFriendApply acceptApply = AddModuleToScene<AccpetFriendApply>(ModuleEnum.AccpetFriendApplyModule);
 
 //		sceneInfoBar.SetComponent(decorator);
@@ -961,7 +961,7 @@ public class UserIDScene : SceneBase{
 	
 	public override void InitSceneList(){
 //		sceneInfoBar = AddModuleToScene< SceneInfoComponent >(ModuleEnum.sceneInfoBarName);
-		UserIDComponent userIDWindow = AddModuleToScene< UserIDComponent >(ModuleEnum.UserIDModule);
+		UserIDModule userIDWindow = AddModuleToScene< UserIDModule >(ModuleEnum.UserIDModule);
 
 //		sceneInfoBar.SetComponent(decorator);
 //		userIDWindow.SetComponent(sceneInfoBar);

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class GachaWindowView : ViewBase {
+public class GachaView : ViewBase {
 	private const int rareAudioLevel = 4;
 	
     private UILabel chancesLabel;

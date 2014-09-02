@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class InformationComponent : ModuleBase {
+public class InformationModule : ModuleBase {
 	
-	public InformationComponent( UIConfigItem config ) : base(   config ) {}
+	public InformationModule( UIConfigItem config ) : base(   config ) {
+		CreateUI<InformationView> ();
+	}
 	
 	public override void InitUI() {
 		base.InitUI();

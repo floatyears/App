@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class NicknameWindow : ViewBase {
+public class NicknameView : ViewBase {
 
 	UIButton okButton;
 	UIButton CancelButton;

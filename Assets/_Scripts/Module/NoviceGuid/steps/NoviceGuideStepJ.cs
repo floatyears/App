@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //untis evolve
@@ -35,9 +35,9 @@ public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 	}
 	
 	private void ClickOK(object data){
-		uint id = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity>().GetMaxLvUnitID();
-		GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity> ().SetItemVisible (id);
-		GameObject first = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayUnity> ().GetMaxLvUnitItem ();
+		uint id = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayView>().GetMaxLvUnitID();
+		GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayView> ().SetItemVisible (id);
+		GameObject first = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayView> ().GetMaxLvUnitItem ();
 		NoviceGuideUtil.ForceOneBtnClick (first);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,2)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
