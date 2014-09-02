@@ -161,7 +161,7 @@ public class Battle : UIBase {
 	/// drag time must bigger than move time
 	/// </summary>
 //	const float dragTime = 0.23f;
-	const float moveTime = 0.24f;
+	const float moveTime = 0.22f;
 
 	GameTimer gameTimer;
 
