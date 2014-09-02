@@ -143,9 +143,9 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
 				ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
 			}else{
-				Hp = baseInfo.Hp + " -> " + "[B63B3B]" + tu.GetHpByLevel(toLevel) + "[-]";
-				Atk =  baseInfo.Attack + " -> [B63B3B]" + tu.GetAtkByLevel(toLevel) + "[-]";
-				ExpNeed = baseInfo.Level + " -> [B63B3B]" + toLevel + "[-]";
+				Hp = baseInfo.Hp + " -> " + "[AA0000]" + tu.GetHpByLevel(toLevel) + "[-]";
+				Atk =  baseInfo.Attack + " -> [AA0000]" + tu.GetAtkByLevel(toLevel) + "[-]";
+				ExpNeed = baseInfo.Level + " -> [AA0000]" + toLevel + "[-]";
 			}
 
 		}
