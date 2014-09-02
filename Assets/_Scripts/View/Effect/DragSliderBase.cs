@@ -5,7 +5,7 @@ public class DragSliderBase : MonoBehaviour {
 	protected Transform moveParent = null;
 	protected Transform cacheLeftParent = null;
 	protected Transform cacheRightParent = null;
-	protected DragChangeViewSpring spring;
+
 	protected BoxCollider dragCollider;
 	protected Vector3 startPos;
 	protected Vector3 rightStartPos;
@@ -16,11 +16,136 @@ public class DragSliderBase : MonoBehaviour {
 	protected UIPanel panel = null;
 	protected bool moveToRight;
 	protected bool stopOperate = false;
+	protected bool pressState = false;
+	protected float pressTime = 0f;
+	protected float intervTime = 0f;
+	protected float pressYPos = 0f;
+	protected float dragYDistance = 0f;
 
-	public virtual void Init() {
+	public void Init() {
 		panel = GetComponent<UIPanel> ();
 		if (panel == null) {
 			panel = gameObject.AddComponent<UIPanel>();	
 		}
+
+		InitTrans ();
+
+		SetPosition ();
+
+		DragChangViewItem[] dcvi = transform.GetComponentsInChildren<DragChangViewItem>();
+
+		foreach (var item in dcvi) {
+			item.Init(this);
+		}
+	}
+
+	protected virtual void InitTrans() {
+
+	}
+
+	void SetPosition() {
+		if (moveParent == null) {
+			return;
+		}
+
+		startPos = moveParent.localPosition;
+		leftStartPos = cacheLeftParent.localPosition;
+		rightStartPos = cacheRightParent.localPosition;
+	}
+
+	public virtual void RefreshData() { }
+
+	public void SetDataInterface (IDragChangeView idcv) {
+		Init ();
+
+		dragChangeViewData = idcv;
+		
+		intervDistance = new Vector3 (idcv.xInterv, 0f, 0f);
+		changeDistance = System.Convert.ToInt32 (idcv.xInterv * 0.3f);
+		
+		if (dragChangeViewData == null) {
+			Debug.LogError("drag change view data is null");
+		}
+	}
+
+	public virtual void OnPress(bool pressDown) {
+		if (stopOperate) {
+			return;	
+		}
+		
+		if (pressDown ) {
+			OnDragBegin();
+		} 
+		if(!pressDown){
+			OnDragEnd();
+		}
+	}
+
+	void OnDragBegin() {
+		pressTime = RealTime.time;
+		pressYPos = Input.mousePosition.y;
+	}
+	
+	void OnDragEnd() {
+		intervTime = RealTime.time - pressTime;
+		dragYDistance = Input.mousePosition.y - pressYPos;
+		
+		bool isChange = Mathf.Abs (moveParent.localPosition.x - startPos.x) >= changeDistance;
+
+		if (isChange) {
+			stopOperate = true;
+			if(moveToRight) {
+				cacheRightParent.localPosition = leftStartPos;
+				DragChangeViewSpring.Begin(cacheLeftParent, startPos);
+				DragChangeViewSpring.Begin (moveParent, rightStartPos, RightMoveEnd);
+			} else {
+				cacheLeftParent.localPosition = rightStartPos;
+				DragChangeViewSpring.Begin(cacheRightParent, startPos);
+				DragChangeViewSpring.Begin (moveParent, leftStartPos, LeftMoveEnd);
+			}
+			
+		} else {
+			DragChangeViewSpring.Begin (moveParent, startPos);
+			DragChangeViewSpring.Begin(cacheLeftParent, leftStartPos);
+			DragChangeViewSpring.Begin(cacheRightParent, rightStartPos);
+		}
+	}
+
+	void RightMoveEnd() {
+		Transform temp = cacheRightParent;
+		cacheRightParent = moveParent;
+		moveParent = cacheLeftParent;
+		cacheLeftParent = temp;
+		dragChangeViewData.RefreshParty (true);
+		
+		MoveEnd ();
+	}
+	
+	void LeftMoveEnd() {
+		Transform temp = cacheLeftParent;
+		cacheLeftParent = moveParent;
+		moveParent = cacheRightParent;
+		cacheRightParent = temp;
+		dragChangeViewData.RefreshParty (false);
+		
+		MoveEnd ();
+	}
+
+	void MoveEnd() {
+		stopOperate = false;
+		
+	}
+
+	
+	public virtual void OnDrag(Vector2 deltaPos) {
+		if (stopOperate) {
+			return;	
+		}
+		
+		float deltaX = deltaPos.x;
+		moveParent.localPosition += new Vector3 (deltaX, 0f, 0f);
+		moveToRight = deltaX > 0;
+		cacheLeftParent.localPosition = moveParent.localPosition - intervDistance;
+		cacheRightParent.localPosition = moveParent.localPosition + intervDistance;
 	}
 }
