@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class DragSliderBase : MonoBehaviour {
 	protected Transform moveParent = null;
@@ -13,21 +13,21 @@ public class DragSliderBase : MonoBehaviour {
 	protected IDragChangeView dragChangeViewData;
 	protected Vector3 intervDistance;
 	protected int changeDistance = 0;
-	protected UIPanel panel = null;
 	protected bool moveToRight;
-	protected bool stopOperate = false;
+
 	protected bool pressState = false;
 	protected float pressTime = 0f;
 	protected float intervTime = 0f;
 	protected float pressYPos = 0f;
 	protected float dragYDistance = 0f;
 
-	public void Init() {
-		panel = GetComponent<UIPanel> ();
-		if (panel == null) {
-			panel = gameObject.AddComponent<UIPanel>();	
-		}
+	protected bool stopOperate = false;
+	public bool StopOperate {
+		get { return stopOperate; }
+		set { stopOperate = value; }
+	}
 
+	public void Init() {
 		InitTrans ();
 
 		SetPosition ();
@@ -39,9 +39,7 @@ public class DragSliderBase : MonoBehaviour {
 		}
 	}
 
-	protected virtual void InitTrans() {
-
-	}
+	protected virtual void InitTrans() { }
 
 	void SetPosition() {
 		if (moveParent == null) {
@@ -54,6 +52,12 @@ public class DragSliderBase : MonoBehaviour {
 	}
 
 	public virtual void RefreshData() { }
+	public virtual void RefreshData(TUnitParty tup) { }
+
+	public void RefreshCustomData(TUnitParty tup) {
+		stopOperate = true;
+		RefreshData (tup);
+	}
 
 	public void SetDataInterface (IDragChangeView idcv) {
 		Init ();
