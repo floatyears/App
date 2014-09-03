@@ -53,36 +53,44 @@ public class FightReadyView : UIComponentUnity, IDragChangeView {
 		RmvCmdListener();
 	}
 
+	private DragSliderBase dragSlider;
+
 	#region IDragChangeView implementation
 
-	public void RefreshParty (bool isRight)
-	{
-		throw new System.NotImplementedException ();
+	public void RefreshParty (bool isRight) {	
+		TUnitParty tup = null;
+		if (isRight) {
+			tup = DataCenter.Instance.PartyInfo.PrevParty;
+		} else {
+			tup = DataCenter.Instance.PartyInfo.NextParty;
+		}
+//		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+		RefreshParty();  
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   
 	}
 
 	public void RefreshView (List<PageUnitItem> view)
 	{
-		throw new System.NotImplementedException ();
+
 	}
 
 	public int xInterv {
 		get {
-			throw new System.NotImplementedException ();
+			return 620;
 		}
 	}
 
 	#endregion
 
 	private void InitUI(){
-		FindChild<UILabel>("Others/Button_Fight/Label").text = TextCenter.GetText ("Btn_Fight");
+		FindChild<UILabel>("Button_Fight/Label").text = TextCenter.GetText ("Btn_Fight");
 
 		prePageBtn = FindChild<UIButton>("Others/Button_Left");
 		nextPageBtn = FindChild<UIButton>("Others/Button_Right");
-		startFightBtn = transform.FindChild("Others/Button_Fight").GetComponent<UIButton>();
+		startFightBtn = transform.FindChild("Button_Fight").GetComponent<UIButton>();
 
 //		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
 //		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
-//	
 //		fireAtkLabel = transform.FindChild("Label_ATK_Fire").GetComponent<UILabel>();
 //		waterAtkLabel = transform.FindChild("Label_ATK_Water").GetComponent<UILabel>();
 //		lightAtkLabel = transform.FindChild("Label_ATK_Light").GetComponent<UILabel>();
@@ -100,6 +108,8 @@ public class FightReadyView : UIComponentUnity, IDragChangeView {
 		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 
+		dragSlider = GetComponent<DragSliderBase>();
+		dragSlider.SetDataInterface (this);
 //		for (int i = 0; i < 4; i++){
 //			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
 //			partyView.Add(i, puv);
@@ -109,21 +119,16 @@ public class FightReadyView : UIComponentUnity, IDragChangeView {
 	
 	private void PrevPage(GameObject go){
 		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
-		RefreshParty(preParty);  
+		RefreshParty();  
 	}
 	
 	private void NextPage(GameObject go){
 		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
-		RefreshParty(nextParty);
+		RefreshParty();
 	}
 
-	private void RefreshParty(TUnitParty party){
-//		List<TUserUnit> partyMemberList = party.GetUserUnit();
-//		for (int i = 0; i < partyMemberList.Count; i++) {
-//			partyView[ i ].Init(partyMemberList [ i ]);	
-//		}
-//			
-//		ShowPartyInfo();
+	private void RefreshParty(){
+		dragSlider.RefreshData ();
 	}
 
 	private void ShowUIAnimation(){
@@ -131,24 +136,35 @@ public class FightReadyView : UIComponentUnity, IDragChangeView {
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));       
 	}
 
-	private Dictionary<string, object> pickedInfoForFight;
+	public Dictionary<string, object> pickedInfoForFight;
 	static public TFriendInfo pickedHelperInfo;
 
 	private void RecordPickedInfoForFight(object msg){
 		pickedInfoForFight = msg as Dictionary<string, object>;
 		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
-		ShowHelper(pickedHelperInfo);
-		RefreshParty(DataCenter.Instance.PartyInfo.CurrentParty);
+//		ShowHelper(pickedHelperInfo);
+		Debug.LogError ("RecordPickedInfoForFight");
+		RefreshParty();
 	}
 
 	void EvolveSelectQuest(object data) {
+		Debug.LogError ("EvolveSelectQuest");
 		evolveStart = data as TEvolveStart;
-		RefreshParty (evolveStart.evolveParty);
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
-
 		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
-		ShowHelper (pickedHelperInfo);
+		UnitParty up = new UnitParty ();
+		up.id = 5;
+		for (int i = 0; i < evolveStart.evolveParty.Count; i++) {
+			PartyItem pi = new PartyItem();
+			pi.unitPos = i;
+			pi.unitUniqueId = evolveStart.evolveParty[i] == null ? 0 : evolveStart.evolveParty[i].ID;
+			up.items.Add(pi);
+		}
+
+		TUnitParty tup = new TUnitParty (up);
+		dragSlider.StopOperate = true;
+		dragSlider.RefreshData (tup);
 	}
 
 	void RefreshParty(List<TUserUnit> evolveParty) {

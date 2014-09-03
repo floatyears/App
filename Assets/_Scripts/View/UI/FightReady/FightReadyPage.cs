@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using bbproto;
 
 public class FightReadyPage : UIComponentUnity {
-
 	private UILabel partyNoLabel;
 
 	private UILabel totalHPLabel;
@@ -22,8 +21,15 @@ public class FightReadyPage : UIComponentUnity {
 
 	private HelperUnitItem helper;
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
+	public List<PageUnitItem> partyViewList = new List<PageUnitItem> ();
+
+	void Awake() {
+		Init (null, null);
+	}
 
 	public override void Init (UIInsConfig config, IUICallback origin) {
+		partyNoLabel = FindChild<UILabel> ("Label_Party_No");
+
 		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
 		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
 		
@@ -41,28 +47,61 @@ public class FightReadyPage : UIComponentUnity {
 
 		for (int i = 0; i < 4; i++){
 			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
+			partyViewList.Add(puv);
 			partyView.Add(i, puv);
 		}
 
 		helper = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 	}
 
-	private void RefreshParty(TUnitParty party){
-		List<TUserUnit> partyMemberList = party.GetUserUnit();
-		for (int i = 0; i < partyMemberList.Count; i++) {
-			partyView[ i ].Init(partyMemberList [ i ]);	
-		}
+	public void RefreshParty(TUnitParty party){
+		RefreshView (party.GetUserUnit ());
 		
 		ShowPartyInfo(party);
 	}
 
+	private void RefreshView(List<TUserUnit> partyData) {
+		for (int i = 0; i < partyData.Count; i++) {
+			partyView[i].UserUnit = partyData[i];
+		}
+	}
+
+	private void ShowCustomPartyInfo(List<TUserUnit> partyData) {
+//		partyNoLabel.text = 1 + "/5";
+//		TUserUnit leader = partyData [0];
+//		SkillBase sb = DataCenter.Instance.GetSkill (leader.MakeUserUnitKey (), partyData [0].LeadSKill, SkillType.LeaderSkill);
+//		UpdateLeaderSkillView(sb, ownSkillNameLabel, ownSkillDscpLabel);
+//		UpdateHelperLeaderSkillInfo();
+	}
+
 	private void ShowPartyInfo(TUnitParty party){
 		if(FightReadyView.pickedHelperInfo == null) return;
-//		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		partyNoLabel.text = DataCenter.Instance.PartyInfo.CurrentPartyId + 1 + "/5";
+		int partyIDIndex = party.ID + 1;
+		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
+		partyNoLabel.text = partyIDIndex.ToString() + "/" + suffix;
 		UpdateOwnLeaderSkillInfo(party);
 		UpdateHelperLeaderSkillInfo();
 		UpdatePartyAtkInfo(party);
+
+		if (FightReadyView.pickedHelperInfo != null) {
+			ShowHelper(FightReadyView.pickedHelperInfo);
+		}
+	}
+
+	void ShowHelper(TFriendInfo friendInfo) {
+		helper.Init(friendInfo);
+		ShowHelperView();
+	} 
+
+	private void ShowHelperView(){
+		//		Debug.Log("ShowHelperView(), Start...");
+		//		if(pickedHelperInfo == null){
+		//			Debug.LogError("ShowHelperView(), pickedHelperInfo is NULL,return!");
+		//			return;
+		//		}
+		
+		//		helper.FriendInfo = pickedHelperInfo;
+		//		helper.UserUnit = pickedHelperInfo.UserUnit;
 	}
 
 	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){

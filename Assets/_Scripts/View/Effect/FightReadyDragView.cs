@@ -10,6 +10,23 @@ public class FightReadyDragView : DragSliderBase {
 	}
 
 	public override void RefreshData () {
+//		Debug.LogError(" RefreshData () ");
+		TUnitParty current = DataCenter.Instance.PartyInfo.CurrentParty;
+		TUnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
+		TUnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
+		
+		FightReadyPage rpi = moveParent.GetComponent<FightReadyPage> ();
+		rpi.RefreshParty (current);
+		
+		cacheLeftParent.GetComponent<FightReadyPage> ().RefreshParty (prev);
+		cacheRightParent.GetComponent<FightReadyPage> ().RefreshParty (next);
+		
+		dragChangeViewData.RefreshView (rpi.partyViewList);
+	}
 
+	public override void RefreshData (TUnitParty tup) {
+//		Debug.LogError(" RefreshData (TUnitParty tup) ");
+		FightReadyPage rpi = moveParent.GetComponent<FightReadyPage> ();
+		rpi.RefreshParty (tup);
 	}
 }
