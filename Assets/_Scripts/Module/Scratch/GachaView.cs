@@ -48,8 +48,8 @@ public class GachaView : ViewBase {
 		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
 
-		if(UIManager.Instance.nextScene != ModuleEnum.ShowCardEffectModule)
-			Reset();
+//		if(UIManager.Instance.nextScene != ModuleEnum.ShowCardEffectModule)
+//			Reset();
     }
     
     public override void DestoryUI () {
@@ -64,14 +64,14 @@ public class GachaView : ViewBase {
         MsgCenter.Instance.RemoveListener(CommandEnum.EnterGachaWindow, Enter);
     }
 
-    public override void CallbackView(object data) {
-        base.CallbackView(data);
+    public override void CallbackView(params object[] args) {
+//        base.CallbackView(data);
+//        
+//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         
-        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        
-        switch (cbdArgs.funcName) {
+        switch (args[0].ToString()) {
 	        case "SetTitleView": 
-	            CallBackDispatcherHelper.DispatchCallBack(SetTitleLabel, cbdArgs);
+	            SetTitleLabel(args[1]);
 	            break;
 	        default:
 	            break;

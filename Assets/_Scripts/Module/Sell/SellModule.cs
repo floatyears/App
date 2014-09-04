@@ -28,19 +28,19 @@ public class SellModule : ModuleBase {
 		base.DestoryUI ();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (data[0].ToString()){
 			case "ClickSell" : 
-				CallBackDispatcherHelper.DispatchCallBack(PlanToSell, cbdArgs);
+				PlanToSell(data[1]);
 				break;
 			case "ClickSellOk" : 
-				CallBackDispatcherHelper.DispatchCallBack(SubmitSell, cbdArgs);
+				SubmitSell(data[1]);
 				break;
 			case "ClickSellCancel" : 
-				CallBackDispatcherHelper.DispatchCallBack(CancelSell, cbdArgs);
+				CancelSell(data[1]);
 				break;
 			default:
 				break;
@@ -51,8 +51,8 @@ public class SellModule : ModuleBase {
 		CallbackReqSell(null);
 	}
 	void ClearSellConfirmWindow(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("BackToMainWindow", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("BackToMainWindow", null);
+		view.CallbackView("BackToMainWindow");
 	}
 
 	void CancelSell(object args){
@@ -101,8 +101,8 @@ public class SellModule : ModuleBase {
 	}
 
 	void GiveLastSaleEnsure(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
+		view.CallbackView("ShowLastSureWindow");
 	}
 
 	MsgWindowParams GetWarningMsgWindowParams(){
@@ -168,13 +168,13 @@ public class SellModule : ModuleBase {
 		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
 			curUseUnitList = userUnitList;
-			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
-			view.CallbackView(cbdArgs);
+//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
+			view.CallbackView("CreateDragView", curUseUnitList);
 		}
 		else if(!curUseUnitList.Equals(userUnitList)){
 			curUseUnitList = userUnitList;
-			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
-			view.CallbackView(cbdArgs);
+//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
+			view.CallbackView("CreateDragView", curUseUnitList);
 		}
 		else{
 			Debug.LogError("CurUserUnitList NOT CHANGED, do nothing!");
@@ -208,8 +208,8 @@ public class SellModule : ModuleBase {
 	}
 
 	void UpdateSaleValueView(int value){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateCoinLabel", value);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateCoinLabel", value);
+		view.CallbackView("UpdateCoinLabel", value);
 	}
 
 	void Pick(int clickPos, TUserUnit info){
@@ -268,11 +268,11 @@ public class SellModule : ModuleBase {
 			viewInfo.Add("clickPos", clickPos);
 			viewInfo.Add("texture", tex2d);
 			viewInfo.Add("label", level);
-			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("AddViewItem", viewInfo);
-			view.CallbackView(cbdArgs);
+//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("AddViewItem", viewInfo);
+			view.CallbackView("AddViewItem", viewInfo);
 			
-			CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
-			view.CallbackView(canSellInfo);
+//			CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
+			view.CallbackView("ButtonActive", CanActivateSellBtn());
 		});
 
 	}
@@ -282,11 +282,11 @@ public class SellModule : ModuleBase {
 		Dictionary<string, int> info = new Dictionary<string, int>();
 		info.Add("clickPos", clickPos);
 		info.Add("poolPos", poolPos);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RmvViewItem", info);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RmvViewItem", info);
+		view.CallbackView("RmvViewItem", info);
 
-		CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
-		view.CallbackView(canSellInfo);
+//		CallBackDispatcherArgs canSellInfo = new CallBackDispatcherArgs("ButtonActive", CanActivateSellBtn());
+		view.CallbackView("ButtonActive", CanActivateSellBtn());
 	}
 
     public void ResetUI(){

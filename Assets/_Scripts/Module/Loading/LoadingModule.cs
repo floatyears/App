@@ -19,34 +19,24 @@ public class LoadingModule : ModuleBase {
 
 	public LoadingModule(UIConfigItem config):base(  config) {
 		CreateUI<LoadingView> ();
-        MsgCenter.Instance.AddListener(CommandEnum.StartFirstLogin, StartFirstLogin);
-    }
-    
-    public override void InitUI () {
-        base.InitUI ();
-    }
-    
-    public override void ShowUI () {
-
-        base.ShowUI ();
-    }
-    
-    public override void HideUI () {
-        base.HideUI ();
-		DestoryUI ();
     }
 
-    public void StartLogin(){
-        INetBase netBase = new AuthUser();
-        netBase.OnRequest(null, LoginSuccess);
-    }
+	public override void OnReceiveMessages (params object[] data)
+	{
+		if (data [0] == "StartLogin") {
+			INetBase netBase = new AuthUser();
+			netBase.OnRequest(null, LoginSuccess);
+		}else if(data[0] == "FirstLogin"){
+			AuthUser.FirstLogin((uint)data[1], LoginSuccess);
+		}
+	}
 
-    public void StartFirstLogin(object args){
-        uint roleSelected = (uint)args;
-        AuthUser.FirstLogin(roleSelected, LoginSuccess);
-    }
-	bbproto.RspAuthUser rspAuthUser;
+
     void LoginSuccess(object data) {
+		bbproto.RspAuthUser rspAuthUser;
+
+
+		Debug.Log ("login success: " + data);
         if (data != null) {
             rspAuthUser = data as bbproto.RspAuthUser;
             if (rspAuthUser == null) {
@@ -61,20 +51,11 @@ public class LoadingModule : ModuleBase {
             }
             
 			if(rspAuthUser.newAppVersion > 0){
-				MsgWindowParams mwp = new MsgWindowParams ();
-				mwp.btnParams = new BtnParam[1];
-				mwp.titleText = TextCenter.GetText("HighVersionToLoadTitle");
-				mwp.contentText = TextCenter.GetText("HighVersionToLoad");
-				
-				BtnParam sure = new BtnParam ();
-				sure.callback = o=>{
+
+				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("HighVersionToLoadTitle"),TextCenter.GetText("HighVersionToLoad"),TextCenter.GetText("OK"),o=>{
 					Debug.Log("app url: " + rspAuthUser.appUrl);
 					Application.OpenURL (rspAuthUser.appUrl);
-				};
-				sure.text = TextCenter.GetText("OK");
-				mwp.btnParam = sure;
-				
-				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+				});
 				return;
 			}
 
@@ -82,7 +63,7 @@ public class LoadingModule : ModuleBase {
             
             if (rspAuthUser.isNewUser == 1) {
                 LogHelper.Log("New user registeed, save userid:" + userId);
-                GameDataStore.Instance.StoreData(GameDataStore.USER_ID, rspAuthUser.user.userId);
+                GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, rspAuthUser.user.userId);
             }
             
             //TODO: update localtime with servertime
@@ -171,22 +152,7 @@ public class LoadingModule : ModuleBase {
 				if(NoviceGuideStepEntityManager.isInNoviceGuide()){
 					SureRetry(null);
 				} else {
-					MsgWindowParams mwp = new MsgWindowParams ();
-					mwp.btnParams = new BtnParam[2];
-					mwp.titleText = TextCenter.GetText("BattleContinueTitle");
-					mwp.contentText = TextCenter.GetText("BattleContinueContent");
-					
-					BtnParam sure = new BtnParam ();
-					sure.callback = SureRetry;
-					sure.text = TextCenter.GetText("Resume");
-					mwp.btnParams[0] = sure;
-					
-					sure = new BtnParam ();
-					sure.callback = Cancel;
-					sure.text = TextCenter.GetText("Discard");
-					mwp.btnParams[1] = sure;
-					
-					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
 				}
 			}
 			else{
@@ -235,18 +201,21 @@ public class LoadingModule : ModuleBase {
 		ConfigBattleUseData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 //		Debug.LogError(tqdd.)
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
-		UIManager.Instance.EnterBattle();
+		ModuleManger.Instance.EnterBattle();
 	}
 
 	uint recoverQuestID = 0;
 
 	void EnterGame () {
+		ModuleManger.Instance.HideModule (ModuleEnum.LoadingModule);
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 		} else {
-			ModuleManger.Instance.ShowModule(ModuleEnum.StartModule);
-			
+			ModuleManger.Instance.ShowModule(ModuleEnum.MainBackgroundModule);
 			ModuleManger.Instance.ShowModule(ModuleEnum.HomeModule);
+			ModuleManger.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
+
+			ModuleManger.Instance.ShowScene(SceneEnum.MainScene);
 
 			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
@@ -273,7 +242,7 @@ public class LoadingModule : ModuleBase {
 	void SureRetry(object data) {
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
-		UIManager.Instance.EnterBattle();
+		ModuleManger.Instance.EnterBattle();
 	}
 
 	void RecoverParty() {

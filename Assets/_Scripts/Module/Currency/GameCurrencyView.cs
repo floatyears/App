@@ -39,7 +39,7 @@ public class GameCurrencyView: ViewBase {
 		base.DestoryUI();
 	}
 	
-//	public override void CallbackView(object data) {
+//	public override void CallbackView(params object[] args) {
 //		base.CallbackView(data);
 //		
 //		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;

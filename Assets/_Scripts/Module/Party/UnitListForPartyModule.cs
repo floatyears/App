@@ -65,13 +65,13 @@ public class UnitListForPartyModule : ModuleBase{
 
 	void ActivateItem(object data){
 		string tag = data as string;
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", null);
-		view.CallbackView(cbd);
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("activate", null);
+		view.CallbackView("activate");
 	}
 	
 	void ActivatePickableState(object data){
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("Activate", null);
-		view.CallbackView(cbd);
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("Activate", null);
+		view.CallbackView("Activate");
 //		bool state = (bool)data;
 //		foreach (var item in onPartyViewItemList){
 //			if (item.IsParty){
@@ -91,18 +91,18 @@ public class UnitListForPartyModule : ModuleBase{
 
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (data[0].ToString()){
 			case "ClickItem": 
-				CallBackDispatcherHelper.DispatchCallBack(CallbackRspUnitPickFromView, cbdArgs);
+				CallbackRspUnitPickFromView(data[1]);
 				break;
 			case "PressItem": 
-				CallBackDispatcherHelper.DispatchCallBack(ViewUnitDetailInfo, cbdArgs);
+				ViewUnitDetailInfo(data[1]);
 				break;
 			case "ClickReject":
-				CallBackDispatcherHelper.DispatchCallBack(CallBackSendRejectMessage, cbdArgs);
+				CallBackSendRejectMessage(data[1]);
 				break;
 			default:
 				break;
@@ -164,9 +164,9 @@ public class UnitListForPartyModule : ModuleBase{
 	
 	void CreateUnitList(){
 		//Debug.LogError("CreateUnitList(), partyUnitItemViewList count is " + partyUnitItemViewList.Count);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", partyDataList);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", partyDataList);
 		Debug.LogError("CreateUnitList : " + view);
-		view.CallbackView(cbdArgs);
+		view.CallbackView("CreateDragView", partyDataList);
 	}
 
 	void DestoryUnitList(){

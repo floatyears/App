@@ -7,19 +7,13 @@ public class UnitsModule : ModuleBase {
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
 	public UnitsModule(UIConfigItem config):base(  config) {
-//		CreateUI<unitsvi
+		CreateUI<UnitsView> ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 	
     }
-	
-	public override void HideUI () {
-		base.HideUI ();
-
-		base.DestoryUI ();
-	}
 
 	public void OnReceiveMessage (object data){
 		try {

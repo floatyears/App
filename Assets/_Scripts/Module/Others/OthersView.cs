@@ -86,16 +86,16 @@ public class OthersView : ViewBase {
 			ModuleManger.Instance.ShowModule(ModuleEnum.MusicModule);
 			break;
 		case "Nickname":
-			ModuleManger.Instance.ShowModule(ModuleEnum.NickNameModule);
+			ModuleManger.Instance.ShowModule(ModuleEnum.NicknameModule);
 			break;
 		case "Raider":
 			ModuleManger.Instance.ShowModule(ModuleEnum.RaiderModule);
 			break;
 		case "ResetData":
-			GameDataStore.Instance.StoreData(GameDataStore.UUID, "");
-			GameDataStore.Instance.StoreData(GameDataStore.USER_ID, 0);
-			GameDataStore.Instance.StoreData("ResrouceDownload","");
-			GameDataStore.Instance.StoreData("ResourceComplete","");
+			GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
+			GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
+			GameDataPersistence.Instance.StoreData("ResrouceDownload","");
+			GameDataPersistence.Instance.StoreData("ResourceComplete","");
 			ModuleManger.Instance.ShowModule(ModuleEnum.LoadingModule);
 			break;
 		case "Reward":

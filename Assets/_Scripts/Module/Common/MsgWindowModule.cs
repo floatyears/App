@@ -14,47 +14,7 @@ using System.Collections.Generic;
 
 public class MsgWindowModule : ModuleBase{
 	public MsgWindowModule(UIConfigItem config):base(  config){
-		AddListener ();
+		CreateUI<MsgWindowView> ();
 	}
-
-    public override void ShowUI(){
-        base.ShowUI();
-      
-    }
-    
-    public override void HideUI(){
-        base.HideUI();
-    }
-    
-    public override void DestoryUI(){
-        base.DestoryUI();
-		RemoveListener ();
-    }
-    
-    void AddListener(){
-//		Debug.LogError ("MsgWindowLogic : AddListener ");
-        MsgCenter.Instance.AddListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
-        MsgCenter.Instance.AddListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
-
-    }
-    
-    
-    void RemoveListener(){
-//		Debug.LogError ("MsgWindowLogic : RemoveListener ");
-        MsgCenter.Instance.RemoveListener(CommandEnum.OpenMsgWindow, OpenMsgWindow);
-		MsgCenter.Instance.RemoveListener(CommandEnum.CloseMsgWindow, CloseMsgWindow);
-    }
-    
-   void OpenMsgWindow(object msg){ 
-//		Debug.LogError ("MsgWindowLogic : OpenMsgWindow ");
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
-		view.CallbackView(cbdArgs);
-    }
-
-    void CloseMsgWindow(object msg){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs ("CloseMsg", msg);
-		view.CallbackView (cbdArgs);
-	}
-
 }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PartyPartyPage : PartyPageModule{
 	private int currentFoucsPosition;
 	public PartyPartyPage(UIConfigItem config) : base(  config){
+//		CreateUI<
 		SetFocusPostion(0);
 	}
 
@@ -37,13 +38,13 @@ public class PartyPartyPage : PartyPageModule{
 //        RefreshCurrentPartyInfo("current");
 //    }
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		
-		switch (cbdArgs.funcName){
+		switch (data[0].ToString()){
 			case "ClickItem": 
-				CallBackDispatcherHelper.DispatchCallBack(FocusOnPositionFromView, cbdArgs);
+				FocusOnPositionFromView(data[1]);
 				break;
 			default:
 				break;
@@ -51,8 +52,8 @@ public class PartyPartyPage : PartyPageModule{
 	}
 
 	private void EnableIndexDisplay(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableLabelLeft", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableLabelLeft", null);
+		view.CallbackView("EnableLabelLeft");
 	}
 	
 	void SetFocusPostion(int position) {
@@ -69,8 +70,8 @@ public class PartyPartyPage : PartyPageModule{
 		List<TUserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
 //		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
 //		if (temp[ position - 1 ] == null) {
-			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
-		view.CallbackView(cbdArgs);
+//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
+		view.CallbackView("LightCurSprite", currentFoucsPosition);
 //			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
 //		}
 //		else {
@@ -100,15 +101,15 @@ public class PartyPartyPage : PartyPageModule{
 	
 //		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0); 
 
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClearItem", currentFoucsPosition);
-		view.CallbackView(cbd);
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClearItem", currentFoucsPosition);
+		view.CallbackView("ClearItem", currentFoucsPosition);
 		
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 	}
 
 	void EnsureFocusOnCurrentPick(object msg) {
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
+		view.CallbackView("LightCurSprite", currentFoucsPosition);
 	}
 
 	void ShowFocusUnitDetail(object data) {
@@ -138,8 +139,8 @@ public class PartyPartyPage : PartyPageModule{
 		replaceArgsDic.Add("position", currentFoucsPosition);
 		replaceArgsDic.Add("unit", newPartyUnit);
 		
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ReplaceItemView", replaceArgsDic);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ReplaceItemView", replaceArgsDic);
+		view.CallbackView("ReplaceItemView", replaceArgsDic);
 	
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 		

@@ -16,7 +16,7 @@ public class QuestSelectView : ViewBase {
 
 		if (pickedStage != null) {
 			GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
-			obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (pickedStage.StageName);
+			obj.GetComponent<SceneInfoBarView> ().SetSceneName (pickedStage.StageName);
 		}
 	}
 
@@ -56,8 +56,8 @@ public class QuestSelectView : ViewBase {
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList NOT CHANGED, KEEP prev list view...");
 		}
 
-		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
-		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (newPickedStage.StageName);
+//		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+//		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (newPickedStage.StageName);
 	}
 
 	private void UpdateQuestListView(){

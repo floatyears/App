@@ -133,14 +133,14 @@ public class MsgWindowView : ViewBase{
         SetLayerToBlocker(true);
     }
     
-    public override void CallbackView(object data){
-        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        switch (cbdArgs.funcName){
+    public override void CallbackView(params object[] args){
+//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
         case "ShowMsg": 
-            CallBackDispatcherHelper.DispatchCallBack(ShowMsgWindow, cbdArgs);
+            ShowMsgWindow(args[1]);
             break;
         case "CloseMsg": 
-            CallBackDispatcherHelper.DispatchCallBack(CloseMsgWindow, cbdArgs);
+			CloseMsgWindow(args[1]);
             break;
         default:
             break;

@@ -19,13 +19,13 @@ public class ResultModule : ModuleBase {
 		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFriendPointUpdateResult, ShowFriendPointUpdateResult);
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-
-		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
-		switch (call.funcName){
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//
+//		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
+		switch (data[0].ToString()){
 			case "ClickOk" : 
-				CallBackDispatcherHelper.DispatchCallBack(SendFriendApplyRequest, call);
+				SendFriendApplyRequest(data[1]);
 				break;
 			default:
 				break;
@@ -68,18 +68,18 @@ public class ResultModule : ModuleBase {
 	}
 
 	private void SupportApplyFriend(bool isSupport){
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("Stylize", isSupport);
-		view.CallbackView(call);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("Stylize", isSupport);
+		view.CallbackView("Stylize", isSupport);
 	}
 
 	private void ShowFriendBriefInfo(TFriendInfo friendInfo){
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowTopView", friendInfo);
-		view.CallbackView(call);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowTopView", friendInfo);
+		view.CallbackView("ShowTopView", friendInfo);
 	}
 
 	private void ShowFriendPoint(int friPoint){
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowCenterView", friPoint);
-		view.CallbackView(call);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowCenterView", friPoint);
+		view.CallbackView("ShowCenterView", friPoint);
 	}
 
 	private void AddFriendApplication(uint friendUid){

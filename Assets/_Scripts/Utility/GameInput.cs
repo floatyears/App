@@ -65,7 +65,7 @@ public class GameInput : MonoBehaviour  {
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {
-		Debug.LogError ("DG : " + " " + lt +  " " + condition + " " + stackInfo + "    " + TimeHelper.FormattedTimeNow ());
+		Debug.LogError ("DG : " + " " + lt +  " " + condition + " " + stackInfo + "    " + Utility.TimeHelper.FormattedTimeNow ());
 	}
 
 	void Update() {

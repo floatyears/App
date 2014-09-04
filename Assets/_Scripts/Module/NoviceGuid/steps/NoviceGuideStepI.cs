@@ -272,7 +272,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_four");
 
-		UIManager.Instance.forbidChangeScene = true;
+//		ModuleManger.Instance.forbidChangeScene = true;
 
 		MsgCenter.Instance.AddListener (CommandEnum.levelDone, OnLevelDone);
 
@@ -280,8 +280,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	
 	private void OnLevelDone(object data){
 
-
-		UIManager.Instance.forbidChangeScene = false;
+//		UIManager.Instance.forbidChangeScene = false;
 
 		GuideWindowParams mwp = new GuideWindowParams ();
 		//mwp.btnParams = new BtnParam[1];

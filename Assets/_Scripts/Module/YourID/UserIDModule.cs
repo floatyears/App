@@ -23,8 +23,8 @@ public class UserIDModule : ModuleBase
 
 	void ShowUsedID()
 	{
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowUserID", DataCenter.Instance.UserInfo.UserId);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowUserID", DataCenter.Instance.UserInfo.UserId);
+		view.CallbackView("ShowUserID", DataCenter.Instance.UserInfo.UserId);
 	}
 
 

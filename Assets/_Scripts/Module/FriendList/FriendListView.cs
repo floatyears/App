@@ -25,7 +25,7 @@ public class FriendListView : ViewBase{
 
 	public override void HideUI(){
 		base.HideUI();
-		dragPanel.DestoryUI();
+//		dragPanel.DestoryUI();
 		RmvCmdListener();
 	}
 		
@@ -36,8 +36,9 @@ public class FriendListView : ViewBase{
 
 	void ClickRefuseButton(GameObject args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.FriendListModule, "RefuseApplyButtonClick");
 	}
 
 	void InitUIElement(){
@@ -70,16 +71,7 @@ public class FriendListView : ViewBase{
 
 	void ClickUpdateBtn(GameObject button){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetMsgWindowParams());
-	}
-
-	MsgWindowParams GetMsgWindowParams(){
-		MsgWindowParams msgWindowParam = new MsgWindowParams();
-		msgWindowParam.titleText = TextCenter.GetText("RefreshFriend");
-		msgWindowParam.contentText = TextCenter.GetText("ConfirmRefreshFriend");
-		msgWindowParam.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
-		msgWindowParam.btnParams[ 0 ].callback = CallBackRefreshFriend;
-		return msgWindowParam;
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RefreshFriend"), TextCenter.GetText ("ConfirmRefreshFriend"), TextCenter.GetText ("OK"),TextCenter.GetText ("CANCEL"), CallBackRefreshFriend);
 	}
 
 	void CallBackRefreshFriend(object args){
@@ -108,17 +100,18 @@ public class FriendListView : ViewBase{
 	}
 
 	void DeleteFriendPicked(object msg){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("DeleteNoteTitle"), TextCenter.GetText ("DeleteNoteContent"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallBackDeleteFriend);
 	}
 
-	MsgWindowParams GetDeleteMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("DeleteNoteTitle");
-		msgParams.contentText = TextCenter.GetText("DeleteNoteContent");
-		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].callback = CallBackDeleteFriend;
-		return msgParams;
-	}
+//	MsgWindowParams GetDeleteMsgParams(){
+//		MsgWindowParams msgParams = new MsgWindowParams();
+//		msgParams.titleText = ;
+//		msgParams.contentText = ;
+//		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
+//		msgParams.btnParams[ 0 ].callback = ;
+//		return msgParams;
+//	}
 
 	void CallBackDeleteFriend(object args){
 		DelFriend.SendRequest(OnDelFriend, curPickedFriend.UserId);

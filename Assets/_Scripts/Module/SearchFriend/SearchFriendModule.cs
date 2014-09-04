@@ -20,13 +20,13 @@ public class SearchFriendModule : ModuleBase{
 		RmvCommandListener();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbdArgs.funcName){
+		switch (data[0].ToString()){
 			case "ClickSearch": 
-				CallBackDispatcherHelper.DispatchCallBack(SearchFriendWithID, cbdArgs);
+				SearchFriendWithID(data[1]);
 				break;
 			default:
 				break;

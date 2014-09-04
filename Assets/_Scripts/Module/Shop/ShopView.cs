@@ -129,20 +129,23 @@ public class ShopView : ViewBase {
 
     private void OnClickFriendExpansion( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoFriendExpansion", null);
+//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoFriendExpansion", null);
 //        ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ShopModule, "DoFriendExpansion");
     }
 
     private void OnClickStaminaRecover( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoStaminaRecover", null);
+//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoStaminaRecover", null);
 //        ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ShopModule, "DoStaminaRecover");
     }
 
     private void OnClickUnitExpansion( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoUnitExpansion", null);
+//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoUnitExpansion", null);
 //        ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ShopModule, "DoUnitExpansion");
     }
 
 	private void ShowUIAnimation(){

@@ -68,12 +68,13 @@ public class PartyUnitsView : ViewBase {
 
 	void ClickItem(PartyUnitItem puv){
 //		PartyUnitView puv = item.GetComponent<PartyUnitView>();
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", puv);
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickItem", puv);
 //		ExcuteCallback( cbd );
+//		ModuleManger.SendMessage(ModuleEnum.par
 	}
 
 	void PressItem(GameObject item ){
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("PressItem", dragPanel.ScrollItem.IndexOf(item));
 //		LogHelper.Log("PartyUnitsView.PressItem(), click drag item, call view respone...");
 //		ExcuteCallback( cbd );
 	}
@@ -132,7 +133,7 @@ public class PartyUnitsView : ViewBase {
 	
 	void ClickRejectItem(GameObject go){
 		Debug.Log("PartyUnitsView.ClickRejectItem(), Receive reject item click, request logic...");
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickReject", null);
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClickReject", null);
 //		ExcuteCallback(cbd);
 	}
 
@@ -206,21 +207,21 @@ public class PartyUnitsView : ViewBase {
 		UpdateStarSprite(itemDataList);
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
 			case "Activate" : 
-				CallBackDispatcherHelper.DispatchCallBack(UpdateUnitItemEnableState, cbdArgs);
+				UpdateUnitItemEnableState(args[1]);
 				break; 
 			case "RefreshDragList" : 
-				CallBackDispatcherHelper.DispatchCallBack(UpdateDragPanel, cbdArgs);
+				UpdateDragPanel(args[1]);
 				break;
 			case "CreateDragView" : 
-				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
+				CreateDragView(args[1]);
 				break;
 			case "DestoryDragView" : 
-				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
+				DestoryDragView(args[1]);
 				break;
 			default:
 				break;

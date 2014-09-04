@@ -88,22 +88,25 @@ public class ScratchView : ViewBase {
     private void OnClickFriendGacha(GameObject btn){
 //        LogHelper.Log("OnClickFriendGacha");
         OnClickButton(btn);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenFriendGachaWindow", null);
+//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenFriendGachaWindow", null);
 //        ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ScratchModule, "OpenFriendGachaWindow");
     }
 
     private void OnClickRareGacha(GameObject btn){
 //        LogHelper.Log("OnClickRareGacha");
 		OnClickButton(btn);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ScratchModule, "OpenRareGachaWindow");
 	}
 
     private void OnClickEventGacha(GameObject btn){
 //        LogHelper.Log("OnClickEventGacha");
         OnClickButton(btn);
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenEventGachaWindow", null);
+//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenEventGachaWindow", null);
 //        ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ScratchModule, "OpenEventGachaWindow");
     }
 
     private void UpdateGachaTimes(){

@@ -24,13 +24,13 @@ public class SelectRoleView : ViewBase {
 		base.HideUI();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
-		switch (call.funcName){
+		switch (args[0].ToString()){
 			case "ShowInitialView" : 
-				CallBackDispatcherHelper.DispatchCallBack(ShowInitialView, call);
+				ShowInitialView(args[1]);
 				break;
 			default:
 				break;
@@ -148,14 +148,16 @@ public class SelectRoleView : ViewBase {
 	void ClickTab(GameObject tab){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		int pos = tabList.IndexOf(tab);
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickTab", pos);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickTab", pos);
 //		ExcuteCallback(call);
+		ModuleManger.SendMessage (ModuleEnum.SelectRoleModule, "ClickTab", pos);
 	}
 
 	void ClickButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickButton", null);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickButton", null);
 //		ExcuteCallback(call);
+		ModuleManger.SendMessage (ModuleEnum.SelectRoleModule, "ClickButton");
 
 		Umeng.GA.FinishLevel ("SelectRole");
 		GameDataAnalysis.Event(GameDataAnalysisEventType.SelectRole, new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier},{"Stage","End"}});

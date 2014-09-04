@@ -59,8 +59,8 @@ public class MusicView : ViewBase {
 
 		UIEventListenerCustom.Get( soundSlider.gameObject ).onPress += PressSoundBtn;
 		UIEventListenerCustom.Get( bgmSlider.gameObject ).onPress += PressBgmBtn;
-		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("sound");
-		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt ("bgm");
+		soundSlider.value = GameDataPersistence.Instance.GetIntDataNoEncypt ("sound");
+		bgmSlider.value = GameDataPersistence.Instance.GetIntDataNoEncypt ("bgm");
 	}
 
 	void ClickOk(GameObject obj){
@@ -95,10 +95,10 @@ public class MusicView : ViewBase {
 		slider.value = value;
 		if (slider.Equals(soundSlider)) {
 			AudioManager.Instance.CloseSound (value == 1 ? true : false);
-			GameDataStore.Instance.StoreIntDatNoEncypt("sound",(int)value);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt("sound",(int)value);
 		} else{
 			AudioManager.Instance.StopBackgroundMusic (value == 1 ? true : false);
-			GameDataStore.Instance.StoreIntDatNoEncypt("bgm",(int)value);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt("bgm",(int)value);
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 		}
 	}

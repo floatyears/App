@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class LevelUpModule : ModuleBase {
 	public LevelUpModule(UIConfigItem config) : base( config) {
@@ -9,15 +10,15 @@ public class LevelUpModule : ModuleBase {
 	public override void HideUI () {
 		base.HideUI ();
 
-		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
-			base.DestoryUI();
-		}
+//		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
+//			base.DestoryUI();
+//		}
 	}
 	
 	List<TUserUnit> levelUpInfo = null;
 
-	public override void OnReceiveMessages (object data) {
-		levelUpInfo = data as List<TUserUnit>;
+	public override void OnReceiveMessages(params object[] data) {
+		levelUpInfo = data[0] as List<TUserUnit>;
 		if (levelUpInfo == null || levelUpInfo.Count <= 0) {
 			return;
 		}

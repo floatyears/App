@@ -245,8 +245,8 @@ namespace LitJson
         #region Public Indexers
         public JsonData this[string prop_name] {
             get {
-                EnsureDictionary ();
-                return inst_object[prop_name];
+				EnsureDictionary ();
+				return inst_object[prop_name]; 
             }
 
             set {

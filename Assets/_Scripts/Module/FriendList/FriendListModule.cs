@@ -7,10 +7,4 @@ public class FriendListModule : ModuleBase{
 		CreateUI<FriendListView> ();
 	}
 
-	public override void HideUI () {
-		base.HideUI ();
-
-		base.DestoryUI ();
-	}
-
 }

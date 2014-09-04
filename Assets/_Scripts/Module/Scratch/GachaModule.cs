@@ -43,8 +43,8 @@ public class GachaModule : ModuleBase {
     }
 
     private void SetTitleView(){
-        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SetTitleView", titleText);
-		view.CallbackView(cbdArgs);
+//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SetTitleView", titleText);
+		view.CallbackView("SetTitleView", titleText);
     }
 
 }

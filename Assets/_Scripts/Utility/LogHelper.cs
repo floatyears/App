@@ -10,42 +10,42 @@ public sealed class LogHelper {
 		if (!DebugHelper.DEBUG){
 			return;
 		}
-		Debug.Log("["+TimeHelper.FormattedTimeNow()+"] " +  string.Format(format,args));
+		Debug.Log("["+Utility.TimeHelper.FormattedTimeNow()+"] " +  string.Format(format,args));
 	}
     
 	public static void Log(object message ){
 		if (!DebugHelper.DEBUG){
 			return;
 		}
-		Debug.LogError("["+TimeHelper.FormattedTimeNow()+"] " + message);
+		Debug.LogError("["+Utility.TimeHelper.FormattedTimeNow()+"] " + message);
 	}
 
 	public static void LogError(string format, params object[] args){
         if (!DebugHelper.DEBUG){
             return;
         }
-		Debug.LogError("["+TimeHelper.FormattedTimeNow()+"]  " + string.Format(format,args));
+		Debug.LogError("["+Utility.TimeHelper.FormattedTimeNow()+"]  " + string.Format(format,args));
     }
 
 	public static void LogError(object message){
 //		if (!DebugHelper.DEBUG){
 //			return;
 //		}
-		Debug.LogError("["+TimeHelper.FormattedTimeNow()+"]  " +message);
+		Debug.LogError("["+Utility.TimeHelper.FormattedTimeNow()+"]  " +message);
 	}
 
 	public static void LogWarning(string format, params object[] args){
 		if (!DebugHelper.DEBUG){
 			return;
 		}
-		Debug.LogWarning("["+TimeHelper.FormattedTimeNow()+"]  " + string.Format(format,args));
+		Debug.LogWarning("["+Utility.TimeHelper.FormattedTimeNow()+"]  " + string.Format(format,args));
 	}
 
     public static void LogException(Exception exception){
         if (!DebugHelper.DEBUG){
             return;
         }
-        LogHelper.Log(TimeHelper.FormattedTimeNow());
+        LogHelper.Log(Utility.TimeHelper.FormattedTimeNow());
         LogHelper.LogException(exception);
     }
 }

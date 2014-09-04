@@ -111,7 +111,7 @@ public class SortUnitTool{
 	}
 
 	public static SortRule GetSortRule(SortRuleByUI srui){
-		int data = GameDataStore.Instance.GetIntDataNoEncypt ("SortRule_" + srui.ToString ());
+		int data = GameDataPersistence.Instance.GetIntDataNoEncypt ("SortRule_" + srui.ToString ());
 
 		if (data == 0) {
 			return SortRule.Attribute;
@@ -120,7 +120,7 @@ public class SortUnitTool{
 	} 
 
 	public static void StoreSortRule(SortRule value, SortRuleByUI srui){
-		GameDataStore.Instance.StoreIntDatNoEncypt ("SortRule_" + srui.ToString (), (int)value);
+		GameDataPersistence.Instance.StoreIntDatNoEncypt ("SortRule_" + srui.ToString (), (int)value);
 	} 
 }
 

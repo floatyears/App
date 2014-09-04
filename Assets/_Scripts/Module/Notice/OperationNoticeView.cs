@@ -75,37 +75,10 @@ public class OperationNoticeView : ViewBase {
 				if(data != null){
 					GameObject item1 = NGUITools.AddChild(content,prefab);
 					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.FriendPoint));
-//					item1.transform.FindChild(titleLabel).GetComponent<UILabel>().text = ;//data.title;
-//					item1.transform.FindChild(contentLabel).GetComponent<UILabel>().text = ;//nItem.message;
 				}
 			}
 		});
-		
 
-//		contents.Add ("notice1", "content1\ndsf \ndsafsd \nasdfs");
-//		contents.Add ("notice2", "content2\n sdf as \nsdfas\nadsfs\nasasdf");
-//		contents.Add ("notice3", "content2\n sdf as \nsdfas\nadsfs\nasasdf");
-//		contents.Add ("notice4", "content2\n sdf as \nsdfas\nadsfs\nasasdf");
-//		contents.Add ("notice5", "content2\n sdf as \nsdfas\nadsfs\nasasdf");
-
-//		foreach (var i in contents) {
-//			GameObject item = NGUITools.AddChild(content,prefab);
-//
-//			LogHelper.Log("------operation notice transform:" + item);
-//
-//			item.transform.FindChild(titleLabel).GetComponent<UILabel>().text = i.Key;
-//			item.transform.FindChild(contentLabel).GetComponent<UILabel>().text = i.Value;
-//
-//			//item.transform.parent = content.transform;
-//		}
-
-
-		//		sortBtn = transform.FindChild("Button_Sort").GetComponent<UIButton>();
-		//		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
-		//sortRuleLabel = transform.FindChild("Label_Sort_Rule").GetComponent<UILabel>();
-		
-		//curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
-		//sortRuleLabel.text = curSortRule.ToString();
 	}
 
 	private void SetItemContent(GameObject obj, string titleS, string contentS){
@@ -137,6 +110,7 @@ public class OperationNoticeView : ViewBase {
 	public void ClickOK(){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
+		ModuleManger.Instance.HideModule (ModuleEnum.OperationNoticeModule);
 		bool backHome = false;
 //		if (UIManager.Instance.baseScene.PrevScene == ModuleEnum.Others)
 //			backHome = true;

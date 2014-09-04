@@ -250,45 +250,39 @@ public class ResourceUpdate : MonoBehaviour {
 					if (!isShowRetry) {
 						isShowRetry = true;
 
-						MsgWindowParams mwp = new MsgWindowParams ();
-						mwp.btnParam = new BtnParam ();
-
-						mwp.titleText = 
+					    string titleText = 
 #if LANGUAGE_EN
 						"Download Error";
 #else
 						"下载错误";
 #endif
 						//TextCenter.GetText("DownloadErrorTitle");
-						mwp.contentText = //TextCenter.GetText("DownloadErrorContent");
+						string contentText = //TextCenter.GetText("DownloadErrorContent");
 #if LANGUAGE_EN
 						"There is an error occured when dowloading resources, please connect to the Internet and Retry!";
 #else
 						"下载资源过程中出现错误，请连接到服务器并重试！";
 #endif
 						
-						BtnParam sure = new BtnParam ();
-						sure.callback = DownloadAgain;
-						sure.text = //TextCenter.GetText("Retry");
+						string btntext = //TextCenter.GetText("Retry");
 #if LANGUAGE_EN
 						"Retry";
 #else
 						"重试";
 #endif
-
-						mwp.btnParam = sure;
 						
 //						sure = new BtnParam ();
 //						sure.callback = ExitGame;
 //						sure.text = TextCenter.GetText("Cancel");
 //						mwp.btnParams[1] = sure;
-						MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+//						MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+						TipsManager.Instance.ShowMsgWindow(titleText,contentText,btntext);
 					}
 	
 				} else {
 						isLoginSent = true;
 						if(!downloadLimit)
-							GameDataStore.Instance.StoreData("ResourceComplete","true");
+							GameDataPersistence.Instance.StoreData("ResourceComplete","true");
 							
 						if (this.transform.parent.name == "ResourceDownloadWindow(Clone)") {
 								
@@ -348,18 +342,18 @@ public class ResourceUpdate : MonoBehaviour {
 	private void ShowTipText(){
 		if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
 			if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
-				tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
+				tipText.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 10) {
-				tipText.text = TextCenter.GetText ("Tips_B_" + MathHelper.RandomToInt (1, 10));
+				tipText.text = TextCenter.GetText ("Tips_B_" + Utility.MathHelper.RandomToInt (1, 10));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 20) {
-				tipText.text = TextCenter.GetText ("Tips_C_" + MathHelper.RandomToInt (1, 18));
+				tipText.text = TextCenter.GetText ("Tips_C_" + Utility.MathHelper.RandomToInt (1, 18));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 30) {
-				tipText.text = TextCenter.GetText ("Tips_D_" + MathHelper.RandomToInt (1, 18));
+				tipText.text = TextCenter.GetText ("Tips_D_" + Utility.MathHelper.RandomToInt (1, 18));
 			} else {
-				tipText.text = TextCenter.GetText ("Tips_E_" + MathHelper.RandomToInt (1, 24));
+				tipText.text = TextCenter.GetText ("Tips_E_" + Utility.MathHelper.RandomToInt (1, 24));
 			}	
 		} else {
-			tipText.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
+			tipText.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
 		}  
 
 		if (tipText.text.Equals(string.Empty)) {
@@ -402,7 +396,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 	}
 	public void StartDownload(){
-		if (string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID))) {
+		if (string.IsNullOrEmpty(GameDataPersistence.Instance.GetData (GameDataPersistence.UUID))) {
 			Umeng.GA.StartLevel("NewUserDownload");
 			Umeng.GA.EventBegin("NewUserDownloadTime");
 //			GameDataAnalysis.Event(GameDataAnalysisEventType.NewUser,"NewUserDownloadStart");
@@ -580,7 +574,7 @@ public class ResourceUpdate : MonoBehaviour {
 		if (ServerConfig.Channel != "AndroidTest") {
 
 			if (this.transform.parent.name == "Loading(Clone)") {
-				if (GameDataStore.Instance.GetData ("ResrouceDownload") == "Start" || (GameDataStore.Instance.GetData ("ResourceComplete") == "true")) {
+				if (GameDataPersistence.Instance.GetData ("ResrouceDownload") == "Start" || (GameDataPersistence.Instance.GetData ("ResourceComplete") == "true")) {
 					//					SendMessageUpwards ("CouldLogin", SendMessageOptions.DontRequireReceiver);	
 					//					return;
 				downloadLimit = false;
@@ -647,7 +641,7 @@ public class ResourceUpdate : MonoBehaviour {
 		if (downLoadItemList.Count > 0) {
 			downLoadItemList.Peek ().StartDownload ();	
 		}
-		if(string.IsNullOrEmpty(GameDataStore.Instance.GetData (GameDataStore.UUID)))
+		if(string.IsNullOrEmpty(GameDataPersistence.Instance.GetData (GameDataPersistence.UUID)))
 			GameDataAnalysis.Event(GameDataAnalysisEventType.DownloadStart,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
 		startDown = true;
 		if (total > 0) {

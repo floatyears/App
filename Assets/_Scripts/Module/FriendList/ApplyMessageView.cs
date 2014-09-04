@@ -33,22 +33,22 @@ public class ApplyMessageView : ViewBase{
 //		ShowSelf(false);  
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
 			case "StylizeTitle": 
-				CallBackDispatcherHelper.DispatchCallBack(ShowTitle, cbdArgs);
+				ShowTitle(args[1]);
 				break;
 			case "StylizeNote":
-				CallBackDispatcherHelper.DispatchCallBack(ShowNote, cbdArgs);
+				ShowNote(args[1]);
 				break;
 			case "RefreshContent":
-				CallBackDispatcherHelper.DispatchCallBack(ShowCenterContent, cbdArgs);
+				ShowCenterContent(args[1]);
 				ShowSelf(true);
 				break;
 			case "HidePanel":
-				CallBackDispatcherHelper.DispatchCallBack(HidePanel, cbdArgs);
+				HidePanel(args[1]);
 				break;
 			default:
 				break;
@@ -87,16 +87,18 @@ public class ApplyMessageView : ViewBase{
 	void ClickSure(GameObject btn){
 //		Debug.LogError("ApplyMessageView.ClickSure(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ApplyMessageModule, "ClickSure");
 	}
 
 	
 	void ClickCancel(GameObject btn){
 //		Debug.LogError("ApplyMessageView.ClickCancel(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickCancel", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickCancel", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.ApplyMessageModule, "ClickCancel");
 	}
 
 	void ShowSelf(bool canShow){
@@ -133,7 +135,7 @@ public class ApplyMessageView : ViewBase{
 			nameLabel.text = tfi.NickName;
 
 		rankLabel.text = tfi.Rank.ToString();
-		timeLabel.text = TimeHelper.GetLatestPlayTime(tfi.LastPlayTime);
+		timeLabel.text = Utility.TimeHelper.GetLatestPlayTime(tfi.LastPlayTime);
 		idLabel.text = tfi.UserId.ToString();
 
 		FriendUnitItem fuv = FriendUnitItem.Inject(FindChild("Window/Avatar"));

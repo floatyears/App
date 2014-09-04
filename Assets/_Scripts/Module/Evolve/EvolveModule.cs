@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using bbproto;
 
 public class EvolveModule : ModuleBase {
@@ -22,17 +23,17 @@ public class EvolveModule : ModuleBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
 
-		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
-			base.DestoryUI();
-		}
+//		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
+//			base.DestoryUI();
+//		}
 	}
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 	}
 
-	public override void OnReceiveMessages (object data) {
-		List<ProtobufDataBase> evolveInfoLisst = data as List<ProtobufDataBase>;
+	public override void OnReceiveMessages (params object[] data) {
+		List<ProtobufDataBase> evolveInfoLisst = data[0] as List<ProtobufDataBase>;
 		TUserUnit baseItem = evolveInfoLisst [0] as TUserUnit ;
 		TFriendInfo firendItem = evolveInfoLisst [1] as TFriendInfo;
 		TUserUnit tuu = baseItem;

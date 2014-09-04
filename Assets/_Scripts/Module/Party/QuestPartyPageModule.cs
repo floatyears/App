@@ -4,7 +4,9 @@ using System.Collections;
 public class QuestPartyPageModule : PartyPageModule{
 	private TEvolveStart evolveStart;
 
-	public QuestPartyPageModule(UIConfigItem config) : base(  config){}
+	public QuestPartyPageModule(UIConfigItem config) : base(  config){
+//		CreateUI<questp
+	}
 	
 	public override void InitUI(){
 		base.InitUI();
@@ -22,8 +24,8 @@ public class QuestPartyPageModule : PartyPageModule{
 	}
 	
 	private void EnableFriendDisplay(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableItemLeft", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableItemLeft", null);
+//		view.CallbackView(cbdArgs);
 	}
 
 	void AddHelperItem(object msg){
@@ -33,9 +35,9 @@ public class QuestPartyPageModule : PartyPageModule{
 
 	void Refresh (TFriendInfo tfi) {
 		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", o as Texture2D);
+//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", o as Texture2D);
 			MsgCenter.Instance.Invoke (CommandEnum.RefreshFriendHelper, null);
-			view.CallbackView(cbdArgs);
+//			view.CallbackView(cbdArgs);
 		});
 
 	}

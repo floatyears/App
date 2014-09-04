@@ -49,16 +49,16 @@ public class LevelUpView : ViewBase {
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
-		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
-			fromUnitDetail = true;
-			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
-				friendWindow.gameObject.SetActive (false);
-			} 
-		} else {
-			if (friendWindow != null) {
-				friendWindow.HideUI();
-			}
-		}
+//		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
+//			fromUnitDetail = true;
+//			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
+//				friendWindow.gameObject.SetActive (false);
+//			} 
+//		} else {
+//			if (friendWindow != null) {
+//				friendWindow.HideUI();
+//			}
+//		}
 	}
 
 	public override void DestoryUI () {
@@ -77,8 +77,8 @@ public class LevelUpView : ViewBase {
 //		CheckLevelUp ();
 //	}
 
-	public override void CallbackView (object data) {
-		base.CallbackView (data);
+	public override void CallbackView(params object[] args) {
+		base.CallbackView (args);
 	}
 
 	private static SortRule _sortRule = SortRule.None;

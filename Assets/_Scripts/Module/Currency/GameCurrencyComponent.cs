@@ -22,7 +22,7 @@ public class GameCurrencyComponent : ModuleBase {
 		base.DestoryUI ();
 	}
 	
-//	public override void CallbackView (object data) {
+//	public override void CallbackView(params object[] args) {
 //		base.CallbackView (data);
 //		Dictionary<string, object> dicData = data as Dictionary<string, object>;
 //		foreach (var item in dicData) {

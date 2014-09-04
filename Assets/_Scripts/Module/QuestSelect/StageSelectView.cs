@@ -413,8 +413,8 @@ public class StageSelectView : ViewBase{
 
 	private void SetSceneName(string name){
 		currentCityName = name;
-		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
-		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (name);
+//		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+//		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (name);
 	}
 }
 

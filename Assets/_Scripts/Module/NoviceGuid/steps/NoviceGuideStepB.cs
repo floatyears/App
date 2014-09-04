@@ -84,7 +84,8 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 	private void InputName(object data)
 	{
 		uint unitID = DataCenter.Instance.GetUnitInfo(9).ID;
-		MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
+//		MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
+		ModuleManger.SendMessage (ModuleEnum.LoadingModule, "func", "FirstLogin", "data", unitID);
 		NoviceGuideStepEntityManager.FinishCurrentStep ();
 	}
 

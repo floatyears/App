@@ -46,37 +46,37 @@ public class PartyPageView : ViewBase {
 //        SetUIElement();
 //    }
 	
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch ( cbdArgs.funcName ){
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch ( args[0].ToString() ){
 			case "RefreshPartyIndexView" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshIndexView, cbdArgs);
-				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
+				RefreshIndexView(args[1]);
+				ShowLabelLeft(args[1]);
 				break;
 			case "EnableLabelLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(EnableLabelLeft, cbdArgs);
+				EnableLabelLeft(args[1]);
 				break;
 			case "ShowLabelLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(ShowLabelLeft, cbdArgs);
+				ShowLabelLeft(args[1]);
 				break;
 			case "EnableItemLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(EnableItemLeft, cbdArgs);
+				EnableItemLeft(args[1]);
 				break;
 			case "ShowItemLeft" : 
-				CallBackDispatcherHelper.DispatchCallBack(ShowItemLeft, cbdArgs);
+				ShowItemLeft(args[1]);
 				break;
 			case "RefreshPartyItemView" : 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshItemView, cbdArgs);
+				RefreshItemView(args[1]);
 				break;
 			case "ReplaceItemView" :
-				CallBackDispatcherHelper.DispatchCallBack(ReplaceItemView, cbdArgs);
+				ReplaceItemView(args[1]);
 				break;
 			case "ClearItem" :
-				CallBackDispatcherHelper.DispatchCallBack(ClearItemView, cbdArgs);
+				ClearItemView(args[1]);
 				break;
 			case "LightCurSprite" : 
-				CallBackDispatcherHelper.DispatchCallBack(LightCurSprite, cbdArgs);
+				LightCurSprite(args[1]);
 				break;
 			default:
 				break;
@@ -167,9 +167,10 @@ public class PartyPageView : ViewBase {
 
 		string callName = "ClickItem";
 		int pos = itemDic[ go ];
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
 //		ExcuteCallback( cbd );
+		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, callName, pos);
 	}
 
 	void PressItem(GameObject go){
@@ -179,24 +180,24 @@ public class PartyPageView : ViewBase {
 		}
 		//LogHelper.Log("PartyPageView.PressItem(), press the item" + itemDic[ go ].ToString() + ", wait respone...");
 
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", itemDic[ go ]);
-
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", itemDic[ go ]);
+		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, "PressItem", itemDic[ go ]);
 //		ExcuteCallback(cbdArgs);
 	}
 	
 	void PagePrev(GameObject button){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
-
+		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, "TurnPage", "prev");
 //		ExcuteCallback( cbd );
 	} 
 
 	void PageNext(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
+		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, "TurnPage", "next");
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 //		ExcuteCallback( cbd );
 	}

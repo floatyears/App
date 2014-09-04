@@ -41,13 +41,13 @@ public class NoviceMsgWindowLogic : ModuleBase{
 	void OpenGuideMsgWindow(object msg){ 
 		LogHelper.Log ("------------open novice guide msg window"+msg.ToString());
 		//		Debug.LogError ("MsgWindowLogic : OpenMsgWindow ");
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowMsg", msg);
+		view.CallbackView("ShowMsg", msg);
 	}
 	
 	void CloseGuideMsgWindow(object msg){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CloseMsg", msg);
+		view.CallbackView("CloseMsg", msg);
 	}
 
 	void DestoryGuideMsgWindow(object data) {

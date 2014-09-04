@@ -76,12 +76,12 @@ public class HomeView : ViewBase{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
 	}
 	
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
 			case "CreateStoryView": 
-				CallBackDispatcherHelper.DispatchCallBack(CreateStoryView, cbdArgs);
+				CreateStoryView(args[1]);
 				break;
 			default:
 				break;
@@ -163,8 +163,8 @@ public class HomeView : ViewBase{
 
 	void ClickStoryItem(GameObject item){
 		Debug.LogError("ClickStoryItem ");
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickStoryItem", stageInfo[item].StageInfo);
-//		ExcuteCallback(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs();
+		ModuleManger.SendMessage (ModuleEnum.HomeModule, "ClickStoryItem", stageInfo [item].StageInfo);
 	}
 
 	//----New
@@ -224,7 +224,7 @@ public class HomeView : ViewBase{
 		} else {
 //			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataStore.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 
 				MsgWindowParams mwp = new MsgWindowParams ();
 				//mwp.btnParams = new BtnParam[1];
@@ -287,7 +287,7 @@ public class HomeView : ViewBase{
 			}
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-			if((GameDataStore.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+			if((GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
 				ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
 				return;

@@ -16,19 +16,19 @@ public class RewardModule : ModuleBase {
 		base.HideUI();
 	}
 	
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		
-		switch (cbdArgs.funcName){
-		case "SyncFriendList": 
-			//CallBackDispatcherHelper.DispatchCallBack(SyncFriendList, cbdArgs);
-			break;
-		default:
-			break;
-		}
-	}
+//	public override void OnReceiveMessages(params object[] data){
+////		base.OnReceiveMessages(data);
+////		
+////		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+//		
+////		switch (cbdArgs.funcName){
+////		case "SyncFriendList": 
+////			//CallBackDispatcherHelper.DispatchCallBack(SyncFriendList, cbdArgs);
+////			break;
+////		default:
+////			break;
+////		}
+//	}
 
 	
 //	void ShowUIAnimation(){

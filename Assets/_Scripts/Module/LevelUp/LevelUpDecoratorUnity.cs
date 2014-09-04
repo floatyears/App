@@ -264,7 +264,7 @@
 //        }
 //    }
 //
-//    public void CallbackView(object data) {
+//    public void CallbackView(params object[] args) {
 //    }
 //
 //    private void LevelUp(GameObject go) {

@@ -10,12 +10,12 @@ public class FriendListUserBriefInfo : UserBriefInfoModule{
 		EnableDeleteFriend();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (data[0].ToString()){
 			case "ClickDelete": 
-				CallBackDispatcherHelper.DispatchCallBack(DeleteFriend, cbdArgs);
+				DeleteFriend(data[1]);
 				break;
 			default:
 				break;
@@ -30,8 +30,8 @@ public class FriendListUserBriefInfo : UserBriefInfoModule{
 
 	void EnableDeleteFriend(){
 //		Debug.LogError("Call View to Enable Delete Friend...");
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableDeleteFriend", null);
+		view.CallbackView("EnableDeleteFriend");
 	}
 
 }

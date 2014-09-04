@@ -12,23 +12,7 @@ public class MainMenuView : ViewBase{
 		UpdateLeaderAvatar(null);
 		AddListener();
 	}
-
-	public override void ShowUI () {
-		if (Mathf.Approximately (transform.localPosition.y, 10000f)) {
-			base.ShowUI();	
-		}
-
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive (true);		
-		}
-	}
-
-	public override void HideUI () {
-		if (gameObject.activeSelf) {
-			gameObject.SetActive (false);		
-		}
-	}
-
+	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		RemoveListener ();
@@ -49,7 +33,7 @@ public class MainMenuView : ViewBase{
 	private void InitButton() {
 		GameObject go = FindChild ("Btn_Friends");
 		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");
-		buttonInfo.Add (go, ModuleEnum.FriendsModule);
+		buttonInfo.Add (go, ModuleEnum.FriendMainModule);
 
 		go = FindChild ("Btn_Home");
 		FindChild ("Btn_Home/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_HOME");

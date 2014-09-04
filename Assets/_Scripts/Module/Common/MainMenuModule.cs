@@ -6,22 +6,16 @@ public class MainMenuModule : ModuleBase {
 		CreateUI<MainMenuView> ();
 	}
 
-	public override void ShowUI () {
-//		Debug.LogError("main menu controller creat ui");
-		base.ShowUI ();
-	}
-
-	public override void HideUI () {
-		base.HideUI ();
-	}
-
 	public void OnReceiveMessage (object data){
 		try {
 			ModuleEnum se = (ModuleEnum)data;
 			if(se == ModuleEnum.QuestSelectModule){
 				if(CheckUnitCountLimit()){
 					//msg box show 
-					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgParams());
+//					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgParams());
+					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("UnitOverflow"),
+					                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.UnitMax),
+					                                   TextCenter.GetText("DoUnitExpansion"),CallBackScratchScene);
 					return;
 				}
 			}
@@ -43,17 +37,15 @@ public class MainMenuModule : ModuleBase {
 			return false;
 	}
 
-	MsgWindowParams GetUnitExpansionMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("UnitOverflow");
-		msgParams.contentText = TextCenter.GetText("UnitOverflowText",
-		                                                          DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
-		                                                          DataCenter.Instance.UserInfo.UnitMax);
-		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].text = TextCenter.GetText("DoUnitExpansion");
-		msgParams.btnParams[ 0 ].callback = CallBackScratchScene;
-		return msgParams;
-	}
+//	MsgWindowParams GetUnitExpansionMsgParams(){
+//		MsgWindowParams msgParams = new MsgWindowParams();
+//		msgParams.titleText = ;
+//		msgParams.contentText = ;
+//		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
+//		msgParams.btnParams[ 0 ].text = ;
+//		msgParams.btnParams[ 0 ].callback = ;
+//		return msgParams;
+//	}
 
 	void CallBackScratchScene(object args){
 		ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);

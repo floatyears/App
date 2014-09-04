@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 /// <summary>
 /// concrete decorate class
 /// </summary>
 public class ModuleBase{	
-    private bool show = false;
-	private bool destroy = false;
+    private ModuleState state = ModuleState.None;
 
 	private UIConfigItem config = null;
 	
@@ -27,12 +27,22 @@ public class ModuleBase{
 		}
 	}
 
-	protected object data = null;
+	protected Dictionary<string,object> data = null;
 	
-	public ModuleBase(UIConfigItem uiConfig, object moduleData = null){
+	public ModuleBase(UIConfigItem uiConfig, params object[] args){
 		config = uiConfig;
-		if (moduleData != null) {
-			data = moduleData;	
+		if (args.Length > 0) {
+			Dictionary<string,object> dic = new Dictionary<string, object>();
+			if (args.Length %2 != 0) {
+				Debug.LogError("Tween Error: Hash requires an even number of arguments!"); 
+			}else{
+				int i = 0;
+				while(i < args.Length - 1) {
+					dic.Add(args[i].ToString(), args[i+1]);
+					i += 2;
+				}
+			}
+			data = dic;	
 		}
 	}
 
@@ -54,12 +64,18 @@ public class ModuleBase{
 				
 				view.Init(UIConfig);
 
-				if(show){
-					ShowUI();
-				}else{
-					if(destroy){
+				switch (state) {
+					case ModuleState.Show:
+						ShowUI();
+						break;
+					case ModuleState.Hide:
+						HideUI();
+						break;
+					case ModuleState.Destroy:
 						DestoryUI();
-					}
+						break;
+					default:
+						break;
 				}
 
 			});	
@@ -71,17 +87,17 @@ public class ModuleBase{
 	}
 
 	public virtual void ShowUI() {
-		show = true;
+		state = ModuleState.Show;
 
 		if (view != null) {
 			view.ShowUI();
 		}else{
-			Debug.LogError("UI didn't show: " + UIConfig.resourcePath);
+			Debug.LogError("UI is NULL: " + UIConfig.resourcePath);
 		}
 	}
 
 	public virtual void HideUI() {
-		show = false;
+		state = ModuleState.Hide;
 
 		if (view != null) {
 			view.HideUI ();
@@ -89,18 +105,25 @@ public class ModuleBase{
 	}
 
 	public virtual void DestoryUI() {
-		show = false;
-		destroy = true;
+		state = ModuleState.Destroy;
 
 		if (view != null) {
 			view.DestoryUI();
+			view = null;
 		}
 	}
 
-	public virtual void OnReceiveMessages(object data){
+	public virtual void OnReceiveMessages(params object[] data){
 		if (view != null)
 		{
 			view.CallbackView(data);
 		}
 	}
+}
+
+internal enum ModuleState{
+	None,
+	Show,
+	Hide,
+	Destroy
 }

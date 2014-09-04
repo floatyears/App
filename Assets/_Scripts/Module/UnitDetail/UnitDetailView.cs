@@ -187,7 +187,7 @@ public class UnitDetailView : ViewBase{
 
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 
-		UIManager.Instance.GoBackToPrevScene ();	
+//		UIManager.Instance.GoBackToPrevScene ();	
 
 
 		unitBodyTex.mainTexture = null;
@@ -448,8 +448,8 @@ public class UnitDetailView : ViewBase{
 	}
 
 	//--------------interface function-------------------------------------
-	public void CallbackView(object data)	{
-		TUserUnit userUnit = data as TUserUnit;
+	public void CallbackView(params object[] args)	{
+		TUserUnit userUnit = args[0] as TUserUnit;
 //		Debug.LogWarning("CallbackView...");
 		if ( oldBlendUnit != null ) {
 //			Debug.LogWarning("oldBlendUnit:"+oldBlendUnit);
@@ -469,7 +469,7 @@ public class UnitDetailView : ViewBase{
 		} else {
 //			Debug.LogError("Else play Leveup...");
 
-			RspLevelUp rlu = data as RspLevelUp;
+			RspLevelUp rlu = args[0] as RspLevelUp;
 			isNoviceGUide = false;
 			if(rlu ==null) {
 				return;

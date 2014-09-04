@@ -22,13 +22,13 @@ public class UserIDView : ViewBase{
 		base.DestoryUI();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
 
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
 			case "ShowUserID": 
-				CallBackDispatcherHelper.DispatchCallBack(ShowUserID, cbdArgs);
+				ShowUserID(args[1]);
 				break;
 			default:
 				break;
@@ -50,7 +50,7 @@ public class UserIDView : ViewBase{
 
 	void ClickButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ModuleManger.Instance.ShowModule(ModuleEnum.FriendsModule);
+		ModuleManger.Instance.ShowModule(ModuleEnum.FriendMainModule);
 	}
 
 	void ShowTween(){

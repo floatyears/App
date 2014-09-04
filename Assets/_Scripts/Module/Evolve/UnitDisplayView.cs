@@ -42,8 +42,8 @@ public class UnitDisplayView : ViewBase {
 //		state = 1;
 //	}
 
-	public override void CallbackView (object data) {
-		Dictionary<string,object> dic = data as Dictionary<string,object>;
+	public override void CallbackView(params object[] args) {
+		Dictionary<string,object> dic = args[0] as Dictionary<string,object>;
 		foreach (var item in dic) {
 			DisposeCallback(item);
 		}

@@ -20,7 +20,9 @@ public class LoadingView : ViewBase {
 
     public override void Init ( UIConfigItem config ) {
         base.Init (config);
-        InitUI();
+		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
+		
+		tapLogin.enabled = false;
     }
     
     public override void ShowUI () {
@@ -32,7 +34,7 @@ public class LoadingView : ViewBase {
 		//友盟初始化
 		Umeng.GA.StartWithAppKeyAndChannelId (ServerConfig.UmengAppKey, ServerConfig.Channel);
 
-		if (string.IsNullOrEmpty (GameDataStore.USER_ID)) {
+		if (string.IsNullOrEmpty (GameDataPersistence.USER_ID)) {
 			GameDataAnalysis.Event(GameDataAnalysisEventType.FirstStart,new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier}});
 		}
 
@@ -41,25 +43,6 @@ public class LoadingView : ViewBase {
 		//		Debug.Log("GetDeviceInfo: " + Umeng.GA.GetDeviceInfo());
 		#endif
 
-//		NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces ();
-//		Debug.LogError ("nis.Length : " + nis.Length);
-//		if (nis.Length > 0) {
-//			Debug.LogError (nis [0].GetPhysicalAddress ().ToString());
-//		}
-
-//		Debug.Log ("enum toString(): " + NoviceGuideStepEntityID.Loading.ToString());
-
-    }
-    
-    public override void HideUI () {
-        base.HideUI ();
-
-    }
-
-    private void InitUI (){
-		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
-
-		tapLogin.enabled = false;
     }
 
 	private void CouldLogin(){
@@ -82,10 +65,6 @@ public class LoadingView : ViewBase {
 			});
 		});
 
-//		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.NONE) {
-//			NoviceMsgWindowLogic guideWindow = CreatComponent<NoviceMsgWindowLogic>(UIConfig.noviceGuideWindowName);
-//			guideWindow.CreatUI();
-//		}
 		tapLogin.text = 
 #if LANGUAGE_CN
 	ServerConfig.touchToLogin;
@@ -99,19 +78,10 @@ public class LoadingView : ViewBase {
 
 	}
 
-//	protected T CreatComponent<T>(string name) where T : ModuleBase {
-//		T component = ViewManager.Instance.GetComponent (name) as T;
-//		if (component == null) {
-//			component = System.Activator.CreateInstance(typeof(T), name) as T;
-//		}
-//		LogHelper.Log ("component: " + component);
-//		return component;
-//	}
-
     private bool CheckIfFirstLogin(){
         bool ret = false;
-        uint userId = GameDataStore.Instance.GetUInt(GameDataStore.USER_ID);
-        string uuid = GameDataStore.Instance.GetData(GameDataStore.UUID);
+        uint userId = GameDataPersistence.Instance.GetUInt(GameDataPersistence.USER_ID);
+        string uuid = GameDataPersistence.Instance.GetData(GameDataPersistence.UUID);
         if (userId == 0 && uuid.Length == 0) {
             return true;
         }
@@ -126,11 +96,11 @@ public class LoadingView : ViewBase {
 
 	private void Login(){
 		if (CheckIfFirstLogin()){
-			LogHelper.Log("firstLogin");
+			Debug.Log("firstLogin");
 			SelectRoleFirst();
 		}
 		else {
-			LogHelper.Log("login directly");
+			Debug.Log("login directly");
 			LoginDirectly();
 
 		}
@@ -140,6 +110,7 @@ public class LoadingView : ViewBase {
 		Umeng.GA.Event ("Login");
 //		LoadingLogic loadingLogic = origin as LoadingLogic;
 //        loadingLogic.StartLogin();
+		ModuleManger.SendMessage (ModuleEnum.LoadingModule,"StartLogin");
     }
 
     private void SelectRoleFirst(){
@@ -147,9 +118,4 @@ public class LoadingView : ViewBase {
 		ModuleManger.Instance.ShowModule (ModuleEnum.SelectRoleModule);
     }
 
-//	private void checkResourceUpdate(){
-//		ResourceUpdate rs = GetComponent<ResourceUpdate> ();
-//
-//
-//	}
 }

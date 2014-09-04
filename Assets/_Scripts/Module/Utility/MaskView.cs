@@ -20,16 +20,16 @@ public class MaskView : ViewBase {
 		SetMaskActive (false);
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
-		switch (call.funcName){
+		switch (args[0].ToString()){
 			case "ShowMask" :
-				CallBackDispatcherHelper.DispatchCallBack(SetMaskActive, call);
+				SetMaskActive(args[1]);
 				break;
 			case "ShowConnect" :
-				CallBackDispatcherHelper.DispatchCallBack(SetConnectActive, call);
+				SetConnectActive(args[1]);
 				break;
 			default:
 				break;
@@ -88,16 +88,16 @@ public class MaskView : ViewBase {
 			if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
 				tips.text = TextCenter.GetText ("Tips_A_" + DGTools.RandomToInt(1,13));//.RandomToInt (1, 13));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 10) {
-				tips.text = TextCenter.GetText ("Tips_B_" + MathHelper.RandomToInt (1, 10));
+				tips.text = TextCenter.GetText ("Tips_B_" + Utility.MathHelper.RandomToInt (1, 10));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 20) {
-				tips.text = TextCenter.GetText ("Tips_C_" + MathHelper.RandomToInt (1, 18));
+				tips.text = TextCenter.GetText ("Tips_C_" + Utility.MathHelper.RandomToInt (1, 18));
 			} else if (DataCenter.Instance.LoginInfo.Data.Rank < 30) {
-				tips.text = TextCenter.GetText ("Tips_D_" + MathHelper.RandomToInt (1, 18));
+				tips.text = TextCenter.GetText ("Tips_D_" + Utility.MathHelper.RandomToInt (1, 18));
 			} else {
-				tips.text = TextCenter.GetText ("Tips_E_" + MathHelper.RandomToInt (1, 24));
+				tips.text = TextCenter.GetText ("Tips_E_" + Utility.MathHelper.RandomToInt (1, 24));
 			}	
 		} else {
-			tips.text = TextCenter.GetText ("Tips_A_" + MathHelper.RandomToInt (1, 13));
+			tips.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
 		}     
 	}
 //

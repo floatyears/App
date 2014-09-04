@@ -281,7 +281,7 @@ public class BattleQuest : ModuleBase {
 	void Exit() {
 //		UIManager.Instance.ExitBattle();
 //		UIManager.Instance.baseScene.PrevScene = ModuleEnum.Evolve;
-		UIManager.Instance.ExitBattle();
+		ModuleManger.Instance.ExitBattle();
 	}
 
 	bool battleEnemy = false;
@@ -323,7 +323,7 @@ public class BattleQuest : ModuleBase {
 	}
 
 	public void NoFriendExit() {
-		UIManager.Instance.ExitBattle ();
+		ModuleManger.Instance.ExitBattle ();
 //		UIManager.Instance.ExitBattle ();
 	}
 
@@ -334,11 +334,11 @@ public class BattleQuest : ModuleBase {
 
 	void RetireQuestCallback(object data) {
 		NoFriendExit ();
-		UIManager.Instance.ExitBattle ();
+		ModuleManger.Instance.ExitBattle ();
 	}
 
 	public void HaveFriendExit() {
-		UIManager.Instance.ExitBattle ();
+		ModuleManger.Instance.ExitBattle ();
 		ModuleManger.Instance.ShowModule(ModuleEnum.ResultModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, configBattleUseData.BattleFriend);
 	}
@@ -359,7 +359,7 @@ public class BattleQuest : ModuleBase {
 	}
 
 	void EvolveEnd (TRspClearQuest trcq) {
-		UIManager.Instance.ExitBattle ();
+		ModuleManger.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 
 		ModuleManger.Instance.ShowModule (ModuleEnum.VictoryModule);
@@ -869,22 +869,25 @@ public class BattleQuest : ModuleBase {
 		Main.Instance.GInput.IsCheckInput = false;
 		BattleBottom.notClick = true;
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
-		mwp.contentText = TextCenter.GetText("RedoQuestContent", DataCenter.redoQuestStone, 
-		                                     DataCenter.Instance.AccountInfo.Stone);
-		BtnParam sure = new BtnParam ();
-		sure.callback = SureInitiativeRetry;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParams = new BtnParam[2];
+//		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
+//		mwp.contentText = TextCenter.GetText("RedoQuestContent", DataCenter.redoQuestStone, 
+//		                                     DataCenter.Instance.AccountInfo.Stone);
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = SureInitiativeRetry;
+//		sure.text = TextCenter.GetText("OK");
+//		mwp.btnParams[0] = sure;
+//
+//		sure = new BtnParam ();
+//		sure.callback = CancelInitiativeRetry;
+//		sure.text = TextCenter.GetText("Cancel");
+//		mwp.btnParams[1] = sure;
 
-		sure = new BtnParam ();
-		sure.callback = CancelInitiativeRetry;
-		sure.text = TextCenter.GetText("Cancel");
-		mwp.btnParams[1] = sure;
-
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
+		                                   TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.Stone),
+		                                   TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
 	}
 	
 	void SureInitiativeRetry(object data) {
@@ -1067,17 +1070,18 @@ public class BattleQuest : ModuleBase {
 	}
 
 	void RetryClearQuestRequest () {
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText("RetryClearQuestTitle");
-		mwp.contentText = TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
-		                                     DataCenter.Instance.AccountInfo.Stone);
-		BtnParam sure = new BtnParam ();
-		sure.callback = RequestData;
-		sure.text = TextCenter.GetText("Retry");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParam = new BtnParam();
+//		mwp.titleText = ;
+//		mwp.contentText = ;
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = RequestData;
+//		sure.text = ;
+//		mwp.btnParam = sure;
+//		
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
+		                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
 	}
 
 	void End() {
@@ -1093,22 +1097,24 @@ public class BattleQuest : ModuleBase {
 		Main.Instance.GInput.IsCheckInput = false;
 		BattleBottom.notClick = true;
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = TextCenter.GetText("ResumeQuestTitle");
-		mwp.contentText = TextCenter.GetText("ResumeQuestContent", DataCenter.resumeQuestStone);
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = BattleFailRecover;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
-		
-		sure = new BtnParam ();
-		sure.callback = BattleFailExit;
-		sure.text = TextCenter.GetText("Cancel");
-		mwp.btnParams[1] = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParams = new BtnParam[2];
+//		mwp.titleText = TextCenter.GetText("ResumeQuestTitle");
+//		mwp.contentText = TextCenter.GetText("ResumeQuestContent", DataCenter.resumeQuestStone);
+//		
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = BattleFailRecover;
+//		sure.text = TextCenter.GetText("OK");
+//		mwp.btnParams[0] = sure;
+//		
+//		sure = new BtnParam ();
+//		sure.callback = BattleFailExit;
+//		sure.text = TextCenter.GetText("Cancel");
+//		mwp.btnParams[1] = sure;
+//		
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), BattleFailRecover, BattleFailExit);
 	}
 
 	void BattleFailRecover(object data) {
@@ -1146,7 +1152,7 @@ public class BattleQuest : ModuleBase {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
-		UIManager.Instance.ExitBattle ();
+		ModuleManger.Instance.ExitBattle ();
 //		UIManager.Instance.ExitBattle ();
 	}
 }

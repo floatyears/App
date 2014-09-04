@@ -91,16 +91,18 @@ public class UserBriefInfoView : ViewBase{
 		
 	void Choose(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.UserBriefInfoModule, "Choose");
 		ShowSelf(false);
 
 	}
 	
 	void ViewInfo(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ViewDetailInfo", null);
+//		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ViewDetailInfo", null);
 //		ExcuteCallback(cbd);
+		ModuleManger.SendMessage (ModuleEnum.UserBriefInfoModule, "ViewDetailInfo");
 		ShowSelf(false);
 	}
 	
@@ -110,29 +112,29 @@ public class UserBriefInfoView : ViewBase{
 		ShowSelf(false);
 	}
 	
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
 			case "RefreshUnitInfoView": 
 				ShowSelf(true);
-				CallBackDispatcherHelper.DispatchCallBack(RefreshUnitInfoView, cbdArgs);
+				RefreshUnitInfoView(args[1]);
 				break;
 			case "RefreshLastLogin": 
 				ShowSelf(true);
-				CallBackDispatcherHelper.DispatchCallBack(RefreshLastLogin, cbdArgs);
+				RefreshLastLogin(args[1]);
 				break;
 			case "RefreshRank": 
 				ShowSelf(true);
-				CallBackDispatcherHelper.DispatchCallBack(RefreshRank, cbdArgs);
+				RefreshRank(args[1]);
 				break;
 			case "RefreshUserName": 
 				ShowSelf(true);
-				CallBackDispatcherHelper.DispatchCallBack(RefreshUserName, cbdArgs);
+				RefreshUserName(args[1]);
 				break;
 			case "EnableDeleteFriend": 
-				CallBackDispatcherHelper.DispatchCallBack(EnableDeleteFriend, cbdArgs);
+				EnableDeleteFriend(args[1]);
 				break;
 			case "HidePanel":
 				ShowSelf(false);
@@ -163,8 +165,9 @@ public class UserBriefInfoView : ViewBase{
 	void ClickDelete(GameObject btn){
 		//Debug.LogError("Receive delete click, call logic to respone.....");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.UserBriefInfoModule, "ClickDelete");
 		ShowSelf(false);
 	}
 

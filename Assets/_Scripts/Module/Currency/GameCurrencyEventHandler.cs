@@ -49,14 +49,9 @@ public class GameCurrencyEventHandler {
 		DataCenter.Instance.AccountInfo.StoneFree = rsp.stoneFree;
 		DataCenter.Instance.AccountInfo.PayTotal = rsp.payTotal;
 		
-		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBar>().UpdateData();
+		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBarView>().UpdateData();
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("PurchaseSuccess_Title");
-		mwp.contentText = TextCenter.GetText("PurchaseSuccess_Content");
-		BtnParam sure = new BtnParam ();
-		sure.callback = o=>{
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("PurchaseSuccess_Title"),TextCenter.GetText("PurchaseSuccess_Content"),TextCenter.GetText("OK"),o=>{
 			//refresh bonusList
 			if (rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard") {
 				GetBonusList.SendRequest (OnBonusList);
@@ -64,10 +59,7 @@ public class GameCurrencyEventHandler {
 				ModuleManger.Instance.ShowModule(ModuleEnum.HomeModule);
 				ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);
 			}
-		};
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParam = sure;
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		});
 
 		Debug.LogError ("OnRspShopBuy now stone=" + rsp.stone);
 
@@ -104,19 +96,10 @@ public class GameCurrencyEventHandler {
 	}
 
 	public void onBillingNotSupported(){
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("BillingNotSupported_Title");
-		mwp.contentText = TextCenter.GetText("BillingNotSupported_Content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParam = sure;
-
 		Umeng.GA.Event("BillingNotSupport");
 
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BillingNotSupported_Title"),TextCenter.GetText("BillingNotSupported_Content"),TextCenter.GetText("OK"));
 	}
 
 	public void onMarketPurchaseStarted(PurchasableVirtualItem pvi){

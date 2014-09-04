@@ -28,7 +28,7 @@ public class MaskModule : ModuleBase {
 		//Debug.LogError("MaskController.HideUI()...");
 	} 
 	
-//	public override void CallbackView(object data){
+//	public override void CallbackView(params object[] args){
 //		base.CallbackView(data);
 //	}
 
@@ -50,13 +50,13 @@ public class MaskModule : ModuleBase {
 	
 	void SetMaskActive(bool isActive){
 		//Debug.LogError("SetMaskActive() " + isActive);
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowMask", isActive);
-		view.CallbackView(call);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowMask", isActive);
+		view.CallbackView("ShowMask", isActive);
 	}
 
 	void SetConnectActive(bool isActive){
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowConnect", isActive);
-		view.CallbackView(call);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowConnect", isActive);
+		view.CallbackView("ShowConnect", isActive);
     }
             
     void AddCommandListener(){

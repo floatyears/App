@@ -170,7 +170,8 @@ public class FriendHelperView : ViewBase{
 		if(CheckStaminaEnough()){
 			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
 			return;
 		}
 //		Debug.LogError("friend ClickHelperItem");
@@ -196,14 +197,6 @@ public class FriendHelperView : ViewBase{
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
 		if(staminaNeed > staminaNow) return true;
 		else return false;
-	}
-	
-	private MsgWindowParams GetStaminaLackMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("StaminaLackNoteTitle");
-		msgParams.contentText = TextCenter.GetText("StaminaLackNoteContent");
-		msgParams.btnParam = new BtnParam();
-		return msgParams;
 	}
 
 	private void ReceiveSortInfo(object msg){

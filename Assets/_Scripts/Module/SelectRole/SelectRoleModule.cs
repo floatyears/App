@@ -25,16 +25,16 @@ public class SelectRoleModule : ModuleBase {
 		base.HideUI();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
-		switch (call.funcName){
+		switch (data[0].ToString()){
 			case "ClickTab" :
-				CallBackDispatcherHelper.DispatchCallBack(RecordSelectState, call);
+				RecordSelectState(data[1]);
 				break;
 			case "ClickButton" :
-				CallBackDispatcherHelper.DispatchCallBack(SubmitSelectState, call);
+				SubmitSelectState(data[1]);
                 break;
                 default:
 				break;
@@ -50,8 +50,8 @@ public class SelectRoleModule : ModuleBase {
 	}
 
 	void ShowInitialView(){
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowInitialView", supportSelectUnits);
-		view.CallbackView(call);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowInitialView", supportSelectUnits);
+		view.CallbackView("ShowInitialView", supportSelectUnits);
 	}
 
 	void RecordSelectState(object args){
@@ -77,8 +77,7 @@ public class SelectRoleModule : ModuleBase {
 //		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 //			NoviceGuideStepEntityManager.Instance().StartStep();
 //		} else {
-			uint unitID = supportSelectUnits[ curSelectPos ].ID;
-			MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
+		ModuleManger.SendMessage (ModuleEnum.LoadingModule, "func", "FirstLogin", "data", supportSelectUnits[ curSelectPos ].ID);
 //		}
 
 	}

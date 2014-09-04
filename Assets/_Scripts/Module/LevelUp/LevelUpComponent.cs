@@ -23,7 +23,7 @@ public class LevelUpComponent : ModuleBase {
 		base.DestoryUI ();
 	}
 
-//	public void CallbackView (object data)
+//	public void CallbackView(params object[] args)
 //	{
 //		IUICallback call = viewComponent as IUICallback;
 //		if(call != null) {

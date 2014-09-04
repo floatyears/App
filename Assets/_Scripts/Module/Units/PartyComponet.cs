@@ -25,7 +25,7 @@
 //		base.DestoryUI ();
 //	}
 //
-//	public void CallbackView (object data)
+//	public void CallbackView(params object[] args)
 //	{
 //		try {
 //			ModuleEnum scene = (ModuleEnum)data;

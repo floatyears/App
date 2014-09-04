@@ -38,20 +38,20 @@ public class ShopModule : ModuleBase {
 		base.DestoryUI ();
 	}
 
-    public override void OnReceiveMessages(object data){
-        base.OnReceiveMessages(data);
+    public override void OnReceiveMessages(params object[] data){
+//        base.OnReceiveMessages(data);
+//        
+//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
         
-        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        
-        switch (cbdArgs.funcName){
+        switch (data[0].ToString()){
         case "DoFriendExpansion": 
-            CallBackDispatcherHelper.DispatchCallBack(OnFriendExpansion, cbdArgs);
+           	OnFriendExpansion(data[1]);
             break;
         case "DoStaminaRecover": 
-            CallBackDispatcherHelper.DispatchCallBack(OnStaminaRecover, cbdArgs);
+            OnStaminaRecover(data[1]);
             break;
         case "DoUnitExpansion": 
-            CallBackDispatcherHelper.DispatchCallBack(OnUnitExpansion, cbdArgs);
+           	OnUnitExpansion(data[1]);
             break;
         default:
             break;

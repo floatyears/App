@@ -10,13 +10,13 @@ public class FriendHelperBriefInfo : UserBriefInfoModule {
 		//StylizeView();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbdArgs.funcName){
+		switch (data[0].ToString()){
 			case "Choose" : 
-				CallBackDispatcherHelper.DispatchCallBack(ChooseHelper, cbdArgs);
+				ChooseHelper(data[1]);
 				break;
 			default:
 				break;
@@ -24,10 +24,10 @@ public class FriendHelperBriefInfo : UserBriefInfoModule {
 	}
 
 	void StylizeView(){
-		Dictionary<string,string> styleArgs = new Dictionary<string, string>();
-		styleArgs.Add("ButtonTop", "Choose");
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Stylize", styleArgs);
-		view.CallbackView(styleArgs);
+//		Dictionary<string,string> styleArgs = ;
+//		styleArgs.Add();
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Stylize", styleArgs);
+		view.CallbackView("Stylize", new Dictionary<string, string>(){{"ButtonTop", "Choose"}});
 	}
 
 	void ChooseHelper(object args){

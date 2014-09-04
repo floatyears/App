@@ -11,8 +11,8 @@ public class UnitPartyPage : PartyPageModule{
 	}
 
 	private void EnableIndexDisplay(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableLabelLeft", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableLabelLeft", null);
+		view.CallbackView("EnableLabelLeft");
 	}
 
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class UnitDisplayModule : ModuleBase {
 	public UnitDisplayModule (UIConfigItem config) : base (  config) {
@@ -16,9 +17,9 @@ public class UnitDisplayModule : ModuleBase {
 	public override void HideUI () {
 		base.HideUI ();
 
-		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
-			base.DestoryUI();
-		}
+//		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
+//			base.DestoryUI();
+//		}
 	}
 
 	public override void InitUI () {
@@ -29,9 +30,9 @@ public class UnitDisplayModule : ModuleBase {
 		base.DestoryUI ();
 	}
 
-	public override void OnReceiveMessages (object data) {
+	public override void OnReceiveMessages(params object[] data) {
 		base.OnReceiveMessages (data);
-		Dictionary<string, object> dicData = data as Dictionary<string, object>;
+		Dictionary<string, object> dicData = data[0] as Dictionary<string, object>;
 		foreach (var item in dicData) {
 			DisposeCallback (item);
 		}

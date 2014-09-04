@@ -42,21 +42,21 @@ public class SellView : ViewBase{
 		RmvCmdListener();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (args[0].ToString()){
 			case "CreateDragView" : 
-				CallBackDispatcherHelper.DispatchCallBack(CreateDragView, cbdArgs);
+				CreateDragView(args[1]);
 				break;
 			case "DestoryDragView" : 
-				CallBackDispatcherHelper.DispatchCallBack(DestoryDragView, cbdArgs);
+				DestoryDragView(args[1]);
 				break;
 			case "ShowLastSureWindow" : 
-				CallBackDispatcherHelper.DispatchCallBack(ShowLastSureWindow, cbdArgs);
+				ShowLastSureWindow(args[1]);
 				break;
 			case "BackToMainWindow" : 
-				CallBackDispatcherHelper.DispatchCallBack(BackToMainWindow, cbdArgs);
+				BackToMainWindow(args[1]);
 				break;
 			default:
 				break;
@@ -130,8 +130,9 @@ public class SellView : ViewBase{
 
 	void ClickSellOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.SellModule, "ClickSellOk");
 	}
 
 	void ClickSellCancel(GameObject btn){
@@ -261,8 +262,9 @@ public class SellView : ViewBase{
 
 			picked.Add(sellUnitItem.UserUnit);
 		}
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", picked);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", picked);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.SellModule, "ClickSell", picked);
 	}
 
 	void ClickClearBtn(GameObject btn){

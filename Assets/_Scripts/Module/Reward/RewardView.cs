@@ -153,7 +153,7 @@ public class RewardView : ViewBase {
 	void OnClickOK(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		ModuleManger.Instance.ShowModule (UIManager.Instance.current.CurrentDecoratorScene);
+		ModuleManger.Instance.HideModule (ModuleEnum.RewardModule);
 //		HideUI ();
 	}
 

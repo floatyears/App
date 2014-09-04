@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using bbproto;
 
 public class EvolveView : ViewBase {
@@ -28,14 +29,14 @@ public class EvolveView : ViewBase {
 	}
 	
 	public override void HideUI () {
-		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
-			fromUnitDetail = true; 
-			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
-				friendWindow.gameObject.SetActive (false);
-			}
-		} else if (friendWindow != null) {
-			friendWindow.HideUI ();
-		}
+//		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
+//			fromUnitDetail = true; 
+//			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
+//				friendWindow.gameObject.SetActive (false);
+//			}
+//		} else if (friendWindow != null) {
+//			friendWindow.HideUI ();
+//		}
 
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
@@ -46,8 +47,8 @@ public class EvolveView : ViewBase {
 		base.DestoryUI ();
 	}
 
-	public override void CallbackView (object data) {
-		Dictionary<string, object> dataDic = data as Dictionary<string, object>;
+	public override void CallbackView(params object[] args) {
+		Dictionary<string, object> dataDic = args[0] as Dictionary<string, object>;
 		List<KeyValuePair<string,object>> datalist = new List<KeyValuePair<string, object>> ();
 
 		foreach (var item in dataDic) {
@@ -477,14 +478,7 @@ public class EvolveView : ViewBase {
 			return;
 		}
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
-		mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = o=>{
+		TipsManager.Instance.ShowMsgWindow( TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
 			MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,o1 =>{
 				List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
 				evolveInfoList.Add (baseItem.userUnit);
@@ -495,14 +489,10 @@ public class EvolveView : ViewBase {
 						evolveInfoList.Add(tuu);
 					}
 				}
-//				ExcuteCallback (evolveInfoList);
+				//				ExcuteCallback (evolveInfoList);
 			});
 			ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
-		};
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		});
 		return;
 
 

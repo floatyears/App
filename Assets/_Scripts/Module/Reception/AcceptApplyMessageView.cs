@@ -17,8 +17,8 @@ public class AcceptApplyMessageView : ApplyMessageView{
 		base.HideUI();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
+	public override void CallbackView(params object[] args){
+		base.CallbackView(args);
 	}
 
 	void InitUIElement(){
@@ -29,8 +29,9 @@ public class AcceptApplyMessageView : ApplyMessageView{
 	void ClickDeleteButton(GameObject btn){
 		//Debug.LogError("Click the delete button, call controller to response...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
 //		ExcuteCallback(cbdArgs);
+		ModuleManger.SendMessage (ModuleEnum.AcceptApplyMessageModule, "ClickDelete");
 	}
 
 }

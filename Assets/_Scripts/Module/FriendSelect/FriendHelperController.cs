@@ -25,17 +25,17 @@ public class FriendHelperController : ModuleBase{
 //		RemoveCommandListener();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbdArgs.funcName){
-//			case "ClickItem" :
-//				CallBackDispatcherHelper.DispatchCallBack(ShowHelperInfo, cbdArgs);
-//				break;
-//			case "ClickBottomButton" :
-//				CallBackDispatcherHelper.DispatchCallBack(QuestStart, cbdArgs);
-//				break;
+		switch (data[0].ToString()){
+			case "ClickItem" :
+				ShowHelperInfo(data[1]);
+				break;
+			case "ClickBottomButton" :
+				QuestStart(data[1]);
+				break;
 			default:
 				break;
 		}
@@ -117,7 +117,7 @@ public class FriendHelperController : ModuleBase{
 	void EnterBattle () {
 		ConfigBattleUseData.Instance.BattleFriend = selectedHelper;
 		HideUI ();
-		UIManager.Instance.EnterBattle();
+		ModuleManger.Instance.EnterBattle();
 	} 
 
 	MsgWindowParams GetStartQuestError () {
@@ -152,13 +152,13 @@ public class FriendHelperController : ModuleBase{
 //	}
 
 	void CreateFriendHelperViewList(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", null);
+		view.CallbackView("CreateDragView");
 	}
 
 	void DestoryFriendHelperList(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DestoryDragView", null);
+		view.CallbackView("DestoryDragView");
 	}
 
 	void ShowHelperInfo(object args){
@@ -198,8 +198,8 @@ public class FriendHelperController : ModuleBase{
 		}
 	
 		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
+		view.CallbackView("UpdateViewAfterChooseHelper");
 	}
 	
 	void RefreshFriendHelper(object data) {
@@ -207,8 +207,8 @@ public class FriendHelperController : ModuleBase{
 	}
 
 	void CanEnterBattle () {
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("EnableBottomButton", null);
+		view.CallbackView("EnableBottomButton");
 	}
 	
 	void EvolveSelectQuest(object data) {

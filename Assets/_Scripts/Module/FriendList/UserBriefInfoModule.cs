@@ -12,8 +12,8 @@ public class UserBriefInfoModule : ModuleBase{
 		base.ShowUI();
 		AddEventListener();
 
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
+		view.CallbackView("HidePanel");
 	}
 
 	public override void HideUI(){
@@ -21,13 +21,13 @@ public class UserBriefInfoModule : ModuleBase{
 		RemoveEventListener();
 	}
 
-	public override void OnReceiveMessages(object data){
-		base.OnReceiveMessages(data);
-
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (cbdArgs.funcName){
+	public override void OnReceiveMessages(params object[] data){
+//		base.OnReceiveMessages(data);
+//
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (data[0].ToString()){
 			case "ViewDetailInfo": 
-				CallBackDispatcherHelper.DispatchCallBack(ViewUserUnitDetailInfo, cbdArgs);
+				ViewUserUnitDetailInfo(data[1]);
 				break;
 			default:
 				break;
@@ -42,13 +42,13 @@ public class UserBriefInfoModule : ModuleBase{
 
 	void Exit(){
 		ClearInfo();
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
+		view.CallbackView("HidePanel");
 	}
 
 	void ClearInfo(){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClearPanel", null);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClearPanel", null);
+		view.CallbackView("HidePanel");
 	} 
 
 	void AddEventListener(){
@@ -69,24 +69,24 @@ public class UserBriefInfoModule : ModuleBase{
 	}
 
 	void RefreshUnitInfo(TUserUnit tuu){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);
+		view.CallbackView("RefreshUnitInfoView");
 	}
 
 	void RefreshLastLogin(uint unixTime){
-		string text = TimeHelper.GetLatestPlayTime(unixTime).ToString();
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshLastLogin", text);
-		view.CallbackView(cbdArgs);
+		string text = Utility.TimeHelper.GetLatestPlayTime(unixTime).ToString();
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshLastLogin", text);
+		view.CallbackView("RefreshLastLogin");
 	}
 
 	void RefreshRank(int rank){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshRank", rank.ToString());
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshRank", rank.ToString());
+		view.CallbackView("RefreshRank");
 	}
 
 	void RefreshUserName(string userName){
-		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUserName", userName);
-		view.CallbackView(cbdArgs);
+//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUserName", userName);
+		view.CallbackView("RefreshUserName");
 	}
 
 }

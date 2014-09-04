@@ -35,34 +35,18 @@ public class ScratchModule : ModuleBase {
 		CreateUI<ScratchView> ();
 	}
 
-    public override void InitUI () {
-        base.InitUI ();
-    }
-
-    public override void ShowUI () {
-		base.ShowUI ();
-	}
-	
-	public override void HideUI () {
-		base.HideUI ();
-	}
-
-    public override void DestoryUI () {
-        base.DestoryUI ();
-    }
-
-    public override void OnReceiveMessages(object data) {
-		base.OnReceiveMessages (data);
-        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        switch (cbdArgs.funcName) {
+    public override void OnReceiveMessages(params object[] data) {
+//		base.OnReceiveMessages (data);
+//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+		switch (data[0].ToString()) {
 	        case "OpenFriendGachaWindow": 
-	            CallBackDispatcherHelper.DispatchCallBack(OpenFriendGachaWindow, cbdArgs);
+	            OpenFriendGachaWindow();
 	            break;
 	        case "OpenRareGachaWindow": 
-	            CallBackDispatcherHelper.DispatchCallBack(OpenRareGachaWindow, cbdArgs);
+	            OpenRareGachaWindow();
 	            break;
 	        case "OpenEventGachaWindow": 
-	            CallBackDispatcherHelper.DispatchCallBack(OpenEventGachaWindow, cbdArgs);
+	            OpenEventGachaWindow();
 	            break;
 	        default:
 	            break;
@@ -101,7 +85,7 @@ public class ScratchModule : ModuleBase {
 //			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow("No Card Return",ClickOK);
 
 //			Debug.LogError("server return data is null");
-			UIManager.Instance.GoBackToPrevScene();
+//			UIManager.Instance.GoBackToPrevScene();
 			TipsManager.Instance.ShowTipsLabel("server return data is null");
 			return;
 		}
@@ -280,7 +264,7 @@ public class ScratchModule : ModuleBase {
         Gacha.SendRequest(OnRspGacha, (int)gachaType, gachaCount);
     }
     
-    private void OpenFriendGachaWindow(object args){
+    private void OpenFriendGachaWindow(){
         LogHelper.Log("OnFriendGacha() start");
 
         if (DataCenter.Instance.GetAvailableFriendGachaTimes() < 1) {
@@ -295,11 +279,11 @@ public class ScratchModule : ModuleBase {
 //            return;
 //        }
         ModuleEnum nextScene = ModuleEnum.FriendScratchModule;
-        ModuleManger.Instance.ShowModule(nextScene);
+//        ModuleManger.Instance.ShowModule(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendGachaMsgWindowParams());
     }
 
-    private void OpenRareGachaWindow(object args){
+    private void OpenRareGachaWindow(){
         LogHelper.Log("OnRareGacha() start");
         if (DataCenter.Instance.GetAvailableRareGachaTimes() < 1) {
             LogHelper.Log("OpenRareGachaWindow() stone not enough");
@@ -313,13 +297,13 @@ public class ScratchModule : ModuleBase {
 //            return;
 //        }
 		ModuleEnum nextScene = ModuleEnum.RareScratchModule;
-        ModuleManger.Instance.ShowModule(nextScene);
+//        ModuleManger.Instance.ShowModule(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetRareGachaMsgWindowParams());
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
     }
 
-    private void OpenEventGachaWindow(object args){
+    private void OpenEventGachaWindow(){
         LogHelper.Log("OnEventGacha() start");
         if (!DataCenter.Instance.InEventGacha) {
             LogHelper.Log("OpenEventGachaWindow()  not in EventGacha");
@@ -335,7 +319,7 @@ public class ScratchModule : ModuleBase {
         }
         // TODO eventGacha
 		ModuleEnum nextScene = ModuleEnum.EventScratchModule;
-        ModuleManger.Instance.ShowModule(nextScene);
+//        ModuleManger.Instance.ShowModule(nextScene);
 		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetEventGachaMsgWindowParams());
     }
 }

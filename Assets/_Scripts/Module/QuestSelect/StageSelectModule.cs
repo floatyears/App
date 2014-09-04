@@ -10,8 +10,8 @@ public class StageSelectModule: ModuleBase{
 	public override void HideUI () {
 		base.HideUI ();
 //		Debug.LogError (UIManager.Instance.nextScene);
-		if (!(UIManager.Instance.nextScene == ModuleEnum.QuestSelectModule)) {
-			base.DestoryUI();
-		}
+//		if (!(UIManager.Instance.nextScene == ModuleEnum.QuestSelectModule)) {
+//			base.DestoryUI();
+//		}
 	}
 }

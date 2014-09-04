@@ -6,6 +6,7 @@ public class PartyPageModule : ModuleBase{
 	int currentFoucsPosition;
 
 	public PartyPageModule(UIConfigItem config):base(  config){
+		CreateUI<PartyPageView> ();
 		SetFocusPostion(0);
 	}
 
@@ -27,16 +28,16 @@ public class PartyPageModule : ModuleBase{
         RefreshCurrentPartyInfo("current");
     }
 
-	public override void OnReceiveMessages(object data) {
-		base.OnReceiveMessages(data);	
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+	public override void OnReceiveMessages(params object[] data) {
+//		base.OnReceiveMessages(data);	
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		
-		switch (cbdArgs.funcName) {
+		switch (data[0].ToString()) {
 			case "TurnPage": 
-				CallBackDispatcherHelper.DispatchCallBack(RefreshCurrentPartyInfo, cbdArgs);
+				RefreshCurrentPartyInfo(data[1]);
 				break;
 			case "PressItem": 
-				CallBackDispatcherHelper.DispatchCallBack(ViewPartyMemberUnitDetail, cbdArgs);
+				ViewPartyMemberUnitDetail(data[1]);
 				break;
 			default:
 				break;
@@ -113,8 +114,8 @@ public class PartyPageModule : ModuleBase{
 //		int curPartyIndex = 1;
 		int curPartyIndex = GetPartyIndex();
 		
-		CallBackDispatcherArgs cbdIndex = new CallBackDispatcherArgs("RefreshPartyIndexView", curPartyIndex);
-		view.CallbackView(cbdIndex);
+//		CallBackDispatcherArgs cbdIndex = new CallBackDispatcherArgs("RefreshPartyIndexView", curPartyIndex);
+		view.CallbackView("RefreshPartyIndexView", curPartyIndex);
 		
 //		CallBackDispatcherArgs cbdTexture = new CallBackDispatcherArgs("RefreshPartyItemView", curPartyTexList);
 //		ExcuteCallback(cbdTexture);

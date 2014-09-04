@@ -71,19 +71,19 @@ public class ResultView : ViewBase {
 		base.HideUI();
 	}
 
-	public override void CallbackView(object data){
-		base.CallbackView(data);
-		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
+	public override void CallbackView(params object[] args){
+//		base.CallbackView(data);
+//		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
-		switch (call.funcName){
+		switch (args[0].ToString()){
 			case "Stylize" :
-				CallBackDispatcherHelper.DispatchCallBack(Stylize, call);
+				Stylize(args[1]);
 				break;
 			case "ShowTopView" :
-				CallBackDispatcherHelper.DispatchCallBack(ShowTopView, call);
+				ShowTopView(args[1]);
 				break;
 			case "ShowCenterView" :
-				CallBackDispatcherHelper.DispatchCallBack(ShowCenterView, call);
+				ShowCenterView(args[1]);
 				break;
 			default:
 				break;
@@ -102,8 +102,9 @@ public class ResultView : ViewBase {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
 //		Debug.LogError("Click ok");
-		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
+//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 //		ExcuteCallback(call);
+		ModuleManger.SendMessage (ModuleEnum.ResultModule, "ClickOk");
 	}
 
 	void ClickCancel(GameObject btn){
@@ -132,7 +133,7 @@ public class ResultView : ViewBase {
 
 		nameLabel.text = (viewData.NickName == string.Empty) ? TextCenter.GetText("NO_NAME") : viewData.NickName;
 		rankLabel.text = viewData.Rank.ToString();
-		latestPlayLabel.text = TimeHelper.GetLatestPlayTime(viewData.LastPlayTime);
+		latestPlayLabel.text = Utility.TimeHelper.GetLatestPlayTime(viewData.LastPlayTime);
 		idLabel.text = viewData.UserId.ToString();
 	}
 

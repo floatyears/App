@@ -184,17 +184,17 @@ public class NoviceMsgWindowView : ViewBase{
 		SetLayerToBlocker(true);
 	}
 	
-	public override void CallbackView(object data){
+	public override void CallbackView(params object[] args){
 
 		//LogHelper.Log ("novice msg window callback");
-		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
+//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
-		switch (cbdArgs.funcName){
+		switch (args[0].ToString()){
 		case "ShowMsg": 
-			CallBackDispatcherHelper.DispatchCallBack(ShowMsgWindow, cbdArgs);
+			ShowMsgWindow(args[1]);
 			break;
 		case "CloseMsg": 
-			CallBackDispatcherHelper.DispatchCallBack(CloseMsgWindow, cbdArgs);
+			CloseMsgWindow(args[1]);
 			break;
 		default:
 			break;

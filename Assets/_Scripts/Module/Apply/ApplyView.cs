@@ -23,7 +23,7 @@ public class ApplyView : ViewBase{
 	
 	public override void HideUI(){
 		base.HideUI();
-		dragPanel.DestoryUI();
+//		dragPanel.DestoryUI();
 		RmvCmdListener();
 	}
 	

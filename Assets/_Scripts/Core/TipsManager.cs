@@ -33,4 +33,41 @@ public class TipsManager {
 	public void ShowTipsLabel(string content, GameObject target) {
 		tipsLabelUI.ShowInfo (content, target);
 	}
+
+	public void ShowMsgWindow(string title, string content, string leftBtn, string rightBtn, DataListener leftCallback = null,DataListener rightCallback = null, object leftData = null, object rightData = null){
+		MsgWindowParams param = new MsgWindowParams ();
+
+		param.titleText = title;
+		param.contentText = content;
+		
+		BtnParam left = new BtnParam ();
+		left.callback = leftCallback;
+		left.text = leftBtn;
+		left.args = leftData;
+
+		BtnParam right = new BtnParam ();
+		right.callback = rightCallback;
+		right.text = rightBtn;
+		right.args = rightData;
+
+		param.btnParams = new BtnParam[2]{left,right};
+
+		ModuleManger.SendMessage (ModuleEnum.MsgWindowModule,"show", param);
+	}
+
+	public void ShowMsgWindow(string title, string content, string centerBtn, DataListener centerCallback = null, object centerData = null){
+		MsgWindowParams param = new MsgWindowParams ();
+
+		param.titleText = title;
+		param.contentText = content;
+		
+		BtnParam center = new BtnParam ();
+		center.callback = centerCallback;
+		center.text = centerBtn;
+		center.args = centerData;
+		
+		param.btnParam = center;
+
+		ModuleManger.SendMessage (ModuleEnum.MsgWindowModule,"hide", param);
+	}
 }

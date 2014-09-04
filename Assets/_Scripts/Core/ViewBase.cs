@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class ViewBase : MonoBehaviour {
 
@@ -23,8 +24,7 @@ public class ViewBase : MonoBehaviour {
 	public virtual void HideUI() {
 		ToggleAnimation (false);
 	}
-
-
+	
 	public virtual void DestoryUI() {
 		Destroy (gameObject);
 	}
@@ -66,26 +66,28 @@ public class ViewBase : MonoBehaviour {
 		return targetpoint;
 	}
 	
-	public virtual void CallbackView (object data) {
+	public virtual void CallbackView (params object[] args) {
 
 	}
 
 	
 	protected void ToggleAnimation(bool isShow){
 		if (isShow) {
-			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+			Debug.Log("Show Module: " + config.moduleName);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 		}else{
-//			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true));
+			Debug.Log("Hide Module: " + config.moduleName);
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
 		}
 
 	}
 
-	protected void SetGameObjectActive(bool active) {
-		if (gameObject.activeSelf != active) {
-			gameObject.SetActive(active);		
-		}
+	protected void AnimationComplete(){
+		gameObject.SetActive (false);
 	}
 
 }
