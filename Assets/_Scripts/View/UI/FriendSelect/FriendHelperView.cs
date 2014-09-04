@@ -134,6 +134,10 @@ public class FriendHelperView : UIComponentUnity{
 
 	void RefreshData (DragPanel dragP) {
 		for (int i = 0; i < dragP.ScrollItem.Count; i++){
+			if(dragP.ScrollItem[i] == null) {
+				continue;
+			}
+
 			HelperUnitItem huv = HelperUnitItem.Inject(dragP.ScrollItem[ i ]);
 			if(i < generalFriendList.Count) {
 				huv.Init(generalFriendList[ i ]);
