@@ -189,7 +189,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		}
 
 		myUnitDragPanel.RefreshItem (myUnit);
-
+		myUnitList.Clear ();
+		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count);
 		foreach (var item in myUnitDragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
@@ -201,6 +202,8 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		RefreshSortInfo ();
 		RefreshCounter ();
 	}
+
+
 
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
@@ -578,15 +581,13 @@ public class LevelUpOperateUnity : UIComponentUnity {
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
 		for (int i = 0; i < myUnitList.Count; i++) {
+//			if(myUnitList[i].gameObject == null) {
+//				myUnitList.RemoveAt(i);
+//				continue;
+//			}
+
 			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
-//				Debug.LogError("baseItem != null : " +(baseItem != null) + " baseItem.UserUnit != null : " + (baseItem.UserUnit != null) + " pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID); 
-//				bool baseNull = ;
-//				Debug.LogError("ShieldParty : " + )
-//				if(baseItem != null) {
-//					if(baseItem.UserUnit != null)
-//						Debug.LogError(" pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID);;
-//				}
 
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
 					continue;
@@ -594,6 +595,21 @@ public class LevelUpOperateUnity : UIComponentUnity {
 				pui.IsEnable = shield;
 			}
 		}
+
+//		for (int i = 0; i < myUnitList.Count; i++) {
+//			if(myUnitList[i].gameObject == null) {
+//				continue;
+//			}
+//
+//			LevelUpUnitItem pui = myUnitList [i];
+//			if(pui.IsParty || pui.IsFavorite) {
+//
+//				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
+//					continue;
+//				}
+//				pui.IsEnable = shield;
+//			}
+//		}
 	}
 
 	int SetMaterialItem(MyUnitItem pui) {

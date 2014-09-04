@@ -160,10 +160,10 @@ public class LoadingLogic : ConcreteComponent {
 //#if !NOVICE_ENABLE
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 //#endif
-#if UNITY_EDITOR  //08187420888
+//#if UNITY_EDITOR  //08187420888
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
-#endif
+//#endif
 
 			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {

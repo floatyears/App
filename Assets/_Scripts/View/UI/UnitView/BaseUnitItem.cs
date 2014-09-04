@@ -120,7 +120,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void UpdatEnableState() {
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
-//		Debug.LogError ("UpdatEnableState : maskSpr -- " + maskSpr + " -- listener : -- " + listener);
+//		Debug.LogError ("GameObject : " + gameObject +  " -- UpdatEnableState : maskSpr -- " + maskSpr + " -- listener : -- " + listener);
 		maskSpr.enabled = !IsEnable;
 		listener.LongPress = PressItem;
 		if (IsEnable) {
