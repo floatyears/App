@@ -5,6 +5,10 @@ public sealed class ServerConfig {
 
 	public const int AppVersion = 102; //1.0.0
 
+	//PID_PREFIX : 每个App需设置不同名称
+	public const string ProductIDPrefix = "monsterquest"; //ml : Monster Legend
+
+	
 #if INNER_TEST || UNITY_EDITOR
 //测试服务器
 	public const string ServerHost = "http://61.153.100.131:8080/";
