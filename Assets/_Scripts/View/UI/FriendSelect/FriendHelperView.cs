@@ -80,30 +80,14 @@ public class FriendHelperView : UIComponentUnity{
 
 	private void CreateGeneralListView(){
 		List<TFriendInfo> newest = DataCenter.Instance.supportFriendManager.GetSupportFriend ();//SupportFriends;
-
 		if(generalFriendList == null){
-//			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
 			generalFriendList = newest;
-//			generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
-//			generalDragPanel.CreatUI();
-//			generalDragPanel.AddItem(1);
-//			Debug.LogError("generalDragPanel 1 generalFriendList == null : " + generalDragPanel);
 			generalDragPanel = RefreshDragView(FriendInfoType.General);
-//			Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
-		}
-		else{
-//			Debug.Log("CreateGeneralListView(), NOT FIRST step into FriendHelper scene...");
+		} else {
+
 			if(!generalFriendList.Equals(newest)){
-//				Debug.Log("CreateGeneralListView(), the friend info list is CHANGED, update helper list...");
-				//helperDragPanel.DestoryUI();
-//				generalFriendList = newest;
-//				generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
-//				Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
 				generalDragPanel = RefreshDragView(FriendInfoType.General);
-//				Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
-			}
-			else{
-//				Debug.Log("CreateGeneralListView(), the friend info list is NOT CHANGED, do nothing...");
+			} else {
 				generalFriendList = newest;
 				RefreshData(generalDragPanel);
 			}
@@ -151,8 +135,19 @@ public class FriendHelperView : UIComponentUnity{
 	void RefreshData (DragPanel dragP) {
 		for (int i = 0; i < dragP.ScrollItem.Count; i++){
 			HelperUnitItem huv = HelperUnitItem.Inject(dragP.ScrollItem[ i ]);
-			huv.Init(generalFriendList[ i ]);
-			huv.callback = ClickHelperItem;
+			if(i < generalFriendList.Count) {
+				huv.Init(generalFriendList[ i ]);
+				huv.callback = ClickHelperItem;
+			}
+			else{
+				GameObject.Destroy (huv.gameObject);
+			}
+		}
+
+		for (int i = dragP.ScrollItem.Count - 1; i >= 0; i--) {
+			if(dragP.ScrollItem[i] == null) {
+				dragP.ScrollItem.RemoveAt(i);
+			}
 		}
 	}
 
