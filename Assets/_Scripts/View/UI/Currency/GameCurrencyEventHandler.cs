@@ -58,7 +58,7 @@ public class GameCurrencyEventHandler {
 		BtnParam sure = new BtnParam ();
 		sure.callback = o=>{
 			//refresh bonusList
-			if (rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard") {
+			if (rsp.productId == GameCurrencyAssets.PID_MONTH_CARD || rsp.productId == GameCurrencyAssets.PID_WEEK_CARD) {
 				GetBonusList.SendRequest (OnBonusList);
 			} else {
 				UIManager.Instance.ChangeScene(SceneEnum.Home);
