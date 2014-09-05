@@ -3,6 +3,6 @@ using System.Collections;
 
 public class FightReadyModule : ModuleBase {
 	public FightReadyModule(UIConfigItem config) : base(  config){
-//		CreateUI<FightReadyScene> ();
+		CreateUI<FightReadyView> ();
 	}
 }

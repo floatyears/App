@@ -385,7 +385,7 @@ public class GachaView : ViewBase {
 			ShowUnitGrid ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
-			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
+//			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
 //			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule,currentUserunit);
 		}

@@ -172,7 +172,7 @@ public class ErrorMsgCenter {
 
     public void OpenNetWorkErrorMsgWindow(int errorCode,DataListener callback = null){
 
-        MsgWindowParams msgWindowParams = new MsgWindowParams();
+//        MsgWindowParams msgWindowParams = new MsgWindowParams();
 
         ErrorMsg errMsg = new ErrorMsg(errorCode);
 ////        errMsg.Msg = string.Format(errMsg.Msg, args);

@@ -77,6 +77,8 @@ public class TipsManager {
 	}
 
 	public void ShowMsgWindow(string title, string content, string centerBtn, DataListener centerCallback = null, object centerData = null){
+//		Debug.Log ("Show Msg Window: " + title);
+
 		MsgWindowParams param = new MsgWindowParams ();
 
 		param.titleText = title;

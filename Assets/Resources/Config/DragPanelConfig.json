@@ -39,7 +39,7 @@
 		"depth":1
 	},
 	{
-		"configName":"HelperListDragPanel",
+		"configName":"FriendSelectDragPanel",
 		"scrollerLocalPos":[0,0,0],
 		"position":	[0,0,0],
 		"clipRange":[0, -30, 640, 630],

@@ -19,15 +19,12 @@ public class SellUnitModule : ModuleBase {
 	}
 
 	public override void OnReceiveMessages(params object[] data){
-//		base.OnReceiveMessages(data);
-//
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (data[0].ToString()){
 			case "ClickSell" : 
 				PlanToSell(data[1]);
 				break;
 			case "ClickSellOk" : 
-				SubmitSell(data[1]);
+				SellUnit.SendRequest(OnRspSellUnit, GetOnSaleUnitIDList());
 				break;
 			case "ClickSellCancel" : 
 				view.CallbackView("BackToMainWindow");
@@ -37,16 +34,12 @@ public class SellUnitModule : ModuleBase {
 		}
 	}
 
-	void SubmitSell(object args){
-		CallbackReqSell(null);
-	}
-
 	private void OnRspSellUnit(object data) {
 		if (data == null)
 			return;
 
 		bbproto.RspSellUnit rsp = data as bbproto.RspSellUnit;
-		
+
 		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
             ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
 			return;
@@ -72,6 +65,8 @@ public class SellUnitModule : ModuleBase {
 ////		SellView view = view as SellView;
 ////		view.ResetUIState();
 //		base.ShowUI ();
+		view.CallbackView("BackToMainWindow");
+		base.ShowUI ();
 	}
 
 	void PlanToSell(object args){
@@ -79,28 +74,15 @@ public class SellUnitModule : ModuleBase {
 		if(CheckPickedUnitRare()) 
 			GiveRareWarning();
 		else 
-			view.CallbackView("ShowLastSureWindow");
-	}
-
-	void GiveLastSaleEnsure(){
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
-
-	}
-
-	void CallbackReqSell(object msg){
-		//Debug.LogError("CallbackReqSell().....");
-		SellUnit.SendRequest(OnRspSellUnit, GetOnSaleUnitIDList());
-	}
-
-	void CallbackOnSaleLastEnsure(object msg){
-		//Debug.LogError("CallbackOnSaleLastEnsure()...");
-		GiveLastSaleEnsure();
+			view.CallbackView("ShowLastSureWindow",pickedUnitList);
 	}
 
 	void GiveRareWarning(){
 		//Debug.LogError("GiveRareWarning...");
 //		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetWarningMsgWindowParams());
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("BigRareWarning"), TextCenter.GetText ("BigRareWarningText"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallbackOnSaleLastEnsure);
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("BigRareWarning"), TextCenter.GetText ("BigRareWarningText"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), o=>{
+			view.CallbackView ("ShowLastSureWindow", pickedUnitList);
+		});
 	}
 
 	List<uint> GetOnSaleUnitIDList(){

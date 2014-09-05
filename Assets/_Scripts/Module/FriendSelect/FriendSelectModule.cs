@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FriendHelperController : ModuleBase{
+public class FriendSelectModule : ModuleBase{
 	TFriendInfo selectedHelper;
 	uint questID;
 	uint stageID;
@@ -10,7 +10,9 @@ public class FriendHelperController : ModuleBase{
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	private TEvolveStart evolveStart = null;
 
-	public FriendHelperController( UIConfigItem config):base( config) {}
+	public FriendSelectModule( UIConfigItem config):base( config) {
+		CreateUI<FriendSelectView> ();
+	}
 	public override void InitUI () { base.InitUI (); }
 	public override void ShowUI () {
 		base.ShowUI ();

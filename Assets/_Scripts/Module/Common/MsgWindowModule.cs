@@ -16,5 +16,10 @@ public class MsgWindowModule : ModuleBase{
 	public MsgWindowModule(UIConfigItem config):base(  config){
 		CreateUI<MsgWindowView> ();
 	}
+
+	public override void OnReceiveMessages (params object[] data)
+	{
+		base.OnReceiveMessages (data);
+	}
 }
 

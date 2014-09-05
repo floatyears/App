@@ -117,6 +117,8 @@ public class ModuleBase{
 		if (view != null)
 		{
 			view.CallbackView(data);
+		}else{
+			Debug.Log("send msg fail: ui hasn't been inited" );
 		}
 	}
 

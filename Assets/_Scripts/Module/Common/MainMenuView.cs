@@ -5,12 +5,17 @@ public class MainMenuView : ViewBase{
 	private UITexture leaderAvatarTex;
 	private UISprite leaderAvatarSpr;
 
+	private UILabel labelTips;
+	private int times;
+
 	private Dictionary<GameObject,ModuleEnum> buttonInfo = new Dictionary<GameObject, ModuleEnum> ();
 	public override void Init (UIConfigItem config) {
 		base.Init (config);
 		InitButton ();
 		UpdateLeaderAvatar(null);
 		AddListener();
+
+		times = 2;
 	}
 	
 	public override void DestoryUI () {
@@ -31,6 +36,8 @@ public class MainMenuView : ViewBase{
     }
 	
 	private void InitButton() {
+		labelTips = FindChild< UILabel >("Label_Tips");
+
 		GameObject go = FindChild ("Btn_Friends");
 		FindChild ("Btn_Friends/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_FRIEND");
 		buttonInfo.Add (go, ModuleEnum.FriendMainModule);
@@ -135,5 +142,34 @@ public class MainMenuView : ViewBase{
 		float w = pos.w;//0.52f;
 		float h = pos.h;//0.55f;
 		leaderAvatarTex.uvRect = new Rect(x, y, w, h);
+	}
+
+	private void EnableDisplay(object args){
+		this.gameObject.SetActive((bool)args);
+	}
+	
+	public void ShowTips(){
+		times--;
+		if (times <= 0) {
+			if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
+				if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
+					labelTips.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
+				} else if (DataCenter.Instance.LoginInfo.Data.Rank < 10) {
+					labelTips.text = TextCenter.GetText ("Tips_B_" + Utility.MathHelper.RandomToInt (1, 10));
+				} else if (DataCenter.Instance.LoginInfo.Data.Rank < 20) {
+					labelTips.text = TextCenter.GetText ("Tips_C_" + Utility.MathHelper.RandomToInt (1, 18));
+				} else if (DataCenter.Instance.LoginInfo.Data.Rank < 30) {
+					labelTips.text = TextCenter.GetText ("Tips_D_" + Utility.MathHelper.RandomToInt (1, 18));
+				} else {
+					labelTips.text = TextCenter.GetText ("Tips_E_" + Utility.MathHelper.RandomToInt (1, 24));
+				}	
+			} else {
+				labelTips.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
+			}
+			times = 2;
+		}
+		
+		labelTips.GetComponent<TweenPosition> ().enabled = true;
+		labelTips.GetComponent<TweenPosition> ().ResetToBeginning ();
 	}
 }

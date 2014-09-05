@@ -50,7 +50,7 @@ public class FriendSelectView : ViewBase{
 	private void InitUI(){
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		premiumBtn = transform.FindChild("Button_Premium").GetComponent<UIButton>();
-		premiumBtnLabel = premiumBtn.GetComponentInChildren<UILabel>();
+		premiumBtnLabel = FindChild<UILabel>("Button_Premium/Label");
 		premiumBtnLabel.text = TextCenter.GetText("Btn_Premium");
 		int manualHeight = Main.Instance.root.manualHeight;
 		premiumBtn.transform.localPosition = new Vector3(255, manualHeight/2 - 150, 0);
@@ -137,7 +137,7 @@ public class FriendSelectView : ViewBase{
 //			Debug.Log("dragPanel == NULL, create->refresh...");
 		}
 
-		dragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab,transform);
+		dragPanel = new DragPanel("FriendSelectDragPanel", HelperUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		CustomDragPanel(dragPanel);

@@ -56,7 +56,7 @@ public class SellUnitView : ViewBase{
 				ShowLastSureWindow(args[1]);
 				break;
 			case "BackToMainWindow" : 
-				BackToMainWindow(args[1]);
+				BackToMainWindow();
 				break;
 			default:
 				break;
@@ -76,7 +76,7 @@ public class SellUnitView : ViewBase{
 //
 //    }
     Vector3 pos = Vector3.zero;
-    void BackToMainWindow(object args) {
+    void BackToMainWindow() {
 		mainRoot.transform.localPosition = pos;
 //		Debug.LogError ("pos : " + mainRoot.transform.localPosition);
 //		mainRoot.SetActive(true);
@@ -139,7 +139,7 @@ public class SellUnitView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellCancel", null);
 //		ExcuteCallback(cbdArgs);
-		BackToMainWindow (null);
+		BackToMainWindow ();
 	}
 
 	void UpdateCoinLabel(int coin){
@@ -222,11 +222,11 @@ public class SellUnitView : ViewBase{
 		readyCoinLabel = transform.FindChild("EnsureWindow/Label_GetCoinValue").GetComponent<UILabel>();
 
 		sellBtn = transform.FindChild("MainWindow/Button_Sell").GetComponent<UIButton>();
-		UILabel sellLabel = sellBtn.GetComponentInChildren<UILabel>();
+		UILabel sellLabel = FindChild<UILabel>("MainWindow/Button_Sell/Label");
 		sellLabel.text = TextCenter.GetText("Sell");
 
 		clearBtn = transform.FindChild("MainWindow/Button_Clear").GetComponent<UIButton>();
-		UILabel clearLabel = clearBtn.GetComponentInChildren<UILabel>();
+		UILabel clearLabel = FindChild<UILabel>("MainWindow/Button_Clear/Label");
 		clearLabel.text = TextCenter.GetText("Clear");
 
 		lastSureCancelBtn = FindChild<UIButton>("EnsureWindow/Button_Cancel");
@@ -302,7 +302,7 @@ public class SellUnitView : ViewBase{
 //		Debug.LogError("xxxxxxx");
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
-		dragPanel = new DragPanel("SellUnitDragPanel", SellUnitItem.ItemPrefab, transform);
+		dragPanel = new DragPanel("SellUnitDragPanel", SellUnitItem.ItemPrefab, mainRoot.transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {

@@ -153,29 +153,5 @@ public class ShopView : ViewBase {
 		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 	}
-
-
-//	public void Buy1(){
-//		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK1.ItemId);
-//	}
-//	
-//	public void Buy2(){
-//		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK2.ItemId);
-//	}
-//
-//	public void Buy3(){
-//		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK3.ItemId);
-//	}
-//
-//	public void Buy4(){
-//		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK4.ItemId);
-//	}
-//
-//	public void Buy5(){
-//		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK5.ItemId);
-//	}
-//
-//	public void Buy6(){
-//		StoreInventory.BuyItem (GameCurrencyAssets.CHIP_PACK6.ItemId);
-//	}
+	
 }

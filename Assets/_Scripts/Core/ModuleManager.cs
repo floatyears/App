@@ -46,6 +46,8 @@ public class ModuleManager {
 	/// </summary>
 	/// <param name="name">Name.</param>
 	public void ShowModule(ModuleEnum name, params object[] args){
+		if (name == ModuleEnum.None)
+			return;
 		//hide the prev ui within same group
 		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
 //		Debug.Log ("name: " + name + " group: " + group);
@@ -243,7 +245,11 @@ public class ModuleManager {
 	/// Enters the battle.
 	/// </summary>
 	public void EnterBattle(){
-
+//		ClearAllUIObject ();
+		ClearModules ();
+		Resources.UnloadUnusedAssets ();
+		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
+		ShowModule(ModuleEnum.FightModule);
 	}
 
 }

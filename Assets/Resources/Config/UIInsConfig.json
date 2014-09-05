@@ -198,7 +198,7 @@
         "group" : 0
     },
     {
-        "name":"FriendSelectWindow",
+        "name":"FriendSelectModule",
         "path": "Prefabs/UI/Friend/FriendSelectUI",
         "parent": 0,
         "x": 0,
@@ -380,7 +380,7 @@
     },
     {
         "name":"FightReadyModule",
-        "path": "Prefabs/UI/Quest/",
+        "path": "Prefabs/UI/Quest/FightReadyUI",
         "parent": 0,
         "x": 0,
         "y": 0,

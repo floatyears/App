@@ -40,7 +40,7 @@ public class ShopModule : ModuleBase {
 
     void CallbackFriendExpansion(object data){
 //        MsgCenter.Instance.Invoke(CommandEnum.FriendExpansion);
-		DoFriendExpansion ();
+		FriendMaxExpand.SendRequest(OnRspFriendExpansion);
 		Umeng.GA.Buy ("FriendExpansion", 1, DataCenter.friendExpansionStone);
     }
 
@@ -62,11 +62,7 @@ public class ShopModule : ModuleBase {
 										   TextCenter.GetText("DoFriendExpand"),TextCenter.GetText("CANCEL"),CallbackFriendExpansion);
 
     }
-
-    void DoFriendExpansion(){
-        FriendMaxExpand.SendRequest(OnRspFriendExpansion);
-    }
-
+	
     void OnRspFriendExpansion(object data){
         if (data == null)
             return;
@@ -103,13 +99,9 @@ public class ShopModule : ModuleBase {
 //        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaMsgWindowParams());
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("StaminaRecover"), TextCenter.GetText ("StaminaRecoverConfirm", DataCenter.staminaRecoverStone), TextCenter.GetText ("DoStaminaRecover"), TextCenter.GetText ("CANCEL"), CallbackStaminaRecover);
     }
-    
-    void DoStaminaRecover(object args){
-        RestoreStamina.SendRequest(OnRspStartminaRecover);
-    }
 
     void CallbackStaminaRecover(object args){
-        MsgCenter.Instance.Invoke(CommandEnum.StaminaRecover);
+		RestoreStamina.SendRequest(OnRspStartminaRecover);
 
 		Umeng.GA.Buy ("StaminaRecover", 1, DataCenter.staminaRecoverStone);
     }
@@ -155,18 +147,14 @@ public class ShopModule : ModuleBase {
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("UnitExpand"), new string[2] {
 						TextCenter.GetText ("UnitExpansionConfirm", DataCenter.unitExpansionStone),
 						TextCenter.GetText ("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit ().Count, DataCenter.Instance.UserInfo.UnitMax)}, 
-						TextCenter.GetText ("DoUnitExpansion"), CallbackUnitpansion);
+						TextCenter.GetText ("DoUnitExpansion"),TextCenter.GetText("CANCEL"), CallbackUnitpansion);
 
-    }
-
-    void DoUnitExpansion(object args){
-        UnitMaxExpand.SendRequest(OnRspUnitExpansion);
     }
 
     void CallbackUnitpansion(object args){
 		Umeng.GA.Buy ("UnitExpansion",1, DataCenter.unitExpansionStone);
 
-        MsgCenter.Instance.Invoke(CommandEnum.UnitExpansion);
+		UnitMaxExpand.SendRequest(OnRspUnitExpansion);
     }
 
     void OnRspUnitExpansion(object data){
