@@ -71,6 +71,15 @@ public class SceneInfoBarModule : ModuleBase {
 			case ModuleEnum.GachaModule:
 				backName = ModuleEnum.ScratchModule;
 				break;
+			case ModuleEnum.QuestSelectModule:
+				backName = ModuleEnum.StageSelectModule;
+				break;
+			case ModuleEnum.FriendSelectModule:
+				backName = ModuleEnum.QuestSelectModule;
+				break;
+			case ModuleEnum.FightReadyModule:
+				backName = ModuleEnum.FriendSelectModule;
+				break;
 			default:
 				backName = ModuleEnum.None;
 				break;
