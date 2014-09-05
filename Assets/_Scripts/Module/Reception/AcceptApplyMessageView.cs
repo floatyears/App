@@ -31,7 +31,7 @@ public class AcceptApplyMessageView : ApplyMessageView{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.AcceptApplyMessageModule, "ClickDelete");
+		ModuleManager.SendMessage (ModuleEnum.AcceptApplyMessageModule, "ClickDelete");
 	}
 
 }

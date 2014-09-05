@@ -53,7 +53,7 @@ public class MainMenuView : ViewBase{
 
 		go = FindChild ("Btn_Units");
 		FindChild ("Btn_Units/Label").GetComponent<UILabel> ().text = TextCenter.GetText("SCENE_NAME_UNITS");
-		buttonInfo.Add (go, ModuleEnum.UnitsModule);
+		buttonInfo.Add (go, ModuleEnum.UnitsMainModule);
 
 		foreach (var item in buttonInfo.Keys) {
 			UIEventListener.Get(item).onClick = ClickMenuBtn;
@@ -66,7 +66,7 @@ public class MainMenuView : ViewBase{
 	private void ClickMenuBtn( GameObject btn ) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		ModuleEnum targetScene = buttonInfo [ btn ];
-		ModuleManger.Instance.ShowModule(targetScene);
+		ModuleManager.Instance.ShowModule(targetScene);
 
 		Umeng.GA.Event ("BottomMenu",targetScene.ToString ());
 

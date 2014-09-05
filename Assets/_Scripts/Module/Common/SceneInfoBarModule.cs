@@ -5,62 +5,76 @@ public class SceneInfoBarModule : ModuleBase {
 	
 	public SceneInfoBarModule(UIConfigItem config):base(  config) {
 		CreateUI<SceneInfoBarView> ();
-        MsgCenter.Instance.AddListener(CommandEnum.BackSceneEnable, BackSceneEnable);
     }
 	
 	public override void DestoryUI () {
-		MsgCenter.Instance.RemoveListener(CommandEnum.BackSceneEnable, BackSceneEnable);
 		base.DestoryUI ();
 	}
 
-	public void OnReceiveMessage (object data) {
+	public override void OnReceiveMessages (params object[] data)
+	{
+		if((ModuleOrScene)data[1] == ModuleOrScene.Module){
+			ModuleEnum name = (ModuleEnum)data[0];
+			switch (name) {
+			case ModuleEnum.HomeModule:
+				view.gameObject.SetActive(false);
+				break;
+			case ModuleEnum.RewardModule:
+			case ModuleEnum.MusicModule:
+			case ModuleEnum.OperationNoticeModule:
+			case ModuleEnum.NicknameModule:
+				break;
+			case ModuleEnum.FriendMainModule:
+			case ModuleEnum.ScratchModule:
+			case ModuleEnum.ShopModule:
+			case ModuleEnum.OthersModule:
+			case ModuleEnum.UnitsMainModule:
+				view.gameObject.SetActive(true);
+				(view as SceneInfoBarView).SetBackBtnActive(false);
+				(view as SceneInfoBarView).SetSceneName(data[0].ToString());
+				break;
+			default:
+				view.gameObject.SetActive(true);
+				(view as SceneInfoBarView).SetBackBtnActive(true,GetBackModule(name));
+				(view as SceneInfoBarView).SetSceneName(data[0].ToString());
+				break;
+			}
+		}else if((ModuleOrScene)data[1] == ModuleOrScene.Scene){
+			(view as SceneInfoBarView).SetSceneName(data[0].ToString());
+		}
 
-//		if (DataCenter.gameState == GameState.Evolve) {
-//			if(backScene == ModuleEnum.HomeModule) {
-//				backScene = ModuleEnum.EvolveModule;
-//			}
-//
-//			if(backScene == ModuleEnum.FriendSelectModule) {
-//				backScene = ModuleEnum.QuestSelectModule;
-//			}
-//		}
-//
-//		MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, backScene);
-//		ModuleManger.Instance.ShowModule(backScene);
-//		if ((GroupType)data [1] == GroupType.Module) {
-//
-//		}else if((GroupType)data [1] == GroupType.Scene){
-//			(SceneEnum)data[0];
-//		}
-		(view as SceneInfoBarView).SetSceneName("Scene Name");
 	}
 
-	public ModuleEnum backScene = ModuleEnum.None;
-
-	public void SetBackScene(ModuleEnum scene) {
-//		if( viewComponent is IUISetBool) {
-//			IUISetBool sb = viewComponent as IUISetBool;
-//			if(scene == ModuleEnum.None) {
-//				sb.SetBackBtnActive(false);
-//			} else {
-//				backScene = scene;
-//				sb.SetBackBtnActive(true);
-//			}
-//		}
+	private ModuleEnum GetBackModule(ModuleEnum name){
+		ModuleEnum backName = ModuleEnum.None;
+		switch (name) {
+			case ModuleEnum.FriendListModule:
+			case ModuleEnum.ApplyModule:
+			case ModuleEnum.ReceptionModule:
+			case ModuleEnum.SearchFriendModule:
+				backName = ModuleEnum.FriendMainModule;
+				break;
+			case ModuleEnum.GameRaiderModule:
+				backName = ModuleEnum.OthersModule;
+				break;
+			case ModuleEnum.PartyModule:
+			case ModuleEnum.LevelUpModule:
+			case ModuleEnum.SellUnitModule:
+			case ModuleEnum.CatalogModule:
+			case ModuleEnum.MyUnitsListModule: 
+			case ModuleEnum.EvolveModule:
+				backName = ModuleEnum.UnitsMainModule;
+				break;
+			case ModuleEnum.StageSelectModule:
+				backName = ModuleEnum.HomeModule;
+				break;
+			case ModuleEnum.GachaModule:
+				backName = ModuleEnum.ScratchModule;
+				break;
+			default:
+				backName = ModuleEnum.None;
+				break;
+		}
+		return backName;
 	}
-
-	private string sceneName;
-	public void SetCurSceneName(string name) {
-//		sceneName = name;
-//		if(viewComponent is IUICallback) {
-//			IUICallback uicall = viewComponent as IUICallback;
-//			uicall.CallbackView(sceneName);
-//		}
-	}
-
-    public void BackSceneEnable(object args) {
-//        IUISetBool sb = viewComponent as IUISetBool;
-////		Debug.LogError ("BackSceneEnable args : " + args);
-//        sb.SetBackBtnActive((bool)args);
-    }
 }

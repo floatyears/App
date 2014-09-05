@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PartyPartyPage : PartyPageModule{
+public class PartyModule : ModuleBase{
 	private int currentFoucsPosition;
-	public PartyPartyPage(UIConfigItem config) : base(  config){
-//		CreateUI<
+	public PartyModule(UIConfigItem config) : base(  config){
+		CreateUI<PartyView> ();
 		SetFocusPostion(0);
 	}
 
@@ -25,7 +25,7 @@ public class PartyPartyPage : PartyPageModule{
 		base.DestoryUI ();
 	}
 
-    public override void RefreshCurrentParty(){
+    public void RefreshCurrentParty(){
         // do refresh in resetUIState
     }
 
@@ -116,8 +116,8 @@ public class PartyPartyPage : PartyPageModule{
 		if (currentFoucsPosition == 0)   return;
 		
 		TUserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
-		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, targetUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, targetUnit);
 	}
 
 	MsgWindowParams GetPartyCostLimitMsgParams(){

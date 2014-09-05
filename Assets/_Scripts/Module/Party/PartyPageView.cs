@@ -170,7 +170,7 @@ public class PartyPageView : ViewBase {
 //		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( callName, pos );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the item" + itemDic[ go ].ToString() + ", wait respone...");
 //		ExcuteCallback( cbd );
-		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, callName, pos);
+		ModuleManager.SendMessage (ModuleEnum.PartyPageModule, callName, pos);
 	}
 
 	void PressItem(GameObject go){
@@ -181,7 +181,7 @@ public class PartyPageView : ViewBase {
 		//LogHelper.Log("PartyPageView.PressItem(), press the item" + itemDic[ go ].ToString() + ", wait respone...");
 
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("PressItem", itemDic[ go ]);
-		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, "PressItem", itemDic[ go ]);
+		ModuleManager.SendMessage (ModuleEnum.PartyPageModule, "PressItem", itemDic[ go ]);
 //		ExcuteCallback(cbdArgs);
 	}
 	
@@ -190,13 +190,13 @@ public class PartyPageView : ViewBase {
 
 //		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "prev" );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
-		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, "TurnPage", "prev");
+		ModuleManager.SendMessage (ModuleEnum.PartyPageModule, "TurnPage", "prev");
 //		ExcuteCallback( cbd );
 	} 
 
 	void PageNext(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ModuleManger.SendMessage (ModuleEnum.PartyPageModule, "TurnPage", "next");
+		ModuleManager.SendMessage (ModuleEnum.PartyPageModule, "TurnPage", "next");
 //		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs( "TurnPage", "next" );
 		//LogHelper.Log("PartyPagePanel.ClickItem(), click the BackArrow, wait respone...");
 //		ExcuteCallback( cbd );

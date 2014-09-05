@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //city select
@@ -172,7 +172,7 @@ public class NoviceGuideStepN_StateFour:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_three");
 		
-		GameObject first = GameObject.Find ("FriendSelectWindow(Clone)").GetComponent<FriendHelperView>().GetFriendItem(0);
+		GameObject first = GameObject.Find ("FriendSelectWindow(Clone)").GetComponent<FriendSelectView>().GetFriendItem(0);
 		NoviceGuideUtil.ForceOneBtnClick (first);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,3)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;

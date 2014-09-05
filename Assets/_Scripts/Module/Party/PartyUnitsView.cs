@@ -59,7 +59,7 @@ public class PartyUnitsView : ViewBase {
 	}
 
 	DragPanel CreateDragPanel( string name, int count){
-		DragPanel panel = new DragPanel(name, unitItem);
+		DragPanel panel = new DragPanel(name, unitItem,transform);
 //		panel.CreatUI();
 		panel.AddItem( 1, rejectItem);
 		panel.AddItem( count, unitItem);
@@ -231,10 +231,9 @@ public class PartyUnitsView : ViewBase {
 	void CreateDragView(object args){
 		partyViewList.Clear();
 		List<TUserUnit> data = args as List<TUserUnit>;
-		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(data.Count);
-//		dragPanel.DragPanelView.SetScrollView(dragPanelArgs);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
@@ -254,7 +253,7 @@ public class PartyUnitsView : ViewBase {
                 GameObject.Destroy(item);
             }
             dragPanel.ScrollItem.Clear();
-            GameObject.Destroy(dragPanel.DragPanelView.gameObject);
+			GameObject.Destroy(dragPanel.GetDragViewObject());
         }
 
 	}

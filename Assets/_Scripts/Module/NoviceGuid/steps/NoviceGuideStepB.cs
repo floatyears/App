@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class NoviceGuideStepB_StateOne:NoviceGuidState
@@ -18,17 +18,18 @@ public class NoviceGuideStepB_StateOne:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepB state_one");
 		
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText ("guide2_title");
-		mwp.contentText = TextCenter.GetText ("guide2_content");
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParam = new BtnParam();
+//		mwp.titleText = ;
+//		mwp.contentText = ;
+//		
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = null;
+//		sure.text = ;
+//		mwp.btnParam = sure;
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText ("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide2_title"),TextCenter.GetText ("guide2_content"),TextCenter.GetText ("OK"));
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -59,17 +60,9 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepB state_two");
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText ("guide3_title");
-		mwp.contentText = TextCenter.GetText ("guide3_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = InputName;
-		sure.text = TextCenter.GetText ("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+		TipsManager.Instance.ShowMsgWindow( TextCenter.GetText ("guide3_title"),TextCenter.GetText ("guide3_content"), TextCenter.GetText ("OK"),InputName);
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -85,7 +78,7 @@ public class NoviceGuideStepB_StateTwo:NoviceGuidState
 	{
 		uint unitID = DataCenter.Instance.GetUnitInfo(9).ID;
 //		MsgCenter.Instance.Invoke(CommandEnum.StartFirstLogin, unitID);
-		ModuleManger.SendMessage (ModuleEnum.LoadingModule, "func", "FirstLogin", "data", unitID);
+		ModuleManager.SendMessage (ModuleEnum.LoadingModule, "func", "FirstLogin", "data", unitID);
 		NoviceGuideStepEntityManager.FinishCurrentStep ();
 	}
 

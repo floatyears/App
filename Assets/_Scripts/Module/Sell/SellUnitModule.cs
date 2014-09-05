@@ -3,29 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class SellModule : ModuleBase {
+public class SellUnitModule : ModuleBase {
 	int maxPickCount = 12;
 	int totalSaleValue = 0;
 	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
 
-	public SellModule(UIConfigItem config):base(  config) {
-		CreateUI<SellView> ();
+	public SellUnitModule(UIConfigItem config):base(  config) {
+		CreateUI<SellUnitView> ();
 	}
-	public override void InitUI () { 
-//		Debug.LogError("SellController.CreatUI()...1"); 
-		base.InitUI (); 
-//		Debug.LogError("SellController.CreatUI()...2");
-	}
-	
-	public override void ShowUI () {
-//		Debug.LogError("SellController.ShowUI()...1");
+
+	public override void ShowUI ()
+	{
 		base.ShowUI ();
-//		Debug.LogError("SellController.ShowUI()...2");
-	}
-	
-	public override void HideUI () {
-		base.HideUI ();
-		base.DestoryUI ();
+		ResetUI();
 	}
 
 	public override void OnReceiveMessages(params object[] data){
@@ -40,7 +30,7 @@ public class SellModule : ModuleBase {
 				SubmitSell(data[1]);
 				break;
 			case "ClickSellCancel" : 
-				CancelSell(data[1]);
+				view.CallbackView("BackToMainWindow");
 				break;
 			default:
 				break;
@@ -49,14 +39,6 @@ public class SellModule : ModuleBase {
 
 	void SubmitSell(object args){
 		CallbackReqSell(null);
-	}
-	void ClearSellConfirmWindow(){
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("BackToMainWindow", null);
-		view.CallbackView("BackToMainWindow");
-	}
-
-	void CancelSell(object args){
-		ClearSellConfirmWindow();
 	}
 
 	private void OnRspSellUnit(object data) {
@@ -86,10 +68,10 @@ public class SellModule : ModuleBase {
 	void UpdateViewAfterRspSellUnit(){
 		pickedUnitList.Clear();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
-		base.HideUI ();
-//		SellView view = view as SellView;
-//		view.ResetUIState();
-		base.ShowUI ();
+//		base.HideUI ();
+////		SellView view = view as SellView;
+////		view.ResetUIState();
+//		base.ShowUI ();
 	}
 
 	void PlanToSell(object args){
@@ -97,21 +79,12 @@ public class SellModule : ModuleBase {
 		if(CheckPickedUnitRare()) 
 			GiveRareWarning();
 		else 
-			GiveLastSaleEnsure();
+			view.CallbackView("ShowLastSureWindow");
 	}
 
 	void GiveLastSaleEnsure(){
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowLastSureWindow", pickedUnitList);
-		view.CallbackView("ShowLastSureWindow");
-	}
 
-	MsgWindowParams GetWarningMsgWindowParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("BigRareWarning");
-		msgParams.contentText = TextCenter.GetText("BigRareWarningText");
-		msgParams.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].callback = CallbackOnSaleLastEnsure;
-		return msgParams;
 	}
 
 	void CallbackReqSell(object msg){
@@ -126,7 +99,8 @@ public class SellModule : ModuleBase {
 
 	void GiveRareWarning(){
 		//Debug.LogError("GiveRareWarning...");
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetWarningMsgWindowParams());
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetWarningMsgWindowParams());
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("BigRareWarning"), TextCenter.GetText ("BigRareWarningText"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallbackOnSaleLastEnsure);
 	}
 
 	List<uint> GetOnSaleUnitIDList(){
@@ -289,7 +263,7 @@ public class SellModule : ModuleBase {
 		view.CallbackView("ButtonActive", CanActivateSellBtn());
 	}
 
-    public void ResetUI(){
+    void ResetUI(){
         DestoryOnSaleUnitViewList();
         GetUnitCellViewList();
     }

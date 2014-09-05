@@ -16,57 +16,28 @@ public class BlockerMaskParams{
 public class MaskModule : ModuleBase {
 	public MaskModule(UIConfigItem config) : base(  config){
 		CreateUI<MaskView> ();
-        AddCommandListener();
     }
-	public override void ShowUI(){
-		base.ShowUI();
-		//Debug.LogError("MaskController.ShowUI()...");
-	}
 
-	public override void HideUI(){
-		base.HideUI();
-		//Debug.LogError("MaskController.HideUI()...");
-	} 
-	
-//	public override void CallbackView(params object[] args){
-//		base.CallbackView(data);
-//	}
+	public override void OnReceiveMessages (params object[] data)
+	{
+		switch (data[0].ToString()) {
+			case "block":
+				ShowMask(data[1]);
+				break;
+			case "wait":
+				view.CallbackView("ShowConnect", data[1]);
+				break;
+			default:
+					break;
+			}
+	}
 
 	void ShowMask(object msg){
 		//LogHelper.LogError("MaskController.ShowMask(), start...");
+		Debug.Log ("show mask");
 		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
 
-		SetBlocker(bmArgs.reason, bmArgs.isBlocked);
-		SetMaskActive(bmArgs.isBlocked);
+		TouchEventBlocker.Instance.SetState(bmArgs.reason, bmArgs.isBlocked);
+		view.CallbackView("ShowMask", bmArgs.isBlocked);
 	}
-
-	void ShowConnect(object msg){
-		SetConnectActive((bool)msg);
-    }
-        
-    void SetBlocker(BlockerReason reason, bool isBlocker){
-		TouchEventBlocker.Instance.SetState(reason, isBlocker);
-	}
-	
-	void SetMaskActive(bool isActive){
-		//Debug.LogError("SetMaskActive() " + isActive);
-//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowMask", isActive);
-		view.CallbackView("ShowMask", isActive);
-	}
-
-	void SetConnectActive(bool isActive){
-//		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowConnect", isActive);
-		view.CallbackView("ShowConnect", isActive);
-    }
-            
-    void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.SetBlocker, ShowMask);
-		MsgCenter.Instance.AddListener(CommandEnum.WaitResponse, ShowConnect);
-	}
-	
-	void RemoveCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.SetBlocker, ShowMask);
-		MsgCenter.Instance.RemoveListener(CommandEnum.WaitResponse, ShowConnect);
-    }
-
 }

@@ -162,8 +162,8 @@ public class VictoryView : ViewBase {
 			StartShowGetCard ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.Object.unitId);
-			ModuleManger.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
-			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, showUserUnit);
+			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, showUserUnit);
 		}
 	}
 
@@ -237,8 +237,8 @@ public class VictoryView : ViewBase {
 		DestoryUI ();
 		if (DataCenter.gameState == GameState.Evolve) {
 			UnitDetailView.isEvolve = true;
-			ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-			MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, rspClearQuest.evolveUser);
+			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+			ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, rspClearQuest.evolveUser);
 //			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Home;
 			HideUI ();
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
@@ -248,13 +248,13 @@ public class VictoryView : ViewBase {
 			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
 
 			if (!isNull && addFriend) {
-				ModuleManger.Instance.ShowModule(ModuleEnum.ResultModule);
+				ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
 				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
 			} else {
 				DGTools.ChangeToQuest();
 			}
 		} else {
-			ModuleManger.Instance.ShowModule (ModuleEnum.HomeModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 		}
 	}
 

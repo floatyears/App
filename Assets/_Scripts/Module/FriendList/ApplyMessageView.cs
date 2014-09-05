@@ -89,7 +89,7 @@ public class ApplyMessageView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ApplyMessageModule, "ClickSure");
+		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickSure");
 	}
 
 	
@@ -98,7 +98,7 @@ public class ApplyMessageView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickCancel", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ApplyMessageModule, "ClickCancel");
+		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickCancel");
 	}
 
 	void ShowSelf(bool canShow){

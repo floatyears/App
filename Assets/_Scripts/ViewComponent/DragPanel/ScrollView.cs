@@ -13,7 +13,7 @@ public class ScrollView : ViewBase
 
 	private static GameObject sourceObject;
 
-	private string dragUIObjectPath = UIConfig.DragUIObjectPath;
+	private string dragUIObjectPath = PathConfig.DragUIObjectPath;
 	
 	private static int YPosition = 1000;
 

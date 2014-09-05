@@ -414,9 +414,8 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
 
 	private void InitDragPanel(){
-		dragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab);
-//		dragPanel.CreatUI();
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.PartyListDragPanelArgs, bottomRoot.transform);
+		dragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab,bottomRoot.transform);
+//		dragPanel.SetDragPanel();
 		InitRejectBtn();
 		InitUnitListView();
 	}
@@ -575,8 +574,8 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
 
 	void BottomRootMoveEnd() {
-		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (false);
-		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (true);
+		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (false);
+		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (true);
 	}
 
 	private void RefreshItemCounter(){

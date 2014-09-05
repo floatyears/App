@@ -165,7 +165,7 @@ public class SortPanelView : ViewBase {
 			isShow = true;
 			//Debug.Log("isShow : " + isShow);
 		}	
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.SortWindow, isShow));
+		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.SortWindow, isShow));
 	}
 	
 	public void ActivateSortBtn(){

@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class DragPanel : ViewBase{
+public class DragPanel : ModuleBase{
 	public event UICallback DragCallback;
 
 	protected DragPanelView dragPanelView;
-	public DragPanelView DragPanelView{
-		get{
-			return dragPanelView;
-		}
-	}
+//	public DragPanelView DragPanelView{
+//		get{
+//			return dragPanelView;
+//		}
+//	}
 
 	protected List<GameObject> scrollItem = new List<GameObject> ();
 	public List<GameObject> ScrollItem {
@@ -24,23 +24,30 @@ public class DragPanel : ViewBase{
 
 	public static GameObject dragObject;
 
-	public DragPanel(string name,GameObject obj){
-		UIConfigItem config = null;
-		base.Init (config);
+	private DragPanelConfigItem dragConfig;
+
+	private Transform parent;
+
+	public DragPanel(string name, GameObject obj,Transform parentTransform):base(null){
+		dragConfig = DataCenter.Instance.GetConfigDragPanelItem (name);
 		sourceObject = obj;
+		parent = parentTransform;
+		Debug.Log("panel create: " + name + " config: " + dragConfig.configName);
 		if(dragObject == null){
 			ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView", o => {
-				dragObject = GameObject.Instantiate(o) as GameObject;
-				dragPanelView = dragObject.GetComponent<DragPanelView>();
+				dragObject = o as GameObject;
+				dragPanelView = (GameObject.Instantiate(dragObject) as GameObject).GetComponent<DragPanelView>();
+				dragPanelView.name = name;
 				dragPanelView.Init(null);
+				dragPanelView.SetScrollView (dragConfig, parent);
 			});
+		}else{
+			dragPanelView = (GameObject.Instantiate(dragObject) as GameObject).GetComponent<DragPanelView>();
+			dragPanelView.name = name;
+			dragPanelView.Init(null);
+			dragPanelView.SetScrollView (dragConfig, parent);
 		}
 	}
-
-//	public override void CreatUI () {
-//		base.CreatUI ();
-//		CreatPanel ();
-//	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
@@ -67,12 +74,6 @@ public class DragPanel : ViewBase{
 			GameObject.Destroy (dragPanelView.gameObject);	
 		}
 	}
-
-	protected void CreatPanel() {
-		dragPanelView = NGUITools.AddChild(
-			ViewManager.Instance.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 
-//		dragPanelView.Init (uiName);
-	}
 	
 	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {
 		if (obj != null) {
@@ -85,12 +86,11 @@ public class DragPanel : ViewBase{
 			}
 		}
 		if (sourceObject == null) {
-			LogHelper.LogError (dragPanelView.name + 
-			                    " scroll view item is null. don't creat drag panel ");
+			LogHelper.LogError (dragPanelView.name + " scroll view item is null. don't creat drag panel ");
 			return ;
 		}
 		if (dragPanelView == null) {
-			CreatPanel();		
+			dragPanelView = NGUITools.AddChild(ViewManager.Instance.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 		
 		}
 		for (int i = 0; i < count; i++) {
 			//Debug.Log("source Object: " +sourceObject);
@@ -147,6 +147,15 @@ public class DragPanel : ViewBase{
 	
 	public void SetPosition(Vector4 position) {
 		dragPanelView.SetViewPosition (position);
+	}
+
+	public GameObject GetDragViewObject(){
+		if (dragPanelView != null) {
+			return dragPanelView.gameObject;
+		}
+		else{
+			return null;
+		}
 	}
 
 	void ItemCallback(GameObject target) {

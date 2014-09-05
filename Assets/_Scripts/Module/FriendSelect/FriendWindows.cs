@@ -2,7 +2,7 @@ using UnityEngine;
 using bbproto;
 using System.Collections.Generic;
 
-public class FriendWindows : FriendHelperView {
+public class FriendWindows : FriendSelectView {
 	public System.Action<TFriendInfo> selectFriend;
 	public bool isShow = false;
 
@@ -63,7 +63,7 @@ public class FriendWindows : FriendHelperView {
 
 		HelperRequire hr = evolveItem.userUnit.UnitInfo.evolveInfo.helperRequire;
 
-		dragPanel = friendInfoTyp == FriendHelperView.FriendInfoType.General ? generalDragPanel : premiumDragPanel;
+		dragPanel = friendInfoTyp == FriendSelectView.FriendInfoType.General ? generalDragPanel : premiumDragPanel;
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++) {
 			HelperUnitItem hui = dragPanel.ScrollItem[i].GetComponent<HelperUnitItem>();

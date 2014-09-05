@@ -44,7 +44,7 @@ public class PrefaceView : ViewBase {
 	{
 		if(i > 5){
 			Umeng.GA.FinishLevel("Preface");
-			ModuleManger.Instance.ShowModule(ModuleEnum.SelectRoleModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.SelectRoleModule);
 
 			return;
 		}

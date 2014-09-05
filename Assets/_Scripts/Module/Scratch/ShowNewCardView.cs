@@ -3,33 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShowNewCardView : ViewBase {
-	public override void Init (UIConfigItem config) {
+	public override void Init (UIConfigItem config){
 		base.Init (config);
 		InitComponent ();
-		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
+//		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
 
 	public override void ShowUI () {
-//		UIManager.Instance.HideBaseScene ();
-
-//		sEnum = UIManager.Instance.baseScene.PrevScene;
 		base.ShowUI ();
 		ActiveButton (false);
 		ActiveEffect (true);
 	}
 
 	public override void HideUI () {
-//		UIManager.Instance.ShowBaseScene ();
 		ActiveEffect (false);
 		base.HideUI ();
 		ClearStar ();
 		profileTexture.mainTexture = null;
 	}
-
-	public override void DestoryUI () {
-		base.DestoryUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.ShowNewCard, ShowProfile);
+	
+	public override void CallbackView (params object[] args)
+	{
+		ShowProfile (args[0] as TUserUnit);
 	}
+
 	private ModuleEnum sEnum;
 
 	private GameObject backEffect;
@@ -80,8 +77,7 @@ public class ShowNewCardView : ViewBase {
 		UIEventListener.Get (returnButton.gameObject).onClick = ReturnButtonCallback;
 	}
 
-	void ShowProfile(object data) {
-		userUnit = data as TUserUnit;
+	void ShowProfile(TUserUnit userUnit) {
 
 		if (userUnit== null) {
 			return;	
@@ -139,16 +135,14 @@ public class ShowNewCardView : ViewBase {
 	}
 
 	void DetailButtonCallback(GameObject go) {
-		ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
-//		UIManager.Instance.baseScene.PrevScene = sEnum;
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnit);
 
-//		ClearStar ();
 		HideUI ();
 	}
 
 	void ReturnButtonCallback(GameObject go) {
-		ModuleManger.Instance.ShowModule (sEnum);
+		ModuleManager.Instance.ShowModule (sEnum);
 
 //		ClearStar ();
 	}
@@ -184,19 +178,6 @@ public class ShowNewCardView : ViewBase {
 
 	void ShowBombEffect() {
 		bombEffect.SetActive (true);
-
-//		int star = userUnit.UnitInfo.Rare;
-//
-//		Vector3 starPosition = starSpr.transform.localPosition;
-//
-//		int positionIndex = star >> 1;
-//		Vector3 initPosition = Vector3.zero;
-//		if (DGTools.IsOddNumber (star)) {
-//			initPosition = new Vector3 (starPosition.x - starSprWidth * positionIndex, starPosition.y, starPosition.z);
-//		} else {
-//			float xCoor = starSprWidth * positionIndex - starSprWidth * 0.5f;
-//			initPosition = new Vector3(starPosition.x - xCoor, starPosition.y, starPosition.z);
-//		}
 
 		StartCoroutine (ShowStar (userUnit.UnitInfo.Rare));
 	}

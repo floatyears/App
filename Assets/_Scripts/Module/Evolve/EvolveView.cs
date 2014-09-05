@@ -294,8 +294,8 @@ public class EvolveView : ViewBase {
 	void LongPress (GameObject go) {
 		EvolveItem ei = evolveItem [go];
 
-		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule );
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, ei.userUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule );
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, ei.userUnit);
 	}
 
 	int state = 0;
@@ -491,7 +491,7 @@ public class EvolveView : ViewBase {
 				}
 				//				ExcuteCallback (evolveInfoList);
 			});
-			ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
 		});
 		return;
 
@@ -557,8 +557,8 @@ public class EvolveItem {
 	}
 
 	void LongPress(GameObject target) {
-		ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnit);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnit);
 	}
 
 	void ShowShield(bool show) {

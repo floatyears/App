@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class UnitsView : ViewBase, IDragChangeView{
+public class UnitsMainView : ViewBase, IDragChangeView{
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
 	private UISprite pageIndexSpr;
@@ -48,34 +48,34 @@ public class UnitsView : ViewBase, IDragChangeView{
 		UILabel btnLabel;
 
 		go = FindChild("Bottom/Catalog");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Bottom/Catalog/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Catalog");
-		buttonInfo.Add(go, ModuleEnum.UnitCatalogModule);
+		buttonInfo.Add(go, ModuleEnum.CatalogModule);
 		
 		go = FindChild("Bottom/Evolve");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Bottom/Evolve/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Evolve");
 		buttonInfo.Add(go, ModuleEnum.EvolveModule);
 		
 		go = FindChild("Bottom/LevelUp");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Bottom/LevelUp/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
 		buttonInfo.Add(go, ModuleEnum.LevelUpModule);
 
 		go = FindChild("Bottom/Party");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Bottom/Party/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Party");
 		buttonInfo.Add(go, ModuleEnum.PartyModule);
 		
 		go = FindChild("Bottom/Sell");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Bottom/Sell/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Sell");
-		buttonInfo.Add(go, ModuleEnum.SellModule);
+		buttonInfo.Add(go, ModuleEnum.SellUnitModule);
 		
 		go = FindChild("Bottom/UnitList");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Bottom/UnitList/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
-		buttonInfo.Add(go, ModuleEnum.UnitListModule);
+		buttonInfo.Add(go, ModuleEnum.MyUnitsListModule);
 
 		dragChangeView = FindChild<DragChangeView> ("Top/DragParty");
 		dragChangeView.SetDataInterface (this);
@@ -91,12 +91,12 @@ public class UnitsView : ViewBase, IDragChangeView{
 
 //		ViewManager.Instance.ShowTipsLabel ("Click", caller);
 		ModuleEnum se = buttonInfo [caller];
-		if (se == ModuleEnum.UnitCatalogModule) {
+		if (se == ModuleEnum.CatalogModule) {
 			Umeng.GA.Event("Catalog");	
 		}
 //		iuiCallback.CallbackView(se);
 
-		ModuleManger.SendMessage (ModuleEnum.LevelUpModule,se);
+		ModuleManager.Instance.ShowModule (buttonInfo [caller]);
 	}
 	
 	void ShowUIAnimation(){

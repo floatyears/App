@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
+
+internal class GachaWindowInfo{
+	public GachaType gachaType;
+	public int totalChances = 1;
+	public List<uint> blankList = new List<uint>();
+	public List<uint> unitList = new List<uint>();
+	public List<uint> newUnitIdList = new List<uint>();
+}
+
 public class GachaView : ViewBase {
 	private const int rareAudioLevel = 4;
 	
@@ -22,60 +31,11 @@ public class GachaView : ViewBase {
         base.Init (config);
         InitUI();
     }
-//
-//    public override void ResetUIState() {
-//        base.ResetUIState();
-//        SetActive(false);
-//    }
-    
-    public override void ShowUI () {
-        base.ShowUI ();
-        AddListener();
-//		if (UIManager.Instance.baseScene.PrevScene == ModuleEnum.UnitDetail || UIManager.Instance.baseScene.PrevScene == ModuleEnum.ShowCardEffect) {
-//			MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);	
-//			SetMenuBtnEnable(false);
-//			if(gachaInfo.totalChances == 1) {
-//				ShowUnitGrid();
-//			} else {
-//				AutoShowOneCard();
-//			}
-//		}
-	}
     
     public override void HideUI () {
         base.HideUI ();
-        RemoveListener();
-		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(true);
 
-//		if(UIManager.Instance.nextScene != ModuleEnum.ShowCardEffectModule)
-//			Reset();
-    }
-    
-    public override void DestoryUI () {
-        base.DestoryUI ();
-    }
-
-    public void AddListener(){
-        MsgCenter.Instance.AddListener(CommandEnum.EnterGachaWindow, Enter);
-    }
-
-    public void RemoveListener(){
-        MsgCenter.Instance.RemoveListener(CommandEnum.EnterGachaWindow, Enter);
-    }
-
-    public override void CallbackView(params object[] args) {
-//        base.CallbackView(data);
-//        
-//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        
-        switch (args[0].ToString()) {
-	        case "SetTitleView": 
-	            SetTitleLabel(args[1]);
-	            break;
-	        default:
-	            break;
-        }
     }
 
     private void InitUI() {
@@ -108,26 +68,23 @@ public class GachaView : ViewBase {
         MsgCenter.Instance.Invoke(CommandEnum.EnableMenuBtns, enable);
     }
 
-    private void SetTitleLabel(object args) {
-        string titleText = args as string;
-        titleLabel.text = titleText;
-    }
+	public void Enter(object data){
+//		CloseChooseGachaWindow ();
+//		ModuleManager.Instance.HideModule (ModuleEnum.MsgWindowModule);
 
-    private void CloseChooseGachaWindow(){
-        MsgCenter.Instance.Invoke(CommandEnum.CloseMsgWindow);
-    }
+		Dictionary<string, object> args = data as Dictionary<string, object>;
+		titleLabel.text = args["type"].ToString();
 
-    private void Enter(object args){
-		CloseChooseGachaWindow ();
 		SetMenuBtnEnable(false);
         SetActive(true);
-        MsgCenter.Instance.Invoke(CommandEnum.BackSceneEnable, false);
-        GachaWindowInfo gachaWindowInfo = args as GachaWindowInfo;
 
-        if (gachaWindowInfo != null) {
-            gachaInfo = gachaWindowInfo;
-            SyncGachaInfosAtStart();
-        }
+		gachaInfo = new GachaWindowInfo();
+		gachaInfo.blankList = args["blank"] as List<uint>;
+		gachaInfo.gachaType = (GachaType)args["type"];
+		gachaInfo.newUnitIdList = args["new"] as List<uint>;
+		gachaInfo.totalChances = (int)args["chances"];
+		gachaInfo.unitList = args["unit"] as List<uint>;
+	    SyncGachaInfosAtStart();
 
 		if (gachaInfo.totalChances == 1) { //1 == user only can gacha ones
 			foreach (var item in gridDict) {
@@ -194,8 +151,7 @@ public class GachaView : ViewBase {
 				AutoShowOneCard ();
 			} else {
 				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.UnitID);
-				ModuleManger.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
-				MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserUnit);
+				ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, "unit",currentUserUnit);
 			}
 		});
 	}
@@ -429,8 +385,9 @@ public class GachaView : ViewBase {
 			ShowUnitGrid ();
 		} else {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
-			ModuleManger.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
-			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
+			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
+//			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
+			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule,currentUserunit);
 		}
     }
 
@@ -439,9 +396,9 @@ public class GachaView : ViewBase {
         if (newUnitId == 0){
             return;
         }
-		ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
         TUserUnit unit = DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId);
-        MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, unit);
+        ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, unit);
     }
 
     List<GameObject> GetSortedGrids(){
@@ -474,9 +431,9 @@ public class GachaView : ViewBase {
 		showIndex = 0;
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
 			Debug.Log("goto home view==================");
-			ModuleManger.Instance.ShowModule (ModuleEnum.HomeModule);	
+			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);	
 		} else {
-			ModuleManger.Instance.ShowModule (ModuleEnum.ScratchModule);	
+			ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);	
 		}
         
         yield return null;

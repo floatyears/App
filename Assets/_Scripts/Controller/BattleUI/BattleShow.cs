@@ -45,7 +45,7 @@ public class BattleShow : ModuleBase
 
 	void ClickQuest(GameObject go)
 	{
-		ModuleManger.Instance.ShowModule(ModuleEnum.StageSelectModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
 	}
 
 }

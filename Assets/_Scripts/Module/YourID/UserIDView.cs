@@ -50,7 +50,7 @@ public class UserIDView : ViewBase{
 
 	void ClickButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ModuleManger.Instance.ShowModule(ModuleEnum.FriendMainModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.FriendMainModule);
 	}
 
 	void ShowTween(){

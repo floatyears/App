@@ -97,12 +97,12 @@ public class UnitDetailView : ViewBase{
 		MsgCenter.Instance.AddListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
-		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
+//		MsgCenter.Instance.AddListener(CommandEnum.ShowFavState,  ShowFavState);
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.ShowFavState,  ShowFavState);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowLevelupInfo, ShowLevelupInfo);
 		ClearEffectCache();
 		iTween.Stop ();

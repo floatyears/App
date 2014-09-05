@@ -81,7 +81,7 @@ public class DGTools {
 		TCityInfo tci = dataCenter.GetCityInfo (cityID);
 
 		if (tsi == null || tqi == null || tci == null) {
-			ModuleManger.Instance.ShowModule (ModuleEnum.HomeModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 			return;
 		}
 
@@ -89,10 +89,10 @@ public class DGTools {
 
 		if (questStage == StageState.NEW) {
 
-			ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-			ModuleManger.Instance.ShowModule (ModuleEnum.QuestSelectModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, tsi);
 
 			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -103,35 +103,35 @@ public class DGTools {
 
 		if (questStage == StageState.CLEAR) { 	
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].ID != tqi.ID) { // current quest not the last quest.
-				ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+				ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 				MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-				ModuleManger.Instance.ShowModule (ModuleEnum.QuestSelectModule);
+				ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule);
 				msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
 
 				MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 			} else {
 				if (stageClearStage == StageState.CLEAR) {
 					if (tci.cityInfo.stages [tci.cityInfo.stages.Count - 1].id != tsi.ID) {	// current stage not the last stage
-						ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+						ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 						MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
 						MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 					} else {
-						ModuleManger.Instance.ShowModule (ModuleEnum.HomeModule);
+						ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 					}
 				} else {
-					ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+					ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 					MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
 					MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 				}
 			}
 		} else {
-			ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-			ModuleManger.Instance.ShowModule (ModuleEnum.QuestSelectModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule);
 			msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
 
 			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -229,8 +229,8 @@ public class DGTools {
 		userUnit.unitId = (uint)unitID;
 		TUserUnit tuu = new TUserUnit(userUnit);
 
-		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, tuu);
 	}
 
 	/// <summary>

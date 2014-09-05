@@ -35,7 +35,7 @@ public enum ModuleEnum
 	
 	OthersModule,
 	
-	UnitsModule,
+	UnitsMainModule,
 	
 	StageSelectModule,
 	
@@ -59,11 +59,11 @@ public enum ModuleEnum
 	
 	EvolveModule,
 	
-	SellModule,
+	SellUnitModule,
 	
-	UnitListModule,
+	MyUnitsListModule,
 	
-	UnitCatalogModule,
+	CatalogModule,
 	
 	UnitDetailModule,
 	
@@ -79,7 +79,7 @@ public enum ModuleEnum
 	
 	RewardModule,
 	
-	RaiderModule,
+	GameRaiderModule,
 	
 	CurrencyModule,
 	
@@ -107,8 +107,6 @@ public enum ModuleEnum
 
 	UserIDModule,
 
-	GameRaiderModule,
-
 	MsgWindowModule,
 
 	MaskModule,
@@ -116,8 +114,6 @@ public enum ModuleEnum
 	ShowNewCardModule,
 
 	UserBriefInfoModule,
-
-	CatalogModule,
 
 	PartyInfoModule,
 

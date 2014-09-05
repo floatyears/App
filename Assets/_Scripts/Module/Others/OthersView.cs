@@ -83,47 +83,38 @@ public class OthersView : ViewBase {
 	void ClicItems(GameObject obj){
 		switch (obj.name) {
 		case "Music":
-			ModuleManger.Instance.ShowModule(ModuleEnum.MusicModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.MusicModule);
 			break;
 		case "Nickname":
-			ModuleManger.Instance.ShowModule(ModuleEnum.NicknameModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.NicknameModule);
 			break;
 		case "Raider":
-			ModuleManger.Instance.ShowModule(ModuleEnum.RaiderModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.GameRaiderModule);
 			break;
 		case "ResetData":
 			GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
 			GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
 			GameDataPersistence.Instance.StoreData("ResrouceDownload","");
 			GameDataPersistence.Instance.StoreData("ResourceComplete","");
-			ModuleManger.Instance.ShowModule(ModuleEnum.LoadingModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.LoadingModule);
 			break;
 		case "Reward":
 //			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
-			ModuleManger.Instance.ShowModule(ModuleEnum.RewardModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.RewardModule);
 			break;
 		case "Contact":
 			ShowContact();
 			break;
 		case "Notice":
-			ModuleManger.Instance.ShowModule(ModuleEnum.OperationNoticeModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.OperationNoticeModule);
 			break;
 		}
 	}
 
 	private void ShowContact(){
-		MsgWindowParams mwp = new MsgWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("ContactUs");
-		mwp.contentText = TextCenter.GetText("ContactUsContent");
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("ContactUs"), TextCenter.GetText("ContactUsContent"),TextCenter.GetText("OK"));
 	}
 
 //	void SetOption() {

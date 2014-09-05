@@ -31,7 +31,7 @@ public class SearchFriendView : ViewBase{
 		//Debug.LogError("SearchFriendWindow.ClickButton(),  call controller respones....");
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSearch", input.value);
 //		ExcuteCallback(cbdArgs);modu
-		ModuleManger.SendMessage (ModuleEnum.SearchFriendModule, "ClickSearch", input.value);
+		ModuleManager.SendMessage (ModuleEnum.SearchFriendModule, "ClickSearch", input.value);
 	}
 	
 }

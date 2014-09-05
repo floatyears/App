@@ -119,7 +119,8 @@ public class QuestItemView : MonoBehaviour {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 		if(CheckStaminaEnough()){
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
 			return;
 		}
 
@@ -130,7 +131,7 @@ public class QuestItemView : MonoBehaviour {
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {
-			ModuleManger.Instance.ShowModule(ModuleEnum.FriendSelectModule);//before
+			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule);//before
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
 		}
 	}
@@ -143,12 +144,5 @@ public class QuestItemView : MonoBehaviour {
 			return true;
 		else 
 			return false;
-	}
-	private MsgWindowParams GetStaminaLackMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("StaminaLackNoteTitle");
-		msgParams.contentText = TextCenter.GetText("StaminaLackNoteContent");
-		msgParams.btnParam = new BtnParam();
-		return msgParams;
 	}
 }

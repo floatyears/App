@@ -67,6 +67,7 @@ public class Main : MonoBehaviour {
 
         // init manager class
         ViewManager.Instance.Init(uiRoot);
+//		
     }
 
     /// <summary>
@@ -76,7 +77,10 @@ public class Main : MonoBehaviour {
 		SetResolution();
 
 		DataCenter.Instance.Init ();
-		ModuleManger.Instance.ShowModule(ModuleEnum.LoadingModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.LoadingModule);
+
+		ModuleManager.Instance.GetOrCreateModule (ModuleEnum.MsgWindowModule);
+		ModuleManager.Instance.GetOrCreateModule (ModuleEnum.MaskModule);
 
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }

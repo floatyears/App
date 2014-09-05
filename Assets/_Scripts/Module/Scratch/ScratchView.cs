@@ -33,14 +33,6 @@ public class ScratchView : ViewBase {
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.SCRATCH);
 	}
-	
-	public override void HideUI () {
-		base.HideUI ();
-	}
-	
-	public override void DestoryUI () {
-		base.DestoryUI ();
-	}
 
 	private void InitUI() {
 		btnFriendGacha = FindChild<UIButton>("Gacha_Entrance/1");
@@ -90,7 +82,7 @@ public class ScratchView : ViewBase {
         OnClickButton(btn);
 //        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenFriendGachaWindow", null);
 //        ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ScratchModule, "OpenFriendGachaWindow");
+		ModuleManager.SendMessage (ModuleEnum.ScratchModule, "OpenFriendGachaWindow");
     }
 
     private void OnClickRareGacha(GameObject btn){
@@ -98,7 +90,7 @@ public class ScratchView : ViewBase {
 		OnClickButton(btn);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ScratchModule, "OpenRareGachaWindow");
+		ModuleManager.SendMessage (ModuleEnum.ScratchModule, "OpenRareGachaWindow");
 	}
 
     private void OnClickEventGacha(GameObject btn){
@@ -106,7 +98,7 @@ public class ScratchView : ViewBase {
         OnClickButton(btn);
 //        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenEventGachaWindow", null);
 //        ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ScratchModule, "OpenEventGachaWindow");
+		ModuleManager.SendMessage (ModuleEnum.ScratchModule, "OpenEventGachaWindow");
     }
 
     private void UpdateGachaTimes(){

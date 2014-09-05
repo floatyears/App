@@ -201,26 +201,27 @@ public class LoadingModule : ModuleBase {
 		ConfigBattleUseData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 //		Debug.LogError(tqdd.)
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
-		ModuleManger.Instance.EnterBattle();
+		ModuleManager.Instance.EnterBattle();
 	}
 
 	uint recoverQuestID = 0;
 
 	void EnterGame () {
-		ModuleManger.Instance.HideModule (ModuleEnum.LoadingModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.LoadingModule);
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 		} else {
-			ModuleManger.Instance.ShowModule(ModuleEnum.MainBackgroundModule);
-			ModuleManger.Instance.ShowModule(ModuleEnum.HomeModule);
-			ModuleManger.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.MainBackgroundModule);
+			ModuleManager.Instance.ShowScene(SceneEnum.MainScene);
+			ModuleManager.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
 
-			ModuleManger.Instance.ShowScene(SceneEnum.MainScene);
+
 
 			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
-					ModuleManger.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	
+					ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	
 				}
 				else { // no 
 					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
@@ -228,7 +229,7 @@ public class LoadingModule : ModuleBase {
 //						Debug.LogError("show Reward scene... ");
 						foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
 							if(item.enabled == 1){
-								ModuleManger.Instance.ShowModule (ModuleEnum.RewardModule);
+								ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
 								return;
 							}
 						}
@@ -242,7 +243,7 @@ public class LoadingModule : ModuleBase {
 	void SureRetry(object data) {
 		ConfigBattleUseData.Instance.ResetFromDisk();
 		RecoverParty ();
-		ModuleManger.Instance.EnterBattle();
+		ModuleManager.Instance.EnterBattle();
 	}
 
 	void RecoverParty() {
@@ -278,7 +279,7 @@ public class LoadingModule : ModuleBase {
         }
         
         if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
-			ModuleManger.Instance.ShowModule(ModuleEnum.OthersModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
 //            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         

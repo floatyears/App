@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class SellView : ViewBase{
+public class SellUnitView : ViewBase{
 	private int totalSaleValue = 0;
 	private int maxItemCount = 12;
 	private DragPanel dragPanel;
@@ -32,7 +32,7 @@ public class SellView : ViewBase{
 //		ResetUIState();
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
-		SortUnitByCurRule();
+//		SortUnitByCurRule();
 		RefreshOwnedUnitCount();
 		ShowUIAnimation();	
 	}
@@ -132,7 +132,7 @@ public class SellView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.SellModule, "ClickSellOk");
+		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSellOk");
 	}
 
 	void ClickSellCancel(GameObject btn){
@@ -264,7 +264,7 @@ public class SellView : ViewBase{
 		}
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", picked);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.SellModule, "ClickSell", picked);
+		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSell", picked);
 	}
 
 	void ClickClearBtn(GameObject btn){
@@ -300,15 +300,11 @@ public class SellView : ViewBase{
 
 	void CreateDragView(object args){
 //		Debug.LogError("xxxxxxx");
-		if(dragPanel != null){
-			dragPanel.DestoryUI();
-		}
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
-		dragPanel = new DragPanel("OnSaleDragPanel", SellUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("SellUnitDragPanel", SellUnitItem.ItemPrefab, transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.OnSaleUnitDragPanelArgs, mainRoot.transform);
 		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {
 			SellUnitItem suv = SellUnitItem.Inject(dragPanel.ScrollItem[ i ]);
 			suv.Init(dataList[ i ]);

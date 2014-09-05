@@ -281,7 +281,7 @@ public class BattleQuest : ModuleBase {
 	void Exit() {
 //		UIManager.Instance.ExitBattle();
 //		UIManager.Instance.baseScene.PrevScene = ModuleEnum.Evolve;
-		ModuleManger.Instance.ExitBattle();
+		ModuleManager.Instance.ExitBattle();
 	}
 
 	bool battleEnemy = false;
@@ -323,7 +323,7 @@ public class BattleQuest : ModuleBase {
 	}
 
 	public void NoFriendExit() {
-		ModuleManger.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 //		UIManager.Instance.ExitBattle ();
 	}
 
@@ -334,12 +334,12 @@ public class BattleQuest : ModuleBase {
 
 	void RetireQuestCallback(object data) {
 		NoFriendExit ();
-		ModuleManger.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 	}
 
 	public void HaveFriendExit() {
-		ModuleManger.Instance.ExitBattle ();
-		ModuleManger.Instance.ShowModule(ModuleEnum.ResultModule);
+		ModuleManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, configBattleUseData.BattleFriend);
 	}
 
@@ -354,15 +354,15 @@ public class BattleQuest : ModuleBase {
 
 		NoFriendExit();
 
-		ModuleManger.Instance.ShowModule (ModuleEnum.VictoryModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
 	void EvolveEnd (TRspClearQuest trcq) {
-		ModuleManger.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 
-		ModuleManger.Instance.ShowModule (ModuleEnum.VictoryModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
@@ -1152,7 +1152,7 @@ public class BattleQuest : ModuleBase {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
-		ModuleManger.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 //		UIManager.Instance.ExitBattle ();
 	}
 }

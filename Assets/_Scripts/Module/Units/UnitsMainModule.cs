@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class UnitsModule : ModuleBase {
+public class UnitsMainModule : ModuleBase {
 	TUnitParty unitPartyInfo;
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 
-	public UnitsModule(UIConfigItem config):base(  config) {
-		CreateUI<UnitsView> ();
+	public UnitsMainModule(UIConfigItem config):base(  config) {
+		CreateUI<UnitsMainView> ();
 	}
 
 	public override void ShowUI () {
@@ -18,7 +18,7 @@ public class UnitsModule : ModuleBase {
 	public void OnReceiveMessage (object data){
 		try {
 			ModuleEnum se = (ModuleEnum)data;
-			ModuleManger.Instance.ShowModule(se);
+			ModuleManager.Instance.ShowModule(se);
 		} 
 		catch (System.Exception ex) {
 			LogHelper.LogException(ex);

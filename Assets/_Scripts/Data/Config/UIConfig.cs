@@ -26,17 +26,6 @@ public class UIConfig{
 
 	public static int PartyMaxCount = 5;
 
-	public static string DragUIObjectPath = "Prefabs/Scroller";
-	public const string sharePath = "UI/Share/";
-	public const string questPath = "UI/Quest/";
-	public const string friendPath = "UI/Friend/";
-	public const string scratchPath = "UI/Scratch/";
-	public const string shopPath = "UI/Shop/";
-	public const string othersPath = "UI/Others/";
-	public const string unitPath = "UI/Units/";
-
-	public const string UIInsConfigPath = "Config/UIInsConfig";
-
 	public const float playerInfoBox_X = 160f;
 	public const float playerInfoBox_Y = -50f;
 
@@ -44,86 +33,61 @@ public class UIConfig{
 	public const int partyTotalCount = 5;
 
 	public const int otherMusicSettingIndex = 1;
-	public const string otherMusicSettingName = "Music";
-
-	public const string operationNoticeWindowName = "OperationNoticeView";
-
-	public const string rewardViewName = "RewardView";
 }
 
 
-public class UIConfigData : JsonOriginData
+public class UIConfigData
 {
 
-	public UIConfigData(string info) :base(info)
+	public UIConfigData(string info)
 	{
-		//init data and fill the dicitionay
-		DeserializeData();
-
-		// release Useless memory
-		jsonData = null;
-		info = null;
-	}
-
-	public override object DeserializeData()
-	{
-		base.DeserializeData();
-
+		JsonData jsonData = JsonMapper.ToObject (info);
+		
 		Dictionary<ModuleEnum,UIConfigItem> uiInsData = new Dictionary<ModuleEnum, UIConfigItem> ();
-
+		
 		UIConfigItem ins;
+		
+		for (int i = 0; i < jsonData.Count; i++){
 
-		for (int i = 0; i < jsonData.Count; i++)
-		{
-//            Debug.LogError("json config DeserializeData uiName " + (string)jsonData [i] ["uiName"]);
+			//            Debug.LogError("json config DeserializeData uiName " + (string)jsonData [i] ["uiName"]);
 			ins = new UIConfigItem();
 			try{
-				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData [i] ["name"].ToString());
-//				Debug.Log("module name: " + ins.moduleName);
+				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData[i] ["name"].ToString());
+				Debug.Log("module name: " + ins.moduleName);
 			}catch(ArgumentException){
-				Debug.LogError("ModuleEnum Convert Err: [[[---"+ jsonData [i] ["name"]+ "---]]] is not a member of the ModuleEnum");
+			Debug.LogError("ModuleEnum Convert Err: [[[---"+ jsonData[i] ["name"]+ "---]]] is not a member of the ModuleEnum");
 				continue;
 			}
-
-			ins.resourcePath = (string)jsonData [i] ["path"];
-			if(jsonData [i] ["x"].IsDouble) {
-				double data = (double)jsonData [i] ["x"];
+			
+			ins.resourcePath = (string)jsonData[i]["path"];
+			if(jsonData[i] ["x"].IsDouble) {
+				double data = (double)jsonData[i]["x"];
 				ins.localPosition.x = (float)data;
 			} else{
-			ins.localPosition.x = (int)jsonData [i] ["x"];
+				ins.localPosition.x = (int)jsonData[i] ["x"];
 			}
-
-			if(jsonData [i] ["y"].IsDouble) {
-				double data = (double)jsonData [i] ["y"];
+			
+			if(jsonData[i]["y"].IsDouble) {
+			double data = (double)jsonData[i] ["y"];
 				ins.localPosition.y = (float)data;
 			} else{
-			ins.localPosition.y = (int)jsonData [i] ["y"];
+			ins.localPosition.y = (int)jsonData[i]["y"];
 			}
-
-			if(jsonData [i] ["z"].IsDouble) {
-				double data = (double)jsonData [i] ["z"];
+			
+			if(jsonData[i]["z"].IsDouble) {
+			double data = (double)jsonData[i] ["z"];
 				ins.localPosition.z = (float)data;
 			} else{
-				ins.localPosition.z = (int)jsonData [i] ["z"];
+			ins.localPosition.z = (int)jsonData[i] ["z"];
 			}
-
-//			ins.localPosition.y = (int)jsonData [i] ["positiony"];
-//			ins.localPosition.z = (int)jsonData [i] ["positionz"];
-			byte parent = (byte)((int)jsonData [i] ["parent"]);
+			byte parent = (byte)((int)jsonData[i] ["parent"]);
 			ins.parent = GetParentTrans(parent);
 			ins.group = (ModuleGroup)(int)jsonData[i]["group"];
 			uiInsData.Add(ins.moduleName, ins);
-//			Debug.LogError(ins.uiName);
+			//			Debug.LogError(ins.uiName);
 		}
-
+		
 		DataCenter.Instance.SetData (ModelEnum.UIInsConfig, uiInsData);
-
-		return uiInsData;
-	}
-
-	public override ErrorMsg SerializeData(object instance)
-	{
-		return base.SerializeData(instance);
 	}
 
 	Transform GetParentTrans(byte parentEnum)
@@ -157,6 +121,47 @@ public class UIConfigData : JsonOriginData
 	}
 }
 
+public class DragPanelData{
+
+	public DragPanelData(string info){
+		JsonData jsonData = JsonMapper.ToObject (info);
+
+		Dictionary<string,DragPanelConfigItem> uiInsData = new Dictionary<string, DragPanelConfigItem> ();
+
+		DragPanelConfigItem ins;
+
+		for (int i = 0; i < jsonData.Count; i++){
+
+			ins = new DragPanelConfigItem ();
+
+			ins.configName = (string)jsonData[i]["configName"];
+			ins.cellHeight = (int)jsonData[i]["cellHeight"];
+			ins.cellWidth = (int)jsonData[i]["cellWidth"];
+
+			JsonData clip = jsonData[i]["clipRange"];
+			ins.clipRange = new Vector4((int)clip[0],(int)clip[1],(int)clip[2],(int)clip[3]);
+			ins.depth = (int)jsonData[i]["depth"];
+			ins.gridArrage = (UIGrid.Arrangement)Enum.Parse(typeof(UIGrid.Arrangement),jsonData[i]["gridArrange"].ToString());
+			ins.maxPerLine = (int)jsonData[i]["maxPerLine"];
+
+			JsonData pos = jsonData[i]["position"];
+			ins.position = new Vector3((int)pos[0],(int)pos[1],(int)pos[2]);
+
+			JsonData scrollpos = jsonData[i]["scrollBarPosition"];
+			ins.scrollBarPosition = new Vector3((int)scrollpos[0],(int)scrollpos[1],(int)scrollpos[2]);
+
+			JsonData scrolllocal = jsonData[i]["scrollerLocalPos"];
+			ins.scrollerLocalPos = new Vector3((int)scrolllocal[0],(int)scrolllocal[1],(int)scrolllocal[2]);
+			ins.scrollMovement = (UIScrollView.Movement)Enum.Parse(typeof(UIScrollView.Movement),jsonData[i]["scrollMovement"].ToString());
+
+			uiInsData.Add(ins.configName,ins);
+		}
+
+		DataCenter.Instance.SetData (ModelEnum.DragPanelConfig, uiInsData);
+	}
+	
+}
+
 public class SkillJsonConfig : JsonOriginData {
 	public Dictionary<string,string> data = new Dictionary<string, string> ();
 	public SkillJsonConfig(string info) : base (info) {
@@ -168,9 +173,7 @@ public class SkillJsonConfig : JsonOriginData {
 
 	public override object DeserializeData () {
 		data = JsonMapper.ToObject< Dictionary<string,string> > (originData);
-//		foreach (var item in data) {
-//			Debug.LogError(item.Key + "  " + item.Value);
-//		}
+
 		return data;
 	}
 
@@ -189,6 +192,20 @@ public class UIConfigItem
 	public Transform parent = null;
 	public Vector3 localPosition = Vector3.zero;
 	public ModuleGroup group = ModuleGroup.DEFAULT;
+}
+
+public class DragPanelConfigItem{
+	public string configName;
+	public Vector3 scrollerLocalPos;
+	public Vector3 position;
+	public Vector4 clipRange;
+	public UIGrid.Arrangement gridArrage;
+	public UIScrollView.Movement scrollMovement;
+	public Vector3 scrollBarPosition;
+	public int cellWidth;
+	public int cellHeight;
+	public int maxPerLine;
+	public int depth;
 }
 
 

@@ -104,7 +104,7 @@ public class ResultView : ViewBase {
 //		Debug.LogError("Click ok");
 //		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 //		ExcuteCallback(call);
-		ModuleManger.SendMessage (ModuleEnum.ResultModule, "ClickOk");
+		ModuleManager.SendMessage (ModuleEnum.ResultModule, "ClickOk");
 	}
 
 	void ClickCancel(GameObject btn){

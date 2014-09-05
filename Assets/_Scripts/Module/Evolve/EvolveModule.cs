@@ -71,7 +71,7 @@ public class EvolveModule : ModuleBase {
 		}
 
 		DataCenter.gameState = GameState.Evolve;
-		ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveStart, tes);
 
 	}

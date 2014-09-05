@@ -303,7 +303,7 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 //		UIEventListenerCustom.Get (gm).onClick += OnClickBack;
 //		NoviceGuideUtil.ForceOneBtnClick (gm);
 
-		ModuleManger.Instance.ShowModule (ModuleEnum.ScratchModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);
 	}
 
 	private void OnClickBack(GameObject gm){

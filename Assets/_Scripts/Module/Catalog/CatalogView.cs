@@ -41,12 +41,11 @@ public class CatalogView : ViewBase {
 		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
 		ResourceManager.Instance.LoadLocalAsset(sourcePath, o =>{
 			emptyItem = o  as GameObject;
-			dragPanel = new DragPanel("CatalogDragPanel", emptyItem);
+			dragPanel = new DragPanel("CatalogDragPanel", emptyItem,transform);
 //			dragPanel.CreatUI();
 			dragPanel.AddItem(TOTAL_CATALOG_COUNT);
-			dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.CatalogDragPanelArgs, transform);
 			
-			uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
+//			uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
 			
 			for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
 				GameObject dragItem = dragPanel.ScrollItem[ i ];

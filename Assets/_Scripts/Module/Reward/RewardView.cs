@@ -153,16 +153,15 @@ public class RewardView : ViewBase {
 	void OnClickOK(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		ModuleManger.Instance.HideModule (ModuleEnum.RewardModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.RewardModule);
 //		HideUI ();
 	}
 
 
 	private void CreateDragView(){
-		dragPanel = new DragPanel("RewardDragPanel", RewardItemView.Prefab);
+		dragPanel = new DragPanel("RewardDragPanel", RewardItemView.Prefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem (0);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.RewardListDragPanelArgs, content.transform);
 	}
 
 	private void FindUIElement(){
@@ -227,7 +226,7 @@ public class RewardView : ViewBase {
 		for (int i = 0; i < aList[currentContentIndex].Count; i++){
 			//Debug.Log ("scroll item count:" + dragPanel.ScrollItem.Count+ " i: "+ i);
 			if(dragPanel.ScrollItem.Count <= i){
-				GameObject go = dragPanel.DragPanelView.AddObject(dragPanel.SetResourceObject);
+				GameObject go = dragPanel.GetDragViewObject().GetComponent<DragPanelView>().AddObject(dragPanel.SetResourceObject);
 				//Debug.Log("go: " + go);
 				if(go != null){
 					dragPanel.ScrollItem.Add(go);
@@ -251,7 +250,7 @@ public class RewardView : ViewBase {
 
 
 		dragPanel.Refresh ();
-		dragPanel.DragPanelView.scrollBar.value = 0;
+		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.value = 0;
 	}
 
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -163,8 +163,8 @@ public class BaseUnitItem : MonoBehaviour {
 			return;	
 		}
 
-		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, userUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnit);
 	}
 	
 	private string crossFadeBeforeText;

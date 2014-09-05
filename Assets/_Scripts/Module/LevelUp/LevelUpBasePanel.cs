@@ -301,7 +301,7 @@
 //	void PressItem(GameObject item ){
 //		TUserUnit unitInfo = baseUnitInfoDic[ item ].userUnitItem;
 //		ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetail );
-//		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, unitInfo);
+//		ModuleManger.Instance.SendMessage(ModuleEnum.UnitDetailModule, unitInfo);
 //	}
 //
 //	void InitDragPanel(){

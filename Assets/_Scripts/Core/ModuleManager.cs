@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System;
 
-public class ModuleManger {
+public class ModuleManager {
 
 	private static Dictionary<ModuleEnum,ModuleBase> moduleDic = new Dictionary<ModuleEnum, ModuleBase>();
 
@@ -14,17 +14,17 @@ public class ModuleManger {
 
 	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
 
-	private static ModuleManger instance;
+	private static ModuleManager instance;
 
-	public static ModuleManger Instance{
+	public static ModuleManager Instance{
 		get{
 			if(instance == null){
-				instance = new ModuleManger();
+				instance = new ModuleManager();
 			}
 			return instance;
 		}
 	}
-	private ModuleManger(){
+	private ModuleManager(){
 
 	}
 
@@ -36,6 +36,8 @@ public class ModuleManger {
 	public static void SendMessage(ModuleEnum module, params object[] args){
 		if(moduleDic.ContainsKey(module)){
 			moduleDic[module].OnReceiveMessages(args);
+		}else{
+			Debug.LogWarning("SendMsg To Module Err: no reciever [[[---" + module + "---]]]");
 		}
 	}
 
@@ -43,10 +45,10 @@ public class ModuleManger {
 	/// Shows the module.
 	/// </summary>
 	/// <param name="name">Name.</param>
-	public void ShowModule(ModuleEnum name){
+	public void ShowModule(ModuleEnum name, params object[] args){
 		//hide the prev ui within same group
 		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
-		Debug.Log ("name: " + name + " group: " + group);
+//		Debug.Log ("name: " + name + " group: " + group);
 
 		if (typeGroup [group] == GroupType.Module) {
 			ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
@@ -61,13 +63,17 @@ public class ModuleManger {
 				HideScene (prevName);
 			}
 		}
-			
+		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Module);	
+
 		if (moduleDic.ContainsKey (name)) {
+			if(args.Length > 0){
+				moduleDic[name].SetModuleData(args);
+			}
 			moduleDic[name].ShowUI();	
 		}else{
-			GetOrCreateModule(name).ShowUI();
+			GetOrCreateModule(name,args).ShowUI();
 		}
-		ModuleManger.SendMessage (ModuleEnum.PlayerInfoBarModule, name,GroupType.Module);
+
 		moduleGroup [group] = (int)name;
 		typeGroup [group] = GroupType.Module;
 	}
@@ -107,10 +113,9 @@ public class ModuleManger {
 				HideScene (prevName);
 			}
 		}
+		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Scene);
 
 		scene.ShowScene();
-		ModuleManger.SendMessage (ModuleEnum.PlayerInfoBarModule, name,GroupType.Scene);
-
 		moduleGroup [(int)scene.Group] = (int)name;
 		typeGroup [(int)scene.Group] = GroupType.Scene;
 
@@ -152,13 +157,18 @@ public class ModuleManger {
 	/// </summary>
 	/// <returns>The or create module.</returns>
 	/// <param name="name">Name.</param>
-	public ModuleBase GetOrCreateModule(ModuleEnum name) {
+	public ModuleBase GetOrCreateModule(ModuleEnum name, params object[] args) {
 		if (moduleDic.ContainsKey (name)) {
 			return moduleDic [name];	
 		}
 		else {
 			System.Type moduleType = System.Type.GetType(name.ToString());
-			ModuleBase module = Activator.CreateInstance(moduleType, DataCenter.Instance.GetConfigUIItem(name)) as ModuleBase;
+			ModuleBase module = null;
+			if(args.Length > 0){
+				module = Activator.CreateInstance(moduleType, DataCenter.Instance.GetConfigUIItem(name),args) as ModuleBase;
+			}else{
+				module = Activator.CreateInstance(moduleType, DataCenter.Instance.GetConfigUIItem(name)) as ModuleBase;
+			}
 //			module.UIConfig = ;
 			if(module == null){
 				Debug.LogError ("Module Create Err: there is no [[[---" + module + "---]]]");

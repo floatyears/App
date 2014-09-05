@@ -113,8 +113,8 @@ public class UnitItemInfo : MonoBehaviour{
 	}
 
 	public void LongPress(GameObject go) {
-		ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-		MsgCenter.Instance.Invoke (CommandEnum.ShowUnitDetail, userUnitItem);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnitItem);
 	}
 }
 

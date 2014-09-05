@@ -77,7 +77,7 @@ public class LevelUpModule : ModuleBase {
 	
 			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
-			ModuleManger.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 

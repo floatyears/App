@@ -19,7 +19,7 @@ public class MainMenuModule : ModuleBase {
 					return;
 				}
 			}
-			ModuleManger.Instance.ShowModule(se);
+			ModuleManager.Instance.ShowModule(se);
 		} 
 		catch (System.Exception ex) {
 			LogHelper.LogException(ex);
@@ -48,6 +48,6 @@ public class MainMenuModule : ModuleBase {
 //	}
 
 	void CallBackScratchScene(object args){
-		ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.ShopModule);
 	}
 }

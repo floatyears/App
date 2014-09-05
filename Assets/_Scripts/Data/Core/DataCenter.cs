@@ -46,6 +46,7 @@ public enum ModelEnum {
     ItemObject,
 
 	CityInfo,
+	DragPanelConfig,
 }
 
 /// <summary>
@@ -91,8 +92,12 @@ public class DataCenter {
 		//		Debug.LogWarning ("InitData ConfigSkill");
 		supportFriendManager = new SupportFriendManager ();
 		
-		ResourceManager.Instance.LoadLocalAsset (UIConfig.UIInsConfigPath, o => {
+		ResourceManager.Instance.LoadLocalAsset (PathConfig.UIInsConfigPath, o => {
 			new UIConfigData ((o as TextAsset).text);
+
+		});
+		ResourceManager.Instance.LoadLocalAsset(PathConfig.DragPanelConfigPath,o=>{
+			new DragPanelData((o as TextAsset).text);
 		});
 		new ConfigSkill();
 		//      ConfigEnermy ce = new ConfigEnermy();
@@ -633,7 +638,17 @@ public class DataCenter {
 			Debug.LogError("No UIConfig Item: [[[---" + name + "---]]]");
 			return null;
 		}
+	}
 
+	public DragPanelConfigItem GetConfigDragPanelItem(string name){
+		Dictionary<string, DragPanelConfigItem> dragData = GetData (ModelEnum.DragPanelConfig) as Dictionary<string, DragPanelConfigItem>;
+		if(dragData.ContainsKey(name)){
+			Debug.Log("drag panel: " + name);
+			return dragData[name];
+		}else{
+			Debug.LogError("No DragConfig Item: [[[---" + name + "---]]]");
+			return null;
+		}
 	}
 
 }

@@ -18,33 +18,17 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepC state_one");
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText ("guide5_title");
-		mwp.contentText = TextCenter.GetText ("guide5_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk;
-		sure.text = TextCenter.GetText ("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide5_title"),TextCenter.GetText ("guide5_content"),TextCenter.GetText ("OK"),ClickOk);
 
 	}
 
 	private void ClickOk(object data){
+		
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText ("guide6_title");
-		mwp.contentText = TextCenter.GetText ("guide6_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = forceClick;
-		sure.text = TextCenter.GetText ("OK");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide6_title"),TextCenter.GetText ("guide6_content"),TextCenter.GetText ("OK"),forceClick);
 	}
 
 	private void forceClick(object data)

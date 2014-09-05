@@ -28,22 +28,22 @@ public class FriendMainView : ViewBase {
         GameObject go;
 		UILabel btnLabel;
         go = FindChild("Btn_FriendList");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Btn_FriendList/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_FriendList");
         btns.Add(go, ModuleEnum.FriendListModule);
 
         go = FindChild("Btn_SearchFriend");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Btn_SearchFriend/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Search");
 		btns.Add(go, ModuleEnum.SearchFriendModule);
 
         go = FindChild("Btn_Apply");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Btn_Apply/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Apply");
 		btns.Add(go, ModuleEnum.ApplyModule);
 
         go = FindChild("Btn_Reception");
-		btnLabel = go.GetComponentInChildren<UILabel>();
+		btnLabel = FindChild<UILabel>("Btn_Reception/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Reception");
 		btns.Add(go, ModuleEnum.ReceptionModule);
 
@@ -72,7 +72,7 @@ public class FriendMainView : ViewBase {
             	SyncFriendListFromServer();
             	break;
         	default:
-				ModuleManger.Instance.ShowModule(nextScene);
+				ModuleManager.Instance.ShowModule(nextScene);
             	break;
         }
     }
@@ -80,11 +80,11 @@ public class FriendMainView : ViewBase {
     void SyncFriendListFromServer() {
 //        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SyncFriendList", nextScene);
 //        ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.FriendMainModule, "SyncFriendList", nextScene);
+		ModuleManager.SendMessage (ModuleEnum.FriendMainModule, "SyncFriendList", nextScene);
     }
 
     void TurnToNextScene() {
-        ModuleManger.Instance.ShowModule(nextScene);
+        ModuleManager.Instance.ShowModule(nextScene);
     }
 
     void ShowUIAnimation(){

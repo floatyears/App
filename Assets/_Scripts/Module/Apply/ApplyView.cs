@@ -34,10 +34,9 @@ public class ApplyView : ViewBase{
 
 	private void CreateDragView(){
 		friendOutDataList = DataCenter.Instance.FriendList.FriendOut;
-		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(friendOutDataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);

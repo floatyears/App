@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class NoviceGuideStepE_StateOne:NoviceGuidState
@@ -32,7 +32,7 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		UIEventListener.Get (cityObj).onClick += TapCityItem;
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
-		ModuleManger.Instance.ShowModule (ModuleEnum.OthersModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.OthersModule);
 	}
 
 	void OnChange(object data){

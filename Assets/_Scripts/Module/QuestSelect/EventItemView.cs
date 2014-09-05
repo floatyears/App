@@ -138,7 +138,7 @@ public class EventItemView : MonoBehaviour{
 	}
 
 	private void StepIntoNextScene(GameObject item){
-		ModuleManger.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
+		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
 		} else {

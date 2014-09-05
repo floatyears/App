@@ -117,7 +117,7 @@ public class FriendHelperController : ModuleBase{
 	void EnterBattle () {
 		ConfigBattleUseData.Instance.BattleFriend = selectedHelper;
 		HideUI ();
-		ModuleManger.Instance.EnterBattle();
+		ModuleManager.Instance.EnterBattle();
 	} 
 
 	MsgWindowParams GetStartQuestError () {

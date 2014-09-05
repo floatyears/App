@@ -47,8 +47,8 @@ public class ProtoManager: ProtobufDataBase, INetBase {
 
     public virtual void SetBlockMask(bool flag){
 //		Debug.LogError("SetBlockMask(), " + flag);
-		MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, flag));
-        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, flag);
+		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.Connecting, flag));
+		ModuleManager.SendMessage(ModuleEnum.MaskModule, "wait", flag);
     }
 
     public virtual void OnResponse(bool success) {

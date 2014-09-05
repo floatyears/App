@@ -46,7 +46,7 @@ public class SceneBase {
 	
 
 	protected void AddModuleToScene<T>(ModuleEnum name) where T : ModuleBase {
-		T module = ModuleManger.Instance.GetOrCreateModule (name) as T;
+		T module = ModuleManager.Instance.GetOrCreateModule (name) as T;
 		if (module != null) {
 			moduleList.Add (module);	
 		}

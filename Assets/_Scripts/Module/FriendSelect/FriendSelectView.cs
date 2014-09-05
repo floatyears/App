@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class FriendHelperView : ViewBase{
+public class FriendSelectView : ViewBase{
 	protected DragPanel generalDragPanel = null;
 	protected DragPanel premiumDragPanel = null;
 
@@ -137,11 +137,10 @@ public class FriendHelperView : ViewBase{
 //			Debug.Log("dragPanel == NULL, create->refresh...");
 		}
 
-		dragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
 		CustomDragPanel(dragPanel);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 
 		RefreshData (dragPanel);
 
@@ -181,7 +180,7 @@ public class FriendHelperView : ViewBase{
 		pickedInfo.Add("QuestInfo", pickedQuestInfo);
 		pickedInfo.Add("HelperInfo", item.FriendInfo);
 
-		ModuleManger.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
+		ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
 
@@ -206,7 +205,7 @@ public class FriendHelperView : ViewBase{
 
 	private void ShowUIAnimation(DragPanel dragPannel){
 		if(dragPannel == null) return;
-		GameObject targetPanel = dragPannel.DragPanelView.gameObject;
+		GameObject targetPanel = dragPannel.GetDragViewObject();
 		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo (targetPanel, iTween.Hash ("x", 0, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));      
 	}
@@ -224,8 +223,8 @@ public class FriendHelperView : ViewBase{
 	/// Custom this drag panel as vertical drag.
 	/// </summary>
 	private void CustomDragPanel(DragPanel dragPanel){
-		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
-		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
+		GameObject scrollView = dragPanel.GetDragViewObject().transform.FindChild("Scroll View").gameObject;
+		GameObject scrollBar = dragPanel.GetDragViewObject().transform.FindChild("Scroll Bar").gameObject;
 		GameObject itemRoot = scrollView.transform.FindChild("UIGrid").gameObject;
 		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
 		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();

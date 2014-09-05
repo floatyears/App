@@ -1,5 +1,5 @@
-{
-    "PlayerInfoBarModule":{
+[
+    {
         "name":"PlayerInfoBarModule",
         "path": "Prefabs/UI/Common/PlayerInfoBarUI",
         "parent": 1,
@@ -8,7 +8,7 @@
         "z": 0, 
         "group" : 0
     },
-    "MsgWindowModule": {
+     {
         "name":"MsgWindowModule",
         "path": "Prefabs/UI/Common/MsgWindowUI",
         "parent": 1,
@@ -17,7 +17,7 @@
         "z": 0, 
         "group" : 0
     },
-    "MaskModule":{
+    {
         "name":"MaskModule",
         "path": "Prefabs/UI/Common/MaskUI",
         "parent": 1,
@@ -26,7 +26,7 @@
         "z": 0, 
         "group" : 0
     },
-     "SceneInfoBarModule":{
+    {
         "name":"SceneInfoBarModule",
         "path": "Prefabs/UI/Common/SceneInfoBarUI",
         "parent": 1,
@@ -35,7 +35,7 @@
         "z": 0, 
         "group" : 4
     },
-     "MainBackgroundModule": {
+    {
         "name":"MainBackgroundModule",
         "path": "Prefabs/UI/Common/MainBackgroundUI",
         "parent": 0,
@@ -44,7 +44,7 @@
         "z": 0, 
         "group" : 2
     },
-     "TipsBarModule": {
+    {
         "name":"TipsBarModule",
         "path": "Prefabs/UI/Common/TipsBarUI",
         "parent": 2,
@@ -53,7 +53,7 @@
         "z": 0, 
         "group" : 0
     },
-      "UserBriefInfoModule": {
+    {
         "name":"UserBriefInfoModule",
         "path": "Prefabs/UI/Common/UserBriefInfoWindowUI",
         "parent": 4,
@@ -62,7 +62,7 @@
         "z": 0, 
         "group" : 0
     },
-     "MainMenuModule": {
+    {
         "name":"MainMenuModule",
         "path": "Prefabs/UI/Home/MainMenuUI",
         "parent": 2,
@@ -71,7 +71,7 @@
         "z": 0, 
         "group" : 0
     },
-    "LoadingModule": {
+    {
         "name":"LoadingModule",
         "path": "Prefabs/UI/Common/LoadingUI",
         "parent": 1,
@@ -80,7 +80,7 @@
         "z": 0, 
         "group" : 0
     },
-     "FriendMainModule": {
+    {
         "name":"FriendMainModule",
         "path": "Prefabs/UI/Friend/FriendMainUI",
         "parent": 0,
@@ -89,7 +89,7 @@
         "z": 0, 
         "group" : 0
     },
-    "FriendListModule": {
+    {
         "name":"FriendListModule",
         "path": "Prefabs/UI/FriendList/FriendListUI",
         "parent": 1,
@@ -98,7 +98,7 @@
         "z": 0, 
         "group" : 0
     },
-     "ScratchModule": {
+    {
         "name":"ScratchModule",
         "path": "Prefabs/UI/Scratch/ScratchUI",
         "parent": 1,
@@ -107,7 +107,7 @@
         "z": 0, 
         "group" : 0
     },
-     "ShowNewCardModule": {
+    {
         "name":"ShowNewCardModule",
         "path": "Prefabs/UI/Scratch/ShowNewCardUI",
         "parent": 2,
@@ -116,7 +116,7 @@
         "z": 0, 
         "group" : 0
     },
-     "ShopModule": {
+    {
         "name":"ShopModule",
         "path": "Prefabs/UI/Shop/ShopUI",
         "parent": 1,
@@ -125,7 +125,7 @@
         "z": 0, 
         "group" : 0
     },
-     "OthersModule": {
+    {
         "name":"OthersModule",
         "path": "Prefabs/UI/Others/OthersUI",
         "parent": 1,
@@ -134,34 +134,34 @@
         "z": 0, 
         "group" : 0
     },
-     "UnitsModule": {
-        "name":"UnitsModule",
-        "path": "Prefabs/UI/Units/UnitsUI",
+    {
+        "name":"UnitsMainModule",
+        "path": "Prefabs/UI/Units/UnitsMainUI",
         "parent": 1,
         "x": 0,
         "y": 0,
         "z": 0, 
         "group" : 0
     },
-    "LevelUpModule": {
+    {
         "name":"LevelUpModule",
         "path": "Prefabs/UI/Units/LevelUpUI",
         "parent": 0,
         "x": 0,
-        "y": 0,
+        "y": 350,
         "z": 0, 
         "group" : 0
     },
-    "SellModule": {
-        "name":"SellModule",
-        "path": "Prefabs/UI/Units/SellUI",
+    {
+        "name":"SellUnitModule",
+        "path": "Prefabs/UI/Units/SellUnitUI",
         "parent": 1,
         "x": 0,
         "y": -290,
         "z": 0, 
         "group" : 0
     },
-    "CatalogModule": {
+    {
         "name":"CatalogModule",
         "path": "Prefabs/UI/Units/CatalogUI",
         "parent": 1,
@@ -170,7 +170,7 @@
         "z": 0, 
         "group" : 0
     },
-    "EvolveModule": {
+    {
         "name":"EvolveModule",
         "path": "Prefabs/UI/Units/EvolveUI",
         "parent": 1,
@@ -179,16 +179,16 @@
         "z": 0, 
         "group" : 0
     },
-    "UnitListModule": {
-        "name":"UnitListModule",
-        "path": "Prefabs/UI/Units/UnitListUI",
+    {
+        "name":"MyUnitsListModule",
+        "path": "Prefabs/UI/Units/MyUnitsListUI",
         "parent": 1,
         "x": 0,
         "y": 0,
         "z": 0, 
         "group" : 0
     },
-    "QuestSelectModule": {
+    {
         "name":"QuestSelectModule",
         "path": "Prefabs/UI/Home/QuestSelectUI",
         "parent": 0,
@@ -197,7 +197,7 @@
         "z": 0, 
         "group" : 0
     },
-    "FriendSelectWindow": {
+    {
         "name":"FriendSelectWindow",
         "path": "Prefabs/UI/Friend/FriendSelectUI",
         "parent": 0,
@@ -206,7 +206,7 @@
         "z": 0, 
         "group" : 0
     },
-    "UnitDetailModule": {
+    {
         "name":"UnitDetailModule",
         "path": "Prefabs/UI/UnitDetail/UnitDetailUI",
         "parent": 4,
@@ -215,7 +215,7 @@
         "z": 0, 
         "group" : 0
     },
-     "ApplyModule": {
+    {
         "name":"ApplyModule",
         "path": "Prefabs/UI/Friend/ApplyUI",
         "parent": 1,
@@ -224,7 +224,7 @@
         "z": 0, 
         "group" : 0
     },
-     "ReceptionModule": {
+    {
         "name":"ReceptionModule",
         "path": "Prefabs/UI/Friend/ReceptionUI",
         "parent": 1,
@@ -233,7 +233,7 @@
         "z": 0, 
         "group" : 0
     },
-     "UserIDModule": {
+    {
         "name":"UserIDModule",
         "path": "Prefabs/UI/Friend/UserIDUI",
         "parent": 0,
@@ -242,7 +242,7 @@
         "z": 0, 
         "group" : 0
     },
-     "SearchFriendModule": {
+    {
         "name":"SearchFriendModule",
         "path": "Prefabs/UI/Friend/SearchFriendUI",
         "parent": 0,
@@ -251,7 +251,7 @@
         "z": 0, 
         "group" : 0
     },
-      "PartyInfoModule": {
+    {
         "name":"PartyInfoModule",
         "path": "Prefabs/UI/Party/PartyInfoUI",
         "parent": 1,
@@ -260,7 +260,7 @@
         "z": 0, 
         "group" : 0
     },
-     "PartyDragPanel": {
+    {
         "name":"PartyDragPanelUI",
         "path": "Prefabs/UI/Party/PartyDragPanelUI",
         "parent": 0,
@@ -269,7 +269,7 @@
         "z": 0, 
         "group" : 0
     },
-	  "UnitDisplayModule": {
+	{
         "name":"UnitDisplayModule",
         "path": "Prefabs/UI/Units/UnitDisplayUI",
         "parent": 1,
@@ -279,7 +279,7 @@
         "group" : 0
     },
     
-      "ApplyMessageModule": {
+    {
         "name":"ApplyMessageModule",
         "path": "Prefabs/UI/FriendList/ApplyMessageUI",
         "parent": 4,
@@ -288,7 +288,7 @@
         "z": 0, 
         "group" : 0
     },
-       "AcceptApplyMessageModule": {
+    {
         "name":"AcceptApplyMessageModule",
         "path": "Prefabs/UI/FriendList/AcceptApplyMessageUI",
         "parent": 4,
@@ -297,7 +297,7 @@
         "z": 0, 
         "group" : 0
     },
-    "GachaModule": {
+    {
         "name":"GachaModule",
         "path": "Prefabs/UI/Scratch/GachaUI",
         "parent": 1,
@@ -306,7 +306,7 @@
         "z": 0, 
         "group" : 0
     },
-       "ItemCounterModule": {
+     {
         "name":"ItemCounterModule",
         "path": "Prefabs/UI/Common/ItemCounterUI",
         "parent": 1,
@@ -315,7 +315,7 @@
         "z": 0, 
         "group" : 0
     },
-       "SelectRoleModule": {
+    {
         "name":"SelectRoleModule",
         "path": "Prefabs/UI/SelectRole/SelectRoleUI",
         "parent": 0,
@@ -324,7 +324,7 @@
         "z": 0, 
         "group" : 0
     },
-     "ResultModule": {
+    {
         "name":"ResultModule",
         "path": "Prefabs/UI/Result/ResultUI",
         "parent": 0,
@@ -333,7 +333,7 @@
         "z": 0, 
         "group" : 0
     },
-     "PartyModule": {
+     {
         "name":"PartyModule",
         "path": "Prefabs/UI/Party/PartyUI",
         "parent": 1,
@@ -342,7 +342,7 @@
         "z": 0, 
         "group" : 0
     },
-     "UserUnitSortModule": {
+    {
         "name":"UserUnitSortModule",
         "path": "Prefabs/UI/Common/UserUnitSortUI",
         "parent": 1,
@@ -351,7 +351,7 @@
         "z": 0, 
         "group" : 0
     },
-     "FriendUnitSortPanel": {
+    {
         "name":"FriendUnitSortPanel",
         "path": "Prefabs/UI/Common/",
         "parent": 1,
@@ -360,7 +360,7 @@
         "z": 0, 
         "group" : 0
     },
-     "HomeModule": {
+    {
         "name":"HomeModule",
         "path": "Prefabs/UI/Quest/HomeUI",
         "parent": 0,
@@ -369,7 +369,7 @@
         "z": 0, 
         "group" : 0
     },
-    "StageSelectModule": {
+    {
         "name":"StageSelectModule",
         "path": "Prefabs/UI/Quest/StageSelectUI",
         "parent": 0,
@@ -378,7 +378,7 @@
         "z": 0, 
         "group" : 0
     },
-     "FightReadyModule": {
+    {
         "name":"FightReadyModule",
         "path": "Prefabs/UI/Quest/",
         "parent": 0,
@@ -387,16 +387,7 @@
         "z": 0, 
         "group" : 0
     },
-    "QuestSelectModule": {
-        "name":"QuestSelectModule",
-        "path": "Prefabs/UI/Home/QuestSelectUI",
-        "parent": 1,
-        "x": 0,
-        "y": 0,
-        "z": 0, 
-        "group" : 0
-    },
-     "NoviceGuideModule": {
+    {
         "name":"NoviceGuideModule",
         "path": "Prefabs/UI/Common/",
         "parent": 1,
@@ -405,7 +396,7 @@
         "z": 0, 
         "group" : 0
     },
-    "OperationNoticeModule":{
+    {
    		"name":"OperationNoticeModule",
         "path": "Prefabs/UI/Notice/OperationNoticeUI",
         "parent": 4,
@@ -414,7 +405,7 @@
         "z": 0, 
         "group" : 3
     },
-    "RewardModule":{
+    {
     	"name":"RewardModule",
         "path": "Prefabs/UI/Reward/RewardUI",
         "parent": 4,
@@ -423,7 +414,7 @@
         "z": 0, 
         "group" : 3
     },
-     "GameRaiderModule": {
+    {
         "name":"GameRaiderModule",
         "path": "Prefabs/UI/Raider/GameRaiderUI",
         "parent": 1,
@@ -432,7 +423,7 @@
         "z": 0, 
         "group" : 0
     },
-    "MusicModule": {
+    {
         "name":"MusicModule",
         "path": "Prefabs/UI/Others/MusicUI",
         "parent": 4,
@@ -441,7 +432,7 @@
         "z": 0, 
         "group" : 3
     },
-    "NicknameModule": {
+    {
         "name":"NicknameModule",
         "path": "Prefabs/UI/Others/NicknameUI",
         "parent": 4,
@@ -450,7 +441,7 @@
         "z": 0, 
         "group" : 3
     },
-    "VictoryModule": {
+    {
         "name":"VictoryModule",
         "path": "Prefabs/VictoryUI",
         "parent": 0,
@@ -459,7 +450,7 @@
         "z": 0, 
         "group" : 0
     },
-    "PrefaceModule": {
+    {
         "name":"PrefaceModule",
         "path": "Prefabs/UI/Preface/PrefaceUI",
         "parent": 0,
@@ -468,7 +459,7 @@
         "z": 0, 
         "group" : 0
     },
-    "ResourceDownloadModule": {
+    {
         "name":"ResourceDownloadModule",
         "path": "Prefabs/UI/ResourceDownload/ResourceDownloadUI",
         "parent": 4,
@@ -477,4 +468,4 @@
         "z": 0, 
         "group" : 3
     }
-}
+]

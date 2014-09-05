@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class NoviceGuideStepA_StateGlobal:NoviceGuidState
@@ -84,7 +84,7 @@ public class NoviceGuideStepA_StateOne:NoviceGuidState
 		//selectRole
 		//NoviceGuideStepEntityManager.FinishCurrentStep ();
 //		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SELECT_ROLE;
-		ModuleManger.Instance.ShowModule (ModuleEnum.SelectRoleModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.SelectRoleModule);
 	}
 }
 

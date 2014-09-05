@@ -111,7 +111,7 @@ public class StageItemView : MonoBehaviour{
 	private void StepIntoNextScene(GameObject item){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 
-		ModuleManger.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
+		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
 
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();

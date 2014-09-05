@@ -24,7 +24,7 @@ public class PartyScene : SceneBase{
 	protected override void InitSceneList(){
 		AddModuleToScene<SortController>(ModuleEnum.SortModule);
 		AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
-		AddModuleToScene<PartyPartyPage>(ModuleEnum.PartyModule);
+		AddModuleToScene<PartyModule>(ModuleEnum.PartyModule);
 	}
 }
 
@@ -51,7 +51,7 @@ public class SellScene : SceneBase{
 
 	protected override void InitSceneList(){
 		AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
-		AddModuleToScene< SellModule >(ModuleEnum.SellModule);
+		AddModuleToScene< SellUnitModule >(ModuleEnum.SellUnitModule);
 		AddModuleToScene<SortController>(ModuleEnum.SortModule);
 	}
 }
@@ -88,7 +88,7 @@ public class CatalogScene : SceneBase{
 	
 	protected override void InitSceneList(){
 		AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
-		AddModuleToScene< CatalogModule >(ModuleEnum.UnitCatalogModule);
+		AddModuleToScene< CatalogModule >(ModuleEnum.CatalogModule);
 	}
 }
 
@@ -101,7 +101,7 @@ public class UnitListScene : SceneBase{
 
 	protected override void InitSceneList(){
 		AddModuleToScene<ItemCounterModule>(ModuleEnum.ItemCounterModule);
-		AddModuleToScene< MyUnitListModule >(ModuleEnum.UnitListModule);
+		AddModuleToScene< MyUnitsListModule >(ModuleEnum.MyUnitsListModule);
 		AddModuleToScene<SortController>(ModuleEnum.SortModule);
 
 	}

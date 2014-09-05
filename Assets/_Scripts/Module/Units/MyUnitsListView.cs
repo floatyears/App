@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MyUnitListView : ViewBase {
+public class MyUnitsListView : ViewBase {
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
@@ -33,10 +33,9 @@ public class MyUnitListView : ViewBase {
 
 	private void CreateDragPanel(){
 		myUnitDataList = GetUnitList();
-		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("MyUnitsListDragPanel", MyUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(myUnitDataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.UnitListDragPanelArgs, transform);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			MyUnitItem.Inject(dragPanel.ScrollItem[ i ]).Init(myUnitDataList[ i ]);

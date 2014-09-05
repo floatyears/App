@@ -38,7 +38,7 @@ public class FriendListView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefuseApplyButtonClick", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.FriendListModule, "RefuseApplyButtonClick");
+		ModuleManager.SendMessage (ModuleEnum.FriendListModule, "RefuseApplyButtonClick");
 	}
 
 	void InitUIElement(){
@@ -50,10 +50,9 @@ public class FriendListView : ViewBase{
 	void CreateDragView(){
 		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
 		friendDataList = DataCenter.Instance.FriendList.Friend;
-		dragPanel = new DragPanel("FriendDragPanel", FriendUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(friendDataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);

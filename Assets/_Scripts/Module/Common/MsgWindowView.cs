@@ -31,8 +31,6 @@ public class MsgWindowView : ViewBase{
     UIButton btnLeft;
     UIButton btnRight;
 
-    UITexture mask;
-
     BtnParam btnCenterParam;
     BtnParam btnLeftParam;
     BtnParam btnRightParam;
@@ -44,24 +42,58 @@ public class MsgWindowView : ViewBase{
     public override void Init(UIConfigItem config){
         FindUIElement();
         base.Init(config);
+
+		Reset();
     }
     
-    public override void ShowUI(){
-        base.ShowUI();
-        SetUIElement();
-    }
-    
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+
+		if (!msgWindowParams.inputEnable){
+			LogHelper.Log("open msgWindow and block input");
+			ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.MessageWindow, true));
+		}
+		else {
+			SetLayerToBlocker(false);
+		}
+	}
+
     public override void HideUI(){
-//      base.HideUI();
-//		base.ShowUI ();
-        ResetUIElement();
-		ShowSelf(false);
+
+		base.HideUI ();
+		Reset ();
+
+		if (!msgWindowParams.inputEnable){
+			LogHelper.Log("close msgWindow and resume input");
+			ModuleManager.SendMessage(ModuleEnum.MaskModule, "block",  
+			                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
+		}
+		SetLayerToBlocker(true);
     }
+
+	protected override void ToggleAnimation (bool isShow)
+	{
+
+		if (isShow) {
+			Debug.Log("Show Module: " + config.moduleName);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+			window.transform.localScale = new Vector3(1f, 0f, 1f);
+			iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			Debug.Log("Hide Module: " + config.moduleName);
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
+
+
+	}
     
     protected virtual void FindUIElement(){
         window = FindChild("Window");
-        mask = FindChild<UITexture>("Mask");
-
         btnLeft = FindChild<UIButton>("Window/Button_Left");
         btnRight = FindChild<UIButton>("Window/Button_Right");
         btnCenter = FindChild<UIButton>("Window/Button_Center");
@@ -77,35 +109,12 @@ public class MsgWindowView : ViewBase{
         UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
 
     }
-	
-    void ShowSelf(bool canShow){
-        this.gameObject.SetActive(canShow);
-        if (canShow){
-            if (!msgWindowParams.inputEnable){
-                LogHelper.Log("open msgWindow and block input");
-                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
-				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
-            }
-            else {
-                SetLayerToBlocker(false);
-            }
-            LogHelper.Log("open msgWindow showSelf true");
-            window.transform.localScale = new Vector3(1f, 0f, 1f);
-            iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-        } 
-		else{
-            Reset();
-            if (!msgWindowParams.inputEnable){
-                LogHelper.Log("close msgWindow and resume input");
-                MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, 
-				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
-            }
-            SetLayerToBlocker(true);
-            LogHelper.Log("open msgWindow showSelf false");
-        }
-    }
+
 
     protected virtual void Reset(){
+		titleLabel.text = string.Empty;
+		SetLayerToBlocker(true);
+
         btnCenterParam = null;
         btnLeftParam = null;
         btnRightParam = null;
@@ -122,25 +131,15 @@ public class MsgWindowView : ViewBase{
         msgLabelTop.text = string.Empty;
         msgLabelBottom.text = string.Empty;
     }
-	    
-    void SetUIElement(){
-        this.gameObject.SetActive(false);
-        Reset();
-    }
-    
-    void ResetUIElement(){
-        titleLabel.text = string.Empty;
-        SetLayerToBlocker(true);
-    }
     
     public override void CallbackView(params object[] args){
 //        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (args[0].ToString()){
-        case "ShowMsg": 
+        case "show": 
             ShowMsgWindow(args[1]);
             break;
-        case "CloseMsg": 
-			CloseMsgWindow(args[1]);
+        case "hide": 
+			HideUI ();
             break;
         default:
             break;
@@ -150,13 +149,11 @@ public class MsgWindowView : ViewBase{
     void SetLayerToBlocker(bool toBlocker){
         LogHelper.Log("SetLayerToBlocker(), {0}", toBlocker);
         if (toBlocker){
-            mask.gameObject.SetActive(true);
             btnLeft.gameObject.layer = TouchEventBlocker.blockerLayer;
             btnRight.gameObject.layer = TouchEventBlocker.blockerLayer;
             btnCenter.gameObject.layer = TouchEventBlocker.blockerLayer;
         }
         else {
-            mask.gameObject.SetActive(false);
             btnLeft.gameObject.layer = TouchEventBlocker.defaultLayer;
             btnRight.gameObject.layer = TouchEventBlocker.defaultLayer;
             btnCenter.gameObject.layer = TouchEventBlocker.defaultLayer;
@@ -167,7 +164,8 @@ public class MsgWindowView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnRightParam != null){
 			BtnParam bp = btnRightParam;
-			ShowSelf(false);
+//			ShowSelf(false);
+			HideUI();
 			DataListener callback = bp.callback;
 
             if (callback != null){
@@ -181,7 +179,7 @@ public class MsgWindowView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnLeftParam != null){
 			BtnParam bp = btnLeftParam;
-			ShowSelf(false);
+			HideUI();
 			DataListener callback = bp.callback;
 
             if (callback != null){
@@ -195,7 +193,7 @@ public class MsgWindowView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnCenterParam != null){
 			BtnParam bp = btnCenterParam;
-			ShowSelf(false);
+			HideUI();
 			DataListener callback = bp.callback;
             if (callback != null){
 				callback(bp.args);
@@ -299,17 +297,14 @@ public class MsgWindowView : ViewBase{
 		} else {
 			clider.enabled = false;
 		}
-        ShowSelf(true);  
         LogHelper.Log("UpdateNotePanel() start");
         titleLabel.text = msgWindowParams.titleText;
 
         UpdateTitleLabel();
         UpdateLabels();
         UpdateBtnParams();
-    }
 
-    void CloseMsgWindow(object args){
-        ShowSelf(false);
+		ShowUI ();
     }
 
 	public UIButton BtnLeft

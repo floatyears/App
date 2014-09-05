@@ -93,7 +93,7 @@ public class UserBriefInfoView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("Choose", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.UserBriefInfoModule, "Choose");
+		ModuleManager.SendMessage (ModuleEnum.UserBriefInfoModule, "Choose");
 		ShowSelf(false);
 
 	}
@@ -102,7 +102,7 @@ public class UserBriefInfoView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ViewDetailInfo", null);
 //		ExcuteCallback(cbd);
-		ModuleManger.SendMessage (ModuleEnum.UserBriefInfoModule, "ViewDetailInfo");
+		ModuleManager.SendMessage (ModuleEnum.UserBriefInfoModule, "ViewDetailInfo");
 		ShowSelf(false);
 	}
 	
@@ -167,7 +167,7 @@ public class UserBriefInfoView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
 //		ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.UserBriefInfoModule, "ClickDelete");
+		ModuleManager.SendMessage (ModuleEnum.UserBriefInfoModule, "ClickDelete");
 		ShowSelf(false);
 	}
 

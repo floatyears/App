@@ -43,7 +43,7 @@ public class ReceptionView : ViewBase {
 
 	private void InitUIElement(){
 		refuseAllBtn = FindChild<UIButton>("Button_Refuse");
-		UILabel refuseBtnLabel = refuseAllBtn.GetComponentInChildren<UILabel>();
+		UILabel refuseBtnLabel = FindChild<UILabel>("Button_Refuse/Label_Text");
 		refuseBtnLabel.text = TextCenter.GetText("Btn_Reception_RefuseAll");
 		UIEventListener.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
 
@@ -53,10 +53,9 @@ public class ReceptionView : ViewBase {
 	private void CreateDragView(){
 //		Debug.LogError("CreateDragView(), Reception...");
 		friendInDataList = DataCenter.Instance.FriendList.FriendIn;
-		dragPanel = new DragPanel("ReceptionDragPanel", FriendUnitItem.ItemPrefab);
+		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(friendInDataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.FriendListDragPanelArgs, transform);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);
@@ -67,16 +66,8 @@ public class ReceptionView : ViewBase {
 
 	private void ClickRefuseBtn(GameObject args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetMsgWindowParams());
-	}
-
-	MsgWindowParams GetMsgWindowParams(){
-		MsgWindowParams msgWindowParam = new MsgWindowParams();
-		msgWindowParam.titleText = TextCenter.GetText("RefuseAll");
-		msgWindowParam.contentText = TextCenter.GetText("ConfirmRefuseAll");
-		msgWindowParam.btnParams = new BtnParam[ 2 ]{new BtnParam(), new BtnParam()};
-		msgWindowParam.btnParams[ 0 ].callback = CallbackRefuseAll;
-		return msgWindowParam;
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetMsgWindowParams());
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RefuseAll"), TextCenter.GetText ("ConfirmRefuseAll"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallbackRefuseAll);
 	}
 
 	void CallbackRefuseAll(object args){
@@ -125,16 +116,8 @@ public class ReceptionView : ViewBase {
 	}
 
 	void DeleteFriendPicked(object msg){
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
-	}
-
-	MsgWindowParams GetDeleteMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("DeleteNoteTitle");
-		msgParams.contentText = TextCenter.GetText("DeleteNoteContent");
-		msgParams.btnParams = new BtnParam[ 2 ]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].callback = CallBackDeleteFriend;
-		return msgParams;
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("DeleteNoteTitle"), TextCenter.GetText ("DeleteNoteContent"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallBackDeleteFriend);
 	}
 
 	void CallBackDeleteFriend(object args){
@@ -153,7 +136,10 @@ public class ReceptionView : ViewBase {
 	void AcceptApplyFromOther(object msg){
 		if(CheckFriendCountLimit()){
 			Debug.LogError(string.Format("Friend Count limited. Current Friend count is :" + DataCenter.Instance.FriendCount));
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FirendOverflow"),
+			                                   TextCenter.GetText("FriendOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.UnitMax),
+			                                   TextCenter.GetText("DoFriendExpand"),TextCenter.GetText("CANCEL"),CallBackScratchScene);
 			return;
 		}
 		
@@ -192,20 +178,8 @@ public class ReceptionView : ViewBase {
 		ShowUI();
 	}
 
-	MsgWindowParams GetFriendExpansionMsgParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("FirendOverflow");
-		msgParams.contentText = TextCenter.GetText("FriendOverflowText",
-		                                                          DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
-		                                                          DataCenter.Instance.UserInfo.UnitMax);
-		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-		msgParams.btnParams[ 0 ].text = TextCenter.GetText("DoFriendExpand");
-		msgParams.btnParams[ 0 ].callback = CallBackScratchScene;
-		return msgParams;
-	}
-
 	void CallBackScratchScene(object args){
-		ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.ShopModule);
 	}
 
 	private void SortUnitByCurRule(){

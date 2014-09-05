@@ -52,15 +52,8 @@ public class TouchEventBlocker{
 		}
 	}
 
-//    public bool IsBlocked {
-//        get {return isBlocked;}
-//    }
 
-	public void SetState(BlockerReason reason, bool isBlocked){
-		RecordState(reason, isBlocked);
-	}
-
-	private void RecordState(BlockerReason reason, bool isBlocked){
+public void SetState(BlockerReason reason, bool isBlocked){
 //		if(stateDic.ContainsKey(reason)){
 //			stateDic[reason] = isBlocked;
 //		}
@@ -68,7 +61,7 @@ public class TouchEventBlocker{
 //			stateDic.Add(reason, isBlocked);
 //		}
 
-//		Debug.Log ("blocker reason: " +reason +" block: " + isBlocked);
+		Debug.Log ("blocker reason: " +reason +" block: " + isBlocked);
 
 		CameraLayerObj camLayerObj = new CameraLayerObj ();
 		camLayerObj.reason = reason;

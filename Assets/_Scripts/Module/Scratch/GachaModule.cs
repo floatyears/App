@@ -16,35 +16,20 @@ public class GachaModule : ModuleBase {
 
     protected string titleText = "";
 
-	public GachaModule(UIConfigItem config):base(  config) {
+	public GachaModule(UIConfigItem config,params object[] args):base(config, args) {
 		CreateUI<GachaView> ();
 	}
-
-    public override void InitUI () {
-        base.InitUI ();
-    }
     
     public override void ShowUI () {
         base.ShowUI ();
-        BeforeSetTitleView();
-        SetTitleView();
-    }
-    
-    public override void HideUI () {
-        base.HideUI ();
-    }
-    
-    public override void DestoryUI () {
-        base.DestoryUI ();
-    }
-
-    protected virtual void BeforeSetTitleView(){
-
-    }
-
-    private void SetTitleView(){
-//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SetTitleView", titleText);
-		view.CallbackView("SetTitleView", titleText);
+//        SetTitleView();
+//		foreach (var item in moduleData.Keys) {
+//			Debug.Log ("gacha: " + item);
+//		}
+		
+		if (moduleData != null) {
+			(view as GachaView).Enter(moduleData);
+		}
     }
 
 }

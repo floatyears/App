@@ -62,18 +62,8 @@ public class NicknameView : ViewBase {
 		LogHelper.Log("ClickOkButton to rename");
 //		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
 		if (string.IsNullOrEmpty(nickNameInput.value) && string.IsNullOrEmpty(nickNameInput.defaultText)){// == null || nickNameInput.value == "") {
-			MsgWindowParams mwp = new MsgWindowParams ();
-			//mwp.btnParams = new BtnParam[1];
-			mwp.btnParam = new BtnParam ();
-			mwp.titleText = TextCenter.GetText("NameIsNullTitle");
-			mwp.contentText = TextCenter.GetText("NameIsNullContent");
-			
-			BtnParam sure = new BtnParam ();
-			sure.callback = null;
-			sure.text = TextCenter.GetText("OK");
-			mwp.btnParam = sure;
-			
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("NameIsNullTitle"),TextCenter.GetText("NameIsNullContent"),TextCenter.GetText("OK"));
 		} else {
 			ChangeName (!string.IsNullOrEmpty(nickNameInput.value) ? nickNameInput.value : nickNameInput.defaultText);
 		}
@@ -83,7 +73,7 @@ public class NicknameView : ViewBase {
 	void ClickCancelButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		//		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		ModuleManger.Instance.ShowModule(ModuleEnum.OthersModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
 	}
 
 
@@ -125,7 +115,7 @@ public class NicknameView : ViewBase {
 			}
 		}
 		
-		ModuleManger.Instance.ShowModule(ModuleEnum.OthersModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
 //		HideUI ();
 	}
 

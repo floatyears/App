@@ -55,9 +55,9 @@ public class HomeView : ViewBase{
 	private void OnChangeSceneComplete(object data ){
 		if((ModuleEnum)data == ModuleEnum.HomeModule){
 			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE_EXE) {
-				ModuleManger.Instance.ShowModule (ModuleEnum.UnitsModule);	
+				ModuleManager.Instance.ShowModule (ModuleEnum.UnitsMainModule);	
 			} else if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
-				ModuleManger.Instance.ShowModule(ModuleEnum.ScratchModule);
+				ModuleManager.Instance.ShowModule(ModuleEnum.ScratchModule);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT){
 				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.QUEST);
 			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.INPUT_NAME){
@@ -100,27 +100,26 @@ public class HomeView : ViewBase{
 	}
 
 	void ClickReward(GameObject obj){
-		ModuleManger.Instance.ShowModule (ModuleEnum.RewardModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
 	}
 
 	void ClickNotice(GameObject obj){
-		ModuleManger.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
 	}
 
 	void ClickPurchase(GameObject obj){
-		ModuleManger.Instance.ShowModule (ModuleEnum.ShopModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ShopModule);
 	}
 
 	void CreateStoryView(object args){
 		List<TCityInfo> tciList = args as List<TCityInfo>;
-		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab);
+		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab,transform);
 		CreateScrollView(storyDragPanel, tciList);
 	}
 
 	void CreateScrollView(DragPanel panel, List<TCityInfo> cityList){
 //		panel.CreatUI();
 		panel.AddItem(GetDragPanelCellCount(cityList));               
-		panel.DragPanelView.SetScrollView(ConfigDragPanel.StoryStageDragPanelArgs, storyRoot.transform);
 		UpdateInfo (panel, cityList);
 
 		foreach (var item in panel.ScrollItem)
@@ -164,7 +163,7 @@ public class HomeView : ViewBase{
 	void ClickStoryItem(GameObject item){
 		Debug.LogError("ClickStoryItem ");
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs();
-		ModuleManger.SendMessage (ModuleEnum.HomeModule, "ClickStoryItem", stageInfo [item].StageInfo);
+		ModuleManager.SendMessage (ModuleEnum.HomeModule, "ClickStoryItem", stageInfo [item].StageInfo);
 	}
 
 	//----New
@@ -225,27 +224,17 @@ public class HomeView : ViewBase{
 //			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
 			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
-
-				MsgWindowParams mwp = new MsgWindowParams ();
-				//mwp.btnParams = new BtnParam[1];
-				mwp.btnParam = new BtnParam ();
-				mwp.titleText = TextCenter.GetText("DownloadResourceTipTile");
-				mwp.contentText = TextCenter.GetText("DownloadResourceTipContent");
 				
-				BtnParam sure = new BtnParam ();
-				sure.callback = o=>{
+//				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
 					MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
-					ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
-				};
-				sure.text = TextCenter.GetText("OK");
-				mwp.btnParam = sure;
-				
-				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+					ModuleManager.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
+				});
 				return;
 			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-			ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
 		}
@@ -253,13 +242,13 @@ public class HomeView : ViewBase{
 
 	void DownloadComplete(object data){
 //		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-		ModuleManger.Instance.ShowModule (ModuleEnum.StageSelectModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 		MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, (uint)2);
 	}
 
 	void DownloadCompleteEx(object data){
 //		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ModuleManger.Instance.ShowModule(ModuleEnum.StageSelectModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
 		MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 	}
 
@@ -271,30 +260,21 @@ public class HomeView : ViewBase{
 			}
 
 			if(DataCenter.Instance.UserInfo.Rank < 10){
-				MsgWindowParams mwp = new MsgWindowParams ();
-				//mwp.btnParams = new BtnParam[1];
-				mwp.btnParam = new BtnParam ();
-				mwp.titleText = TextCenter.GetText("EventRankNeedTitle");
-				mwp.contentText = TextCenter.GetText("EventRankNeedContent");
 				
-				BtnParam sure = new BtnParam ();
-				sure.callback = null;
-				sure.text = TextCenter.GetText("OK");
-				mwp.btnParam = sure;
-				
-				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventRankNeedTitle"),TextCenter.GetText("EventRankNeedContent"),TextCenter.GetText("OK"));
 				return;
 			}
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
 			if((GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
-				ModuleManger.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
+				ModuleManager.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
 				return;
 			}
 
 
-			ModuleManger.Instance.ShowModule(ModuleEnum.StageSelectModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
 	}
@@ -312,28 +292,21 @@ public class HomeView : ViewBase{
 			Umeng.GA.StartLevel ("UnitLimited");
 			Umeng.GA.FinishLevel ("UnitLimited");
 
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("UnitOverflow"),
+			                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.UnitMax),
+			                                   TextCenter.GetText("OK"),
+			                                   TurnScene);
+
 
 			return true;
 		}
 		else
 			return false;
 	}
-	
-	private MsgWindowParams GetUnitCountOverParams(){
-		MsgWindowParams msgParams = new MsgWindowParams();
-		msgParams.titleText = TextCenter.GetText("UnitOverflow");
-		msgParams.contentText = TextCenter.GetText("UnitOverflowText", 
-		                                           DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,
-		                                           DataCenter.Instance.UserInfo.UnitMax);
-		msgParams.btnParam = new BtnParam();
-		msgParams.btnParam.callback = TurnScene;
-		msgParams.fullScreenClick = true;
-		return msgParams;
-	}
 
 	void TurnScene(object msg){
-		ModuleManger.Instance.ShowModule(ModuleEnum.ShopModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.ShopModule);
 	}
 
 	public void FogFly(){

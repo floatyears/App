@@ -3,11 +3,12 @@ using System.Collections;
 
 public class SceneInfoBarView : ViewBase{
 	private UILabel sceneNameLabel;
-	private UIButton backBtn;
+	private GameObject backBtn;
 	private UILabel backBtnLabel;
 //	private IUICallback iuiCallback; 
 	private bool temp = false;
 //	private bool isTweenDone = false;
+	private ModuleEnum backModule = ModuleEnum.None;
 	
 	public override void Init ( UIConfigItem config ) {
 		base.Init (config);
@@ -15,37 +16,13 @@ public class SceneInfoBarView : ViewBase{
 
 //		temp = origin is IUICallback;
 	}
-	
-	public override void ShowUI () {
-//		SetGameObjectActive (true);
-
-//		isTweenDone = false;
-		GameTimer.GetInstance ().AddCountDown (0.5f, RefreshState);
-		base.ShowUI ();
-		ShowTween();
-	}
-	
-	public override void HideUI () {
-		GameTimer.GetInstance ().ExitCountDonw (RefreshState);
-		iTween.Stop ();
-		base.HideUI ();
-//		SetGameObjectActive (false);
-	}
-	
-	public override void DestoryUI () {
-		base.DestoryUI ();
-	}
-
-	void RefreshState () {
-//		isTweenDone = true;
-	}
 
 	private void InitUI() {
 		sceneNameLabel = FindChild< UILabel >( "SceneTip/Label" );
-		backBtn =  FindChild< UIButton >( "Button_Back" );
+		backBtn =  FindChild("Button_Back");
 		backBtnLabel = FindChild<UILabel> ("Button_Back/Label");
 		backBtnLabel.text = TextCenter.GetText("Btn_SceneBack");
-		UIEventListener.Get( backBtn.gameObject ).onClick = BackPreScene;
+		UIEventListener.Get(backBtn).onClick = BackPreScene;
 	}
 	
 	public void CallbackView(params object[] args) {
@@ -61,44 +38,19 @@ public class SceneInfoBarView : ViewBase{
 		}
 	}
 
-	public void SetBackBtnActive (bool canBack){
-		backBtn.gameObject.SetActive( canBack );
+	public void SetBackBtnActive (bool canBack,ModuleEnum name = ModuleEnum.None){
+		if (canBack) {
+			backModule = name;
+			Debug.Log("back: " + name);
+		}
+		backBtn.SetActive( canBack );
 	}
 
 	public void BackPreScene (GameObject go) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
-//		if( UIManager.Instance.baseScene.CurrentScene == ModuleEnum.UnitDetail ) {
-//			ModuleEnum preScene = UIManager.Instance.baseScene.PrevScene;
-//			MsgCenter.Instance.Invoke(CommandEnum.ReturnPreScene, preScene);
-//			ModuleManger.Instance.ShowModule( preScene );
-//			return;
-//		}
 
-//		if(temp) {
-//			IUICallback call = origin as IUICallback;
-//			call.CallbackView(go);
-//		}
+		ModuleManager.Instance.ShowModule (backModule);
 	}
-
-	int zOffset = -1;
-	bool isAdd = false;
-	private void ShowTween(){
-//		if (UIManager.Instance.current == null) {
-//			return;		
-//		}
-
-//		if (UIManager.Instance.current.CurrentDecoratorScene == ModuleEnum.UnitCatalogModule) {
-//			isAdd = true;
-//			backBtnLabel.transform.localPosition += zOffset * Vector3.forward;
-//		} else if(isAdd) {
-//			backBtnLabel.transform.localPosition -= zOffset * Vector3.forward;
-//		}
-
-		gameObject.transform.localPosition = new Vector3(0, 500, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("y", -150.0f, "time", 0.2f, "islocal", true, "oncomplete", "TweenDone", "oncompletetarget", gameObject));
-	}
-
-	void TweenDone() { }
 
 	public void SetSceneName(string name){
 		sceneNameLabel.text = name;

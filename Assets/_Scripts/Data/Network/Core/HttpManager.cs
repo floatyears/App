@@ -180,7 +180,7 @@ public class HttpManager : INetSendPost {
 
     void CallbackCancelRequest(object args){
 //        Debug.LogError("CallbackCancelRequest()");
-        MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.Connecting, false));
-        MsgCenter.Instance.Invoke(CommandEnum.WaitResponse, false);
+		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.Connecting, false));
+       	ModuleManager.SendMessage(ModuleEnum.MaskModule, "wait", false);
     }
 }

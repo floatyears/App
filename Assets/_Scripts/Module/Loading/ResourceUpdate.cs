@@ -276,7 +276,7 @@ public class ResourceUpdate : MonoBehaviour {
 //						sure.text = TextCenter.GetText("Cancel");
 //						mwp.btnParams[1] = sure;
 //						MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
-						TipsManager.Instance.ShowMsgWindow(titleText,contentText,btntext);
+						TipsManager.Instance.ShowMsgWindow(titleText,contentText,btntext,DownloadAgain);
 					}
 	
 				} else {
@@ -288,7 +288,7 @@ public class ResourceUpdate : MonoBehaviour {
 								
 								
 //								StartCoroutine(CallLater());
-								ModuleManger.Instance.ShowModule (ModuleEnum.HomeModule);
+								ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 								MsgCenter.Instance.Invoke (CommandEnum.ResourceDownloadComplete);
 								
 								Umeng.GA.FinishLevel ("NewUserDownload");
@@ -667,31 +667,23 @@ public class ResourceUpdate : MonoBehaviour {
 
 			Umeng.GA.Event("DownloadError","FileErr:" + url);
 
-			MsgWindowParams mwp = new MsgWindowParams ();
-			mwp.btnParam = new BtnParam();
+//			MsgWindowParams mwp = new MsgWindowParams ();
+//			mwp.btnParam = new BtnParam();
 
-			mwp.titleText = 
+			string titleText = 
 #if LANGUAGE_CN
 			"下载错误";
 #else
 			"File Download Error";
 #endif
-			mwp.contentText = 
+			string contentText = 
 #if LANGUAGE_CN
 	"此文件下载错误：" + url;
 #else
 			"Network error.Please check your network connection and try again later.";
 #endif
-			
-			BtnParam sure = new BtnParam ();
-			sure.callback = o=>{
-				if (callback != null) {
-					callback(www);		
-				}
-				www.Dispose ();
-				globalWWW = null;
-			};
-			sure.text = 
+
+			string btntext = 
 			#if LANGUAGE_CN
 				"确定";
 			#else
@@ -707,8 +699,15 @@ public class ResourceUpdate : MonoBehaviour {
 //			#else
 //				"Retry";
 //			#endif
-			mwp.btnParam = sure;
-			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+//			MsgCenter.Instance.Invoke (CommandEnum.OpenMsgWindow, mwp);
+
+			TipsManager.Instance.ShowMsgWindow(titleText,contentText,btntext,o=>{
+				if (callback != null) {
+					callback(www);		
+				}
+				www.Dispose ();
+				globalWWW = null;
+			});
 
 		} else {
 			//call the callback nomatter what errors.

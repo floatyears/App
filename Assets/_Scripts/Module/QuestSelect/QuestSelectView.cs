@@ -64,12 +64,11 @@ public class QuestSelectView : ViewBase {
 		if (dragPanel != null)
 			dragPanel.DestoryUI ();
 
-		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
+		dragPanel = new DragPanel("QuestSelectDragPanel", QuestItemView.Prefab,transform);
 //		dragPanel.CreatUI();
 		int dataCount = accessQuestList.Count;
 		dragPanel.AddItem (dataCount);
 		CustomDragPanel();
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.QuestSelectDragPanelArgs, transform);
 		dataCount--;
 		for (int i = dragPanel.ScrollItem.Count - 1; i >=0 ; i--){
 			QuestItemView questItemView = QuestItemView.Inject(dragPanel.ScrollItem[ i ]);
@@ -81,16 +80,16 @@ public class QuestSelectView : ViewBase {
 	}
 
 	private void CustomDragPanel(){
-		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
-		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
+//		GameObject scrollView = dragPanel.DragPanelView.transform.FindChild("Scroll View").gameObject;
+//		GameObject scrollBar = dragPanel.DragPanelView.transform.FindChild("Scroll Bar").gameObject;
 		
-		scrollBar.transform.Rotate(new Vector3(0, 0, 270));
-		
-		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
-		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();
-		
-		uiScrollView.verticalScrollBar = uiScrollBar;
-		uiScrollView.horizontalScrollBar = null	;	
+//		scrollBar.transform.Rotate(new Vector3(0, 0, 270));
+//		
+//		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
+//		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();
+//		
+//		uiScrollView.verticalScrollBar = uiScrollBar;
+//		uiScrollView.horizontalScrollBar = null	;	
 	}
 	
 	private List<TQuestInfo> GetAccessQuest(List<TQuestInfo> questInfoList){
@@ -142,13 +141,12 @@ public class QuestSelectView : ViewBase {
 	void GenerateQuest(List<TQuestInfo> questInfo, TStageInfo targetStage) {
 		if (dragPanel != null)
 			dragPanel.DestoryUI ();
-		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab);
+		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(1);
 		TQuestInfo quest = questInfo.Find (a => a.ID == targetStage.QuestId);
 		CustomDragPanel();
 
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.HelperListDragPanelArgs, transform);
 		questItem.Clear ();
 		if (quest == default(TQuestInfo)) {
 			return;	
@@ -160,7 +158,7 @@ public class QuestSelectView : ViewBase {
 	}
 
 	void EvolveCallback() {
-		ModuleManger.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
+		ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
 		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectQuest, evolveStart);
 	}
 

@@ -27,14 +27,14 @@ public class ModuleBase{
 		}
 	}
 
-	protected Dictionary<string,object> data = null;
-	
+	protected Dictionary<string,object> moduleData = null;
+
 	public ModuleBase(UIConfigItem uiConfig, params object[] args){
 		config = uiConfig;
 		if (args.Length > 0) {
 			Dictionary<string,object> dic = new Dictionary<string, object>();
 			if (args.Length %2 != 0) {
-				Debug.LogError("Tween Error: Hash requires an even number of arguments!"); 
+				Debug.LogError("Module Create Args Error: Dictionary requires an even number of arguments!"); 
 			}else{
 				int i = 0;
 				while(i < args.Length - 1) {
@@ -42,7 +42,7 @@ public class ModuleBase{
 					i += 2;
 				}
 			}
-			data = dic;	
+			moduleData = dic;	
 		}
 	}
 
@@ -117,6 +117,22 @@ public class ModuleBase{
 		if (view != null)
 		{
 			view.CallbackView(data);
+		}
+	}
+
+	public void SetModuleData(params object[] args){
+		if (args.Length > 0) {
+			Dictionary<string,object> dic = new Dictionary<string, object>();
+			if (args.Length %2 != 0) {
+				Debug.LogError("Module Data Set Error: Dictionary requires an even number of arguments!"); 
+			}else{
+				int i = 0;
+				while(i < args.Length - 1) {
+					dic.Add(args[i].ToString(), args[i+1]);
+					i += 2;
+				}
+			}
+			moduleData = dic;	
 		}
 	}
 }

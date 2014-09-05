@@ -163,68 +163,57 @@ public class DragPanelView : ViewBase {
 
 	public const string ScrollViewDepth = "ScrollViewDepth";
 
-	public void SetScrollView(Dictionary<string, object> argsDic, Transform parent){
-		Vector3 scrollerLocalPos = Vector3.zero;
-		Vector3 position = Vector3.zero;
-		Vector4 clipRange = Vector4.zero;
-		Vector3 scrollBarPosition = Vector3.zero;
-		UIGrid.Arrangement gridArrange = UIGrid.Arrangement.Horizontal;
-		UIScrollView.Movement scrollMovement = UIScrollView.Movement.Horizontal;
-		UIScrollBar.FillDirection scrollBarDir = UIProgressBar.FillDirection.LeftToRight;
-		int maxPerLine = 0;
-		int cellWidth = 100;
-		int cellHeight = 100;
+	public void SetScrollView(DragPanelConfigItem config, Transform parent){
+//		Vector3 scrollerLocalPos = Vector3.zero;
+//		Vector3 position = Vector3.zero;
+//		Vector4 clipRange = Vector4.zero;
+//		Vector3 scrollBarPosition = Vector3.zero;
+//		UIGrid.Arrangement gridArrange = UIGrid.Arrangement.Horizontal;
+//		UIScrollView.Movement scrollMovement = UIScrollView.Movement.Horizontal;
+//		UIScrollBar.FillDirection scrollBarDir = UIProgressBar.FillDirection.LeftToRight;
+//		int maxPerLine = 0;
+//		int cellWidth = 100;
+//		int cellHeight = 100;
 
-		if( argsDic.ContainsKey( "scrollBarDir"))
-			scrollBarDir = (UIScrollBar.FillDirection)argsDic["scrollBarDir"];
-		if( argsDic.ContainsKey( "scrollMovement"))
-			scrollMovement = (UIScrollView.Movement)argsDic["scrollMovement"];
-		if( argsDic.ContainsKey( "scrollerLocalPos"))
-			scrollerLocalPos = (Vector3)argsDic["scrollerLocalPos"];
-		if( argsDic.ContainsKey( "position" ))
-			position = (Vector3)argsDic["position"];
-		if( argsDic.ContainsKey( "clipRange" ))
-			clipRange = (Vector4)argsDic["clipRange"];
-		if( argsDic.ContainsKey("scrollBarPosition"))
-			scrollBarPosition = (Vector3)argsDic["scrollBarPosition"];
-		if( argsDic.ContainsKey( "gridArrange"))
-			gridArrange = (UIGrid.Arrangement)argsDic["gridArrange"];
-		if( argsDic.ContainsKey("maxPerLine"))
-			maxPerLine = (int)argsDic["maxPerLine"];
-		if( argsDic.ContainsKey("cellWidth"))
-			cellWidth = (int)argsDic["cellWidth"];
-		if( argsDic.ContainsKey("cellHeight"))
-			cellHeight = (int)argsDic["cellHeight"];
-		if (argsDic.ContainsKey ("depth")) {
-			scrollBar.GetComponent<UIPanel>().depth = scrollView.GetComponent<UIPanel>().depth = (int)argsDic["depth"];
-		}
+////		scrollBarDir = (UIScrollBar.FillDirection)config.sc["scrollBarDir"];
+//		scrollMovement = config.scrollMovement;//(UIScrollView.Movement)config["scrollMovement"];
+//		scrollerLocalPos = config.scrollerLocalPos;//(Vector3)config["scrollerLocalPos"];
+//		position = config.position;//(Vector3)config["position"];
+//		clipRange = config.clipRange;//(Vector4)config["clipRange"];
+//		scrollBarPosition = config.scrollBarPosition;//(Vector3)config["scrollBarPosition"];
+//		gridArrange = config.gridArrage;//(UIGrid.Arrangement)config["gridArrange"];
+//		maxPerLine = config;(int)config["maxPerLine"];
+//		cellWidth = (int)config["cellWidth"];
+//		cellHeight = (int)config["cellHeight"];
 
-		scrollView.movement = scrollMovement;
+		scrollBar.GetComponent<UIPanel>().depth = scrollView.GetComponent<UIPanel>().depth = config.depth;
+
+		scrollView.movement = config.scrollMovement;
 		gameObject.transform.parent = parent;
 		transform.localScale = Vector3.one;
-        gameObject.transform.localPosition = scrollerLocalPos;
-		scrollView.transform.localPosition = position;
-		clip.clipRange = clipRange;
-		scrollBar.transform.localPosition = scrollBarPosition;
+		gameObject.transform.localPosition = config.scrollerLocalPos;
+		scrollView.transform.localPosition = config.position;
+		clip.clipRange = config.clipRange;
+		scrollBar.transform.localPosition = config.scrollBarPosition;
 
-		grid.arrangement = gridArrange;
-		grid.maxPerLine = maxPerLine;
-		grid.cellWidth = cellWidth;
-		grid.cellHeight = cellHeight;
+		grid.arrangement = config.gridArrage;
+		grid.maxPerLine = config.maxPerLine;
+		grid.cellWidth = config.cellWidth;
+		grid.cellHeight = config.cellHeight;
 
 		Transform fg = scrollBar.transform.FindChild ("Foreground");
-		if (scrollMovement == UIScrollView.Movement.Vertical) {
+		if (config.scrollMovement == UIScrollView.Movement.Vertical) {
 				scrollView.horizontalScrollBar = null;	
 				scrollView.verticalScrollBar = scrollBar;
 				fg.Rotate (0, 0, -90);
 				fg.GetComponent<UISprite> ().alpha = 1;
-				fg.GetComponent<UISprite> ().width = (int)clipRange.w;
+				fg.GetComponent<UISprite> ().width = (int)config.clipRange.w;
 		} else {
 				scrollView.horizontalScrollBar = scrollBar;	
 				scrollView.verticalScrollBar = null;
 				fg.Rotate (0, 0, 0);
 				fg.GetComponent<UISprite> ().alpha = 1;
-				fg.GetComponent<UISprite> ().width = (int)clipRange.z;
+				fg.GetComponent<UISprite> ().width = (int)config.clipRange.z;
 		}
 
 		scrollView.ResetPosition ();

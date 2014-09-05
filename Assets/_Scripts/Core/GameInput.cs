@@ -111,8 +111,6 @@ public class GameInput : MonoBehaviour  {
 	void QuitGame() {
 //		Debug.LogError ("QuitGame befoure camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParams = new BtnParam[2];
 		string title = "";
 		string content = "";
 #if LANGUAGE_EN
@@ -122,20 +120,9 @@ public class GameInput : MonoBehaviour  {
 		title = "退出";
 		content = "确定退出游戏？";
 #endif
-		mwp.titleText = title;
-		mwp.contentText = content;
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
-		BtnParam sure = new BtnParam ();
-		sure.callback = SureQuit;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
-		
-		sure = new BtnParam ();
-		sure.callback = CancelQuit;
-		sure.text = TextCenter.GetText("Cancel");
-		mwp.btnParams[1] = sure;
-
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+		TipsManager.Instance.ShowMsgWindow (title, content, TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureQuit, CancelQuit);
 
 //		Debug.LogError ("QuitGame end camera depth : " + Main.Instance.NguiCamera.eventReceiverMask);
 	}
@@ -179,10 +166,8 @@ public class GameInput : MonoBehaviour  {
 			}
 		}
 	}
-
-
-	void ProcessMouse() {
 	
+	void ProcessMouse() {
 
 		if(Input.GetMouseButtonDown(0)) {
 			OnPress();

@@ -13,6 +13,8 @@ public class ViewBase : MonoBehaviour {
 		if (config != null && config.parent != null) {
 			transform.parent = config.parent;	
 			transform.localScale = Vector3.one;
+			transform.localPosition = new Vector3(-10000,-3000,0);
+			gameObject.SetActive(false);
 		}
 
 	}
@@ -59,19 +61,13 @@ public class ViewBase : MonoBehaviour {
 
 		return root.transform.Find (path).GetComponent<T> ();
 	}
-
-	protected Vector3 CaculateReallyPoint (Vector3 distance, Vector3 parentPosition) {
-		Vector3 point = distance + transform.localPosition +  parentPosition;
-		Vector3 targetpoint = point * Main.Instance.uiRoot.transform.localScale.y;
-		return targetpoint;
-	}
 	
 	public virtual void CallbackView (params object[] args) {
 
 	}
 
 	
-	protected void ToggleAnimation(bool isShow){
+	protected virtual void ToggleAnimation(bool isShow){
 		if (isShow) {
 			Debug.Log("Show Module: " + config.moduleName);
 			gameObject.SetActive(true);

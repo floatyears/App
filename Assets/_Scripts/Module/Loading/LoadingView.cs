@@ -50,7 +50,7 @@ public class LoadingView : ViewBase {
 
 		ResourceManager.Instance.Init (o => {
 			EffectManager em = EffectManager.Instance;
-			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
+//			ConfigDragPanel dragPanelConfig = new ConfigDragPanel();
 			
 			TextCenter.Instance.Init (o1=>{
 				
@@ -110,12 +110,12 @@ public class LoadingView : ViewBase {
 		Umeng.GA.Event ("Login");
 //		LoadingLogic loadingLogic = origin as LoadingLogic;
 //        loadingLogic.StartLogin();
-		ModuleManger.SendMessage (ModuleEnum.LoadingModule,"StartLogin");
+		ModuleManager.SendMessage (ModuleEnum.LoadingModule,"StartLogin");
     }
 
     private void SelectRoleFirst(){
 //		ModuleManger.Instance.ShowModule (ModuleEnum.Preface);
-		ModuleManger.Instance.ShowModule (ModuleEnum.SelectRoleModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.SelectRoleModule);
     }
 
 }

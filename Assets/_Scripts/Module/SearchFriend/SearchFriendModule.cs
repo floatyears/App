@@ -33,39 +33,15 @@ public class SearchFriendModule : ModuleBase{
 		}
 	}
 
-    MsgWindowParams GetSearchIdEmptyMsgWindowParams(){
-        MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.GetText("InputError");
-        msgWindowParam.contentText = TextCenter.GetText("InputEmpty");
-//        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
-        msgWindowParam.btnParam = new BtnParam();
-        return msgWindowParam;
-    }
 
-    MsgWindowParams GetSearchIdNotExistMsgWindowParams(){
-//        LogHelper.Log("GetSearchIdAlreadyFriendMsgWindowParams(), searchFriendUid {0}", searchFriendUid);
-        MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.GetText("SearchError");
-		msgWindowParam.contentText = TextCenter.GetText("SearchFriendNotExist", searchFriendUid);
-//        msgWindowParam.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
-        msgWindowParam.btnParam = new BtnParam();
-        return msgWindowParam;
-    }
-
-    MsgWindowParams GetSearchIdAlreadyFriendMsgWindowParams(){
-        MsgWindowParams msgWindowParam = new MsgWindowParams();
-        msgWindowParam.titleText = TextCenter.GetText("SearchError");
-        msgWindowParam.contentText = TextCenter.GetText("UserAlreadyFriend", searchFriendUid);
-        msgWindowParam.btnParam = new BtnParam();
-        return msgWindowParam;
-    }
 
 	void SearchFriendWithID(object args){ 
 		string idString = args as string;
 		Debug.LogError("Receive the click, to search the friend with the id ....");
 		if (idString == string.Empty){
 			Debug.LogError("Search ID Input can't be empty!!!!!");
-			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdEmptyMsgWindowParams());
+//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdEmptyMsgWindowParams());
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("InputError"),TextCenter.GetText("InputEmpty"),TextCenter.GetText("OK"));
 
 		}
 		else{
@@ -139,12 +115,14 @@ public class SearchFriendModule : ModuleBase{
 	public void ShowFriendNotExist(){
         LogHelper.Log("ShowFriendNotExist() start");
 		currentSearchFriend = null;
-        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdNotExistMsgWindowParams());
+//        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdNotExistMsgWindowParams());
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("SearchError"), TextCenter.GetText ("SearchFriendNotExist", searchFriendUid), TextCenter.GetText ("OK"));
     }
 
 	public void ShowAlreadyFriend(){
 		currentSearchFriend = null;
-        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdAlreadyFriendMsgWindowParams());
+//        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdAlreadyFriendMsgWindowParams());
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("SearchError"), TextCenter.GetText ("UserAlreadyFriend", searchFriendUid), TextCenter.GetText ("OK"));
     }
 
 	void AddCommandListener(){

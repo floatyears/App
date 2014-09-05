@@ -72,9 +72,6 @@ public class SelectRoleView : ViewBase {
 		UITexture texture;
 		UILabel label;
 
-//		Debug.LogError("tabList.Count : " + tabList.Count);
-//		Debug.LogError("unitInfoList.Count : " + unitInfoList.Count);
-
 		//Tab
 		for (int i = 0; i < tabList.Count; i++){
 			label = tabList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
@@ -150,14 +147,14 @@ public class SelectRoleView : ViewBase {
 		int pos = tabList.IndexOf(tab);
 //		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickTab", pos);
 //		ExcuteCallback(call);
-		ModuleManger.SendMessage (ModuleEnum.SelectRoleModule, "ClickTab", pos);
+		ModuleManager.SendMessage (ModuleEnum.SelectRoleModule, "ClickTab", pos);
 	}
 
 	void ClickButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickButton", null);
 //		ExcuteCallback(call);
-		ModuleManger.SendMessage (ModuleEnum.SelectRoleModule, "ClickButton");
+		ModuleManager.SendMessage (ModuleEnum.SelectRoleModule, "ClickButton");
 
 		Umeng.GA.FinishLevel ("SelectRole");
 		GameDataAnalysis.Event(GameDataAnalysisEventType.SelectRole, new Dictionary<string,string>(){{"DeviceInfo",SystemInfo.deviceUniqueIdentifier},{"Stage","End"}});

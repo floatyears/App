@@ -67,15 +67,15 @@ public class ShopView : ViewBase {
 //		}
 
         btnFriendsExpansion = FindChild<UIButton>("top/FriendsExpansion");
-		UILabel friendExpandLabel = btnFriendsExpansion.transform.GetComponentInChildren<UILabel>();
+		UILabel friendExpandLabel = FindChild<UILabel>("top/FriendsExpansion/Label");
 		friendExpandLabel.text = TextCenter.GetText("Btn_Friend_Expand");
 
         btnStaminaRecover = FindChild<UIButton>("top/StaminaRecover");
-		UILabel recoverLabel = btnStaminaRecover.transform.GetComponentInChildren<UILabel>();
+		UILabel recoverLabel = FindChild<UILabel>("top/StaminaRecover/Label");
 		recoverLabel.text = TextCenter.GetText("Btn_Stamina_Recover");
 
         btnUnitExpansion = FindChild<UIButton>("top/UnitExpansion");
-		UILabel unitExpandLabel = btnUnitExpansion.transform.GetComponentInChildren<UILabel>();
+		UILabel unitExpandLabel = FindChild<UILabel>("top/UnitExpansion/Label");
 		unitExpandLabel.text = TextCenter.GetText("Btn_Unit_Expand");
 
         UIEventListener.Get(btnFriendsExpansion.gameObject).onClick = OnClickFriendExpansion;
@@ -111,10 +111,9 @@ public class ShopView : ViewBase {
 		}
 
 
-		dragPanel = new DragPanel("RewardDragPanel", ShopItem.Prefab);
+		dragPanel = new DragPanel("ShopDragPanel", ShopItem.Prefab,windowRoot.transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem (friendOutDataList.Count);
-		dragPanel.DragPanelView.SetScrollView(ConfigDragPanel.ShopListDragPanelArgs,windowRoot.transform);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			ShopItem fuv = ShopItem.Inject(dragPanel.ScrollItem[ i ]);
@@ -131,21 +130,21 @@ public class ShopView : ViewBase {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoFriendExpansion", null);
 //        ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ShopModule, "DoFriendExpansion");
+		ModuleManager.SendMessage (ModuleEnum.ShopModule, "DoFriendExpansion");
     }
 
     private void OnClickStaminaRecover( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoStaminaRecover", null);
 //        ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ShopModule, "DoStaminaRecover");
+		ModuleManager.SendMessage (ModuleEnum.ShopModule, "DoStaminaRecover");
     }
 
     private void OnClickUnitExpansion( GameObject button ){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("DoUnitExpansion", null);
 //        ExcuteCallback(cbdArgs);
-		ModuleManger.SendMessage (ModuleEnum.ShopModule, "DoUnitExpansion");
+		ModuleManager.SendMessage (ModuleEnum.ShopModule, "DoUnitExpansion");
     }
 
 	private void ShowUIAnimation(){
