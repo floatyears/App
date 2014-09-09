@@ -66,13 +66,13 @@ public class ModuleBase{
 
 				switch (state) {
 					case ModuleState.Show:
-						ShowUI();
+						view.ShowUI();
 						break;
 					case ModuleState.Hide:
-						HideUI();
+						view.HideUI();
 						break;
 					case ModuleState.Destroy:
-						DestoryUI();
+						view.DestoryUI();
 						break;
 					default:
 						break;
@@ -80,6 +80,39 @@ public class ModuleBase{
 
 			});	
 		}
+	}
+
+	protected void Create<T>(T extraView, UIConfigItem viewUIConfig, Dictionary<string, object> data = null) where T : ViewBase{
+		ResourceManager.Instance.LoadLocalAsset (viewUIConfig.resourcePath, o=>{
+			if (o == null){
+				Debug.LogError("there is no ui with the path:" + viewUIConfig.resourcePath);
+				return;
+			}
+			
+			GameObject go = GameObject.Instantiate(o) as GameObject;
+			extraView = go.GetComponent<T>();
+			
+			if (extraView == null){
+				Debug.LogError("the component of the ui:"+viewUIConfig.resourcePath+" is null" );
+				return;
+			}
+			
+			extraView.Init(viewUIConfig, data);
+			
+			switch (state) {
+			case ModuleState.Show:
+				extraView.ShowUI();
+				break;
+			case ModuleState.Hide:
+				extraView.HideUI();
+				break;
+			case ModuleState.Destroy:
+				extraView.DestoryUI();
+				break;
+			default:
+				break;
+			}
+		});	
 	}
 
 	public virtual void InitUI(){

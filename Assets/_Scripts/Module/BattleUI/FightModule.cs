@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Fight : ModuleBase
+public class FightModule : ModuleBase
 {
 	public static Transform dragParent;
 
@@ -27,7 +27,7 @@ public class Fight : ModuleBase
 
 	private List<CardItem> selectTarget = new List<CardItem>();
 
-	public Fight(UIConfigItem config) : base(  config)
+	public FightModule(UIConfigItem config) : base(  config)
 	{
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 
