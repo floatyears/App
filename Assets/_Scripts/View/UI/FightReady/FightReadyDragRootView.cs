@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class FightReadyView : UIComponentUnity, IDragChangeView {
+public class FightReadyDragRootView : UIComponentUnity, IDragChangeView {
 	private int prevPageIndex = 0;
 	public const int PARTY_LIGHT_COUNT = 5;
 	public const int PARTY_MEMBER_COUNT = 4;
