@@ -135,7 +135,7 @@ public class NoviceGuideStepJ_StateTwo:NoviceGuidState{
 	}
 	
 	private void ClickOK(object data){
-		FriendWindows fw = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendWindows> ();
+		FriendSelectLevelUpView fw = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ();
 		GameObject gm = fw.GetHelperUnitItem(0).gameObject;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
@@ -147,7 +147,7 @@ public class NoviceGuideStepJ_StateTwo:NoviceGuidState{
 	private void OnClickFriend(TFriendInfo data){
 		//UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
 		LogHelper.Log("pick a friend to evolve");
-		GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendWindows> ().selectFriend -= OnClickFriend;
+		GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ().selectFriend -= OnClickFriend;
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 		JumpToNextState = true;

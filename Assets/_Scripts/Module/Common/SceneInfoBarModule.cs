@@ -13,7 +13,7 @@ public class SceneInfoBarModule : ModuleBase {
 
 	public override void OnReceiveMessages (params object[] data)
 	{
-		if((ModuleOrScene)data[1] == ModuleOrScene.Module){
+		if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Module)){
 			ModuleEnum name = (ModuleEnum)data[0];
 			switch (name) {
 			case ModuleEnum.HomeModule:
@@ -39,8 +39,10 @@ public class SceneInfoBarModule : ModuleBase {
 				(view as SceneInfoBarView).SetSceneName(data[0].ToString());
 				break;
 			}
-		}else if((ModuleOrScene)data[1] == ModuleOrScene.Scene){
+		}else if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Scene)){
 			(view as SceneInfoBarView).SetSceneName(data[0].ToString());
+		}else if(data[0].ToString() == "stage"){
+			(view as SceneInfoBarView).SetSceneName(data[1].ToString());
 		}
 
 	}

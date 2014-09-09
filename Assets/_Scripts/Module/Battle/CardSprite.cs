@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CardSprite : ViewBase 
 {
@@ -33,9 +34,9 @@ public class CardSprite : ViewBase
 	[HideInInspector]
 	public int location = -1;
 
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 		parentObject = transform.parent;
 		actorSprite = GetComponent<UISprite>();
 		if (actorSprite.enabled) {

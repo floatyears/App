@@ -27,8 +27,8 @@ public class GachaView : ViewBase {
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
 
-    public override void Init ( UIConfigItem config ) {
-        base.Init (config);
+	public override void Init ( UIConfigItem config, Dictionary<string, object> data = null ) {
+        base.Init (config, data);
         InitUI();
     }
     

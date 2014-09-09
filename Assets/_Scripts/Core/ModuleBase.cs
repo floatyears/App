@@ -62,7 +62,7 @@ public class ModuleBase{
 					return;
 				}
 				
-				view.Init(UIConfig);
+				view.Init(UIConfig, moduleData);
 
 				switch (state) {
 					case ModuleState.Show:
@@ -110,6 +110,10 @@ public class ModuleBase{
 		if (view != null) {
 			view.DestoryUI();
 			view = null;
+		}
+		if (moduleData != null) {
+			moduleData.Clear();
+			moduleData = null;
 		}
 	}
 

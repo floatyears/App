@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SceneInfoBarView : ViewBase{
 	private UILabel sceneNameLabel;
@@ -10,8 +11,8 @@ public class SceneInfoBarView : ViewBase{
 //	private bool isTweenDone = false;
 	private ModuleEnum backModule = ModuleEnum.None;
 	
-	public override void Init ( UIConfigItem config ) {
-		base.Init (config);
+	public override void Init ( UIConfigItem config, Dictionary<string, object> data = null ) {
+		base.Init (config, data);
 		InitUI();
 
 //		temp = origin is IUICallback;

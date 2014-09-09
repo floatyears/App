@@ -7,8 +7,8 @@ public class SelectRoleView : ViewBase {
 	List<GameObject> tabList = new List<GameObject>();
 	List<GameObject> contentList = new List<GameObject>();
 
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config, data);
 		InitUI();
 	}
 

@@ -13,8 +13,8 @@ public class HomeView : ViewBase{
 
 	private UISprite fog;
 
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config,data);
 		InitUI();
 	}
 
@@ -234,8 +234,8 @@ public class HomeView : ViewBase{
 			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
-			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"data",cityViewInfo [item].ID);
+//			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
 		}
 	}

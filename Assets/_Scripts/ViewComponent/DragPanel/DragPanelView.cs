@@ -19,9 +19,9 @@ public class DragPanelView : ViewBase {
 	[HideInInspector]
 	public DragPanelDynamic dragPanelDynamic;
 
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 		clip = FindChild<UIPanel>("Scroll View");
 		scrollView = FindChild<UIScrollView>("Scroll View");
 		scrollBar = FindChild<UIScrollBar>("Scroll Bar");

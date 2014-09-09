@@ -18,6 +18,7 @@ public class LevelUpModule : ModuleBase {
 	List<TUserUnit> levelUpInfo = null;
 
 	public override void OnReceiveMessages(params object[] data) {
+
 		levelUpInfo = data[0] as List<TUserUnit>;
 		if (levelUpInfo == null || levelUpInfo.Count <= 0) {
 			return;
@@ -81,7 +82,8 @@ public class LevelUpModule : ModuleBase {
 
 			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 
-			MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
+//			MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
+			(view as LevelUpView).ResetUIAfterLevelUp(rspLevelUp.blendUniqueId);
 		}
 	}
 }

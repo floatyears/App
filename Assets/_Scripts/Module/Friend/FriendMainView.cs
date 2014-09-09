@@ -5,8 +5,8 @@ public class FriendMainView : ViewBase {
     Dictionary< GameObject, ModuleEnum > btns = new Dictionary< GameObject, ModuleEnum >();
     ModuleEnum nextScene;
 	
-    public override void Init(UIConfigItem config) {
-        base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
+        base.Init(config,data);
         InitUI();
     }
 

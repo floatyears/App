@@ -9,9 +9,9 @@ public class ReceptionView : ViewBase {
 	private UIButton refuseAllBtn;
 	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
 
-	public override void Init(UIConfigItem config){
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 //		Debug.LogError("ReceptionView Init 1");
-		base.Init(config);
+		base.Init(config, data);
 //		Debug.LogError("ReceptionView Init 2");
 		InitUIElement();
 //		Debug.LogError("ReceptionView Init 3");

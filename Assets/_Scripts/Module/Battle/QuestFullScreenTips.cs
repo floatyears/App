@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class QuestFullScreenTips : ViewBase {
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 
 		initLocalPosition = transform.localPosition;
 		initLocalScale = transform.localScale;

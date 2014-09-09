@@ -77,8 +77,8 @@ public class UnitDetailView : ViewBase{
 
 	public static bool isEvolve = false;
 
-	public override void Init ( UIConfigItem config ) {
-		base.Init (config);
+	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
+		base.Init (config, data);
 		GetUnitMaterial();
 		InitEffect();
 		InitUI();

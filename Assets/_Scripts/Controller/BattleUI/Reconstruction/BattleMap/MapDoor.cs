@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapDoor : ViewBase {
 	public BattleMap battleMap;
@@ -26,9 +27,9 @@ public class MapDoor : ViewBase {
 
 	private string currentShowInfo;
 
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 //	}
 //		base.Init (name);
 		topLabel = FindChild<UILabel> ("Top");

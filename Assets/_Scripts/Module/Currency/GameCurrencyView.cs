@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Soomla;
 
 public class GameCurrencyView: ViewBase {
 
 	private GameCurrencyEventHandler handler;
 
-	public override void Init(UIConfigItem config) {
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init(config, data);
 		InitUI();
 
 

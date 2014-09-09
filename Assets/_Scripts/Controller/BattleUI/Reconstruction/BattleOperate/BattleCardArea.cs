@@ -23,9 +23,9 @@ public class BattleCardArea : ViewBase {
 	public static Vector3 activeSkillStartPosition;
 	public static Vector3 activeSkillEndPosition;
 
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 		backTexture = FindChild<UISprite>("Back"); 
 		backTexture.gameObject.SetActive(false);
 		stateLabel = FindChild<UILabel>("StateLabel");

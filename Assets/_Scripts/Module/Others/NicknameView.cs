@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NicknameView : ViewBase {
 
@@ -7,11 +8,11 @@ public class NicknameView : ViewBase {
 	UIButton CancelButton;
 	UIInput nickNameInput;
 
-	public override void Init ( UIConfigItem config ){
+	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null){
 		FindUIElement();
 		SetNickNamePanel ();
 		//		SetOption();
-		base.Init (config);
+		base.Init (config,data);
 	}
 	
 	public override void ShowUI(){

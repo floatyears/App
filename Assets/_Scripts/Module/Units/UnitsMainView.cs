@@ -13,8 +13,8 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 	private DragChangeView dragChangeView;
 
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config, data);
 		InitChildScenes();
 //		iuiCallback = origin as IUICallback;
 		InitPagePanel();

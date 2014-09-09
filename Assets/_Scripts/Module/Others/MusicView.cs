@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class MusicView : ViewBase {
@@ -13,10 +14,10 @@ public class MusicView : ViewBase {
 	UISlider bgmSlider;
 	GameObject okBtn;
 
-	public override void Init ( UIConfigItem config ){
+	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null){
 		FindUIElement();
 		//		SetOption();
-		base.Init (config);
+		base.Init (config, data);
 
 		SetMusicPanel ();
 	}

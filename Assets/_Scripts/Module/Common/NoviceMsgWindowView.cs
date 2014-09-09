@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public sealed class GuidePicPath{
 
@@ -71,9 +72,9 @@ public class NoviceMsgWindowView : ViewBase{
 	private int chagnedWidth = 360;
 
 	
-	public override void Init(UIConfigItem config){
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		FindUIElement();
-		base.Init(config);
+		base.Init(config, data);
 	}
 	
 	public override void ShowUI(){

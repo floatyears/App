@@ -34,8 +34,8 @@ public class StageSelectView : ViewBase{
 
 	private string currentCityName = "";
 
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config,data);
 		storyStageRoot = transform.FindChild("StoryStages").gameObject;
 		eventStageRoot = transform.FindChild("EventStages").gameObject;
 	}
@@ -43,9 +43,13 @@ public class StageSelectView : ViewBase{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-		MsgCenter.Instance.AddListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
-		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, ShowEventCityView);
-
+//		MsgCenter.Instance.AddListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
+//		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, );
+		if (viewData != null) {
+			ShowStoryCityView(viewData["data"]);
+		}else{
+			ShowEventCityView();
+		}
 		if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOVLE_QUEST)
 			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 
@@ -54,7 +58,7 @@ public class StageSelectView : ViewBase{
 		}
 	}
 
-	private void ShowEventCityView(object data){
+	private void ShowEventCityView(){
 		List<TStageInfo> eventStageList = FilterEventCityData(DataCenter.Instance.EventStageList);
 		if(eventStageList == null){
 			Debug.LogError("DataCenter.Instance.EventStageList == NULL, return...");
@@ -109,8 +113,8 @@ public class StageSelectView : ViewBase{
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
-		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
-		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickEventCity, ShowEventCityView);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickEventCity, ShowEventCityView);
 	}
 
 	private void DestoryStages(){
@@ -143,23 +147,27 @@ public class StageSelectView : ViewBase{
 	private void GetData(uint cityID){
 		TCityInfo received = DataCenter.Instance.GetCityInfo(cityID);
 
-		if(currPickedCityInfo == null){
-			//when first time to step in
-			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
-			currPickedCityInfo = received;
-//			Debug.LogError("received : " + received);
-			DestoryStages();
-			FillView();
-		} else if(!currPickedCityInfo.Equals(received)){
-			//when picked city changed
-			Debug.Log("recorded picked cityInfo is changed, update stage view...");
-			currPickedCityInfo = received;
-			DestoryStages();
-			FillView();
-		} else{
-			//when picked city not changed
-			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
-		}
+//		if(currPickedCityInfo == null){
+//			//when first time to step in
+//			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
+//			currPickedCityInfo = received;
+////			Debug.LogError("received : " + received);
+//			DestoryStages();
+//			FillView();
+//		} else if(!currPickedCityInfo.Equals(received)){
+//			//when picked city changed
+//			Debug.Log("recorded picked cityInfo is changed, update stage view...");
+//			currPickedCityInfo = received;
+//			DestoryStages();
+//			FillView();
+//		} else{
+//			//when picked city not changed
+//			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
+//		}
+		currPickedCityInfo = received;
+		//			Debug.LogError("received : " + received);
+		DestoryStages();
+		FillView();
 	}
 	
 	private void ShowStoryCityView(object msg){

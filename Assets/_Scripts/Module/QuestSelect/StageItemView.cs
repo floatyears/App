@@ -111,12 +111,15 @@ public class StageItemView : MonoBehaviour{
 	private void StepIntoNextScene(GameObject item){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
+//		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
+//		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule);
 
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();
+			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule);
 		} else {
-			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //do after		
+//			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //do after		
+			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",data);
 		}
 	}
 

@@ -37,8 +37,8 @@ public class VictoryView : ViewBase {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 
-	public override void Init (UIConfigItem config) {
-		base.Init (config);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init (config, data);
 		FindComponent ();
 	}
 

@@ -9,8 +9,8 @@ public class MainMenuView : ViewBase{
 	private int times;
 
 	private Dictionary<GameObject,ModuleEnum> buttonInfo = new Dictionary<GameObject, ModuleEnum> ();
-	public override void Init (UIConfigItem config) {
-		base.Init (config);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init (config, data);
 		InitButton ();
 		UpdateLeaderAvatar(null);
 		AddListener();

@@ -66,9 +66,9 @@ public class CardItem : ViewBase {
 	[HideInInspector]
 	public int color = -1;
 
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 		parentObject = transform.parent;
 		actorTexture = GetComponent<UISprite>();
 		if (!actorTexture.enabled) {

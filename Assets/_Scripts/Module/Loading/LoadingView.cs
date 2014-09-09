@@ -18,8 +18,8 @@ public class LoadingView : ViewBase {
 
 	private bool initComplete = false;
 
-    public override void Init ( UIConfigItem config ) {
-        base.Init (config);
+	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
+        base.Init (config, data);
 		tapLogin = FindChild ("ClickLabel").GetComponent<UILabel>();
 		
 		tapLogin.enabled = false;

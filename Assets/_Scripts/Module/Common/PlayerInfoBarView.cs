@@ -36,8 +36,8 @@ public class PlayerInfoBarView : ViewBase{
 	Vector3 leftPosition;
 	Vector3 rightPosition;
 
-	public override void Init(UIConfigItem config) {
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init(config, data);
 		InitUI();
 
 		uint.TryParse(GameTimer.GetInstance().recovertime + "",out currentTime);

@@ -198,7 +198,7 @@ public enum CommandEnum{
 	ShowFavState,
 //    WaitResponse,
 //    SetBlocker,
-    LevelUpSucceed,
+//    LevelUpSucceed,
     FocusLevelUpPanel,
 	LeaderSkillEnd,
 	ShowHands,

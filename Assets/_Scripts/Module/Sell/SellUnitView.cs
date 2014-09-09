@@ -21,8 +21,8 @@ public class SellUnitView : ViewBase{
 	private List<GameObject> pickItemList = new List<GameObject>();
 	private List<GameObject> readyItemList = new List<GameObject>();
 	
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config ,data);
 		InitUIElement();
 	}
 	

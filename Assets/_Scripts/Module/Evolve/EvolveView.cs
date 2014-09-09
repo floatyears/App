@@ -4,8 +4,8 @@ using System.Collections;
 using bbproto;
 
 public class EvolveView : ViewBase {
-	public override void Init ( UIConfigItem config ) {
-		base.Init (config);
+	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
+		base.Init (config, data);
 		InitUI ();
 	}
 	
@@ -40,7 +40,7 @@ public class EvolveView : ViewBase {
 
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
-		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 	}
 	
 	public override void DestoryUI () {
@@ -106,7 +106,7 @@ public class EvolveView : ViewBase {
 	private EvolveItem prevItem = null;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
-	private FriendWindows friendWindow;
+	private FriendSelectLevelUpView friendWindow;
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
 

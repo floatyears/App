@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ApplyMessageView : ViewBase{
 	GameObject rootPanel;
@@ -16,8 +17,8 @@ public class ApplyMessageView : ViewBase{
 
 //	UITexture avatarTexture;
 	
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config,data);
 		InitUIElement();
 	}
 

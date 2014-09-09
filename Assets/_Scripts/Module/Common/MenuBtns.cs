@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MenuBtns : ViewBase 
 {
@@ -9,9 +10,9 @@ public class MenuBtns : ViewBase
 	}
 	
 	
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 		
 		UIEventListener.Get (transform.Find ("ImgBtn_Friends").gameObject).onClick = TurnToFriends;
 		

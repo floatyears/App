@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShowNewCardView : ViewBase {
-	public override void Init (UIConfigItem config){
-		base.Init (config);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init (config,data);
 		InitComponent ();
 //		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
 	}

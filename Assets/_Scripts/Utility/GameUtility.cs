@@ -777,14 +777,14 @@ public class DGTools {
 		source.localScale = target.localScale;
 	}
 
-	public static FriendWindows CreatFriendWindow() {
+	public static FriendSelectLevelUpView CreatFriendWindow() {
 		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows",null) as GameObject;
 		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
 		Transform insTrans = instance.transform;
 		insTrans.parent = ViewManager.Instance.BottomPanel.transform;
 		insTrans.localPosition = Vector3.zero;
 		insTrans.localScale = Vector3.one;
-		FriendWindows fw = instance.GetComponent<FriendWindows>();
+		FriendSelectLevelUpView fw = instance.GetComponent<FriendSelectLevelUpView>();
 //		fw.Init (null, null);
 		return fw;
 	}

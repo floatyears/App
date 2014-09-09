@@ -7,8 +7,8 @@ public class ApplyView : ViewBase{
 	private TFriendInfo curPickedFriend;
 	private DragPanel dragPanel;
 	private List<TFriendInfo> friendOutDataList = new List<TFriendInfo>();
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config, data);
 		InitUIElement();
 	}
 	

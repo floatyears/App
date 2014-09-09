@@ -39,9 +39,9 @@ public class MsgWindowView : ViewBase{
 
     MsgWindowParams msgWindowParams = new MsgWindowParams();
     
-    public override void Init(UIConfigItem config){
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
         FindUIElement();
-        base.Init(config);
+        base.Init(config, data);
 
 		Reset();
     }

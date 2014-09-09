@@ -16,8 +16,8 @@ public class FriendSelectView : ViewBase{
 
 	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
 
-	public override void Init(UIConfigItem config) {
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init(config,data);
 		InitUI();
 		transform.localPosition -= transform.parent.localPosition;
 		premiumBtn.gameObject.SetActive (false);

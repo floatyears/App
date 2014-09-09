@@ -2,17 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class LevelUpView : ViewBase {
-	public override void Init (UIConfigItem config) {
-		base.Init (config);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init (config, data);
 		InitUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
+//		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 	public override void ShowUI () {
-		if (friendWindow != null && friendWindow.isShow) {
-			friendWindow.gameObject.SetActive (true);
-			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
-		} else {
+//		if (friendWindow != null && friendWindow.isShow) {
+//			friendWindow.gameObject.SetActive (true);
+//			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
+//		} else {
 			if (!gameObject.activeSelf) {
 				gameObject.SetActive(true);
 				MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
@@ -20,7 +20,7 @@ public class LevelUpView : ViewBase {
 			if(fromUnitDetail) {
 				fromUnitDetail = false;
 			}
-		}
+//		}
 
 		base.ShowUI ();
 		ClearFocus ();
@@ -28,7 +28,7 @@ public class LevelUpView : ViewBase {
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
 		ShowData ();
-		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
+//		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
@@ -47,7 +47,7 @@ public class LevelUpView : ViewBase {
 		}
 
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 //		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
 //			fromUnitDetail = true;
@@ -63,11 +63,11 @@ public class LevelUpView : ViewBase {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		if(friendWindow != null)
-			friendWindow.DestoryUI ();
+//		if(friendWindow != null)
+//			friendWindow.DestoryUI ();
 		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDragPanel ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 //	bool clear = true;
@@ -170,7 +170,7 @@ public class LevelUpView : ViewBase {
 
 	private MyUnitItem prevMaterialItem;
 
-	private FriendWindows friendWindow;
+//	private FriendWindows friendWindow;
 
 	private GameObject topObject;
 
@@ -285,9 +285,8 @@ public class LevelUpView : ViewBase {
 		});
 	}
 
-	void ResetUIAfterLevelUp(object data) {
+	public void ResetUIAfterLevelUp(uint blendID) {
 		ClearData ();
-		uint blendID = (uint)data;
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 //		clear = true;
@@ -300,18 +299,19 @@ public class LevelUpView : ViewBase {
 	}
 
 	void SelectedFriendCallback(LevelUpItem piv) {
-		if (friendWindow == null) {
-			friendWindow = DGTools.CreatFriendWindow();
-			if(friendWindow == null) {
-				return;
-			}
-		}
+//		if (friendWindow == null) {
+//			friendWindow = DGTools.CreatFriendWindow();
+//			if(friendWindow == null) {
+//				return;
+//			}
+//		}
 		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
-		friendWindow.evolveItem = null;
+//		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-		friendWindow.selectFriend = SelectFriend;
-		friendWindow.ShowUI ();
+//		friendWindow.selectFriend = SelectFriend;
+//		friendWindow.ShowUI ();
+		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"selectFunc",SelectFriend as System.Action<TFriendInfo>);
 	}
 
 	TFriendInfo levelUpUerFriend;
@@ -488,8 +488,8 @@ public class LevelUpView : ViewBase {
 	}
 
 	void ClearData() {
-		if(friendWindow != null)
-			friendWindow.HideUI ();
+//		if(friendWindow != null)
+//			friendWindow.HideUI ();
 		foreach (var item in selectedItem) {
 			item.UserUnit = null;
 			item.IsEnable = true;
@@ -677,14 +677,14 @@ public class LevelUpView : ViewBase {
 			}
 		}
 	}
-
-	void FriendBack(object data) {
-		if (friendWindow == null) {
-			return;	
-		}
-
-		friendWindow.Back (null);
-	}
+//
+//	void FriendBack(object data) {
+////		if (friendWindow == null) {
+////			return;	
+////		}
+////
+////		friendWindow.Back (null);
+//	}
 
 	private void ReceiveSortInfo(object msg){
 		sortRule = (SortRule)msg;

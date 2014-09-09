@@ -15,8 +15,8 @@ public class PartyUnitsView : ViewBase {
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
 	List<TUserUnit> currentPaty = new List<TUserUnit>();
 	List<PartyUnitItem> partyViewList = new List<PartyUnitItem>();
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config, data);
 		InitDragPanel();
 	}
 

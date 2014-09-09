@@ -6,23 +6,33 @@ using bbproto;
 public class QuestSelectView : ViewBase {
 	private DragPanel dragPanel;
 
+	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
+	{
+		base.Init (uiconfig, data);
+
+		if (viewData != null) {
+			GetQuestInfo();
+		}
+	}
+
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+//		MsgCenter.Instance.AddListener(CommandEnum.GetQuestInfo, GetQuestInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 		ShowUIAnimation();
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 
 		if (pickedStage != null) {
-			GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
-			obj.GetComponent<SceneInfoBarView> ().SetSceneName (pickedStage.StageName);
+//			GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
+//			obj.GetComponent<SceneInfoBarView> ().SetSceneName ();
+			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage",pickedStage.StageName);
 		}
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		MsgCenter.Instance.RemoveListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.GetQuestInfo, GetQuestInfo);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 	}
 	
@@ -36,8 +46,8 @@ public class QuestSelectView : ViewBase {
 	private TStageInfo pickedStage;
 	private List<TQuestInfo> accessQuestList;
 
-	private void GetQuestInfo(object msg){
-		TStageInfo newPickedStage = msg as TStageInfo;
+	private void GetQuestInfo(){
+		TStageInfo newPickedStage = viewData["data"] as TStageInfo;
 		List<TQuestInfo> newQuestList = newPickedStage.QuestInfo;
 //		newQuestList.Reverse ();
 

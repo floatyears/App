@@ -12,6 +12,7 @@ public class FriendSelectModule : ModuleBase{
 
 	public FriendSelectModule( UIConfigItem config):base( config) {
 		CreateUI<FriendSelectView> ();
+
 	}
 	public override void InitUI () { base.InitUI (); }
 	public override void ShowUI () {

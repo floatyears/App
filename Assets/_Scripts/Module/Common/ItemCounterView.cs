@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class ItemCounterView : ViewBase{
 	UILabel maxLabel;
 
-	public override void Init(UIConfigItem config) {
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
+		base.Init(config, data);
 		MsgCenter.Instance.AddListener(CommandEnum.RefreshItemCount, UpdateView);
 		MsgCenter.Instance.AddListener (CommandEnum.HideItemCount, HideItemCount);
 		InitUIElement();

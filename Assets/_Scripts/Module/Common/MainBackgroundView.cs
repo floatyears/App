@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MainBackgroundView : ViewBase {
 	private UISprite background;
 	private UITexture otherBg;
-	public override void Init (UIConfigItem config){
-		base.Init (config);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init (config, data);
 		background = transform.FindChild("HomeBG").GetComponent<UISprite>();
 		otherBg = FindChild<UITexture> ("OtherBG");
 		otherBg.enabled = false;

@@ -185,7 +185,7 @@ public class NoviceGuideStepI_StateTwo:NoviceGuidState{
 	}
 
 	private void ClickOK(object data){
-		GameObject gm = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendWindows> ().GetHelperUnitItem(0).gameObject;
+		GameObject gm = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ().GetHelperUnitItem(0).gameObject;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
 		UIEventListenerCustom.Get (gm).onClick += OnClickFriend;

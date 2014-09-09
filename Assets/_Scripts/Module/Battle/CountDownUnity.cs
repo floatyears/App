@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CountDownUnity : ViewBase {
 //	private UISprite numberSprite;
@@ -8,9 +9,9 @@ public class CountDownUnity : ViewBase {
 	private float countDownValue = 1f;
 	private bool Stop = true;
 
-	public override void Init (UIConfigItem config)
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
-		base.Init (config);
+		base.Init (config, data);
 //		numberSprite = FindChild<UISprite>("Number");
 		numberLabel = FindChild<UILabel>("Number");
 		circleSprite = FindChild<UISprite>("Circle");

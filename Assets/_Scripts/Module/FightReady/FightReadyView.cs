@@ -33,8 +33,8 @@ public class FightReadyView : ViewBase {
 	
 	private List<GameObject> pageLightList = new List<GameObject>();
 	
-	public override void Init(UIConfigItem uiconfig){
-		base.Init(uiconfig);
+	public override void Init(UIConfigItem uiconfig, Dictionary<string, object> data = null){
+		base.Init(uiconfig, data);
 		InitUI();
 	}
 	

@@ -38,8 +38,8 @@ public class PartyView : ViewBase, IDragChangeView{
 	private UILabel leaderSkillNameLabel;
 	private UILabel leaderSkillDscpLabel;
 
-	public override void Init(UIConfigItem config){
-		base.Init(config);
+	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
+		base.Init(config, data);
 		InitPagePanel();
 		InitDragPanel();
 		InitPartyInfoPanel();

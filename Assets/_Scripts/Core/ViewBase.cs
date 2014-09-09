@@ -6,7 +6,9 @@ public class ViewBase : MonoBehaviour {
 
 	protected UIConfigItem config;
 
-	public virtual void Init(UIConfigItem uiconfig) {
+	protected Dictionary<string, object> viewData;
+
+	public virtual void Init(UIConfigItem uiconfig, Dictionary<string, object> data = null) {
 
 		config = uiconfig;
 
@@ -16,6 +18,8 @@ public class ViewBase : MonoBehaviour {
 			transform.localPosition = new Vector3(-10000,-3000,0);
 			gameObject.SetActive(false);
 		}
+
+		viewData = data;
 
 	}
 
@@ -29,6 +33,10 @@ public class ViewBase : MonoBehaviour {
 	
 	public virtual void DestoryUI() {
 		Destroy (gameObject);
+		if (viewData != null) {
+			viewData.Clear();
+			viewData = null;
+		}
 	}
 
 	protected T FindChild<T> (string path) where T : Component {
