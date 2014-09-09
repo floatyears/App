@@ -706,14 +706,14 @@ public class LevelUpOperateUnity : UIComponentUnity {
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 		myUnitDragPanel.RefreshItem (myUnit);
-
-		RefreshSortInfo ();
+		myUnitDragPanel.RefreshSortInfo (sortRule);
+//		RefreshSortInfo ();
 	}
 
 	void RefreshSortInfo() {
-		foreach (var item in myUnitDragPanel.scrollItem) {
-			item.CurrentSortRule= sortRule;
-		}
+//		foreach (var item in myUnitDragPanel.scrollItem) {
+//			item.CurrentSortRule= sortRule;
+//		}
 	}
 
 	private void SortUnitByCurRule(){

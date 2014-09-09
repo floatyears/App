@@ -38,10 +38,15 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	private UILabel leaderSkillNameLabel;
 	private UILabel leaderSkillDscpLabel;
 
+	//-----------------------------------reconstruct
+	private DragPanelDynamic dragPanelDynmic;
+	//----------------------------------------------
+
 	public override void Init(UIInsConfig config, IUICallback origin){
 		base.Init(config, origin);
 		InitPagePanel();
-		InitDragPanel();
+		InitDynamicDragPanel ();
+//		InitDragPanel();
 		InitPartyInfoPanel();
 	}
 
@@ -54,13 +59,19 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 		dragChangeView.RefreshData ();
 
-		RefreshDragPanel();
+		RefreshDynamicDragPanel();
+//		Debug.LogError("RefreshDynamicDragPanel ");
 		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
+//		Debug.LogError("UpdateInfoPanelView ");
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
+//		Debug.LogError("CommandEnum.RefreshPartyPanelInfo ");
 		RefreshItemCounter();
+//		Debug.LogError("RefreshItemCounter");
 		ShowUIAnimation();
-	
+//		Debug.LogError("ShowUIAnimation");
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+
+//		Debug.LogError("Party view show ui end");
 	}
 
 	public override void HideUI(){
@@ -165,8 +176,14 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	
 	private void RefreshUnitListByCurId(){
 		//Debug.Log("RefreshUnitListByCurId()...curIndex is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
-		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+//		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
+//			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+//			puv.IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.ID);
+//			//Debug.Log("puv.IsParty : " + puv.IsParty);
+//		}
+
+		for (int i = 1; i < dragPanelDynmic.scrollItem.Count; i++){
+			PartyUnitItem puv = dragPanelDynmic.scrollItem[ i ].GetComponent<PartyUnitItem>();
 			puv.IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.ID);
 			//Debug.Log("puv.IsParty : " + puv.IsParty);
 		}
@@ -174,13 +191,13 @@ public class PartyView : UIComponentUnity, IDragChangeView{
         
 	void PartyItemClick(MyUnitItem puv) {
 		pickedFromParty = puv;
-		OnPartyItemClick();
+		OnPartyItemClick(null);
 	}
 
 	/// <summary>
 	/// Click the item which have been partyed
 	/// </summary>
-	void OnPartyItemClick() {
+	void OnPartyItemClick(PartyUnitItem pui) {
 //		Debug.LogError ("focusedOnParty : " + (focusedOnParty == null));
 		if (focusedOnParty == null) {
 			if(pickedFromUnitList != null){
@@ -413,6 +430,29 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 		return myUnit;
 	}
 
+	private void InitDynamicDragPanel() {
+//		Debug.LogError ("bottomRoot : " + bottomRoot);
+		GameObject sourceObject = PartyUnitItem.Inject (PartyUnitItem.ItemPrefab).gameObject;
+		dragPanelDynmic = new DragPanelDynamic (bottomRoot, sourceObject , 12, 3);
+
+		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
+		dpsi.parentTrans = bottomRoot.transform;
+		dpsi.position = new Vector3 (0, 100, 0);
+		dpsi.clipRange = new Vector4 (0, -100, 640, 315);
+		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
+		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
+		dpsi.maxPerLine = 3;
+		dpsi.depth = 2;	
+
+		dragPanelDynmic.SetDragPanel (dpsi);
+//		Debug.LogError ("dpsi : " + dragPanelDynmic.dragPanelView.transform.localPosition);
+
+		GameObject rejectItemIns = dragPanelDynmic.AddRejectItem (rejectItem);
+//		rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
+		UIEventListener.Get(rejectItemIns).onClick = RejectPartyMember;
+//		Debug.LogError("InitDynamicDragPanel end");
+	}
+
 	private void InitDragPanel(){
 		dragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab);
 		dragPanel.CreatUI();
@@ -486,15 +526,28 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 
 	void Reject(int pos){
-		for (int i = 1; i < dragPanel.ScrollItem.Count; i++) {
-			PartyUnitItem partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			if(partyUnitView.UserUnit.Equals(partyItems[ pos ].UserUnit)){
-				partyUnitView.IsParty = false;
-				partyUnitView.IsEnable = true;
-				partyItems[ pos ].UserUnit = null;
-				break;
-			}
-		}
+//		for (int i = 1; i < dragPanel.ScrollItem.Count; i++) {
+//			PartyUnitItem partyUnitView = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+//			if(partyUnitView.UserUnit.Equals(partyItems[ pos ].UserUnit)){
+//				partyUnitView.IsParty = false;
+//				partyUnitView.IsEnable = true;
+//				partyItems[ pos ].UserUnit = null;
+//				break;
+//			}
+//		}
+
+		dragPanelDynmic.RefreshItem (myUnitDataList);
+
+//		for (int i = 1; i < dragPanelDynmic.scrollItem.Count; i++) {
+//			PartyUnitItem partyUnitView = dragPanelDynmic.scrollItem[ i ].GetComponent<PartyUnitItem>();
+//			if(partyUnitView.UserUnit.Equals(partyItems[ pos ].UserUnit)){
+//				partyUnitView.IsParty = false;
+//				partyUnitView.IsEnable = true;
+//				partyItems[ pos ].UserUnit = null;
+//				break;
+//			}
+//		}
+
 		//When reject every time, record party state change
 //		Debug.LogError("Reject pos : " + pos);
 		DataCenter.Instance.PartyInfo.ChangeParty(pos, 0); 
@@ -510,11 +563,24 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	private void ReceiveSortInfo(object msg){
 		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
+		dragPanelDynmic.RefreshItem (myUnitDataList);
+//		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
+//			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+//			puv.UserUnit = myUnitDataList[ i - 1 ];
+//			puv.CurrentSortRule = curSortRule;
+//		}
+	}
 
-		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			puv.UserUnit = myUnitDataList[ i - 1 ];
-			puv.CurrentSortRule = curSortRule;
+	void RefreshDynamicDragPanel() {
+		myUnitDataList = GetUnitList();
+		SortUnitByCurRule();
+		dragPanelDynmic.RefreshItem (myUnitDataList);
+//		Debug.LogError ("RefreshDynamicDragPanel");
+		dragPanelDynmic.RefreshSortInfo (curSortRule);
+
+		for (int i = 0; i < dragPanelDynmic.scrollItem.Count; i++) {
+			PartyUnitItem pui = dragPanelDynmic.scrollItem[i] as PartyUnitItem;
+			pui.callback = OnPartyItemClick;
 		}
 	}
 
@@ -575,8 +641,8 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 
 	void BottomRootMoveEnd() {
-		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (false);
-		dragPanel.DragPanelView.scrollBar.gameObject.SetActive (true);
+		dragPanelDynmic.dragPanelView.scrollBar.gameObject.SetActive (false);
+		dragPanelDynmic.dragPanelView.scrollBar.gameObject.SetActive (true);
 	}
 
 	private void RefreshItemCounter(){
@@ -598,13 +664,12 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 	}
 
 	public GameObject GetUnitItem(uint id){
-//		return dragPanel.ScrollItem [i];
-
-		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
-			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
+		for (int i = UNIT_ITEM_START_POS; i < dragPanelDynmic.scrollItem.Count; i++){
+			MyUnitItem puv = dragPanelDynmic.scrollItem[ i ];
 			if(puv.UserUnit.UnitID == id)
-				return dragPanel.ScrollItem[ i ];
+				return dragPanelDynmic.scrollItem[ i ].gameObject;
 		}
+
 		return null;
 	}
 
@@ -635,6 +700,8 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 		}
 		
 		SkillBase skillBase = unitParty.GetLeaderSkillInfo ();
+
+//		Debug.LogError ("UpdateInfoPanelView skillBase : " + skillBase);
 		if (skillBase == null) {
 			leaderSkillNameLabel.text = TextCenter.GetText("Name_No_LeaderSkill");
 			leaderSkillDscpLabel.text = TextCenter.GetText("Description_No_LeaderSkill");
@@ -643,7 +710,7 @@ public class PartyView : UIComponentUnity, IDragChangeView{
 			leaderSkillNameLabel.text = TextCenter.GetText("Text_Leader_Skill_Colon") + TextCenter.GetText("SkillName_" +  skillBase.id);
 			leaderSkillDscpLabel.text =  TextCenter.GetText("Text_Leader_Skill_Colon") + TextCenter.GetText("SkillDesc_" +  skillBase.id);
 		}
-		
+//		Debug.LogError ("UpdateInfoPanelView skillBase ");
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
 		curCostLabel.text = unitParty.TotalCost.ToString();
 		if (DataCenter.Instance.UserInfo.CostMax < unitParty.TotalCost) {
