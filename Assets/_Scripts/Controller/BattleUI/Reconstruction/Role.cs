@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class Role : UIBaseUnity {
+public class Role : ViewBase {
 	private Coordinate currentCoor;
 	public Coordinate CurrentCoor {
 		get{ return currentCoor; }
@@ -41,15 +41,16 @@ public class Role : UIBaseUnity {
 
 	private Jump jump;
 	private Vector3 initPosition = new Vector3 (-1115f, 340f, -20f);
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
 		jump = GetComponent<Jump> ();
 //		parentPosition = transform.parent.localPosition;
 	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
-	}
+//	public override void CreatUI () {
+//		base.CreatUI ();
+//	}
 
 	void RoleStart() {
 		prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;

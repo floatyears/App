@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class VicotoryEffectControl : ConcreteComponent {
-	public VicotoryEffectControl(string name) : base (name) {
+public class VicotoryEffectControl : ModuleBase {
+	public VicotoryEffectControl(UIConfigItem config) : base (  config) {
 
 	}
 

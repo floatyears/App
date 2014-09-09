@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleCard : UIBaseUnity {
+public class BattleCard : ViewBase {
 	public event Callback CallBack;
 
 	private Vector3[] cardPosition;
@@ -27,8 +27,11 @@ public class BattleCard : UIBaseUnity {
 	[HideInInspector]
 	public CardItem[] cardItemArray;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
+//	}
+//		base.Init (name);
 		InitParameter();
 	}
 
@@ -58,12 +61,15 @@ public class BattleCard : UIBaseUnity {
 		int count = cardPosition.Length;
 		
 		cardItemArray = new CardItem[count];
+
+		GameObject tempObject = null;
+
 		for (int i = 0; i < count; i++) {
 			tempObject = NGUITools.AddChild(gameObject,templateItemCard.gameObject);
 			tempObject.transform.localPosition = cardPosition[i];
 			CardItem ci = tempObject.AddComponent<CardItem>();
 			ci.location = i;
-			ci.Init(i.ToString());
+//			ci.Init(i.ToString());
 			cardItemArray[i] = ci;
 		}
 

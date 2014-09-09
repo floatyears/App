@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleEnemy : UIBaseUnity {
+public class BattleEnemy : ViewBase {
 	private static Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
 	public static Dictionary<uint, EnemyItem> Monster {
 		get {
@@ -22,8 +22,11 @@ public class BattleEnemy : UIBaseUnity {
 	private BattleAttackInfo battleAttackInfo;
 	private UITexture bgTexture;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
+//	}
+//		base.Init (name);
 		effectPanel = transform.Find ("Enemy/Effect").gameObject;
 		effectParent = transform.Find ("Enemy").gameObject;
 		effectItemPrefab = transform.Find ("Enemy/EnemyItem").gameObject;

@@ -2,15 +2,21 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BattleMenu : UIBaseUnity {
-	public override void Init (string name) {
-		base.Init (name);
+public class BattleMenu : ViewBase {
+//	public override void Init (string name) {
+//		base.Init (name);
+//
+//	}
+
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
 		InitUIComponent ();
 	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
-	}
+//	public override void CreatUI () {
+//		base.CreatUI ();
+//	}
 
 	public override void ShowUI () {
 		gameObject.SetActive (true);
@@ -84,8 +90,8 @@ public class BattleMenu : UIBaseUnity {
 	}
 
 	void InitAudioSliderState() {
-		soundSlider.value = GameDataStore.Instance.GetIntDataNoEncypt (AudioManager.soundName) == 0 ? 1 : 0;
-		bgmSlider.value = GameDataStore.Instance.GetIntDataNoEncypt (AudioManager.bgmName) == 0 ? 1 : 0;
+		soundSlider.value = GameDataPersistence.Instance.GetIntDataNoEncypt (AudioManager.soundName) == 0 ? 1 : 0;
+		bgmSlider.value = GameDataPersistence.Instance.GetIntDataNoEncypt (AudioManager.bgmName) == 0 ? 1 : 0;
 	}
 
 	void SetEvent() {
@@ -137,10 +143,10 @@ public class BattleMenu : UIBaseUnity {
 		slider.value = value;
 		if (slider.Equals(soundSlider)) {
 			AudioManager.Instance.CloseSound (value == 1 ? true : false);
-			GameDataStore.Instance.StoreIntDatNoEncypt(AudioManager.soundName, (int)value);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt(AudioManager.soundName, (int)value);
 		} else{
 			AudioManager.Instance.StopBackgroundMusic (value == 1 ? true : false);
-			GameDataStore.Instance.StoreIntDatNoEncypt(AudioManager.bgmName, (int)value);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt(AudioManager.bgmName, (int)value);
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_home);
 		}
 	}

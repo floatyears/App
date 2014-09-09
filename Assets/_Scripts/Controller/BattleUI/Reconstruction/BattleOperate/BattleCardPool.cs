@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class BattleCardPool : UIBaseUnity
+public class BattleCardPool : ViewBase
 {
 	[HideInInspector]
 	public UISprite templateBackTexture;
@@ -21,9 +22,14 @@ public class BattleCardPool : UIBaseUnity
 		set { xStart = transform.localPosition.x - value / 2f; }
 	}
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
+//	}
+//		base.Init (name);
 		InitData();
+		GameObject tempObject = null;
+
 		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
 			cardPosition[i] = new Vector3(initPosition.x + i * cardInterv,initPosition.y,initPosition.z);

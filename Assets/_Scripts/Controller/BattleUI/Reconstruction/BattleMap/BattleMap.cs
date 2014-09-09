@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleMap : UIBaseUnity {
+public class BattleMap : ViewBase {
 	public const string trapSpriteName = "icon_trap"; //private const string trapName = "";
 	public const string chestSpriteName = "icon_chest";
 
@@ -32,25 +32,27 @@ public class BattleMap : UIBaseUnity {
 		set{ bQuest = value; }
 	}
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
+//		base.Init (name);
 
 		InitBG ();
 		map = new MapItem[MapConfig.MapWidth, MapConfig.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
-		template.Init("SingleMap");
+//		template.Init("SingleMap");
 		door = FindChild<MapDoor>("Door_1");
-		door.Init ("Door_1");
+//		door.Init ("Door_1");
 		door.battleMap = this;
 		template.gameObject.SetActive(false);
 		gameObject.transform.localPosition += Vector3.right * 5f;
 		wMove = false;
 	}
-
-	public override void CreatUI () {
-		LogHelper.Log("battle map creat ui" );
-		base.CreatUI ();
-	}
+//
+//	public override void CreatUI () {
+//		LogHelper.Log("battle map creat ui" );
+//		base.CreatUI ();
+//	}
 
 	void InitBG() {
 		if(mapBGTexture == null)
@@ -67,6 +69,7 @@ public class BattleMap : UIBaseUnity {
 	void StartMap() {
 		int x = map.GetLength(0);
 		int y = map.GetLength(1);
+		GameObject tempObject = null;
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				if(map[i,j] == null) {
@@ -77,7 +80,7 @@ public class BattleMap : UIBaseUnity {
 					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
 					temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
-					temp.Init(i+"|"+j);
+//					temp.Init(i+"|"+j);
 					temp.battleMap = this;
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;

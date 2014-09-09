@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Battle : UIBase {
+public class Battle : ModuleBase {
 	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
@@ -32,9 +32,7 @@ public class Battle : UIBase {
 
 	private ConfigBattleUseData battleData;
 
-	private MessageAdapt messageAdapt;
-
-	public Battle(string name):base(name) {
+	public Battle(UIConfigItem config):base(  config) {
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;
@@ -51,16 +49,14 @@ public class Battle : UIBase {
 		GameInput.OnDragEvent += HandleOnDragEvent;
 
 		battleData = ConfigBattleUseData.Instance;
-
-		messageAdapt = main.messageAdapt;
 	}
 
 	private Callback initEndCallback = null;
 
-	public void CreatUI(Callback initEndCallback) {
+	public void InitUI(Callback initEndCallback) {
 		this.initEndCallback = initEndCallback;
 		GameInput.OnUpdate += InitUpdate;
-		CreatUI ();
+		InitUI ();
 	}
 
 	void InitUpdate() {
@@ -74,7 +70,9 @@ public class Battle : UIBase {
 
 	private int initEnd = 0;
 
-	public override void CreatUI () {
+	public override void InitUI () {
+		base.InitUI ();
+
 		initEnd = 0;
 
 		CreatBack ();
@@ -83,21 +81,21 @@ public class Battle : UIBase {
 		CreatEnemy ();
 		CreatCountDown ();
 
-		AddSelfObject (battleCardPool);
-		AddSelfObject (battleCard);
-		AddSelfObject (battleCardArea);
-		AddSelfObject (battleEnemy);
+//		AddSelfObject (battleCardPool);
+//		AddSelfObject (battleCard);
+//		AddSelfObject (battleCardArea);
+//		AddSelfObject (battleEnemy);
 	}
 
 	public override void ShowUI() {
 		base.ShowUI();
 		ShowCard();
-
+//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 			AddGuideCard ();
 			battleData.storeBattleData.colorIndex = 0;
 		}
-
+//		Debug.LogError ("isShow");
 		if (!isShow) {
 			isShow = true;
 			GenerateShowCard();
@@ -110,6 +108,8 @@ public class Battle : UIBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
+
+//		UserGuideAnim (null);
 	}
 
 	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
@@ -144,8 +144,6 @@ public class Battle : UIBase {
 	}
 
 	bool shileInputByNoviceGuide = false;
-//	private MessageAdapt message;
-
 	public void ShowGuideAnim(bool rePlay = false) {
 //		Debug.LogError ("ShowGuideAnim : " + rePlay);
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
@@ -160,14 +158,11 @@ public class Battle : UIBase {
 	/// <summary>
 	/// drag time must bigger than move time
 	/// </summary>
-//	const float dragTime = 0.23f;
-	const float moveTime = 0.22f;
+	const float dragTime = 0.25f;
+	const float moveTime = 0.20f;
 
 	GameTimer gameTimer;
-
-
 	public void GuideCardAnim() {
-
 		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		ConfigBattleUseData.Instance.NotDeadEnemy = true;
 		gameTimer = GameTimer.GetInstance ();
@@ -175,13 +170,10 @@ public class Battle : UIBase {
 
 		Vector3 toPosition = battleCard.cardItemArray [2].transform.position;
 		selectTarget.Add ( battleCard.cardItemArray [3] );
-
+		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime) );
 		MoveFinger (target.transform.position, toPosition, moveTime);
 
-		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime, "oncomplete", MessageAdapt.MessageCallbackName, "oncompletetarget", main.gameObject) );
-
-		messageAdapt.AddCallback (AnimStep1);
-//		gameTimer.AddCountDown ( dragTime, AnimStep1 );
+		gameTimer.AddCountDown ( dragTime, AnimStep1 );
 	}
 
 	void MoveFinger(Vector3 startPosition, Vector3 toPosition, float time) {
@@ -298,9 +290,8 @@ public class Battle : UIBase {
 		Vector3 toPosition = battleCardArea.battleCardAreaItem [generateIndex].transform.position;
 		selectTarget.Add (ci);
 		MoveFinger (target.transform.position, toPosition, moveTime);
-		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime, "oncomplete", MessageAdapt.MessageCallbackName, "oncompletetarget", main.gameObject));
-		messageAdapt.AddCallback (GenerateCardEnd);
-//		gameTimer.AddCountDown (dragTime, GenerateCardEnd);
+		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime));
+		gameTimer.AddCountDown (dragTime, GenerateCardEnd);
 	} 
 
 	int cardIndex = 0;
@@ -327,25 +318,21 @@ public class Battle : UIBase {
 		int nextIndex = cardIndex + 1;
 		GameObject target = selectTarget [startIndex].gameObject;
 		if (nextIndex == fromIndexCache.Count) {
+			iTween.MoveTo (target, battleCardArea.battleCardAreaItem [generateIndex].transform.position, moveTime);
+
+			gameTimer.AddCountDown(dragTime, MoveAllToPosition);
+
 			MoveFinger(target.transform.position, battleCardArea.battleCardAreaItem [generateIndex].transform.position, moveTime);
-
-			iTween.MoveTo (target,iTween.Hash("position", battleCardArea.battleCardAreaItem [generateIndex].transform.position, "time", moveTime,  "oncomplete", MessageAdapt.MessageCallbackName, "oncompletetarget", main.gameObject));
-
-			messageAdapt.AddCallback(MoveAllToPosition);
-
-//			gameTimer.AddCountDown(dragTime, MoveAllToPosition);
-
-
 		} else {
 			CardItem nextCi = battleCard.cardItemArray [fromIndexCache [nextIndex]];
 
 			cardIndex = nextIndex;
 
-			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
+			iTween.MoveTo (target, nextCi.transform.position, 0.2f);
 
-			iTween.MoveTo (target, iTween.Hash("position", nextCi.transform.position, "time", moveTime, "oncomplete", MessageAdapt.MessageCallbackName, "oncompletetarget", main.gameObject));
-			messageAdapt.AddCallback(MoveAllEnd);
-//			gameTimer.AddCountDown (dragTime, MoveAllEnd);
+			gameTimer.AddCountDown (dragTime, MoveAllEnd);
+
+			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
 		}
 	}
 
@@ -477,11 +464,11 @@ public class Battle : UIBase {
 		string name = "CountDown";
 		GetPrefabsObject (name,o=>{
 			tempObject = o as GameObject;
-			tempObject.transform.parent = viewManager.CenterPanel.transform;
+			tempObject.transform.parent = ViewManager.Instance.CenterPanel.transform;
 
 			countDownUI = tempObject.GetComponent<CountDownUnity> ();
 //			Debug.LogError(tempObject.name + " countDownUI : " + countDownUI);
-			countDownUI.Init ("CountDown");
+//			countDownUI.Init ("CountDown");
 
 			initEnd++;
 		});
@@ -492,7 +479,7 @@ public class Battle : UIBase {
 		GetPrefabsObject(backName, o=>{
 			tempObject = o as GameObject;
 			battleCardPool = tempObject.AddComponent<BattleCardPool>();
-			battleCardPool.Init(backName);
+//			battleCardPool.Init(backName);
 			NGUITools.AddWidgetCollider(tempObject);
 			BoxCollider bc = tempObject.GetComponent<BoxCollider> ();
 			battleCardPool.XRange = bc.size.x;
@@ -509,7 +496,7 @@ public class Battle : UIBase {
 			tempObject.layer = GameLayer.ActorCard;
 			battleCard = tempObject.AddComponent<BattleCard>();
 			battleCard.CardPosition = battleCardPool.CardPosition;
-			battleCard.Init(Config.battleCardName);
+//			battleCard.Init(Config.battleCardName);
 			battleCard.battleCardArea = battleCardArea;
 
 			initEnd++;
@@ -538,7 +525,7 @@ public class Battle : UIBase {
 			tempObject.layer = GameLayer.BattleCard;
 			battleCardArea = tempObject.AddComponent<BattleCardArea>();
 			battleCardArea.BQuest = this;
-			battleCardArea.Init(areaName);
+//			battleCardArea.Init(areaName);
 			battleCardArea.CreatArea(battleCardPool.CardPosition,cardHeight);
 
 			initEnd++;
@@ -553,7 +540,7 @@ public class Battle : UIBase {
 			tempObject.layer = GameLayer.EnemyCard;
 			battleEnemy = tempObject.AddComponent<BattleEnemy>();
 			battleEnemy.battle = this;
-			battleEnemy.Init(enemyName);
+//			battleEnemy.Init(enemyName);
 			battleEnemy.ShowUI ();
 
 			initEnd++;
@@ -590,7 +577,7 @@ public class Battle : UIBase {
 
 
 	void GetPrefabsObject(string name,ResourceCallback callback) {
-		LoadAsset.Instance.LoadAssetFromResources(name, ResourceEuum.Prefab,o =>{
+		ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + name,o =>{
 			tempObject = o  as GameObject;
 			GameObject go = GameObject.Instantiate(tempObject) as GameObject;
 			
@@ -631,11 +618,11 @@ public class Battle : UIBase {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-		main.GInput.IsCheckInput = !isShield;
+		Main.Instance.GInput.IsCheckInput = !isShield;
 	}
 
 	public void ShieldGameInput(bool isShield) {
-		main.GInput.IsCheckInput = isShield;
+		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 
 	public void ShieldNGUIInput(bool isShield) {
@@ -650,7 +637,7 @@ public class Battle : UIBase {
 //			return;	
 //		}
 		nguiMainCamera.enabled = isShield;
-		main.GInput.IsCheckInput = isShield;
+		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 
 	void HandleOnPressEvent () {
@@ -730,12 +717,12 @@ public class Battle : UIBase {
 		Vector3 point = selectTarget[0].transform.localPosition;
 		int indexID = battleCardPool.CaculateSortIndex(point);
 		if(indexID >= 0) {
-			main.GInput.IsCheckInput = false;
+			Main.Instance.GInput.IsCheckInput = false;
 			if(battleCard.SortCard(indexID, selectTarget)) {
 				battleCard.CallBack += HandleCallBack;
 			}
 			else {
-				main.GInput.IsCheckInput = true; 
+				Main.Instance.GInput.IsCheckInput = true; 
 				ResetClick();
 			}
 		}
@@ -746,19 +733,19 @@ public class Battle : UIBase {
 	
 	void HandleCallBack () {
 		battleCard.CallBack -= HandleCallBack;
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 		ResetClick();
 	}
 
 	void TweenCallback(GameObject go) {
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 	}
 	
 	private BattleCardAreaItem prevTempBCA;
 
 	void DisposeOnDrag(Vector2 obj) {
 		SetDrag();
-		Vector3 vec = ChangeCameraPosition(obj) - viewManager.ParentPanel.transform.localPosition;
+		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
 
 		for (int i = 0; i < selectTarget.Count; i++) {
 			selectTarget [i].OnDrag (vec, i);
@@ -816,7 +803,7 @@ public class Battle : UIBase {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
 				EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.DragCard, returnValue => {
 					GameObject prefab = returnValue as GameObject;
-					GameObject effectIns = EffectManager.InstantiateEffect(viewManager.EffectPanel, prefab);
+					GameObject effectIns = EffectManager.InstantiateEffect(ViewManager.Instance.EffectPanel, prefab);
 					Transform card = ci.transform;
 					effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;}
 				);

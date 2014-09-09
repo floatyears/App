@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using bbproto;
 
-public class BattleQuest : UIBase {
+public class BattleQuest : ModuleBase {
 	private GameObject rootObject;
 	private TQuestGrid currentMapData;
 	public TQuestDungeonData questDungeonData;
@@ -39,52 +39,54 @@ public class BattleQuest : UIBase {
 
 	public static int battleData = 0;
 
-	public BattleQuest (string name) : base(name) {
+	private int initCount = 0;
+
+	public BattleQuest (UIConfigItem config) : base(  config) {
 		configBattleUseData = ConfigBattleUseData.Instance;
 		InitData ();
-		rootObject = NGUITools.AddChild(viewManager.ParentPanel);
+		rootObject = NGUITools.AddChild(ViewManager.Instance.ParentPanel);
 		string tempName = "Map";
-		viewManager.GetBattleMap(tempName, o =>{
-			battleMap = o as BattleMap;
-			battleMap.transform.parent = viewManager.CenterPanel.transform;
-			battleMap.transform.localPosition = new Vector3 (0f, 589f, 0f);
-			battleMap.transform.localScale = Vector3.one;
-			battleMap.BQuest = this;
-			Init(battleMap,tempName);
-			initCount++;
-		});
+//		ViewManager.Instance.GetBattleMap(tempName, o =>{
+//			battleMap = o as BattleMap;
+//			battleMap.transform.parent = ViewManager.Instance.CenterPanel.transform;
+//			battleMap.transform.localPosition = new Vector3 (0f, 589f, 0f);
+//			battleMap.transform.localScale = Vector3.one;
+//			battleMap.BQuest = this;
+////			Init(battleMap);//,tempName);
+//			initCount++;
+//		});
+//
+//		tempName = "Role";
+//		ViewManager.Instance.GetBattleMap(tempName, o =>{
+//			role = o as Role;
+//			role.transform.parent = ViewManager.Instance.CenterPanel.transform;
+//			role.transform.localPosition = Vector3.zero;
+//			role.transform.localScale = Vector3.one;
+//			role.BQuest = this;
+////			Init(role);//,tempName);
+//			initCount++;
+//		});
+//
+//		ViewManager.Instance.GetViewObject(backgroundName , o=>{
+//			background = o as BattleBackground;
+//			background.transform.parent = ViewManager.Instance.BottomPanel.transform;
+//			background.transform.localPosition = new Vector3(0f,25f,0f);
+////			background.Init (backgroundName);
+//			background.SetBattleQuest (this);
+//			questData.questId = questDungeonData.QuestId;
+//			InitTopUI ();
+////			AddSelfObject (battleMap);
+////			AddSelfObject (role);
+////			AddSelfObject (background);
+//			
+//			roleStateException = new RoleStateException ();
+//			roleStateException.AddListener ();
+//			initCount++;
+//		});
 
-		tempName = "Role";
-		viewManager.GetBattleMap(tempName, o =>{
-			role = o as Role;
-			role.transform.parent = viewManager.CenterPanel.transform;
-			role.transform.localPosition = Vector3.zero;
-			role.transform.localScale = Vector3.one;
-			role.BQuest = this;
-			Init(role,tempName);
-			initCount++;
-		});
-
-		viewManager.GetViewObject(backgroundName , o=>{
-			background = o as BattleBackground;
-			background.transform.parent = viewManager.BottomPanel.transform;
-			background.transform.localPosition = new Vector3(0f,25f,0f);
-			background.Init (backgroundName);
-			background.SetBattleQuest (this);
-			questData.questId = questDungeonData.QuestId;
-			InitTopUI ();
-			AddSelfObject (battleMap);
-			AddSelfObject (role);
-			AddSelfObject (background);
-			
-			roleStateException = new RoleStateException ();
-			roleStateException.AddListener ();
-			initCount++;
-		});
-
-		battle = new Battle("Battle");
-		battle.CreatUI( BattleInitEnd );
-		battle.HideUI ();
+//		battle = new Battle("Battle");
+//		battle.InitUI( );
+//		battle.HideUI ();
 		CreatEffect ();
 		bud = new BattleUseData (this);
 	}
@@ -105,13 +107,13 @@ public class BattleQuest : UIBase {
 
 	private void CallbackFunc(object o){
 		GameObject go = GameObject.Instantiate ((o as Object) as GameObject) as GameObject;
-		go.transform.parent = viewManager.TopPanel.transform;
+		go.transform.parent = ViewManager.Instance.TopPanel.transform;
 		go.transform.localScale = Vector3.one;
 		topUI = go.GetComponent<TopUI> ();
-		topUI.Init ("TopUI");
+//		topUI.Init ("TopUI");
 		topUI.battleQuest = this;
 		topUI.RefreshTopUI (questDungeonData, _questData);
-		AddSelfObject (topUI);
+//		AddSelfObject (topUI);
 	}
 		
 	public Transform GetTopUITarget () {
@@ -128,12 +130,12 @@ public class BattleQuest : UIBase {
 		battleData = configBattleUseData.hasBattleData ();
 	}
 
-	void Init(UIBaseUnity ui, string name) {
-		ui.Init(name);
-	}
+//	void Init(ViewBase ui, UIConfig config) {
+//		ui.Init (config);
+//	}
 
-	public override void CreatUI () {
-		base.CreatUI ();
+	public override void InitUI () {
+		base.InitUI ();
 	}
 
 	public override void ShowUI () {
@@ -257,10 +259,10 @@ public class BattleQuest : UIBase {
 		ResourceManager.Instance.LoadLocalAsset ("Prefabs/QuestFullScreenTips", o => {
 			GameObject obj = o as GameObject;
 			Vector3 pos = obj.transform.localPosition;
-			GameObject go = NGUITools.AddChild (viewManager.EffectPanel, obj);
+			GameObject go = NGUITools.AddChild (ViewManager.Instance.EffectPanel, obj);
 			go.transform.localPosition = pos;
 			questFullScreenTips = go.GetComponent<QuestFullScreenTips> ();
-			questFullScreenTips.Init ("QuestFullScreenTips");
+//			questFullScreenTips.Init ("QuestFullScreenTips");
 			initCount++;
 		});
 
@@ -277,9 +279,9 @@ public class BattleQuest : UIBase {
 	}
 	  
 	void Exit() {
-		controllerManger.ExitBattle();
-		UIManager.Instance.baseScene.PrevScene = SceneEnum.Evolve;
-		UIManager.Instance.ExitBattle();
+//		UIManager.Instance.ExitBattle();
+//		UIManager.Instance.baseScene.PrevScene = ModuleEnum.Evolve;
+		ModuleManager.Instance.ExitBattle();
 	}
 
 	bool battleEnemy = false;
@@ -321,7 +323,7 @@ public class BattleQuest : UIBase {
 	}
 
 	public void NoFriendExit() {
-		ControllerManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 //		UIManager.Instance.ExitBattle ();
 	}
 
@@ -332,12 +334,12 @@ public class BattleQuest : UIBase {
 
 	void RetireQuestCallback(object data) {
 		NoFriendExit ();
-		UIManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 	}
 
 	public void HaveFriendExit() {
-		ControllerManager.Instance.ExitBattle ();
-		UIManager.Instance.ChangeScene(SceneEnum.Result);
+		ModuleManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, configBattleUseData.BattleFriend);
 	}
 
@@ -352,15 +354,15 @@ public class BattleQuest : UIBase {
 
 		NoFriendExit();
 
-		UIManager.Instance.ChangeScene (SceneEnum.Victory);
+		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
 	void EvolveEnd (TRspClearQuest trcq) {
-		ControllerManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 
-		UIManager.Instance.ChangeScene (SceneEnum.Victory);
+		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule);
 		MsgCenter.Instance.Invoke (CommandEnum.VictoryData, trcq);
 	}
 
@@ -723,12 +725,12 @@ public class BattleQuest : UIBase {
 	}
 
 	void ShowBattle() {
-		if(battle == null) {	
-			battle = new Battle("Battle");
-			battle.CreatUI();
-		}
-		if(battle.GetState == UIState.UIShow)
-			return;
+//		if(battle == null) {	
+//			battle = new Battle("Battle");
+//			battle.InitUI();
+//		}
+//		if(battle.GetState == UIState.UIShow)
+//			return;
 		battle.ShowUI();
 	}
 
@@ -754,8 +756,8 @@ public class BattleQuest : UIBase {
 	}
 
 	void ShieldAllInput (bool shiled) {
-		main.NguiCamera.enabled = shiled;
-		main.GInput.IsCheckInput = shiled;
+		Main.Instance.NguiCamera.enabled = shiled;
+		Main.Instance.GInput.IsCheckInput = shiled;
 		BattleBottom.notClick = !shiled;
 	}
 
@@ -864,30 +866,33 @@ public class BattleQuest : UIBase {
 	}
 
 	public void Retry () {
-		main.GInput.IsCheckInput = false;
+		Main.Instance.GInput.IsCheckInput = false;
 		BattleBottom.notClick = true;
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
-		mwp.contentText = TextCenter.GetText("RedoQuestContent", DataCenter.redoQuestStone, 
-		                                     DataCenter.Instance.AccountInfo.Stone);
-		BtnParam sure = new BtnParam ();
-		sure.callback = SureInitiativeRetry;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParams = new BtnParam[2];
+//		mwp.titleText = TextCenter.GetText("RedoQuestTitle");
+//		mwp.contentText = TextCenter.GetText("RedoQuestContent", DataCenter.redoQuestStone, 
+//		                                     DataCenter.Instance.AccountInfo.Stone);
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = SureInitiativeRetry;
+//		sure.text = TextCenter.GetText("OK");
+//		mwp.btnParams[0] = sure;
+//
+//		sure = new BtnParam ();
+//		sure.callback = CancelInitiativeRetry;
+//		sure.text = TextCenter.GetText("Cancel");
+//		mwp.btnParams[1] = sure;
 
-		sure = new BtnParam ();
-		sure.callback = CancelInitiativeRetry;
-		sure.text = TextCenter.GetText("Cancel");
-		mwp.btnParams[1] = sure;
-
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
+		                                   TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.Stone),
+		                                   TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
 	}
 	
 	void SureInitiativeRetry(object data) {
 		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
-			viewManager.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
 
@@ -897,12 +902,12 @@ public class BattleQuest : UIBase {
 		}
 		RedoQuest.SendRequest (SureRetryNetWork, questDungeonData.QuestId, questDungeonData.currentFloor);
 
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 		BattleBottom.notClick = false;
 	}
 
 	void CancelInitiativeRetry(object data) {
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 		BattleBottom.notClick = false;
 	}
 	
@@ -911,7 +916,7 @@ public class BattleQuest : UIBase {
 		BattleMap.waitMove = false;
 		battleMap.BattleEndRotate(null);
 		RefreshRetryData (data);
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
 	}
 
@@ -1065,17 +1070,18 @@ public class BattleQuest : UIBase {
 	}
 
 	void RetryClearQuestRequest () {
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText("RetryClearQuestTitle");
-		mwp.contentText = TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
-		                                     DataCenter.Instance.AccountInfo.Stone);
-		BtnParam sure = new BtnParam ();
-		sure.callback = RequestData;
-		sure.text = TextCenter.GetText("Retry");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParam = new BtnParam();
+//		mwp.titleText = ;
+//		mwp.contentText = ;
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = RequestData;
+//		sure.text = ;
+//		mwp.btnParam = sure;
+//		
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,mwp);
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
+		                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
 	}
 
 	void End() {
@@ -1088,30 +1094,32 @@ public class BattleQuest : UIBase {
 	void BattleFail(object data) {
 		battle.ShieldInput (true);
 
-		main.GInput.IsCheckInput = false;
+		Main.Instance.GInput.IsCheckInput = false;
 		BattleBottom.notClick = true;
 
-		MsgWindowParams mwp = new MsgWindowParams ();
-		mwp.btnParams = new BtnParam[2];
-		mwp.titleText = TextCenter.GetText("ResumeQuestTitle");
-		mwp.contentText = TextCenter.GetText("ResumeQuestContent", DataCenter.resumeQuestStone);
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = BattleFailRecover;
-		sure.text = TextCenter.GetText("OK");
-		mwp.btnParams[0] = sure;
-		
-		sure = new BtnParam ();
-		sure.callback = BattleFailExit;
-		sure.text = TextCenter.GetText("Cancel");
-		mwp.btnParams[1] = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+//		MsgWindowParams mwp = new MsgWindowParams ();
+//		mwp.btnParams = new BtnParam[2];
+//		mwp.titleText = TextCenter.GetText("ResumeQuestTitle");
+//		mwp.contentText = TextCenter.GetText("ResumeQuestContent", DataCenter.resumeQuestStone);
+//		
+//		BtnParam sure = new BtnParam ();
+//		sure.callback = BattleFailRecover;
+//		sure.text = TextCenter.GetText("OK");
+//		mwp.btnParams[0] = sure;
+//		
+//		sure = new BtnParam ();
+//		sure.callback = BattleFailExit;
+//		sure.text = TextCenter.GetText("Cancel");
+//		mwp.btnParams[1] = sure;
+//		
+//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
+
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), BattleFailRecover, BattleFailExit);
 	}
 
 	void BattleFailRecover(object data) {
 		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
-			viewManager.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
 
@@ -1125,7 +1133,7 @@ public class BattleQuest : UIBase {
 		bud.RecoverEnergePoint (DataCenter.maxEnergyPoint);
 		configBattleUseData.StoreMapData (null);
 
-		main.GInput.IsCheckInput = true;
+		Main.Instance.GInput.IsCheckInput = true;
 		BattleBottom.notClick = false;
 	}
 
@@ -1144,7 +1152,7 @@ public class BattleQuest : UIBase {
 		Battle.colorIndex = 0;
 		Battle.isShow = false;
 		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd);
-		ControllerManager.Instance.ExitBattle ();
-		UIManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ExitBattle ();
+//		UIManager.Instance.ExitBattle ();
 	}
 }
