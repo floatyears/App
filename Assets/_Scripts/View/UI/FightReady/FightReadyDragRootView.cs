@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class FightReadyDragRootView : UIComponentUnity, IDragChangeView {
+public class FightReadyDragRootView : ViewBase, IDragChangeView {
 	private int prevPageIndex = 0;
 	public const int PARTY_LIGHT_COUNT = 5;
 	public const int PARTY_MEMBER_COUNT = 4;
@@ -30,8 +30,14 @@ public class FightReadyDragRootView : UIComponentUnity, IDragChangeView {
 //	private HelperUnitItem helper;
 //	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
 
-	public override void Init(UIInsConfig config, IUICallback origin){
-		base.Init(config, origin);
+//	public override void Init(UIInsConfig config, IUICallback origin){
+//		base.Init(config, origin);
+//		InitUI();
+//	}
+
+	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
+	{
+		base.Init (uiconfig, data);
 		InitUI();
 	}
 
@@ -227,7 +233,7 @@ public class FightReadyDragRootView : UIComponentUnity, IDragChangeView {
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+//			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
@@ -250,7 +256,7 @@ public class FightReadyDragRootView : UIComponentUnity, IDragChangeView {
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
-		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+//		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		ConfigBattleUseData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
@@ -262,7 +268,7 @@ public class FightReadyDragRootView : UIComponentUnity, IDragChangeView {
 		ConfigBattleUseData.Instance.gotFriendPoint = 0;
 		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
-		UIManager.Instance.EnterBattle();
+//		UIManager.Instance.EnterBattle();
 
 //		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
 	}
