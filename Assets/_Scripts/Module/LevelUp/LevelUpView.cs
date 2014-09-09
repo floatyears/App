@@ -5,22 +5,16 @@ public class LevelUpView : ViewBase {
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI ();
-//		MsgCenter.Instance.AddListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
 
 	public override void ShowUI () {
-//		if (friendWindow != null && friendWindow.isShow) {
-//			friendWindow.gameObject.SetActive (true);
-//			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
-//		} else {
-			if (!gameObject.activeSelf) {
-				gameObject.SetActive(true);
-				MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
-			}
-			if(fromUnitDetail) {
-				fromUnitDetail = false;
-			}
-//		}
+		if (!gameObject.activeSelf) {
+			gameObject.SetActive(true);
+			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
+		}
+		if(fromUnitDetail) {
+			fromUnitDetail = false;
+		}
 
 		base.ShowUI ();
 		ClearFocus ();
@@ -28,7 +22,6 @@ public class LevelUpView : ViewBase {
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
 		ShowData ();
-//		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
@@ -37,7 +30,11 @@ public class LevelUpView : ViewBase {
 
 		iTween.MoveTo(topObject, iTween.Hash("y", 20, "time", 0.4f,"islocal", true));
 
-		iTween.MoveTo (bottomObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject)); 
+		iTween.MoveTo (bottomObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject));
+
+		if(viewData != null && viewData.ContainsKey("friendinfo")){
+			SelectFriend(viewData["friendinfo"] as TFriendInfo);
+		}
 	}
 
 	public override void HideUI () {
@@ -47,35 +44,14 @@ public class LevelUpView : ViewBase {
 		}
 
 		base.HideUI ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
-//		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
-//			fromUnitDetail = true;
-//			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
-//				friendWindow.gameObject.SetActive (false);
-//			} 
-//		} else {
-//			if (friendWindow != null) {
-//				friendWindow.HideUI();
-//			}
-//		}
 	}
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-//		if(friendWindow != null)
-//			friendWindow.DestoryUI ();
 		sortRule = SortRule.None;
 		myUnitDragPanel.DestoryDragPanel ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.LevelUpSucceed, ResetUIAfterLevelUp);
 	}
-
-//	bool clear = true;
-//	public override void ResetUIState () {
-//		clear = true;
-//		ClearData ();
-//		CheckLevelUp ();
-//	}
 
 	public override void CallbackView(params object[] args) {
 		base.CallbackView (args);
@@ -170,19 +146,11 @@ public class LevelUpView : ViewBase {
 
 	private MyUnitItem prevMaterialItem;
 
-//	private FriendWindows friendWindow;
-
 	private GameObject topObject;
 
 	private GameObject bottomObject;
 
 	void ShowData () {
-//		Debug.LogError ("clear : " + clear);
-//		if (!clear) {
-//			return;	
-//		}
-//
-//		clear = false;
 
 		if (myUnitDragPanel == null) {
 			InitDragPanel();
@@ -299,19 +267,14 @@ public class LevelUpView : ViewBase {
 	}
 
 	void SelectedFriendCallback(LevelUpItem piv) {
-//		if (friendWindow == null) {
-//			friendWindow = DGTools.CreatFriendWindow();
-//			if(friendWindow == null) {
-//				return;
-//			}
-//		}
+
 		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
 //		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 //		friendWindow.selectFriend = SelectFriend;
 //		friendWindow.ShowUI ();
-		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"selectFunc",SelectFriend as System.Action<TFriendInfo>);
+		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"type","levelup");
 	}
 
 	TFriendInfo levelUpUerFriend;
@@ -512,6 +475,7 @@ public class LevelUpView : ViewBase {
 		}
 		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;
 //		ExcuteCallback (levelUpInfo);
+		ModuleManager.SendMessage (ModuleEnum.LevelUpModule,levelUpInfo);
 	}
 
 //	void SortCallback(GameObject go) {
@@ -706,20 +670,7 @@ public class LevelUpView : ViewBase {
 		}
 		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
 		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.LevelUp);
-//		Debug.LogError ("_sortRule : " + _sortRule + " myUnit ; " + myUnit.Count);
-//		myUnitDragPanel.RefreshItem (myUnit);
 
-//		SortUnitTool.SortByTargetRule(sortRule, allData);
-//		SortUnitTool.StoreSortRule (sortRule, SortRuleByUI.UnitDisplayUnity);
-//		unitItemDragPanel.RefreshItem (allData);
-
-//		List<MyUnitItem> scrollList = myUnitDragPanel.scrollItem;
-//		for (int i = 1; i < scrollList.Count; i++){
-//			PartyUnitItem puv = scrollList[i].GetComponent<PartyUnitItem>();//myUnitList[i];
-//			TUserUnit tuu = myUnit[ i - 1 ];
-//			puv.UserUnit = tuu;
-//			puv.CurrentSortRule = sortRule;
-//		}
 	}
 
 	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
@@ -772,19 +723,6 @@ public class LevelUpView : ViewBase {
 			ClearInfoPanelData ();
 			//			return;	
 		}
-//		TUnitInfo tu = baseInfo.UnitInfo;
-//		int toLevel = tu.GetLevelByExp (expGot + baseInfo.Exp);
-//		if (expGot == 0) {
-//			Hp = baseInfo.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
-//			Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
-//			ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
-//		}else{
-//			Hp = baseInfo.Hp + "->" + tu.GetHpByLevel(toLevel);
-//			Atk =  baseInfo.Attack + "->" + tu.GetAtkByLevel(toLevel);
-//			ExpNeed = baseInfo.Level + "->" + toLevel;
-//		}
-
-
 	}
 
 	void RefreshMaterial() {
@@ -848,30 +786,12 @@ public class LevelUpView : ViewBase {
 	}
 
 	public LevelUpUnitItem GetPartyUnitItem(uint id){
-//		if (i == -1) {
-//			return myUnitList[myUnitList.Count-1];
-//		} else {
-//			return myUnitList [i];
-//		}
+
 		foreach (var item in myUnitList) {
 			if(item.UserUnit.UnitID == id){
 				return item;
 			}
 		}
-		return null;
-	}
-
-	public LevelUpUnitItem GetPartyUnitItemByLeader(){
-		//		if (i == -1) {
-		//			return myUnitList[myUnitList.Count-1];
-		//		} else {
-		//			return myUnitList [i];
-		//		}
-//		foreach (var item in myUnitList) {
-//			if(item.UserUnit.UnitID == id){
-//				return item;
-//			}
-//		}
 		return null;
 	}
 
@@ -889,23 +809,6 @@ public class LevelUpView : ViewBase {
 		myUnitDragPanel.RefreshItem (myUnit);
 
 
-//		int total = Mathf.CeilToInt(count / 3);
-//		int index = Mathf.CeilToInt(i / 3);
-//		if (total <= 6)
-//			return;
-//		Debug.Log ("value: " + (float)index / total);
-//		myUnitDragPanel.dragPanelView.scrollBar.value = (float)index / total;
-
 	}
 
-
-//	private void AddCmdListener(){
-//		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
-////		MsgCenter.Instance.AddListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
-//	}
-//	
-//	private void RmvCmdListener(){
-//		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
-////		MsgCenter.Instance.RemoveListener(CommandEnum.RefreshPartyPanelInfo, UpdateInfoPanelView);
-//	}
 }

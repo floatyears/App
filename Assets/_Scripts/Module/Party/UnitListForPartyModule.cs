@@ -118,8 +118,7 @@ public class UnitListForPartyModule : ModuleBase{
 		int position = (int)args;
 //		TUserUnit unitInfo = onPartyViewItemList [position - 1].DataItem;
 		TUserUnit unitInfo = partyDataList[position - 1];
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, unitInfo);	
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",unitInfo);
 	}
 
 	void RspUnitPickFromView(PartyUnitItem itemView){

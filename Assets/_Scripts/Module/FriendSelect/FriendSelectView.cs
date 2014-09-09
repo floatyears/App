@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using bbproto;
 
 public class FriendSelectView : ViewBase{
+
+	public System.Action<TFriendInfo> selectFriend;
+	public EvolveItem evolveItem;
+
 	protected DragPanel generalDragPanel = null;
 	protected DragPanel premiumDragPanel = null;
 
@@ -25,7 +29,6 @@ public class FriendSelectView : ViewBase{
 
 	public override void ShowUI() {
 		base.ShowUI();
-		AddCmdListener();
 		CreateGeneralListView();
 		ShowUIAnimation(generalDragPanel);
 		isShowPremium = false;
@@ -34,19 +37,24 @@ public class FriendSelectView : ViewBase{
 		if (premiumBtn.gameObject.activeSelf) {
 			premiumBtn.gameObject.SetActive(false);	
 		}
+
+		if (viewData != null) {
+			if(viewData.ContainsKey("type")){
+				if(viewData["type"].ToString() == "evolve"){
+					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"evolve");
+					evolveItem = viewData["item"] as EvolveItem;
+				}else if(viewData["type"].ToString() == "levelup"){
+					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"levelup");
+					CheckFriend();
+
+				}else if(viewData["type"].ToString() == "quest"){
+					RecordPickedInfoForFight(viewData["data"]);	
+				}
+			}
+
+		}
 	}
 
-	public override void HideUI() {
-//		Debug.LogError("FriendHelperView HideUI befoure : " + Time.realtimeSinceStartup);
-		base.HideUI();
-		RmvCmdListener();
-//		Debug.LogError ("FriendHelperView HideUI end : " + Time.realtimeSinceStartup);
-	}
-
-	public override void DestoryUI () {
-		base.DestoryUI ();
-	}
-	
 	private void InitUI(){
 		curSortRule = SortUnitTool.DEFAULT_SORT_RULE;
 		premiumBtn = transform.FindChild("Button_Premium").GetComponent<UIButton>();
@@ -84,21 +92,12 @@ public class FriendSelectView : ViewBase{
 		if(generalFriendList == null){
 //			Debug.LogError("CreateGeneralListView(), FIRST step in, create drag panel view...");
 			generalFriendList = newest;
-//			generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
-//			generalDragPanel.CreatUI();
-//			generalDragPanel.AddItem(1);
-//			Debug.LogError("generalDragPanel 1 generalFriendList == null : " + generalDragPanel);
 			generalDragPanel = RefreshDragView(FriendInfoType.General);
 //			Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 		}
 		else{
 //			Debug.Log("CreateGeneralListView(), NOT FIRST step into FriendHelper scene...");
 			if(!generalFriendList.Equals(newest)){
-//				Debug.Log("CreateGeneralListView(), the friend info list is CHANGED, update helper list...");
-				//helperDragPanel.DestoryUI();
-//				generalFriendList = newest;
-//				generalDragPanel = new DragPanel("GeneralDragPanel", HelperUnitItem.ItemPrefab);
-//				Debug.LogError("generalDragPanel 1 : " + generalDragPanel);
 				generalDragPanel = RefreshDragView(FriendInfoType.General);
 //				Debug.LogError("generalDragPanel 2 : " + generalDragPanel);
 			}
@@ -108,10 +107,6 @@ public class FriendSelectView : ViewBase{
 				RefreshData(generalDragPanel);
 			}
 		}
-	}
-	public enum FriendInfoType{
-		General,
-		Premium
 	}
 
 	DragPanel RefreshDragView(FriendInfoType fType){
@@ -161,27 +156,44 @@ public class FriendSelectView : ViewBase{
 	}
 
 	protected virtual void ClickHelperItem(HelperUnitItem item){
-		if(pickedQuestInfo == null){
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-			return;
+//		if(viewData["sele"]
+		foreach (var i in viewData) {
+			Debug.Log("key: " + i.Key);
+		}
+		if(viewData.ContainsKey("type")){
+			if(viewData["type"].ToString() == "evolve"){
+				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"evolve");
+				ModuleManager.Instance.ShowModule(ModuleEnum.EvolveModule,"friendinfo",item.FriendInfo);
+			}else if(viewData["type"].ToString() == "levelup"){
+				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"levelup");
+				ModuleManager.Instance.ShowModule(ModuleEnum.LevelUpModule,"friendinfo",item.FriendInfo);
+				CheckFriend();
+				
+			}else if(viewData["type"].ToString() == "quest"){
+				if(pickedQuestInfo == null){
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+					return;
+				}
+				
+				if(CheckStaminaEnough()){
+					Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+					//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
+					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
+					return;
+				}
+				//		Debug.LogError("friend ClickHelperItem");
+				AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
+				
+				Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
+				pickedInfo.Add("QuestInfo", pickedQuestInfo);
+				pickedInfo.Add("HelperInfo", item.FriendInfo);
+				
+				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"data",pickedInfo);//before
+				//		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper);//after
+			}
 		}
 
-		if(CheckStaminaEnough()){
-			Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
-			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
-			return;
-		}
-//		Debug.LogError("friend ClickHelperItem");
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-
-		Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
-		pickedInfo.Add("QuestInfo", pickedQuestInfo);
-		pickedInfo.Add("HelperInfo", item.FriendInfo);
-
-		ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule);//before
-		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper, pickedInfo);//after
 	}
 
 	/// <summary>
@@ -208,14 +220,6 @@ public class FriendSelectView : ViewBase{
 		GameObject targetPanel = dragPannel.GetDragViewObject();
 		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
 		iTween.MoveTo (targetPanel, iTween.Hash ("x", 0, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));      
-	}
-
-	private void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
-	}
-
-	private void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickQuest, RecordPickedInfoForFight);
 	}
 
 	/// <summary>
@@ -285,4 +289,37 @@ public class FriendSelectView : ViewBase{
 			return generalDragPanel.ScrollItem[i];
 		return null;
 	}
+	
+	void CheckFriend() {
+		if (evolveItem == null) {
+			return;	
+		}
+		
+		DragPanel dragPanel = null;
+		
+		HelperRequire hr = evolveItem.userUnit.UnitInfo.evolveInfo.helperRequire;
+		
+		dragPanel = (friendInfoTyp == FriendInfoType.General ? generalDragPanel : premiumDragPanel);
+		
+		for (int i = 0; i < dragPanel.ScrollItem.Count; i++) {
+			HelperUnitItem hui = dragPanel.ScrollItem[i].GetComponent<HelperUnitItem>();
+			if(! CheckEvolve(hr, hui.UserUnit)) {
+				hui.IsEnable = false;
+			}
+		}
+	}
+	
+	bool CheckEvolve(HelperRequire hr, TUserUnit tuu) {
+
+		if (tuu.Level >= hr.level && ((hr.race == 0) || (tuu.UnitRace == (int)hr.race)) && ((hr.type == 0) || (tuu.UnitType == (int)hr.type))) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
+}
+
+public enum FriendInfoType{
+	General,
+	Premium
 }

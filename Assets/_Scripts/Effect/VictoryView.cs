@@ -237,8 +237,7 @@ public class VictoryView : ViewBase {
 		DestoryUI ();
 		if (DataCenter.gameState == GameState.Evolve) {
 			UnitDetailView.isEvolve = true;
-			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-			ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, rspClearQuest.evolveUser);
+			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",rspClearQuest.evolveUser);
 //			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Home;
 			HideUI ();
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);

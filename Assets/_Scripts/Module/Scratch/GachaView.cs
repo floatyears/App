@@ -125,17 +125,13 @@ public class GachaView : ViewBase {
 			sprite.enabled = false;
 		});
 
-		ShowUnitScale ();
+		iTween.ScaleTo (currentGrid, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
 	}
 
 	GameObject currentGrid = null;
 	UISprite sprite = null;
 	TUserUnit currentUserUnit = null;
 
-	void ShowUnitScale() {
-		iTween.ScaleTo (currentGrid, iTween.Hash ("y", 0f, "time", 0.3f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
-	}
-	
 	void RecoverScale() {
 		currentGrid.transform.Find ("Label").GetComponent<UILabel> ().text = "";
 		sprite.enabled = true;
@@ -151,7 +147,7 @@ public class GachaView : ViewBase {
 				AutoShowOneCard ();
 			} else {
 				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.UnitID);
-				ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, "unit",currentUserUnit);
+				ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, "data",currentUserUnit);
 			}
 		});
 	}
@@ -387,7 +383,7 @@ public class GachaView : ViewBase {
 			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
 //			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
 //			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
-			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule,currentUserunit);
+			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule,"data",currentUserunit);
 		}
     }
 
@@ -396,9 +392,7 @@ public class GachaView : ViewBase {
         if (newUnitId == 0){
             return;
         }
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-        TUserUnit unit = DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId);
-        ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, unit);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId));
     }
 
     List<GameObject> GetSortedGrids(){

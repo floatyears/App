@@ -10,7 +10,7 @@ public class FriendSelectModule : ModuleBase{
 	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
 	private TEvolveStart evolveStart = null;
 
-	public FriendSelectModule( UIConfigItem config):base( config) {
+	public FriendSelectModule( UIConfigItem config, params object[] data):base( config, data) {
 		CreateUI<FriendSelectView> ();
 
 	}

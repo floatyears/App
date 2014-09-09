@@ -76,14 +76,14 @@ public class LevelUpModule : ModuleBase {
 				dataCenter.UserUnitList.DelMyUnit(uniqueID);
 			}
 	
-			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
+//			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
 
-			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
+			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"levelup",rspLevelUp);
 
-			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
+//			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 
 //			MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
-			(view as LevelUpView).ResetUIAfterLevelUp(rspLevelUp.blendUniqueId);
+//			(view as LevelUpView).ResetUIAfterLevelUp(rspLevelUp.blendUniqueId);
 		}
 	}
 }

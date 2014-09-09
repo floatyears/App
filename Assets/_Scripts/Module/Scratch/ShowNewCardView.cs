@@ -13,21 +13,24 @@ public class ShowNewCardView : ViewBase {
 		base.ShowUI ();
 		ActiveButton (false);
 		ActiveEffect (true);
+
+		if (viewData.ContainsKey ("data")) {
+			ShowProfile(viewData["data"] as TUserUnit);
+		}
 	}
 
 	public override void HideUI () {
 		ActiveEffect (false);
 		base.HideUI ();
-		ClearStar ();
+
 		profileTexture.mainTexture = null;
-	}
-	
-	public override void CallbackView (params object[] args)
-	{
-		ShowProfile (args[0] as TUserUnit);
+		for (int i = 0; i < starList.Count; i++) {
+			Destroy(starList[i]);
+		}
+		starList.Clear ();
 	}
 
-	private ModuleEnum sEnum;
+//	private ModuleEnum sEnum;
 
 	private GameObject backEffect;
 	private GameObject bombEffect;
@@ -87,16 +90,10 @@ public class ShowNewCardView : ViewBase {
 
 		int maxRare = userUnit.UnitInfo.MaxRare == 0 ? userUnit.UnitInfo.Rare : userUnit.UnitInfo.MaxRare;
 
-		SortStarBg (maxRare);
-
-		GameTimer.GetInstance ().AddCountDown (0.5f, ShowTexture);
-	}
-
-	void SortStarBg(int maxRare) {
 		if (maxRare <= 0) {
 			return;	
 		}
-
+		
 		if (DGTools.IsOddNumber (maxRare)) {
 			int halfCount = (maxRare - 1) >> 1;
 			SortBG(false ,halfCount, starPosition);
@@ -105,6 +102,21 @@ public class ShowNewCardView : ViewBase {
 			Vector3 startPosition = new Vector3(starPosition.x + starBgSpr.width * 0.5f, starPosition.y, starPosition.z);
 			SortBG(true ,halfCount, startPosition);
 		}
+
+		GameTimer.GetInstance ().AddCountDown (0.5f, ()=>{
+			Debug.Log("show new card effect end1");
+			ResourceManager.Instance.GetProfile (userUnit.Object.unitId, null, texture => {
+				Texture2D tex = texture as Texture2D;
+				DGTools.ShowTexture(profileTexture, tex);
+				iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.3f, "easetype", iTween.EaseType.easeOutQuart));
+				GameTimer.GetInstance().AddCountDown(0.5f, ()=>{
+					Debug.Log("show new card effect end");
+					bombEffect.SetActive (true);
+					
+					StartCoroutine (ShowStar (userUnit.UnitInfo.Rare));
+				});
+			});
+		});
 	}
 
 	void SortBG(bool isOdd, int endIndex, Vector3 startPosition) {
@@ -112,49 +124,23 @@ public class ShowNewCardView : ViewBase {
 		realEndIndex = isOdd ? endIndex - 1 : endIndex;
 
 		for (int i = realStartIndex; i <= realEndIndex; i++) {
-			GameObject go = GenerateSprite(starBgSpr);
+			GameObject go = NGUITools.AddChild(starParent, starBgSpr.gameObject);
+			go.SetActive(true);
+			starList.Add(go);
 			float xOffset = i * starBgSpr.width;
 			go.transform.localPosition =  new Vector3(startPosition.x + xOffset, startPosition.y, startPosition.z);
 		}
 	}
 
-	GameObject GenerateSprite(UISprite sprite) {
-		GameObject go = NGUITools.AddChild(starParent, sprite.gameObject);
-		go.SetActive(true);
-		starList.Add(go);
-		return go;
-	}
-
-	void ShowTexture() {
-		ResourceManager.Instance.GetProfile (userUnit.Object.unitId, null, texture => {
-			Texture2D tex = texture as Texture2D;
-			DGTools.ShowTexture(profileTexture, tex);
-			iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.3f, "easetype", iTween.EaseType.easeOutQuart));
-			GameTimer.GetInstance().AddCountDown(0.5f, ShowBombEffect);
-		});
-	}
-
 	void DetailButtonCallback(GameObject go) {
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnit);
-
-		HideUI ();
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",userUnit);
+		ModuleManager.Instance.HideModule (ModuleEnum.ShowNewCardModule);
 	}
 
 	void ReturnButtonCallback(GameObject go) {
-		ModuleManager.Instance.ShowModule (sEnum);
-
-//		ClearStar ();
+		ModuleManager.Instance.HideModule (ModuleEnum.ShowNewCardModule);
 	}
-
-	void ClearStar() {
-//		Debug.LogError ("SHOW NEW CARD VIEW CLEAR STAR");
-		profileTexture.mainTexture = null;
-		for (int i = 0; i < starList.Count; i++) {
-			Destroy(starList[i]);
-		}
-		starList.Clear ();
-	}
+	
 
 	void ActiveButton(bool b) {
 		if (detailButton != null) {
@@ -175,13 +161,7 @@ public class ShowNewCardView : ViewBase {
 			bombEffect.SetActive (b);
 		}
 	}
-
-	void ShowBombEffect() {
-		bombEffect.SetActive (true);
-
-		StartCoroutine (ShowStar (userUnit.UnitInfo.Rare));
-	}
-
+	
 	IEnumerator ShowStar(int rare) {
 		for (int i = 0; i < rare; i++) {
 			GameObject go = NGUITools.AddChild(starParent, starSpr.gameObject);

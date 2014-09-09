@@ -172,8 +172,7 @@ public class PartyPageModule : ModuleBase{
             tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1];
         }
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-        ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, tuu);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",tuu);
     }
 	
 }

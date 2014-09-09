@@ -94,4 +94,8 @@ public class ViewBase : MonoBehaviour {
 		gameObject.SetActive (false);
 	}
 
+	public void SetViewData(Dictionary<string, object> data){
+		viewData = data;
+	}
+
 }

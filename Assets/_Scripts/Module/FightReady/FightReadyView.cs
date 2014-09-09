@@ -40,6 +40,10 @@ public class FightReadyView : ViewBase {
 	
 	public override void ShowUI() {
 		base.ShowUI();
+
+		if (viewData != null) {
+			RecordPickedInfoForFight (viewData ["data"]);
+		}
 		AddCmdLisenter(); 
 		ShowUIAnimation();
 		
@@ -252,12 +256,12 @@ public class FightReadyView : ViewBase {
 	}
 	
 	private void AddCmdLisenter(){
-		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+//		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 	
 	private void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
+//		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
 	

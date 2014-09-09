@@ -10,34 +10,29 @@ public class EvolveView : ViewBase {
 	}
 	
 	public override void ShowUI () {
-		bool b = friendWindow != null && friendWindow.isShow;
-		if (b) {
-			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
-			friendWindow.gameObject.SetActive (true);
-		} else {
+//		bool b = friendWindow != null && friendWindow.isShow;
+//		if (b) {
+//			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
+//			friendWindow.gameObject.SetActive (true);
+//		} else {
 			SetObjectActive(true);
-		}
+//		}
 
 		base.ShowUI ();
 
 		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
-		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
+//		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
 		topObject.transform.localPosition = new Vector3 (0, 1000, 0);
 		iTween.MoveTo(topObject, iTween.Hash("y", 0, "time", 0.4f, "islocal", true));
+
+		if (viewData != null && viewData.ContainsKey ("friendinfo")) {
+			SelectFriend(viewData["friendinfo"] as TFriendInfo);	
+		}
 	}
 	
 	public override void HideUI () {
-//		if (UIManager.Instance.nextScene == ModuleEnum.UnitDetailModule) {
-//			fromUnitDetail = true; 
-//			if (friendWindow != null && friendWindow.gameObject.activeSelf) {
-//				friendWindow.gameObject.SetActive (false);
-//			}
-//		} else if (friendWindow != null) {
-//			friendWindow.HideUI ();
-//		}
-
 		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
@@ -58,25 +53,6 @@ public class EvolveView : ViewBase {
 			DisposeCallback(datalist[i]);
 		}
 	}
-
-//	public override void ResetUIState () {
-//		state = 1;
-//		if(baseItem != null)
-//			baseItem.Refresh( null);
-//		if(friendItem != null)
-//			friendItem.Refresh( null);
-//		if (materialItem != null) {
-//			foreach (var item in materialItem.Values) {
-//				if(item == null) {
-//					continue;
-//				}
-//				item.Refresh(null);
-//			}
-//		}
-//		if (materialUnit != null) 
-//			materialUnit.Clear ();	
-//		prevItem = null;
-//	}
 	
 	public void SetUnitDisplay(GameObject go) {
 		unitDisplay = go;
@@ -106,7 +82,7 @@ public class EvolveView : ViewBase {
 	private EvolveItem prevItem = null;
 	private List<TUserUnit> materialUnit = new List<TUserUnit>();
 	private int ClickIndex = 0;
-	private FriendSelectLevelUpView friendWindow;
+//	private FriendSelectLevelUpView friendWindow;
 	private bool fromUnitDetail = false;
 	private GameObject unitDisplay;
 
@@ -186,14 +162,7 @@ public class EvolveView : ViewBase {
 				break;
 		}
 	}
-
-	void FriendBack(object data) {
-		if (friendWindow == null) {
-			return;	
-		}
-
-		friendWindow.Back (null);
-	}
+	
 
 	void DisposeMaterial (List<TUserUnit> itemInfo) {
 		if (itemInfo == null || baseItem == null) {
@@ -292,10 +261,7 @@ public class EvolveView : ViewBase {
 	}
  
 	void LongPress (GameObject go) {
-		EvolveItem ei = evolveItem [go];
-
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule );
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, ei.userUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule ,"unit",evolveItem [go].userUnit);
 	}
 
 	int state = 0;
@@ -327,7 +293,8 @@ public class EvolveView : ViewBase {
 
 		if (state == 5) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-			EnterFriend();	
+//			EnterFriend();	
+			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","evolve","item",baseItem);
 		} else {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 		}
@@ -350,23 +317,6 @@ public class EvolveView : ViewBase {
 	void InitUI () {
 		InitItem ();
 		InitLabel ();
-	}
-
-	void EnterFriend () {
-		if (friendWindow == null) {
-			friendWindow = DGTools.CreatFriendWindow();
-			if(friendWindow == null) {
-				return;
-			}
-
-//			friendWindow.transform.localPosition -= new Vector3(0f, 50f, 0f);
-		}
-
-		friendWindow.evolveItem = baseItem;
-		SetObjectActive (false);
-		friendWindow.selectFriend = SelectFriend;
-		friendWindow.ShowUI ();
-		state = 0;
 	}
 
 	void SetObjectActive(bool active) {
@@ -501,111 +451,6 @@ public class EvolveView : ViewBase {
 	void ShieldEvolveButton (bool b) {
 		evolveButton.isEnabled = b;
 	}
+
 }
 
-public class EvolveItem {
-	public GameObject itemObject;
-//	public BoxCollider boxCollider;
-	public TUserUnit userUnit;
-	public UISprite showTexture;
-	public UILabel haveLabel;
-	public UISprite maskSprite;
-	public UISprite highLight;
-	public UISprite borderSprite;
-	public UISprite bgprite;
-	public int index;
-	public bool HaveUserUnit = true;
-	private UIEventListenerCustom listener ;
-
-	public EvolveItem (int index, GameObject target) {
-		index = index;
-		itemObject = target;
-		Transform trans = target.transform;
-		showTexture = trans.Find("Texture").GetComponent<UISprite>();
-		highLight = trans.Find("Light").GetComponent<UISprite>();
-		borderSprite = trans.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
-		bgprite = trans.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
-//		boxCollider = target.GetComponent<BoxCollider>();
-		highLight.enabled = false;
-		listener = UIEventListenerCustom.Get (target);
-		if (index == 1 || index == 5) {
-			return;		
-		}
-
-		haveLabel = trans.Find ("HaveLabel").GetComponent<UILabel> ();
-		maskSprite = trans.Find ("Mask").GetComponent<UISprite> ();
-	}
-
-	public void Refresh (TUserUnit tuu, bool isHave = true) {
-		userUnit = tuu;
-		HaveUserUnit = isHave;
-		ShowShield (!isHave);
-		if (tuu == null) {
-			showTexture.spriteName = "";
-			borderSprite.enabled = false;
-			bgprite.spriteName = "unit_empty_bg";
-			listener.LongPress = null;
-		} else {
-			listener.LongPress = LongPress;
-			borderSprite.enabled = true;
-			ShowUnitType();
-//			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-//				showTexture.mainTexture = o as Texture2D;
-//			});
-			ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitInfo.ID, showTexture);
-		}
-	}
-
-	void LongPress(GameObject target) {
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule);
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnit);
-	}
-
-	void ShowShield(bool show) {
-		if(maskSprite != null && maskSprite.enabled != show) {
-			maskSprite.enabled = show;
-		}
-		if(haveLabel != null && haveLabel.enabled != show) {
-			haveLabel.enabled = show;
-		}
-//		if (boxCollider != null && boxCollider.enabled == show) {
-//			boxCollider.enabled = !show;
-//		}
-	}
-
-	private void ShowUnitType(){
-		switch (userUnit.UnitInfo.Type){
-		case EUnitType.UFIRE :
-			bgprite.spriteName = "avatar_bg_fire";
-			borderSprite.spriteName = "avatar_border_fire";
-			break;
-		case EUnitType.UWATER :
-			bgprite.spriteName = "avatar_bg_water";
-			borderSprite.spriteName = "avatar_border_water";
-			
-			break;
-		case EUnitType.UWIND :
-			bgprite.spriteName = "avatar_bg_wind";
-			borderSprite.spriteName = "avatar_border_wind";
-			
-			break;
-		case EUnitType.ULIGHT :
-			bgprite.spriteName = "avatar_bg_light";
-			borderSprite.spriteName = "avatar_border_light";
-			
-			break;
-		case EUnitType.UDARK :
-			bgprite.spriteName = "avatar_bg_dark";
-			borderSprite.spriteName = "avatar_border_dark";
-			
-			break;
-		case EUnitType.UNONE :
-			bgprite.spriteName = "avatar_bg_none";
-			borderSprite.spriteName = "avatar_border_none";
-			
-			break;
-		default:
-			break;
-		}
-	}
-}

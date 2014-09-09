@@ -48,14 +48,14 @@ public class UnitDisplayModule : ModuleBase {
 		unitItemData.Clear ();
 		unitItemData.AddRange (DataCenter.Instance.UserUnitList.GetAllMyUnit ());
 		TransferData.Clear ();
-		TransferData.Add (UnitDisplayView.RefreshData, unitItemData);
+		TransferData.Add (UnitListDragPanelView.RefreshData, unitItemData);
 		view.CallbackView (TransferData);
 	}
 
 	void DisposeCallback (KeyValuePair<string, object> key) {
 
 		switch (key.Key) {
-		case UnitDisplayView.SelectBase:
+		case UnitListDragPanelView.SelectBase:
 //			Debug.LogError ("DisposeCallback : " + key);
 			MsgCenter.Instance.Invoke(CommandEnum.SelectUnitBase,key.Value);
 			break;

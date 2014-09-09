@@ -98,16 +98,9 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
         
 	void NextPage(GameObject go){
-//		ClearPartyFocusState();
-//		ClearUnitListFocusState();
-//		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
-//		RefreshParty(nextParty);
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 
 		RefreshParty(false);  
-
-//		RefreshUnitListByCurId();
-//		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, nextParty);
 	}
 
 	public int xInterv {

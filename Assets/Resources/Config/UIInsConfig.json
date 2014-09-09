@@ -110,11 +110,11 @@
     {
         "name":"ShowNewCardModule",
         "path": "Prefabs/UI/Scratch/ShowNewCardUI",
-        "parent": 2,
+        "parent": 4,
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
+        "group" : 3
     },
     {
         "name":"ShopModule",
@@ -213,7 +213,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
+        "group" : 5
     },
     {
         "name":"ApplyModule",

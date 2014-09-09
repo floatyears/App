@@ -35,9 +35,9 @@ public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 	}
 	
 	private void ClickOK(object data){
-		uint id = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayView>().GetMaxLvUnitID();
-		GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayView> ().SetItemVisible (id);
-		GameObject first = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitDisplayView> ().GetMaxLvUnitItem ();
+		uint id = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitListDragPanelView>().GetMaxLvUnitID();
+		GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitListDragPanelView> ().SetItemVisible (id);
+		GameObject first = GameObject.Find ("UnitDisplay(Clone)").GetComponent<UnitListDragPanelView> ().GetMaxLvUnitItem ();
 		NoviceGuideUtil.ForceOneBtnClick (first);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,2)});
 		UIEventListenerCustom.Get (first).onClick += OnClickItem;
@@ -135,19 +135,19 @@ public class NoviceGuideStepJ_StateTwo:NoviceGuidState{
 	}
 	
 	private void ClickOK(object data){
-		FriendSelectLevelUpView fw = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ();
-		GameObject gm = fw.GetHelperUnitItem(0).gameObject;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
-		//UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
-		//MsgCenter.Instance.AddListener (CommandEnum.OnPickHelper, OnClickFriend);
-		fw.selectFriend += OnClickFriend;
+//		FriendSelectLevelUpView fw = GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ();
+//		GameObject gm = fw.GetHelperUnitItem(0).gameObject;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
+//		//UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
+//		//MsgCenter.Instance.AddListener (CommandEnum.OnPickHelper, OnClickFriend);
+//		fw.selectFriend += OnClickFriend;
 	}
 	
 	private void OnClickFriend(TFriendInfo data){
 		//UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
 		LogHelper.Log("pick a friend to evolve");
-		GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ().selectFriend -= OnClickFriend;
+//		GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ().selectFriend -= OnClickFriend;
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 		JumpToNextState = true;

@@ -197,8 +197,7 @@ public class CatalogUnitItem : MyUnitItem {
 	}
 
 	private void PressItem(GameObject item){
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, catalogUserUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",catalogUserUnit);
 	}
 
 }

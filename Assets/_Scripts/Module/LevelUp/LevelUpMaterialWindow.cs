@@ -73,9 +73,7 @@ public class LevelUpMaterialWindow : ViewBase {
 	}
 
 	void PressItem(GameObject item){  
-		UserUnit unitInfo = materialUnitInfoDic[ item ];
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule );
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, unitInfo);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule ,"unit",materialUnitInfoDic[ item ]);
 	}
 
 	private void InitDragPanel(){

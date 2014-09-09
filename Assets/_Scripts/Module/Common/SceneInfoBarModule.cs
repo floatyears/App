@@ -13,36 +13,52 @@ public class SceneInfoBarModule : ModuleBase {
 
 	public override void OnReceiveMessages (params object[] data)
 	{
-		if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Module)){
-			ModuleEnum name = (ModuleEnum)data[0];
-			switch (name) {
-			case ModuleEnum.HomeModule:
-				view.gameObject.SetActive(false);
-				break;
-			case ModuleEnum.RewardModule:
-			case ModuleEnum.MusicModule:
-			case ModuleEnum.OperationNoticeModule:
-			case ModuleEnum.NicknameModule:
-				break;
-			case ModuleEnum.FriendMainModule:
-			case ModuleEnum.ScratchModule:
-			case ModuleEnum.ShopModule:
-			case ModuleEnum.OthersModule:
-			case ModuleEnum.UnitsMainModule:
-				view.gameObject.SetActive(true);
-				(view as SceneInfoBarView).SetBackBtnActive(false);
-				(view as SceneInfoBarView).SetSceneName(data[0].ToString());
-				break;
-			default:
-				view.gameObject.SetActive(true);
-				(view as SceneInfoBarView).SetBackBtnActive(true,GetBackModule(name));
-				(view as SceneInfoBarView).SetSceneName(data[0].ToString());
-				break;
+		SceneInfoBarView v = view as SceneInfoBarView;
+		switch (data.Length) {
+		case 1:
+			if(data[0].ToString() == "levelup"){
+				v.SetBackBtnActive(true,ModuleEnum.LevelUpModule);
+			}else if(data[0].ToString() == "evolve"){
+				v.SetBackBtnActive(true,ModuleEnum.EvolveModule);
 			}
-		}else if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Scene)){
-			(view as SceneInfoBarView).SetSceneName(data[0].ToString());
-		}else if(data[0].ToString() == "stage"){
-			(view as SceneInfoBarView).SetSceneName(data[1].ToString());
+			break;
+		case 2:
+			if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Module)){
+				ModuleEnum name = (ModuleEnum)data[0];
+				switch (name) {
+				case ModuleEnum.HomeModule:
+					v.gameObject.SetActive(false);
+					break;
+				case ModuleEnum.RewardModule:
+				case ModuleEnum.MusicModule:
+				case ModuleEnum.OperationNoticeModule:
+				case ModuleEnum.NicknameModule:
+				case ModuleEnum.UnitDetailModule:
+					break;
+				case ModuleEnum.FriendMainModule:
+				case ModuleEnum.ScratchModule:
+				case ModuleEnum.ShopModule:
+				case ModuleEnum.OthersModule:
+				case ModuleEnum.UnitsMainModule:
+					v.gameObject.SetActive(true);
+					v.SetBackBtnActive(false);
+					v.SetSceneName(data[0].ToString());
+					break;
+				default:
+					view.gameObject.SetActive(true);
+					v.SetBackBtnActive(true,GetBackModule(name));
+					v.SetSceneName(data[0].ToString());
+					break;
+				}
+			}else if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Scene)){
+				v.SetSceneName(data[0].ToString());
+			}else if(data[0].ToString() == "stage"){
+				v.SetSceneName(data[1].ToString());
+			}
+			break;
+		default:
+			Debug.LogError("Scene Info Args Length Err: ");
+			break;
 		}
 
 	}

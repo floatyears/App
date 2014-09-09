@@ -6,6 +6,7 @@ public enum ModuleGroup{
 	MAIN,
 	BACKGROUND,
 	POPUP,
-	SCENEINFOBAR,
+	SCENE_INFOBAR,
+	UNIT_DETAIL,
 	GROUP_NUM
 }

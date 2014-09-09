@@ -92,7 +92,7 @@ public class ModuleBase{
 		if (view != null) {
 			view.ShowUI();
 		}else{
-			Debug.LogError("UI is NULL: " + UIConfig.resourcePath);
+			Debug.LogError("UI is NULL: " + config.resourcePath);
 		}
 	}
 
@@ -107,6 +107,7 @@ public class ModuleBase{
 	public virtual void DestoryUI() {
 		state = ModuleState.Destroy;
 
+//		Debug.Log ("Desctroy UI: " + config.moduleName);
 		if (view != null) {
 			view.DestoryUI();
 			view = null;
@@ -115,6 +116,7 @@ public class ModuleBase{
 			moduleData.Clear();
 			moduleData = null;
 		}
+		config = null;
 	}
 
 	public virtual void OnReceiveMessages(params object[] data){
@@ -138,7 +140,12 @@ public class ModuleBase{
 					i += 2;
 				}
 			}
-			moduleData = dic;	
+			moduleData = dic;
+			if(view != null){
+				view.SetViewData(dic);
+			}else{
+				Debug.Log("View Data Set Failed: " + config.moduleName);
+			}
 		}
 	}
 }

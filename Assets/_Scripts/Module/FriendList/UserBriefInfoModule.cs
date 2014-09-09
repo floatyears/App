@@ -35,9 +35,9 @@ public class UserBriefInfoModule : ModuleBase{
 	}
 
 	void ViewUserUnitDetailInfo(object args){
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
+
 		if (currentPickedUserUnit == null) return;
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, currentPickedUserUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit", currentPickedUserUnit);
 	}
 
 	void Exit(){

@@ -163,8 +163,7 @@ public class BaseUnitItem : MonoBehaviour {
 			return;	
 		}
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, userUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",userUnit);
 	}
 	
 	private string crossFadeBeforeText;

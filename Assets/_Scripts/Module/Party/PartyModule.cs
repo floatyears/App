@@ -21,8 +21,6 @@ public class PartyModule : ModuleBase{
 	public override void HideUI(){
 		base.HideUI();
 		RemoveCommandListener();
-//		DestoryUI();
-		base.DestoryUI ();
 	}
 
     public void RefreshCurrentParty(){
@@ -116,8 +114,7 @@ public class PartyModule : ModuleBase{
 		if (currentFoucsPosition == 0)   return;
 		
 		TUserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule);
-		ModuleManager.SendMessage(ModuleEnum.UnitDetailModule, targetUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",targetUnit);
 	}
 
 	MsgWindowParams GetPartyCostLimitMsgParams(){
