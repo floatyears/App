@@ -45,7 +45,7 @@ public class DragPanelView : ViewBase {
 		GameObject tempObject = null;
 
 		tempObject = NGUITools.AddChild (grid.gameObject, obj);
-
+//		Debug.LogError ("tempObject : " + tempObject.name + " a.ToString() : " + a.ToString ());
 		tempObject.name = a.ToString();
 		a++;
 		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();

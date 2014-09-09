@@ -11,7 +11,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 	private Dictionary<GameObject,ModuleEnum> buttonInfo = new Dictionary<GameObject, ModuleEnum>();
 
-	private DragChangeView dragChangeView;
+	private DragSliderBase dragChangeView;
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
@@ -27,7 +27,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
-		dragChangeView.RefreshParty ();
+		dragChangeView.RefreshData ();
 
 
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
@@ -77,8 +77,9 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
 		buttonInfo.Add(go, ModuleEnum.MyUnitsListModule);
 
-		dragChangeView = FindChild<DragChangeView> ("Top/DragParty");
+		dragChangeView = FindChild<DragSliderBase> ("Top/DragParty");
 		dragChangeView.SetDataInterface (this);
+//		dragChangeView.Init ();
 
 		foreach (var item in buttonInfo.Keys)
 			UIEventListener.Get(item).onClick = OnClickCallback;
@@ -155,7 +156,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		}
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
-		dragChangeView.RefreshParty ();
+		dragChangeView.RefreshData ();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   
 	}
 

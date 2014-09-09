@@ -100,8 +100,10 @@ public class DragPanelDynamic {
 			lastIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) + 1;
 		}
 		sourceObject.SetActive (true);
+//		Debug.LogError ("AddGameObject : " + sourceObject);
 		for (int i = 0; i < count; i++) {
 			GameObject go = dragPanelView.AddObject(sourceObject);
+//			Debug.LogError("go.GetComponent<MyUnitItem>() : " + go.GetComponent<MyUnitItem>());
 			scrollItem.Add(go.GetComponent<MyUnitItem>());
 			go.name = lastIndex.ToString ();
 			lastIndex++;
@@ -117,20 +119,23 @@ public class DragPanelDynamic {
 	/// <param name="tuuList">data list.</param>
 	public List<MyUnitItem> RefreshItem(List<TUserUnit> tuuList) {
 		endIndex = tuuList.Count;
+
 		if (scrollItem.Count == 0 && tuuList.Count > 0) {
 			CreatItem(tuuList);
+//			Debug.LogError("RefreshItem CreatItem");
 			scrollItemData = tuuList;
 			dragPanelView.grid.repositionNow = true;
 			dragPanelView.scrollView.Press (false);
 			return scrollItem;
 		}
-//		Debug.LogError ("scrollItemData.count : " + scrollItem.Count + " tuuList.count : " + tuuList.Count);
+
 		int realStartIndex = int.Parse(scrollItem[0].gameObject.name) - 1;
 		int realEndIndex = int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
 
 		if (scrollItemData.Count == tuuList.Count) {	
 			for (int i = realStartIndex; i <= realEndIndex; i++) {
 				scrollItem[i - realStartIndex].UserUnit = tuuList[i];
+//				RefreshScrollItem(scrollItem[i - realStartIndex], tuuList[i], sortRule);
 			}	
 			scrollItemData = tuuList;
 			return scrollItem;
@@ -146,15 +151,16 @@ public class DragPanelDynamic {
 			AddGameObject(count);
 			for (int i = realStartIndex; i < realEndIndex; i++) {
 				scrollItem[i].UserUnit = tuuList[i];
+//				RefreshScrollItem(scrollItem[i], tuuList[i], sortRule);
 			}
 		} else {
 			dragPanelView.scrollView.ResetPosition();
 			if( tuuList.Count >= scrollItem.Count ) {
 				realStartIndex = 0;			//int.Parse(scrollItem[0].gameObject.name) - 1;
 				realEndIndex = maxIndex;	//int.Parse(scrollItem[scrollItem.Count - 1].gameObject.name) - 1;
-//				Debug.LogError(realStartIndex + " realEndIndex : " + realEndIndex);
 				for (int i = realStartIndex; i < realEndIndex; i++) {
 					scrollItem[i].UserUnit = tuuList[i];
+//					RefreshScrollItem(scrollItem[i], tuuList[i], sortRule);
 				}
 			} else {
 				for (int i = scrollItem.Count - 1; i >=  tuuList.Count; i--) {
@@ -168,6 +174,7 @@ public class DragPanelDynamic {
 
 				for (int i = realStartIndex; i < realEndIndex; i++) {
 					scrollItem[i].UserUnit = tuuList[i];
+//					RefreshScrollItem(scrollItem[i], tuuList[i], sortRule);
 				}
 			}
 		}
@@ -245,14 +252,29 @@ public class DragPanelDynamic {
 		scrollItem [targetIndex].UserUnit = scrollItemData [dataIndex];
 	}
 
-	void CreatItem(List<TUserUnit> data) {
-		int endItemIndex = data.Count > maxIndex ? maxIndex : data.Count;
+	void CreatItem(List<TUserUnit> tuuList) {
+		int endItemIndex = tuuList.Count > maxIndex ? maxIndex : tuuList.Count;
+//		Debug.LogError("CreatItem AddGameObject befoure");
 		AddGameObject (endItemIndex);
+//		Debug.LogError("CreatItem AddGameObject end");
 		for (int i = 0; i < scrollItem.Count; i++) {
-			scrollItem[i].UserUnit = data[i];
+//			Debug.LogError("scrollItem[i] : " + scrollItem[i]);
+			scrollItem[i].UserUnit = tuuList[i];
+//			RefreshScrollItem(scrollItem[i], tuuList[i], sortRule);
+		}
+//		Debug.LogError("CreatItem for end");
+	}
 
+	public void RefreshSortInfo(SortRule sortRule) {
+		for (int i = 0; i < scrollItem.Count; i++) {
+			scrollItem[i].CurrentSortRule = sortRule;	
 		}
 	}
+
+//	void RefreshScrollItem(MyUnitItem myUItem, TUserUnit tuu, SortRule sortRule = SortRule.None) {
+//		myUItem.UserUnit = tuu;
+//		myUItem.CurrentSortRule = sortRule;
+//	}
 
 	void CreatPanel(GameObject parent) {
 		dragPanelView = NGUITools.AddChild( parent, DragPanelPrefab ).GetComponent<DragPanelView>(); 
@@ -264,7 +286,7 @@ public class DragPanelDynamic {
 	public void SetDragPanel(DragPanelSetInfo dpsi) {
 		dragPanelView.scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
 		dragPanelView.transform.parent = dpsi.parentTrans;
-		dragPanelView.transform.localPosition = dpsi.scrollerLocalPos;
+//		dragPanelView.transform.localPosition = dpsi.scrollerLocalPos;
 		dragPanelView.transform.localScale = dpsi.scrollerScale;
 		dragPanelView.transform.localPosition = dpsi.position;
 		dragPanelView.clip.clipRange = dpsi.clipRange;

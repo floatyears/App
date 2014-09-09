@@ -119,9 +119,9 @@ public class LevelUpView : ViewBase {
 				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
 				ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
 			}else{
-				Hp = baseInfo.Hp + " -> " + "[B63B3B]" + tu.GetHpByLevel(toLevel) + "[-]";
-				Atk =  baseInfo.Attack + " -> [B63B3B]" + tu.GetAtkByLevel(toLevel) + "[-]";
-				ExpNeed = baseInfo.Level + " -> [B63B3B]" + toLevel + "[-]";
+				Hp = baseInfo.Hp + " -> " + "[AA0000]" + tu.GetHpByLevel(toLevel) + "[-]";
+				Atk =  baseInfo.Attack + " -> [AA0000]" + tu.GetAtkByLevel(toLevel) + "[-]";
+				ExpNeed = baseInfo.Level + " -> [AA0000]" + toLevel + "[-]";
 			}
 
 		}
@@ -157,7 +157,8 @@ public class LevelUpView : ViewBase {
 		}
 
 		myUnitDragPanel.RefreshItem (myUnit);
-
+		myUnitList.Clear ();
+		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count);
 		foreach (var item in myUnitDragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
@@ -169,6 +170,8 @@ public class LevelUpView : ViewBase {
 		RefreshSortInfo ();
 		RefreshCounter ();
 	}
+
+
 
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
@@ -542,15 +545,13 @@ public class LevelUpView : ViewBase {
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
 		for (int i = 0; i < myUnitList.Count; i++) {
+//			if(myUnitList[i].gameObject == null) {
+//				myUnitList.RemoveAt(i);
+//				continue;
+//			}
+
 			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
-//				Debug.LogError("baseItem != null : " +(baseItem != null) + " baseItem.UserUnit != null : " + (baseItem.UserUnit != null) + " pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID); 
-//				bool baseNull = ;
-//				Debug.LogError("ShieldParty : " + )
-//				if(baseItem != null) {
-//					if(baseItem.UserUnit != null)
-//						Debug.LogError(" pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID);;
-//				}
 
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
 					continue;
@@ -558,6 +559,21 @@ public class LevelUpView : ViewBase {
 				pui.IsEnable = shield;
 			}
 		}
+
+//		for (int i = 0; i < myUnitList.Count; i++) {
+//			if(myUnitList[i].gameObject == null) {
+//				continue;
+//			}
+//
+//			LevelUpUnitItem pui = myUnitList [i];
+//			if(pui.IsParty || pui.IsFavorite) {
+//
+//				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
+//					continue;
+//				}
+//				pui.IsEnable = shield;
+//			}
+//		}
 	}
 
 	int SetMaterialItem(MyUnitItem pui) {
@@ -654,14 +670,14 @@ public class LevelUpView : ViewBase {
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 		myUnitDragPanel.RefreshItem (myUnit);
-
-		RefreshSortInfo ();
+		myUnitDragPanel.RefreshSortInfo (sortRule);
+//		RefreshSortInfo ();
 	}
 
 	void RefreshSortInfo() {
-		foreach (var item in myUnitDragPanel.scrollItem) {
-			item.CurrentSortRule= sortRule;
-		}
+//		foreach (var item in myUnitDragPanel.scrollItem) {
+//			item.CurrentSortRule= sortRule;
+//		}
 	}
 
 	private void SortUnitByCurRule(){
