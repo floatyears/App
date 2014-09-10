@@ -7,11 +7,9 @@ public class FightReadyDragView : DragSliderBase {
 		moveParent = transform.Find("MoveParent");
 		cacheRightParent = transform.Find("RightParent");
 		cacheLeftParent = transform.Find ("LeftParent");
-//		Debug.LogError ("cacheRightParent : " + cacheRightParent + " cacheLeftParent : " + cacheLeftParent);
 	}
 
 	public override void RefreshData () {
-//		Debug.LogError("FightReadyDragView RefreshData () ");
 		TUnitParty current = DataCenter.Instance.PartyInfo.CurrentParty;
 		TUnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
 		TUnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
@@ -26,7 +24,6 @@ public class FightReadyDragView : DragSliderBase {
 	}
 
 	public override void RefreshData (TUnitParty tup) {
-//		Debug.LogError("FightReadyDragView RefreshData (TUnitParty tup) ");
 		FightReadyPage rpi = moveParent.GetComponent<FightReadyPage> ();
 		rpi.RefreshParty (tup);
 	}

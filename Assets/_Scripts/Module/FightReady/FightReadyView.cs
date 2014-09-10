@@ -45,7 +45,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		base.ShowUI();
 		AddCmdLisenter();
 		ShowUIAnimation();
-
+		RecordPickedInfoForFight (viewData["data"]);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 
@@ -146,10 +146,17 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	static public TFriendInfo pickedHelperInfo;
 
 	private void RecordPickedInfoForFight(object msg){
+//		Debug.LogError ("RecordPickedInfoForFight msg : " + msg);
+
 		pickedInfoForFight = msg as Dictionary<string, object>;
+
+//		foreach (var item in pickedInfoForFight) {
+//			Debug.LogError("item.key : " + item.Key + " item.value : " + item.Value);
+//		}
+
 		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
 //		ShowHelper(pickedHelperInfo);
-		Debug.LogError ("RecordPickedInfoForFight");
+//		Debug.LogError ("RecordPickedInfoForFight");
 		RefreshParty();
 	}
 

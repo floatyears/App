@@ -69,6 +69,7 @@ public class FightReadyPage : ViewBase {
 	}
 
 	private void ShowPartyInfo(TUnitParty party){
+//		Debug.LogError ("FightReadyView.pickedHelperInfo == null : " + (FightReadyView.pickedHelperInfo == null));
 		if(FightReadyView.pickedHelperInfo == null) return;
 		int partyIDIndex = party.ID + 1;
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
