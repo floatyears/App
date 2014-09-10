@@ -27,16 +27,22 @@ public class DragSliderBase : MonoBehaviour {
 		set { stopOperate = value; }
 	}
 
-	public void Init() {
+	private void Init() {
 		InitTrans ();
 
 		SetPosition ();
 
-		DragChangViewItem[] dcvi = transform.GetComponentsInChildren<DragChangViewItem>();
-
-		foreach (var item in dcvi) {
-			item.Init(this);
-		}
+//		DragChangViewItem[] dcvi = moveParent.GetComponentsInChildren<DragChangViewItem> ();
+//		for (int i = 0; i < 4; i++) {
+//			Debug.LogError("drag change view item : " + moveParent.FindChild(i.ToString()).GetComponent<DragChangViewItem>());
+////			Debug.LogError ("dcvi : " + dcvi.Length + " transform : " + gameObject.activeInHierarchy + " self active : " + gameObject.activeSelf);
+//		}
+//	
+////		DragChangViewItem[] dcvi = transform.GetComponentsInChildren<DragChangViewItem>();
+//		Debug.LogError ("dcvi : " + dcvi.Length);
+//		foreach (var item in dcvi) {
+//			item.Init(this);
+//		}
 	}
 
 	protected virtual void InitTrans() { }

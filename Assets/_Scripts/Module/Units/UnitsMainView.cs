@@ -44,6 +44,8 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	}
 
 	void InitChildScenes(){
+//		Debug.LogError ("InitChildScenes");
+
 		GameObject go;
 		UILabel btnLabel;
 
@@ -79,7 +81,8 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 		dragChangeView = FindChild<DragSliderBase> ("Top/DragParty");
 		dragChangeView.SetDataInterface (this);
-		dragChangeView.Init ();
+//		Debug.LogError ("InitChildScenes dragChangeView.Init ");
+//		dragChangeView.Init ();
 
 		foreach (var item in buttonInfo.Keys)
 			UIEventListener.Get(item).onClick = OnClickCallback;

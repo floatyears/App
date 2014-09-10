@@ -24,7 +24,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
 	private List<PartyUnitItem> partyUnitViewList = new List<PartyUnitItem>();
 
-	private DragChangeView dragChangeView;
+	private DragSliderBase dragChangeView;
 
 	private UILabel totalHpLabel;
 	private UILabel curCostLabel;
@@ -52,7 +52,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
-		dragChangeView.RefreshParty ();
+		dragChangeView.RefreshData ();
 
 		RefreshDragPanel();
 		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
@@ -84,7 +84,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 
-		dragChangeView = FindChild<DragChangeView>("Top/DragParty");
+		dragChangeView = FindChild<PartyDragView>("Top/DragParty");
 		dragChangeView.SetDataInterface (this);
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o=>{
@@ -132,7 +132,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		}
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
-		dragChangeView.RefreshParty ();
+		dragChangeView.RefreshData ();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   
 
 		RefreshUnitListByCurId();
