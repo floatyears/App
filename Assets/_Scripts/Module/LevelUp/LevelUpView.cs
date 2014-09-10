@@ -158,7 +158,7 @@ public class LevelUpView : ViewBase {
 
 		myUnitDragPanel.RefreshItem (myUnit);
 		myUnitList.Clear ();
-		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count);
+//		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count + " item : " + myUnitDragPanel.scrollItem [0]);
 		foreach (var item in myUnitDragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
@@ -235,10 +235,10 @@ public class LevelUpView : ViewBase {
 	}
 
 	void InitDragPanel() {
-		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
-		LevelUpUnitItem.Inject (go);
+//		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
+//		LevelUpUnitItem.Inject (go);
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
-		myUnitDragPanel = new DragPanelDynamic (parent, go, 12, 3);
+		myUnitDragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
 
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
 		dpsi.parentTrans = parent.transform;

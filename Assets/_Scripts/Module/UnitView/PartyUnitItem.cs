@@ -55,11 +55,21 @@ public class PartyUnitItem : MyUnitItem {
 
 
 public class LevelUpUnitItem : MyUnitItem {
-	public static LevelUpUnitItem Inject(GameObject item){
-		LevelUpUnitItem view = item.GetComponent<LevelUpUnitItem>();
-		if (view == null) view = item.AddComponent<LevelUpUnitItem>();
+
+	public static LevelUpUnitItem Inject(GameObject target = null){
+		LevelUpUnitItem view;
+		if (target == null) {
+			target = GameObject.Instantiate (MyUnitItem.ItemPrefab) as GameObject;	
+			view = target.AddComponent<LevelUpUnitItem>();
+		} else {
+			view = target.GetComponent<LevelUpUnitItem>();	
+			if (view == null)
+				view = target.AddComponent<LevelUpUnitItem>();
+		}
+
 		return view;
 	}
+
 	public delegate void UnitItemCallback(LevelUpUnitItem puv);
 	public UnitItemCallback callback;
 	
