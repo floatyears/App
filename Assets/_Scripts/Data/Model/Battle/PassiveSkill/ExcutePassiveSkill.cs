@@ -100,7 +100,7 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 		if (isAvoid) {
 			return;
 		} else {
-			ITrapExcute ie = tb as ITrapExcute;
+			TrapBase ie = tb as TrapBase;
 			excuteTrap.Excute (ie);	
 		}
 	}

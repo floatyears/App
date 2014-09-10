@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class NoviceGuideStepH_StateOne:NoviceGuidState
@@ -18,7 +18,7 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepH state_one");
 
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		MapItem item = null;
 		for(int i = 0; i < MapConfig.MapWidth; i++){
 			for(int j = 0; j < MapConfig.MapHeight; j++){
@@ -75,7 +75,7 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 
 	private void ClickOk1(object data)
 	{
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		GameObject[] objs = new GameObject[] {
 						bm.GetMapItem (new Coordinate (1, 0)).gameObject,
 						bm.GetMapItem (new Coordinate (2, 1)).gameObject,
@@ -161,7 +161,7 @@ public class NoviceGuideStepH_StateTwo:NoviceGuidState
 	private void ClickOk2(object data){
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		MapItem item = null;
 		for(int i = 0; i < MapConfig.MapWidth; i++){
 			for(int j = 0; j < MapConfig.MapHeight; j++){

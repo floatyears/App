@@ -22,7 +22,9 @@ public class ConfigBattleUseData {
 		}
 	}
 
-	private ConfigBattleUseData () { }
+	private ConfigBattleUseData () { 
+	
+	}
 	
 	public Coordinate roleInitCoordinate;
 
@@ -169,9 +171,9 @@ public class ConfigBattleUseData {
 		}
 	}
 
-	public void StoreMapData (List<TClearQuestParam> data) {
-		if(data != null)
-			_storeBattleData.questData = data;
+	public void StoreMapData () {
+//		if(data != null)
+//			_storeBattleData.questData = data;
 		WriteAllBuff ();
 		StoreRuntimData ();
 	}
@@ -233,6 +235,11 @@ public class ConfigBattleUseData {
 	public const string unitPartyName = "/UnitParty";
 
 	public const string gameStateName = "GameState";
+
+	public void Init(){
+		questDungeonData.currentFloor = _storeBattleData.questData.Count > 0 ? _storeBattleData.questData.Count - 1 : 0;
+
+	}
 
 	string GetPath (string path) {
 		return Application.persistentDataPath + path;
@@ -439,5 +446,27 @@ public class ConfigBattleUseData {
 				return stageID;
 			}
 		}
+	}
+
+//	public void ResetRoleCoordinate(){
+//		_storeBattleData.roleCoordinate = roleInitCoordinate;
+//	}
+
+	public void InitRoleCoordinate(Coordinate coor){
+		roleInitCoordinate = coor;
+		_storeBattleData.roleCoordinate = coor;
+
+	}
+
+	public void RefreshCurrentFloor(RspRedoQuest rrq){
+		storeBattleData.questData.RemoveAt (storeBattleData.questData.Count - 1);
+		ClearQuestParam cq = new ClearQuestParam ();
+		TClearQuestParam cqp = new TClearQuestParam (cq);
+		storeBattleData.questData.Add (cqp);
+		TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
+		int floor = questDungeonData.currentFloor;
+		List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
+		questDungeonData.Floors [floor] = reQuestGrid;
+		questDungeonData.Boss = tqdd.Boss;
 	}
 }

@@ -18,7 +18,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 	private List<TDropUnit>		dropUnit;
 	private List<TEnemyInfo>	boss = new List<TEnemyInfo>();
 	private List<byte> colors;
-
+	
 	void assignData() {
 		Floors = new  List< List<TQuestGrid> > ();
 		dropUnit = new List<TDropUnit>();
@@ -151,9 +151,6 @@ public class TQuestDungeonData : ProtobufDataBase {
 		}
 
 	}
-	//////////////////////////////////////////////////////////////
-	/// 
-	/// 
 
 	public uint				QuestId	{ get { return instance.questId; } }
 	public List<byte>		Colors	{ get { return this.colors; } }
@@ -189,6 +186,10 @@ public class TQuestDungeonData : ProtobufDataBase {
 		} 
 //		UnityEngine.Debug.LogError ("currentFloor : " + currentFloor);
 		return Floors [currentFloor] [index];
+	}
+
+	public bool isLastFloor(){
+		return currentFloor == Floors.Count - 1;
 	}
 
 	public Coordinate GetGridCoordinate(uint index) {

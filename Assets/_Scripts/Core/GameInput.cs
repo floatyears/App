@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GameInput : MonoBehaviour  {
@@ -61,7 +61,7 @@ public class GameInput : MonoBehaviour  {
 		bool sInput = (bool)data;
 
 		noviceGuideShileInput = !sInput;
-		BattleBottom.noviceGuideNotClick = sInput;
+		BattleBottomView.noviceGuideNotClick = sInput;
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {

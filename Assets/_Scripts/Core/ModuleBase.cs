@@ -82,7 +82,7 @@ public class ModuleBase{
 		}
 	}
 
-	protected void Create<T>(T extraView, UIConfigItem viewUIConfig, Dictionary<string, object> data = null) where T : ViewBase{
+	protected void CreateUI<T>(T extraView, UIConfigItem viewUIConfig, Dictionary<string, object> data = null) where T : ViewBase{
 		ResourceManager.Instance.LoadLocalAsset (viewUIConfig.resourcePath, o=>{
 			if (o == null){
 				Debug.LogError("there is no ui with the path:" + viewUIConfig.resourcePath);

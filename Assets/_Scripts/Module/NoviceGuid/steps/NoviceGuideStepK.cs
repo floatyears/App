@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //boss attack
@@ -219,14 +219,14 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		GameObject leader = GameObject.FindWithTag ("battle_leader");
 		NoviceGuideUtil.ShowArrow (new GameObject[]{leader}, new Vector3[]{new Vector3 (0, 80, 1)});
 		
-		BattleBottom bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottom>();
+		BattleBottomView bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottomView>();
 		bbs.SetLeaderToNoviceGuide (true);
 		bbs.IsUseLeaderSkill = true;
 		MsgCenter.Instance.AddListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
 
 		Debug.Log ("battle leader skill");
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
-		BattleBottom.SetClickItem (0);
+		BattleBottomView.SetClickItem (0);
 		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
 	}
 	
@@ -257,13 +257,13 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
-		BattleBottom.SetClickItem (-1);
+		BattleBottomView.SetClickItem (-1);
 //		nmw = GameObject.Find ("NoviceGuideWindow(Clone)");
 //		UIPanel up = nmw.AddComponent<UIPanel>();
 //		up.depth = 4;
 		
 		MsgCenter.Instance.RemoveListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
-		BattleBottom bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottom>();
+		BattleBottomView bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottomView>();
 		bbs.SetLeaderToNoviceGuide (false);
 		bbs.IsUseLeaderSkill = false;
 		//UIEventListener.Get (leader).onClick += ClickLeader;
@@ -273,7 +273,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 //		GameObject.Destroy (nmw.GetComponent<UIPanel> ());
 //		nmw = null;
 
-		BattleBottom.notClick = true;
+		BattleBottomView.notClick = true;
 
 		GameObject bs = GameObject.FindWithTag ("boost_skill");
 		
@@ -286,7 +286,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	
 	
 	private void ClickSkill(GameObject btn){
-		BattleBottom.notClick = false;
+		BattleBottomView.notClick = false;
 
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= ClickSkill;

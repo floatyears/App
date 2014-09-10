@@ -101,5 +101,6 @@ public class TStoreBattleData : ProtobufDataBase {
 	public void RemoveEnemyInfo (EnemyInfo ei) {
 		enemyInfo.Remove (ei);
 	}
+	
 }
 

@@ -70,10 +70,10 @@ public interface IEffectExcute {
 }
 
 
-public interface ITrapExcute {
-    void Excute();
-	void ExcuteByDisk();
-}
+//public interface ITrapExcute {
+//    void Excute();
+//	void ExcuteByDisk();
+//}
 
 public interface IExcutePassiveSkill {
     List<AttackInfo> Dispose(int attackType, int attack);

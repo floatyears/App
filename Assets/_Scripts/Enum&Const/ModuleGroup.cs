@@ -8,5 +8,6 @@ public enum ModuleGroup{
 	POPUP,
 	SCENE_INFOBAR,
 	UNIT_DETAIL,
+	BATTLE,
 	GROUP_NUM
 }

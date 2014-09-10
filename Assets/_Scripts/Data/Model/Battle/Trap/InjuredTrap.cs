@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -95,7 +95,7 @@ public class InjuredTrap : TrapBase {
 	}
 }
 
-public class TrapBase : ProtobufDataBase ,ITrapExcute{
+public class TrapBase : ProtobufDataBase{
 
 	public const string poisonTrapSpriteName = "PoisonTrap";
 	public const string environmentSpriteName = "EnvirmentTrap";
@@ -142,7 +142,7 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 
 
 	public string GetTrapSpriteName () {
-		string spriteName = BattleMap.trapSpriteName;
+		string spriteName = BattleMapView.trapSpriteName;
 //		switch (instance.trapType) {
 //		case ETrapType.Move:
 //			spriteName = MoveTrapName(instance.effectType);

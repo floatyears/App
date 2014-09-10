@@ -57,7 +57,7 @@ public class TAcitveRecoverHP : ActiveSkill {
 				tempBlood += instance.value;
 			}
 			else if(instance.type == EValueType.PERCENT) {
-				tempBlood += atk *  BattleQuest.bud.maxBlood;
+				tempBlood += atk *  BattleMapModule.bud.maxBlood;
 			}	
 		}
 

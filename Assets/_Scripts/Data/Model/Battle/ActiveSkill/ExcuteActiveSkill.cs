@@ -70,7 +70,7 @@ public class ExcuteActiveSkill {
 				ai.UserUnitID = userUnit.MakeUserUnitKey();
 				ai.SkillID = (iase as ActiveSkill).skillBase.id;
 				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, ai);
-				GameTimer.GetInstance().AddCountDown(AttackEffect.activeSkillEffectTime, WaitActiveEffect);
+				GameTimer.GetInstance().AddCountDown(BattleAttackEffectView.activeSkillEffectTime, WaitActiveEffect);
 			} else {
 //				Debug.LogError("activeSkill.TryGetValue false  : ");
 			}

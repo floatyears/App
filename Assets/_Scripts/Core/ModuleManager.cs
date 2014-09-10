@@ -10,9 +10,9 @@ public class ModuleManager {
 
 	private static Dictionary<SceneEnum, SceneBase> sceneDic = new Dictionary<SceneEnum, SceneBase>();
 
-	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0};
+	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0,0};
 
-	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
+	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
 
 	private static ModuleManager instance;
 
@@ -222,17 +222,12 @@ public class ModuleManager {
 	/// Clears the modules.
 	/// </summary>
 	public void ClearModules () {
-		List<ModuleBase> cclist = new List<ModuleBase> ();
-		List<ModuleEnum> ccID = new List<ModuleEnum> ();
 
-		for (int i = 0; i < ccID.Count; i++) {
-			moduleDic.Remove(ccID[i]);
+		foreach (var item in moduleDic.Values) {
+			item.DestoryUI();
 		}
-		for (int i = cclist.Count - 1; i >= 0; i--) {
 			//			Debug.LogError("CleartComponent : " + cclist[i]);
-			cclist[i].DestoryUI();
-		}
-		cclist.Clear ();
+		moduleDic.Clear ();
 	}
 
 	/// <summary>
@@ -249,8 +244,12 @@ public class ModuleManager {
 //		ClearAllUIObject ();
 		ClearModules ();
 		Resources.UnloadUnusedAssets ();
+
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
-		ShowModule(ModuleEnum.FightModule);
+//		ShowModule(ModuleEnum.FightModule);
+		ShowModule (ModuleEnum.BattleBottomModule);
+		ShowModule (ModuleEnum.BattleTopModule);
+		ShowModule (ModuleEnum.BattleMapModule);
 	}
 
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 
@@ -172,7 +172,7 @@ public class NoviceGuideStepD_StateThree:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepH state_Seven");
 		
-		BattleCardArea bca = GameObject.FindWithTag ("battle_card").GetComponent<BattleCardArea> ();
+		BattleManipulationView bca = GameObject.FindWithTag ("battle_card").GetComponent<BattleManipulationView> ();
 		
 		foreach (BattleCardAreaItem b in  bca.battleCardAreaItem) {
 			NoviceGuideUtil.ShowArrow(new GameObject[]{b.gameObject},new Vector3[]{new Vector3(0,0,1)},false);
@@ -320,7 +320,7 @@ public class NoviceGuideStepD_StateSix:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		MapItem item = null;
 		for(int i = 0; i < MapConfig.MapWidth; i++){
 			for(int j = 0; j < MapConfig.MapHeight; j++){

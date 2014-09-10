@@ -31,7 +31,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	public void StoreSkillCooling (string id) {
 		skillStoreID = id;
 
-		if (BattleQuest.battleData > 0) {
+		if (BattleMapModule.battleData > 0) {
 			ReadSkillCooling ();
 		} else {
 			Store();
