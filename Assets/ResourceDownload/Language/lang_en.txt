@@ -273,6 +273,7 @@ Text_Select=Select
 Text_SeeInfo=View Info.
 Text_Exit=Exit
 Text_LastLogin_Colon=Last Login:
+Text_LastLogin=Last Login
 ApplyFriendNote=Are you sure to apply friend?
 
 #sell

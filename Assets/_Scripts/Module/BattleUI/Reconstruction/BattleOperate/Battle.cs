@@ -43,10 +43,10 @@ public class Battle : ModuleBase {
 		Vector3 pos = battleRootGameObject.transform.localPosition;
 		battleRootGameObject.transform.localPosition = new Vector3(pos.x,pos.y,pos.z + ZOffset);
 		
-		GameInput.OnPressEvent += HandleOnPressEvent;
-		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
+		GameInput.OnPressEvent += DisposePress;
+		GameInput.OnReleaseEvent += DisposeReleasePress;
 		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
-		GameInput.OnDragEvent += HandleOnDragEvent;
+		GameInput.OnDragEvent += DisposeOnDrag;;
 
 		battleData = ConfigBattleUseData.Instance;
 	}
@@ -398,10 +398,10 @@ public class Battle : ModuleBase {
 	}
 
 	public override void DestoryUI () {
-		GameInput.OnPressEvent -= HandleOnPressEvent;
-		GameInput.OnReleaseEvent -= HandleOnReleaseEvent;
+		GameInput.OnPressEvent -= DisposePress;
+		GameInput.OnReleaseEvent -= DisposeReleasePress;
 		GameInput.OnStationaryEvent -= HandleOnStationaryEvent;
-		GameInput.OnDragEvent -= HandleOnDragEvent;
+		GameInput.OnDragEvent -= DisposeOnDrag;;
 		base.DestoryUI ();
 		GameObject.Destroy (battleRootGameObject);
 		countDownUI.DestoryUI ();
@@ -640,20 +640,8 @@ public class Battle : ModuleBase {
 		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 
-	void HandleOnPressEvent () {
-		DisposePress();
-	}
-
-	void HandleOnReleaseEvent () {
-		DisposeReleasePress();
-	}
-
 	void HandleOnStationaryEvent () {
 		
-	}
-
-	void HandleOnDragEvent (Vector2 obj) {
-		DisposeOnDrag(obj);
 	}
 
 	void ResetClick() {
@@ -675,10 +663,10 @@ public class Battle : ModuleBase {
 			return;
 		}
 
-		if(Check(GameLayer.BattleCard)) {
+		if(CheckLayer(GameLayer.BattleCard)) {
 			GenerateCard();
 		}
-		else if(Check(GameLayer.ActorCard)) {
+		else if(CheckLayer(GameLayer.ActorCard)) {
 			SwitchCard();
 		}
 		else {
@@ -751,7 +739,7 @@ public class Battle : ModuleBase {
 			selectTarget [i].OnDrag (vec, i);
 		}
 
-		bool b = Check(GameLayer.ActorCard);
+		bool b = CheckLayer(GameLayer.ActorCard);
 
 		if(b) {
 			for (int i = 0; i < rayCastHit.Length; i++) {
@@ -763,7 +751,7 @@ public class Battle : ModuleBase {
 	}
 
 	void DisposePress() {
-		if(Check(GameLayer.ActorCard)) {
+		if(CheckLayer(GameLayer.ActorCard)) {
 			for (int i = 0; i < rayCastHit.Length; i++) {
 				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard) {
 					tempObject= rayCastHit[i].collider.gameObject;
@@ -811,7 +799,7 @@ public class Battle : ModuleBase {
 		}
 	}
 
-	bool Check(LayerMask mask) {
+	bool CheckLayer(LayerMask mask) {
 		Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 		
 		rayCastHit = Physics.RaycastAll(ray,100f, GameLayer.LayerToInt(mask));

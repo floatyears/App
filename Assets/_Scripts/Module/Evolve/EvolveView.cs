@@ -216,9 +216,9 @@ public class EvolveView : ViewBase {
 		uint evolveUnitID = tuu.UnitInfo.evolveInfo.evolveUnitId;
 		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (evolveUnitID);
 
-		showInfoLabel [hp].text = tuu.Hp + " -> [FF6666]" + tuu.CalculateHP (tui) + "[-]";
-		showInfoLabel [atk].text = tuu.Attack + " -> [FF6666]" + tuu.CalculateATK (tui) + "[-]";
-		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> [FF6666]" + (tui == null ? "no max info": tui.MaxLevel.ToString()) + "[-]";
+		showInfoLabel [hp].text = tuu.Hp + " -> [AA0000]" + tuu.CalculateHP (tui) + "[-]";
+		showInfoLabel [atk].text = tuu.Attack + " -> [AA0000]" + tuu.CalculateATK (tui) + "[-]";
+		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> [AA0000]" + (tui == null ? "Unknown": tui.MaxLevel.ToString()) + "[-]";
 		showInfoLabel [type].text = tui.UnitTypeText;
 		showInfoLabel [race].text = tui.UnitRace;//GetRaceText(tui.Race);
 		showInfoLabel [coins].text = (tui.MaxLevel * 500).ToString ();

@@ -53,7 +53,7 @@ public class GameCurrencyEventHandler {
 
 		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("PurchaseSuccess_Title"),TextCenter.GetText("PurchaseSuccess_Content"),TextCenter.GetText("OK"),o=>{
 			//refresh bonusList
-			if (rsp.productId == "ms.chip.monthcard" || rsp.productId == "ms.chip.weekcard") {
+			if (rsp.productId == GameCurrencyAssets.PID_MONTH_CARD || rsp.productId == GameCurrencyAssets.PID_WEEK_CARD) {
 				GetBonusList.SendRequest (OnBonusList);
 			} else {
 				ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
