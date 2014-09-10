@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleArea : UIBase
+public class BattleArea : ModuleBase
 {
 
-	public BattleArea(string uiName):base(uiName)
+	public BattleArea(UIConfigItem config):base(config)
 	{
 
 	}
-
-	public override void CreatUI ()
-	{
-
-	}
+	
 }

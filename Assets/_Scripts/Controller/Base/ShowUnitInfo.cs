@@ -40,7 +40,7 @@
 //        else {
 //            DisposeBaseInfo(currentDetail);
 //        }
-//        UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
+//        ModuleManger.Instance.ShowModule(ModuleEnum.UnitDetail);
 //        AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 //		Debug.LogError("1111xxxxxx");
 //    }

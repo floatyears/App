@@ -13,53 +13,56 @@ using UnityEngine;
 /// <summary>
 /// Math helper.
 /// </summary>
-public sealed class MathHelper
-{
-    // min probability => 1 / PROBABILITY_ACCURACY
-    public const int PROBABILITY_ACCURACY = 10000;
-
-    private MathHelper(){
-
-    }
-
-    /// <summary>
-    /// Randoms to int.
-    /// </summary>
-    /// <returns>The to int.</returns>
-    /// <param name="min">Minimum.</param>
-    /// <param name="max">Max.</param>
-    public static int RandomToInt(int min, int max)
-    {
-        return Random.Range(min, max);
-    }
-
-
-    /// <summary>
-    /// Judges the success.
-    /// </summary>
-    /// <returns><c>true</c>, if judge <c>false</c> otherwise.</returns>
-    /// <param name="probability">Probability.</param>
-    public static bool JudgeSuccess(float probability){
-        if (probability < 0){
-            // log
-            return false;
-        }
-        else if (probability > 1){
-            // log
-            return true;
-        }
-        else {
-            return MathHelper.RandomToInt(0, MathHelper.PROBABILITY_ACCURACY) < probability * MathHelper.PROBABILITY_ACCURACY;
-        }
-    }
-
-    /// <summary>
-    /// Get Random element in array.
-    /// </summary>
-    /// <returns>The element.</returns>
-    /// <param name="instances">Instances.</param>
-    /// <typeparam name="T">The 1st type parameter.</typeparam>
-    public static T RandomElement<T>(T[] instances){
-        return instances[RandomToInt(0, instances.Length)];
-    }
+/// 
+namespace Utility{
+	public sealed class MathHelper
+	{
+		// min probability => 1 / PROBABILITY_ACCURACY
+		public const int PROBABILITY_ACCURACY = 10000;
+		
+		private MathHelper(){
+			
+		}
+		
+		/// <summary>
+		/// Randoms to int.
+		/// </summary>
+		/// <returns>The to int.</returns>
+		/// <param name="min">Minimum.</param>
+		/// <param name="max">Max.</param>
+		public static int RandomToInt(int min, int max)
+		{
+			return Random.Range(min, max);
+		}
+		
+		
+		/// <summary>
+		/// Judges the success.
+		/// </summary>
+		/// <returns><c>true</c>, if judge <c>false</c> otherwise.</returns>
+		/// <param name="probability">Probability.</param>
+		public static bool JudgeSuccess(float probability){
+			if (probability < 0){
+				// log
+				return false;
+			}
+			else if (probability > 1){
+				// log
+				return true;
+			}
+			else {
+				return MathHelper.RandomToInt(0, Utility.MathHelper.PROBABILITY_ACCURACY) < probability * Utility.MathHelper.PROBABILITY_ACCURACY;
+			}
+		}
+		
+		/// <summary>
+		/// Get Random element in array.
+		/// </summary>
+		/// <returns>The element.</returns>
+		/// <param name="instances">Instances.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		public static T RandomElement<T>(T[] instances){
+			return instances[RandomToInt(0, instances.Length)];
+		}
+	}
 }

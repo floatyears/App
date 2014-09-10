@@ -71,7 +71,7 @@ public class DGTools {
 
 	public static void ChangeToQuest() {
 		DataCenter dataCenter = DataCenter.Instance;
-		UIManager manager = UIManager.Instance;
+//		UIManager manager = UIManager.Instance;
 		MsgCenter msgCenter = MsgCenter.Instance;
 
 		TStageInfo tsi = ConfigBattleUseData.Instance.currentStageInfo;
@@ -81,7 +81,7 @@ public class DGTools {
 		TCityInfo tci = dataCenter.GetCityInfo (cityID);
 
 		if (tsi == null || tqi == null || tci == null) {
-			manager.ChangeScene (SceneEnum.Home);
+			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 			return;
 		}
 
@@ -89,10 +89,10 @@ public class DGTools {
 
 		if (questStage == StageState.NEW) {
 
-			manager.ChangeScene (SceneEnum.StageSelect);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-			manager.ChangeScene(SceneEnum.QuestSelect);
+			ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule);
 			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, tsi);
 
 			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -103,35 +103,35 @@ public class DGTools {
 
 		if (questStage == StageState.CLEAR) { 	
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].ID != tqi.ID) { // current quest not the last quest.
-				manager.ChangeScene (SceneEnum.StageSelect);
+				ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 				MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-				manager.ChangeScene (SceneEnum.QuestSelect);
+				ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule);
 				msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
 
 				MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 			} else {
 				if (stageClearStage == StageState.CLEAR) {
 					if (tci.cityInfo.stages [tci.cityInfo.stages.Count - 1].id != tsi.ID) {	// current stage not the last stage
-						manager.ChangeScene (SceneEnum.StageSelect);
+						ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 						MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
 						MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 					} else {
-						manager.ChangeScene (SceneEnum.Home);
+						ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 					}
 				} else {
-					manager.ChangeScene (SceneEnum.StageSelect);
+					ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 					MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
 					MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 				}
 			}
 		} else {
-			manager.ChangeScene (SceneEnum.StageSelect);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
 			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityID);
 
-			manager.ChangeScene (SceneEnum.QuestSelect);
+			ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule);
 			msgCenter.Invoke (CommandEnum.GetQuestInfo, tsi);
 
 			MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -229,8 +229,7 @@ public class DGTools {
 		userUnit.unitId = (uint)unitID;
 		TUserUnit tuu = new TUserUnit(userUnit);
 
-		UIManager.Instance.ChangeScene(SceneEnum.UnitDetail);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowUnitDetail, tuu);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",tuu);
 	}
 
 	/// <summary>
@@ -258,13 +257,6 @@ public class DGTools {
 		sprite.width = tex.width;
 		sprite.height = tex.height;
 	}
-
-	public static void SafeDestory(GameObject go) {
-		if (go != null) {
-			GameObject.Destroy(go);
-		}
-	}
-
 	public static string GetUnitDropSpriteName(int rare) {
 		switch (rare) {
 		case 1:
@@ -777,17 +769,17 @@ public class DGTools {
 		source.localScale = target.localScale;
 	}
 
-	public static FriendWindows CreatFriendWindow() {
-		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows",null) as GameObject;
-		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
-		Transform insTrans = instance.transform;
-		insTrans.parent = ViewManager.Instance.BottomPanel.transform;
-		insTrans.localPosition = Vector3.zero;
-		insTrans.localScale = Vector3.one;
-		FriendWindows fw = instance.GetComponent<FriendWindows>();
-		fw.Init (null, null);
-		return fw;
-	}
+//	public static FriendSelectLevelUpView CreatFriendWindow() {
+//		GameObject go = ResourceManager.Instance.LoadLocalAsset ("Prefabs/UI/Friend/FriendWindows",null) as GameObject;
+//		GameObject instance = GameObject.Instantiate (go) as GameObject; // NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
+//		Transform insTrans = instance.transform;
+//		insTrans.parent = ViewManager.Instance.BottomPanel.transform;
+//		insTrans.localPosition = Vector3.zero;
+//		insTrans.localScale = Vector3.one;
+//		FriendSelectLevelUpView fw = instance.GetComponent<FriendSelectLevelUpView>();
+////		fw.Init (null, null);
+//		return fw;
+//	}
 }
 
 public class GameLayer {

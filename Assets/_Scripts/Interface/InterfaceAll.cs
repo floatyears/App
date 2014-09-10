@@ -1,86 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public interface ICheckUIState {
-	bool CheckState();
-}
-
-#region old
-public interface IUIInterface {
-    /// <summary>
-    /// ui name
-    /// </summary>
-    /// <value>The name.</value>
-    string UIName{ get; }
-	
-    /// <summary>
-    /// creat ui object
-    /// </summary>
-    /// <param name="UIRoot">User interface root.</param>
-    void CreatUI();
-
-    /// <summary>
-    /// show ui object on screen
-    /// </summary>
-    void ShowUI();
-
-    /// <summary>
-    /// hide ui object
-    /// </summary>
-    void HideUI();
-
-    /// <summary>
-    /// destory ui object
-    /// </summary>
-    void DestoryUI();
-
-    UIState GetState{ get; }
-
-    SceneEnum GetScene{ get; set; }
-}
-#endregion
-
-//------------------------------------------------------------------------------------------------------------------------
-// new code
-//------------------------------------------------------------------------------------------------------------------------
-
-/// <summary>
-/// view interface
-/// </summary>
-public interface IUIBaseComponent {
-    UIInsConfig uiConfig{ get; }
-    void ShowUI();
-    void HideUI();
-    void DestoryUI();
-}
-
-public interface IUIComponentUnity :  IUIBaseComponent {
-    void Init(UIInsConfig config, IUICallback originInterface);
-}
-
-/// <summary>
-/// logic ui interface
-/// </summary>
-public interface IUIComponent :  IUIBaseComponent {
-	void CreatUI();
-	void CreatUIAsyn(DecoratorBase decoratorBase);
-}
-
-//public interface IUICallback {
-//
-//}
-
-/// <summary>
-/// ui callback interface
-/// </summary>
-public interface IUICallback {
-    void CallbackView(object data);
-}
-
-public interface IUISetBool {
-    void SetBackBtnActive(bool b);
-}
-
 public interface ILeaderSkill {
     Dictionary<string, ProtobufDataBase> LeadSkill { get; }
     Dictionary<int,TUserUnit> UserUnit { get ; }
@@ -165,13 +85,13 @@ public interface IPassiveExcute {
     object Excute(object trapBase, IExcutePassiveSkill excutePS);
 }
 
-public interface IUIParty : IUICallback {
-    void PartyPaging(object textures);
-}
-
-public interface IUIFriendList : IUICallback {
-    void CustomExtraFunction(object message);
-}
+//public interface IUIParty  {
+//    void PartyPaging(object textures);
+//}
+//
+//public interface IUIFriendList {
+//    void CustomExtraFunction(object message);
+//}
 
 public interface INetBase {
     void OnRequest(object data, DataListener callback);
@@ -196,8 +116,6 @@ public interface INetSendPost {
 
 
 public delegate void Callback();
-
-
 
 public delegate void UICallback(GameObject caller);
 

@@ -23,7 +23,7 @@ public class AttackEffectItem : MonoBehaviour {
 			return;
 		}
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
-		DataCenter.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTexture, returnValue => {
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTexture, returnValue => {
 //			BaseUnitItem.SetAvatarSprite (avatarTexture, returnValue, tuu.UnitInfo.ID);
 			Tween ();
 			if (atk == 0) {

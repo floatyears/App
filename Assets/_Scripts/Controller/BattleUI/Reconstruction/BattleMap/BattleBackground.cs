@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
-public class BattleBackground : UIBaseUnity {
+public class BattleBackground : ViewBase {
 	private UITexture background;
 	private Camera bottomCamera;
 	private UITexture[] actor;
@@ -29,8 +29,11 @@ public class BattleBackground : UIBaseUnity {
 
 	private BattleQuest battleQuest;
 
-	public override void Init (string name){
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
+//	}
+//		base.Init (name);
 		bottomCamera = Main.Instance.bottomCamera;
 		battleBottom = FindChild<Transform>("BattleBottom").gameObject;
 		_battleBottomScript = battleBottom.AddComponent<BattleBottom> ();
@@ -82,10 +85,10 @@ public class BattleBackground : UIBaseUnity {
 		battleBottom.SetActive (true);
 		AddListener ();
 	}
-
-	public override void CreatUI () {
-		base.CreatUI ();
-	}
+//
+//	public override void CreatUI () {
+//		base.CreatUI ();
+//	}
 
 	public override void HideUI () {
 		base.HideUI ();

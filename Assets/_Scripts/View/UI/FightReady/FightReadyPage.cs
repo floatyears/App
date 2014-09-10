@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using bbproto;
 
-public class FightReadyPage : UIComponentUnity {
+public class FightReadyPage : ViewBase {
 	private UILabel partyNoLabel;
 
 	private UILabel totalHPLabel;
@@ -27,9 +27,11 @@ public class FightReadyPage : UIComponentUnity {
 		Init (null, null);
 	}
 
-	public override void Init (UIInsConfig config, IUICallback origin) {
-		partyNoLabel = FindChild<UILabel> ("Label_Party_No");
+	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data) {
+		base.Init (uiconfig, data);
 
+		partyNoLabel = FindChild<UILabel> ("Label_Party_No");
+		
 		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
 		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
 		
@@ -44,13 +46,13 @@ public class FightReadyPage : UIComponentUnity {
 		helperSkillDcspLabel = transform.FindChild("Label_Helper_Skill_Dscp").GetComponent<UILabel>();
 		ownSkillNameLabel = transform.FindChild("Label_Own_Leader_Skill_Name").GetComponent<UILabel>();
 		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
-
+		
 		for (int i = 0; i < 4; i++){
 			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
 			partyViewList.Add(puv);
 			partyView.Add(i, puv);
 		}
-
+		
 		helper = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 	}
 
@@ -66,15 +68,8 @@ public class FightReadyPage : UIComponentUnity {
 		}
 	}
 
-	private void ShowCustomPartyInfo(List<TUserUnit> partyData) {
-//		partyNoLabel.text = 1 + "/5";
-//		TUserUnit leader = partyData [0];
-//		SkillBase sb = DataCenter.Instance.GetSkill (leader.MakeUserUnitKey (), partyData [0].LeadSKill, SkillType.LeaderSkill);
-//		UpdateLeaderSkillView(sb, ownSkillNameLabel, ownSkillDscpLabel);
-//		UpdateHelperLeaderSkillInfo();
-	}
-
 	private void ShowPartyInfo(TUnitParty party){
+//		Debug.LogError ("FightReadyView.pickedHelperInfo == null : " + (FightReadyView.pickedHelperInfo == null));
 		if(FightReadyView.pickedHelperInfo == null) return;
 		int partyIDIndex = party.ID + 1;
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
@@ -90,19 +85,8 @@ public class FightReadyPage : UIComponentUnity {
 
 	void ShowHelper(TFriendInfo friendInfo) {
 		helper.Init(friendInfo);
-		ShowHelperView();
 	} 
-
-	private void ShowHelperView(){
-		//		Debug.Log("ShowHelperView(), Start...");
-		//		if(pickedHelperInfo == null){
-		//			Debug.LogError("ShowHelperView(), pickedHelperInfo is NULL,return!");
-		//			return;
-		//		}
-		
-		//		helper.FriendInfo = pickedHelperInfo;
-		//		helper.UserUnit = pickedHelperInfo.UserUnit;
-	}
+	
 
 	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
 		SkillBase skill = curParty.GetLeaderSkillInfo();

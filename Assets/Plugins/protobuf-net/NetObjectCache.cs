@@ -200,7 +200,7 @@ namespace ProtoBuf
         {
             protected override int GetHash(object key)
             {
-                return System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(key);
+                return System.Runtime.CompilerServices.RunUtility.TimeHelpers.GetHashCode(key);
             }
             protected override bool KeyEquals(object item, object key)
             {

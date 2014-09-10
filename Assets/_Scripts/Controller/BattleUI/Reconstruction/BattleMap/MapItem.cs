@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class MapItem : UIBaseUnity {
+public class MapItem : ViewBase {
 	private Coordinate coor; 
 	public Coordinate Coor {
 		get{ return coor; }
@@ -55,8 +55,11 @@ public class MapItem : UIBaseUnity {
 	[HideInInspector]
 	public BattleMap battleMap;
 
-	public override void Init (string name) {
-		base.Init (name);
+	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	{
+		base.Init (config, data);
+//	}
+//		base.Init (name);
 		initPosition = transform.localPosition;
 		initRotation = transform.rotation.eulerAngles;
 		gridItemSprite = FindChild<UISprite>("GridBackground");
@@ -117,7 +120,7 @@ public class MapItem : UIBaseUnity {
 					uint unitID = gridItem.Enemy [0].UnitID;
 					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
-						DataCenter.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
+						ResourceManager.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
 					}
 				}
 				break;
