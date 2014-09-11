@@ -233,6 +233,33 @@ public class BattleTopView : ViewBase {
 			netBase.OnRequest (GetQuestData (), ResponseClearQuest);
 		}
 	}
+
+	TClearQuestParam GetQuestData () {
+		ClearQuestParam cq = new ClearQuestParam ();
+		TClearQuestParam cqp = new TClearQuestParam (cq);
+		cqp.questId = ConfigBattleUseData.Instance.questDungeonData.QuestId;
+		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+			cqp.getMoney += item.getMoney;
+			cqp.getUnit.AddRange(item.getUnit);
+			cqp.hitGrid.AddRange(item.hitGrid);
+		}
+		
+		return cqp;
+	}
+
+	void ResponseClearQuest (object data) {
+		if (data != null) {
+			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
+			TRspClearQuest clearQuest = data as TRspClearQuest;
+			DataCenter.Instance.RefreshUserInfo (clearQuest);
+			End();
+			QuestEnd(clearQuest);
+		} else {
+			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
+			                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
+			
+		}
+	}
 	
 	void ResponseEvolveQuest (object data) {
 		if (data == null)
@@ -295,5 +322,13 @@ public class BattleTopView : ViewBase {
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 		
 		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule,trcq);
+	}
+
+	
+	void End() {
+		BattleManipulationModule.colorIndex = 0;
+		BattleManipulationModule.isShow = false;
+		
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_clear);
 	}
 }

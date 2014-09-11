@@ -792,17 +792,197 @@ public class BattleMapView : ViewBase {
 		}
 	}
 
+	
+	public void MapItemEnemy() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_battle);
+		TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (coor);
+
+		BattleMapView.waitMove = false;
+		//		ShowBattle();
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
+			TEnemyInfo tei = currentMapData.Enemy[i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add(tei);
+			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+		}
+		BattleUseData.Instance.InitEnemyInfo (currentMapData);
+		ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
+		//		battle.ShowEnemy (temp);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		ExitFight (false);
+		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
+	}
+
+	
+	public void ExitFight(bool exit) {
+		if (exit) {
+			ConfigBattleUseData.Instance.storeBattleData.isBattle = 0;
+		}
+	}
+
+	void YieldShowAnim() {
+		int count = BattleUseData.Instance.Els.CheckLeaderSkillCount();
+		//		battle.ShieldInput (false);
+		
+		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", ReadyMove as Callback, count * AttackController.normalAttackInterv);
+		BattleUseData.Instance.InitBattleUseData(null);
+	}
+	
+	void ReadyMove() {
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+	}
+
+	public void ContineBattle () {
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+		
+		Coordinate coor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
+		//		currentCoor = coor;
+		BattleUseData.Instance.Els.CheckLeaderSkillCount();
+		BattleUseData.Instance.InitBattleUseData (ConfigBattleUseData.Instance.storeBattleData);
+		//		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
+		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+			return;	
+		}
+		
+		TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (coor);
+		ChangeStyle (coor);
+		Stop ();
+		
+		if (ConfigBattleUseData.Instance.trapPoison != null) {
+			ConfigBattleUseData.Instance.trapPoison.ExcuteByDisk();
+		}
+		
+		if (ConfigBattleUseData.Instance.trapEnvironment != null) {
+			ConfigBattleUseData.Instance.trapEnvironment.ExcuteByDisk();
+		}
+		
+		TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+		
+		// 0 is not in fight.
+		if (sbd.isBattle == 0) {
+			if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
+				BossDead();
+				return;
+			}
+			BattleUseData.Instance.CheckPlayerDead();
+			return;
+		}
+		
+		BattleMapView.waitMove = false;
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < sbd.enemyInfo.Count; i++) {
+			TEnemyInfo tei = new TEnemyInfo(sbd.enemyInfo[i]);
+			tei.EnemySymbol = (uint)i;
+			temp.Add (tei);
+			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+		}
+		
+		if (sbd.isBattle == 1) {		// 1 == battle enemy
+			currentMapData.Enemy = temp;
+			BattleUseData.Instance.InitEnemyInfo (currentMapData);
+			if(sbd.attackRound == 0) {	// 0 == first attack
+				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+			}
+		} else if (sbd.isBattle == 2) {	// 2 == battle boss
+//			battleEnemy = true;
+			//			battle.ShieldInput (true);
+			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+			ConfigBattleUseData.Instance.questDungeonData.Boss= temp;
+			TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+			BattleUseData.Instance.InitBoss (ConfigBattleUseData.Instance.questDungeonData.Boss, bossDrop);
+			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
+		}
+		//		battle.ShowEnemy(temp);
+		
+		ExitFight (false);
+		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
+		
+		BattleUseData.Instance.CheckPlayerDead();
+	}
+
+	void RecoverBuff() {
+		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.posionAttack, ref recoverPosion);
+		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.reduceHurtAttack, ref reduceHurt);
+		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.reduceDefenseAttack, ref reduceDefense);
+		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.strengthenAttack, ref strengthenAttack);
+	}
+
+	void ExcuteDiskActiveSkill (AttackInfo ai, ref bool excute) {
+		if (ai != null) {
+			IActiveSkillExcute iase = BattleUseData.Instance.excuteActiveSkill.GetActiveSkill (ai.UserUnitID);
+			if (iase != null) {
+				excute = true;
+				iase.ExcuteByDisk (ai);
+			} else { 
+				excute = false;
+			}
+		} else {
+			excute = false;
+		}
+	}
+	
+	public void BossDead() {
+		
+		TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		if (bossDrop != null) {
+			questData.getUnit.Add(bossDrop.DropId);
+		}
+		
+		//		battle.ShieldInput (false);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+		BattleBottomView.notClick = true;
+		
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
+		
+		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "clear", QuestClear as Callback);
+	}
+	
+	public void StartBattleEnemyAttack() {
+		EnemyAttackEnum eae = FirstOrBackAttack ();
+		switch (eae) {
+		case EnemyAttackEnum.BackAttack:
+			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "back", BackAttack as Callback);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
+			//				battle.ShieldInput (false);
+			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+			break;
+		case EnemyAttackEnum.FirstAttack:
+			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "first", FirstAttack as Callback);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_first_attack);
+			break;
+		default:
+			break;
+		}
+	}
+
+	
+	void BackAttack() {
+		BattleUseData.Instance.ac.AttackPlayer ();
+		//		battle.BattleCardIns.StartBattle (false);
+	}
+	
+	void FirstAttack() {
+		BattleUseData.Instance.ac.FirstAttack ();
+	}
+	
+	void AttackEnd () {
+		//		battle.ShieldInput(true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+	}
+
 	void MeetQuestion () {
 		BattleMapView.waitMove = false;
-		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//		BattleEnd ();
 		
 	}
 	
 	void MapItemExclamation() {
 		BattleMapView.waitMove = false;
-		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//		BattleEnd ();
 		
 	}
 	
@@ -811,8 +991,8 @@ public class BattleMapView : ViewBase {
 		BattleMapView.waitMove = false;
 		TrapBase tb = currentMapData.TrapInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
-		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//		BattleEnd ();
 	}
 	
 	void MapItemCoin() {
@@ -827,8 +1007,8 @@ public class BattleMapView : ViewBase {
 		ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"coin",GetCoin ());
 		
 		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
-		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//		BattleEnd ();
 	}
 	
 	void MapItemKey() {
@@ -837,10 +1017,47 @@ public class BattleMapView : ViewBase {
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate", OpenGate as Callback);
 		BattleMapView.waitMove = false;
-		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//		BattleEnd ();
 		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
 	}
+	
+	public TClearQuestParam GetQuestData () {
+		ClearQuestParam cq = new ClearQuestParam ();
+		TClearQuestParam cqp = new TClearQuestParam (cq);
+		cqp.questId = ConfigBattleUseData.Instance.questDungeonData.QuestId;
+		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+			cqp.getMoney += item.getMoney;
+			cqp.getUnit.AddRange(item.getUnit);
+			cqp.hitGrid.AddRange(item.hitGrid);
+		}
+		
+		return cqp;
+	}
+	
+	void ResponseClearQuest (object data) {
+		if (data != null) {
+			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
+			TRspClearQuest clearQuest = data as TRspClearQuest;
+			DataCenter.Instance.RefreshUserInfo (clearQuest);
+			End();
+			QuestEnd(clearQuest);
+		} else {
+			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
+			                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
+			
+		}
+	}
+
+
+	void QuestClear() {
+		BattleMapView.waitMove = true;
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick",true);
+		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "banclick",false);
+		BattleEndRotate(ShowTapToCheckOut);
+	}
+
+
 	
 	int GetCoin() {
 		int coin = 0;
@@ -857,8 +1074,8 @@ public class BattleMapView : ViewBase {
 	
 	void MapItemNone() {
 		BattleMapView.waitMove = false;
-		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+//		BattleEnd ();
 		
 	}
 
