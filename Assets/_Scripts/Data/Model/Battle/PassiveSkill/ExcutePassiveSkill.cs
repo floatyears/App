@@ -64,7 +64,9 @@ public class ExcutePassiveSkill : IExcutePassiveSkill  {
 							AttackInfo ai = AttackInfo.GetInstance();
 							ai.UserUnitID = unitItem.MakeUserUnitKey();
 							ai.SkillID = item.Value.skillBaseInfo.skillBase.id;
-							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, ai);
+//							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, ai);
+							ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refreshitem", ai);
+
 						}
 					}
 				}

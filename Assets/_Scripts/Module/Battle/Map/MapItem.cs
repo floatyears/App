@@ -52,9 +52,6 @@ public class MapItem : MonoBehaviour {
 	private bool isRotate = false;
 	private UITexture alreayQuestTexture;
 
-	[HideInInspector]
-	public BattleMapView battleMap;
-
 	public void Init (string name)
 	{
 //	}

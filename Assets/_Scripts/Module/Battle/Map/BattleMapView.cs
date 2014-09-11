@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using bbproto;
 
 public class BattleMapView : ViewBase {
 
@@ -11,7 +12,7 @@ public class BattleMapView : ViewBase {
 
 	private MapItem template;
 	private MapItem[,] map;
-	private MapItem temp;
+//	private MapItem temp;
 
 	private List<MapItem> prevAround = new List<MapItem>();
 	[HideInInspector]
@@ -40,6 +41,8 @@ public class BattleMapView : ViewBase {
 
 	private const string categoryTitle = "Category: ";
 	private const string coinTitle = "Number: ";	
+
+	private GameObject role;
 
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
@@ -77,6 +80,8 @@ public class BattleMapView : ViewBase {
 		arrowAlpha = arrowSprite.GetComponent<TweenAlpha>();
 		
 		UIEventListener.Get (gameObject).onClick = ClickDoor;
+
+		role = FindChild ("Role");
 	}
 
 	
@@ -106,13 +111,13 @@ public class BattleMapView : ViewBase {
 	public override void HideUI () {
 		base.HideUI ();
 		prevAround.Clear ();
-		gameObject.SetActive (false);
-		for (int i = 0; i < map.GetLength(0); i++) {
-			for (int j = 0; j < map.GetLength(1); j++) {
-				Destroy(map[i,j].gameObject);
-				map[i,j] = null;
-			}
-		}
+//		gameObject.SetActive (false);
+//		for (int i = 0; i < map.GetLength(0); i++) {
+//			for (int j = 0; j < map.GetLength(1); j++) {
+//				Destroy(map[i,j].gameObject);
+//				map[i,j] = null;
+//			}
+//		}
 		
 		//		door.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
@@ -139,10 +144,10 @@ public class BattleMapView : ViewBase {
 					float xp = template.InitPosition.x + i * itemWidth;
 					float yp = template.InitPosition.y + j * itemWidth;
 					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
-					temp = tempObject.GetComponent<MapItem>();
+					MapItem temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
 					temp.Init(i+"|"+j);
-					temp.battleMap = this;
+//					temp.battleMap = this;
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
 				} else {
@@ -152,7 +157,7 @@ public class BattleMapView : ViewBase {
 		}
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
-		SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
+//		SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
 		List<TClearQuestParam> _data = ConfigBattleUseData.Instance.storeBattleData.questData;
 		RefreshMap (_data[_data.Count - 1]);
 	}
@@ -190,8 +195,7 @@ public class BattleMapView : ViewBase {
 	  
 	void OnClickMapItem(GameObject go) {
 		if (!wMove) {
-			temp = go.GetComponent<MapItem>();
-//			bQuest.TargetItem(temp.Coor);
+			StartMove(go.GetComponent<MapItem>().Coor);// bQuest.TargetItem(temp.Coor);
 		}
 	}
 
@@ -456,6 +460,8 @@ public class BattleMapView : ViewBase {
 		checkOut = true;
 	}
 
+
+
 	private Coordinate currentCoor;
 	public Coordinate CurrentCoor {
 		get{ return currentCoor; }
@@ -641,14 +647,14 @@ public class BattleMapView : ViewBase {
 		secondPath [3] = targetPoint;
 		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk);
-		iTween.MoveTo (gameObject, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.13f+adjustTime, "easetype", iTween.EaseType.easeOutSine, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
+		iTween.MoveTo (role, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.13f+adjustTime, "easetype", iTween.EaseType.easeOutSine, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
 	}
 	
 	void MoveRoleSecond() {
 		//		Debug.LogError ("MoveRoleSecond");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_chess_fall);
 		//		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
-		iTween.MoveTo (gameObject, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.18+adjustTime, "easetype", iTween.EaseType.easeInSine, "oncomplete", "MoveRoleBounce", "oncompletetarget", gameObject));
+		iTween.MoveTo (role, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.18+adjustTime, "easetype", iTween.EaseType.easeInSine, "oncomplete", "MoveRoleBounce", "oncompletetarget", gameObject));
 	}
 	
 	void MoveRoleBounce() {
@@ -665,7 +671,7 @@ public class BattleMapView : ViewBase {
 		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + bounceOffset);
 		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, secondPath [3].y);
 		//		Debug.LogError(">>>>>>>>>>> bounce...");
-		iTween.MoveTo (gameObject, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
+		iTween.MoveTo (role, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 	}
 	
 	Coordinate tempCoor; 
@@ -707,10 +713,155 @@ public class BattleMapView : ViewBase {
 		//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);	
 		//		}
 		
-		//		bQuest.RoleCoordinate(coor);
+		RoleCoordinate(coor);
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", coor);
 	}
+
+	void RoleCoordinate(Coordinate coor) {
+		
+		//		BattleMapView v = view as BattleMapView;
+		//		Debug.LogError ("coor : " + coor.x + " coor : " + coor.y);
+		if (!ReachMapItem (coor)) {
+			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+				prevMapItem.HideGridNoAnim ();
+				GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
+				ConfigBattleUseData.Instance.StoreMapData();
+				return;
+			}
+			
+			int index = ConfigBattleUseData.Instance.questDungeonData.GetGridIndex (coor);
+			
+			if (index != -1) {
+				questData.hitGrid.Add ((uint)index);
+			}
+			
+		 	TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (coor);
+			
+			Stop ();
+			if (currentMapData.Star == EGridStar.GS_KEY) {
+				BattleMapView.waitMove = true;
+				ConfigBattleUseData.Instance.storeBattleData.HitKey = true;
+				RotateAnim (MapItemKey);
+				return;
+			}
+			
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
+			
+			switch (currentMapData.Type) {
+			case EQuestGridType.Q_NONE:
+				BattleMapView.waitMove = true;
+				RotateAnim (MapItemNone);
+				break;
+			case EQuestGridType.Q_ENEMY:
+				BattleMapView.waitMove = true;
+				RotateAnim (MapItemEnemy);
+				break;
+			case EQuestGridType.Q_KEY:
+				break;
+			case EQuestGridType.Q_TREATURE:
+				BattleMapView.waitMove = true;
+				ShowCoin(currentMapData.Coins);
+				MapItemCoin();
+				//					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
+				break;
+			case EQuestGridType.Q_TRAP:
+				BattleMapView.waitMove = true;
+				//					MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
+				ShowTrap(currentMapData.TrapInfo);
+				GameTimer.GetInstance().AddCountDown(BattleMapView.showTime + BattleMapView.scaleTime, ()=>{
+					RotateAnim (RotateEndTrap);
+				});
+				break;
+			case EQuestGridType.Q_QUESTION:
+				BattleMapView.waitMove = true;
+				RotateAnim (MeetQuestion);
+				break;
+			case EQuestGridType.Q_EXCLAMATION:
+				BattleMapView.waitMove = true;
+				RotateAnim (MapItemExclamation);
+				break;
+			default:
+				BattleMapView.waitMove = false;
+				BattleEnd();
+				QuestCoorEnd ();
+				break;
+			}
+		} else {
+			QuestCoorEnd ();
+			ConfigBattleUseData.Instance.StoreMapData();
+		}
+	}
+
+	void MeetQuestion () {
+		BattleMapView.waitMove = false;
+		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		BattleEnd ();
+		
+	}
 	
+	void MapItemExclamation() {
+		BattleMapView.waitMove = false;
+		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		BattleEnd ();
+		
+	}
+	
+	void RotateEndTrap() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
+		BattleMapView.waitMove = false;
+		TrapBase tb = currentMapData.TrapInfo;
+		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		BattleEnd ();
+	}
+	
+	void MapItemCoin() {
+		RotateAnim (RotateEndCoin);
+	}
+	
+	void RotateEndCoin() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
+		BattleMapView.waitMove = false;
+		questData.getMoney += currentMapData.Coins;
+		//		topUI.Coin = GetCoin ();//questData.getMoney;
+		ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"coin",GetCoin ());
+		
+		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
+		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		BattleEnd ();
+	}
+	
+	void MapItemKey() {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
+		//		battle.ShieldInput (false);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate", OpenGate as Callback);
+		BattleMapView.waitMove = false;
+		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		BattleEnd ();
+		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
+	}
+	
+	int GetCoin() {
+		int coin = 0;
+		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+			coin += item.getMoney;
+		}
+		return coin;
+	}
+	
+	void OpenGate() {
+		//		battle.ShieldInput (true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+	}
+	
+	void MapItemNone() {
+		BattleMapView.waitMove = false;
+		//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+		BattleEnd ();
+		
+	}
+
 	void GenerateWayPoint(Coordinate endCoord) {
 		if(currentCoor.x == endCoord.x) {
 			firstWay.AddRange(CaculateY(endCoord));

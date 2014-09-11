@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleUseData {
-	public BattleMapModule battleQuest;
+//	public BattleMapModule battleQuest;
     private ErrorMsg errorMsg;
     public TUnitParty upi;
     public int maxBlood = 0;
@@ -33,7 +33,7 @@ public class BattleUseData {
 				}
 				blood = value;
 			}
-			configBattleUseData.storeBattleData.hp = blood;
+			ConfigBattleUseData.Instance.storeBattleData.hp = blood;
 		}
         get { return blood; }
     }
@@ -66,13 +66,22 @@ public class BattleUseData {
     public static float CountDown {
         get { return countDown; }
     }
-	
 
-	private ConfigBattleUseData configBattleUseData;
+	private static BattleUseData instance;
 
-    public BattleUseData(BattleMapModule bq) {
-		battleQuest = bq;
-		configBattleUseData = ConfigBattleUseData.Instance;
+	public static BattleUseData Instance{
+		get{
+			if(instance == null)
+				instance = new BattleUseData();
+			return instance;
+		}
+	}
+
+//	private ConfigBattleUseData configBattleUseData;
+
+    private BattleUseData() {
+//		battleQuest = bq;
+//		configBattleUseData = ConfigBattleUseData.Instance;
 		Reset ();
     }
 
@@ -87,7 +96,7 @@ public class BattleUseData {
 		errorMsg = new ErrorMsg();
 		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
 		upi.GetSkillCollection();
-		GetBaseData (null);
+		GetBaseData ();
 		els = new ExcuteLeadSkill(upi);
 		skillRecoverHP = els;
 	}
@@ -111,14 +120,14 @@ public class BattleUseData {
 			maxEnergyPoint = sbd.sp;
 		}
 
-		configBattleUseData.storeBattleData.hp = blood;
+		ConfigBattleUseData.Instance.storeBattleData.hp = blood;
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
-		GetBaseData (null);
+		GetBaseData ();
 		eas = new ExcuteActiveSkill(upi);
 		eps = new ExcutePassiveSkill(upi);
-		ac = new AttackController(this, eps, upi);
+		ac = new AttackController(eps, upi);
 		Config.Instance.SwitchCard(els);
-		configBattleUseData.StoreMapData ();
+		ConfigBattleUseData.Instance.StoreMapData ();
 	}
 
 	public void CheckPlayerDead() {
@@ -130,7 +139,7 @@ public class BattleUseData {
     ~BattleUseData() { }
 
     void ListenEvent() {
-        MsgCenter.Instance.AddListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
+//        MsgCenter.Instance.AddListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
         MsgCenter.Instance.AddListener(CommandEnum.MoveToMapItem, MoveToMapItem);
         MsgCenter.Instance.AddListener(CommandEnum.StartAttack, StartAttack);
         MsgCenter.Instance.AddListener(CommandEnum.RecoverHP, RecoverHP);
@@ -145,7 +154,7 @@ public class BattleUseData {
     }
 
     public void RemoveListen() {
-        MsgCenter.Instance.RemoveListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
         MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, MoveToMapItem);
         MsgCenter.Instance.RemoveListener(CommandEnum.StartAttack, StartAttack);
         MsgCenter.Instance.RemoveListener(CommandEnum.RecoverHP, RecoverHP);
@@ -178,12 +187,14 @@ public class BattleUseData {
         float value = (float)data;
         int hurtValue = System.Convert.ToInt32(value);
 		KillHp (hurtValue, true);
-		configBattleUseData.StoreMapData ();
+		ConfigBattleUseData.Instance.StoreMapData ();
     }
 
 	public void PlayerDead() {
 		if (blood <= 0) {
-			MsgCenter.Instance.Invoke(CommandEnum.PlayerDead);
+//			MsgCenter.Instance.Invoke(CommandEnum.PlayerDead);
+			ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"playerdead");
+			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"playerdead");
 		}
 	}
 
@@ -298,12 +309,13 @@ public class BattleUseData {
         attackInfo.Clear();
     }
 
-    public void GetBaseData(object data) {
+    public void GetBaseData() {
         BattleBaseData bbd = new BattleBaseData();
 		bbd.Blood = Blood;
 		bbd.maxBlood = maxBlood;
 		bbd.EnergyPoint = maxEnergyPoint;
-		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
+//		MsgCenter.Instance.Invoke(CommandEnum.BattleBaseData, bbd);
+		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "initdata", bbd);
     }
 
    public  void RecoverEnergePoint(object data) {
@@ -318,7 +330,7 @@ public class BattleUseData {
         if (maxEnergyPoint > DataCenter.maxEnergyPoint) {
             maxEnergyPoint = DataCenter.maxEnergyPoint;	
         }
-		configBattleUseData.storeBattleData.sp = maxEnergyPoint;
+		ConfigBattleUseData.Instance.storeBattleData.sp = maxEnergyPoint;
         MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
     }
 
@@ -357,7 +369,7 @@ public class BattleUseData {
 			blood = killBlood < 1 ? 1 : killBlood;
 		}
 
-		configBattleUseData.storeBattleData.hp = blood;
+		ConfigBattleUseData.Instance.storeBattleData.hp = blood;
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 	}
 
@@ -368,7 +380,7 @@ public class BattleUseData {
 
 		int addBlood = blood + value;
 		blood = addBlood > maxBlood ? maxBlood : addBlood;
-		configBattleUseData.storeBattleData.hp = blood;
+		ConfigBattleUseData.Instance.storeBattleData.hp = blood;
 		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowHPAnimation);
 	}
@@ -376,20 +388,19 @@ public class BattleUseData {
     void ConsumeEnergyPoint() {	
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
 
-		if(battleQuest.ChainLinkBattle) {
-			return;
-		}
+//		if(battleQuest.ChainLinkBattle) {
+//			return;
+//		}
 
         if (maxEnergyPoint == 0) {
 			KillHp(ReductionBloodByProportion(0.2f), false);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);
         } else {
             maxEnergyPoint--;
-			configBattleUseData.storeBattleData.sp = maxEnergyPoint;
+			ConfigBattleUseData.Instance.storeBattleData.sp = maxEnergyPoint;
             MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
-//				battleQuest.battle.ShieldInput(false);
 				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_sp_limited_over);
 				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule,"splimit", SPLimit as Callback);
@@ -398,7 +409,6 @@ public class BattleUseData {
     }
 
 	void SPLimit () {
-//		battleQuest.battle.ShieldInput(true);
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 	}
 

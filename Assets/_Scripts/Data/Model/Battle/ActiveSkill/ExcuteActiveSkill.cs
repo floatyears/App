@@ -69,7 +69,10 @@ public class ExcuteActiveSkill {
 				ai = AttackInfo.GetInstance();
 				ai.UserUnitID = userUnit.MakeUserUnitKey();
 				ai.SkillID = (iase as ActiveSkill).skillBase.id;
-				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, ai);
+//				MsgCenter.Instance.Invoke(CommandEnum.ShowActiveSkill, ai);
+				ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"activeskill", ai);
+
+
 				GameTimer.GetInstance().AddCountDown(BattleAttackEffectView.activeSkillEffectTime, WaitActiveEffect);
 			} else {
 //				Debug.LogError("activeSkill.TryGetValue false  : ");
@@ -81,7 +84,9 @@ public class ExcuteActiveSkill {
 //		Debug.LogError("WaitActiveEffect ");
 		MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
 		GameTimer.GetInstance().AddCountDown(1f,Excute);
-		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
+//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillStandReady, userUnit);
+		ModuleManager.SendMessage (ModuleEnum.BattleFullScreenTipsModule, "ready",userUnit);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_active_skill);
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_appear);
 	}

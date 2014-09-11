@@ -31,7 +31,7 @@ public class BattleCardAreaItem : ViewBase {
 	[HideInInspector]
 	public List<int> haveCard = new List<int> ();
 
-	private BattleUseData battleUseData;
+//	private BattleUseData battleUseData;
 	private bool _isBoost = false;
 	public bool isBoost {
 		set { _isBoost = value; 
@@ -137,11 +137,8 @@ public class BattleCardAreaItem : ViewBase {
 	List <AttackInfo> attackImage = new List<AttackInfo> ();
 
 	void GenerateFightCardImmelity(int id) {
-		if (battleUseData == null) {
-			battleUseData = BattleMapModule.bud;	
-		}
 
-		attackImage = battleUseData.CaculateFight (areaItemID, id, isBoost);
+		attackImage = BattleUseData.Instance.CaculateFight (areaItemID, id, isBoost);
 
 
 //		if (generateImage.Count > attackImage.Count) {

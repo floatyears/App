@@ -234,15 +234,13 @@ public class BattleBottomView : ViewBase {
 
 	void OnDisable () {
 		GameInput.OnUpdate -= OnRealease;
-		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, PlayerDead);
 	}
 
 	void OnEnable () {
 		GameInput.OnUpdate += OnRealease;
-		MsgCenter.Instance.AddListener (CommandEnum.PlayerDead, PlayerDead);
 	}
 
-	void PlayerDead(object data) {
+	public void PlayerDead() {
 		RemoveAllSkill ();
 	}
 
@@ -387,10 +385,10 @@ public class BattleBottomView : ViewBase {
 		//		_battleBottomScript = null;
 	}
 	
-	public void InitData (int blood, int maxBlood, int energyPoint) {
-		initBlood = maxBlood;
-		currentBlood = blood;
-		currentEnergyPoint = initEnergyPoint = energyPoint;
+	public void InitData (BattleBaseData data) {
+		initBlood = data.maxBlood;
+		currentBlood = data.Blood;
+		currentEnergyPoint = initEnergyPoint = data.EnergyPoint;
 		SetBlood (currentBlood); 
 		InitSP ();
 	}

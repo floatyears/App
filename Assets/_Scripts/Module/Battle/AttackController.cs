@@ -6,7 +6,7 @@ public class AttackController {
 	public const float normalAttackInterv = 0.7f;
 	public const float deadAttackInterv = 0.5f;
 	private MsgCenter msgCenter;
-	private BattleUseData bud;
+//	private BattleUseData bud;
 	private Queue<AttackInfo> attackInfoQueue = new Queue<AttackInfo> ();
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
 	public TDropUnit dropUnit = null;
@@ -35,10 +35,10 @@ public class AttackController {
 	private static float activeTime = 2f;
 
 	public bool isBoss = false;
-	public AttackController (BattleUseData bud, IExcutePassiveSkill ips, TUnitParty tup) {
+	public AttackController (IExcutePassiveSkill ips, TUnitParty tup) {
 		upi = tup;
 		msgCenter = MsgCenter.Instance;
-		this.bud = bud;
+//		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
 		configBattleUseData = ConfigBattleUseData.Instance;
@@ -236,9 +236,9 @@ public class AttackController {
 		if (attackInfoQueue.Count == 0) {
 			msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
 
-			int blood = leaderSkillRecoverHP.RecoverHP(bud.maxBlood, 1);	//1: every round.
+			int blood = leaderSkillRecoverHP.RecoverHP(BattleUseData.Instance.maxBlood, 1);	//1: every round.
 
-			bud.AddBlood(blood);
+			BattleUseData.Instance.AddBlood(blood);
 
 			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 
@@ -356,7 +356,7 @@ public class AttackController {
 		reduceInfo = null;
 		msgCenter.Invoke (CommandEnum.GridEnd, null);
 		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
-		bud.ClearData();
+		BattleUseData.Instance.ClearData();
 //		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
 
@@ -508,7 +508,7 @@ public class AttackController {
 
 //			Debug.LogError("hurtValue : " + hurtValue);
 
-			bud.Hurt(hurtValue);
+			BattleUseData.Instance.Hurt(hurtValue);
 			te.ResetAttakAround ();	
 			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
 //			Debug.LogError("EnemyAttack attackType : " + attackType);
@@ -536,7 +536,7 @@ public class AttackController {
 	}    
 
 	void EnemyAttackLoopEnd() {
-		if(bud.Blood > 0) {
+		if(BattleUseData.Instance.Blood > 0) {
 //			Debug.LogError("antiInfo.Count : " + antiInfo.Count);
 			if (antiInfo.Count == 0) {
 				MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
@@ -563,7 +563,7 @@ public class AttackController {
 	void EnemyAttackEnd () {
 		BattleBottomView.notClick = false;
 		CheckBattleSuccess ();
-		bud.ClearData();
+		BattleUseData.Instance.ClearData();
 //		bud.battleQuest.battle.ShieldInput(true);	
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 		configBattleUseData.storeBattleData.attackRound ++;

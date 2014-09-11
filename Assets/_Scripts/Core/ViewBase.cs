@@ -74,10 +74,10 @@ public class ViewBase : MonoBehaviour {
 
 	}
 
-	
+
 	protected virtual void ToggleAnimation(bool isShow){
 		if (isShow) {
-			Debug.Log("Show Module: " + config.moduleName);
+			Debug.Log("Show Module: " + config.moduleName + "pos: " + config.localPosition.x + " " + config.localPosition.y);
 			gameObject.SetActive(true);
 			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
 //			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));

@@ -275,7 +275,7 @@ public class BattleManipulationView : ViewBase {
 	
 //	public FightManipulationView battleCardArea;
 	
-	private BattleUseData battleUseData;
+//	private BattleUseData battleUseData;
 	
 	private GameObject fingerObject;
 	
@@ -343,14 +343,11 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void GenerateLinkSprite(CardItem ci,int index) {
-		if (battleUseData == null) {
-			battleUseData = BattleMapModule.bud;
-		}
 		List<Transform> trans = new List<Transform> ();
 		for (int i = 0; i < battleCardAreaItem.Length; i++) {
 			if(battleCardAreaItem[i] == null) 
 				continue;
-			if(battleUseData.upi.CalculateNeedCard(battleCardAreaItem[i].AreaItemID, index )) {
+			if(BattleUseData.Instance.upi.CalculateNeedCard(battleCardAreaItem[i].AreaItemID, index )) {
 				trans.Add(battleCardAreaItem[i].transform);
 			}
 		}
@@ -376,7 +373,7 @@ public class BattleManipulationView : ViewBase {
 			return true;
 		}
 		if(normalSkill == null)
-			normalSkill = BattleMapModule.bud.upi.GetNormalSkill ();
+			normalSkill = BattleUseData.Instance.upi.GetNormalSkill ();
 		foreach (var item in normalSkill) {
 			if(item.Blocks.Contains((uint)index)) {
 				return true;

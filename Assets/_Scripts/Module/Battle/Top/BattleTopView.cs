@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class BattleTopView : ViewBase {
 	[HideInInspector]
@@ -10,9 +11,6 @@ public class BattleTopView : ViewBase {
 	private UIButton menuButton;
 
 	private UIButton retryButton;
-
-	[HideInInspector]
-	public BattleMapModule battleQuest;
 
 //	private BattleMenu battleMenu;
 
@@ -98,7 +96,8 @@ public class BattleTopView : ViewBase {
 		}
 #endif
 
-		battleQuest.Retry ();
+//		battleQuest.Retry ();
+
 	}
 
 	void ShowMenu (GameObject go) {
@@ -134,4 +133,167 @@ public class BattleTopView : ViewBase {
 
 	}
 
+	
+	public void Retry () {
+		Main.Instance.GInput.IsCheckInput = false;
+		BattleBottomView.notClick = true;
+		
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
+		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.Stone),
+		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
+	}
+
+	void SureInitiativeRetry(object data) {
+		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			return;
+		}
+		
+		//		battle.ShieldInput (false);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+		//		if (battle.isShowEnemy) {
+		//			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
+		//		}
+		RedoQuest.SendRequest (SureRetryNetWork, ConfigBattleUseData.Instance.questDungeonData.QuestId, ConfigBattleUseData.Instance.questDungeonData.currentFloor);
+		
+		Main.Instance.GInput.IsCheckInput = true;
+		BattleBottomView.notClick = false;
+	}
+	
+	void CancelInitiativeRetry(object data) {
+		Main.Instance.GInput.IsCheckInput = true;
+		BattleBottomView.notClick = false;
+	}
+
+	
+	void SureRetryNetWork(object data) {
+		Umeng.GA.Buy ("RedoQuest", 1, DataCenter.redoQuestStone);
+		BattleMapView.waitMove = false;
+		(view as BattleMapView).BattleEndRotate(null);
+		RefreshRetryData (data);
+		Main.Instance.GInput.IsCheckInput = true;
+		GameInput.OnPressEvent += SureRetryPress;
+	}
+
+	
+	void RefreshRetryData(object data) {
+		RspRedoQuest rrq = data as RspRedoQuest;
+		if (rrq == null) {
+			return;	
+		}
+		
+		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
+		ConfigBattleUseData.Instance.RefreshCurrentFloor(rrq);;
+		ConfigBattleUseData.Instance.InitRoleCoordinate (new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY));
+		ConfigBattleUseData.Instance.StoreMapData ();
+	}
+	
+	void SureRetryPress() {
+		//		Debug.LogError ("SureRetryPress ");
+		GameInput.OnPressEvent -= SureRetryPress;
+		RetryRefreshUI ();
+	}
+	
+	void RetryRefreshUI() {
+		//		battle.ShieldInput (true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		//		if (battle.isShowEnemy) {
+		//			ExitFight (true);
+		//			configBattleUseData.storeBattleData.attackRound = 0;
+		//			configBattleUseData.StoreMapData(null);
+		//			battle.ExitFight();
+		//		}
+		Reset ();
+		BattleUseData.Instance.ResetBlood ();
+	}
+
+	void SureRetry(object data) {
+		//		battle.ShieldInput (false);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+		RedoQuest.SendRequest (SureRetryNetWork, ConfigBattleUseData.Instance.questDungeonData.QuestId, ConfigBattleUseData.Instance.questDungeonData.currentFloor);
+	}
+	
+	
+	void CancelRetry(object data) {
+		RequestData (null);
+	}
+
+
+	void RequestData (object data) {
+		if (DataCenter.gameState == GameState.Evolve) {
+			EvolveDone evolveDone = new EvolveDone ();
+			TClearQuestParam cqp = GetQuestData();
+			evolveDone.QuestId = cqp.questId;
+			evolveDone.GetMoney = cqp.getMoney;
+			evolveDone.GetUnit = cqp.getUnit;
+			evolveDone.HitGrid = cqp.hitGrid;
+			evolveDone.OnRequest (null, ResponseEvolveQuest);
+		} else {
+			INetBase netBase = new ClearQuest ();
+			netBase.OnRequest (GetQuestData (), ResponseClearQuest);
+		}
+	}
+	
+	void ResponseEvolveQuest (object data) {
+		if (data == null)
+			return;
+		bbproto.RspEvolveDone rsp = data as bbproto.RspEvolveDone;
+		
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			return;
+		}
+		
+		Umeng.GA.Event ("Evolve");
+		
+		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
+		//		DataCenter.Instance.RefreshUserInfo(rsp)
+		DataCenter.Instance.UserInfo.Rank = rsp.rank;
+		DataCenter.Instance.UserInfo.Exp = rsp.exp;
+		DataCenter.Instance.AccountInfo.Money = rsp.money;
+		DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
+		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
+		//
+		TUnitParty tup = ConfigBattleUseData.Instance.party;
+		foreach (var item in tup.UserUnit.Values) {
+			if(item == null ) {
+				continue;
+			}
+			if ( item.ID != rsp.evolvedUnit.uniqueId ) { //only delete Evo Materials, not delete BaseUnit
+				DataCenter.Instance.UserUnitList.DelMyUnit(item.ID);
+			}
+		}
+		ConfigBattleUseData.Instance.party = null;
+		
+		for (int i = 0; i < rsp.gotUnit.Count; i++) {
+			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
+		}
+		
+		//update the evolved unit
+		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
+		
+		TRspClearQuest trcq = new TRspClearQuest ();
+		trcq.exp = rsp.exp;
+		trcq.gotExp = rsp.gotExp;
+		trcq.money = rsp.money;
+		trcq.gotMoney = rsp.gotMoney;
+		trcq.gotStone = rsp.gotStone;
+		trcq.evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
+		List<TUserUnit> temp = new List<TUserUnit> ();
+		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
+			TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId,rsp.gotUnit[i]);
+			temp.Add(tuu);
+		}
+		trcq.gotUnit = temp;
+		trcq.rank = rsp.rank;
+		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
+		End();
+		ModuleManager.Instance.ExitBattle ();
+		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
+		
+		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule,trcq);
+	}
 }

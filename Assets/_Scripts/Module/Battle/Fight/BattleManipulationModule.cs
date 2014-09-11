@@ -85,7 +85,7 @@ public class BattleManipulationModule : ModuleBase {
 			ConfigBattleUseData.Instance.storeBattleData.colorIndex = 0;
 		}
 
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
@@ -94,6 +94,19 @@ public class BattleManipulationModule : ModuleBase {
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 
 //		UserGuideAnim (null);
+	}
+
+	
+	public override void HideUI () {
+		base.HideUI ();
+		//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
+		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
+		battleRootGameObject.SetActive(false);
 	}
 
 	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
@@ -367,18 +380,7 @@ public class BattleManipulationModule : ModuleBase {
 			gameTimer.AddCountDown(0.1f, GenerateEnd);
 		}
 	}
-		                   
-	public override void HideUI () {
-		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
-		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
-		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
-		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
-		battleRootGameObject.SetActive(false);
-	}
+
 
 	public override void DestoryUI () {
 		GameInput.OnPressEvent -= HandleOnPressEvent;
@@ -427,17 +429,17 @@ public class BattleManipulationModule : ModuleBase {
 
 	}
 
-	void BattleEnd (object data) {
-		ExitFight ();
-	}
-
-	public void ExitFight() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
-
-		isShowEnemy = false;
-		ShieldInput (true);
-		HideUI ();
-	}
+//	void BattleEnd (object data) {
+//		ExitFight ();
+//	}
+//
+//	public void ExitFight() {
+//		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
+//
+//		isShowEnemy = false;
+//		ShieldInput (true);
+//		HideUI ();
+//	}
 
 	void Attack () {
 		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
