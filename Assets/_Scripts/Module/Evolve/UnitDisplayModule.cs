@@ -68,17 +68,3 @@ public class UnitDisplayModule : ModuleBase {
 	}
 }
 
-public class DragPanelSetInfo {
-	public Transform parentTrans;
-	public Vector3 scrollerScale = Vector3.one;
-	public Vector3 scrollerLocalPos = Vector3.zero;
-	public Vector3 position = Vector3.zero;
-	public Vector4 clipRange = Vector4.zero;
-	public UIGrid.Arrangement gridArrange = UIGrid.Arrangement.Horizontal;
-	public int maxPerLine = 1;
-	public Vector3 scrollBarPosition = Vector3.zero;
-	public int cellWidth = 100;
-	public int cellHeight = 100;
-	public int depth = 0;
-//	UIScrollView.Movement scrollMovement = UIScrollView.Movement.Horizontal;
-}

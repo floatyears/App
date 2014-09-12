@@ -243,7 +243,7 @@ public class LevelUpView : ViewBase {
 		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
 		dpsi.parentTrans = parent.transform;
 		dpsi.clipRange = new Vector4 (0, -100, 640, 315);
-		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
+		dpsi.gridArrange = UIGrid.Arrangement.Horizontal;
 		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
 		dpsi.maxPerLine = 3;
 		dpsi.depth = 2;	

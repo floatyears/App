@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class DragPanelView : ViewBase {
@@ -142,19 +142,29 @@ public class DragPanelView : ViewBase {
 		grid.enabled = true;
 
 		Transform fg = scrollBar.transform.FindChild ("Foreground");
-		if (dpsi.gridArrange == UIGrid.Arrangement.Horizontal) {
+		if (dpsi.scrollMovement == UIScrollView.Movement.Vertical ) {
+
 			scrollView.horizontalScrollBar = null;	
 			scrollView.verticalScrollBar = scrollBar;
-			fg.Rotate (0, 0, -90);
+
+			fg.Rotate (0, 0, 0);
 			fg.GetComponent<UISprite> ().alpha = 1;
 			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
-		} else {
+		}else { //horizontal
+			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
 			scrollView.horizontalScrollBar = scrollBar;	
 			scrollView.verticalScrollBar = null;
-			fg.Rotate (0, 0, 0);
+
+			fg.Rotate (0, 0, -90);
 			fg.GetComponent<UISprite> ().alpha = 1;
 			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
 		}
+
+//		if (dpsi.gridArrange == UIGrid.Arrangement.Vertical) {
+//
+//		} else {
+//
+//		}
 
 		grid.Reposition ();
 
@@ -196,25 +206,37 @@ public class DragPanelView : ViewBase {
 		clip.clipRange = config.clipRange;
 		scrollBar.transform.localPosition = config.scrollBarPosition;
 
+
 		grid.arrangement = config.gridArrage;
 		grid.maxPerLine = config.maxPerLine;
 		grid.cellWidth = config.cellWidth;
 		grid.cellHeight = config.cellHeight;
 
 		Transform fg = scrollBar.transform.FindChild ("Foreground");
-		if (config.scrollMovement == UIScrollView.Movement.Vertical) {
-				scrollView.horizontalScrollBar = null;	
-				scrollView.verticalScrollBar = scrollBar;
-				fg.Rotate (0, 0, -90);
-				fg.GetComponent<UISprite> ().alpha = 1;
-				fg.GetComponent<UISprite> ().width = (int)config.clipRange.w;
-		} else {
-				scrollView.horizontalScrollBar = scrollBar;	
-				scrollView.verticalScrollBar = null;
-				fg.Rotate (0, 0, 0);
-				fg.GetComponent<UISprite> ().alpha = 1;
-				fg.GetComponent<UISprite> ().width = (int)config.clipRange.z;
+		if (config.scrollMovement == UIScrollView.Movement.Vertical ) {
+			scrollView.horizontalScrollBar = null;	
+			scrollView.verticalScrollBar = scrollBar;
+//			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
+
+			fg.Rotate (0, 0, 0);
+			fg.GetComponent<UISprite> ().alpha = 1;
+			fg.GetComponent<UISprite> ().width = (int)config.clipRange.w;
+
+		}else {
+			scrollView.horizontalScrollBar = scrollBar;	
+			scrollView.verticalScrollBar = null;
+
+			fg.Rotate (0, 0, -90);
+			fg.GetComponent<UISprite> ().alpha = 1;
+			fg.GetComponent<UISprite> ().width = (int)config.clipRange.z;
+
+			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
 		}
+
+//		if (config.gridArrage == UIGrid.Arrangement.Vertical) {
+//		} 
+//		else {
+//		}
 
 		scrollView.ResetPosition ();
 //		scrollBar.alpha = 1;

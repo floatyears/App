@@ -284,6 +284,8 @@ public class DragPanelDynamic {
 	}
 
 	public void SetDragPanel(DragPanelSetInfo dpsi) {
+		dragPanelView.scrollView.movement = dpsi.scrollMovement;
+
 		dragPanelView.scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
 		dragPanelView.transform.parent = dpsi.parentTrans;
 //		dragPanelView.transform.localPosition = dpsi.scrollerLocalPos;
@@ -291,6 +293,7 @@ public class DragPanelDynamic {
 		dragPanelView.transform.localPosition = dpsi.position;
 		dragPanelView.clip.clipRange = dpsi.clipRange;
 		dragPanelView.scrollBar.transform.localPosition = dpsi.scrollBarPosition;
+
 		UIGrid grid = dragPanelView.grid;
 		grid.arrangement = dpsi.gridArrange;
 		grid.maxPerLine = dpsi.maxPerLine;
