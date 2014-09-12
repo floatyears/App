@@ -33,6 +33,8 @@ public class BattleManipulationModule : ModuleBase {
 //	private ConfigBattleUseData battleData;
 
 	public BattleManipulationModule(UIConfigItem config):base(  config) {
+		CreateUI<BattleManipulationView> ();
+
 		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;

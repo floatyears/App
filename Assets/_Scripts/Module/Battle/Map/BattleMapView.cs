@@ -12,21 +12,15 @@ public class BattleMapView : ViewBase {
 
 	private MapItem template;
 	private MapItem[,] map;
-//	private MapItem temp;
 
 	private List<MapItem> prevAround = new List<MapItem>();
-	[HideInInspector]
-	public MapItem prevMapItem;
-	private static bool wMove = false;
+
+	private MapItem currentItem;
 	public const float itemWidth = 114f;
 
 	private GameObject door;
-
-	[HideInInspector]
-	public static bool waitMove {
-		set{ wMove = value; }
-		get{ return wMove; }
-	}
+	
+	private Queue<MapItem> chainLikeMapItem = new Queue<MapItem> ();
 
 	////--------------cell info
 	public static float scaleTime = 0.5f;
@@ -40,102 +34,82 @@ public class BattleMapView : ViewBase {
 	private UILabel categoryTitleLabel;
 
 	private const string categoryTitle = "Category: ";
-	private const string coinTitle = "Number: ";	
+	private const string coinTitle = "Number: ";
+	private GameObject cellInfo;
 
 	private GameObject role;
+
+	private bool ChainLinkBattle = false;
+	
+	private bool checkOut = false;
+	
+	private string currentShowInfo;
+
+	private bool isMoving = false;
+	private Vector3 targetPoint;
+	private const int xOffset = -5;
+	private const int YOffset = 20;
+	private const int ZOffset = -40;
+	private Vector3 scale = new Vector3(30f, 25f, 30f);
+	private Vector3 angle = new Vector3(330f, 0f, 0f);
+	private List<Coordinate> movePath = new List<Coordinate>();
+	private Vector3 distance = Vector3.zero;
+
+	
+	private Coordinate currentCoor;
+	private Coordinate prevCoor;
 
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
 		base.Init (config, data);
 
 		mapBGTexture = FindChild<UITexture>("BG");
-
-		string path = "Texture/Map/battlemap_" + ConfigBattleUseData.Instance.GetMapID().ToString ();
-		//		Debug.LogError ("path : " + path);
-		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset (path, null) as Texture2D;
+		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset ("Texture/Map/battlemap_" + ConfigBattleUseData.Instance.GetMapID().ToString (), null) as Texture2D;
 
 		map = new MapItem[MapConfig.MapWidth, MapConfig.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
-//		template.Init("SingleMap");
-		door = FindChild("Door");
+		template.Init("SingleMap");
 		template.gameObject.SetActive(false);
-//		gameObject.transform.localPosition += Vector3.right * 5f;
-		wMove = false;
 
 		//----------init cell info
-		nameTitleLabel = FindChild<UILabel> ("CellInfo/NameTitleLabel");//transform.Find("NameTitleLabel").GetComponent<UILabel>();
+		nameTitleLabel = FindChild<UILabel> ("CellInfo/NameTitleLabel");
 		categoryTitleLabel = FindChild<UILabel> ("CellInfo/CategoryTitleLabel");
 		typeLabel = FindChild<UILabel> ( "CellInfo/TypeLabel");
 		nameLabel = FindChild<UILabel> ("CellInfo/NameLabel");
 		cateGoryLabel = FindChild<UILabel> ( "CellInfo/CatagoryLabel");
 		itemSprite = FindChild<UISprite> ( "CellInfo/Trap");
+		cellInfo = FindChild ("CellInfo");
 
-		gameObject.layer = GameLayer.BottomInfo;
-
-		topLabel = FindChild<UILabel> ("Door/Top");
-		bottomLabel = FindChild<UILabel> ("Door/Bottom");
-		arrowSprite = FindChild<UISprite> ("Door/Sprite");
-		topAlpha = topLabel.GetComponent<TweenAlpha>();
-		bottomAlpha = bottomLabel.GetComponent<TweenAlpha>();
-		arrowAlpha = arrowSprite.GetComponent<TweenAlpha>();
-		
-		UIEventListener.Get (gameObject).onClick = ClickDoor;
 
 		role = FindChild ("Role");
-	}
+		door = FindChild("Door");
+		door.SetActive (false);
+		UIEventListener.Get (door).onClick = ClickDoor;
 
-	
-	public override void ShowUI () {
-		base.ShowUI ();
-		//		door.ShowUI ();
 		StartMap ();
-		MsgCenter.Instance.AddListener (CommandEnum.ShieldMap, ShieldMap);
-		
-		doorOpen = ConfigBattleUseData.Instance.storeBattleData.HitKey;
-		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, OpenDoor);
-		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, QuestEnd);
-		
+
+		//init role
 		prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
-		//		bQuest.currentCoor = prevCoor;
-		//		TargetPoint = bQuest.GetPosition(currentCoor);
-		//		jump.Init (GetInitPosition());
-		//		jump.GameStart (targetPoint);	
+		
+		CalcRoleDestPosByCoor(currentCoor);
+		
+		role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
 		SyncRoleCoordinate(currentCoor);
 		Stop();
-
-		MsgCenter.Instance.AddListener (CommandEnum.TrapMove, TrapMove);
-		MsgCenter.Instance.AddListener (CommandEnum.NoSPMove, NoSPMove);
-		
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		prevAround.Clear ();
-//		gameObject.SetActive (false);
-//		for (int i = 0; i < map.GetLength(0); i++) {
-//			for (int j = 0; j < map.GetLength(1); j++) {
-//				Destroy(map[i,j].gameObject);
-//				map[i,j] = null;
-//			}
-//		}
-		
-		//		door.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.ShieldMap, ShieldMap);
-		
-		MsgCenter.Instance.RemoveListener (CommandEnum.OpenDoor, OpenDoor);
-		MsgCenter.Instance.RemoveListener (CommandEnum.QuestEnd, QuestEnd);
-		doorOpen = false;
-		canEnterDoor = false;
+
 		checkOut = false;
-		
-		MsgCenter.Instance.RemoveListener (CommandEnum.TrapMove, TrapMove);
-		MsgCenter.Instance.RemoveListener (CommandEnum.NoSPMove, NoSPMove);
 	}
 
 	void StartMap() {
 		int x = map.GetLength(0);
 		int y = map.GetLength(1);
 		GameObject tempObject = null;
+		MapItem temp = null;
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				if(map[i,j] == null) {
@@ -144,466 +118,65 @@ public class BattleMapView : ViewBase {
 					float xp = template.InitPosition.x + i * itemWidth;
 					float yp = template.InitPosition.y + j * itemWidth;
 					tempObject.transform.localPosition = new Vector3(xp,yp,template.InitPosition.z);
-					MapItem temp = tempObject.GetComponent<MapItem>();
+					temp = tempObject.GetComponent<MapItem>();
 					temp.Coor = new Coordinate(i, j);
 					temp.Init(i+"|"+j);
-//					temp.battleMap = this;
+
 					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
-				} else {
-					map[i,j].ShowUI();
 				}
 			}
 		}
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
-//		SetPosition (new Vector3 (xCoor, yCoor, door.transform.localPosition.z));
-		List<TClearQuestParam> _data = ConfigBattleUseData.Instance.storeBattleData.questData;
-		RefreshMap (_data[_data.Count - 1]);
-	}
 
-
-	public void RefreshMap(TClearQuestParam cqp) {
-		for (int i = 0; i < cqp.hitGrid.Count; i++) {
-			Coordinate coor = ConfigBattleUseData.Instance.questDungeonData.GetGridCoordinate(cqp.hitGrid[i]);
+		TClearQuestParam data = ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData();
+		for (int i = 0; i < data.hitGrid.Count; i++) {
+			Coordinate coor = ConfigBattleUseData.Instance.questDungeonData.GetGridCoordinate(data.hitGrid[i]);
 			if(coor.x < 0 || coor.y < 0 || coor.x >= MapConfig.MapWidth || coor.y >= MapConfig.MapHeight) {
 				continue;
 			}
 			map[coor.x, coor.y].HideGridNoAnim();
 		}
-
-		Coordinate roleCoor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
-
-		if(roleCoor.x != MapConfig.characterInitCoorX || roleCoor.y != MapConfig.characterInitCoorY) {
-			map[MapConfig.characterInitCoorX,MapConfig.characterInitCoorY].HideGridNoAnim();
-		}
 	}
 
-	public MapItem GetMapItem(Coordinate coor) {
-		return map [coor.x, coor.y];
-	}
 	
-	void ShieldMap(object data) {
-		int b = (int)data;
-
-		for (int i = 0; i < map.GetLength(0); i++) {
-			for (int j = 0; j < map.GetLength(1); j++) {
-				map[i,j].HideEnvirment(b > 0);
-			}
-		}
-	}
-	  
 	void OnClickMapItem(GameObject go) {
-		if (!wMove) {
-			StartMove(go.GetComponent<MapItem>().Coor);// bQuest.TargetItem(temp.Coor);
-		}
-	}
+		if (isMoving)
+			return;
+		Coordinate endCoord = go.GetComponent<MapItem>().Coor;
 
-	public Vector3 GetPosition(int x, int y) {
-		if(x > map.GetLength(0) || y > map.GetLength(1))
-			return transform.localPosition;
-		Vector3 pos = map[x, y].transform.localPosition + transform.localPosition;
-
-		return pos;
-	}
-
-	public bool ReachMapItem(Coordinate coor) {
-		prevMapItem = map[coor.x,coor.y];
-		return prevMapItem.IsOld;
-	}
-	private Callback callback = null;
-	
-	public void RotateAnim(Callback cb) {
-		prevMapItem.RotateSingle (cb);
-	}
-
-	public void RotateAll(Callback cb) {
-		prevMapItem.RotateAll (cb, false);
-	}
-
-	public EnemyAttackEnum FirstOrBackAttack() {
-		return prevMapItem.TriggerAttack ();
-	}
-
-	private Callback cb;
-	public void BattleEndRotate (Callback callback) {
-		cb = callback;
-		bool allShow = cb == null ? true : false;
-		StartCoroutine (EndRotate (allShow));
-	}
-
-	IEnumerator EndRotate (bool allShow) {
-		for (int i = 0; i < map.GetLength(0); i++) {
-			for (int j = 0; j < map.GetLength(1); j++) {
-				if(i == map.GetLength(0) - 1 && j == map.GetLength(1) - 1){
-					map[i,j].RotateAll(cb,allShow);
-				} else {
-					map[i,j].RotateAll(null,allShow);
-				}
-				yield return 10;
-			}
-		}
-	}
-
-	void RotateDown(object data) { }
-
-	public Queue<MapItem> AttakAround(Coordinate coor) {
-		List<MapItem> temp = GetAround (coor);
-		Queue<MapItem> mapItem = new Queue<MapItem> ();
-		foreach (var item in temp) {
-			if(item.GetChainLinke()) {
-				item.isLockAttack = true;
-				mapItem.Enqueue(item);
-			}
-		}
-		return mapItem;
-	}
-
-	public void AddMapSecuritylevel(Coordinate coor) {
-		List<MapItem> temp = GetAround (coor);
-		foreach (var item in temp) {
-			item.AddSecurityLevel();
-		}
-	}
-
-	List<MapItem> GetAround(Coordinate coor) {
-		List<MapItem> aroundList = new List<MapItem> ();
-		if(coor.x < map.GetLength(0) - 1)				//right map grid 
-			aroundList.Add(map[coor.x + 1, coor.y]);
-		
-		if(coor.x > 0)									//left map grid
-			aroundList.Add(map[coor.x - 1, coor.y]);
-		
-		if(coor.y > 0)									//bottom map grid
-			aroundList.Add(map[coor.x, coor.y - 1]);
-		
-		if(coor.y < map.GetLength(1) - 1)				//top map grid
-			aroundList.Add(map[coor.x, coor.y + 1]);
-
-		return aroundList;
-	}
-
-	public void ChangeStyle(Coordinate coor) {
-		if(prevAround.Count > 0) {
-			for (int i = 0; i < prevAround.Count; i++) {
-				prevAround[i].Around(false);
-			}
-
-			prevAround.Clear();
-		}
-
-		//map grid Priority : right > left > bottom > top
-		if(coor.x < map.GetLength(0) - 1)				//right map grid 
-			DisposeAround(map[coor.x + 1, coor.y]);
-
-		if(coor.x > 0)									//left map grid
-			DisposeAround(map[coor.x - 1, coor.y]);
-
-		if(coor.y > 0)									//bottom map grid
-			DisposeAround(map[coor.x, coor.y - 1]);
-
-		if(coor.y < map.GetLength(1) - 1)				//top map grid
-			DisposeAround(map[coor.x, coor.y + 1]);
-	}
-
-	void DisposeAround(MapItem item) {
-		item.Around(true);
-		prevAround.Add(item);
-	}
-
-	public void ShowTrap(TrapBase tb) {
-		if (tb == null) {
-			return;	
-		}
-
-		if (!nameTitleLabel.enabled) {
-			nameTitleLabel.enabled = true;		
-		}
-
-		categoryTitleLabel.text = categoryTitle;
-		typeLabel.text = "Trap";
-		itemSprite.spriteName = BattleMapView.trapSpriteName; //tb.GetTrapSpriteName ();
-		nameLabel.text = tb.GetItemName ();
-		cateGoryLabel.text = tb.GetTypeName () + " : Lv." + tb.GetLevel;
-		iTween.ScaleTo(gameObject,iTween.Hash("y", 1f, "time", scaleTime,"oncompletetarget",gameObject,"oncomplete","ShowEnd"));
-	}
-
-	public void ShowCoin(int number) {
-		nameLabel.text = "";
-		typeLabel.text = "Coin";
-		itemSprite.spriteName = BattleMapView.chestSpriteName; // S  is coin sprite name in atlas.
-		cateGoryLabel.text = number.ToString ();
-		categoryTitleLabel.text = coinTitle;
-		if (nameTitleLabel.enabled) {
-			nameTitleLabel.enabled = false;
-		}
-
-		iTween.ScaleTo(gameObject,iTween.Hash("y", 1f, "time", scaleTime,"oncompletetarget",gameObject,"oncomplete","ShowEnd"));
-	}
-
-	void ShowEnd() {
-		GameTimer.GetInstance ().AddCountDown (showTime, ()=>{
-			nameLabel.text = "";
-			cateGoryLabel.text = "";
-			transform.localScale = new Vector3 (1f, 0f, 1f);
-		});
-	}
-
-
-	//------door
-	
-	private UILabel topLabel;
-	private UILabel bottomLabel;
-	private UISprite arrowSprite;
-	
-	private TweenAlpha topAlpha;
-	private TweenAlpha bottomAlpha;
-	private TweenAlpha arrowAlpha;
-	
-	private bool _doorOpen = false;
-	
-	[HideInInspector]
-	public bool doorOpen {
-		get {return _doorOpen; }
-		set { _doorOpen = value;  ShowTapToBattle(); }
-	}
-	
-	[HideInInspector]
-	public bool canEnterDoor = false;
-	private bool checkOut = false;
-	
-	private string currentShowInfo;
-	//
-	//	public override void CreatUI () {
-	//		base.CreatUI ();
-	//	}
-	
-	void OnEnable() {
-		if(topAlpha != null)
-			topAlpha.ResetToBeginning ();
-		if(bottomAlpha != null)
-			bottomAlpha.ResetToBeginning ();
-		if(arrowAlpha != null)
-			arrowAlpha.ResetToBeginning ();
-	}
-	
-	void SetName(string name) {
-		currentShowInfo = name;
-		
-		string[] info = currentShowInfo.Split('|');
-		topLabel.text = info [0];
-		bottomLabel.text = info [1];
-	}
-	
-	public void SetPosition(Vector3 pos) {
-		transform.localPosition = pos;
-	}
-	
-	void OpenDoor (object data) {
-		doorOpen = true;
-	}
-	
-	void QuestEnd(object data) {
-		//		Debug.LogError ("QuestEnd : " + data);
-		canEnterDoor = (bool)data;
-	}
-	
-	public void ShowTapToBattle () {
-		topLabel.enabled = doorOpen;	
-		bottomLabel.enabled = doorOpen;
-		topAlpha.enabled = doorOpen;
-		bottomAlpha.enabled = doorOpen;
-		arrowSprite.enabled = doorOpen;
-		arrowAlpha.enabled = doorOpen;
-		SetName (BattleFullScreenTipsView.BossBattle);
-	}
-	
-	void ClickDoor(GameObject go) {
-		//		Debug.LogError ("topLabel.enabled : " + topLabel.enabled + " content equal : " + (currentShowInfo == QuestFullScreenTips.BossBattle) + " canEnterDoor : " + canEnterDoor);
-		if (!topLabel.enabled) {
-			return;	
-		}
-		
-		if (currentShowInfo == BattleFullScreenTipsView.BossBattle && topLabel.enabled) {
-			if(!canEnterDoor) {
-				return;
-			}
-//			battleMap.bQuest.ClickDoor();
-			topLabel.enabled = false;
-			bottomLabel.enabled = false;
-			topAlpha.enabled = false;
-			bottomAlpha.enabled = false;
-			arrowSprite.enabled = false;
-			arrowAlpha.enabled = false;
+		if(currentCoor.x == endCoord.x) {
+			movePath.AddRange(CaculateY(endCoord));
 			return;
 		}
-		
-		if (currentShowInfo == BattleFullScreenTipsView.CheckOut && checkOut) {
-			checkOut = false;
-			topLabel.enabled = checkOut;	
-			topAlpha.enabled = checkOut;
-			topLabel.enabled = checkOut;	
-			topAlpha.enabled = checkOut;
-//			battleMap.bQuest.CheckOut();
-		}
-	}
-	
-	public void ShowTapToCheckOut () {
-		topLabel.enabled = true;
-		topAlpha.enabled = true;
-		bottomLabel.enabled = true;
-		bottomAlpha.enabled = true;
-		arrowSprite.enabled = true;
-		arrowAlpha.enabled = true;
-		
-		SetName (BattleFullScreenTipsView.CheckOut);
-		checkOut = true;
-	}
-
-
-
-	private Coordinate currentCoor;
-	public Coordinate CurrentCoor {
-		get{ return currentCoor; }
-	}
-	
-	private Coordinate prevCoor;
-	public Coordinate PrevCoor {
-		get { return prevCoor; }
-	}
-	[HideInInspector]
-	public bool isMove = false;
-	private Vector3 targetPoint;
-	private const int xOffset = -5;
-	private const int YOffset = 20;
-	private const int ZOffset = -40;
-	private Vector3 scale = new Vector3(30f, 25f, 30f);
-	private Vector3 angle = new Vector3(330f, 0f, 0f);
-	private List<Coordinate> firstWay = new List<Coordinate>();
-	private Vector3 distance = Vector3.zero;
-	//	private Vector3 parentPosition = Vector3.zero;
-	
-	public Vector3 TargetPoint {
-		set {
-			//			Vector3 pos = value + parentPosition;
-			targetPoint.x = value.x + xOffset;
-			targetPoint.y = value.y + YOffset;
-			targetPoint.z = transform.localPosition.z;
-		}
-	}
-	
-	//	private BattleQuest bQuest;
-	//	public BattleQuest BQuest {
-	//		set{ bQuest = value; }
-	//	}
-	
-	//	private Jump jump;
-	private Vector3 initPosition = new Vector3 (-1115f, 340f, -20f);
-	
-	Vector3 GetInitPosition() {
-		return new Vector3 (targetPoint.x, targetPoint.y, targetPoint.z - 100f);
-	}
-	
-	Vector3 GetRolePosition(Vector3 pos) {
-		Vector3 reallyPosition = new Vector3 (pos.x + 7f, pos.y + 30f, pos.z - 50f);
-		return reallyPosition;
-	}
-	
-	void NoSPMove(object data) {
-		//		bQuest.battle.ShieldInput(false);
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", false);
-		
-		Coordinate cd;
-		if (data == null) {
-			cd = prevCoor;
-		} else {
-			cd = (Coordinate)data;	
-		}
-		
-		SetTarget (cd);
-		//		bQuest.RoleCoordinate(cd);
-		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
-		StartCoroutine (MoveByTrap ());
-	}
-	
-	void TrapMove(object data) {
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
-		if (data == null) {
-			SetTarget (currentCoor);
-			StartCoroutine(MoveByTrap());
+		if(currentCoor.y == endCoord.y) {
+			movePath.AddRange(CaculateX(endCoord));
 			return;
 		}
-		Coordinate cd = (Coordinate)data;
-		SetTarget (cd);
-		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
-		//		bQuest.RoleCoordinate(cd);
-		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
-		GoTarget ();
-	}
-	
-	void GoTarget() {
-		//		bQuest.battleMap.ChangeStyle (currentCoor);
-		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
-		transform.localPosition = targetPoint;
-		//		bQuest.battle.ShieldInput (true);
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
-	}
-	
-	IEnumerator MoveByTrap() {
-		while (true) {
-			//			jump.JumpAnim ();
-			Stop ();	
-			transform.localPosition = Vector3.Lerp(transform.localPosition,targetPoint,Time.deltaTime * 20);
-			distance = transform.localPosition - targetPoint;
-			yield return Time.deltaTime;
-			if (distance.magnitude < 1f) {
-				//				bQuest.battle.ShieldInput(true);
-				ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
-				//				bQuest.battleMap.ChangeStyle (currentCoor);
-				ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
-				yield break;
-				
-			}
-		}
-	}
-	
-	void Move() {
-		if(firstWay.Count == 0) {
-			return;
-		}
-		
-		isMove = true;
-		SetTarget(firstWay[0]);
-		
-		MoveRole ();
-	}
-	
-	void QuestCoorEnd(Coordinate coor) {
-		//		bQuest.currentCoor = coor;
-	}
-	
-	void SetTarget(Coordinate tc) {
-		QuestCoorEnd (tc);
-		prevCoor = currentCoor;
-		currentCoor = tc;
-		//		TargetPoint = bQuest.GetPosition(tc);
-		////		Debug.LogError ("TargetPoint : " + TargetPoint);
-		//		if (isMove) {
-		//			jump.JumpAnim ();
-		//		}
+		movePath.AddRange(CaculateX(endCoord));
+		movePath.AddRange(CaculateY(endCoord));
+
+		Move();
 	}
 
 	Vector3[] secondPath = new Vector3[4];
-	//-15 -659 -100
-	//	float y =  100f;
-	//	float time = 0.5f;
-	Vector3 middlePoint = Vector3.zero;
 	
-	bool isVerticalMove = false;
 	float adjustTime = 0.0f;
 	
-	void MoveRole() {
-		Vector3 localposition = transform.localPosition;
+	bool isVerticalMove = false;
+	
+	void Move() {
+		
+		Vector3 middlePoint = Vector3.zero;
+		if(movePath.Count == 0) {
+			return;
+		}
+		
+		isMoving = true;
+		CalcRoleDestPosByCoor(movePath[0]);
+		
+		Vector3 localposition = role.transform.localPosition;
 		Vector3 leftMiddlePoint = Vector3.zero;
 		Vector3 leftMiddlePoint2 = Vector3.zero;
 		Vector3 rightMiddlePoint = Vector3.zero;
@@ -637,7 +210,7 @@ public class BattleMapView : ViewBase {
 		}
 		
 		Vector3[] path = new Vector3[3];
-		path [0] = transform.localPosition;
+		path [0] = role.transform.localPosition;
 		path [1] = leftMiddlePoint;
 		path [2] = middlePoint;
 		
@@ -653,7 +226,6 @@ public class BattleMapView : ViewBase {
 	void MoveRoleSecond() {
 		//		Debug.LogError ("MoveRoleSecond");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_chess_fall);
-		//		iTween.MoveTo (gameObject, iTween.Hash ("position", targetPoint, "islocal", true, "time", 0.35f, "easetype", iTween.EaseType.easeInCubic, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 		iTween.MoveTo (role, iTween.Hash ("path", secondPath, "movetopath", false, "islocal", true, "time", 0.18+adjustTime, "easetype", iTween.EaseType.easeInSine, "oncomplete", "MoveRoleBounce", "oncompletetarget", gameObject));
 	}
 	
@@ -670,78 +242,75 @@ public class BattleMapView : ViewBase {
 		bouncePath[0] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + moveY);
 		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + bounceOffset);
 		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, secondPath [3].y);
-		//		Debug.LogError(">>>>>>>>>>> bounce...");
 		iTween.MoveTo (role, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 	}
 	
-	Coordinate tempCoor; 
-	
 	void MoveEnd() {
-		if(!isMove) {
-			firstWay.Clear();
+		Coordinate tempCoor; 
+		if(!isMoving) {
+			movePath.Clear();
 		}
 		else {
-			tempCoor = firstWay[0];
-			firstWay.RemoveAt(0);
-			//			bQuest.battleMap.ChangeStyle (tempCoor);
-			ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", tempCoor);
+			tempCoor = movePath[0];
+			movePath.RemoveAt(0);
+			ChangeStyle(tempCoor);
 			SyncRoleCoordinate(tempCoor);
-			if(firstWay.Count > 0) {
+			if(movePath.Count > 0) {
 				GameTimer.GetInstance().AddCountDown(0.1f, Move);
 			}
 			else
-				isMove = false;
+				isMoving = false;
 		}
 	}
 	
-	public void Stop() {
-		isMove = false;
-		firstWay.Clear ();
+	void Stop() {
+		isMoving = false;
+		movePath.Clear ();
 	}
 	
-	public void StartMove(Coordinate coor) {
-		if (isMove)
-			return;
-		//		Debug.LogError ("Coordinate : " + coor.x + " y : " + coor.y);
-		GenerateWayPoint(coor);
-		Move();
-	}
-	
-	public void SyncRoleCoordinate(Coordinate coor) {
-		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
-		//		if (!bQuest.ChainLinkBattle) {
-		//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);	
-		//		}
+	void SyncRoleCoordinate(Coordinate coor) {
 		
-		RoleCoordinate(coor);
-		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", coor);
+		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
+		RoleCoordinate (coor);
 	}
-
+	
 	void RoleCoordinate(Coordinate coor) {
 		
-		//		BattleMapView v = view as BattleMapView;
-		//		Debug.LogError ("coor : " + coor.x + " coor : " + coor.y);
-		if (!ReachMapItem (coor)) {
+		currentItem = map[coor.x,coor.y];
+		if (!currentItem.hasBeenReached) {
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-				prevMapItem.HideGridNoAnim ();
-				GameTimer.GetInstance ().AddCountDown (0.2f, YieldShowAnim);
+				currentItem.HideGridNoAnim ();
+				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
+					
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleUseData.Instance.Els.CheckLeaderSkillCount() * AttackController.normalAttackInterv);
+					BattleUseData.Instance.InitBattleUseData(null);
+				});
 				ConfigBattleUseData.Instance.StoreMapData();
 				return;
 			}
-			
+
+//			ConfigBattleUseData.Instance.questDungeonData.currentFloor = 
+
 			int index = ConfigBattleUseData.Instance.questDungeonData.GetGridIndex (coor);
 			
 			if (index != -1) {
-				questData.hitGrid.Add ((uint)index);
+				ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)index);
 			}
 			
-		 	TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (coor);
+			TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (coor);
 			
 			Stop ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
-				BattleMapView.waitMove = true;
+				//				BattleMapView.waitMove = true;
 				ConfigBattleUseData.Instance.storeBattleData.HitKey = true;
-				RotateAnim (MapItemKey);
+				RotateAnim (()=>{
+					AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
+					//		battle.ShieldInput (false);
+					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate");
+					//		BattleMapView.waitMove = false;
+					ArriveAtCell ();
+				});
 				return;
 			}
 			
@@ -749,104 +318,386 @@ public class BattleMapView : ViewBase {
 			
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
-				BattleMapView.waitMove = true;
-				RotateAnim (MapItemNone);
+				//				BattleMapView.waitMove = true;
+				RotateAnim (ArriveAtCell);
 				break;
 			case EQuestGridType.Q_ENEMY:
-				BattleMapView.waitMove = true;
-				RotateAnim (MapItemEnemy);
+				//				BattleMapView.waitMove = true;
+				RotateAnim (()=>{
+					AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_battle);
+					//		BattleMapView.waitMove = false;
+					//		ShowBattle();
+					List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+					for (int i = 0; i < currentMapData.Enemy.Count; i++) {
+						TEnemyInfo tei = currentMapData.Enemy[i];
+						tei.EnemySymbol = (uint)i;
+						temp.Add(tei);
+						DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+					}
+					BattleUseData.Instance.InitEnemyInfo (currentMapData);
+					ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
+					//		battle.ShowEnemy (temp);
+					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+					GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
+				});
 				break;
 			case EQuestGridType.Q_KEY:
 				break;
 			case EQuestGridType.Q_TREATURE:
-				BattleMapView.waitMove = true;
+				//				BattleMapView.waitMove = true;
 				ShowCoin(currentMapData.Coins);
-				MapItemCoin();
-				//					GameTimer.GetInstance().AddCountDown(ShowBottomInfo.showTime + ShowBottomInfo.scaleTime, MapItemCoin);
+				GameTimer.GetInstance().AddCountDown(showTime + scaleTime, ()=>{
+					RotateAnim (()=>{
+						AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
+						//		BattleMapView.waitMove = false;
+						//		questData.getMoney += currentMapData.Coins;
+								ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.Coins;
+						//		topUI.Coin = GetCoin ();//questData.getMoney;
+						ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"updatecoin");
+
+						
+						//		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
+						//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+						//		BattleEnd ();
+						ArriveAtCell ();
+					});
+				});
 				break;
 			case EQuestGridType.Q_TRAP:
-				BattleMapView.waitMove = true;
+				//				BattleMapView.waitMove = true;
 				//					MsgCenter.Instance.Invoke(CommandEnum.ShowTrap, currentMapData.TrapInfo);
 				ShowTrap(currentMapData.TrapInfo);
 				GameTimer.GetInstance().AddCountDown(BattleMapView.showTime + BattleMapView.scaleTime, ()=>{
-					RotateAnim (RotateEndTrap);
+					RotateAnim (()=>{
+						AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
+						//		BattleMapView.waitMove = false;
+								TrapBase tb = currentMapData.TrapInfo;
+								MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+						//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
+						ArriveAtCell ();
+					});
 				});
 				break;
 			case EQuestGridType.Q_QUESTION:
-				BattleMapView.waitMove = true;
-				RotateAnim (MeetQuestion);
+				//				BattleMapView.waitMove = true;
+				RotateAnim (()=>{
+					ArriveAtCell();
+				});
 				break;
 			case EQuestGridType.Q_EXCLAMATION:
-				BattleMapView.waitMove = true;
-				RotateAnim (MapItemExclamation);
+				//				BattleMapView.waitMove = true;
+				RotateAnim (()=>{
+					ArriveAtCell();
+				});
 				break;
 			default:
-				BattleMapView.waitMove = false;
-				BattleEnd();
-				QuestCoorEnd ();
+				//				BattleMapView.waitMove = false;
+				ArriveAtCell();
 				break;
 			}
 		} else {
-			QuestCoorEnd ();
+			IfArriveAtTheDoor ();
 			ConfigBattleUseData.Instance.StoreMapData();
 		}
 	}
-
 	
-	public void MapItemEnemy() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_battle);
-		TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (coor);
-
-		BattleMapView.waitMove = false;
-		//		ShowBattle();
-		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-		for (int i = 0; i < currentMapData.Enemy.Count; i++) {
-			TEnemyInfo tei = currentMapData.Enemy[i];
-			tei.EnemySymbol = (uint)i;
-			temp.Add(tei);
-			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
-		}
-		BattleUseData.Instance.InitEnemyInfo (currentMapData);
-		ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
-		//		battle.ShowEnemy (temp);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-		ExitFight (false);
-		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
-	}
-
 	
-	public void ExitFight(bool exit) {
-		if (exit) {
-			ConfigBattleUseData.Instance.storeBattleData.isBattle = 0;
+	private void IfArriveAtTheDoor() {
+		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
+			door.SetActive(true);
+		} else {
+			door.SetActive(false);
 		}
 	}
 
-	void YieldShowAnim() {
-		int count = BattleUseData.Instance.Els.CheckLeaderSkillCount();
-		//		battle.ShieldInput (false);
+	void ShieldMap(object data) {
+		int b = (int)data;
+
+		for (int i = 0; i < map.GetLength(0); i++) {
+			for (int j = 0; j < map.GetLength(1); j++) {
+				map[i,j].HideEnvirment(b > 0);
+			}
+		}
+	}
+
+
+	void CalcRoleDestPosByCoor(Coordinate coor) {
+		prevCoor = currentCoor;
+		currentCoor = coor;
+
+		if (coor.x > map.GetLength (0) || coor.y > map.GetLength (1))
+			targetPoint = transform.localPosition;
+		else {
+			targetPoint = map[coor.x, coor.y].transform.localPosition;
+		}
+
+	}
+
+	void RotateAnim(Callback cb) {
+		currentItem.RotateSingle (cb);
+	}
+
+	void RotateAll(Callback cb) {
+		currentItem.RotateAll (cb, false);
+	}
+
+	Queue<MapItem> AttakAround(Coordinate coor) {
+		List<MapItem> temp = GetAround (coor);
+		Queue<MapItem> mapItem = new Queue<MapItem> ();
+		foreach (var item in temp) {
+			if(item.GetChainLinke()) {
+				item.isLockAttack = true;
+				mapItem.Enqueue(item);
+			}
+		}
+		return mapItem;
+	}
+
+	void AddMapSecuritylevel(Coordinate coor) {
+		List<MapItem> temp = GetAround (coor);
+		foreach (var item in temp) {
+			item.AddSecurityLevel();
+		}
+	}
+
+	List<MapItem> GetAround(Coordinate coor) {
+		List<MapItem> aroundList = new List<MapItem> ();
+		if(coor.x < map.GetLength(0) - 1)				//right map grid 
+			aroundList.Add(map[coor.x + 1, coor.y]);
 		
-		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", ReadyMove as Callback, count * AttackController.normalAttackInterv);
-		BattleUseData.Instance.InitBattleUseData(null);
+		if(coor.x > 0)									//left map grid
+			aroundList.Add(map[coor.x - 1, coor.y]);
+		
+		if(coor.y > 0)									//bottom map grid
+			aroundList.Add(map[coor.x, coor.y - 1]);
+		
+		if(coor.y < map.GetLength(1) - 1)				//top map grid
+			aroundList.Add(map[coor.x, coor.y + 1]);
+
+		return aroundList;
+	}
+
+	void ChangeStyle(Coordinate coor) {
+		if(prevAround.Count > 0) {
+			for (int i = 0; i < prevAround.Count; i++) {
+				prevAround[i].Around(false);
+			}
+
+			prevAround.Clear();
+		}
+
+		//map grid Priority : right > left > bottom > top
+		if(coor.x < map.GetLength(0) - 1)				//right map grid 
+			DisposeAround(map[coor.x + 1, coor.y]);
+
+		if(coor.x > 0)									//left map grid
+			DisposeAround(map[coor.x - 1, coor.y]);
+
+		if(coor.y > 0)									//bottom map grid
+			DisposeAround(map[coor.x, coor.y - 1]);
+
+		if(coor.y < map.GetLength(1) - 1)				//top map grid
+			DisposeAround(map[coor.x, coor.y + 1]);
+	}
+
+	void DisposeAround(MapItem item) {
+		item.Around(true);
+		prevAround.Add(item);
+	}
+
+	
+	void OpenDoor (object data) {
+		ConfigBattleUseData.Instance.storeBattleData.HitKey = true;
 	}
 	
-	void ReadyMove() {
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+	void ShowTapToBattle () {
+		door.SetActive (true);
+		SetName (BattleFullScreenTipsView.BossBattle);
 	}
+	
+	void ClickDoor(GameObject go) {
+		
+		if (currentShowInfo == BattleFullScreenTipsView.BossBattle) {
+			if( ConfigBattleUseData.Instance.questDungeonData.isLastCell() ) {
+				AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss");
+				Stop();
+				battleEnemy = true;
+			} else {
+				//			battleMap.door.isClick = false;
+				ConfigBattleUseData.Instance.questDungeonData.currentFloor ++;
+				ClearQuestParam clear = new ClearQuestParam ();
+				TClearQuestParam cqp = new TClearQuestParam (clear);
+				ConfigBattleUseData.Instance.storeBattleData.questData.Add (cqp);
+				ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"setfloor");
+				if (BattleUseData.maxEnergyPoint >= 10) {
+					BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
+				} else {
+					BattleUseData.maxEnergyPoint += 10;
+				}
+				ConfigBattleUseData.Instance.ResetRoleCoordinate();
+				ConfigBattleUseData.Instance.StoreMapData ();
+				
+				battleEnemy = false;
+				BattleUseData.Instance.RemoveListen ();
+				BattleUseData.Instance.Reset ();
+				ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
+				//			BattleMapView.waitMove = false;
+				//		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
+				BattleUseData.Instance.GetBaseData ();
+				//		if (questFullScreenTips == null) {
+				//			CreatBoosAppear();
+				//		}
+				
+			}
+			return;
+		}
+		else if (currentShowInfo == BattleFullScreenTipsView.CheckOut && checkOut) {
+			checkOut = false;
+			door.SetActive(false);
+//			battleMap.bQuest.CheckOut();
+		}
+	}
+
+
+	bool battleEnemy = false;
+
+	void ShowTapToCheckOut () {
+		door.SetActive (true);
+		
+		SetName (BattleFullScreenTipsView.CheckOut);
+		checkOut = true;
+	}
+
+
+	public void ArriveAtCell(object data = null) {
+		
+		IfArriveAtTheDoor ();
+		ShieldAllInput (false);
+		bool b = data != null ? (bool)data : false;
+		if (battleEnemy && b) {
+			BossDead();
+			ConfigBattleUseData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
+			ConfigBattleUseData.Instance.StoreMapData ();
+			
+			ShieldAllInput (true);
+			return;
+		}
+		
+		ConfigBattleUseData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
+		ConfigBattleUseData.Instance.StoreMapData ();
+		
+		int index = ConfigBattleUseData.Instance.questDungeonData.GetGridIndex (currentCoor);
+		
+		if (index == -1) {
+			ShieldAllInput (true);
+			return;	
+		}
+		
+		uint uIndex = (uint)index;
+		TClearQuestParam questData = ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData ();
+		if (questData.hitGrid.Contains (uIndex)) {
+			index = questData.hitGrid.FindIndex(a=>a == uIndex);
+			if(index != questData.hitGrid.Count - 1) {
+				if(ChainLinkBattle ){
+					ChainLinkBattle = false;
+				}
+				ShieldAllInput (true);
+				return;
+			}
+		}
+		
+		TQuestGrid tqg = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (currentCoor);
+		
+		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
+			ShieldAllInput (true);
+			return;
+		}
+		
+		AddMapSecuritylevel (currentCoor);
+		chainLikeMapItem = AttakAround (currentCoor);
+		
+		if (chainLikeMapItem.Count == 0) {
+			ChainLinkBattle = false;
+		} else {
+			ChainLinkBattle = true;
+			SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
+		}
+		ShieldAllInput (true);
+	}
+
+	
+	void ShieldAllInput (bool shiled) {
+		Main.Instance.NguiCamera.enabled = shiled;
+		Main.Instance.GInput.IsCheckInput = shiled;
+		BattleBottomView.notClick = !shiled;
+	}
+	
+	void NoSPMove(object data) {
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", false);
+		
+		Coordinate cd;
+		if (data == null) {
+			cd = prevCoor;
+		} else {
+			cd = (Coordinate)data;	
+		}
+		
+		CalcRoleDestPosByCoor (cd);
+//		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
+
+		RoleCoordinate (cd);
+		StartCoroutine (MoveByTrap ());
+	}
+	
+	void TrapMove(object data) {
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
+		if (data == null) {
+			CalcRoleDestPosByCoor (currentCoor);
+			StartCoroutine(MoveByTrap());
+			return;
+		}
+		Coordinate cd = (Coordinate)data;
+		CalcRoleDestPosByCoor (cd);
+		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
+//		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
+		RoleCoordinate (cd);
+
+		role.transform.localPosition = targetPoint;
+//		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
+		ChangeStyle (currentCoor);
+	}
+	
+	IEnumerator MoveByTrap() {
+		while (true) {
+			Stop ();	
+			role.transform.localPosition = Vector3.Lerp(role.transform.localPosition,targetPoint,Time.deltaTime * 20);
+			distance = role.transform.localPosition - targetPoint;
+			yield return Time.deltaTime;
+			if (distance.magnitude < 1f) {
+				ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
+//				ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
+				ChangeStyle(currentCoor);
+				yield break;
+				
+			}
+		}
+	}
+
 
 	public void ContineBattle () {
 		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 		
 		Coordinate coor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
-		//		currentCoor = coor;
 		BattleUseData.Instance.Els.CheckLeaderSkillCount();
 		BattleUseData.Instance.InitBattleUseData (ConfigBattleUseData.Instance.storeBattleData);
-		//		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.BATTLE);
+
 		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 			return;	
 		}
 		
-		TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (coor);
+		TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (coor);
 		ChangeStyle (coor);
 		Stop ();
 		
@@ -870,7 +721,7 @@ public class BattleMapView : ViewBase {
 			return;
 		}
 		
-		BattleMapView.waitMove = false;
+//		BattleMapView.waitMove = false;
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
 		for (int i = 0; i < sbd.enemyInfo.Count; i++) {
 			TEnemyInfo tei = new TEnemyInfo(sbd.enemyInfo[i]);
@@ -886,7 +737,7 @@ public class BattleMapView : ViewBase {
 				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 			}
 		} else if (sbd.isBattle == 2) {	// 2 == battle boss
-//			battleEnemy = true;
+			battleEnemy = true;
 			//			battle.ShieldInput (true);
 			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 			ConfigBattleUseData.Instance.questDungeonData.Boss= temp;
@@ -895,12 +746,16 @@ public class BattleMapView : ViewBase {
 			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 		}
 		//		battle.ShowEnemy(temp);
-		
-		ExitFight (false);
+
 		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 		
 		BattleUseData.Instance.CheckPlayerDead();
 	}
+
+	public static bool recoverPosion = false;
+	public static bool reduceHurt = false;
+	public static bool reduceDefense = false;
+	public static bool strengthenAttack = false;
 
 	void RecoverBuff() {
 		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.posionAttack, ref recoverPosion);
@@ -923,11 +778,11 @@ public class BattleMapView : ViewBase {
 		}
 	}
 	
-	public void BossDead() {
+	void BossDead() {
 		
 		TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
 		if (bossDrop != null) {
-			questData.getUnit.Add(bossDrop.DropId);
+			ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.DropId);
 		}
 		
 		//		battle.ShieldInput (false);
@@ -940,16 +795,15 @@ public class BattleMapView : ViewBase {
 	}
 	
 	public void StartBattleEnemyAttack() {
-		EnemyAttackEnum eae = FirstOrBackAttack ();
+		EnemyAttackEnum eae = currentItem.TriggerAttack ();
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
-			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "back", BackAttack as Callback);
+			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "back");
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
-			//				battle.ShieldInput (false);
 			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 			break;
 		case EnemyAttackEnum.FirstAttack:
-			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "first", FirstAttack as Callback);
+			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "first");
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_first_attack);
 			break;
 		default:
@@ -957,139 +811,26 @@ public class BattleMapView : ViewBase {
 		}
 	}
 
-	
-	void BackAttack() {
-		BattleUseData.Instance.ac.AttackPlayer ();
-		//		battle.BattleCardIns.StartBattle (false);
-	}
-	
-	void FirstAttack() {
-		BattleUseData.Instance.ac.FirstAttack ();
-	}
-	
-	void AttackEnd () {
-		//		battle.ShieldInput(true);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-	}
-
-	void MeetQuestion () {
-		BattleMapView.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-//		BattleEnd ();
-		
-	}
-	
-	void MapItemExclamation() {
-		BattleMapView.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-//		BattleEnd ();
-		
-	}
-	
-	void RotateEndTrap() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
-		BattleMapView.waitMove = false;
-		TrapBase tb = currentMapData.TrapInfo;
-		MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-//		BattleEnd ();
-	}
-	
-	void MapItemCoin() {
-		RotateAnim (RotateEndCoin);
-	}
-	
-	void RotateEndCoin() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
-		BattleMapView.waitMove = false;
-		questData.getMoney += currentMapData.Coins;
-		//		topUI.Coin = GetCoin ();//questData.getMoney;
-		ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"coin",GetCoin ());
-		
-		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-//		BattleEnd ();
-	}
-	
-	void MapItemKey() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-		//		battle.ShieldInput (false);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate", OpenGate as Callback);
-		BattleMapView.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-//		BattleEnd ();
-		MsgCenter.Instance.Invoke (CommandEnum.OpenDoor, null);
-	}
-	
-	public TClearQuestParam GetQuestData () {
-		ClearQuestParam cq = new ClearQuestParam ();
-		TClearQuestParam cqp = new TClearQuestParam (cq);
-		cqp.questId = ConfigBattleUseData.Instance.questDungeonData.QuestId;
-		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
-			cqp.getMoney += item.getMoney;
-			cqp.getUnit.AddRange(item.getUnit);
-			cqp.hitGrid.AddRange(item.hitGrid);
-		}
-		
-		return cqp;
-	}
-	
-	void ResponseClearQuest (object data) {
-		if (data != null) {
-			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
-			TRspClearQuest clearQuest = data as TRspClearQuest;
-			DataCenter.Instance.RefreshUserInfo (clearQuest);
-			End();
-			QuestEnd(clearQuest);
-		} else {
-			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
-			                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
-			
-		}
-	}
-
 
 	void QuestClear() {
-		BattleMapView.waitMove = true;
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick",true);
 		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "banclick",false);
-		BattleEndRotate(ShowTapToCheckOut);
+		StartCoroutine (EndRotate (ShowTapToCheckOut));
 	}
 
-
 	
-	int GetCoin() {
-		int coin = 0;
-		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
-			coin += item.getMoney;
+	IEnumerator EndRotate (Callback cb) {
+		bool allShow = cb == null ? true : false;
+		for (int i = 0; i < map.GetLength(0); i++) {
+			for (int j = 0; j < map.GetLength(1); j++) {
+				if(i == map.GetLength(0) - 1 && j == map.GetLength(1) - 1){
+					map[i,j].RotateAll(cb,allShow);
+				} else {
+					map[i,j].RotateAll(null,allShow);
+				}
+				yield return 10;
+			}
 		}
-		return coin;
-	}
-	
-	void OpenGate() {
-		//		battle.ShieldInput (true);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-	}
-	
-	void MapItemNone() {
-		BattleMapView.waitMove = false;
-		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-//		BattleEnd ();
-		
-	}
-
-	void GenerateWayPoint(Coordinate endCoord) {
-		if(currentCoor.x == endCoord.x) {
-			firstWay.AddRange(CaculateY(endCoord));
-			return;
-		}
-		if(currentCoor.y == endCoord.y) {
-			firstWay.AddRange(CaculateX(endCoord));
-			return;
-		}
-		firstWay.AddRange(CaculateX(endCoord));
-		firstWay.AddRange(CaculateY(endCoord));
 	}
 	
 	List<Coordinate> CaculateX(Coordinate endCoord) {
@@ -1130,5 +871,52 @@ public class BattleMapView : ViewBase {
 		}
 		
 		return yWay;
+	}
+
+	
+	void ShowTrap(TrapBase tb) {
+		if (tb == null) {
+			return;	
+		}
+		
+		if (!nameTitleLabel.enabled) {
+			nameTitleLabel.enabled = true;		
+		}
+		
+		categoryTitleLabel.text = categoryTitle;
+		typeLabel.text = "Trap";
+		itemSprite.spriteName = BattleMapView.trapSpriteName; //tb.GetTrapSpriteName ();
+		nameLabel.text = tb.GetItemName ();
+		cateGoryLabel.text = tb.GetTypeName () + " : Lv." + tb.GetLevel;
+		iTween.ScaleTo(cellInfo,iTween.Hash("y", 1f, "time", scaleTime,"oncompletetarget",gameObject,"oncomplete","ShowEnd"));
+	}
+	
+	void ShowCoin(int number) {
+		nameLabel.text = "";
+		typeLabel.text = "Coin";
+		itemSprite.spriteName = BattleMapView.chestSpriteName; // S  is coin sprite name in atlas.
+		cateGoryLabel.text = number.ToString ();
+		categoryTitleLabel.text = coinTitle;
+		if (nameTitleLabel.enabled) {
+			nameTitleLabel.enabled = false;
+		}
+		
+		iTween.ScaleTo(cellInfo,iTween.Hash("y", 1f, "time", scaleTime,"oncompletetarget",gameObject,"oncomplete","ShowEnd"));
+	}
+	
+	void ShowEnd() {
+		GameTimer.GetInstance ().AddCountDown (showTime, ()=>{
+			nameLabel.text = "";
+			cateGoryLabel.text = "";
+			cellInfo.transform.localScale = new Vector3 (1f, 0f, 1f);
+		});
+	}
+	
+	void SetName(string name) {
+		currentShowInfo = name;
+		
+		string[] info = currentShowInfo.Split('|');
+		door.transform.Find("Top").GetComponent<UILabel>().text = info [0];
+		door.transform.Find("Bottom").GetComponent<UILabel>().text = info [1];
 	}
 }

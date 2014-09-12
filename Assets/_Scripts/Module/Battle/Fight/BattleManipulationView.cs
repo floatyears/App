@@ -26,10 +26,11 @@ public class BattleManipulationView : ViewBase {
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
 		base.Init (config, data);
+		InitData();
 
 		InitParameter ();
 
-		InitData();
+
 		GameObject tempObject = null;
 		
 		for (int i = 0; i < cardPosition.Length; i++) {
@@ -46,10 +47,7 @@ public class BattleManipulationView : ViewBase {
 		stateLabel = FindChild<UILabel>("StateLabel");
 		stateLabel.text = string.Empty;
 		if (cardItem == null) {
-			ResourceManager.Instance.LoadLocalAsset ("Prefabs/" + Config.battleCardName,o=>{
-				GameObject go = o as GameObject;
-				cardItem = go.transform.Find("Texture").gameObject;
-			});
+			cardItem = transform.Find("BattleCard/Texture").gameObject;
 		}
 	}
 
@@ -292,8 +290,8 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void InitParameter() {
-		templateItemCard = FindChild<UISprite>("Texture");
-		fingerObject = FindChild<UISprite> ("finger").gameObject;
+		templateItemCard = FindChild<UISprite>("BattleCard/Texture");
+		fingerObject = FindChild<UISprite> ("BattleCard/finger").gameObject;
 		
 		int count = cardPosition.Length;
 		

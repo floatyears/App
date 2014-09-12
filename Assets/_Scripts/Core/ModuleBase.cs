@@ -157,7 +157,7 @@ public class ModuleBase{
 		{
 			view.CallbackView(data);
 		}else{
-			Debug.Log("send msg fail: ui hasn't been inited" );
+			Debug.Log("send msg fail: "+config.moduleName+"'s ui hasn't been inited" );
 		}
 	}
 

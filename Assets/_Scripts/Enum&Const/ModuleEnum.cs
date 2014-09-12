@@ -148,5 +148,5 @@ public enum ModuleEnum
 public enum SceneEnum {
 	None,
 	MainScene,
-
+	BattleScene,
 }

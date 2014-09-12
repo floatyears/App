@@ -172,8 +172,6 @@ public class ConfigBattleUseData {
 	}
 
 	public void StoreMapData () {
-//		if(data != null)
-//			_storeBattleData.questData = data;
 		WriteAllBuff ();
 		StoreRuntimData ();
 	}
@@ -448,9 +446,9 @@ public class ConfigBattleUseData {
 		}
 	}
 
-//	public void ResetRoleCoordinate(){
-//		_storeBattleData.roleCoordinate = roleInitCoordinate;
-//	}
+	public void ResetRoleCoordinate(){
+		_storeBattleData.roleCoordinate = roleInitCoordinate;
+	}
 
 	public void InitRoleCoordinate(Coordinate coor){
 		roleInitCoordinate = coor;

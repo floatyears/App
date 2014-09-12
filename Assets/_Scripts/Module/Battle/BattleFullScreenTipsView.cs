@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BattleFullScreenTipsView : ViewBase {
+
+
+	private UILabel[] label = new UILabel[3];// 0=top, 1=bottom, 2=center
+	private TweenAlpha[] tweenAlpha = new TweenAlpha[3];
+
+	private Vector3 initLocalPosition = Vector3.zero;
+	private Vector3 initLocalScale = Vector3.zero;
+	private Callback callBack;
+
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
 		base.Init (config, data);
@@ -26,12 +35,68 @@ public class BattleFullScreenTipsView : ViewBase {
 		tweenAlpha [2] = ta;
 	}
 
-	private UILabel[] label = new UILabel[3];// 0=top, 1=bottom, 2=center
-	private TweenAlpha[] tweenAlpha = new TweenAlpha[3];
+	public override void CallbackView (params object[] args)
+	{
+		switch (args[0].ToString()) {
+		case "boss":
+			ShowTexture(BossAppears,MeetBoss);
+			break;
+		case "gate":
+			ShowTexture(OpenGate,OpenGateFunc);
+			break;
+		case "first":
+			ShowTexture(FirstAttack,AttackBackFunc);
+			break;
+		case "back":
+			ShowTexture(BackAttack,AttackBack);
+			break;
+		case "readymove":
+			ShowTexture(standReady,ReadyMoveFunc,(float)args[1]);
+			break;
+		case "clear":
+			ShowTexture(QuestClear,(Callback)args[1]);
+			break;
+		default:
+			break;
+		}
+	}
 
-	private Vector3 initLocalPosition = Vector3.zero;
-	private Vector3 initLocalScale = Vector3.zero;
-	private Callback callBack;
+
+	void AttackBackFunc() {
+		BattleUseData.Instance.ac.FirstAttack ();
+	}
+	
+	void AttackEnd () {
+		//		battle.ShieldInput(true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+	}
+
+	void AttackBack(){
+		BattleUseData.Instance.ac.AttackPlayer ();
+	}
+
+	void MeetBoss () {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+		//		AudioManager.Instance.StopBackgroundMusic (true);
+		//		battle.ShieldInput ( true );
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+//		BattleMapView.waitMove = false;
+		//		ShowBattle();
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < ConfigBattleUseData.Instance.questDungeonData.Boss.Count; i++) {
+			TEnemyInfo tei = ConfigBattleUseData.Instance.questDungeonData.Boss [i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add (tei);
+		}
+		TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		BattleUseData.Instance.InitBoss (ConfigBattleUseData.Instance.questDungeonData.Boss, bossDrop);
+		
+		ConfigBattleUseData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
+		//		battle.ShowEnemy (temp, true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+
+		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
+	}
 
 	void HideUI(bool b) {
 		if (b) {
@@ -81,6 +146,11 @@ public class BattleFullScreenTipsView : ViewBase {
 		PlayAnimation (name);
 	}
 
+	void ReadyMoveFunc() {
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+	}
+
 	void PlayAnimation (string name) {
 		if (name == BossAppears) {
 				PlayAppear ();
@@ -110,12 +180,20 @@ public class BattleFullScreenTipsView : ViewBase {
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 	}
 
+	void OpenGateFunc() {
+		//		battle.ShieldInput (true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+	}
+
 	void ActiveTweenAlpha() {
 		foreach (var item in tweenAlpha) {
 			item.enabled = true;
 			item.ResetToBeginning();
 		}
 	}
+
+
+	
 
 	void PlayEnd () {
 		GameTimer.GetInstance ().AddCountDown (0.8f, End);

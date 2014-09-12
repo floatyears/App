@@ -39,13 +39,13 @@ public class MapItem : MonoBehaviour {
 		get { return transform.localPosition; }
 	}
 
-	private bool isOld = false;
-	public bool IsOld {
+	private bool _hasBeenReached = false;
+	public bool hasBeenReached {
 		set {
-			isOld = value; 
+			_hasBeenReached = value; 
 		}
 		get{
-			return isOld;
+			return _hasBeenReached;
 		}
 	}
 
@@ -76,7 +76,7 @@ public class MapItem : MonoBehaviour {
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-		gridItem = ConfigBattleUseData.Instance.questDungeonData.GetSingleFloor (new Coordinate (x, y));
+		gridItem = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (new Coordinate (x, y));
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.Star) {
@@ -206,25 +206,21 @@ public class MapItem : MonoBehaviour {
 			return;		
 		}
 
-		if (isOld) {
+		if (_hasBeenReached) {
 			return;	
 		}
 
 		ShowFootTips ();
 	}
 
-	public void ShowUI() {
-		IsOld = false;
-	}
-
-	public void HideEnvirment(bool b) {
-		if (!isOld) {
-			if(b && mapItemSprite.spriteName != TrapBase.environmentSpriteName) {
+	public void HideEnvirment(bool hide) {
+		if (!_hasBeenReached) {
+			if(hide && mapItemSprite.spriteName != TrapBase.environmentSpriteName) {
 				DGTools.ShowSprite(mapItemSprite, TrapBase.environmentSpriteName);
 				return;
 			}
 
-			if(!b && mapItemSprite.spriteName == TrapBase.environmentSpriteName){
+			if(!hide && mapItemSprite.spriteName == TrapBase.environmentSpriteName){
 				DGTools.ShowSprite(mapItemSprite, spriteName);
 				return;
 			}
@@ -242,7 +238,7 @@ public class MapItem : MonoBehaviour {
 	public const string rotateSingleEnd = "RotateEnd";
 	public void RotateAll(Callback cb, bool allShow) {
 		animEnd = cb;
-		if (isOld && allShow) {
+		if (_hasBeenReached && allShow) {
 			ShowBattleEnd( rotateAllEnd );
 		}
 		else{
@@ -270,11 +266,10 @@ public class MapItem : MonoBehaviour {
 	}
 
 	public void HideGridNoAnim() {
-		IsOld = true;
+		Debug.Log ("hide no anim");
+		hasBeenReached = true;
 		HideShowSprite (false);
-		gridItemSprite.enabled = false;
-		mapItemSprite.enabled = false;
-		mapBackSprite.enabled = false;
+		mapBackSprite.enabled = gridItemSprite.enabled = mapItemSprite.enabled = false;
 	}
 
 	void ShowBattleEnd(string funciton) {
@@ -307,14 +302,14 @@ public class MapItem : MonoBehaviour {
 	List<GameObject> gridAnim = new List<GameObject> ();
 
 	public void GridAnim(string function) {
-		if (isOld) {
+		if (_hasBeenReached) {
 			if(animEnd != null) {
 				Invoke(function, 0.5f);
 			}
 			return;
 		}
 			
-		IsOld = true;
+		hasBeenReached = true;
 		showStarSprite.Clear ();
 		float time = 0.5f;
 
@@ -447,7 +442,7 @@ public class MapItem : MonoBehaviour {
 	}
 
 	public bool GetChainLinke() {
-		if (isOld) {
+		if (_hasBeenReached) {
 			return false;	
 		}
 		if (countShow == 2 && gridItem.Type == bbproto.EQuestGridType.Q_ENEMY) {
@@ -469,7 +464,7 @@ public class MapItem : MonoBehaviour {
 	public void Around(bool isAround) {
 		footTips.gameObject.SetActive (isAround);
 		ShowFootTips ();
-		if(isOld)
+		if(_hasBeenReached)
 			return;
 		if (isAround) {
 			HideShowSprite(true);

@@ -95,13 +95,13 @@ public class AttackController {
 			return;
 		}
 
-		if (!isReduce && !BattleMapModule.reduceDefense) {
+		if (!isReduce && !BattleMapView.reduceDefense) {
 			reduceInfo.AttackRange = 1;
 			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
 		}
 
-		if (BattleMapModule.reduceDefense) {
-			BattleMapModule.reduceDefense  = false;
+		if (BattleMapView.reduceDefense) {
+			BattleMapView.reduceDefense  = false;
 		}
 
 		if (reduceInfo.AttackRound == 0) {

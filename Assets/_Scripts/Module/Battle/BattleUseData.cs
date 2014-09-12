@@ -154,7 +154,6 @@ public class BattleUseData {
     }
 
     public void RemoveListen() {
-//        MsgCenter.Instance.RemoveListener(CommandEnum.InquiryBattleBaseData, GetBaseData);
         MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, MoveToMapItem);
         MsgCenter.Instance.RemoveListener(CommandEnum.StartAttack, StartAttack);
         MsgCenter.Instance.RemoveListener(CommandEnum.RecoverHP, RecoverHP);
@@ -340,7 +339,7 @@ public class BattleUseData {
     }
 
     bool temp = true;
-    void MoveToMapItem(object coordinate) {
+    public void MoveToMapItem(object coordinate) {
         currentCoor = (Coordinate)coordinate;
         if (temp) {
             temp = false;

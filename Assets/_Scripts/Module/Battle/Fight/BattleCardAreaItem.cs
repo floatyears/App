@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class BattleCardAreaItem : ViewBase {
+public class BattleCardAreaItem : MonoBehaviour {
 	public static GameObject boostObject;
 
 	private const int itemInterv = 17;
@@ -45,10 +45,8 @@ public class BattleCardAreaItem : ViewBase {
 
 	private UILabel boostLabel;
 
-	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	public void Init (string name)
 	{
-		base.Init (config, data);
-//	}
 //		base.Init(name);
 		UISprite tex = GetComponent<UISprite>();
 		utilityScale = new Vector3 ((float)tex.width / 4f, (float)tex.height / 4f, 1f);
@@ -56,10 +54,10 @@ public class BattleCardAreaItem : ViewBase {
 		parentObject = transform.parent.gameObject;
 		InitFightCard ();
 
-		boostLabel = FindChild<UILabel> ("Label");
+		boostLabel = transform.FindChild ("Label").GetComponent<UILabel>();
 
 		for (int i = 1; i < 7; i++) {
-			UISprite sprite = FindChild<UISprite>(i.ToString());
+			UISprite sprite = transform.FindChild(i.ToString()).GetComponent<UISprite>();
 			if(i != 6)
 				sprite.spriteName = "";
 
@@ -72,24 +70,24 @@ public class BattleCardAreaItem : ViewBase {
 	}
 	
 	void InitFightCard() {
-		template = FindChild<UISprite> ("BattleCardTemplate");
+		template = transform.FindChild("BattleCardTemplate").GetComponent<UISprite>();
 		battleCardInitPos = template.transform.localPosition;
 	}
 
-	public override void ShowUI () {
-		base.ShowUI ();
+	public void ShowUI () {
+//		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
-	public override void HideUI () {
-		base.HideUI ();
+	public void HideUI () {
+//		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 	}
 
 	void RecoverHP (object data) {
@@ -175,10 +173,10 @@ public class BattleCardAreaItem : ViewBase {
 		battleCardTemplate.Add(instance.GetComponent<UISprite>());
 	}
 
-	void BattleEnd(object data) {
-		attackImage.Clear ();
-		battleCardTemplate.Clear ();
-	}
+//	void BattleEnd(object data) {
+//		attackImage.Clear ();
+//		battleCardTemplate.Clear ();
+//	}
 
 	void Attack(object data) {
 		AttackInfo ai = data as AttackInfo;

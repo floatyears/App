@@ -320,22 +320,22 @@ public class NoviceGuideStepD_StateSix:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
-		MapItem item = null;
-		for(int i = 0; i < MapConfig.MapWidth; i++){
-			for(int j = 0; j < MapConfig.MapHeight; j++){
-				item = bm.GetMapItem(new Coordinate(i,j));
-				if(item.IsKey()){
-					LogHelper.Log ("map coordinate: i:" + i + "j: " + j);
-					goto outLoop;
-				}
-			}
-		}
+//		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
+//		MapItem item = null;
+//		for(int i = 0; i < MapConfig.MapWidth; i++){
+//			for(int j = 0; j < MapConfig.MapHeight; j++){
+//				item = bm.GetMapItem(new Coordinate(i,j));
+//				if(item.IsKey()){
+//					LogHelper.Log ("map coordinate: i:" + i + "j: " + j);
+//					goto outLoop;
+//				}
+//			}
+//		}
 		
 	outLoop:
-		if (item != null) {
-			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)},false);	
-		}
+//		if (item != null) {
+//			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)},false);	
+//		}
 		
 		MsgCenter.Instance.AddListener (CommandEnum.OpenDoor, FindKey);
 		

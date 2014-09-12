@@ -294,7 +294,7 @@ public class BattleBottomView : ViewBase {
 //				battleSkillObject.SetActive(true);
 //				battleSkill.Refresh(tuu, Boost, Close);
 				ModuleManager.SendMessage(ModuleEnum.BattleSkillModule,"refresh",tuu, Boost as Callback, Close as Callback);
-				BattleMapView.waitMove = true;
+//				BattleMapView.waitMove = true;
 //				battleQuest.battle.ShieldGameInput(false);
 			}
 		} catch(System.Exception ex) {
@@ -328,7 +328,7 @@ public class BattleBottomView : ViewBase {
 
 //		battleQuest.topUI.SheildInput(true);
 		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "ban", true);
-		BattleMapView.waitMove = false;
+//		BattleMapView.waitMove = false;
 //		if (battleQuest.battle.isShowEnemy) {
 //			battleQuest.battle.ShieldGameInput(true);
 //		}

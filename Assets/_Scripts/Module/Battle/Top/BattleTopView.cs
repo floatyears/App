@@ -43,13 +43,16 @@ public class BattleTopView : ViewBase {
 		}
 			
 	}
-
-	public override void DestoryUI () {
-		base.DestoryUI ();
-//		if(battleMenu != null)
-//			battleMenu.DestoryUI ();
-	}
 	
+	int GetCoin() {
+		int coin = 0;
+		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+			coin += item.getMoney;
+		}
+		return coin;
+	}
+
+
 	public int Coin {
 		set { if(coinLabel != null) coinLabel.text = value.ToString(); }
 	}
@@ -168,8 +171,8 @@ public class BattleTopView : ViewBase {
 	
 	void SureRetryNetWork(object data) {
 		Umeng.GA.Buy ("RedoQuest", 1, DataCenter.redoQuestStone);
-		BattleMapView.waitMove = false;
-		(view as BattleMapView).BattleEndRotate(null);
+//		BattleMapView.waitMove = false;
+//		(view as BattleMapView).BattleEndRotate(null);
 		RefreshRetryData (data);
 		Main.Instance.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
@@ -206,18 +209,6 @@ public class BattleTopView : ViewBase {
 		Reset ();
 		BattleUseData.Instance.ResetBlood ();
 	}
-
-	void SureRetry(object data) {
-		//		battle.ShieldInput (false);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
-		RedoQuest.SendRequest (SureRetryNetWork, ConfigBattleUseData.Instance.questDungeonData.QuestId, ConfigBattleUseData.Instance.questDungeonData.currentFloor);
-	}
-	
-	
-	void CancelRetry(object data) {
-		RequestData (null);
-	}
-
 
 	void RequestData (object data) {
 		if (DataCenter.gameState == GameState.Evolve) {
@@ -259,6 +250,21 @@ public class BattleTopView : ViewBase {
 			                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
 			
 		}
+	}
+
+	
+	void QuestEnd (TRspClearQuest trcq) {
+		if (ConfigBattleUseData.Instance.currentStageInfo != null) {
+			if ( ConfigBattleUseData.Instance.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
+				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (ConfigBattleUseData.Instance.currentStageInfo.ID, ConfigBattleUseData.Instance.currentQuestInfo.ID);
+			} else { 
+				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (ConfigBattleUseData.Instance.currentStageInfo.ID, ConfigBattleUseData.Instance.currentQuestInfo.ID);
+			}	
+		}
+		
+		ModuleManager.Instance.ExitBattle ();
+		
+		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule,trcq);
 	}
 	
 	void ResponseEvolveQuest (object data) {

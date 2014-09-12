@@ -162,8 +162,6 @@ public class TQuestDungeonData : ProtobufDataBase {
 	public List< List<TQuestGrid> >	Floors;
 	public int currentFloor = 0;
 
-	//======================by leiliang start=================================
-
 	public int GetGridIndex(Coordinate coor) {
 		if (coor.y == 0 && coor.x == 2) {
 			return -1;	
@@ -175,7 +173,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		return index;
 	}
 
-	public TQuestGrid GetSingleFloor(Coordinate coor) {
+	public TQuestGrid GetCellInfo(Coordinate coor) {
 		if (coor.y == 0 && coor.x == 2) {
 			return null;	
 		}
@@ -188,7 +186,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		return Floors [currentFloor] [index];
 	}
 
-	public bool isLastFloor(){
+	public bool isLastCell(){
 		return currentFloor == Floors.Count - 1;
 	}
 
@@ -224,7 +222,6 @@ public class TQuestDungeonData : ProtobufDataBase {
 		return -1;
 	}
 
-	//======================end
 	
 }
 

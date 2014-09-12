@@ -246,10 +246,10 @@ public class ModuleManager {
 		Resources.UnloadUnusedAssets ();
 
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
-//		ShowModule(ModuleEnum.FightModule);
-		ShowModule (ModuleEnum.BattleBottomModule);
-		ShowModule (ModuleEnum.BattleTopModule);
-		ShowModule (ModuleEnum.BattleMapModule);
+
+		ShowScene (SceneEnum.BattleScene);
+		HideModule (ModuleEnum.BattleManipulationModule);
+		HideModule (ModuleEnum.BattleSkillModule);
 	}
 
 }

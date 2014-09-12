@@ -63,7 +63,8 @@ public class InjuredTrap : TrapBase {
 		float value = DGTools.RandomToFloat();
 		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
 		if(value <= probability) {
-			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
+//			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
+//			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule
 		}
 		else {
 			Coordinate cd = BattleUseData.CurrentCoor;

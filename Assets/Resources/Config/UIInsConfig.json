@@ -521,6 +521,24 @@
         "y": 0,
         "z": 0, 
         "group" : 6
+    },
+    {
+        "name":"BattleFullScreenTipsModule",
+        "path":"Prefabs/UI/Battle/BattleFullScreenTipsUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : 6
+    },
+    {
+        "name":"BattleSkillModule",
+        "path":"Prefabs/UI/Battle/BattleSkillUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : 6
     }
 
 ]

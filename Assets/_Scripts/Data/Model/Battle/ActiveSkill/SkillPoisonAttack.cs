@@ -35,7 +35,7 @@ public class TSkillPoison : ActiveSkill {
 	public override AttackInfo ExcuteByDisk(AttackInfo ai) {
 		posionInfo = ai;
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 //		Debug.LogError ("TSkillPoison ai.AttackRound : " + ai.AttackRound + " value :  " + ai.AttackValue);
 		MsgCenter.Instance.Invoke(CommandEnum.BePosion, ai);
 		return posionInfo;
@@ -52,12 +52,12 @@ public class TSkillPoison : ActiveSkill {
 			posionInfo = null;
 			ConfigBattleUseData.Instance.posionAttack = null;
 			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-			MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//			MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		}
 	}
 
-	void BattleEnd(object data) {
-		ConfigBattleUseData.Instance.posionAttack = null;
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-	}
+//	void BattleEnd(object data) {
+//		ConfigBattleUseData.Instance.posionAttack = null;
+////		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//	}
 }
