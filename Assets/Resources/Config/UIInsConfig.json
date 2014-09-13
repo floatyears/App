@@ -220,7 +220,7 @@
         "path": "Prefabs/UI/Friend/ApplyUI",
         "parent": 1,
         "x": 0,
-        "y": 0,
+        "y": -500,
         "z": 0, 
         "group" : 0
     },
@@ -229,7 +229,7 @@
         "path": "Prefabs/UI/Friend/ReceptionUI",
         "parent": 1,
         "x": 0,
-        "y": 100,
+        "y": -500,
         "z": 0, 
         "group" : 0
     },

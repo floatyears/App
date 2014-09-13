@@ -41,14 +41,14 @@
 	
 	{
 		"configName":"ApplyDragPanel",
-		"scrollerLocalPos":[0,220,0],
+		"scrollerLocalPos":[0,215,0],
 		"position":	[0,0,0],
-		"clipRange":[0, -210, 640, 600],
+		"clipRange":[0, -210, 640, 560],
 		"gridArrange":"Vertical",
-		"scrollMovement":"Vertical",
-		"scrollBarPosition":[-320, -540, 0],
-		"cellWidth":140,	
-		"cellHeight":140,
+		"scrollMovement":"Horizontal",
+		"scrollBarPosition":[320, -452, 0],
+		"cellWidth":110,
+		"cellHeight":125,
 		"maxPerLine":4,
 		"depth":1
 	},
