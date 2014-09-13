@@ -106,95 +106,10 @@ public class DragPanelView : ViewBase {
 
 		clip.clipRange = range;
 	}
-
-//	public void UpdateScrollArgument(string key, object value){
-//		switch (key)
-//		{
-//			case "parentTrans":
-//				parentTrans = (Transform)value;
-//				break;
-//			
-//			default:
-//				break;
-//		}
-//	}
-//
-//	public void UpdateScrollArgs(Dictionary< string, object > argsDic){
-//		foreach (var key in argsDic.Keys)
-//		{
-//			UpdateScrollArgument(key, argsDic[key]);
-//		}
-//	}
-
-	public void SetDragPanel(DragPanelSetInfo dpsi) {
-		scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
-		gameObject.transform.parent = dpsi.parentTrans;
-		gameObject.transform.localPosition = dpsi.scrollerLocalPos;
-		gameObject.transform.localScale = dpsi.scrollerScale;
-		scrollView.transform.localPosition = dpsi.position;
-//		Debug.LogError ("set drag panel dpsi : " + scrollView.transform.localPosition);
-		clip.clipRange = dpsi.clipRange;
-		scrollBar.transform.localPosition = dpsi.scrollBarPosition;
-		grid.arrangement = dpsi.gridArrange;
-		grid.maxPerLine = dpsi.maxPerLine;
-		grid.cellWidth = dpsi.cellWidth;
-		grid.cellHeight = dpsi.cellHeight;
-		grid.enabled = true;
-
-		Transform fg = scrollBar.transform.FindChild ("Foreground");
-		if (dpsi.scrollMovement == UIScrollView.Movement.Vertical ) {
-
-			scrollView.horizontalScrollBar = null;	
-			scrollView.verticalScrollBar = scrollBar;
-
-			fg.Rotate (0, 0, 0);
-			fg.GetComponent<UISprite> ().alpha = 1;
-			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
-		}else { //horizontal
-			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
-			scrollView.horizontalScrollBar = scrollBar;	
-			scrollView.verticalScrollBar = null;
-
-			fg.Rotate (0, 0, -90);
-			fg.GetComponent<UISprite> ().alpha = 1;
-			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
-		}
-
-//		if (dpsi.gridArrange == UIGrid.Arrangement.Vertical) {
-//
-//		} else {
-//
-//		}
-
-		grid.Reposition ();
-
-//		scrollBar.alpha = 1;
-	}
-
+	
 	public const string ScrollViewDepth = "ScrollViewDepth";
 
 	public void SetScrollView(DragPanelConfigItem config, Transform parent){
-//		Vector3 scrollerLocalPos = Vector3.zero;
-//		Vector3 position = Vector3.zero;
-//		Vector4 clipRange = Vector4.zero;
-//		Vector3 scrollBarPosition = Vector3.zero;
-//		UIGrid.Arrangement gridArrange = UIGrid.Arrangement.Horizontal;
-//		UIScrollView.Movement scrollMovement = UIScrollView.Movement.Horizontal;
-//		UIScrollBar.FillDirection scrollBarDir = UIProgressBar.FillDirection.LeftToRight;
-//		int maxPerLine = 0;
-//		int cellWidth = 100;
-//		int cellHeight = 100;
-
-////		scrollBarDir = (UIScrollBar.FillDirection)config.sc["scrollBarDir"];
-//		scrollMovement = config.scrollMovement;//(UIScrollView.Movement)config["scrollMovement"];
-//		scrollerLocalPos = config.scrollerLocalPos;//(Vector3)config["scrollerLocalPos"];
-//		position = config.position;//(Vector3)config["position"];
-//		clipRange = config.clipRange;//(Vector4)config["clipRange"];
-//		scrollBarPosition = config.scrollBarPosition;//(Vector3)config["scrollBarPosition"];
-//		gridArrange = config.gridArrage;//(UIGrid.Arrangement)config["gridArrange"];
-//		maxPerLine = config;(int)config["maxPerLine"];
-//		cellWidth = (int)config["cellWidth"];
-//		cellHeight = (int)config["cellHeight"];
 
 		scrollBar.GetComponent<UIPanel>().depth = scrollView.GetComponent<UIPanel>().depth = config.depth;
 
@@ -232,11 +147,6 @@ public class DragPanelView : ViewBase {
 
 			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
 		}
-
-//		if (config.gridArrage == UIGrid.Arrangement.Vertical) {
-//		} 
-//		else {
-//		}
 
 		scrollView.ResetPosition ();
 //		scrollBar.alpha = 1;

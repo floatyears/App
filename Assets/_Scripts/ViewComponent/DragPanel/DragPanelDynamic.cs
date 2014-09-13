@@ -23,7 +23,7 @@ public class DragPanelDynamic {
 	private int endIndex = 0;
 	private GameObject sourceObject = null;
 
-	private Vector4 OffsetPos;
+	private Vector4 OffsetPos = new Vector4 (100, -100, 0f, 0f); //default pos
 	private int sourceIndex;
 	private int targetIndex;
 
@@ -283,40 +283,47 @@ public class DragPanelDynamic {
 		dragPanelView.dragPanelDynamic = this;
 	}
 
-	public void SetDragPanel(DragPanelSetInfo dpsi) {
-		dragPanelView.scrollView.movement = dpsi.scrollMovement;
+//	public void SetDragPanel(DragPanelSetInfo dpsi) {
+//		dragPanelView.scrollView.movement = dpsi.scrollMovement;
+//
+//		dragPanelView.scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
+//		dragPanelView.transform.parent = dpsi.parentTrans;
+////		dragPanelView.transform.localPosition = dpsi.scrollerLocalPos;
+//		dragPanelView.transform.localScale = dpsi.scrollerScale;
+//		dragPanelView.transform.localPosition = dpsi.position;
+//		dragPanelView.clip.clipRange = dpsi.clipRange;
+//		dragPanelView.scrollBar.transform.localPosition = dpsi.scrollBarPosition;
+//
+//		UIGrid grid = dragPanelView.grid;
+//		grid.arrangement = dpsi.gridArrange;
+//		grid.maxPerLine = dpsi.maxPerLine;
+//		grid.cellWidth = dpsi.cellWidth;
+//		grid.cellHeight = dpsi.cellHeight;
+//		grid.enabled = true;
+//		grid.Reposition ();
+//
+//		Transform fg = dragPanelView.scrollBar.transform.FindChild ("Foreground");
+//		if (dpsi.scrollMovement == UIScrollView.Movement.Vertical) {
+//			dragPanelView.scrollView.horizontalScrollBar = null;	
+//			dragPanelView.scrollView.verticalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;
+//			fg.Rotate (0, 0, 0);
+//			fg.GetComponent<UISprite> ().alpha = 1;
+//			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
+//		} else {
+//			dragPanelView.scrollView.horizontalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;	
+//			dragPanelView.scrollView.verticalScrollBar = null;
+//			fg.Rotate (0, 0, -90);
+//			fg.GetComponent<UISprite> ().alpha = 1;
+//			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
+//		}
+//
+//		OffsetPos = new Vector4 (dpsi.cellWidth, -dpsi.cellHeight, 0f, 0f);
+//	}
 
-		dragPanelView.scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
-		dragPanelView.transform.parent = dpsi.parentTrans;
-//		dragPanelView.transform.localPosition = dpsi.scrollerLocalPos;
-		dragPanelView.transform.localScale = dpsi.scrollerScale;
-		dragPanelView.transform.localPosition = dpsi.position;
-		dragPanelView.clip.clipRange = dpsi.clipRange;
-		dragPanelView.scrollBar.transform.localPosition = dpsi.scrollBarPosition;
+	public void SetScrollView(DragPanelConfigItem config, Transform parent){
+		dragPanelView.SetScrollView(config, parent);
 
-		UIGrid grid = dragPanelView.grid;
-		grid.arrangement = dpsi.gridArrange;
-		grid.maxPerLine = dpsi.maxPerLine;
-		grid.cellWidth = dpsi.cellWidth;
-		grid.cellHeight = dpsi.cellHeight;
-		grid.enabled = true;
-		grid.Reposition ();
-
-		Transform fg = dragPanelView.scrollBar.transform.FindChild ("Foreground");
-		if (dpsi.gridArrange == UIGrid.Arrangement.Horizontal) {
-			dragPanelView.scrollView.horizontalScrollBar = null;	
-			dragPanelView.scrollView.verticalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;
-			fg.Rotate (0, 0, -90);
-			fg.GetComponent<UISprite> ().alpha = 1;
-			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
-		} else {
-			dragPanelView.scrollView.horizontalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;	
-			dragPanelView.scrollView.verticalScrollBar = null;
-			fg.Rotate (0, 0, 0);
-			fg.GetComponent<UISprite> ().alpha = 1;
-			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
-		}
-
-		OffsetPos = new Vector4 (dpsi.cellWidth, -dpsi.cellHeight, 0f, 0f);
+		OffsetPos.Set(config.cellWidth, -config.cellHeight, 0f, 0f);
 	}
+
 }

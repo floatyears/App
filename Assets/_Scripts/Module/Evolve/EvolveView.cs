@@ -117,9 +117,10 @@ public class EvolveView : ViewBase {
 	
 	private TUserUnit selectBase = null;
 	private TUserUnit baseData = null;
-	
 	private SortRule _sortRule;
-	
+
+	private DragPanelConfigItem dragConfig;
+
 	//	private GameObject bottomObject;
 	
 	List<TUserUnit> materialInfo = new List<TUserUnit> ();
@@ -394,21 +395,10 @@ public class EvolveView : ViewBase {
 	void CreatPanel () {
 		GameObject go = Instantiate (EvolveDragItem.ItemPrefab) as GameObject;
 		EvolveDragItem.Inject (go);
+
+		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("EvolveDragPanel");
 		unitItemDragPanel = new DragPanelDynamic (gameObject, go, 12, 3);
-		
-		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
-		dpsi.parentTrans = transform;
-		dpsi.scrollerScale = Vector3.one;
-		dpsi.position = -28 * Vector3.up;
-		dpsi.clipRange = new Vector4 (0, -120, 640, 400);
-		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
-		dpsi.maxPerLine = 3;
-		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
-		dpsi.cellWidth = 100;
-		dpsi.cellHeight = 100;
-		dpsi.depth = 2;
-		
-		unitItemDragPanel.SetDragPanel (dpsi);
+		unitItemDragPanel.SetScrollView(dragConfig, transform);
 	}
 
 	void SetObjectActive(bool active) {
@@ -786,5 +776,44 @@ public class EvolveView : ViewBase {
 		}
 	}
 
+
+	public GameObject GetUnitItem(int i){
+		List<MyUnitItem> a = unitItemDragPanel.scrollItem;
+		if (i == -1) {
+			return a[a.Count - 1].gameObject;
+		} else {
+			return a[i].gameObject;
+		}
+	}
+	
+	public uint GetMaxLvUnitID(){
+		foreach (var item in unitItemDragPanel.scrollItem) {
+			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
+				return item.UserUnit.UnitID;
+			}
+		}
+		return 0;
+	}
+	public GameObject GetMaxLvUnitItem(){
+		foreach (var item in unitItemDragPanel.scrollItem) {
+			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
+				return item.gameObject;
+			}
+		}
+		return null;
+	}
+	
+	public void SetItemVisible(uint unitId){
+		foreach (var item in allData) {
+			if(item.UnitID == unitId)
+			{
+				allData.Remove(item);
+				allData.Add(item);
+				allData.Reverse();
+				break;
+			}
+		}
+		unitItemDragPanel.RefreshItem (allData);
+	}
 }
 

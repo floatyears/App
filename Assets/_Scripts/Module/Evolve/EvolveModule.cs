@@ -193,7 +193,7 @@ public class EvolveModule : ModuleBase {
 		unitItemData.Clear ();
 		unitItemData.AddRange (DataCenter.Instance.UserUnitList.GetAllMyUnit ());
 		TransferData.Clear ();
-		TransferData.Add (UnitListDragPanelView.RefreshData, unitItemData);
+		TransferData.Add (EvolveView.RefreshData, unitItemData);
 		view.CallbackView (TransferData);
 	}
 }

@@ -73,6 +73,7 @@ public class LevelUpView : ViewBase {
 	/// index:0==base, 1~3==material, 4==friend.
 	/// </summary>
 	private LevelUpItem[] selectedItem = new LevelUpItem[6];
+	private DragPanelConfigItem dragConfig;
 
 	private const int baseItemIndex = 0;
 
@@ -238,16 +239,12 @@ public class LevelUpView : ViewBase {
 //		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
 //		LevelUpUnitItem.Inject (go);
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
-		myUnitDragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
 
-		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
-		dpsi.parentTrans = parent.transform;
-		dpsi.clipRange = new Vector4 (0, -100, 640, 315);
-		dpsi.gridArrange = UIGrid.Arrangement.Horizontal;
-		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
-		dpsi.maxPerLine = 3;
-		dpsi.depth = 2;	
-		myUnitDragPanel.SetDragPanel (dpsi);
+		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("LevelUpDragPanel");
+		myUnitDragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
+		myUnitDragPanel.SetScrollView(dragConfig, transform);
+
+
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
 			GameObject rejectItem = o as GameObject;
 			GameObject rejectItemIns = myUnitDragPanel.AddRejectItem (rejectItem);
