@@ -14,17 +14,31 @@
 	},
 	{
 		"configName":"LevelUpDragPanel",
+		"scrollerLocalPos":[0,-258,0],
+		"position":	[0,0,0],
+		"clipRange":[0, -120, 640, 400],
+		"gridArrange":"Vertical",
+		"scrollMovement":"Horizontal",
+		"scrollBarPosition":[320, -250, 0],
+		"cellWidth":100,	
+		"cellHeight":100,
+		"maxPerLine":3,
+		"depth":2
+	},
+	{
+		"configName":"EvolveDragPanel",
 		"scrollerLocalPos":[0,-28,0],
 		"position":	[0,0,0],
 		"clipRange":[0, -120, 640, 400],
 		"gridArrange":"Vertical",
 		"scrollMovement":"Horizontal",
-		"scrollBarPosition":[-320, -315, 0],
-		"cellWidth":110,	
-		"cellHeight":110,
+		"scrollBarPosition":[320, -250, 0],
+		"cellWidth":100,	
+		"cellHeight":100,
 		"maxPerLine":3,
 		"depth":2
 	},
+	
 	{
 		"configName":"ApplyDragPanel",
 		"scrollerLocalPos":[0,220,0],
@@ -144,16 +158,16 @@
 	},
 	{
 		"configName":"CatalogDragPanel",
-		"scrollerLocalPos":[0,280,0],
+		"scrollerLocalPos":[0,13,0],
 		"position":	[0,0,0],
-		"clipRange":[0, -235, 640, 640],
+		"clipRange":[0, -200, 640, 560],
 		"gridArrange":"Vertical",
 		"scrollMovement":"Horizontal",
-		"scrollBarPosition":[-320, -565, 0],
-		"cellWidth":120,	
-		"cellHeight":120,
+		"scrollBarPosition":[320, -475, 0],
+		"cellWidth":110,
+		"cellHeight":105,
 		"maxPerLine":5,
-		"depth":0
+		"depth":2
 	},
 	{
 		"configName":"RewardDragPanel",
