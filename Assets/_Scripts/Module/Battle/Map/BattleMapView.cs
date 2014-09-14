@@ -79,6 +79,7 @@ public class BattleMapView : ViewBase {
 		cateGoryLabel = FindChild<UILabel> ( "CellInfo/CatagoryLabel");
 		itemSprite = FindChild<UISprite> ( "CellInfo/Trap");
 		cellInfo = FindChild ("CellInfo");
+		cellInfo.transform.localScale = new Vector3 (1, 0, 1);
 
 
 		role = FindChild ("Role");
@@ -142,20 +143,21 @@ public class BattleMapView : ViewBase {
 
 	
 	void OnClickMapItem(GameObject go) {
+		Debug.Log ("item name: " + go.name);
 		if (isMoving)
 			return;
 		Coordinate endCoord = go.GetComponent<MapItem>().Coor;
 
-		if(currentCoor.x == endCoord.x) {
-			movePath.AddRange(CaculateY(endCoord));
-			return;
-		}
-		if(currentCoor.y == endCoord.y) {
+		if (currentCoor.x == endCoord.x) {
+			movePath.AddRange (CaculateY (endCoord));
+		} else
+		if (currentCoor.y == endCoord.y) {
+			movePath.AddRange (CaculateX (endCoord));
+		} else {
 			movePath.AddRange(CaculateX(endCoord));
-			return;
+			movePath.AddRange(CaculateY(endCoord));
 		}
-		movePath.AddRange(CaculateX(endCoord));
-		movePath.AddRange(CaculateY(endCoord));
+
 
 		Move();
 	}
@@ -315,7 +317,7 @@ public class BattleMapView : ViewBase {
 			}
 			
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
-			
+//			Debug.Log("cell type: " + currentMapData.Type);
 			switch (currentMapData.Type) {
 			case EQuestGridType.Q_NONE:
 				//				BattleMapView.waitMove = true;
@@ -337,7 +339,8 @@ public class BattleMapView : ViewBase {
 					BattleUseData.Instance.InitEnemyInfo (currentMapData);
 					ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
 					//		battle.ShowEnemy (temp);
-					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule,"enemy", temp);
+//					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 					GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 				});
 				break;
@@ -434,6 +437,7 @@ public class BattleMapView : ViewBase {
 	}
 
 	void RotateAnim(Callback cb) {
+//		Debug.Log ("item active: " + currentItem.gameObject.activeSelf + " name: " + currentItem.gameObject.name);
 		currentItem.RotateSingle (cb);
 	}
 

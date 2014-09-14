@@ -229,8 +229,10 @@ public class MapItem : MonoBehaviour {
 
 	public void RotateSingle(Callback cb) {
 		animEnd = cb;
+
+//		gameObject.SetActive (true);
 		EffectManager.Instance.GetMapEffect (gridItem.Type, returnValue => {
-						StartCoroutine (MeetEffect (returnValue)); }
+			StartCoroutine (MeetEffect (returnValue)); }
 		);
 	}
 
@@ -266,7 +268,7 @@ public class MapItem : MonoBehaviour {
 	}
 
 	public void HideGridNoAnim() {
-		Debug.Log ("hide no anim");
+//		Debug.Log ("hide no anim");
 		hasBeenReached = true;
 		HideShowSprite (false);
 		mapBackSprite.enabled = gridItemSprite.enabled = mapItemSprite.enabled = false;
@@ -366,10 +368,10 @@ public class MapItem : MonoBehaviour {
 			flyCoin.SetActive (true);
 			Destroy (flyCoin.GetComponent<TweenScale> ());
 			Destroy (flyCoin.GetComponent<TweenAlpha> ());
-//			Vector3 endPosition = battleMap.bQuest.GetTopUITarget ().position;
+			Vector3 endPosition = ModuleManager.Instance.GetModule<BattleTopModule>(ModuleEnum.BattleTopModule).GetCoinPos();//battleMap.bQuest.GetTopUITarget ().position;
 			callBack = function;
-//			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 1.5f; // 1f = fly speed.
-//			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd", "time", flyTime, "easetype", iTween.EaseType.easeInQuad));
+			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 1.5f; // 1f = fly speed.
+			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd", "time", flyTime, "easetype", iTween.EaseType.easeInQuad));
 		} else {
 			tws.callWhenFinished = function;
 		}

@@ -185,6 +185,13 @@ public class ModuleManager {
 		}
 	}
 
+	public T GetModule<T>(ModuleEnum name) where T : ModuleBase{
+		if (moduleDic.ContainsKey (name)) {
+			return moduleDic[name] as T;
+		}
+		return null;
+	}
+
 	/// <summary>
 	/// Removes the module.
 	/// </summary>
@@ -250,6 +257,7 @@ public class ModuleManager {
 		ShowScene (SceneEnum.BattleScene);
 		HideModule (ModuleEnum.BattleManipulationModule);
 		HideModule (ModuleEnum.BattleSkillModule);
+		HideModule (ModuleEnum.BattleFullScreenTipsModule);
 	}
 
 }

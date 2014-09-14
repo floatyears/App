@@ -113,12 +113,18 @@ public class TStoreBattleData : ProtobufDataBase {
 			_questData = new List<TClearQuestParam>();		
 		}
 		if(_questData.Count == 0) {
+			for (int i = 0; i < instance.questData.Count; i++) {
+				TClearQuestParam tqp = new TClearQuestParam(instance.questData[i]);
+				_questData.Add(tqp);
+			}
+		}
+		if (_questData.Count == 0) {
 			ClearQuestParam qp = new ClearQuestParam();
 			TClearQuestParam cqp = new TClearQuestParam(qp);
-			_questData.Add(cqp);
+			_questData.Add(cqp);	
 		}
 		
-		return _questData[ _questData.Count - 1 ];
+		return _questData[ _questData.Count > 0 ? (_questData.Count - 1) : 0 ];
 	}
 	
 }

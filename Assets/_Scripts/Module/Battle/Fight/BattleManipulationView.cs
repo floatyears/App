@@ -4,16 +4,12 @@ using System.Collections;
 
 public class BattleManipulationView : ViewBase {
 	private UISprite backTexture;
-	[HideInInspector]
 	public BattleCardAreaItem[] battleCardAreaItem;
 	private UILabel stateLabel;
 	private Vector3 sourcePosition;
 	private const int oneWordSize = 42;
 
-//	private FightManipulationModule battle;
-//	public FightManipulationModule BQuest {
-//		set{ battle = value; }
-//	}
+	
 	private Dictionary<int,List<CardItem>> battleAttack = new Dictionary<int, List<CardItem>>();
 	private static List<GameObject> battleCardIns = new List<GameObject>();
 	private GameObject cardItem;
@@ -23,16 +19,22 @@ public class BattleManipulationView : ViewBase {
 	public static Vector3 activeSkillStartPosition;
 	public static Vector3 activeSkillEndPosition;
 
+	private List<int> currentColor = new List<int>();
+
+	private GameObject battleCardPool;
+	private GameObject battleCard;
+	private GameObject countDown;
+	private GameObject battleCardArea;
+	
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
 		base.Init (config, data);
-		InitData();
+
 
 		InitParameter ();
 
-
+		//----------init card pool
 		GameObject tempObject = null;
-		
 		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
 			cardPosition[i] = new Vector3(initPosition.x + i * cardInterv,initPosition.y,initPosition.z);
@@ -40,8 +42,9 @@ public class BattleManipulationView : ViewBase {
 			backTextureIns[i] = tempObject.GetComponent<UISprite>();
 		}
 		templateBackTexture.gameObject.SetActive(false);
-		tempObject = null;
+		InitData();
 
+		//-----------init card area
 		backTexture = FindChild<UISprite>("Back"); 
 		backTexture.gameObject.SetActive(false);
 		stateLabel = FindChild<UILabel>("StateLabel");
@@ -53,7 +56,6 @@ public class BattleManipulationView : ViewBase {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		gameObject.SetActive (true);
 		for (int i = 0; i < battleCardAreaItem.Length; i++)  {
 			battleCardAreaItem[i].ShowUI();
 		}
@@ -154,6 +156,98 @@ public class BattleManipulationView : ViewBase {
 
 		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.15f));
 	}	       
+
+	
+	void GenerateShowCard () {
+		//		Debug.LogError ("GenerateShowCard");
+		for (int i = 0; i < CardPosition.Length; i++) {
+			int cardIndex = GenerateCardIndex();
+			GenerateSpriteCard(cardIndex, i);
+		}
+		RefreshLine ();
+	}
+
+
+	void ChangeCard(object data) {
+		ChangeCardColor ccc = data as ChangeCardColor;
+		if (ccc == null) {
+			return;	
+		}
+		
+		if (ccc.targetType == -1) {
+			GenerateShowCard();
+		} 
+		else {
+			for (int i = 0; i < CardPosition.Length; i++) {
+				ChangeSpriteCard(ccc.sourceType,ccc.targetType,i);
+			}
+			RefreshLine();
+		}
+	}
+
+	int GenerateCardIndex () {
+		int index = ConfigBattleUseData.Instance.questDungeonData.Colors [ConfigBattleUseData.Instance.storeBattleData.colorIndex];
+		ConfigBattleUseData.Instance.storeBattleData.colorIndex++;
+		
+		if (userGuideIndex != -1) {
+			index = userGuideIndex;
+		}
+		
+		currentColor.Add (index);
+		if (currentColor.Count > 5) {
+			currentColor.RemoveAt(0);
+		}
+		return index;
+	}
+
+	int userGuideIndex = -1;
+	void UserGuideCard(object data) {
+		userGuideIndex = (int)data;
+		if (userGuideIndex == -1) {
+			return;
+		}
+		
+		for (int i = 0; i < CardPosition.Length; i++) {
+			GenerateSpriteCard(userGuideIndex, i);
+		}
+		
+		RefreshLine();
+	}
+
+	void GenerateCardEnd () {
+		int generateCount = battleCardAreaItem [generateIndex].GenerateCard(selectTarget);
+		if(generateCount > 0) {
+			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
+			YieldStartBattle();
+			if(showCountDown) {
+				for(int i = 0;i < generateCount;i++) {
+					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
+				}
+				RefreshLine();
+			}
+		}
+		
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget[i].ActorTexture.depth = 6;
+		}
+		
+		ResetClick();
+		
+		if (GenerateEnd != null) {
+			gameTimer.AddCountDown(0.1f, GenerateEnd);
+		}
+	}
+
+	public void YieldStartBattle () {
+		if (showCountDown) {
+			return ;		
+		} 
+		ShieldNGUIInput (false);
+		time = BattleUseData.CountDown + activeDelay;
+		//		countDownUI.ShowUI();
+		activeDelay = 0f;
+		CountDownBattle ();
+	}
 
 	public void CreatArea(Vector3[] position,int height) {
 		if (position == null)

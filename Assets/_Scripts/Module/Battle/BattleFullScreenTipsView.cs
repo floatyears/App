@@ -37,6 +37,7 @@ public class BattleFullScreenTipsView : ViewBase {
 
 	public override void CallbackView (params object[] args)
 	{
+		Debug.Log ("full screen tips: " + args[0].ToString());
 		switch (args[0].ToString()) {
 		case "boss":
 			ShowTexture(BossAppears,MeetBoss);
@@ -51,7 +52,7 @@ public class BattleFullScreenTipsView : ViewBase {
 			ShowTexture(BackAttack,AttackBack);
 			break;
 		case "readymove":
-			ShowTexture(standReady,ReadyMoveFunc,(float)args[1]);
+			ShowTexture(ReadyMove,ReadyMoveFunc,(float)args[1]);
 			break;
 		case "clear":
 			ShowTexture(QuestClear,(Callback)args[1]);
@@ -98,16 +99,26 @@ public class BattleFullScreenTipsView : ViewBase {
 		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 	}
 
-	void HideUI(bool b) {
-		if (b) {
-			foreach (var item in label) {
-				item.text = "";
-			}
-
-			transform.localPosition = initLocalPosition;
-			transform.localScale = initLocalScale;
-		} 
+	public override void HideUI() {
+		base.HideUI ();
+		foreach (var item in label) {
+			item.text = "";
+		}
 	}
+
+	protected override void ToggleAnimation(bool isShow){
+		if (isShow) {
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
+		
+	}
+
 	float tempTime = 0f;
 
 	public void ShowTexture(string name,Callback cb,float time = 0f) {
@@ -153,7 +164,7 @@ public class BattleFullScreenTipsView : ViewBase {
 
 	void PlayAnimation (string name) {
 		if (name == BossAppears) {
-				PlayAppear ();
+			PlayAppear ();
 		} else if (name == ReadyMove) {
 			PlayReadyMove ();
 		} else {
@@ -162,14 +173,14 @@ public class BattleFullScreenTipsView : ViewBase {
 				transform.localPosition += new Vector3(0f, 100f, 0f);
 			}
 			else{
-				transform.localPosition = initLocalPosition;
+//				transform.localPosition = initLocalPosition;
 			}
 			PlayAll ();
 		}
 	}
 
 	void PlayReadyMove() {
-		transform.localPosition = initLocalPosition;
+//		transform.localPosition = initLocalPosition;
 		ActiveTweenAlpha ();
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_ready);
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
@@ -191,9 +202,6 @@ public class BattleFullScreenTipsView : ViewBase {
 			item.ResetToBeginning();
 		}
 	}
-
-
-	
 
 	void PlayEnd () {
 		GameTimer.GetInstance ().AddCountDown (0.8f, End);
@@ -249,5 +257,5 @@ public class BattleFullScreenTipsView : ViewBase {
 	public const string QuestClear = "QUEST CLEAR !"; //"Quest--Clear!";
 	public const string FirstAttack = "FIRST ATTACK"; //"FIRST-ATTACK-";
 	public const string BackAttack = "BACK ATTACK"; //"BACK-ATTACK-";
-	public const string standReady = "STAND READY"; //"stand-ready";
+//	public const string standReady = "STAND READY"; //"stand-ready";
 }

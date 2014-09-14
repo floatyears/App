@@ -20,4 +20,8 @@ public class BattleTopModule : ModuleBase {
 				break;
 		}
 	}
+
+	public Vector3 GetCoinPos(){
+		return (view as BattleTopView).coinLabel.transform.position;
+	}
 }

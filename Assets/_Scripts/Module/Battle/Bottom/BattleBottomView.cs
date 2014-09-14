@@ -437,11 +437,11 @@ public class BattleBottomView : ViewBase {
 	}
 	
 	void RecoverHP(object data) {
-		//		AttackInfo ai = data as AttackInfo;
-		//
-		//		if (ai.AttackRange == 2) {
-		//			spriteAnimation.Reset();
-		//		}
+				AttackInfo ai = data as AttackInfo;
+		
+				if (ai.AttackRange == 2) {
+					spriteAnimation.Reset();
+				}
 	}
 	
 	void ShowHPAnimation(object data) {
