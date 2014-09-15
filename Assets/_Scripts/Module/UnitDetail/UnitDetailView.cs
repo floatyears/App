@@ -95,6 +95,8 @@ public class UnitDetailView : ViewBase{
 			gameObject.SetActive(true);	
 		}
 
+		Reset(); //restore Color Block & show default Tab(status).
+
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
 		if (viewData.ContainsKey ("levelup")) {
@@ -431,6 +433,7 @@ public class UnitDetailView : ViewBase{
 	
 	//------------------end-----------------------------------------
 	void ShowInfo(TUserUnit userUnit, bool isLevelUp = false) {
+
 		if (!isLevelUp) {
 			ShowBodyTexture( userUnit ); 
 			ShowUnitScale();

@@ -519,6 +519,7 @@ public class AttackController {
 				antiInfo.Add(temp[i]);
 			}
 			antiInfo.AddRange(temp);
+			// 824920334   1575297093
 //			Debug.LogError("passiveSkill : " + passiveSkill + " temp : " + temp.Count + " antiInfo: " + antiInfo.Count);
 			if(!isBoss) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_attack);

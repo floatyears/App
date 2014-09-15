@@ -52,24 +52,24 @@ public class GameCurrencyAssets :  IStoreAssets{
 	}
 	
 	/** Static Final Members **/
+
+	public const string MUFFIN_CURRENCY_ITEM_ID      = ServerConfig.ProductIDPrefix+"_currency";
+
+	public const string PID_MONTH_CARD = ServerConfig.ProductIDPrefix + ".chip.monthcard";
+
+	public const string PID_WEEK_CARD = ServerConfig.ProductIDPrefix + ".chip.weekcard";
+
+	public const string PID_CHIP_PACK1 = ServerConfig.ProductIDPrefix + ".chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
 	
-	public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_ml";
+	public const string PID_CHIP_PACK2 = ServerConfig.ProductIDPrefix + ".chip.pack2";//"android.test.purchased";//"slotsempire.gems.pack2";
 
-	public const string PID_MONTH_CARD = "ml.chip.monthcard";
+	public const string PID_CHIP_PACK3 = ServerConfig.ProductIDPrefix + ".chip.pack3";
 
-	public const string PID_WEEK_CARD = "ml.chip.weekcard";
+	public const string PID_CHIP_PACK4 = ServerConfig.ProductIDPrefix + ".chip.pack4";
 
-	public const string PID_CHIP_PACK1 = "ml.chip.pack1";//"slotsempire.coins.pack2";//"ms.chip.pack1";
-	
-	public const string PID_CHIP_PACK2 = "ml.chip.pack2";//"android.test.purchased";//"slotsempire.gems.pack2";
+	public const string PID_CHIP_PACK5 = ServerConfig.ProductIDPrefix + ".chip.pack5";
 
-	public const string PID_CHIP_PACK3 = "ml.chip.pack3";
-
-	public const string PID_CHIP_PACK4 = "ml.chip.pack4";
-
-	public const string PID_CHIP_PACK5 = "ml.chip.pack5";
-
-	public const string PID_CHIP_PACK6 = "ml.chip.pack6";//"android.test.purchased";
+	public const string PID_CHIP_PACK6 = ServerConfig.ProductIDPrefix + ".chip.pack6";//"android.test.purchased";
 	
 //	public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
 //	

@@ -62,9 +62,13 @@ public class FriendListView : ViewBase{
 	}
 
 	void ClickItem(FriendUnitItem item){
+//		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+//		curPickedFriend = item.FriendInfo;
+//		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, curPickedFriend);
+
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
-		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, curPickedFriend);
+		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
 	}
 
 

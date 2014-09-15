@@ -73,6 +73,7 @@ public class LevelUpView : ViewBase {
 	/// index:0==base, 1~3==material, 4==friend.
 	/// </summary>
 	private LevelUpItem[] selectedItem = new LevelUpItem[6];
+	private DragPanelConfigItem dragConfig;
 
 	private const int baseItemIndex = 0;
 
@@ -119,9 +120,9 @@ public class LevelUpView : ViewBase {
 				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
 				ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
 			}else{
-				Hp = baseInfo.Hp + " -> " + "[B63B3B]" + tu.GetHpByLevel(toLevel) + "[-]";
-				Atk =  baseInfo.Attack + " -> [B63B3B]" + tu.GetAtkByLevel(toLevel) + "[-]";
-				ExpNeed = baseInfo.Level + " -> [B63B3B]" + toLevel + "[-]";
+				Hp = baseInfo.Hp + " -> " + "[AA0000]" + tu.GetHpByLevel(toLevel) + "[-]";
+				Atk =  baseInfo.Attack + " -> [AA0000]" + tu.GetAtkByLevel(toLevel) + "[-]";
+				ExpNeed = baseInfo.Level + " -> [AA0000]" + toLevel + "[-]";
 			}
 
 		}
@@ -157,7 +158,8 @@ public class LevelUpView : ViewBase {
 		}
 
 		myUnitDragPanel.RefreshItem (myUnit);
-
+		myUnitList.Clear ();
+//		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count + " item : " + myUnitDragPanel.scrollItem [0]);
 		foreach (var item in myUnitDragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
@@ -169,6 +171,8 @@ public class LevelUpView : ViewBase {
 		RefreshSortInfo ();
 		RefreshCounter ();
 	}
+
+
 
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
@@ -232,19 +236,15 @@ public class LevelUpView : ViewBase {
 	}
 
 	void InitDragPanel() {
-		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
-		LevelUpUnitItem.Inject (go);
+//		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
+//		LevelUpUnitItem.Inject (go);
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
-		myUnitDragPanel = new DragPanelDynamic (parent, go, 12, 3);
 
-		DragPanelSetInfo dpsi = new DragPanelSetInfo ();
-		dpsi.parentTrans = parent.transform;
-		dpsi.clipRange = new Vector4 (0, -100, 640, 315);
-		dpsi.gridArrange = UIGrid.Arrangement.Vertical;
-		dpsi.scrollBarPosition = new Vector3 (-320, -250, 0);
-		dpsi.maxPerLine = 3;
-		dpsi.depth = 2;	
-		myUnitDragPanel.SetDragPanel (dpsi);
+		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("LevelUpDragPanel");
+		myUnitDragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
+		myUnitDragPanel.SetScrollView(dragConfig, transform);
+
+
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
 			GameObject rejectItem = o as GameObject;
 			GameObject rejectItemIns = myUnitDragPanel.AddRejectItem (rejectItem);
@@ -542,15 +542,13 @@ public class LevelUpView : ViewBase {
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
 		for (int i = 0; i < myUnitList.Count; i++) {
+//			if(myUnitList[i].gameObject == null) {
+//				myUnitList.RemoveAt(i);
+//				continue;
+//			}
+
 			LevelUpUnitItem pui = myUnitList [i];
 			if(pui.IsParty || pui.IsFavorite) {
-//				Debug.LogError("baseItem != null : " +(baseItem != null) + " baseItem.UserUnit != null : " + (baseItem.UserUnit != null) + " pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID); 
-//				bool baseNull = ;
-//				Debug.LogError("ShieldParty : " + )
-//				if(baseItem != null) {
-//					if(baseItem.UserUnit != null)
-//						Debug.LogError(" pui.UserUnit.ID : " + pui.UserUnit.ID +" baseItem.UserUnit.ID : " + baseItem.UserUnit.ID);;
-//				}
 
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
 					continue;
@@ -558,6 +556,21 @@ public class LevelUpView : ViewBase {
 				pui.IsEnable = shield;
 			}
 		}
+
+//		for (int i = 0; i < myUnitList.Count; i++) {
+//			if(myUnitList[i].gameObject == null) {
+//				continue;
+//			}
+//
+//			LevelUpUnitItem pui = myUnitList [i];
+//			if(pui.IsParty || pui.IsFavorite) {
+//
+//				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
+//					continue;
+//				}
+//				pui.IsEnable = shield;
+//			}
+//		}
 	}
 
 	int SetMaterialItem(MyUnitItem pui) {
@@ -654,14 +667,14 @@ public class LevelUpView : ViewBase {
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 		myUnitDragPanel.RefreshItem (myUnit);
-
-		RefreshSortInfo ();
+		myUnitDragPanel.RefreshSortInfo (sortRule);
+//		RefreshSortInfo ();
 	}
 
 	void RefreshSortInfo() {
-		foreach (var item in myUnitDragPanel.scrollItem) {
-			item.CurrentSortRule= sortRule;
-		}
+//		foreach (var item in myUnitDragPanel.scrollItem) {
+//			item.CurrentSortRule= sortRule;
+//		}
 	}
 
 	private void SortUnitByCurRule(){

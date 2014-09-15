@@ -252,18 +252,23 @@ public class BattleEnemyView : ViewBase {
 
 		screenWidth = ScreenWidth * 0.5f;
 		allWidth = 0;
+//		Debug.LogWarning(" screenWidth="+screenWidth);
 
 		bool isOdd = DGTools.IsOddNumber (count);
 		int centerIndex = count >> 1;
 		probability = 1.0f;
 		if (isOdd) {
 			float allPro = GetProbability (ScreenWidth, enemys);
-			probability = SetgmentationEnemys(enemys, centerIndex, screenWidth - enemys [centerIndex].texture.width * 0.5f);
+//			Debug.LogWarning("isOdd: allPro="+allPro);
+			float remainHalfScreeWidth = screenWidth - enemys [centerIndex].texture.width * 0.5f*allPro;
+			probability = SetgmentationEnemys(enemys, centerIndex, remainHalfScreeWidth);
 			if( probability > allPro ) {
 				probability = allPro;
 			}
+//			Debug.LogWarning("isOdd: final probability="+probability);
 		} else {
 			probability = SetgmentationEnemys(enemys, 0, screenWidth);
+//			Debug.LogWarning("NOTisOdd: final probability="+probability);
 		}
 
 		CompressTexture (probability, enemys);
@@ -272,7 +277,7 @@ public class BattleEnemyView : ViewBase {
 	float SetgmentationEnemys(List<EnemyItem> enemys, int centerIndex, float screenWidth) {
 		int leftEndIndex = centerIndex ;
 		int rightStartIndex = centerIndex + 1;
-
+//		Debug.LogWarning("inSetgmentationEnemys ==> leftEndIndex:"+leftEndIndex+" rightStartIndex:"+rightStartIndex+" screenWidth:"+screenWidth);
 		if (centerIndex == 0) {
 			rightStartIndex = leftEndIndex = enemys.Count >> 1;
 		}
@@ -288,8 +293,11 @@ public class BattleEnemyView : ViewBase {
 			rightEnemys.Add (enemys [i]);
 		}
 
+//		Debug.LogWarning("===get for lefrpro...");
 		float lefrpro = GetProbability (screenWidth, leftEnemys);
+//		Debug.LogWarning("===get for rightrpro...");
 		float rightpro = GetProbability (screenWidth, rightEnemys);
+//		Debug.LogWarning("lefrpro:"+lefrpro+" rightpro:"+rightpro);
 
 		return (lefrpro < rightpro ? lefrpro : rightpro);
 	}
@@ -299,6 +307,7 @@ public class BattleEnemyView : ViewBase {
 		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
 			UITexture tex = enemys [i].texture;
 			width += tex.width;
+//			Debug.LogWarning(i+": tex.width="+tex.width+" / "+width+"  screenWidth:"+screenWidth);
 		}
 		if( screenWidth >= width ) {
 			return 1.0f;

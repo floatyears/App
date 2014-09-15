@@ -22,8 +22,7 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 			return coolingDone;
 		}
 	}
-
-
+	
 	private DataListener dataListener;
 
 	private string skillStoreID;

@@ -28,7 +28,8 @@ public class SellUnitView : ViewBase{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		AddCmdListener();
+		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
+
 //		ResetUIState();
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
@@ -39,7 +40,7 @@ public class SellUnitView : ViewBase{
 	
 	public override void HideUI(){
 		base.HideUI();
-		RmvCmdListener();
+		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	public override void CallbackView(params object[] args){
@@ -302,6 +303,9 @@ public class SellUnitView : ViewBase{
 //		Debug.LogError("xxxxxxx");
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
+		if( dragPanel != null ) {
+			dragPanel.DestoryUI();
+		}
 		dragPanel = new DragPanel("SellUnitDragPanel", SellUnitItem.ItemPrefab, mainRoot.transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
@@ -491,14 +495,6 @@ public class SellUnitView : ViewBase{
 		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
 		countArgs.Add ("posy", -705);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
-	}
-
-	private void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
-	}
-	
-	private void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
 	private void ShowUnitType(TUserUnit tuu, UISprite avatarBg, UISprite avatarBorderSpr){

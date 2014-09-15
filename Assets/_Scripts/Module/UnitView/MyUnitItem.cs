@@ -64,6 +64,8 @@ public class MyUnitItem : BaseUnitItem {
 		}
 	}
 
+	public virtual void GetItemPrefab () { }
+
 	public static MyUnitItem Inject(GameObject item){
 		MyUnitItem view = item.GetComponent<MyUnitItem>();
 		if (view == null) view = item.AddComponent<MyUnitItem>();

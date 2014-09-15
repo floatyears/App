@@ -32,6 +32,7 @@ public class BaseUnitItem : MonoBehaviour {
 		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
 		avatarBorderSpr = transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
 		avatarBg = transform.FindChild("Background").GetComponent<UISprite>();
+//		Debug.LogError ("gameobject : " + gameObject + "FindUIElement : " + maskSpr);
 	}
 
 	protected TUserUnit userUnit;
@@ -119,8 +120,14 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	protected virtual void UpdatEnableState() {
-		maskSpr.enabled = !IsEnable;
 		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
+//		Debug.LogError ("GameObject : " + gameObject + "parent : " + transform.parent + " parent 2 : " + transform.parent.parent +" -- UpdatEnableState : maskSpr -- " + maskSpr + " -- listener : -- " + listener);
+
+		if (maskSpr == null) {
+			InitUI();	
+		}
+
+		maskSpr.enabled = !IsEnable;
 		listener.LongPress = PressItem;
 		if (IsEnable) {
 			listener.onClick = ClickItem;
@@ -165,7 +172,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",userUnit);
 	}
-	
+
 	private string crossFadeBeforeText;
 	private string crossFadeAfterText;
 	

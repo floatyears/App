@@ -16,6 +16,8 @@ public class CatalogView : ViewBase {
 	private bool canDoLeftCacheMove = true;
 	private bool canDoRightCacheMove = true;
 
+	private DragPanelConfigItem dragConfig;
+
        
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
@@ -37,24 +39,24 @@ public class CatalogView : ViewBase {
 	}
 
 	private GameObject emptyItem;
-	private void CreateDragPanel(){
-		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-		ResourceManager.Instance.LoadLocalAsset(sourcePath, o =>{
-			emptyItem = o  as GameObject;
-			dragPanel = new DragPanel("CatalogDragPanel", emptyItem,transform);
-//			dragPanel.CreatUI();
-			dragPanel.AddItem(TOTAL_CATALOG_COUNT);
-			
-//			uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
-			
-			for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
-				GameObject dragItem = dragPanel.ScrollItem[ i ];
-				catalogItemTrans.Add(dragItem.transform);
-			}
-			InitCatalogTrans(0, 40);
-		});
-
-	}
+//	private void CreateDragPanel(){
+//		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
+//		ResourceManager.Instance.LoadLocalAsset(sourcePath, o =>{
+//			emptyItem = o  as GameObject;
+//			dragPanel = new DragPanel("CatalogDragPanel", emptyItem,transform);
+////			dragPanel.CreatUI();
+//			dragPanel.AddItem(TOTAL_CATALOG_COUNT);
+//			
+////			uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
+//			
+//			for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
+//				GameObject dragItem = dragPanel.ScrollItem[ i ];
+//				catalogItemTrans.Add(dragItem.transform);
+//			}
+//			InitCatalogTrans(0, 40);
+//		});
+//
+//	}
 
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
@@ -287,16 +289,19 @@ public class CatalogView : ViewBase {
 	IEnumerator InitDragPanel() {
 		GameObject go = Instantiate(CatalogUnitItem.ItemPrefab) as GameObject;
 		CatalogUnitItem.Inject(go);
-		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 12, 5);
 
-		DragPanelSetInfo setter = new DragPanelSetInfo();
-		setter.parentTrans = transform;
-		setter.clipRange = new Vector4 (0, -200, 640, 560);
-		setter.gridArrange = UIGrid.Arrangement.Vertical;
-		setter.scrollBarPosition = new Vector3 (-320, -460, 0);
-		setter.maxPerLine = 5;
-		setter.depth = 2;	
-		dynamicDragPanel.SetDragPanel (setter);
+		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("CatalogDragPanel");
+		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 12, 5);
+		dynamicDragPanel.SetScrollView(dragConfig, transform);
+
+//		DragPanelSetInfo setter = new DragPanelSetInfo();
+//		setter.parentTrans = transform;
+//		setter.clipRange = new Vector4 (0, -200, 640, 560);
+//		setter.gridArrange = UIGrid.Arrangement.Vertical;
+//		setter.scrollBarPosition = new Vector3 (320, -460, 0);
+//		setter.maxPerLine = 5;
+//		setter.depth = 2;	
+//		dynamicDragPanel.SetDragPanel (setter);
 
 		List<TUserUnit> catalogDataList =  new List<TUserUnit>();
 		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){

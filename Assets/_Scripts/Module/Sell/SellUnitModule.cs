@@ -120,8 +120,8 @@ public class SellUnitModule : ModuleBase {
 	private List<TUserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
 //		Debug.LogError("GetUnitCellViewList()...");
-		List<TUserUnit> userUnitList = new List<TUserUnit>();	
-		userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
+		List<TUserUnit> userUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit(); //new List<TUserUnit>();	
+		//userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
 			curUseUnitList = userUnitList;
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
@@ -136,15 +136,8 @@ public class SellUnitModule : ModuleBase {
 			Debug.LogError("CurUserUnitList NOT CHANGED, do nothing!");
 			return;
 		}
-
-
 	}
-
-	void DestoryOnSaleUnitViewList(){
-		totalSaleValue = 0;
-		pickedUnitList.Clear();
-	}
-
+	
 	bool CanBeCancel(TUserUnit info){
 		bool ret = false;
 		ret = pickedUnitList.Contains(info);
@@ -246,7 +239,9 @@ public class SellUnitModule : ModuleBase {
 	}
 
     void ResetUI(){
-        DestoryOnSaleUnitViewList();
+		totalSaleValue = 0;
+		pickedUnitList.Clear();
+
         GetUnitCellViewList();
     }
     
