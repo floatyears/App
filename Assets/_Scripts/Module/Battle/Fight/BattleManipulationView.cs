@@ -251,7 +251,7 @@ public class BattleManipulationView : ViewBase {
 	public void ExitFight() {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
 		
-		isShowEnemy = false;
+//		isShowEnemy = false;
 		ShieldInput (true);
 		HideUI ();
 	}
@@ -270,9 +270,9 @@ public class BattleManipulationView : ViewBase {
 	}
 
 	public bool IsBoss = false;
-	public bool isShowEnemy = false;
+//	public bool isShowEnemy = false;
 	public void ShowEnemy(List<TEnemyInfo> count, bool isBoss = false) {
-		isShowEnemy = true;
+//		isShowEnemy = true;
 		IsBoss = isBoss;
 		//		Debug.LogError ("IsBoss : " + IsBoss);
 //		battleEnemy.Refresh(count);
@@ -360,9 +360,6 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void HandleOnReleaseEvent () {
-		if (!isShowEnemy) {
-			return;
-		}
 		
 		if(selectTarget.Count == 0) {
 			ResetClick();

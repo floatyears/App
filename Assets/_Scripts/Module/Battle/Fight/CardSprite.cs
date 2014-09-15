@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CardSprite : ViewBase 
+public class CardSprite : MonoBehaviour 
 {
 	public event UICallback<CardSprite> tweenCallback;
 	
@@ -34,9 +34,8 @@ public class CardSprite : ViewBase
 	[HideInInspector]
 	public int location = -1;
 
-	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	public void Init (string name)
 	{
-		base.Init (config, data);
 		parentObject = transform.parent;
 		actorSprite = GetComponent<UISprite>();
 		if (actorSprite.enabled) {
@@ -58,22 +57,19 @@ public class CardSprite : ViewBase
 //		Debug.LogError ("actorSprite.width  : " + actorSprite.width);
 	}
 	
-	public override void ShowUI () {
+	public void ShowUI () {
 		if (!actorSprite.enabled)
 			actorSprite.enabled = true;
-		
-		base.ShowUI ();
+
 	}
 	
-	public override void HideUI () {
+	public void HideUI () {
 		actorSprite.spriteName = "";
 //		if(actorSprite.enabled)
 //			actorSprite.enabled = false;
-		base.HideUI ();
 	}
 	
-	public override void DestoryUI () {
-		base.DestoryUI ();
+	public void DestoryUI () {
 	}
 
 	Texture texure ;
