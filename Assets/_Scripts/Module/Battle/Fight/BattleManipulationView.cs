@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BattleManipulationView : ViewBase {
-	private static UIRoot uiRoot;
+//	private static UIRoot uiRoot;
 	private static Camera mainCamera;
 	private UICamera nguiMainCamera;
 	private RaycastHit[] rayCastHit;
@@ -83,7 +83,7 @@ public class BattleManipulationView : ViewBase {
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
-		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
+//		uiRoot = ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>();
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;
 
@@ -167,7 +167,7 @@ public class BattleManipulationView : ViewBase {
 		//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 			AddGuideCard ();
-			 ConfigBattleUseData.Instance.storeBattleData.colorIndex = 0;
+			ConfigBattleUseData.Instance.storeBattleData.colorIndex = 0;
 		}
 		//		Debug.LogError ("isShow");
 		if (!isShow) {
@@ -180,7 +180,7 @@ public class BattleManipulationView : ViewBase {
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 //		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
-		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
+//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 		
 		//		UserGuideAnim (null);
@@ -192,271 +192,6 @@ public class BattleManipulationView : ViewBase {
 	public void AddGuideCard () {
 		for (int i = 0; i < indexArray.Length; i++) {
 			 ConfigBattleUseData.Instance.questDungeonData.Colors.Insert(0, indexArray[i]);
-		}
-	}
-	
-	int userGuideIndex = -1;
-	void UserGuideCard(object data) {
-		userGuideIndex = (int)data;
-		if (userGuideIndex == -1) {
-			return;
-		}
-		
-		for (int i = 0; i < cardPosition.Length; i++) {
-			GenerateSpriteCard(userGuideIndex, i);
-		}
-		
-		RefreshLine();
-	}
-	
-	void UserGuideAnim(object data) {
-		if (data == null) {
-			ShowGuideAnim ();
-		} else {
-			bool b = (bool)data;
-			ShowGuideAnim(b);
-		}
-	}
-	
-	bool shileInputByNoviceGuide = false;
-	public void ShowGuideAnim(bool rePlay = false) {
-		//		Debug.LogError ("ShowGuideAnim : " + rePlay);
-		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
-		shileInputByNoviceGuide = true;
-		if (rePlay) {
-			 ConfigBattleUseData.Instance.storeBattleData.colorIndex -= 20;
-			GenerateShowCard();
-		}
-		ConfigBattleUseData.Instance.NotDeadEnemy = true;
-		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
-	}
-	/// <summary>
-	/// drag time must bigger than move time
-	/// </summary>
-	const float dragTime = 0.25f;
-	const float moveTime = 0.20f;
-	
-	GameTimer gameTimer;
-	public void GuideCardAnim() {
-		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		ConfigBattleUseData.Instance.NotDeadEnemy = true;
-		gameTimer = GameTimer.GetInstance ();
-		GameObject target = cardItemArray [3].gameObject;
-		
-		Vector3 toPosition = cardItemArray [2].transform.position;
-		selectTarget.Add ( cardItemArray [3] );
-		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime) );
-		MoveFinger (target.transform.position, toPosition, moveTime);
-		
-		gameTimer.AddCountDown ( dragTime, AnimStep1 );
-	}
-	
-	void MoveFinger(Vector3 startPosition, Vector3 toPosition, float time) {
-		if (!fingerObject.activeSelf) {
-			fingerObject.SetActive (true);	
-		}
-		
-		fingerObject.transform.position = startPosition;
-		
-		iTween.MoveTo ( fingerObject, iTween.Hash ("position", toPosition, "time", time) );
-	}
-	
-	void AttackEnemyEnd(object data) {
-		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		ConfigBattleUseData.Instance.NotDeadEnemy = false;
-	}
-	
-	void AnimStep1() {
-		Vector3 point = selectTarget[0].transform.localPosition;
-		int indexID = CaculateSortIndex( point );
-		SortCard (indexID, selectTarget);
-		CallBack += AnimStep1End;
-	}
-	
-	void AnimStep1End() {
-		CallBack -= AnimStep1End;
-		ResetClick ();
-		AnimStep2 ();
-	}
-	
-	List<int> indexCache = new List<int>();
-	
-	void AnimStep2 () {
-		//		Debug.LogError("AnimStep2");
-		indexCache.Clear ();
-		indexCache.Add (3);
-		GenerateAllCard (indexCache, 3 , AnimStep2End);
-	}
-	
-	void AnimStep2End() {
-		//		Debug.LogError("AnimStep2 end");
-		GenerateAllCard (new List<int> { 3 }, 3 , AnimStep3);
-	}
-	
-	// 1) 4 - 4; 
-	// 2) 4 - 4;
-	// 3) 2,3-3;
-	// 4) 1-1;
-	// 5) 1-1;
-	// 6) 3-1; 
-	// 7) 1,2,3-3;
-	// 8) 4,5-5;
-	// 9) 2,3,4-2
-	
-	void AnimStep3() {
-		//		Debug.LogError("AnimStep3");
-		GenerateAllCard (new List<int> { 1, 2 }, 2 , AnimStep4);
-	}
-	
-	void AnimStep4() {
-		//		Debug.LogError("AnimStep4");
-		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep5);
-	}
-	
-	void AnimStep5() {
-		//		Debug.LogError("AnimStep5");
-		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep6);
-	}
-	
-	void AnimStep6() {
-		GenerateAllCard (new List<int> { 2 }, 0 , AnimStep7);
-	}
-	
-	void AnimStep7() {
-		GenerateAllCard (new List<int> { 0, 1, 2 }, 2 , AnimStep8);
-	}
-	
-	void AnimStep8() {
-		GenerateAllCard (new List<int> { 3, 4 }, 4 , AnimStep9);
-	}
-	
-	void AnimStep9() {
-		GenerateAllCard (new List<int> { 1, 2, 3 }, 1 , AnimEnd);
-	}
-	
-	void AnimEnd() {
-		fingerObject.SetActive (false);
-		
-		//		System.Action action = ;
-		GameTimer.GetInstance().AddCountDown(1f, () => { MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false); } );
-	}
-	
-	int generateIndex = 0;
-	Callback GenerateEnd ;
-	void GenerateAllCard (List<int> fromIndex, int toIndex, Callback cb) {
-		if (fromIndex.Count == 0) {
-			return;	
-		}
-		
-		generateIndex = toIndex;
-		GenerateEnd = cb;
-		
-		if (fromIndex.Count == 1) {
-			GenerateCard(fromIndex[0]);
-			return;
-		}
-		
-		GenerateAll (fromIndex);
-	}
-	
-	void GenerateCard(int fromIndex) {
-		CardItem ci = cardItemArray [fromIndex];
-		GameObject target = ci.gameObject;
-		Vector3 toPosition = battleCardAreaItem [generateIndex].transform.position;
-		selectTarget.Add (ci);
-		MoveFinger (target.transform.position, toPosition, moveTime);
-		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime));
-		gameTimer.AddCountDown (dragTime, GenerateCardEnd);
-	} 
-	
-	int cardIndex = 0;
-	int startIndex = 0;
-	List<int> fromIndexCache;
-	
-	void GenerateAll(List<int> fromIndex) {
-		fromIndexCache = fromIndex;
-		
-		cardIndex = 0;
-		
-		selectTarget.Add (cardItemArray [fromIndexCache[startIndex]]);
-		
-		MoveAll ();
-	}
-	
-	void MoveAll() {
-		GameInput.OnUpdate += OnUpdate;
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget[i].ActorTexture.depth += selectTarget.Count ;
-		}
-		
-		int nextIndex = cardIndex + 1;
-		GameObject target = selectTarget [startIndex].gameObject;
-		if (nextIndex == fromIndexCache.Count) {
-			iTween.MoveTo (target, battleCardAreaItem [generateIndex].transform.position, moveTime);
-			
-			gameTimer.AddCountDown(dragTime, MoveAllToPosition);
-			
-			MoveFinger(target.transform.position, battleCardAreaItem [generateIndex].transform.position, moveTime);
-		} else {
-			CardItem nextCi = cardItemArray [fromIndexCache [nextIndex]];
-			
-			cardIndex = nextIndex;
-			
-			iTween.MoveTo (target, nextCi.transform.position, 0.2f);
-			
-			gameTimer.AddCountDown (dragTime, MoveAllEnd);
-			
-			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
-		}
-	}
-	
-	void MoveAllToPosition() {
-		GameInput.OnUpdate -= OnUpdate;
-		GenerateCardEnd ();
-	}
-	
-	void OnUpdate () {
-		if (selectTarget.Count == 0) {
-			return;	
-		}
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget [i].OnDragHandler (selectTarget[startIndex].transform.localPosition, i);
-		}
-	}
-	
-	void MoveAllEnd() {
-		if (cardIndex >= fromIndexCache.Count) {
-			GameInput.OnUpdate -= OnUpdate;
-			GenerateCardEnd();		
-			return;
-		}
-		ClickCardItem (cardItemArray [fromIndexCache [cardIndex]]);
-		MoveAll ();
-	}
-	
-	void GenerateCardEnd () {
-		int generateCount = battleCardAreaItem [generateIndex].GenerateCard(selectTarget);
-		if(generateCount > 0) {
-			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
-//			YieldStartBattle();
-//			if(showCountDown) {
-//				for(int i = 0;i < generateCount;i++) {
-//					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
-//				}
-//				RefreshLine();
-//			}
-		}
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget[i].ActorTexture.depth = 6;
-		}
-		
-		ResetClick();
-		
-		if (GenerateEnd != null) {
-			gameTimer.AddCountDown(0.1f, GenerateEnd);
 		}
 	}
 	
@@ -805,7 +540,7 @@ public class BattleManipulationView : ViewBase {
 		
 		float height = (float)Screen.height / 2;
 		
-		Vector3 reallyPoint = worldPoint * height * uiRoot.pixelSizeAdjustment;
+		Vector3 reallyPoint = worldPoint * height * ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>().pixelSizeAdjustment;
 		
 		return reallyPoint;
 	}
@@ -815,13 +550,13 @@ public class BattleManipulationView : ViewBase {
 		
 		float height = (float)Screen.height / 2;
 		
-		Vector3 reallyPoint = worldPoint * height * uiRoot.pixelSizeAdjustment;
+		Vector3 reallyPoint = worldPoint * height * ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>().pixelSizeAdjustment;
 		
 		return reallyPoint;
 	}
 	
 	public static Vector3 ChangeDeltaPosition(Vector3 delta) {
-		return delta * uiRoot.pixelSizeAdjustment;
+		return delta * ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>().pixelSizeAdjustment;
 	}
 	
 //	void DelayTime(object data) {
@@ -1029,25 +764,6 @@ public class BattleManipulationView : ViewBase {
 	////------------battle card area end
 
 	////------------battle card start
-	void InitParameter() {
-		templateItemCard = FindChild<UISprite>("Texture");
-		fingerObject = FindChild<UISprite> ("finger").gameObject;
-		
-		int count = cardPosition.Length;
-		
-		cardItemArray = new CardItem[count];
-		for (int i = 0; i < count; i++) {
-			tempObject = NGUITools.AddChild(gameObject,templateItemCard.gameObject);
-			tempObject.transform.localPosition = cardPosition[i];
-			CardItem ci = tempObject.AddComponent<CardItem>();
-			ci.location = i;
-			ci.Init(i.ToString());
-			cardItemArray[i] = ci;
-		}
-		
-		templateItemCard.gameObject.SetActive(false);
-		cardInterv = (int)Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
-	}
 	
 	/// <summary>
 	/// new
@@ -1066,12 +782,12 @@ public class BattleManipulationView : ViewBase {
 	/// </summary>
 	/// <param name="index">Index.</param>
 	/// <param name="locationID">Location I.</param>
-	public void GenerateSpriteCard(int index,int locationID) {
+	void GenerateSpriteCard(int index,int locationID) {
 		CardItem ci = cardItemArray [locationID];
 		ci.SetSprite (index, CheckGenerationAttack (index));
 	}
 	
-	public void RefreshLine() {
+	void RefreshLine() {
 		foreach (var item in cardItemArray) {
 			GenerateLinkSprite (item, item.itemID);
 		}
@@ -1275,4 +991,274 @@ public class BattleManipulationView : ViewBase {
 		}
 	}
 	////------------battle card end
+	/// 
+	/// 
+
+	////---------------user guide animation
+	void UserGuideAnim(object data) {
+		if (data == null) {
+			ShowGuideAnim ();
+		} else {
+			bool b = (bool)data;
+			ShowGuideAnim(b);
+		}
+	}
+	
+	bool shileInputByNoviceGuide = false;
+	public void ShowGuideAnim(bool rePlay = false) {
+		//		Debug.LogError ("ShowGuideAnim : " + rePlay);
+		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
+		shileInputByNoviceGuide = true;
+		if (rePlay) {
+			ConfigBattleUseData.Instance.storeBattleData.colorIndex -= 20;
+			GenerateShowCard();
+		}
+		ConfigBattleUseData.Instance.NotDeadEnemy = true;
+		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
+	}
+	/// <summary>
+	/// drag time must bigger than move time
+	/// </summary>
+	const float dragTime = 0.25f;
+	const float moveTime = 0.20f;
+	
+	GameTimer gameTimer;
+	public void GuideCardAnim() {
+		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		ConfigBattleUseData.Instance.NotDeadEnemy = true;
+		gameTimer = GameTimer.GetInstance ();
+		GameObject target = cardItemArray [3].gameObject;
+		
+		Vector3 toPosition = cardItemArray [2].transform.position;
+		selectTarget.Add ( cardItemArray [3] );
+		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime) );
+		MoveFinger (target.transform.position, toPosition, moveTime);
+		
+		gameTimer.AddCountDown ( dragTime, AnimStep1 );
+	}
+	
+	void MoveFinger(Vector3 startPosition, Vector3 toPosition, float time) {
+		if (!fingerObject.activeSelf) {
+			fingerObject.SetActive (true);	
+		}
+		
+		fingerObject.transform.position = startPosition;
+		
+		iTween.MoveTo ( fingerObject, iTween.Hash ("position", toPosition, "time", time) );
+	}
+	
+	void AttackEnemyEnd(object data) {
+		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+		ConfigBattleUseData.Instance.NotDeadEnemy = false;
+	}
+	
+	void AnimStep1() {
+		Vector3 point = selectTarget[0].transform.localPosition;
+		int indexID = CaculateSortIndex( point );
+		SortCard (indexID, selectTarget);
+		CallBack += AnimStep1End;
+	}
+	
+	void AnimStep1End() {
+		CallBack -= AnimStep1End;
+		ResetClick ();
+		AnimStep2 ();
+	}
+	
+	List<int> indexCache = new List<int>();
+	
+	void AnimStep2 () {
+		//		Debug.LogError("AnimStep2");
+		indexCache.Clear ();
+		indexCache.Add (3);
+		GenerateAllCard (indexCache, 3 , AnimStep2End);
+	}
+	
+	void AnimStep2End() {
+		//		Debug.LogError("AnimStep2 end");
+		GenerateAllCard (new List<int> { 3 }, 3 , AnimStep3);
+	}
+	
+	// 1) 4 - 4; 
+	// 2) 4 - 4;
+	// 3) 2,3-3;
+	// 4) 1-1;
+	// 5) 1-1;
+	// 6) 3-1; 
+	// 7) 1,2,3-3;
+	// 8) 4,5-5;
+	// 9) 2,3,4-2
+	
+	void AnimStep3() {
+		//		Debug.LogError("AnimStep3");
+		GenerateAllCard (new List<int> { 1, 2 }, 2 , AnimStep4);
+	}
+	
+	void AnimStep4() {
+		//		Debug.LogError("AnimStep4");
+		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep5);
+	}
+	
+	void AnimStep5() {
+		//		Debug.LogError("AnimStep5");
+		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep6);
+	}
+	
+	void AnimStep6() {
+		GenerateAllCard (new List<int> { 2 }, 0 , AnimStep7);
+	}
+	
+	void AnimStep7() {
+		GenerateAllCard (new List<int> { 0, 1, 2 }, 2 , AnimStep8);
+	}
+	
+	void AnimStep8() {
+		GenerateAllCard (new List<int> { 3, 4 }, 4 , AnimStep9);
+	}
+	
+	void AnimStep9() {
+		GenerateAllCard (new List<int> { 1, 2, 3 }, 1 , AnimEnd);
+	}
+	
+	void AnimEnd() {
+		fingerObject.SetActive (false);
+		
+		//		System.Action action = ;
+		GameTimer.GetInstance().AddCountDown(1f, () => { MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false); } );
+	}
+
+	int userGuideIndex = -1;
+	void UserGuideCard(object data) {
+		userGuideIndex = (int)data;
+		if (userGuideIndex == -1) {
+			return;
+		}
+		
+		for (int i = 0; i < cardPosition.Length; i++) {
+			GenerateSpriteCard(userGuideIndex, i);
+		}
+		
+		RefreshLine();
+	}
+	
+	
+	
+	int generateIndex = 0;
+	Callback GenerateEnd ;
+	void GenerateAllCard (List<int> fromIndex, int toIndex, Callback cb) {
+		if (fromIndex.Count == 0) {
+			return;	
+		}
+		
+		generateIndex = toIndex;
+		GenerateEnd = cb;
+		
+		if (fromIndex.Count == 1) {
+			GenerateCard(fromIndex[0]);
+			return;
+		}
+		
+		GenerateAll (fromIndex);
+	}
+	
+	void GenerateCard(int fromIndex) {
+		CardItem ci = cardItemArray [fromIndex];
+		GameObject target = ci.gameObject;
+		Vector3 toPosition = battleCardAreaItem [generateIndex].transform.position;
+		selectTarget.Add (ci);
+		MoveFinger (target.transform.position, toPosition, moveTime);
+		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime));
+		gameTimer.AddCountDown (dragTime, GenerateCardEnd);
+	} 
+	
+	int cardIndex = 0;
+	int startIndex = 0;
+	List<int> fromIndexCache;
+	
+	void GenerateAll(List<int> fromIndex) {
+		fromIndexCache = fromIndex;
+		
+		cardIndex = 0;
+		
+		selectTarget.Add (cardItemArray [fromIndexCache[startIndex]]);
+		
+		MoveAll ();
+	}
+	
+	void MoveAll() {
+		GameInput.OnUpdate += OnUpdate;
+		
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget[i].ActorTexture.depth += selectTarget.Count ;
+		}
+		
+		int nextIndex = cardIndex + 1;
+		GameObject target = selectTarget [startIndex].gameObject;
+		if (nextIndex == fromIndexCache.Count) {
+			iTween.MoveTo (target, battleCardAreaItem [generateIndex].transform.position, moveTime);
+			
+			gameTimer.AddCountDown(dragTime, MoveAllToPosition);
+			
+			MoveFinger(target.transform.position, battleCardAreaItem [generateIndex].transform.position, moveTime);
+		} else {
+			CardItem nextCi = cardItemArray [fromIndexCache [nextIndex]];
+			
+			cardIndex = nextIndex;
+			
+			iTween.MoveTo (target, nextCi.transform.position, 0.2f);
+			
+			gameTimer.AddCountDown (dragTime, MoveAllEnd);
+			
+			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
+		}
+	}
+	
+	void MoveAllToPosition() {
+		GameInput.OnUpdate -= OnUpdate;
+		GenerateCardEnd ();
+	}
+	
+	void OnUpdate () {
+		if (selectTarget.Count == 0) {
+			return;	
+		}
+		
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget [i].OnDragHandler (selectTarget[startIndex].transform.localPosition, i);
+		}
+	}
+	
+	void MoveAllEnd() {
+		if (cardIndex >= fromIndexCache.Count) {
+			GameInput.OnUpdate -= OnUpdate;
+			GenerateCardEnd();		
+			return;
+		}
+		ClickCardItem (cardItemArray [fromIndexCache [cardIndex]]);
+		MoveAll ();
+	}
+	
+	void GenerateCardEnd () {
+		int generateCount = battleCardAreaItem [generateIndex].GenerateCard(selectTarget);
+		if(generateCount > 0) {
+			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
+//			YieldStartBattle();
+//			if(showCountDown) {
+//				for(int i = 0;i < generateCount;i++) {
+//					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
+//				}
+//				RefreshLine();
+//			}
+		}
+		
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget[i].ActorTexture.depth = 6;
+		}
+		
+		ResetClick();
+		
+		if (GenerateEnd != null) {
+			gameTimer.AddCountDown(0.1f, GenerateEnd);
+		}
+	}
 }
