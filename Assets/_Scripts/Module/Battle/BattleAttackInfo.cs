@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleAttackInfo : ViewBase {
+public class BattleAttackInfo : MonoBehaviour {
 //	private UISprite firstSprite;
 	private Vector3 fsInitPosition;
 
@@ -42,7 +42,7 @@ public class BattleAttackInfo : ViewBase {
 //		hitSecondSprite = FindChild<UISprite>("HitSecondSprite");
 //		hitSecondSprite.spriteName = string.Empty;
 
-		firstLabel = FindChild<UILabel>("FirstLabel");
+		firstLabel = transform.FindChild("FirstLabel").GetComponent<UILabel>();
 		firstLabel.text = "";
 		fsInitPosition = firstLabel.transform.localPosition;
 
@@ -50,31 +50,29 @@ public class BattleAttackInfo : ViewBase {
 //		secondLabel.text = "";
 //		ssInitPosition = secondLabel.transform.localPosition;
 
-		handsLabel = FindChild<UILabel>("HandsLabel");
+		handsLabel = transform.FindChild("HandsLabel").GetComponent<UILabel>();
 		handsLabel.text = string.Empty;
 		hsInitPosition = handsLabel.transform.localPosition;
 
-		hitFirstLabel = FindChild<UILabel>("HitFirstLabel");
+		hitFirstLabel = transform.FindChild("HitFirstLabel").GetComponent<UILabel>();
 		hitFirstLabel.text = string.Empty;
 //		hitSecondLabel = FindChild<UILabel>("HitSecondLabel");
 //		hitSecondLabel.text = "";
 
-		rateLabel = FindChild<UILabel>("RateLabel");
+		rateLabel = transform.FindChild("RateLabel").GetComponent<UILabel>();
 		rateLabel.text = string.Empty;
-		hitLabel = FindChild<UILabel>("Label");
+		hitLabel = transform.FindChild("Label").GetComponent<UILabel>();
 		hitLabel.enabled = false;
 	}
 
-	public override void ShowUI () {
-		base.ShowUI ();
+	public void ShowUI () {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RefreshRate);
 		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RefreshRate);
 		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, StartAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
 
-	public override void HideUI () {
-		base.HideUI ();
+	public void HideUI () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RefreshRate);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RefreshRate);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ShowHands, StartAttack);

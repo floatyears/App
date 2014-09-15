@@ -154,26 +154,26 @@ public class BattleUseData {
     }
 
     public void RemoveListen() {
-        MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, MoveToMapItem);
-        MsgCenter.Instance.RemoveListener(CommandEnum.StartAttack, StartAttack);
-        MsgCenter.Instance.RemoveListener(CommandEnum.RecoverHP, RecoverHP);
-        MsgCenter.Instance.RemoveListener(CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
-        MsgCenter.Instance.RemoveListener(CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
-        MsgCenter.Instance.RemoveListener(CommandEnum.SkillSucide, Sucide);
-        MsgCenter.Instance.RemoveListener(CommandEnum.SkillRecoverSP, RecoverEnergePoint);
-        MsgCenter.Instance.RemoveListener(CommandEnum.TrapMove, TrapMove);
-        MsgCenter.Instance.RemoveListener(CommandEnum.TrapInjuredDead, TrapInjuredDead);
-        MsgCenter.Instance.RemoveListener(CommandEnum.InjuredNotDead, InjuredNotDead);
-        MsgCenter.Instance.RemoveListener(CommandEnum.TrapTargetPoint, TrapTargetPoint);
-
-		countDown = 5f;
-        eas.RemoveListener();
-        eps.RemoveListener();
-        ac.RemoveListener();
-        els = null;
-        eas = null;
-        eps = null;
-        ac = null;
+//        MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, MoveToMapItem);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.StartAttack, StartAttack);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.RecoverHP, RecoverHP);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.LeaderSkillDelayTime, DelayCountDownTime);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.ActiveSkillRecoverHP, RecoveHPByActiveSkill);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.SkillSucide, Sucide);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.SkillRecoverSP, RecoverEnergePoint);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.TrapMove, TrapMove);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.TrapInjuredDead, TrapInjuredDead);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.InjuredNotDead, InjuredNotDead);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.TrapTargetPoint, TrapTargetPoint);
+//
+//		countDown = 5f;
+//        eas.RemoveListener();
+//        eps.RemoveListener();
+//        ac.RemoveListener();
+//        els = null;
+//        eas = null;
+//        eps = null;
+//        ac = null;
     }
 
     void TrapMove(object data) {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class CardItem : ViewBase {
+public class CardItem : MonoBehaviour {
 	public static Color32 NoAttackColor = new Color32 (174, 174, 174, 255);
 	public event UICallback<CardItem> tweenCallback;
 	[HideInInspector]
@@ -66,16 +66,15 @@ public class CardItem : ViewBase {
 	[HideInInspector]
 	public int color = -1;
 
-	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	public void Init (string name)
 	{
-		base.Init (config, data);
 		parentObject = transform.parent;
 		actorTexture = GetComponent<UISprite>();
 		if (!actorTexture.enabled) {
 			actorTexture.enabled = true;
 		}
 
-		linkLineSprite = FindChild<UISprite>("Sprite");
+		linkLineSprite = transform.FindChild("Sprite").GetComponent<UISprite>();
 		linkLineSprite.enabled = false;
 
 		actorTexture.spriteName = "";
@@ -99,20 +98,20 @@ public class CardItem : ViewBase {
 			sprite.enabled = false;
 			linkLineSpriteList.Add(sprite);
 		}
+
+		gameObject.name = name;
 	}
 
-	public override void ShowUI () {
+	public void ShowUI () {
 		if(!actorTexture.enabled)
 			actorTexture.enabled = true;
 		if (itemID != -1) {
 			actorTexture.spriteName = itemID.ToString();
 		}
-		base.ShowUI ();
 	}
 
-	public override void HideUI () {
+	public void HideUI () {
 		actorTexture.spriteName = "";
-		base.HideUI ();
 	}
 
 //	void AttackEnemyEnd(object data) {
@@ -124,8 +123,8 @@ public class CardItem : ViewBase {
 		transform.localPosition = localposition;
 	}
 
-	public override void DestoryUI () {
-		base.DestoryUI ();
+	public void DestoryUI () {
+
 	}
 
 	public void SetSprite(int index,bool canAttack) {
@@ -143,7 +142,7 @@ public class CardItem : ViewBase {
 		}
 	}
 
-	public void OnDrag(Vector3 position,int index) {
+	public void OnDragHandler(Vector3 position,int index) {
 		if(!canDrag)
 			return;
 		float offset = index * xOffset;
@@ -151,7 +150,7 @@ public class CardItem : ViewBase {
 //		actorTexture.transform.localPosition = ;
 	}
 
-	public void OnPress(bool isPress,int sortID) {
+	public void OnPressHandler(bool isPress,int sortID) {
 		if(!canDrag)
 			return;
 		if(isPress) {	
@@ -228,7 +227,7 @@ public class CardItem : ViewBase {
 
 		actorTexture.depth = initDepth + sortID + 1;
 
-		Vector3 pos = BattleManipulationModule.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
+		Vector3 pos = BattleManipulationView.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 
 		Vector3 offset = new Vector3(sortID * (float)actorTexture.width / 2f , - sortID * (float)actorTexture.height / 2, 0f) - transform.parent.localPosition;
 

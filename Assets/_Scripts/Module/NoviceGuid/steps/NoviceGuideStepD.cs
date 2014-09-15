@@ -174,9 +174,9 @@ public class NoviceGuideStepD_StateThree:NoviceGuidState
 		
 		BattleManipulationView bca = GameObject.FindWithTag ("battle_card").GetComponent<BattleManipulationView> ();
 		
-		foreach (BattleCardAreaItem b in  bca.battleCardAreaItem) {
-			NoviceGuideUtil.ShowArrow(new GameObject[]{b.gameObject},new Vector3[]{new Vector3(0,0,1)},false);
-		}
+//		foreach (BattleCardAreaItem b in  bca.battleCardAreaItem) {
+//			NoviceGuideUtil.ShowArrow(new GameObject[]{b.gameObject},new Vector3[]{new Vector3(0,0,1)},false);
+//		}
 		//
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_1"));
 		

@@ -63,6 +63,8 @@ public class BattleMapView : ViewBase {
 	{
 		base.Init (config, data);
 
+		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+
 		mapBGTexture = FindChild<UITexture>("BG");
 		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset ("Texture/Map/battlemap_" + ConfigBattleUseData.Instance.GetMapID().ToString (), null) as Texture2D;
 
@@ -89,14 +91,80 @@ public class BattleMapView : ViewBase {
 
 		StartMap ();
 
-		//init role
-		prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
-		
-		CalcRoleDestPosByCoor(currentCoor);
-		
-		role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
-		SyncRoleCoordinate(currentCoor);
-		Stop();
+		if (ConfigBattleUseData.Instance.hasBattleData () > 0) {
+			
+			Coordinate coor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
+			BattleUseData.Instance.Els.CheckLeaderSkillCount();
+			BattleUseData.Instance.InitBattleUseData (ConfigBattleUseData.Instance.storeBattleData);
+			
+			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+				return;	
+			}
+			
+			TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (coor);
+			ChangeStyle (coor);
+			Stop ();
+			
+			if (ConfigBattleUseData.Instance.trapPoison != null) {
+				ConfigBattleUseData.Instance.trapPoison.ExcuteByDisk();
+			}
+			
+			if (ConfigBattleUseData.Instance.trapEnvironment != null) {
+				ConfigBattleUseData.Instance.trapEnvironment.ExcuteByDisk();
+			}
+			
+			TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+			
+			// 0 is not in fight.
+			if (sbd.isBattle == 0) {
+				if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
+					BossDead();
+					return;
+				}
+				BattleUseData.Instance.CheckPlayerDead();
+				return;
+			}
+			
+			//		BattleMapView.waitMove = false;
+			List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+			for (int i = 0; i < sbd.enemyInfo.Count; i++) {
+				TEnemyInfo tei = new TEnemyInfo(sbd.enemyInfo[i]);
+				tei.EnemySymbol = (uint)i;
+				temp.Add (tei);
+				DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+			}
+			
+			if (sbd.isBattle == 1) {		// 1 == battle enemy
+				currentMapData.Enemy = temp;
+				BattleUseData.Instance.InitEnemyInfo (currentMapData);
+				if(sbd.attackRound == 0) {	// 0 == first attack
+					GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+				}
+			} else if (sbd.isBattle == 2) {	// 2 == battle boss
+				battleEnemy = true;
+				//			battle.ShieldInput (true);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+				ConfigBattleUseData.Instance.questDungeonData.Boss= temp;
+				TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+				BattleUseData.Instance.InitBoss (ConfigBattleUseData.Instance.questDungeonData.Boss, bossDrop);
+				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
+			}
+			//		battle.ShowEnemy(temp);
+			
+			GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
+			
+			BattleUseData.Instance.CheckPlayerDead();	
+		}else{
+			BattleUseData.Instance.InitBattleUseData(null);
+			//init role
+			prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
+			
+			CalcRoleDestPosByCoor(currentCoor);
+			
+			role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
+			SyncRoleCoordinate(currentCoor);
+			Stop();
+		}
 	}
 
 	public override void HideUI () {
@@ -285,7 +353,6 @@ public class BattleMapView : ViewBase {
 				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
 					
 					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleUseData.Instance.Els.CheckLeaderSkillCount() * AttackController.normalAttackInterv);
-					BattleUseData.Instance.InitBattleUseData(null);
 				});
 				ConfigBattleUseData.Instance.StoreMapData();
 				return;
@@ -340,6 +407,7 @@ public class BattleMapView : ViewBase {
 					ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
 					//		battle.ShowEnemy (temp);
 					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule,"enemy", temp);
+					ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
 //					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 					GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 				});
@@ -689,72 +757,6 @@ public class BattleMapView : ViewBase {
 		}
 	}
 
-
-	public void ContineBattle () {
-		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
-		
-		Coordinate coor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
-		BattleUseData.Instance.Els.CheckLeaderSkillCount();
-		BattleUseData.Instance.InitBattleUseData (ConfigBattleUseData.Instance.storeBattleData);
-
-		if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-			return;	
-		}
-		
-		TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (coor);
-		ChangeStyle (coor);
-		Stop ();
-		
-		if (ConfigBattleUseData.Instance.trapPoison != null) {
-			ConfigBattleUseData.Instance.trapPoison.ExcuteByDisk();
-		}
-		
-		if (ConfigBattleUseData.Instance.trapEnvironment != null) {
-			ConfigBattleUseData.Instance.trapEnvironment.ExcuteByDisk();
-		}
-		
-		TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
-		
-		// 0 is not in fight.
-		if (sbd.isBattle == 0) {
-			if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
-				BossDead();
-				return;
-			}
-			BattleUseData.Instance.CheckPlayerDead();
-			return;
-		}
-		
-//		BattleMapView.waitMove = false;
-		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-		for (int i = 0; i < sbd.enemyInfo.Count; i++) {
-			TEnemyInfo tei = new TEnemyInfo(sbd.enemyInfo[i]);
-			tei.EnemySymbol = (uint)i;
-			temp.Add (tei);
-			DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
-		}
-		
-		if (sbd.isBattle == 1) {		// 1 == battle enemy
-			currentMapData.Enemy = temp;
-			BattleUseData.Instance.InitEnemyInfo (currentMapData);
-			if(sbd.attackRound == 0) {	// 0 == first attack
-				GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
-			}
-		} else if (sbd.isBattle == 2) {	// 2 == battle boss
-			battleEnemy = true;
-			//			battle.ShieldInput (true);
-			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-			ConfigBattleUseData.Instance.questDungeonData.Boss= temp;
-			TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
-			BattleUseData.Instance.InitBoss (ConfigBattleUseData.Instance.questDungeonData.Boss, bossDrop);
-			AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
-		}
-		//		battle.ShowEnemy(temp);
-
-		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
-		
-		BattleUseData.Instance.CheckPlayerDead();
-	}
 
 	public static bool recoverPosion = false;
 	public static bool reduceHurt = false;

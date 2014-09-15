@@ -100,7 +100,7 @@ public class BattleCardAreaItem : MonoBehaviour {
 		if(maxLimit <= 0)
 			return 0;
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
-		Vector3 pos = BattleManipulationModule.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
+		Vector3 pos = BattleManipulationView.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 
 		int preAttackCount = attackImage.Count;
 

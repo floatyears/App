@@ -143,7 +143,7 @@ public class CardSprite : ViewBase
 	void SetPosition(int sortID) {
 		gameObject.layer = GameLayer.IgnoreCard;
 		actorSprite.depth = initDepth + sortID + 1;
-		Vector3 pos = BattleManipulationModule.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
+		Vector3 pos = BattleManipulationView.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 		Vector3 offset = new Vector3(sortID * (float)actorSprite.width / 2f , - sortID * (float)actorSprite.height / 2, 0f) - transform.parent.localPosition;
 		transform.localPosition  = new Vector3(pos.x,pos.y,transform.localPosition.z) + offset ;
 	}

@@ -14,7 +14,7 @@ public class BattleEnemyView : ViewBase {
 	private GameObject effectParent;
 	private GameObject effectItemPrefab;
 	[HideInInspector]
-	public BattleManipulationModule battle;
+//	public BattleManipulationView battle;
 
 	private UILabel attackInfoLabel;
 //	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};
@@ -26,8 +26,8 @@ public class BattleEnemyView : ViewBase {
 	{
 		base.Init (config, data);
 //	}
-		numberLabel = FindChild<UILabel>("Number");
-		circleSprite = FindChild<UISprite>("Circle");
+		numberLabel = FindChild<UILabel>("CountDown/Number");
+		circleSprite = FindChild<UISprite>("CountDown/Circle");
 		transform.localPosition = new Vector3 (0f, 100f, 0f);
 
 //		base.Init (name);
@@ -35,7 +35,7 @@ public class BattleEnemyView : ViewBase {
 		effectParent = transform.Find ("Enemy").gameObject;
 		effectItemPrefab = transform.Find ("Enemy/EnemyItem").gameObject;
 		effectItemPrefab.SetActive (false);
-		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
+//		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
 		attackInfoLabel = FindChild<UILabel>("Enemy/Label");
 		attackInfoLabel.text = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);

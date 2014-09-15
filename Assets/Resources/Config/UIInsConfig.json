@@ -516,7 +516,7 @@
     {
         "name":"BattleManipulationModule",
         "path":"Prefabs/UI/Battle/BattleManipulationUI",
-        "parent": 0,
+        "parent": 2,
         "x": 0,
         "y": 0,
         "z": 0, 

@@ -6,14 +6,14 @@ using bbproto;
 public class BattleMapModule : ModuleBase {
 	private GameObject rootObject;
 
-	private RoleStateException roleStateException;
+//	private RoleStateException roleStateException;
 
-	public static int battleData = 0;
+//	public static int battleData = 0;
 
 	public BattleMapModule (UIConfigItem config) : base(  config) {
 		CreateUI<BattleMapView> ();
 
-		battleData = ConfigBattleUseData.Instance.hasBattleData ();
+//		battleData = ConfigBattleUseData.Instance.hasBattleData ();
 		string tempName = "Map";
 	}
 
@@ -40,11 +40,11 @@ public class BattleMapModule : ModuleBase {
 
 //		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 
-		if (battleData > 0) {
-			(view as BattleMapView).ContineBattle ();
-		} else {
-			ConfigBattleUseData.Instance.StoreData(ConfigBattleUseData.Instance.questDungeonData.QuestId);
-		}
+//		if (battleData > 0) {
+//			(view as BattleMapView).ContineBattle ();
+//		} else {
+//			ConfigBattleUseData.Instance.StoreData(ConfigBattleUseData.Instance.questDungeonData.QuestId);
+//		}
 	}
 
 	public override void HideUI () {
@@ -60,7 +60,7 @@ public class BattleMapModule : ModuleBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 
 
-		roleStateException.RemoveListener ();
+//		roleStateException.RemoveListener ();
 	}
 
 //	void BattleEnd(object data){
@@ -130,8 +130,8 @@ public class BattleMapModule : ModuleBase {
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
 			
 			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
-				BattleManipulationModule.colorIndex = 0;
-				BattleManipulationModule.isShow = false;
+				BattleManipulationView.colorIndex = 0;
+				BattleManipulationView.isShow = false;
 //				BattleEnd ();
 
 				ModuleManager.Instance.ExitBattle ();
