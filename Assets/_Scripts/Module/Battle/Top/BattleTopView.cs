@@ -138,7 +138,7 @@ public class BattleTopView : ViewBase {
 
 	
 	public void Retry () {
-		Main.Instance.GInput.IsCheckInput = false;
+//		Main.Instance.GInput.IsCheckInput = false;
 		BattleBottomView.notClick = true;
 		
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
@@ -159,12 +159,12 @@ public class BattleTopView : ViewBase {
 		//		}
 		RedoQuest.SendRequest (SureRetryNetWork, ConfigBattleUseData.Instance.questDungeonData.QuestId, ConfigBattleUseData.Instance.questDungeonData.currentFloor);
 		
-		Main.Instance.GInput.IsCheckInput = true;
+//		Main.Instance.GInput.IsCheckInput = true;
 		BattleBottomView.notClick = false;
 	}
 	
 	void CancelInitiativeRetry(object data) {
-		Main.Instance.GInput.IsCheckInput = true;
+//		Main.Instance.GInput.IsCheckInput = true;
 		BattleBottomView.notClick = false;
 	}
 
@@ -174,7 +174,7 @@ public class BattleTopView : ViewBase {
 //		BattleMapView.waitMove = false;
 //		(view as BattleMapView).BattleEndRotate(null);
 		RefreshRetryData (data);
-		Main.Instance.GInput.IsCheckInput = true;
+//		Main.Instance.GInput.IsCheckInput = true;
 		GameInput.OnPressEvent += SureRetryPress;
 	}
 

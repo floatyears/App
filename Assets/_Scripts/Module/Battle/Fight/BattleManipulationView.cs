@@ -104,7 +104,7 @@ public class BattleManipulationView : ViewBase {
 		initPosition = Config.cardPoolInitPosition;
 
 		for (int i = 0; i < cardPosition.Length; i++) {
-			tempObject = NGUITools.AddChild(gameObject, templateBackTexture.gameObject);
+			tempObject = NGUITools.AddChild(battleCardPool, templateBackTexture.gameObject);
 			cardPosition[i] = new Vector3(initPosition.x + i * cardInterv,initPosition.y,initPosition.z);
 			tempObject.transform.localPosition = cardPosition[i];
 			backTextureIns[i] = tempObject.GetComponent<UISprite>();
@@ -144,7 +144,7 @@ public class BattleManipulationView : ViewBase {
 		
 		cardItemArray = new CardItem[cardcount];
 		for (int i = 0; i < cardcount; i++) {
-			tempObject = NGUITools.AddChild(gameObject,templateItemCard.gameObject);
+			tempObject = NGUITools.AddChild(battleCard,templateItemCard.gameObject);
 			tempObject.transform.localPosition = cardPosition[i];
 			CardItem ci = tempObject.AddComponent<CardItem>();
 			ci.location = i;
@@ -185,14 +185,6 @@ public class BattleManipulationView : ViewBase {
 		
 		//		UserGuideAnim (null);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleEnemyModule);
-	}
-	
-	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
-	
-	public void AddGuideCard () {
-		for (int i = 0; i < indexArray.Length; i++) {
-			 ConfigBattleUseData.Instance.questDungeonData.Colors.Insert(0, indexArray[i]);
-		}
 	}
 	
 	public override void HideUI () {
@@ -330,11 +322,11 @@ public class BattleManipulationView : ViewBase {
 		nguiMainCamera.useMouse = isShield;
 		nguiMainCamera.useKeyboard = isShield;
 		nguiMainCamera.useTouch = isShield;
-		Main.Instance.GInput.IsCheckInput = !isShield;
+//		Main.Instance.GInput.IsCheckInput = !isShield;
 	}
 	
 	public void ShieldGameInput(bool isShield) {
-		Main.Instance.GInput.IsCheckInput = isShield;
+//		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 	
 	public void ShieldNGUIInput(bool isShield) {
@@ -349,35 +341,25 @@ public class BattleManipulationView : ViewBase {
 		//			return;	
 		//		}
 		nguiMainCamera.enabled = isShield;
-		Main.Instance.GInput.IsCheckInput = isShield;
+//		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 	
 	void HandleOnPressEvent () {
-		DisposePress();
+		if(Check(GameLayer.ActorCard)) {
+			for (int i = 0; i < rayCastHit.Length; i++) {
+				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard) {
+					tempObject= rayCastHit[i].collider.gameObject;
+					break;
+				}
+				else
+					continue;
+			}
+			ClickObject(tempObject);
+			SetDrag();
+		}
 	}
 	
 	void HandleOnReleaseEvent () {
-		DisposeReleasePress();
-	}
-	
-	void HandleOnStationaryEvent () {
-		
-	}
-	
-	void HandleOnDragEvent (Vector2 obj) {
-		DisposeOnDrag(obj);
-	}
-	
-	void ResetClick() {
-		for (int i = 0; i < selectTarget.Count; i++) {
-			//			Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
-			selectTarget[i].OnPressHandler(false, -1);
-		}
-		selectTarget.Clear();
-		ResetDrag();
-	}
-	
-	void DisposeReleasePress() {
 		if (!isShowEnemy) {
 			return;
 		}
@@ -398,6 +380,39 @@ public class BattleManipulationView : ViewBase {
 		}
 	}
 	
+	void HandleOnStationaryEvent () {
+		
+	}
+	
+	void HandleOnDragEvent (Vector2 obj) {
+		SetDrag();
+		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
+		
+		for (int i = 0; i < selectTarget.Count; i++) {
+			selectTarget [i].OnDragHandler (vec, i);
+		}
+		
+		bool b = Check(GameLayer.ActorCard);
+		//		bool b = Check(GameLayer.Default);
+		
+		if(b) {
+			for (int i = 0; i < rayCastHit.Length; i++) {
+				tempObject = rayCastHit[i].collider.gameObject;
+				
+				ClickObject(tempObject);
+			}
+		}
+	}
+	
+	void ResetClick() {
+		for (int i = 0; i < selectTarget.Count; i++) {
+			//			Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
+			selectTarget[i].OnPressHandler(false, -1);
+		}
+		selectTarget.Clear();
+		ResetDrag();
+	}
+
 	void GenerateCard() {
 		BattleCardAreaItem bcai = null;
 		for (int i = 0; i < rayCastHit.Length; i++) {
@@ -429,12 +444,12 @@ public class BattleManipulationView : ViewBase {
 		Vector3 point = selectTarget[0].transform.localPosition;
 		int indexID = CaculateSortIndex(point);
 		if(indexID >= 0) {
-			Main.Instance.GInput.IsCheckInput = false;
+//			Main.Instance.GInput.IsCheckInput = false;
 			if(SortCard(indexID, selectTarget)) {
 				CallBack += HandleCallBack;
 			}
 			else {
-				Main.Instance.GInput.IsCheckInput = true; 
+//				Main.Instance.GInput.IsCheckInput = true; 
 				ResetClick();
 			}
 		}
@@ -445,50 +460,15 @@ public class BattleManipulationView : ViewBase {
 	
 	void HandleCallBack () {
 		CallBack -= HandleCallBack;
-		Main.Instance.GInput.IsCheckInput = true;
+//		Main.Instance.GInput.IsCheckInput = true;
 		ResetClick();
 	}
 	
 	void TweenCallback(GameObject go) {
-		Main.Instance.GInput.IsCheckInput = true;
+//		Main.Instance.GInput.IsCheckInput = true;
 	}
 	
 	private BattleCardAreaItem prevTempBCA;
-	
-	void DisposeOnDrag(Vector2 obj) {
-		SetDrag();
-		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget [i].OnDragHandler (vec, i);
-		}
-		
-//		bool b = Check(GameLayer.ActorCard);
-		bool b = Check(GameLayer.Default);
-		
-		if(b) {
-			for (int i = 0; i < rayCastHit.Length; i++) {
-				tempObject = rayCastHit[i].collider.gameObject;
-				
-				ClickObject(tempObject);
-			}
-		}
-	}
-	
-	void DisposePress() {
-		if(Check(GameLayer.ActorCard)) {
-			for (int i = 0; i < rayCastHit.Length; i++) {
-				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard) {
-					tempObject= rayCastHit[i].collider.gameObject;
-					break;
-				}
-				else
-					continue;
-			}
-			ClickObject(tempObject);
-			SetDrag();
-		}
-	}
 	
 	void SetDrag() {
 		if(selectTarget.Count > 0)
@@ -717,7 +697,7 @@ public class BattleManipulationView : ViewBase {
 		stateLabel.enabled = true;
 		int length = cardPosition.Length;
 		for (int i = 0; i < length; i++) {
-			tempObject = NGUITools.AddChild (gameObject, backTexture.gameObject);
+			tempObject = NGUITools.AddChild (battleCardArea, backTexture.gameObject);
 			tempObject.SetActive (true);
 //			tempObject.layer = GameLayer.BattleCard;
 			tempObject.transform.localPosition = new Vector3 (cardPosition [i].x + 5f, cardPosition [i].y + 3f + cardHeight, cardPosition [i].z);
@@ -1051,7 +1031,15 @@ public class BattleManipulationView : ViewBase {
 		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		ConfigBattleUseData.Instance.NotDeadEnemy = false;
 	}
+
+	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
 	
+	public void AddGuideCard () {
+		for (int i = 0; i < indexArray.Length; i++) {
+			ConfigBattleUseData.Instance.questDungeonData.Colors.Insert(0, indexArray[i]);
+		}
+	}
+
 	void AnimStep1() {
 		Vector3 point = selectTarget[0].transform.localPosition;
 		int indexID = CaculateSortIndex( point );

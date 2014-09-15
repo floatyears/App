@@ -100,7 +100,7 @@ public class BattleMapModule : ModuleBase {
 	void BattleFail() {
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 
-		Main.Instance.GInput.IsCheckInput = false;
+//		Main.Instance.GInput.IsCheckInput = false;
 		BattleBottomView.notClick = true;
 
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), BattleFailRecover, BattleFailExit);
@@ -118,7 +118,7 @@ public class BattleMapModule : ModuleBase {
 			BattleUseData.Instance.RecoverEnergePoint (DataCenter.maxEnergyPoint);
 			ConfigBattleUseData.Instance.StoreMapData ();
 			
-			Main.Instance.GInput.IsCheckInput = true;
+//			Main.Instance.GInput.IsCheckInput = true;
 			BattleBottomView.notClick = false;
 		}, ConfigBattleUseData.Instance.questDungeonData.QuestId);
 		BattleUseData.Instance.ClearData ();

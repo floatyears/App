@@ -112,6 +112,7 @@ public class BattleBottomView : ViewBase {
 				bgSpr.spriteName = GetBGSpriteName(i, tui.Type);
 				skillSpr.spriteName = GetSkillSpriteName(tui.Type);
 			}
+			UIEventListener.Get(temp).onClick += ClickItem;
 		}
 
 
@@ -232,46 +233,46 @@ public class BattleBottomView : ViewBase {
 	}
 	
 
-	void OnDisable () {
-		GameInput.OnUpdate -= OnRealease;
-	}
-
-	void OnEnable () {
-		GameInput.OnUpdate += OnRealease;
-	}
-
+//	void OnDisable () {
+//		GameInput.OnUpdate -= OnRealease;
+//	}
+//
+//	void OnEnable () {
+//		GameInput.OnUpdate += OnRealease;
+//	}
+//
 	public void PlayerDead() {
 		RemoveAllSkill ();
 	}
-
-	void OnRealease () {
-		if (noviceGuideNotClick && NoviceGuideStepEntityManager.isInNoviceGuide()) {
-			return;	
-		}
-
-		if (notClick) {
-			return;	
-		}
-
-		if (Input.GetMouseButtonDown (0)) {
-			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-			int receiveMask = GameLayer.LayerToInt(GameLayer.Default);
-			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
-				string name = rch.collider.name;
-				CheckCollider(name);
-			}
-		}
-	}
+//
+//	void OnRealease () {
+//		if (noviceGuideNotClick && NoviceGuideStepEntityManager.isInNoviceGuide()) {
+//			return;	
+//		}
+//
+//		if (notClick) {
+//			return;	
+//		}
+//
+//		if (Input.GetMouseButtonDown (0)) {
+//			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
+//			int receiveMask = GameLayer.LayerToInt(GameLayer.Default);
+//			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
+//				string name = rch.collider.name;
+//				CheckCollider(name);
+//			}
+//		}
+//	}
 
 	TUserUnit tuu;
 	int prevID = -1;
-	void CheckCollider (string name) {
+	void ClickItem (GameObject obj) {
 //		if (upi == null || battleQuest.role.isMove) {
 //			return;	
 //		}
 
 		try {
-			int id = System.Int32.Parse (name);
+			int id = System.Int32.Parse (obj.name);
 //			Debug.LogError("CheckCollider id : " + id);
 			if(setPos != -1 && id != setPos) {
 				return;
@@ -284,7 +285,7 @@ public class BattleBottomView : ViewBase {
 					return;
 				}
 				prevID = id;
-				MaskCard (name, true);
+				MaskCard (obj.name, true);
 				if(IsUseLeaderSkill && id == 0) {
 					LogHelper.Log("--------use leader skill command");
 					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);

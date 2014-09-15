@@ -701,9 +701,9 @@ public class BattleMapView : ViewBase {
 
 	
 	void ShieldAllInput (bool shiled) {
-		Main.Instance.NguiCamera.enabled = shiled;
-		Main.Instance.GInput.IsCheckInput = shiled;
-		BattleBottomView.notClick = !shiled;
+//		Main.Instance.NguiCamera.enabled = shiled;
+//		Main.Instance.GInput.IsCheckInput = shiled;
+//		BattleBottomView.notClick = !shiled;
 	}
 	
 	void NoSPMove(object data) {
