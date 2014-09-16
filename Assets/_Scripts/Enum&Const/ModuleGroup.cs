@@ -2,6 +2,7 @@
 using System.Collections;
 
 public enum ModuleGroup{
+	NONE = -1,
 	DEFAULT = 0,
 	MAIN,
 	BACKGROUND,
@@ -9,5 +10,6 @@ public enum ModuleGroup{
 	SCENE_INFOBAR,
 	UNIT_DETAIL,
 	BATTLE,
-	GROUP_NUM
+	GROUP_NUM,
+
 }

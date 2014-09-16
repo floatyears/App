@@ -107,14 +107,14 @@ public class BattleCardAreaItem : MonoBehaviour {
 		for (int i = 0; i < maxLimit; i++) {
 			GameObject go = cardList[cardItemList.Count].gameObject;
 			CardSprite ci = go.AddComponent<CardSprite>();
-//			ci.Init("aaa");
+			ci.Init("aaa");
 			DisposeTweenPosition(ci);
 			DisposeTweenScale(ci);
 			ci.ActorSprite.depth = GetDepth(cardItemList.Count);
-			ci.SetTexture(source[i].itemID, source[i].canAttack);
+			ci.SetTexture(source[i].colorType, source[i].canAttack);
 			cardItemList.Add(ci);
-			GenerateFightCardImmelity(source[i].itemID);
-			haveCard.Add(source[i].itemID);
+			GenerateFightCardImmelity(source[i].colorType);
+			haveCard.Add(source[i].colorType);
 		}
 
 		if (attackImage.Count > preAttackCount) {

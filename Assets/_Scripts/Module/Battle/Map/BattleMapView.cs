@@ -406,7 +406,8 @@ public class BattleMapView : ViewBase {
 					BattleUseData.Instance.InitEnemyInfo (currentMapData);
 					ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
 					//		battle.ShowEnemy (temp);
-					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule,"enemy", temp);
+					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule);
+					ShowEnemy(temp);
 					ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
 //					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 					GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
@@ -471,7 +472,32 @@ public class BattleMapView : ViewBase {
 			ConfigBattleUseData.Instance.StoreMapData();
 		}
 	}
-	
+
+	void ShowEnemy(List<TEnemyInfo> count, bool isBoss = false) {
+		//		isShowEnemy = true;
+//		IsBoss = isBoss;
+		//		Debug.LogError ("IsBoss : " + IsBoss);
+		//		battleEnemy.Refresh(count);
+		ModuleManager.Instance.ShowModule (ModuleEnum.BattleEnemyModule, "enemy", count);
+		//		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
+		TStoreBattleData tsbd =  ConfigBattleUseData.Instance.storeBattleData;
+		tsbd.tEnemyInfo = count;
+		ConfigBattleUseData.Instance.storeBattleData.attackRound ++;
+		ConfigBattleUseData.Instance.StoreMapData ();
+		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
+		
+		//		Debug.Log ("battle guide----------");
+		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
+//			if(IsBoss){
+//				Debug.Log("is boss -------------");
+//				NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
+//			}
+			
+		} else {
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
+		}
+		
+	}
 	
 	private void IfArriveAtTheDoor() {
 		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {

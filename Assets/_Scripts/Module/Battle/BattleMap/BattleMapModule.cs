@@ -130,8 +130,8 @@ public class BattleMapModule : ModuleBase {
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
 			
 			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
-				BattleManipulationView.colorIndex = 0;
-				BattleManipulationView.isShow = false;
+//				BattleManipulationView.colorIndex = 0;
+//				BattleManipulationView.isShow = false;
 //				BattleEnd ();
 
 				ModuleManager.Instance.ExitBattle ();

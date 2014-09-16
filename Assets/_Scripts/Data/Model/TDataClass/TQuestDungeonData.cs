@@ -222,6 +222,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		return -1;
 	}
 
+
 	
 }
 

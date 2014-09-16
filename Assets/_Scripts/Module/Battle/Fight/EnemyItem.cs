@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class EnemyItem : ViewBase {
+public class EnemyItem : MonoBehaviour {
     [HideInInspector]
     public TEnemyInfo enemyInfo;
     [HideInInspector]
@@ -31,9 +31,6 @@ public class EnemyItem : ViewBase {
 	private UISprite stateExceptionSprite;
 	private Dictionary<StateEnum, GameObject> stateCache = new Dictionary<StateEnum, GameObject> ();
 	private Vector3 initStateExceptionSprite;
-	
-	[HideInInspector]
-	public BattleEnemyView battleEnemy;
 
     void OnEnable() {
         MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
@@ -85,7 +82,7 @@ public class EnemyItem : ViewBase {
 		DisposeRestraint (ai);
 		DGTools.PlayAttackSound (ai.AttackType);
         ShowHurtInfo(ai.InjuryValue);
-		battleEnemy.EnemyItemPlayEffect (this, ai);
+//		battleEnemy.EnemyItemPlayEffect (this, ai);
     }
 
 	const string weak = "Weak";
@@ -172,27 +169,27 @@ public class EnemyItem : ViewBase {
     }
 	
     public void Init(TEnemyInfo te, Callback callBack) {
-		stateLabel = FindChild<UILabel>("SateLabel");
+		stateLabel = transform.FindChild("SateLabel").GetComponent<UILabel>();
 
-        texture = FindChild<UITexture>("Texture");
+		texture = transform.FindChild("Texture").GetComponent<UITexture>();
 		UIEventListener.Get (texture.gameObject).onClick = TargetEnemy;
-        dropTexture = FindChild<UISprite>("Drop");
+		dropTexture = transform.FindChild("Drop").GetComponent<UISprite>();
         dropTexture.enabled = false;
         localPosition = texture.transform.localPosition;
 //        attackPosition = new Vector3(localPosition.x, BattleBackground.ActorPosition.y, localPosition.z);
-        bloodSprite = FindChild<UISprite>("BloodSprite");
-		bloodBgSprite = FindChild<UISprite>("BloodSpriteBG");
-        nextLabel = FindChild<UILabel>("NextLabel");
-        effect = FindChild<UIPanel>("Effect");
-		hurtValueLabel = FindChild<UILabel>("HurtLabel");
+		bloodSprite = transform.FindChild("BloodSprite").GetComponent<UISprite>();
+		bloodBgSprite = transform.FindChild("BloodSpriteBG").GetComponent<UISprite>();
+		nextLabel = transform.FindChild("NextLabel").GetComponent<UILabel>();
+		effect = transform.FindChild("Effect").GetComponent<UIPanel>();
+		hurtValueLabel = transform.FindChild("HurtLabel").GetComponent<UILabel>();
         enemyInfo = te;
         hurtValueLabel.gameObject.SetActive(false);
         SetData(te);
 
-		stateSprite = FindChild<UILabel>("StateSprite");
+		stateSprite = transform.FindChild("StateSprite").GetComponent<UILabel>();
 		stateSprite.text = string.Empty;
 
-		stateExceptionSprite = FindChild<UISprite>("StateExceptionSprite");
+		stateExceptionSprite = transform.FindChild("StateExceptionSprite").GetComponent<UISprite>();
 		initStateExceptionSprite = stateExceptionSprite.transform.localPosition;
 
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
@@ -213,11 +210,7 @@ public class EnemyItem : ViewBase {
 		});
     }
 
-    public override void DestoryUI() {
-//		if (currentState == UIState.UIDestory) {
-//			return;
-//		}
-        base.DestoryUI();
+    public void DestoryUI() {
 		if (gameObject != null) {
 			Destroy(gameObject);
 		}

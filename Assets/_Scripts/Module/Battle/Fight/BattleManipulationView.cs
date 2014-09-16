@@ -21,8 +21,6 @@ public class BattleManipulationView : ViewBase {
 	private List<ItemData> allItemData = new List<ItemData>();
 	private List<CardItem> selectTarget = new List<CardItem>();
 	//temp-----------------------------------------------------------
-	public static int colorIndex = 0;
-	public static bool isShow = false;
 	private List<int> currentColor = new List<int>();
 	//end------------------------------------------------------------
 	public int cardHeight = 0;
@@ -79,6 +77,14 @@ public class BattleManipulationView : ViewBase {
 
 	private CardItem[] cardItemArray;
 	/// ------------battle card end
+	/// 
+
+	////------------count down start
+	private UILabel numberLabel;
+	private UISprite circleSprite;
+	private float countDownValue = 1f;
+
+	////------------count down end
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -147,7 +153,7 @@ public class BattleManipulationView : ViewBase {
 			tempObject = NGUITools.AddChild(battleCard,templateItemCard.gameObject);
 			tempObject.transform.localPosition = cardPosition[i];
 			CardItem ci = tempObject.AddComponent<CardItem>();
-			ci.location = i;
+			ci.index = i;
 			ci.Init(i.ToString());
 			cardItemArray[i] = ci;
 		}
@@ -157,7 +163,9 @@ public class BattleManipulationView : ViewBase {
 //		battleCard.battleCardArea = battleCardArea;
 		////------------battle card end
 
-
+		countDownUI = FindChild ("CountDown");
+		numberLabel = FindChild<UILabel>("CountDown/Number");
+		circleSprite = FindChild<UISprite>("CountDown/Circle");
 //		CreatEnemy ();
 
 	}
@@ -166,36 +174,34 @@ public class BattleManipulationView : ViewBase {
 		base.ShowUI();
 		//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
-			AddGuideCard ();
+//			AddGuideCard ();
 			ConfigBattleUseData.Instance.storeBattleData.colorIndex = 0;
 		}
 		//		Debug.LogError ("isShow");
-		if (!isShow) {
-			isShow = true;
-			GenerateShowCard();
-		}
+		GenerateShowCard();
 		
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeCardColor, ChangeCard);
 //		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 //		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
-		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
+//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
+
+		GameInput.OnUpdate += HandleOnUpdate;
 		
 		//		UserGuideAnim (null);
-		ModuleManager.Instance.ShowModule (ModuleEnum.BattleEnemyModule);
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeCardColor, ChangeCard);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
-		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
-		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
+
+		GameInput.OnUpdate -= HandleOnUpdate;
 	}
 	
 	public override void DestoryUI () {
@@ -207,57 +213,25 @@ public class BattleManipulationView : ViewBase {
 
 	}
 	
-	public void StartBattle () {
-		ResetClick();
-		Attack();
+	void StartAttack () {
+		ResetSelect();
+		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
+		BattleUseData.Instance.StartAttack (null);
 		StartBattle (false);
 	}
 	
 	void ExcuteActiveSkillInfo(object data) {
 		bool b = (bool)data;
-		ShieldInput (!b);
-	}
-	
-	void ChangeCard(object data) {
-		ChangeCardColor ccc = data as ChangeCardColor;
-		if (ccc == null) {
-			return;	
-		}
-		
-		if (ccc.targetType == -1) {
-			GenerateShowCard();
-		} 
-		else {
-			for (int i = 0; i < cardPosition.Length; i++) {
-				ChangeSpriteCard(ccc.sourceType,ccc.targetType,i);
-			}
-			RefreshLine();
-		}
+//		ShieldInput (!b);
 	}
 	
 	void EnemyAttckEnd (object data) {
 		StartBattle (true);
-		ShieldInput (true);
+//		ShieldInput (true);
 	}
 	
 	void EnemyAttackEnd() {
 		
-	}
-	
-	void BattleEnd (object data) {
-		ExitFight ();
-	}
-	
-	public void ExitFight() {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
-		
-//		isShowEnemy = false;
-		ShieldInput (true);
-		HideUI ();
-	}
-	
-	void Attack () {
-		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
 	}
 	
 	void GenerateShowCard () {
@@ -266,50 +240,15 @@ public class BattleManipulationView : ViewBase {
 			int cardIndex = GenerateCardIndex();
 			GenerateSpriteCard(cardIndex, i);
 		}
-		RefreshLine ();
+//		RefreshLine ();
 	}
 
-	public bool IsBoss = false;
-//	public bool isShowEnemy = false;
-	public void ShowEnemy(List<TEnemyInfo> count, bool isBoss = false) {
-//		isShowEnemy = true;
-		IsBoss = isBoss;
-		//		Debug.LogError ("IsBoss : " + IsBoss);
-//		battleEnemy.Refresh(count);
-		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "refresh", count);
-		//		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
-		TStoreBattleData tsbd =  ConfigBattleUseData.Instance.storeBattleData;
-		tsbd.tEnemyInfo = count;
-		 ConfigBattleUseData.Instance.storeBattleData.attackRound ++;
-		 ConfigBattleUseData.Instance.StoreMapData ();
-		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
-		
-		//		Debug.Log ("battle guide----------");
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
-			if(IsBoss){
-				Debug.Log("is boss -------------");
-				NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
-			}
-			
-		} else {
-			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
-		}
-		
-	}
-	
-	int GenerateData() {
-		ItemData id = Config.Instance.GetCard();
-		allItemData.Add(id);
-		return id.itemID;
-	}
-	
 	int GenerateCardIndex () {
-		int index =  ConfigBattleUseData.Instance.questDungeonData.Colors [ ConfigBattleUseData.Instance.storeBattleData.colorIndex];
-		 ConfigBattleUseData.Instance.storeBattleData.colorIndex++;
+		int index =  ConfigBattleUseData.Instance.ResumeColorIndex();
 		
-		if (userGuideIndex != -1) {
-			index = userGuideIndex;
-		}
+//		if (userGuideIndex != -1) {
+//			index = userGuideIndex;
+//		}
 		
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
@@ -329,20 +268,14 @@ public class BattleManipulationView : ViewBase {
 //		Main.Instance.GInput.IsCheckInput = isShield;
 	}
 	
-	public void ShieldNGUIInput(bool isShield) {
-		nguiMainCamera.useMouse = isShield;
-		nguiMainCamera.useKeyboard = isShield;
-		nguiMainCamera.useTouch = isShield;
-	}
-	
-	public void ShieldInput (bool isShield) {
-		//		Debug.LogError ("ShieldInput : " + isShield);
-		//		if (shileInputByNoviceGuide) {
-		//			return;	
-		//		}
-		nguiMainCamera.enabled = isShield;
-//		Main.Instance.GInput.IsCheckInput = isShield;
-	}
+//	public void ShieldInput (bool isShield) {
+//		//		Debug.LogError ("ShieldInput : " + isShield);
+//		//		if (shileInputByNoviceGuide) {
+//		//			return;	
+//		//		}
+//		nguiMainCamera.enabled = isShield;
+////		Main.Instance.GInput.IsCheckInput = isShield;
+//	}
 	
 	void HandleOnPressEvent () {
 		if(Check(GameLayer.ActorCard)) {
@@ -354,15 +287,15 @@ public class BattleManipulationView : ViewBase {
 				else
 					continue;
 			}
-			ClickObject(tempObject);
-			SetDrag();
+			AddToSelect(tempObject.GetComponent<CardItem>());
+			SetCardItemDragState();
 		}
 	}
 	
 	void HandleOnReleaseEvent () {
-		
+		Debug.Log ("press release");
 		if(selectTarget.Count == 0) {
-			ResetClick();
+			ResetSelect();
 			return;
 		}
 		
@@ -373,42 +306,33 @@ public class BattleManipulationView : ViewBase {
 			SwitchCard();
 		}
 		else {
-			ResetClick();
+			ResetSelect();
 		}
 	}
-	
+
 	void HandleOnStationaryEvent () {
 		
 	}
 	
 	void HandleOnDragEvent (Vector2 obj) {
-		SetDrag();
+		Debug.Log ("drag");
+		SetCardItemDragState();
 		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
 		
 		for (int i = 0; i < selectTarget.Count; i++) {
 			selectTarget [i].OnDragHandler (vec, i);
 		}
-		
-		bool b = Check(GameLayer.ActorCard);
+
 		//		bool b = Check(GameLayer.Default);
 		
-		if(b) {
+		if(Check(GameLayer.ActorCard)) {
 			for (int i = 0; i < rayCastHit.Length; i++) {
-				tempObject = rayCastHit[i].collider.gameObject;
-				
-				ClickObject(tempObject);
+				AddToSelect(rayCastHit[i].collider.gameObject.GetComponent<CardItem>());
 			}
 		}
 	}
-	
-	void ResetClick() {
-		for (int i = 0; i < selectTarget.Count; i++) {
-			//			Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
-			selectTarget[i].OnPressHandler(false, -1);
-		}
-		selectTarget.Clear();
-		ResetDrag();
-	}
+
+	private bool isCountDownStart = false;
 
 	void GenerateCard() {
 		BattleCardAreaItem bcai = null;
@@ -425,16 +349,62 @@ public class BattleManipulationView : ViewBase {
 		
 		if(generateCount > 0) {
 			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
-//			YieldStartBattle();
-//			
-//			if(showCountDown) {
-//				for(int i = 0;i < generateCount;i++) {
-//					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
-//				}
+//			if (showCountDown) {
+//				return ;		
+//			} 
+
+			//		countDownUI.ShowUI();
+			if(!isCountDownStart){
+				StartCoroutine(StartCountDown ());
+				isCountDownStart = true;
+			}
+				
+			
+			if(showCountDown) {
+				for(int i = 0;i < generateCount;i++) {
+					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].index);
+				}
 //				RefreshLine();
-//			}
+			}
 		}
-		ResetClick();
+		ResetSelect();
+	}
+
+	IEnumerator StartCountDown () {
+		time = (int)BattleUseData.CountDown + dynamicDelay;
+		dynamicDelay = 0;
+		countDownUI.SetActive(true);
+		while (time > 0) {
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_count_down);
+			iTween.ScaleFrom (countDownUI, new Vector3 (1.25f, 1.25f, 1.25f), 0.3f);
+			countDownValue = 1f;
+			numberLabel.text = time.ToString ();
+			yield return new WaitForSeconds(1);
+			time -= countDownTime;
+		}
+		countDownUI.SetActive(false);
+		ResetSelect();
+		//			ShieldInput (false);
+		//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
+		//			showCountDown = false;
+		StartAttack();
+		time =  BattleUseData.CountDown;
+		isCountDownStart = false;
+	}
+
+	void ResetSelect() {
+		Debug.Log ("reset select");
+		for (int i = 0; i < selectTarget.Count; i++) {
+						Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
+			selectTarget[i].AddCardToSelect(false, -1);
+		}
+		selectTarget.Clear();
+		for (int i = 0; i < cardItemArray.Length; i++) {
+			if(cardItemArray[i] == null) {
+				continue;
+			}
+			cardItemArray[i].CanDrag = true;
+		}
 	}
 	
 	void SwitchCard() {
@@ -447,18 +417,18 @@ public class BattleManipulationView : ViewBase {
 			}
 			else {
 //				Main.Instance.GInput.IsCheckInput = true; 
-				ResetClick();
+				ResetSelect();
 			}
 		}
 		else {
-			ResetClick();
+			ResetSelect();
 		}
 	}
 	
 	void HandleCallBack () {
 		CallBack -= HandleCallBack;
 //		Main.Instance.GInput.IsCheckInput = true;
-		ResetClick();
+		ResetSelect();
 	}
 	
 	void TweenCallback(GameObject go) {
@@ -467,22 +437,21 @@ public class BattleManipulationView : ViewBase {
 	
 	private BattleCardAreaItem prevTempBCA;
 	
-	void SetDrag() {
-		if(selectTarget.Count > 0)
-			DisposeDrag(selectTarget[0].location,selectTarget[0].itemID);
+	void SetCardItemDragState() {
+		if (selectTarget.Count > 0) {
+			int index = selectTarget[0].index;
+			int colorType = selectTarget[0].colorType;
+			SetFront(index,colorType);
+			SetBehind(index,colorType);
+		}
 	}
 	
-	void ClickObject(GameObject go) {
-		tempCard = go.GetComponent<CardItem>();
-		ClickCardItem (tempCard);
-	}
-	
-	void ClickCardItem(CardItem ci) {
+	void AddToSelect(CardItem ci) {
 		if(ci != null) {
 			if(selectTarget.Contains(ci))
 				return;
 			if(ci.CanDrag) {
-				ci.OnPressHandler(true, selectTarget.Count);
+				ci.AddCardToSelect(true, selectTarget.Count);
 				ci.ActorTexture.depth = ci.InitDepth;
 				selectTarget.Add(ci);
 				
@@ -536,54 +505,16 @@ public class BattleManipulationView : ViewBase {
 		return delta * ViewManager.Instance.MainUIRoot.GetComponent<UIRoot>().pixelSizeAdjustment;
 	}
 	
-//	void DelayTime(object data) {
-//		activeDelay =  (float)data;
-//	}
+	void DelayTime(object data) {
+		dynamicDelay =  (float)data;
+	}
 	
-//	public bool showCountDown = false;
-//	float time = 5f;
-//	float countDownTime = 1f;
-//	float activeDelay = 0f;
-//	public void YieldStartBattle () {
-//		if (showCountDown) {
-//			return ;		
-//		} 
-//		ShieldNGUIInput (false);
-//		time = BattleUseData.CountDown + activeDelay;
-////		countDownUI.ShowUI();
-//		ModuleManager.Instance.ShowModule (ModuleEnum.BattleEnemyModule, "coutndown");
-//		activeDelay = 0f;
-//		CountDownBattle ();
-//	}
-//	
-//	void CountDownBattle () {
-//		int temp = (int)time;
-//		countDownUI.SetCurrentTime (temp);
-//		if (time > 0) {
-//			BattleBottom.notClick = true;
-//			showCountDown = true;
-//			time -= countDownTime;
-//			GameTimer.GetInstance ().AddCountDown (countDownTime, CountDownBattle);
-//		} else {
-//			ResetClick();
-//			ShieldInput (false);
-//			//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
-//			showCountDown = false;
-//			battleCardArea.ShowCountDown (false, (int)time);
-//			ShieldNGUIInput (true);
-//			StartBattle();
-//			time =  BattleUseData.CountDown;
-//		}
-//	}
+	bool showCountDown = false;
+	float time = 5f;
+	float countDownTime = 1f;
+	float dynamicDelay = 0f;
 
 	////------------battle card pool start
-	public void IgnoreCollider(bool isIgnore)
-	{
-		if(isIgnore)
-			gameObject.layer = GameLayer.IgnoreCard;
-		else
-			gameObject.layer = GameLayer.ActorCard;
-	}
 	
 	public int CaculateSortIndex(Vector3 point)
 	{
@@ -749,7 +680,7 @@ public class BattleManipulationView : ViewBase {
 	/// <param name="locationID">Location I.</param>
 	public void ChangeSpriteCard(int source, int index, int locationID) {
 		CardItem ci = cardItemArray [locationID];
-		if (ci.itemID == source) {
+		if (ci.colorType == source) {
 			ci.SetSprite (index,CheckGenerationAttack (index));
 		}
 	}
@@ -760,15 +691,14 @@ public class BattleManipulationView : ViewBase {
 	/// <param name="index">Index.</param>
 	/// <param name="locationID">Location I.</param>
 	void GenerateSpriteCard(int index,int locationID) {
-		CardItem ci = cardItemArray [locationID];
-		ci.SetSprite (index, CheckGenerationAttack (index));
+		cardItemArray [locationID].SetSprite (index, CheckGenerationAttack (index));
 	}
 	
-	void RefreshLine() {
-		foreach (var item in cardItemArray) {
-			GenerateLinkSprite (item, item.itemID);
-		}
-	}
+//	void RefreshLine() {
+//		foreach (var item in cardItemArray) {
+//			GenerateLinkSprite (item, item.itemID);
+//		}
+//	}
 	
 	void GenerateLinkSprite(CardItem ci,int index) {
 		List<Transform> trans = new List<Transform> ();
@@ -792,7 +722,7 @@ public class BattleManipulationView : ViewBase {
 				item.Clear();
 			}
 		} else {
-			RefreshLine();
+//			RefreshLine();
 		}
 	}
 	
@@ -811,42 +741,28 @@ public class BattleManipulationView : ViewBase {
 		return false;
 	}
 	
-	public void IgnoreAreaCollider(bool isIgnore) {
-		LayerMask layer;
-		
-		if(isIgnore)
-			layer = GameLayer.ActorCard;
-		else
-			layer = GameLayer.IgnoreCard;
-		
-		for (int i = 0; i < cardItemArray.Length; i++) {
-			cardItemArray[i].gameObject.layer = layer;
-		}
-	}
+//	public void IgnoreAreaCollider(bool isIgnore) {
+//		LayerMask layer;
+//		
+//		if(isIgnore)
+//			layer = GameLayer.ActorCard;
+//		else
+//			layer = GameLayer.IgnoreCard;
+//		
+//		for (int i = 0; i < cardItemArray.Length; i++) {
+//			cardItemArray[i].gameObject.layer = layer;
+//		}
+//	}
 	
-	public void DisposeDrag(int location,int itemID) {
-		SetFront(location,itemID);
-		SetBehind(location,itemID);
-	}
-	
-	public void ResetDrag() {
-		for (int i = 0; i < cardItemArray.Length; i++) {
-			if(cardItemArray[i] == null) {
-				continue;
-			}
-			cardItemArray[i].CanDrag = true;
-		}
-	}
-	
-	public bool SortCard(int sortID,List<CardItem> ci) {
+	bool SortCard(int sortID,List<CardItem> ci) {
 		CardItem firstCard = ci[0];
 		
-		int index = ci.FindIndex(a =>a.location == sortID);
+		int index = ci.FindIndex(a =>a.index == sortID);
 		
 		if(index >= 0)
 			return false;
 		
-		bool bigger = sortID > firstCard.location;
+		bool bigger = sortID > firstCard.index;
 		
 		CheckMove(sortID,ci,bigger);
 		
@@ -862,7 +778,7 @@ public class BattleManipulationView : ViewBase {
 			
 			moveItem[i].Move(to);
 			
-			moveItem[i].location += moveCount;
+			moveItem[i].index += moveCount;
 		}
 		
 		for (int i = 0; i < ci.Count; i++) 
@@ -874,7 +790,7 @@ public class BattleManipulationView : ViewBase {
 			
 			to = new Vector3(pos.x + plus * cardInterv,pos.y,pos.z);
 			
-			ci[i].location = sortID + plus;
+			ci[i].index = sortID + plus;
 			if(i == 0)
 				ci[i].SetPos (to);	
 			else
@@ -899,7 +815,7 @@ public class BattleManipulationView : ViewBase {
 		for (int i = 0; i < cardItemArray.Length - 1; i++) {
 			for (int j = i; j < cardItemArray.Length; j++) 
 			{
-				if(cardItemArray[i].location > cardItemArray[j].location)
+				if(cardItemArray[i].index > cardItemArray[j].index)
 				{
 					CardItem temp = cardItemArray[i];
 					cardItemArray[i] = cardItemArray[j];
@@ -913,7 +829,7 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void CheckMove(int startID, List<CardItem> firstCard,bool bigger) {
-		if(firstCard.FindIndex(a => a.location == startID) == -1)
+		if(firstCard.FindIndex(a => a.index == startID) == -1)
 		{
 			moveItem.Add(cardItemArray[startID]);
 			
@@ -928,22 +844,22 @@ public class BattleManipulationView : ViewBase {
 			return;
 	}
 	
-	void SetFront(int sID,int itemID) {
-		int countID = sID - 1;
+	void SetFront(int index,int colorType) {
+		int i = index - 1;
 		
-		if(countID < 0)
+		if(i < 0)
 			return;
 		
-		if(cardItemArray[countID].SetCanDrag(itemID))
+		if(cardItemArray[i].SetCanDrag(colorType))
 		{
-			SetFront(countID,itemID);
+			SetFront(i,colorType);
 		}
 		else
 		{
-			while(countID > -1)
+			while(i > -1)
 			{
-				cardItemArray[countID].CanDrag = false;
-				countID --;
+				cardItemArray[i].CanDrag = false;
+				i --;
 			}
 		}
 	}
@@ -970,280 +886,17 @@ public class BattleManipulationView : ViewBase {
 	////------------battle card end
 	/// 
 	/// 
-
-	////---------------user guide animation
-	void UserGuideAnim(object data) {
-		if (data == null) {
-			ShowGuideAnim ();
-		} else {
-			bool b = (bool)data;
-			ShowGuideAnim(b);
-		}
-	}
+	////-----------count down start
 	
-	bool shileInputByNoviceGuide = false;
-	public void ShowGuideAnim(bool rePlay = false) {
-		//		Debug.LogError ("ShowGuideAnim : " + rePlay);
-		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
-		shileInputByNoviceGuide = true;
-		if (rePlay) {
-			ConfigBattleUseData.Instance.storeBattleData.colorIndex -= 20;
-			GenerateShowCard();
-		}
-		ConfigBattleUseData.Instance.NotDeadEnemy = true;
-		GameTimer.GetInstance ().AddCountDown (1f, GuideCardAnim);
-	}
-	/// <summary>
-	/// drag time must bigger than move time
-	/// </summary>
-	const float dragTime = 0.25f;
-	const float moveTime = 0.20f;
 	
-	GameTimer gameTimer;
-	public void GuideCardAnim() {
-		MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		ConfigBattleUseData.Instance.NotDeadEnemy = true;
-		gameTimer = GameTimer.GetInstance ();
-		GameObject target = cardItemArray [3].gameObject;
-		
-		Vector3 toPosition = cardItemArray [2].transform.position;
-		selectTarget.Add ( cardItemArray [3] );
-		iTween.MoveTo ( target, iTween.Hash ("position", toPosition, "time", moveTime) );
-		MoveFinger (target.transform.position, toPosition, moveTime);
-		
-		gameTimer.AddCountDown ( dragTime, AnimStep1 );
-	}
-	
-	void MoveFinger(Vector3 startPosition, Vector3 toPosition, float time) {
-		if (!fingerObject.activeSelf) {
-			fingerObject.SetActive (true);	
+	void HandleOnUpdate () {
+		if (countDownUI.activeSelf) {
+			countDownValue -= Time.deltaTime;
+			circleSprite.fillAmount = countDownValue;
 		}
 		
-		fingerObject.transform.position = startPosition;
-		
-		iTween.MoveTo ( fingerObject, iTween.Hash ("position", toPosition, "time", time) );
-	}
-	
-	void AttackEnemyEnd(object data) {
-		MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		ConfigBattleUseData.Instance.NotDeadEnemy = false;
 	}
 
-	private byte[] indexArray = new byte[19]{ 3, 2, 2, 1, 1, 1, 2, 2, 2, 2, 1, 2, 3, 3, 3, 2, 3, 2, 1 };
+	////---------------count down end
 	
-	public void AddGuideCard () {
-		for (int i = 0; i < indexArray.Length; i++) {
-			ConfigBattleUseData.Instance.questDungeonData.Colors.Insert(0, indexArray[i]);
-		}
-	}
-
-	void AnimStep1() {
-		Vector3 point = selectTarget[0].transform.localPosition;
-		int indexID = CaculateSortIndex( point );
-		SortCard (indexID, selectTarget);
-		CallBack += AnimStep1End;
-	}
-	
-	void AnimStep1End() {
-		CallBack -= AnimStep1End;
-		ResetClick ();
-		AnimStep2 ();
-	}
-	
-	List<int> indexCache = new List<int>();
-	
-	void AnimStep2 () {
-		//		Debug.LogError("AnimStep2");
-		indexCache.Clear ();
-		indexCache.Add (3);
-		GenerateAllCard (indexCache, 3 , AnimStep2End);
-	}
-	
-	void AnimStep2End() {
-		//		Debug.LogError("AnimStep2 end");
-		GenerateAllCard (new List<int> { 3 }, 3 , AnimStep3);
-	}
-	
-	// 1) 4 - 4; 
-	// 2) 4 - 4;
-	// 3) 2,3-3;
-	// 4) 1-1;
-	// 5) 1-1;
-	// 6) 3-1; 
-	// 7) 1,2,3-3;
-	// 8) 4,5-5;
-	// 9) 2,3,4-2
-	
-	void AnimStep3() {
-		//		Debug.LogError("AnimStep3");
-		GenerateAllCard (new List<int> { 1, 2 }, 2 , AnimStep4);
-	}
-	
-	void AnimStep4() {
-		//		Debug.LogError("AnimStep4");
-		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep5);
-	}
-	
-	void AnimStep5() {
-		//		Debug.LogError("AnimStep5");
-		GenerateAllCard (new List<int> { 0 }, 0 , AnimStep6);
-	}
-	
-	void AnimStep6() {
-		GenerateAllCard (new List<int> { 2 }, 0 , AnimStep7);
-	}
-	
-	void AnimStep7() {
-		GenerateAllCard (new List<int> { 0, 1, 2 }, 2 , AnimStep8);
-	}
-	
-	void AnimStep8() {
-		GenerateAllCard (new List<int> { 3, 4 }, 4 , AnimStep9);
-	}
-	
-	void AnimStep9() {
-		GenerateAllCard (new List<int> { 1, 2, 3 }, 1 , AnimEnd);
-	}
-	
-	void AnimEnd() {
-		fingerObject.SetActive (false);
-		
-		//		System.Action action = ;
-		GameTimer.GetInstance().AddCountDown(1f, () => { MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false); } );
-	}
-
-	int userGuideIndex = -1;
-	void UserGuideCard(object data) {
-		userGuideIndex = (int)data;
-		if (userGuideIndex == -1) {
-			return;
-		}
-		
-		for (int i = 0; i < cardPosition.Length; i++) {
-			GenerateSpriteCard(userGuideIndex, i);
-		}
-		
-		RefreshLine();
-	}
-	
-	
-	
-	int generateIndex = 0;
-	Callback GenerateEnd ;
-	void GenerateAllCard (List<int> fromIndex, int toIndex, Callback cb) {
-		if (fromIndex.Count == 0) {
-			return;	
-		}
-		
-		generateIndex = toIndex;
-		GenerateEnd = cb;
-		
-		if (fromIndex.Count == 1) {
-			GenerateCard(fromIndex[0]);
-			return;
-		}
-		
-		GenerateAll (fromIndex);
-	}
-	
-	void GenerateCard(int fromIndex) {
-		CardItem ci = cardItemArray [fromIndex];
-		GameObject target = ci.gameObject;
-		Vector3 toPosition = battleCardAreaItem [generateIndex].transform.position;
-		selectTarget.Add (ci);
-		MoveFinger (target.transform.position, toPosition, moveTime);
-		iTween.MoveTo (target, iTween.Hash ("position", toPosition, "time", moveTime));
-		gameTimer.AddCountDown (dragTime, GenerateCardEnd);
-	} 
-	
-	int cardIndex = 0;
-	int startIndex = 0;
-	List<int> fromIndexCache;
-	
-	void GenerateAll(List<int> fromIndex) {
-		fromIndexCache = fromIndex;
-		
-		cardIndex = 0;
-		
-		selectTarget.Add (cardItemArray [fromIndexCache[startIndex]]);
-		
-		MoveAll ();
-	}
-	
-	void MoveAll() {
-		GameInput.OnUpdate += OnUpdate;
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget[i].ActorTexture.depth += selectTarget.Count ;
-		}
-		
-		int nextIndex = cardIndex + 1;
-		GameObject target = selectTarget [startIndex].gameObject;
-		if (nextIndex == fromIndexCache.Count) {
-			iTween.MoveTo (target, battleCardAreaItem [generateIndex].transform.position, moveTime);
-			
-			gameTimer.AddCountDown(dragTime, MoveAllToPosition);
-			
-			MoveFinger(target.transform.position, battleCardAreaItem [generateIndex].transform.position, moveTime);
-		} else {
-			CardItem nextCi = cardItemArray [fromIndexCache [nextIndex]];
-			
-			cardIndex = nextIndex;
-			
-			iTween.MoveTo (target, nextCi.transform.position, 0.2f);
-			
-			gameTimer.AddCountDown (dragTime, MoveAllEnd);
-			
-			MoveFinger(target.transform.position, nextCi.transform.position, moveTime);
-		}
-	}
-	
-	void MoveAllToPosition() {
-		GameInput.OnUpdate -= OnUpdate;
-		GenerateCardEnd ();
-	}
-	
-	void OnUpdate () {
-		if (selectTarget.Count == 0) {
-			return;	
-		}
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget [i].OnDragHandler (selectTarget[startIndex].transform.localPosition, i);
-		}
-	}
-	
-	void MoveAllEnd() {
-		if (cardIndex >= fromIndexCache.Count) {
-			GameInput.OnUpdate -= OnUpdate;
-			GenerateCardEnd();		
-			return;
-		}
-		ClickCardItem (cardItemArray [fromIndexCache [cardIndex]]);
-		MoveAll ();
-	}
-	
-	void GenerateCardEnd () {
-		int generateCount = battleCardAreaItem [generateIndex].GenerateCard(selectTarget);
-		if(generateCount > 0) {
-			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
-//			YieldStartBattle();
-//			if(showCountDown) {
-//				for(int i = 0;i < generateCount;i++) {
-//					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].location);
-//				}
-//				RefreshLine();
-//			}
-		}
-		
-		for (int i = 0; i < selectTarget.Count; i++) {
-			selectTarget[i].ActorTexture.depth = 6;
-		}
-		
-		ResetClick();
-		
-		if (GenerateEnd != null) {
-			gameTimer.AddCountDown(0.1f, GenerateEnd);
-		}
-	}
 }

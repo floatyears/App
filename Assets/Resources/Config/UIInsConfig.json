@@ -475,7 +475,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleEnemyModule",
@@ -484,7 +484,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleMapModule",
@@ -493,7 +493,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleResultModule",
@@ -502,7 +502,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleTopModule",
@@ -511,7 +511,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleManipulationModule",
@@ -520,7 +520,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleFullScreenTipsModule",
@@ -529,7 +529,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     },
     {
         "name":"BattleSkillModule",
@@ -538,7 +538,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 6
+        "group" : -1
     }
 
 ]

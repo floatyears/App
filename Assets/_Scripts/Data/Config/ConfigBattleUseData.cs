@@ -467,4 +467,11 @@ public class ConfigBattleUseData {
 		questDungeonData.Floors [floor] = reQuestGrid;
 		questDungeonData.Boss = tqdd.Boss;
 	}
+
+	
+	public int ResumeColorIndex(){
+		int i = questDungeonData.Colors [storeBattleData.colorIndex];
+		storeBattleData.colorIndex++;
+		return i;
+	}
 }

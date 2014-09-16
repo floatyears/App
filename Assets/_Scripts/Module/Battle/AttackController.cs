@@ -5,7 +5,7 @@ using System.Timers;
 public class AttackController {
 	public const float normalAttackInterv = 0.7f;
 	public const float deadAttackInterv = 0.5f;
-	private MsgCenter msgCenter;
+//	private MsgCenter msgCenter;
 //	private BattleUseData bud;
 	private Queue<AttackInfo> attackInfoQueue = new Queue<AttackInfo> ();
 	public List<TEnemyInfo> enemyInfo = new List<TEnemyInfo>();
@@ -27,7 +27,7 @@ public class AttackController {
 	IExcutePassiveSkill passiveSkill;
 	public bool battleFail = false;
 
-	private ConfigBattleUseData configBattleUseData;
+//	private ConfigBattleUseData configBattleUseData;
 
 	/// <summary>
 	/// The active animation time.
@@ -37,11 +37,11 @@ public class AttackController {
 	public bool isBoss = false;
 	public AttackController (IExcutePassiveSkill ips, TUnitParty tup) {
 		upi = tup;
-		msgCenter = MsgCenter.Instance;
+//		msgCenter = MsgCenter.Instance;
 //		this.bud = bud;
 		passiveSkill = ips;
 		RegisterEvent ();
-		configBattleUseData = ConfigBattleUseData.Instance;
+//		configBattleUseData = ConfigBattleUseData.Instance;
 		SetEffectTime (2f);
 	}
 
@@ -51,21 +51,21 @@ public class AttackController {
 	}
 
 	void RegisterEvent () {
-		msgCenter.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
-		msgCenter.AddListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
-		msgCenter.AddListener (CommandEnum.SkillGravity, Gravity);
-		msgCenter.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
-		msgCenter.AddListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
-		msgCenter.AddListener (CommandEnum.TargetEnemy, TargetEnemy);
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+		MsgCenter.Instance.AddListener (CommandEnum.SkillGravity, Gravity);
+		MsgCenter.Instance.AddListener (CommandEnum.ReduceDefense, ReduceDefense);
+		MsgCenter.Instance.AddListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		MsgCenter.Instance.AddListener (CommandEnum.TargetEnemy, TargetEnemy);
 	}
 
 	void RemoveEvent () {
-		msgCenter.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
-		msgCenter.RemoveListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
-		msgCenter.RemoveListener (CommandEnum.SkillGravity, Gravity);
-		msgCenter.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
-		msgCenter.RemoveListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
-		msgCenter.RemoveListener (CommandEnum.TargetEnemy, TargetEnemy);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillAttack, ActiveSkillAttack);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillDrawHP, DrawHP);
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillGravity, Gravity);
+		MsgCenter.Instance.RemoveListener (CommandEnum.ReduceDefense, ReduceDefense);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AttackTargetType, AttackTargetTypeEnemy);
+		MsgCenter.Instance.RemoveListener (CommandEnum.TargetEnemy, TargetEnemy);
 	}
 
 	void DrawHP(object data) {
@@ -97,7 +97,7 @@ public class AttackController {
 
 		if (!isReduce && !BattleMapView.reduceDefense) {
 			reduceInfo.AttackRange = 1;
-			msgCenter.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
+			MsgCenter.Instance.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
 		}
 
 		if (BattleMapView.reduceDefense) {
@@ -136,7 +136,7 @@ public class AttackController {
 	}
 
 	void ActiveSkillEnd() {
-		msgCenter.Invoke(CommandEnum.AttackEnemyEnd, 0);
+		MsgCenter.Instance.Invoke(CommandEnum.AttackEnemyEnd, 0);
 
 		CheckBattleSuccess ();
 	}
@@ -167,7 +167,7 @@ public class AttackController {
 	int extraAttackCount = 0;
 	public void StartAttack (List<AttackInfo> attack) {
 //		msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
-		msgCenter.Invoke (CommandEnum.ShowHands, attack.Count);
+		MsgCenter.Instance.Invoke (CommandEnum.ShowHands, attack.Count);
 		if (attack.Count > 0) {
 			List<AttackInfo> extraAttack = leaderSkilllExtarAttack.ExtraAttack ();
 			extraAttackCount = extraAttack.Count;
@@ -234,13 +234,13 @@ public class AttackController {
 	void Attack () {
 		enemyIndex = 0;
 		if (attackInfoQueue.Count == 0) {
-			msgCenter.Invoke (CommandEnum.ReduceActiveSkillRound);
+			MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
 
 			int blood = leaderSkillRecoverHP.RecoverHP(BattleUseData.Instance.maxBlood, 1);	//1: every round.
 
 			BattleUseData.Instance.AddBlood(blood);
 
-			msgCenter.Invoke(CommandEnum.AttackEnemyEnd, endCount);
+			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemyEnd, endCount);
 
 			endCount = 0;
 
@@ -319,7 +319,7 @@ public class AttackController {
 			if(grid != null) {
 				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 			} else if(dropUnit != null){
-				msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
+				MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 			}
 		}
 		deadEnemy.Clear ();
@@ -337,7 +337,7 @@ public class AttackController {
 				if(grid != null) {
 					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
 				} else if(dropUnit != null){
-					msgCenter.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
+					MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
 				}
 			}
 		}
@@ -351,11 +351,14 @@ public class AttackController {
 		return true;
 	}
 
-	public void BattleEnd() {
-		configBattleUseData.ClearActiveSkill ();
+	void BattleEnd() {
+		ConfigBattleUseData.Instance.ClearActiveSkill ();
 		reduceInfo = null;
-		msgCenter.Invoke (CommandEnum.GridEnd, null);
-		msgCenter.Invoke(CommandEnum.BattleEnd, battleFail);
+		MsgCenter.Instance.Invoke (CommandEnum.GridEnd, null);
+//		MsgCenter.Instance.Invoke(CommandEnum.BattleEnd, battleFail);
+		ModuleManager.Instance.HideModule(ModuleEnum.BattleManipulationModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.BattleMapModule);
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
 		BattleUseData.Instance.ClearData();
 //		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}
@@ -440,7 +443,7 @@ public class AttackController {
 	}
 
 	void AttackEnemyEnd (AttackInfo ai){
-		msgCenter.Invoke (CommandEnum.AttackEnemy, ai);
+		MsgCenter.Instance.Invoke (CommandEnum.AttackEnemy, ai);
 	}
 
 	public void FirstAttack () {
@@ -494,7 +497,7 @@ public class AttackController {
 
 	void EnemyAttack () {
 		if (te.GetRound () <= 0) {
-			msgCenter.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
+			MsgCenter.Instance.Invoke (CommandEnum.EnemyAttack, te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			float reduceValue = te.AttackValue;
 
@@ -510,7 +513,7 @@ public class AttackController {
 
 			BattleUseData.Instance.Hurt(hurtValue);
 			te.ResetAttakAround ();	
-			msgCenter.Invoke (CommandEnum.EnemyRefresh, te);
+			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, te);
 //			Debug.LogError("EnemyAttack attackType : " + attackType);
 			List<AttackInfo> temp = passiveSkill.Dispose(attackType, hurtValue);
 
@@ -567,10 +570,10 @@ public class AttackController {
 		BattleUseData.Instance.ClearData();
 //		bud.battleQuest.battle.ShieldInput(true);	
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-		configBattleUseData.storeBattleData.attackRound ++;
-		configBattleUseData.storeBattleData.tEnemyInfo = enemyInfo;
-		msgCenter.Invoke (CommandEnum.EnemyAttackEnd, null);
-		configBattleUseData.StoreMapData ();
+		ConfigBattleUseData.Instance.storeBattleData.attackRound ++;
+		ConfigBattleUseData.Instance.storeBattleData.tEnemyInfo = enemyInfo;
+		MsgCenter.Instance.Invoke (CommandEnum.EnemyAttackEnd, null);
+		ConfigBattleUseData.Instance.StoreMapData ();
 	}
 
 	void LoopAntiAttack() {

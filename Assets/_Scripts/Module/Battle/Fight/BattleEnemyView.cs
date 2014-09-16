@@ -3,12 +3,6 @@ using System.Collections.Generic;
 
 public class BattleEnemyView : ViewBase {
 	private static Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
-	public static Dictionary<uint, EnemyItem> Monster {
-		get {
-				return monster;
-		}
-	}
-
 	private GameObject effectPanel;
 
 	private GameObject effectParent;
@@ -26,9 +20,7 @@ public class BattleEnemyView : ViewBase {
 	{
 		base.Init (config, data);
 //	}
-		numberLabel = FindChild<UILabel>("CountDown/Number");
-		circleSprite = FindChild<UISprite>("CountDown/Circle");
-		transform.localPosition = new Vector3 (0f, 100f, 0f);
+//		transform.localPosition = new Vector3 (0f, 100f, 0f);
 
 //		base.Init (name);
 		effectPanel = transform.Find ("Enemy/Effect").gameObject;
@@ -47,6 +39,10 @@ public class BattleEnemyView : ViewBase {
 		ResourceManager.Instance.LoadLocalAsset (path, o => {
 						bgTexture.mainTexture = o as Texture2D;
 		});
+		if(viewData != null && viewData.ContainsKey("enemy")){
+			Refresh(viewData["enemy"] as List<TEnemyInfo>);
+		}
+
 	}
 
 	int count = 0;
@@ -61,16 +57,11 @@ public class BattleEnemyView : ViewBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 		count--;
 		battleAttackInfo.HideUI ();
-		gameObject.SetActive (false);
 
-
-		GameInput.OnUpdate -= HandleOnUpdate;
-		Stop = false;
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		gameObject.SetActive (true);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		count ++;
@@ -79,8 +70,6 @@ public class BattleEnemyView : ViewBase {
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
-
-		GameInput.OnUpdate += HandleOnUpdate;
 	}
 
 	void PlayAllEffect(object data) {
@@ -166,7 +155,6 @@ public class BattleEnemyView : ViewBase {
 				EnemyItem ei = go.AddComponent<EnemyItem>();
 				enemys.Add(ei);
 				monster.Add(tei.EnemySymbol,ei);
-				ei.battleEnemy = this;
 				ei.Init(tei, BeginSort);
 			}
 		}
@@ -211,13 +199,13 @@ public class BattleEnemyView : ViewBase {
 		if (count == 0) {	return;	}
 		CompressTextureWidth (enemys);
 		if (count == 1) { 
-			enemys[0].transform.localPosition = Vector3.zero; 
+			enemys[0].transform.localPosition = new Vector3(0f,200f,0f); 
 			return; 
 		}
 		int centerIndex = 0;
 		if (DGTools.IsOddNumber (count)) {
 			centerIndex = count >> 1;
-			enemys[centerIndex].transform.localPosition = Vector3.zero;
+			enemys[centerIndex].transform.localPosition = new Vector3(0f,200f,0f);
 			DisposeCenterLeft(centerIndex, enemys);
 			DisposeCenterRight(centerIndex, enemys);
 		} else {
@@ -228,8 +216,8 @@ public class BattleEnemyView : ViewBase {
 			float Difference = (centerRightWidth - centerWidth);
 			centerWidth += Difference;	
 			centerRightWidth -= Difference;
-			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 0f, 0f);
-			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 0f, 0f);
+			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 200f, 0f);
+			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 200f, 0f);
 			DisposeCenterLeft(centerIndex--, enemys);
 			centerRightIndex++;
 			DisposeCenterRight(centerRightIndex, enemys);
@@ -328,7 +316,7 @@ public class BattleEnemyView : ViewBase {
 			EnemyItem currentEnemyItem = temp[tempIndex];
 			Vector3 localPosition = rightEnemyItem.transform.localPosition;
 			float rightWidth = rightEnemyItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f;
-			currentEnemyItem.transform.localPosition = new Vector3(localPosition.x - rightWidth , 0f, 0f);
+			currentEnemyItem.transform.localPosition = new Vector3(localPosition.x - rightWidth , 200f, 0f);
 			tempIndex--;
 		}
 	}
@@ -341,7 +329,7 @@ public class BattleEnemyView : ViewBase {
 		
 			Vector3 localPosition = leftItem.transform.localPosition;
 			float leftWidth = leftItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f; 
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + leftWidth, 0f, 0f);
+			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + leftWidth, 200f, 0f);
 			tempIndex++;
 		}
 	}
@@ -410,38 +398,7 @@ public class BattleEnemyView : ViewBase {
 			DestoryEffect();
 		}
 	}
-
-
-	////-----------count down
-	private UILabel numberLabel;
-	private UISprite circleSprite;
-	private float countDownValue = 1f;
-	private bool Stop = true;
-
-
-	void HandleOnUpdate () {
-		if (Stop) {
-			countDownValue -= Time.deltaTime;
-			circleSprite.fillAmount = countDownValue;
-		}
-		
-	}
 	
-	public void SetCurrentTime (int time) {
-		if (time == 0) {
-			HideUI ();
-			return;
-		}
-		
-		if (!Stop) {
-			Stop = true;	
-		}
-		
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_count_down);
-		iTween.ScaleFrom (gameObject, new Vector3 (1.25f, 1.25f, 1.25f), 0.3f);
-		countDownValue = 1f;
-		numberLabel.text = time.ToString ();
-	}
 }
 
 public class ShowEnemyUtility {

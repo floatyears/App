@@ -9,4 +9,12 @@ public class BattleManipulationModule : ModuleBase {
 		CreateUI<BattleManipulationView> ();
 	}
 
+	public override void OnReceiveMessages (params object[] data)
+	{
+		switch (data [1].ToString ()) {
+		case "":
+			break;
+		}
+	}
+
 }

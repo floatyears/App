@@ -181,5 +181,6 @@ public class BattleScene: SceneBase{
 //		AddModuleToScene<BattleAttackEffectModule> (ModuleEnum.BattleAttackEffectModule);
 		AddModuleToScene<BattleSkillModule> (ModuleEnum.BattleSkillModule);
 	}
+	
 }
 

@@ -332,8 +332,8 @@ public class BattleTopView : ViewBase {
 
 	
 	void End() {
-		BattleManipulationView.colorIndex = 0;
-		BattleManipulationView.isShow = false;
+//		BattleManipulationView.colorIndex = 0;
+//		BattleManipulationView.isShow = false;
 		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_clear);
 	}

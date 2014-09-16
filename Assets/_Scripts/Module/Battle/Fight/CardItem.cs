@@ -60,9 +60,9 @@ public class CardItem : MonoBehaviour {
 	private float defaultMoveTime = 0.1f;
 
 	[HideInInspector]
-	public int itemID = -1;
+	public int colorType = -1;
 	[HideInInspector]
-	public int location = -1;
+	public int index = -1;
 	[HideInInspector]
 	public int color = -1;
 
@@ -105,8 +105,8 @@ public class CardItem : MonoBehaviour {
 	public void ShowUI () {
 		if(!actorTexture.enabled)
 			actorTexture.enabled = true;
-		if (itemID != -1) {
-			actorTexture.spriteName = itemID.ToString();
+		if (colorType != -1) {
+			actorTexture.spriteName = colorType.ToString();
 		}
 	}
 
@@ -128,7 +128,7 @@ public class CardItem : MonoBehaviour {
 	}
 
 	public void SetSprite(int index,bool canAttack) {
-		itemID = index;
+		colorType = index;
 		Clear ();
 
 		this.canAttack = canAttack;
@@ -150,11 +150,11 @@ public class CardItem : MonoBehaviour {
 //		actorTexture.transform.localPosition = ;
 	}
 
-	public void OnPressHandler(bool isPress,int sortID) {
+	public void AddCardToSelect(bool isPress,int sortIndex) {
 		if(!canDrag)
 			return;
 		if(isPress) {	
-			SetPosition(sortID);
+			SetPositionByIndex(sortIndex);
 		}
 		else {
 			Reset();
@@ -162,7 +162,7 @@ public class CardItem : MonoBehaviour {
 	}
 //	bool b = false;
 	public void Reset() {
-//		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
+		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
 //		transform.localPosition = initPosition;
 		SetPosition (initPosition);
 //		Debug.LogError ("transform.localPosition : " + transform.localPosition);
@@ -176,8 +176,8 @@ public class CardItem : MonoBehaviour {
 		tweenPosition.duration = defaultMoveTime;
 	}
 
-	public bool SetCanDrag(int id) {
-		if(id == this.itemID)
+	public bool SetCanDrag(int type) {
+		if(type == this.colorType)
 			CanDrag = true;
 		else
 			CanDrag = false;
@@ -222,14 +222,14 @@ public class CardItem : MonoBehaviour {
 		}
 	}
 
-	void SetPosition(int sortID) {
+	void SetPositionByIndex(int sortIndex) {
 		gameObject.layer = GameLayer.IgnoreCard;
 
-		actorTexture.depth = initDepth + sortID + 1;
+		actorTexture.depth = initDepth + sortIndex + 1;
 
 		Vector3 pos = BattleManipulationView.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 
-		Vector3 offset = new Vector3(sortID * (float)actorTexture.width / 2f , - sortID * (float)actorTexture.height / 2, 0f) - transform.parent.localPosition;
+		Vector3 offset = new Vector3(sortIndex * (float)actorTexture.width / 2f , - sortIndex * (float)actorTexture.height / 2, 0f) - transform.parent.localPosition;
 
 		SetPosition (new Vector3 (pos.x, pos.y, transform.localPosition.z) + offset);
 //		transform.localPosition  = ;
