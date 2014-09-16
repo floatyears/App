@@ -34,7 +34,7 @@ public class BattleEnemyView : ViewBase {
 		battleAttackInfo = FindChild<BattleAttackInfo>("Enemy/AttackInfo");
 		battleAttackInfo.Init ();
 		bgTexture = FindChild<UITexture>("Texture");
-		string path = "Texture/Map/fight_" + ConfigBattleUseData.Instance.GetMapID ().ToString ();
+		string path = "Texture/Map/fight_" + BattleConfigData.Instance.GetMapID ().ToString ();
 //		Debug.LogError ("BattleEnemy path : " + path);
 		ResourceManager.Instance.LoadLocalAsset (path, o => {
 						bgTexture.mainTexture = o as Texture2D;
@@ -48,7 +48,7 @@ public class BattleEnemyView : ViewBase {
 	int count = 0;
 	public override void HideUI () {
 		base.HideUI ();
-		Clear ();
+//		Clear ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
@@ -56,7 +56,7 @@ public class BattleEnemyView : ViewBase {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 		count--;
-		battleAttackInfo.HideUI ();
+//		battleAttackInfo.HideUI ();
 
 	}
 
@@ -65,11 +65,32 @@ public class BattleEnemyView : ViewBase {
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
 		count ++;
-		battleAttackInfo.ShowUI ();
+//		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
+	}
+
+	public override void CallbackView (params object[] args)
+	{
+		switch(args[0].ToString()){
+		case "refresh_enemy":
+			foreach (var item in enemys) {
+				item.EnemyRefresh(args[1]);
+			}
+			break;
+		case "enemey_attack":
+			foreach (var item in enemys) {
+				item.EnemyAttack(args[1]);
+			}
+			break;
+		case "enemy_dead":
+			foreach (var item in enemys) {
+				item.EnemyDead(args[1]);
+			}
+			break;
+		}
 	}
 
 	void PlayAllEffect(object data) {
@@ -99,7 +120,7 @@ public class BattleEnemyView : ViewBase {
 		DestoryEffect ();
 	}
 
-	List<EnemyItem> enemyList = new List<EnemyItem>();
+//	List<EnemyItem> enemyList = new List<EnemyItem>();
 
 	AttackInfo prevAttackInfo = null;
 
@@ -176,7 +197,7 @@ public class BattleEnemyView : ViewBase {
 
 		if (monster.ContainsKey (posSymbol) && monster[posSymbol].enemyInfo.IsDead) {
 			bbproto.EnemyInfo ei = monster[posSymbol].enemyInfo.EnemyInfo();
-			ConfigBattleUseData.Instance.storeBattleData.RemoveEnemyInfo(ei);
+			BattleConfigData.Instance.storeBattleData.RemoveEnemyInfo(ei);
 			monster.Remove (posSymbol);	
 		}
 	}
@@ -337,7 +358,7 @@ public class BattleEnemyView : ViewBase {
 	GameObject prevEffect;
 	List<GameObject> extraEffect = new List<GameObject> ();
 
-	public void PlayerEffect(EnemyItem ei, AttackInfo ai) {
+	void PlayerEffect(EnemyItem ei, AttackInfo ai) {
 		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
 			if(ei != null)
 				ei.InjuredShake();
@@ -375,10 +396,6 @@ public class BattleEnemyView : ViewBase {
 				}
 			}
 		});
-	}
-
-	public void PlayAllEffect () {
-
 	}
 
 	void SkillRecoverSP(object data) {

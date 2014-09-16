@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -229,7 +229,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		ConfigBattleUseData.Instance.gameState = (byte)DataCenter.gameState;
+		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
 	
@@ -237,9 +237,9 @@ public class GiveUp__FightReadyView : ViewBase {
 		pickedHelperInfo.FriendPoint = 0;
 		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 		
-		ConfigBattleUseData.Instance.gotFriendPoint = 0;
-		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
+		BattleConfigData.Instance.gotFriendPoint = 0;
+		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		BattleConfigData.Instance.ResetFromServer(tqdd);
 		ModuleManager.Instance.EnterBattle ();
 		
 		//		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);

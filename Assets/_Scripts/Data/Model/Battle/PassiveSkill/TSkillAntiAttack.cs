@@ -2,7 +2,7 @@
 using System.Collections;
 using bbproto;
 
-public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
+public class TSkillAntiAttack : SkillBaseInfo {
 	private SkillAntiAttack instance;
 	public EUnitType AttackSource {
 		get { return instance.attackSource; }
@@ -12,9 +12,9 @@ public class TSkillAntiAttack : SkillBaseInfo, IPassiveExcute {
 		skillBase = this.instance.baseInfo;
 	}
 
-	public object Excute (object trapBase, IExcutePassiveSkill excutePS) {
+	public object Excute (object trapBase) {
 		if (trapBase is TrapBase) {
-			excutePS.DisposeTrap(false);
+			BattleAttackManager.Instance.DisposeTrap(false);
 			return null;	
 		}
 

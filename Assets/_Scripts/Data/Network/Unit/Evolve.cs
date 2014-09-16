@@ -233,7 +233,7 @@ public class TEvolveStart : ProtobufDataBase {
 
 		DataCenter.Instance.PartyInfo.AllParty.Add (tup);
 
-		ConfigBattleUseData.Instance.party = tup;
+		BattleConfigData.Instance.party = tup;
 
 //		Debug.LogError (DataCenter.Instance.PartyInfo.AllParty.Count + " id : " + tup.ID);
 	}

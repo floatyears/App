@@ -93,7 +93,7 @@ public class ResultView : ViewBase {
 
 	void ClickCheck(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
+		BattleConfigData.Instance.BattleFriend.FriendPoint = 0;
 //		ModuleManger.Instance.ShowModule(ModuleEnum.Home);
 
 		DGTools.ChangeToQuest();
@@ -101,7 +101,7 @@ public class ResultView : ViewBase {
 
 	void ClickOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ConfigBattleUseData.Instance.BattleFriend.FriendPoint = 0;
+		BattleConfigData.Instance.BattleFriend.FriendPoint = 0;
 //		Debug.LogError("Click ok");
 //		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 //		ExcuteCallback(call);

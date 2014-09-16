@@ -74,8 +74,8 @@ public class DGTools {
 //		UIManager manager = UIManager.Instance;
 		MsgCenter msgCenter = MsgCenter.Instance;
 
-		TStageInfo tsi = ConfigBattleUseData.Instance.currentStageInfo;
-		TQuestInfo tqi = ConfigBattleUseData.Instance.currentQuestInfo;
+		TStageInfo tsi = BattleConfigData.Instance.currentStageInfo;
+		TQuestInfo tqi = BattleConfigData.Instance.currentQuestInfo;
 
 		uint cityID = tsi.CityId;
 		TCityInfo tci = dataCenter.GetCityInfo (cityID);

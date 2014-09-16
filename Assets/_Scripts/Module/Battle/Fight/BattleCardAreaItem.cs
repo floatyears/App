@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleCardAreaItem : MonoBehaviour {
-	public static GameObject boostObject;
 
 	private const int itemInterv = 17;
 
-	private List<CardSprite> cardItemList = new List<CardSprite>();
-	public List<CardSprite> CardItemList {
-		get{ return cardItemList; }
-	}
+	private List<CardSprite> smallCardItemList = new List<CardSprite>();
 
 	private List<UISprite> cardList = new List<UISprite> ();
 	private GameObject parentObject;
@@ -26,19 +22,14 @@ public class BattleCardAreaItem : MonoBehaviour {
 		get {return areaItemID;}
 		set {areaItemID = value;}
 	}
-	[HideInInspector]
 	private UISprite template;
-	[HideInInspector]
-	public List<int> haveCard = new List<int> ();
+	private List<int> haveCard = new List<int> ();
 
 //	private BattleUseData battleUseData;
 	private bool _isBoost = false;
 	public bool isBoost {
-		set { _isBoost = value; 
-			SetBoost(value);
-			if(_isBoost)  {
-				boostObject = gameObject;
-			}
+		set { 
+			boostLabel.enabled = _isBoost = value; 
 		}
 		get { return _isBoost; }
 	}
@@ -64,10 +55,6 @@ public class BattleCardAreaItem : MonoBehaviour {
 			cardList.Add(sprite);
 		}
 	}
-
-	void SetBoost(bool show) {
-		boostLabel.enabled = show;
-	}
 	
 	void InitFightCard() {
 		template = transform.FindChild("BattleCardTemplate").GetComponent<UISprite>();
@@ -77,7 +64,7 @@ public class BattleCardAreaItem : MonoBehaviour {
 	public void ShowUI () {
 //		base.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
-		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
+//		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
 //		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 //		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 	}
@@ -85,7 +72,7 @@ public class BattleCardAreaItem : MonoBehaviour {
 	public void HideUI () {
 //		base.HideUI ();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
-		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 	}
@@ -94,30 +81,48 @@ public class BattleCardAreaItem : MonoBehaviour {
 		Attack (data);
 	}
 
-	public int GenerateCard(List<CardItem> source) {
-		Scale (true);
-		int maxLimit = Config.cardCollectionCount - cardItemList.Count;
+	public int UpdateCardAndAttackInfo(List<CardItem> source) {
+//		Scale (true);
+		int maxLimit = BattleConfigData.cardCollectionCount - smallCardItemList.Count;
 		if(maxLimit <= 0)
 			return 0;
 		maxLimit = maxLimit > source.Count ? source.Count : maxLimit;
 		Vector3 pos = BattleManipulationView.ChangeCameraPosition() - ViewManager.Instance.ParentPanel.transform.localPosition;
 
-		int preAttackCount = attackImage.Count;
+		int preAttackCount = attackInfos.Count;
 
 		for (int i = 0; i < maxLimit; i++) {
-			GameObject go = cardList[cardItemList.Count].gameObject;
+			GameObject go = cardList[smallCardItemList.Count].gameObject;
 			CardSprite ci = go.AddComponent<CardSprite>();
 			ci.Init("aaa");
-			DisposeTweenPosition(ci);
-			DisposeTweenScale(ci);
-			ci.ActorSprite.depth = GetDepth(cardItemList.Count);
+			ci.Move(GetPosition(smallCardItemList.Count),durationTime);
+			ci.Scale(scale,durationTime);
+			ci.ActorSprite.depth = GetDepth(smallCardItemList.Count);
 			ci.SetTexture(source[i].colorType, source[i].canAttack);
-			cardItemList.Add(ci);
-			GenerateFightCardImmelity(source[i].colorType);
+			smallCardItemList.Add(ci);
+			attackInfos = BattleAttackManager.Instance.CaculateFight (areaItemID, source[i].colorType, isBoost);
+			
+			int endNumber = battleCardTemplate.Count - attackInfos.Count;
+			for (int j = 0; j < endNumber; j++) {
+				battleCardTemplate[attackInfos.Count + j].enabled = false;
+			}
+			
+			for (int m = 0; m < attackInfos.Count; m++) {
+				if(battleCardTemplate.Count == m) {
+					GameObject instance = NGUITools.AddChild (gameObject, template.gameObject);
+					instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * itemInterv, 0f);
+					battleCardTemplate.Add(instance.GetComponent<UISprite>());
+				}
+				UISprite tex = battleCardTemplate[m];
+				tex.enabled = true;
+				tex.spriteName = DGTools.GetNormalSkillSpriteName(attackInfos[m]); 
+				attackInfos[m].AttackSprite = tex;
+			}
+
 			haveCard.Add(source[i].colorType);
 		}
 
-		if (attackImage.Count > preAttackCount) {
+		if (attackInfos.Count > preAttackCount) {
 //			Debug.LogError(" sound_title_success ");
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_success);
 		} else {
@@ -125,66 +130,27 @@ public class BattleCardAreaItem : MonoBehaviour {
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_invalid);
 		}
 
-		if (cardItemList.Count == Config.cardCollectionCount) {
+		if (smallCardItemList.Count == BattleConfigData.cardCollectionCount) {
 			cardList[5].enabled = true;
 		}
 
 		return maxLimit;
 	}
 
-	List <AttackInfo> attackImage = new List<AttackInfo> ();
+	List <AttackInfo> attackInfos = new List<AttackInfo> ();
 
-	void GenerateFightCardImmelity(int id) {
-
-		attackImage = BattleUseData.Instance.CaculateFight (areaItemID, id, isBoost);
-
-
-//		if (generateImage.Count > attackImage.Count) {
-//			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_success);
-//		} else {
-//			AudioManager.Instance.PlayAudio (AudioEnum.sound_title_invalid);
-//		}
-
-//		attackImage = generateImage;
-
-		InstnaceCard ();
+	void BattleEnd(object data) {
+		attackInfos.Clear ();
+		battleCardTemplate.Clear ();
 	}
-
-	void InstnaceCard() {
-		int endNumber = battleCardTemplate.Count - attackImage.Count;
-		for (int i = 0; i < endNumber; i++) {
-			battleCardTemplate[attackImage.Count + i].enabled = false;
-		}
-
-		for (int i = 0; i < attackImage.Count; i++) {
-			if(battleCardTemplate.Count == i) {
-				CreatCard();
-			}
-			UISprite tex = battleCardTemplate[i];
-			tex.enabled = true;
-			tex.spriteName = DGTools.GetNormalSkillSpriteName(attackImage[i]); 
-			attackImage[i].AttackSprite = tex;
-		}
-	}
-
-	void CreatCard(){
-		GameObject instance = NGUITools.AddChild (gameObject, template.gameObject);
-		instance.transform.localPosition = battleCardInitPos + new Vector3 (0f, battleCardTemplate.Count * itemInterv, 0f);
-		battleCardTemplate.Add(instance.GetComponent<UISprite>());
-	}
-
-//	void BattleEnd(object data) {
-//		attackImage.Clear ();
-//		battleCardTemplate.Clear ();
-//	}
 
 	void Attack(object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
 			return;		
 		}
-		AttackInfo aiu = attackImage.Find (a => a.AttackID == ai.AttackID);
-		attackImage.Remove (aiu);
+		AttackInfo aiu = attackInfos.Find (a => a.AttackID == ai.AttackID);
+		attackInfos.Remove (aiu);
 		if (aiu != default(AttackInfo)) {
 			UISprite sprite = aiu.AttackSprite;
 			int index = battleCardTemplate.IndexOf(sprite);
@@ -204,44 +170,36 @@ public class BattleCardAreaItem : MonoBehaviour {
 		ClearCard ();
 	}
 
-	bool isScale = false;
-	public void Scale(bool on) {
-		if (!isScale) {
-			isScale = true;
-			iTween.ScaleFrom (gameObject, iTween.Hash ("scale", selfScale, "time", 0.3f, "easetype", "easeoutback","oncompletetarget",gameObject,"oncomplete","ScaleDown"));
-		}
-	}
+//	bool isScale = false;
+//	public void Scale(bool on) {
+//		if (!isScale) {
+//			isScale = true;
+//			iTween.ScaleFrom (gameObject, iTween.Hash ("scale", selfScale, "time", 0.3f, "easetype", "easeoutback","oncompletetarget",gameObject,"oncomplete","ScaleDown"));
+//		}
+//	}
 
-	void ScaleDown() {
-		isScale = false;
-	}
+//	void ScaleDown() {
+//		isScale = false;
+//	}
 
 	public void ClearCard() {
-		for (int i = 0; i < cardItemList.Count; i++) {
-			cardItemList[i].HideUI();
+		for (int i = 0; i < smallCardItemList.Count; i++) {
+			smallCardItemList[i].HideUI();
 		}
-		cardItemList.Clear();
+		smallCardItemList.Clear();
 
 		cardList [5].enabled = false; // cardlist[5] == full sprite
 		haveCard.Clear ();
 	}
-
-	void DisposeTweenPosition(CardSprite ci) {
-		ci.Move(GetPosition(cardItemList.Count),durationTime);
-	}
-
-	void DisposeTweenScale(CardSprite ci) {
-		ci.Scale(scale,durationTime);
-	}
-
-	void DisposeTweenPosition(CardItem ci) {
-		ci.Move(GetPosition(cardItemList.Count),durationTime);
-	}
-
-	void DisposeTweenScale(CardItem ci) {
-		ci.Scale(scale,durationTime);
-	}
 	
+//	void DisposeTweenPosition(CardItem ci) {
+//		ci.Move(GetPosition(cardItemList.Count),durationTime);
+//	}
+//
+//	void DisposeTweenScale(CardItem ci) {
+//		ci.Scale(scale,durationTime);
+//	}
+//	
 	Vector3 GetPosition(int sortID) {	
 		Vector3 tempPos = Vector3.zero;
 		switch (sortID) {
@@ -270,5 +228,9 @@ public class BattleCardAreaItem : MonoBehaviour {
 		if(sortID == -1)
 			return 0;
 		return sortID == 4 ? 7 : 6;
+	}
+
+	public void DestroyUI(){
+
 	}
 }

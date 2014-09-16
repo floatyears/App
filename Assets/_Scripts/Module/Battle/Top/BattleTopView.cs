@@ -46,7 +46,7 @@ public class BattleTopView : ViewBase {
 	
 	int GetCoin() {
 		int coin = 0;
-		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			coin += item.getMoney;
 		}
 		return coin;
@@ -62,8 +62,8 @@ public class BattleTopView : ViewBase {
 	}
 
 	public void SetFloor () {
-		int currentFloor = ConfigBattleUseData.Instance.questDungeonData.currentFloor + 1;
-		int maxFloor = ConfigBattleUseData.Instance.questDungeonData.Floors.Count;
+		int currentFloor = BattleConfigData.Instance.questDungeonData.currentFloor + 1;
+		int maxFloor = BattleConfigData.Instance.questDungeonData.Floors.Count;
 //		Debug.LogError ("top ui set floor : " + currentFloor);
 		if(floorLabel != null)
 			floorLabel.text = currentFloor + "/" + maxFloor + "F";
@@ -72,7 +72,7 @@ public class BattleTopView : ViewBase {
 	public void RefreshTopUI() {
 		int coin = 0;
 		int drop = 0;
-		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			coin += item.getMoney;
 			drop += item.getUnit.Count;
 		}
@@ -157,7 +157,7 @@ public class BattleTopView : ViewBase {
 		//		if (battle.isShowEnemy) {
 		//			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
 		//		}
-		RedoQuest.SendRequest (SureRetryNetWork, ConfigBattleUseData.Instance.questDungeonData.QuestId, ConfigBattleUseData.Instance.questDungeonData.currentFloor);
+		RedoQuest.SendRequest (SureRetryNetWork, BattleConfigData.Instance.questDungeonData.QuestId, BattleConfigData.Instance.questDungeonData.currentFloor);
 		
 //		Main.Instance.GInput.IsCheckInput = true;
 		BattleBottomView.notClick = false;
@@ -186,9 +186,9 @@ public class BattleTopView : ViewBase {
 		}
 		
 		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
-		ConfigBattleUseData.Instance.RefreshCurrentFloor(rrq);;
-		ConfigBattleUseData.Instance.InitRoleCoordinate (new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY));
-		ConfigBattleUseData.Instance.StoreMapData ();
+		BattleConfigData.Instance.RefreshCurrentFloor(rrq);;
+		BattleConfigData.Instance.InitRoleCoordinate (new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY));
+		BattleConfigData.Instance.StoreMapData ();
 	}
 	
 	void SureRetryPress() {
@@ -207,7 +207,7 @@ public class BattleTopView : ViewBase {
 		//			battle.ExitFight();
 		//		}
 		Reset ();
-		BattleUseData.Instance.ResetBlood ();
+		BattleAttackManager.Instance.ResetBlood ();
 	}
 
 	void RequestData (object data) {
@@ -228,8 +228,8 @@ public class BattleTopView : ViewBase {
 	TClearQuestParam GetQuestData () {
 		ClearQuestParam cq = new ClearQuestParam ();
 		TClearQuestParam cqp = new TClearQuestParam (cq);
-		cqp.questId = ConfigBattleUseData.Instance.questDungeonData.QuestId;
-		foreach (var item in ConfigBattleUseData.Instance.storeBattleData.questData) {
+		cqp.questId = BattleConfigData.Instance.questDungeonData.QuestId;
+		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			cqp.getMoney += item.getMoney;
 			cqp.getUnit.AddRange(item.getUnit);
 			cqp.hitGrid.AddRange(item.hitGrid);
@@ -254,11 +254,11 @@ public class BattleTopView : ViewBase {
 
 	
 	void QuestEnd (TRspClearQuest trcq) {
-		if (ConfigBattleUseData.Instance.currentStageInfo != null) {
-			if ( ConfigBattleUseData.Instance.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
-				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (ConfigBattleUseData.Instance.currentStageInfo.ID, ConfigBattleUseData.Instance.currentQuestInfo.ID);
+		if (BattleConfigData.Instance.currentStageInfo != null) {
+			if ( BattleConfigData.Instance.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
+				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.ID, BattleConfigData.Instance.currentQuestInfo.ID);
 			} else { 
-				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (ConfigBattleUseData.Instance.currentStageInfo.ID, ConfigBattleUseData.Instance.currentQuestInfo.ID);
+				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.ID, BattleConfigData.Instance.currentQuestInfo.ID);
 			}	
 		}
 		
@@ -280,7 +280,7 @@ public class BattleTopView : ViewBase {
 		
 		Umeng.GA.Event ("Evolve");
 		
-		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
+		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
 		//		DataCenter.Instance.RefreshUserInfo(rsp)
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;
 		DataCenter.Instance.UserInfo.Exp = rsp.exp;
@@ -290,7 +290,7 @@ public class BattleTopView : ViewBase {
 		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
 		//
-		TUnitParty tup = ConfigBattleUseData.Instance.party;
+		TUnitParty tup = BattleConfigData.Instance.party;
 		foreach (var item in tup.UserUnit.Values) {
 			if(item == null ) {
 				continue;
@@ -299,7 +299,7 @@ public class BattleTopView : ViewBase {
 				DataCenter.Instance.UserUnitList.DelMyUnit(item.ID);
 			}
 		}
-		ConfigBattleUseData.Instance.party = null;
+		BattleConfigData.Instance.party = null;
 		
 		for (int i = 0; i < rsp.gotUnit.Count; i++) {
 			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);

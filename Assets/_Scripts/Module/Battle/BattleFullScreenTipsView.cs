@@ -64,7 +64,7 @@ public class BattleFullScreenTipsView : ViewBase {
 
 
 	void AttackBackFunc() {
-		BattleUseData.Instance.ac.FirstAttack ();
+		BattleAttackManager.Instance.FirstAttack ();
 	}
 	
 	void AttackEnd () {
@@ -73,7 +73,7 @@ public class BattleFullScreenTipsView : ViewBase {
 	}
 
 	void AttackBack(){
-		BattleUseData.Instance.ac.AttackPlayer ();
+		BattleAttackManager.Instance.AttackPlayer ();
 	}
 
 	void MeetBoss () {
@@ -84,15 +84,15 @@ public class BattleFullScreenTipsView : ViewBase {
 //		BattleMapView.waitMove = false;
 		//		ShowBattle();
 		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-		for (int i = 0; i < ConfigBattleUseData.Instance.questDungeonData.Boss.Count; i++) {
-			TEnemyInfo tei = ConfigBattleUseData.Instance.questDungeonData.Boss [i];
+		for (int i = 0; i < BattleConfigData.Instance.questDungeonData.Boss.Count; i++) {
+			TEnemyInfo tei = BattleConfigData.Instance.questDungeonData.Boss [i];
 			tei.EnemySymbol = (uint)i;
 			temp.Add (tei);
 		}
-		TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
-		BattleUseData.Instance.InitBoss (ConfigBattleUseData.Instance.questDungeonData.Boss, bossDrop);
+		TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		BattleAttackManager.Instance.InitBoss (BattleConfigData.Instance.questDungeonData.Boss, bossDrop);
 		
-		ConfigBattleUseData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
+		BattleConfigData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
 		//		battle.ShowEnemy (temp, true);
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 

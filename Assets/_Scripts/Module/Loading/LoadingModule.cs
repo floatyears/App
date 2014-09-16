@@ -147,7 +147,7 @@ public class LoadingModule : ModuleBase {
 			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 #endif
 
-			recoverQuestID = (uint)ConfigBattleUseData.Instance.hasBattleData();
+			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
 				if(NoviceGuideStepEntityManager.isInNoviceGuide()){
 					SureRetry(null);
@@ -198,9 +198,9 @@ public class LoadingModule : ModuleBase {
 	} 
 
 	private void EnterBattle (TQuestDungeonData tqdd) {
-		ConfigBattleUseData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		BattleConfigData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 //		Debug.LogError(tqdd.)
-		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
+		BattleConfigData.Instance.ResetFromServer(tqdd);
 		ModuleManager.Instance.EnterBattle();
 	}
 
@@ -241,17 +241,17 @@ public class LoadingModule : ModuleBase {
 	}
 
 	void SureRetry(object data) {
-		ConfigBattleUseData.Instance.ResetFromDisk();
+		BattleConfigData.Instance.ResetFromDisk();
 		RecoverParty ();
 		ModuleManager.Instance.EnterBattle();
 	}
 
 	void RecoverParty() {
-		GameState gs = (GameState)ConfigBattleUseData.Instance.gameState;
+		GameState gs = (GameState)BattleConfigData.Instance.gameState;
 		if (gs == GameState.Evolve) {
 			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
 			tpi.CurrentPartyId = tpi.AllParty.Count;
-			tpi.AllParty.Add(ConfigBattleUseData.Instance.party);
+			tpi.AllParty.Add(BattleConfigData.Instance.party);
 		}
 		DataCenter.gameState = gs;
 	}
@@ -262,8 +262,8 @@ public class LoadingModule : ModuleBase {
 	}
 
 	void RetireQuestCallback(object data) {
-		ConfigBattleUseData.Instance.ClearData ();
-		ConfigBattleUseData.Instance.gameState = (byte)GameState.Normal;
+		BattleConfigData.Instance.ClearData ();
+		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
 		EnterGame();
 	}
 

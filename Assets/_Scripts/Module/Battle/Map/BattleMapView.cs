@@ -66,7 +66,7 @@ public class BattleMapView : ViewBase {
 		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
 
 		mapBGTexture = FindChild<UITexture>("BG");
-		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset ("Texture/Map/battlemap_" + ConfigBattleUseData.Instance.GetMapID().ToString (), null) as Texture2D;
+		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset ("Texture/Map/battlemap_" + BattleConfigData.Instance.GetMapID().ToString (), null) as Texture2D;
 
 		map = new MapItem[MapConfig.MapWidth, MapConfig.MapHeight];
 		template = FindChild<MapItem>("SingleMap");
@@ -91,29 +91,29 @@ public class BattleMapView : ViewBase {
 
 		StartMap ();
 
-		if (ConfigBattleUseData.Instance.hasBattleData () > 0) {
+		if (BattleConfigData.Instance.hasBattleData () > 0) {
 			
-			Coordinate coor = ConfigBattleUseData.Instance.storeBattleData.roleCoordinate;
-			BattleUseData.Instance.Els.CheckLeaderSkillCount();
-			BattleUseData.Instance.InitBattleUseData (ConfigBattleUseData.Instance.storeBattleData);
+			Coordinate coor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
+			BattleAttackManager.Instance.Els.CheckLeaderSkillCount();
+			BattleAttackManager.Instance.InitBattleUseData (BattleConfigData.Instance.storeBattleData);
 			
 			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
 				return;	
 			}
 			
-			TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (coor);
+			TQuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetCellInfo (coor);
 			ChangeStyle (coor);
 			Stop ();
 			
-			if (ConfigBattleUseData.Instance.trapPoison != null) {
-				ConfigBattleUseData.Instance.trapPoison.ExcuteByDisk();
+			if (BattleConfigData.Instance.trapPoison != null) {
+				BattleConfigData.Instance.trapPoison.ExcuteByDisk();
 			}
 			
-			if (ConfigBattleUseData.Instance.trapEnvironment != null) {
-				ConfigBattleUseData.Instance.trapEnvironment.ExcuteByDisk();
+			if (BattleConfigData.Instance.trapEnvironment != null) {
+				BattleConfigData.Instance.trapEnvironment.ExcuteByDisk();
 			}
 			
-			TStoreBattleData sbd = ConfigBattleUseData.Instance.storeBattleData;
+			TStoreBattleData sbd = BattleConfigData.Instance.storeBattleData;
 			
 			// 0 is not in fight.
 			if (sbd.isBattle == 0) {
@@ -121,7 +121,7 @@ public class BattleMapView : ViewBase {
 					BossDead();
 					return;
 				}
-				BattleUseData.Instance.CheckPlayerDead();
+				BattleAttackManager.Instance.CheckPlayerDead();
 				return;
 			}
 			
@@ -136,7 +136,7 @@ public class BattleMapView : ViewBase {
 			
 			if (sbd.isBattle == 1) {		// 1 == battle enemy
 				currentMapData.Enemy = temp;
-				BattleUseData.Instance.InitEnemyInfo (currentMapData);
+				BattleAttackManager.Instance.InitEnemyInfo (currentMapData);
 				if(sbd.attackRound == 0) {	// 0 == first attack
 					GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 				}
@@ -144,20 +144,20 @@ public class BattleMapView : ViewBase {
 				battleEnemy = true;
 				//			battle.ShieldInput (true);
 				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-				ConfigBattleUseData.Instance.questDungeonData.Boss= temp;
-				TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
-				BattleUseData.Instance.InitBoss (ConfigBattleUseData.Instance.questDungeonData.Boss, bossDrop);
+				BattleConfigData.Instance.questDungeonData.Boss= temp;
+				TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+				BattleAttackManager.Instance.InitBoss (BattleConfigData.Instance.questDungeonData.Boss, bossDrop);
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 			}
 			//		battle.ShowEnemy(temp);
 			
 			GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 			
-			BattleUseData.Instance.CheckPlayerDead();	
+			BattleAttackManager.Instance.CheckPlayerDead();	
 		}else{
-			BattleUseData.Instance.InitBattleUseData(null);
+			BattleAttackManager.Instance.InitBattleUseData(null);
 			//init role
-			prevCoor = currentCoor = ConfigBattleUseData.Instance.roleInitCoordinate;
+			prevCoor = currentCoor = BattleConfigData.Instance.roleInitCoordinate;
 			
 			CalcRoleDestPosByCoor(currentCoor);
 			
@@ -199,9 +199,9 @@ public class BattleMapView : ViewBase {
 		float xCoor =  template.InitPosition.x + (x / 2) * itemWidth;
 		float yCoor = template.InitPosition.y + y * itemWidth;
 
-		TClearQuestParam data = ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData();
+		TClearQuestParam data = BattleConfigData.Instance.storeBattleData.GetLastQuestData();
 		for (int i = 0; i < data.hitGrid.Count; i++) {
-			Coordinate coor = ConfigBattleUseData.Instance.questDungeonData.GetGridCoordinate(data.hitGrid[i]);
+			Coordinate coor = BattleConfigData.Instance.questDungeonData.GetGridCoordinate(data.hitGrid[i]);
 			if(coor.x < 0 || coor.y < 0 || coor.x >= MapConfig.MapWidth || coor.y >= MapConfig.MapHeight) {
 				continue;
 			}
@@ -352,26 +352,26 @@ public class BattleMapView : ViewBase {
 				currentItem.HideGridNoAnim ();
 				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
 					
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleUseData.Instance.Els.CheckLeaderSkillCount() * AttackController.normalAttackInterv);
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.Els.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
 				});
-				ConfigBattleUseData.Instance.StoreMapData();
+				BattleConfigData.Instance.StoreMapData();
 				return;
 			}
 
 //			ConfigBattleUseData.Instance.questDungeonData.currentFloor = 
 
-			int index = ConfigBattleUseData.Instance.questDungeonData.GetGridIndex (coor);
+			int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (coor);
 			
 			if (index != -1) {
-				ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)index);
+				BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)index);
 			}
 			
-			TQuestGrid currentMapData = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (coor);
+			TQuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetCellInfo (coor);
 			
 			Stop ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 				//				BattleMapView.waitMove = true;
-				ConfigBattleUseData.Instance.storeBattleData.HitKey = true;
+				BattleConfigData.Instance.storeBattleData.HitKey = true;
 				RotateAnim (()=>{
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
 					//		battle.ShieldInput (false);
@@ -403,8 +403,8 @@ public class BattleMapView : ViewBase {
 						temp.Add(tei);
 						DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 					}
-					BattleUseData.Instance.InitEnemyInfo (currentMapData);
-					ConfigBattleUseData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
+					BattleAttackManager.Instance.InitEnemyInfo (currentMapData);
+					BattleConfigData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
 					//		battle.ShowEnemy (temp);
 					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule);
 					ShowEnemy(temp);
@@ -423,7 +423,7 @@ public class BattleMapView : ViewBase {
 						AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
 						//		BattleMapView.waitMove = false;
 						//		questData.getMoney += currentMapData.Coins;
-								ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.Coins;
+								BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.Coins;
 						//		topUI.Coin = GetCoin ();//questData.getMoney;
 						ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"updatecoin");
 
@@ -443,8 +443,8 @@ public class BattleMapView : ViewBase {
 					RotateAnim (()=>{
 						AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
 						//		BattleMapView.waitMove = false;
-								TrapBase tb = currentMapData.TrapInfo;
-								MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+						TrapBase tb = currentMapData.TrapInfo;
+						MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
 						//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 						ArriveAtCell ();
 					});
@@ -469,7 +469,7 @@ public class BattleMapView : ViewBase {
 			}
 		} else {
 			IfArriveAtTheDoor ();
-			ConfigBattleUseData.Instance.StoreMapData();
+			BattleConfigData.Instance.StoreMapData();
 		}
 	}
 
@@ -480,10 +480,10 @@ public class BattleMapView : ViewBase {
 		//		battleEnemy.Refresh(count);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleEnemyModule, "enemy", count);
 		//		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
-		TStoreBattleData tsbd =  ConfigBattleUseData.Instance.storeBattleData;
+		TStoreBattleData tsbd =  BattleConfigData.Instance.storeBattleData;
 		tsbd.tEnemyInfo = count;
-		ConfigBattleUseData.Instance.storeBattleData.attackRound ++;
-		ConfigBattleUseData.Instance.StoreMapData ();
+		BattleConfigData.Instance.storeBattleData.attackRound ++;
+		BattleConfigData.Instance.StoreMapData ();
 		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
 		
 		//		Debug.Log ("battle guide----------");
@@ -605,7 +605,7 @@ public class BattleMapView : ViewBase {
 
 	
 	void OpenDoor (object data) {
-		ConfigBattleUseData.Instance.storeBattleData.HitKey = true;
+		BattleConfigData.Instance.storeBattleData.HitKey = true;
 	}
 	
 	void ShowTapToBattle () {
@@ -616,7 +616,7 @@ public class BattleMapView : ViewBase {
 	void ClickDoor(GameObject go) {
 		
 		if (currentShowInfo == BattleFullScreenTipsView.BossBattle) {
-			if( ConfigBattleUseData.Instance.questDungeonData.isLastCell() ) {
+			if( BattleConfigData.Instance.questDungeonData.isLastCell() ) {
 				AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
 				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss");
@@ -624,26 +624,26 @@ public class BattleMapView : ViewBase {
 				battleEnemy = true;
 			} else {
 				//			battleMap.door.isClick = false;
-				ConfigBattleUseData.Instance.questDungeonData.currentFloor ++;
+				BattleConfigData.Instance.questDungeonData.currentFloor ++;
 				ClearQuestParam clear = new ClearQuestParam ();
 				TClearQuestParam cqp = new TClearQuestParam (clear);
-				ConfigBattleUseData.Instance.storeBattleData.questData.Add (cqp);
+				BattleConfigData.Instance.storeBattleData.questData.Add (cqp);
 				ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"setfloor");
-				if (BattleUseData.maxEnergyPoint >= 10) {
-					BattleUseData.maxEnergyPoint = DataCenter.maxEnergyPoint;
+				if (BattleAttackManager.maxEnergyPoint >= 10) {
+					BattleAttackManager.maxEnergyPoint = DataCenter.maxEnergyPoint;
 				} else {
-					BattleUseData.maxEnergyPoint += 10;
+					BattleAttackManager.maxEnergyPoint += 10;
 				}
-				ConfigBattleUseData.Instance.ResetRoleCoordinate();
-				ConfigBattleUseData.Instance.StoreMapData ();
+				BattleConfigData.Instance.ResetRoleCoordinate();
+				BattleConfigData.Instance.StoreMapData ();
 				
 				battleEnemy = false;
-				BattleUseData.Instance.RemoveListen ();
-				BattleUseData.Instance.Reset ();
+				BattleAttackManager.Instance.RemoveListen ();
+				BattleAttackManager.Instance.Reset ();
 				ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
 				//			BattleMapView.waitMove = false;
 				//		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
-				BattleUseData.Instance.GetBaseData ();
+				BattleAttackManager.Instance.GetBaseData ();
 				//		if (questFullScreenTips == null) {
 				//			CreatBoosAppear();
 				//		}
@@ -676,17 +676,17 @@ public class BattleMapView : ViewBase {
 		bool b = data != null ? (bool)data : false;
 		if (battleEnemy && b) {
 			BossDead();
-			ConfigBattleUseData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
-			ConfigBattleUseData.Instance.StoreMapData ();
+			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
+			BattleConfigData.Instance.StoreMapData ();
 			
 			ShieldAllInput (true);
 			return;
 		}
 		
-		ConfigBattleUseData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
-		ConfigBattleUseData.Instance.StoreMapData ();
+		BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
+		BattleConfigData.Instance.StoreMapData ();
 		
-		int index = ConfigBattleUseData.Instance.questDungeonData.GetGridIndex (currentCoor);
+		int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor);
 		
 		if (index == -1) {
 			ShieldAllInput (true);
@@ -694,7 +694,7 @@ public class BattleMapView : ViewBase {
 		}
 		
 		uint uIndex = (uint)index;
-		TClearQuestParam questData = ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData ();
+		TClearQuestParam questData = BattleConfigData.Instance.storeBattleData.GetLastQuestData ();
 		if (questData.hitGrid.Contains (uIndex)) {
 			index = questData.hitGrid.FindIndex(a=>a == uIndex);
 			if(index != questData.hitGrid.Count - 1) {
@@ -706,7 +706,7 @@ public class BattleMapView : ViewBase {
 			}
 		}
 		
-		TQuestGrid tqg = ConfigBattleUseData.Instance.questDungeonData.GetCellInfo (currentCoor);
+		TQuestGrid tqg = BattleConfigData.Instance.questDungeonData.GetCellInfo (currentCoor);
 		
 		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
 			ShieldAllInput (true);
@@ -790,15 +790,15 @@ public class BattleMapView : ViewBase {
 	public static bool strengthenAttack = false;
 
 	void RecoverBuff() {
-		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.posionAttack, ref recoverPosion);
-		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.reduceHurtAttack, ref reduceHurt);
-		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.reduceDefenseAttack, ref reduceDefense);
-		ExcuteDiskActiveSkill(ConfigBattleUseData.Instance.strengthenAttack, ref strengthenAttack);
+		ExcuteDiskActiveSkill(BattleConfigData.Instance.posionAttack, ref recoverPosion);
+		ExcuteDiskActiveSkill(BattleConfigData.Instance.reduceHurtAttack, ref reduceHurt);
+		ExcuteDiskActiveSkill(BattleConfigData.Instance.reduceDefenseAttack, ref reduceDefense);
+		ExcuteDiskActiveSkill(BattleConfigData.Instance.strengthenAttack, ref strengthenAttack);
 	}
 
 	void ExcuteDiskActiveSkill (AttackInfo ai, ref bool excute) {
 		if (ai != null) {
-			IActiveSkillExcute iase = BattleUseData.Instance.excuteActiveSkill.GetActiveSkill (ai.UserUnitID);
+			IActiveSkillExcute iase = BattleAttackManager.Instance.GetActiveSkill (ai.UserUnitID);
 			if (iase != null) {
 				excute = true;
 				iase.ExcuteByDisk (ai);
@@ -812,9 +812,9 @@ public class BattleMapView : ViewBase {
 	
 	void BossDead() {
 		
-		TDropUnit bossDrop = ConfigBattleUseData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
 		if (bossDrop != null) {
-			ConfigBattleUseData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.DropId);
+			BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.DropId);
 		}
 		
 		//		battle.ShieldInput (false);

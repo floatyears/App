@@ -65,7 +65,7 @@ public class HomeModule : ModuleBase{
 		TStageInfo stageSelected =args as TStageInfo ; 
 		if (stageSelected != null) {
 
-				ConfigBattleUseData.Instance.currentStageInfo = stageSelected;
+				BattleConfigData.Instance.currentStageInfo = stageSelected;
 				ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
 				MsgCenter.Instance.Invoke(CommandEnum.GetSelectedStage, stageSelected);
 

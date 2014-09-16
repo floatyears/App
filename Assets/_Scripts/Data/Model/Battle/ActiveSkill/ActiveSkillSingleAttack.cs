@@ -48,7 +48,7 @@ public class TSkillSingleAttack : ActiveSkill  {
 		if (!coolingDone) {
 			return null;		
 		}
-		AttackController.SetEffectTime(1f);
+		BattleAttackManager.SetEffectTime(1f);
 //		Debug.LogError ("activeskill excute : ");
 		InitCooling ();
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -28,7 +28,7 @@ public class TSkillRecoverSP : ActiveSkill {
 			return null;	
 		}
 		InitCooling ();
-		AttackController.SetEffectTime(1f);
+		BattleAttackManager.SetEffectTime(1f);
 //		Debug.LogError("tskillrecoversp excute");
 		int step = (int)instance.value;
 

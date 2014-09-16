@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -26,7 +26,7 @@ public class TSkillPoison : ActiveSkill {
 		ai.AttackType = 0; //0 = ATK_SINGLE
 		ai.SkillID = skillBase.id;
 		ai.AttackRange = 1;
-		ConfigBattleUseData.Instance.posionAttack = ai;
+		BattleConfigData.Instance.posionAttack = ai;
 		MsgCenter.Instance.Invoke (CommandEnum.PlayAllEffect, ai);
 		ExcuteByDisk (ai);
 		return null;
@@ -50,7 +50,7 @@ public class TSkillPoison : ActiveSkill {
 		MsgCenter.Instance.Invoke (CommandEnum.SkillPosion, posionInfo);
 		if (posionInfo.AttackRound == 0) {
 			posionInfo = null;
-			ConfigBattleUseData.Instance.posionAttack = null;
+			BattleConfigData.Instance.posionAttack = null;
 			MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //			MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		}

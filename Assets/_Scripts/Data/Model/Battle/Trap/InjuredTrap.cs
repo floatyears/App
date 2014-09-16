@@ -67,7 +67,7 @@ public class InjuredTrap : TrapBase {
 //			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule
 		}
 		else {
-			Coordinate cd = BattleUseData.CurrentCoor;
+			Coordinate cd = BattleAttackManager.CurrentCoor;
 			int xRandom = DGTools.RandomToInt(0, randomRange.Length);
 			int yRandom = DGTools.RandomToInt(0, randomRange.Length);
 //			MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;
@@ -96,13 +96,13 @@ public class InjuredTrap : TrapBase {
 	}
 }
 
-public class TrapBase : ProtobufDataBase{
+public class TrapBase{
 
 	public const string poisonTrapSpriteName = "PoisonTrap";
 	public const string environmentSpriteName = "EnvirmentTrap";
 
 	protected TrapInfo instance;
-	public TrapBase(object instance) : base (instance) {
+	public TrapBase(object instance) {
 		this.instance = instance as TrapInfo;
 		trapValueIndex = GetTrap.valueIndex;
 	}

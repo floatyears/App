@@ -90,7 +90,7 @@ public class BattleResultView : ViewBase {
 		}
 		rspClearQuest = clearQuest;
 
-		ConfigBattleUseData.Instance.gotFriendPoint = clearQuest.gotFriendPoint;
+		BattleConfigData.Instance.gotFriendPoint = clearQuest.gotFriendPoint;
 
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 
@@ -242,7 +242,7 @@ public class BattleResultView : ViewBase {
 			HideUI ();
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
-			TFriendInfo friendHelper = ConfigBattleUseData.Instance.BattleFriend;
+			TFriendInfo friendHelper = BattleConfigData.Instance.BattleFriend;
 			bool isNull = friendHelper == null;
 			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
 

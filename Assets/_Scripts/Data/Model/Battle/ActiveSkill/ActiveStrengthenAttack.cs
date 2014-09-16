@@ -29,7 +29,7 @@ public class ActiveStrengthenAttack : ActiveSkill {
 
 	public override AttackInfo ExcuteByDisk (AttackInfo ai) {
 		strengthenAttack = ai;
-		ConfigBattleUseData.Instance.strengthenAttack = strengthenAttack;
+		BattleConfigData.Instance.strengthenAttack = strengthenAttack;
 		MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		strengthenAttack.AttackRound --;
@@ -41,7 +41,7 @@ public class ActiveStrengthenAttack : ActiveSkill {
 			return;	
 		}
 		if (strengthenAttack.AttackRound <= 0) {
-			ConfigBattleUseData.Instance.strengthenAttack = null;
+			BattleConfigData.Instance.strengthenAttack = null;
 			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
 			MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		}

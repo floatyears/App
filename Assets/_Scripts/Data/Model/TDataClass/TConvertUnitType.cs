@@ -12,7 +12,7 @@ public class TSkillConvertUnitType : SkillBaseInfo {
 	public int SwitchCard (int type) {
 //		SkillConvertUnitType scut = DeserializeData<SkillConvertUnitType> ();
 		if (instance.unitType2 == EUnitType.UALL) {
-			List<int> range = new List<int>(Config.Instance.cardTypeID);// Config.Instance.cardTypeID
+			List<int> range = new List<int>(BattleConfigData.Instance.cardTypeID);// Config.Instance.cardTypeID
 			range.Remove(type);
 			int index = Random.Range(0,range.Count);
 			type = range[index];

@@ -33,10 +33,10 @@ public class BattleMapModule : ModuleBase {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		BattleUseData.Instance.GetBaseData ();
+		BattleAttackManager.Instance.GetBaseData ();
 
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
-		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
+//		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
 
 //		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 
@@ -48,16 +48,16 @@ public class BattleMapModule : ModuleBase {
 	}
 
 	public override void HideUI () {
-		BattleUseData.Instance.excuteActiveSkill.ResetSkill();
-		BattleUseData.Instance.RemoveListen ();
+		BattleAttackManager.Instance.ResetSkill();
+		BattleAttackManager.Instance.RemoveListen ();
 		base.HideUI ();
 
 //		MsgCenter.Instance.RemoveListener (CommandEnum.BattleBaseData, BattleBase);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.GridEnd, GridEnd);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.PlayerDead, BattleFail);
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
-		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
 
 
 //		roleStateException.RemoveListener ();
@@ -67,33 +67,25 @@ public class BattleMapModule : ModuleBase {
 //		(view as BattleMapView).ArriveAtCell (data);
 //	}
 
-	void AttackEnemy (object data) {
-		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
-			return;
-		}
-//		attackEffect.RefreshItem ();
-		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule, "refreshitem", ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
-	}
-
-	void RecoverHP(object data) {
-		AttackInfo ai = data as AttackInfo;
-		if (ai == null) {
-			return;		
-		}
-		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refreshitem", ai.UserUnitID, ai.SkillID,ai.AttackValue, true);
-	}
+//	void AttackEnemy (object data) {
+//		AttackInfo ai = data as AttackInfo;
+//		if (ai == null) {
+//			return;
+//		}
+////		attackEffect.RefreshItem ();
+//		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule, "refreshitem", ai.UserUnitID, ai.SkillID, ai.AttackValue, false);
+//	}
 
 	public void HaveFriendExit() {
 		ModuleManager.Instance.ExitBattle ();
 		ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, ConfigBattleUseData.Instance.BattleFriend);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, BattleConfigData.Instance.BattleFriend);
 	}
 
 	private EQuestGridType gridType = EQuestGridType.Q_NONE;
 	private Coordinate _currentCoor;
 	public Coordinate currentCoor {
-		set { _currentCoor = value; ConfigBattleUseData.Instance.storeBattleData.roleCoordinate = _currentCoor; }
+		set { _currentCoor = value; BattleConfigData.Instance.storeBattleData.roleCoordinate = _currentCoor; }
 		get { return _currentCoor;}
 	}
 
@@ -114,14 +106,14 @@ public class BattleMapModule : ModuleBase {
 
 		ResumeQuest.SendRequest (o=>{
 			Umeng.GA.Buy ("ResumeQuest" , 1, DataCenter.resumeQuestStone);
-			BattleUseData.Instance.AddBlood (BattleUseData.Instance.maxBlood);
-			BattleUseData.Instance.RecoverEnergePoint (DataCenter.maxEnergyPoint);
-			ConfigBattleUseData.Instance.StoreMapData ();
+			BattleAttackManager.Instance.AddBlood (BattleAttackManager.Instance.maxBlood);
+			BattleAttackManager.Instance.RecoverEnergePoint (DataCenter.maxEnergyPoint);
+			BattleConfigData.Instance.StoreMapData ();
 			
 //			Main.Instance.GInput.IsCheckInput = true;
 			BattleBottomView.notClick = false;
-		}, ConfigBattleUseData.Instance.questDungeonData.QuestId);
-		BattleUseData.Instance.ClearData ();
+		}, BattleConfigData.Instance.questDungeonData.QuestId);
+		BattleAttackManager.Instance.ClearData ();
 	}
 
 
@@ -136,7 +128,7 @@ public class BattleMapModule : ModuleBase {
 
 				ModuleManager.Instance.ExitBattle ();
 			}));
-			ConfigBattleUseData.Instance.ClearData ();
-		}, ConfigBattleUseData.Instance.questDungeonData.QuestId, true);
+			BattleConfigData.Instance.ClearData ();
+		}, BattleConfigData.Instance.questDungeonData.QuestId, true);
 	}
 }

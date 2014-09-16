@@ -11,7 +11,7 @@ public class BattleBottomModule : ModuleBase {
 	{
 		switch (data[0].ToString()) {
 		case "initdata":
-			(view as BattleBottomView).InitData((BattleBaseData)data[1]);
+			(view as BattleBottomView).InitData((int)data[1],(int)data[2],(int)data[3]);
 			break;
 		case "playerdead":
 			(view as BattleBottomView).PlayerDead();

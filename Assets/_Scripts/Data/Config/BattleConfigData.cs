@@ -10,19 +10,29 @@ using System.Collections.Generic;
 using System.IO;
 using bbproto;
 
-public class ConfigBattleUseData {
-	private static ConfigBattleUseData instance;
+public class BattleConfigData {
 
-	public static ConfigBattleUseData Instance {
+	public const byte startCardID = 0;
+	public const byte endCardID = 4;
+	public const byte cardPoolSingle = 5;
+	public const byte cardCollectionCount = 5;
+	public const byte cardSep = 13;
+	public const byte cardDepth = 3;
+	public static Vector3 cardPoolInitPosition = new Vector3(-255f,275f,0f);
+	public int[] cardTypeID = new int[4] {1,2,3,7};
+
+	private static BattleConfigData instance;
+
+	public static BattleConfigData Instance {
 		get {
 			if(instance == null) {
-				instance = new ConfigBattleUseData ();
+				instance = new BattleConfigData ();
 			}
 			return instance;
 		}
 	}
 
-	private ConfigBattleUseData () { 
+	private BattleConfigData () { 
 	
 	}
 	
@@ -283,9 +293,18 @@ public class ConfigBattleUseData {
 		_reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
 		_reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
 		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
-		_trapPoison = ReadBuff<TrapPosion, TrapInfo> (trapPoisonName);
-		_trapEnvironment = ReadBuff<EnvironmentTrap, TrapInfo> (trapEnvironmentName);
+//		_trapPoison = ReadBuff<TrapPosion, TrapInfo> (trapPoisonName);
+//		_trapEnvironment = ReadBuff<EnvironmentTrap, TrapInfo> (trapEnvironmentName);
 		_party = ReadBuff<TUnitParty, UnitParty> (unitPartyName);
+
+		if (File.Exists (trapPoisonName)) {
+			_trapPoison = Activator.CreateInstance(typeof(TrapPosion), ProtobufSerializer.ParseFormBytes<TrapInfo> (ReadFile (trapPoisonName))) as TrapPosion;
+		}
+		if (File.Exists (trapEnvironmentName)) {
+			_trapEnvironment = Activator.CreateInstance(typeof(EnvironmentTrap), ProtobufSerializer.ParseFormBytes<TrapInfo> (ReadFile (trapEnvironmentName))) as EnvironmentTrap;
+		}
+
+
 	}
 
 	void WriteBuff<T>(string name, T buff) where T : ProtoBuf.IExtensible {
@@ -322,6 +341,8 @@ public class ConfigBattleUseData {
 //		Debug.LogError ("t : " + t);
 		return t;
 	}
+
+
 	
 	//stage
 	public void WriteStageInfo() {
@@ -438,7 +459,7 @@ public class ConfigBattleUseData {
 			return 3; //2 is default stage id.
 		} else {
 			int stageID = ((int)currentStageInfo.ID) % 10;
-			if (ConfigBattleUseData.Instance.currentStageInfo.CityId == 1) {	
+			if (BattleConfigData.Instance.currentStageInfo.CityId == 1) {	
 				return stageID == 1 ? 7 : -- stageID;
 			} else {
 				return stageID;
@@ -472,6 +493,7 @@ public class ConfigBattleUseData {
 	public int ResumeColorIndex(){
 		int i = questDungeonData.Colors [storeBattleData.colorIndex];
 		storeBattleData.colorIndex++;
+		Debug.Log ("index: " + storeBattleData.colorIndex);
 		return i;
 	}
 }

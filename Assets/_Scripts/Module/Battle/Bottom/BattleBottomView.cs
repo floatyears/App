@@ -386,10 +386,10 @@ public class BattleBottomView : ViewBase {
 		//		_battleBottomScript = null;
 	}
 	
-	public void InitData (BattleBaseData data) {
-		initBlood = data.maxBlood;
-		currentBlood = data.Blood;
-		currentEnergyPoint = initEnergyPoint = data.EnergyPoint;
+	public void InitData (int maxBlood, int blood,int enegyPoint) {
+		initBlood = maxBlood;
+		currentBlood = blood;
+		currentEnergyPoint = initEnergyPoint = enegyPoint;
 		SetBlood (currentBlood); 
 		InitSP ();
 	}

@@ -162,7 +162,7 @@ public class CardItem : MonoBehaviour {
 	}
 //	bool b = false;
 	public void Reset() {
-		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
+//		Debug.LogError ("gameobject : " + gameObject + "initposition : " + initPosition);
 //		transform.localPosition = initPosition;
 		SetPosition (initPosition);
 //		Debug.LogError ("transform.localPosition : " + transform.localPosition);

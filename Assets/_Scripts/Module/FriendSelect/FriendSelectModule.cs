@@ -118,7 +118,7 @@ public class FriendSelectModule : ModuleBase{
 	} 
 		
 	void EnterBattle () {
-		ConfigBattleUseData.Instance.BattleFriend = selectedHelper;
+		BattleConfigData.Instance.BattleFriend = selectedHelper;
 		HideUI ();
 		ModuleManager.Instance.EnterBattle();
 	} 

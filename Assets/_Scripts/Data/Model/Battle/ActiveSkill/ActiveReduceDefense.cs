@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -32,7 +32,7 @@ public class ActiveReduceDefense : ActiveSkill {
 	public override AttackInfo ExcuteByDisk (AttackInfo ai) {
 		reduceDefense = ai;
 		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
-		ConfigBattleUseData.Instance.reduceDefenseAttack = reduceDefense;
+		BattleConfigData.Instance.reduceDefenseAttack = reduceDefense;
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		return null;
 	}
@@ -45,7 +45,7 @@ public class ActiveReduceDefense : ActiveSkill {
 //			b = false;
 			MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 			reduceDefense = null;
-			ConfigBattleUseData.Instance.reduceDefenseAttack = null;
+			BattleConfigData.Instance.reduceDefenseAttack = null;
 		}
 	}
 

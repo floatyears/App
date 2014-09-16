@@ -227,7 +227,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		Debug.Log ("battle leader skill");
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
 		BattleBottomView.SetClickItem (0);
-		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
+//		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -347,7 +347,7 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 		//GameObject.Find ();
-		NoviceGuideUtil.ShowArrow (new GameObject[]{BattleCardAreaItem.boostObject}, new Vector3[]{new Vector3(0,0,4)},false);
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{BattleCardAreaItem.boostObject}, new Vector3[]{new Vector3(0,0,4)},false);
 	}
 	
 	private void ClickOk(object data){

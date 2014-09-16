@@ -125,8 +125,8 @@ public class QuestItemView : MonoBehaviour {
 		}
 
 		QuestItemView thisQuestItemView = this.GetComponent<QuestItemView>();
-		ConfigBattleUseData.Instance.currentStageInfo = stageInfo;
-		ConfigBattleUseData.Instance.currentQuestInfo = data;
+		BattleConfigData.Instance.currentStageInfo = stageInfo;
+		BattleConfigData.Instance.currentQuestInfo = data;
 
 		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
 			evolveCallback ();

@@ -57,11 +57,12 @@ public class TAcitveRecoverHP : ActiveSkill {
 				tempBlood += instance.value;
 			}
 			else if(instance.type == EValueType.PERCENT) {
-				tempBlood += atk *  BattleUseData.Instance.maxBlood;
+				tempBlood += atk *  BattleAttackManager.Instance.maxBlood;
 			}	
 		}
 
-		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, tempBlood);
+//		MsgCenter.Instance.Invoke (CommandEnum.RecoverHP, tempBlood);
+//		BattleAttackManager.Instance.RecoverHP (tempBlood);
 		return tempBlood;
 	}
 }

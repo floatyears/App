@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -92,7 +92,7 @@ public class TEnemyInfo : ProtobufDataBase {
 	public void KillHP(int hurtValue) {
 		initBlood -= hurtValue;
 
-		bool one = ConfigBattleUseData.Instance.NotDeadEnemy;
+		bool one = BattleConfigData.Instance.NotDeadEnemy;
 
 		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			if(one || !CheckNoviceDeadable()) {
@@ -101,7 +101,8 @@ public class TEnemyInfo : ProtobufDataBase {
 					IsDead = false;
 				}
 			}
-			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+//			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
 			return;
 		}
 
@@ -110,7 +111,8 @@ public class TEnemyInfo : ProtobufDataBase {
 			IsDead = true;
 		}
 
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+//		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+		ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
 	}
 
 	
@@ -144,12 +146,16 @@ public class TEnemyInfo : ProtobufDataBase {
 
 	public void Next () {
 		initAttackRound --;
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+//		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+//		ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
+		ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
 	}
 
 	public void FirstAttack () {
 		initAttackRound++;
-		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+//		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
+//		ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
+		ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
 	}
 
 	void DeferAttackRound(object data) {

@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
+public class ActiveSkill : SkillBaseInfo {
 
 	protected bool coolingDone = false;
 	public ActiveSkill (object instance) : base (instance) { 
-		configBattleUseData = ConfigBattleUseData.Instance;
+		configBattleUseData = BattleConfigData.Instance;
 	}
 
 	~ActiveSkill () {
@@ -26,11 +26,11 @@ public class ActiveSkill : SkillBaseInfo, IActiveSkillExcute {
 	private DataListener dataListener;
 
 	private string skillStoreID;
-	private ConfigBattleUseData configBattleUseData;
+	private BattleConfigData configBattleUseData;
 	public void StoreSkillCooling (string id) {
 		skillStoreID = id;
 
-		if (ConfigBattleUseData.Instance.hasBattleData() > 0) {
+		if (BattleConfigData.Instance.hasBattleData() > 0) {
 			ReadSkillCooling ();
 		} else {
 			Store();

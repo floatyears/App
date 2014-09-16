@@ -18,7 +18,7 @@ public class BattleManipulationView : ViewBase {
 	private GameObject countDownUI;
 
 	private float ZOffset = -100f;
-	private List<ItemData> allItemData = new List<ItemData>();
+//	private List<ItemData> allItemData = new List<ItemData>();
 	private List<CardItem> selectTarget = new List<CardItem>();
 	//temp-----------------------------------------------------------
 	private List<int> currentColor = new List<int>();
@@ -32,13 +32,10 @@ public class BattleManipulationView : ViewBase {
 	private Vector3[] cardPosition;
 	
 	private UISprite[] backTextureIns;
-	private int cardInterv = 0;
+	private int cardWidth = 0;
 	private Vector3 initPosition = Vector3.zero;
 	private float xStart = 0f;
-
-	private float XRange {
-		set { xStart = transform.localPosition.x - value / 2f; }
-	}
+	
 	////------------battle card pool end
 
 	////------------battle card area start
@@ -93,25 +90,20 @@ public class BattleManipulationView : ViewBase {
 		nguiMainCamera = ViewManager.Instance.MainUICamera;
 		mainCamera = nguiMainCamera.camera;
 
-		GameInput.OnPressEvent += HandleOnPressEvent;
-		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
-		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
-		GameInput.OnDragEvent += HandleOnDragEvent;
-
-
+		battleCard = FindChild("BattleCard");
 		////------------battle card pool start
 		battleCardPool = FindChild("BattleCardPool");
 
-		int count = Config.cardPoolSingle;
+		int count = BattleConfigData.cardPoolSingle;
 		cardPosition = new Vector3[count];
 		backTextureIns = new UISprite[count];		
 		templateBackTexture = FindChild<UISprite>("BattleCardPool/Back");
-		cardInterv = templateBackTexture.width + Config.cardInterv;
-		initPosition = Config.cardPoolInitPosition;
+		cardWidth = templateBackTexture.width + BattleConfigData.cardSep;
+		initPosition = BattleConfigData.cardPoolInitPosition;
 
 		for (int i = 0; i < cardPosition.Length; i++) {
 			tempObject = NGUITools.AddChild(battleCardPool, templateBackTexture.gameObject);
-			cardPosition[i] = new Vector3(initPosition.x + i * cardInterv,initPosition.y,initPosition.z);
+			cardPosition[i] = new Vector3(initPosition.x + i * cardWidth,initPosition.y,initPosition.z);
 			tempObject.transform.localPosition = cardPosition[i];
 			backTextureIns[i] = tempObject.GetComponent<UISprite>();
 		}
@@ -119,7 +111,7 @@ public class BattleManipulationView : ViewBase {
 
 //		NGUITools.AddWidgetCollider(battleCardPool);
 		BoxCollider bc = battleCardPool.GetComponent<BoxCollider> ();
-		XRange = bc.size.x;
+		xStart = battleCard.transform.localPosition.x - bc.size.x / 2f;
 		cardHeight = templateBackTexture.width;
 
 		////------------battle card pool end
@@ -142,7 +134,7 @@ public class BattleManipulationView : ViewBase {
 		////------------battle card area end
 
 		////------------battle card start
-		battleCard = FindChild("BattleCard");
+
 		templateItemCard = FindChild<UISprite>("BattleCard/Texture");
 		fingerObject = FindChild<UISprite> ("BattleCard/finger").gameObject;
 		
@@ -159,7 +151,7 @@ public class BattleManipulationView : ViewBase {
 		}
 		
 		templateItemCard.gameObject.SetActive(false);
-		cardInterv = (int)Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
+		cardWidth = (int)Mathf.Abs(cardPosition[1].x - cardPosition[0].x);
 //		battleCard.battleCardArea = battleCardArea;
 		////------------battle card end
 
@@ -175,7 +167,7 @@ public class BattleManipulationView : ViewBase {
 		//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 //			AddGuideCard ();
-			ConfigBattleUseData.Instance.storeBattleData.colorIndex = 0;
+			BattleConfigData.Instance.storeBattleData.colorIndex = 0;
 		}
 		//		Debug.LogError ("isShow");
 		GenerateShowCard();
@@ -190,6 +182,10 @@ public class BattleManipulationView : ViewBase {
 		GameInput.OnUpdate += HandleOnUpdate;
 		
 		//		UserGuideAnim (null);
+		GameInput.OnPressEvent += HandleOnPressEvent;
+		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
+		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
+		GameInput.OnDragEvent += HandleOnDragEvent;
 	}
 	
 	public override void HideUI () {
@@ -202,6 +198,10 @@ public class BattleManipulationView : ViewBase {
 //		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
 
 		GameInput.OnUpdate -= HandleOnUpdate;
+		GameInput.OnPressEvent -= HandleOnPressEvent;
+		GameInput.OnReleaseEvent -= HandleOnReleaseEvent;
+		GameInput.OnStationaryEvent -= HandleOnStationaryEvent;
+		GameInput.OnDragEvent -= HandleOnDragEvent;
 	}
 	
 	public override void DestoryUI () {
@@ -214,9 +214,8 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void StartAttack () {
-		ResetSelect();
-		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
-		BattleUseData.Instance.StartAttack (null);
+//		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
+		BattleAttackManager.Instance.StartAttack (null);
 		StartBattle (false);
 	}
 	
@@ -237,14 +236,13 @@ public class BattleManipulationView : ViewBase {
 	void GenerateShowCard () {
 		//		Debug.LogError ("GenerateShowCard");
 		for (int i = 0; i < cardPosition.Length; i++) {
-			int cardIndex = GenerateCardIndex();
-			GenerateSpriteCard(cardIndex, i);
+			GenerateSpriteCard(GenerateCardIndex(), i);
 		}
 //		RefreshLine ();
 	}
 
 	int GenerateCardIndex () {
-		int index =  ConfigBattleUseData.Instance.ResumeColorIndex();
+		int index =  BattleConfigData.Instance.ResumeColorIndex();
 		
 //		if (userGuideIndex != -1) {
 //			index = userGuideIndex;
@@ -315,7 +313,7 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void HandleOnDragEvent (Vector2 obj) {
-		Debug.Log ("drag");
+//		Debug.Log ("drag");
 		SetCardItemDragState();
 		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
 		
@@ -345,7 +343,7 @@ public class BattleManipulationView : ViewBase {
 		
 		int generateCount = 0;
 		if(bcai != null)
-			generateCount = bcai.GenerateCard(selectTarget);
+			generateCount = bcai.UpdateCardAndAttackInfo(selectTarget);
 		
 		if(generateCount > 0) {
 			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
@@ -359,11 +357,9 @@ public class BattleManipulationView : ViewBase {
 				isCountDownStart = true;
 			}
 				
-			
-			if(showCountDown) {
-				for(int i = 0;i < generateCount;i++) {
-					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].index);
-				}
+
+			for(int i = 0;i < generateCount;i++) {
+				GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].index);
 //				RefreshLine();
 			}
 		}
@@ -371,7 +367,7 @@ public class BattleManipulationView : ViewBase {
 	}
 
 	IEnumerator StartCountDown () {
-		time = (int)BattleUseData.CountDown + dynamicDelay;
+		time = (int)BattleAttackManager.CountDown + dynamicDelay;
 		dynamicDelay = 0;
 		countDownUI.SetActive(true);
 		while (time > 0) {
@@ -388,14 +384,14 @@ public class BattleManipulationView : ViewBase {
 		//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
 		//			showCountDown = false;
 		StartAttack();
-		time =  BattleUseData.CountDown;
-		isCountDownStart = false;
+		time =  BattleAttackManager.CountDown;
+//		isCountDownStart = false;
 	}
 
 	void ResetSelect() {
-		Debug.Log ("reset select");
+//		Debug.Log ("reset select");
 		for (int i = 0; i < selectTarget.Count; i++) {
-						Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
+//						Debug.LogError ("ResetClick selectTarget.Count : " + selectTarget.Count + " selectTarget : " + selectTarget[i].name);
 			selectTarget[i].AddCardToSelect(false, -1);
 		}
 		selectTarget.Clear();
@@ -522,7 +518,7 @@ public class BattleManipulationView : ViewBase {
 		
 		for (int i = 0; i < cardPosition.Length; i++) 
 		{
-			if(x > cardInterv * i && x <= cardInterv * (i + 1))
+			if(x > cardWidth * i && x <= cardWidth * (i + 1))
 				return i;
 		}
 		
@@ -705,7 +701,7 @@ public class BattleManipulationView : ViewBase {
 		for (int i = 0; i < battleCardAreaItem.Length; i++) {
 			if(battleCardAreaItem[i] == null) 
 				continue;
-			if(BattleUseData.Instance.upi.CalculateNeedCard( battleCardAreaItem[i].AreaItemID, index )) {
+			if(BattleAttackManager.Instance.upi.CalculateNeedCard( battleCardAreaItem[i].AreaItemID, index )) {
 				trans.Add(battleCardAreaItem[i].transform);
 			}
 		}
@@ -731,7 +727,7 @@ public class BattleManipulationView : ViewBase {
 			return true;
 		}
 		if(normalSkill == null)
-			normalSkill = BattleUseData.Instance.upi.GetNormalSkill ();
+			normalSkill = BattleAttackManager.Instance.upi.GetNormalSkill ();
 		foreach (var item in normalSkill) {
 			if(item.Blocks.Contains((uint)index)) {
 				return true;
@@ -774,7 +770,7 @@ public class BattleManipulationView : ViewBase {
 		for (int i = 0; i < moveItem.Count; i++) {
 			Vector3 position = moveItem[i].transform.localPosition;
 			
-			Vector3 to = new Vector3(position.x + moveCount * cardInterv,position.y,position.z);
+			Vector3 to = new Vector3(position.x + moveCount * cardWidth,position.y,position.z);
 			
 			moveItem[i].Move(to);
 			
@@ -788,7 +784,7 @@ public class BattleManipulationView : ViewBase {
 			
 			int plus = bigger ? -i : i;
 			
-			to = new Vector3(pos.x + plus * cardInterv,pos.y,pos.z);
+			to = new Vector3(pos.x + plus * cardWidth,pos.y,pos.z);
 			
 			ci[i].index = sortID + plus;
 			if(i == 0)
