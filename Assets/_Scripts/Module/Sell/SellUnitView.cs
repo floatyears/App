@@ -35,6 +35,9 @@ public class SellUnitView : ViewBase{
 		pickUnitViewList.Clear();
 //		SortUnitByCurRule();
 		RefreshOwnedUnitCount();
+
+		ResetUIElement();
+
 		ShowUIAnimation();	
 	}
 	
@@ -122,7 +125,7 @@ public class SellUnitView : ViewBase{
 			ResourceManager.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.ID, FindTextureWithPosition( i, readyItemList) );
 
 			string level = dataInfoList[ i ].Level.ToString();
-			FindLabelWithPosition(i, readyItemList).text = "LV" + level;
+//			FindLabelWithPosition(i, readyItemList).text = "Lv" + level;
 			UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
 			UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
 			ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
@@ -179,7 +182,7 @@ public class SellUnitView : ViewBase{
 		targetItemBorder.spriteName = info["border"] as string;
 
 		UILabel levelLabel = targetItem.transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
-		levelLabel.text = "LV" + info["label"] as string;
+		levelLabel.text = "Lv" + info["label"] as string;
 
 		MarkDragItem(clickPos, poolPos);
 	}
@@ -236,6 +239,7 @@ public class SellUnitView : ViewBase{
 		UIEventListener.Get(clearBtn.gameObject).onClick = ClickClearBtn;
 		UIEventListener.Get(lastSureOkBtn.gameObject).onClick = ClickSellOk;
 		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
+
 		InitCells();
 
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.SellView);//DEFAULT_SORT_RULE;
@@ -404,16 +408,16 @@ public class SellUnitView : ViewBase{
 
 		totalSaleValue = 0;
 		coinLabel.text = "0";
-//		Debug.LogError ("ResetUIElement maxItemCount 1");
+
 		for (int i = 0; i < maxItemCount; i++){
 			FindTextureWithPosition(i, pickItemList).spriteName = "";
 			FindLabelWithPosition(i, pickItemList).text = string.Empty;
-//			Debug.LogError ("ResetUIElement maxItemCount 1");
+
 			FindTextureWithPosition(i, readyItemList).spriteName = "";
 			FindLabelWithPosition(i, readyItemList).text = string.Empty;
-//			Debug.LogError ("ResetUIElement maxItemCount 2");
+
 		}
-//		Debug.LogError ("ResetUIElement maxItemCount 2");
+
 		for (int i = 0; i < pickItemList.Count; i++){
 			UISprite border = pickItemList[ i ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
 			border.spriteName = "avatar_border_6";
@@ -421,13 +425,13 @@ public class SellUnitView : ViewBase{
 			UISprite bg = pickItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
 			bg.spriteName = "unit_empty_bg";
 		}
-//		Debug.LogError ("ResetUIElement pickItemList 2");
+
 		ResetReadyPool();
-//		Debug.LogError ("ResetUIElement pickItemList 3");
+
 		mainRoot.SetActive(true);
-//		Debug.LogError ("ResetUIElement pickItemList 4");
+
 		submitRoot.SetActive(false);
-//		Debug.LogError ("ResetUIElement pickItemList 5");
+
 	}
 
 	private void ActivateButton(){

@@ -113,6 +113,8 @@ public class UnitDetailView : ViewBase{
 			curUserUnit = viewData["unit"] as TUserUnit;
 			ShowInfo (curUserUnit);
 		}
+
+		UpdateFavView(curUserUnit.IsFavorite);
 	}
 	
 	public override void HideUI () {
