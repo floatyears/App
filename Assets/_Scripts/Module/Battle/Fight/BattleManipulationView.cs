@@ -117,7 +117,7 @@ public class BattleManipulationView : ViewBase {
 		}
 		templateBackTexture.gameObject.SetActive(false);
 
-		NGUITools.AddWidgetCollider(battleCardPool);
+//		NGUITools.AddWidgetCollider(battleCardPool);
 		BoxCollider bc = battleCardPool.GetComponent<BoxCollider> ();
 		XRange = bc.size.x;
 		cardHeight = templateBackTexture.width;
@@ -516,7 +516,7 @@ public class BattleManipulationView : ViewBase {
 
 	////------------battle card pool start
 	
-	public int CaculateSortIndex(Vector3 point)
+	private int CaculateSortIndex(Vector3 point)
 	{
 		float x = point.x - xStart;
 		
