@@ -83,7 +83,7 @@ public class LevelUpModule : ModuleBase {
 //			MsgCenter.Instance.Invoke (CommandEnum.LevelUp, data);
 
 //			MsgCenter.Instance.Invoke (CommandEnum.LevelUpSucceed, rspLevelUp.blendUniqueId);
-//			(view as LevelUpView).ResetUIAfterLevelUp(rspLevelUp.blendUniqueId);
+			(view as LevelUpView).ResetUIAfterLevelUp(rspLevelUp.blendUniqueId);
 		}
 	}
 }
