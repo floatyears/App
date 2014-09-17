@@ -798,7 +798,7 @@ public class BattleMapView : ViewBase {
 
 	void ExcuteDiskActiveSkill (AttackInfo ai, ref bool excute) {
 		if (ai != null) {
-			IActiveSkillExcute iase = BattleAttackManager.Instance.GetActiveSkill (ai.UserUnitID);
+			ActiveSkill iase = BattleAttackManager.Instance.GetActiveSkill (ai.UserUnitID);
 			if (iase != null) {
 				excute = true;
 				iase.ExcuteByDisk (ai);

@@ -693,8 +693,7 @@ public class BattleAttackManager {
 			if (attackInfoQueue.Count <= extraAttackCount) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);	
 			}
-			AttackInfo ai = attackInfoQueue.Dequeue();
-			BeginAttack (ai);
+			BeginAttack (attackInfoQueue.Dequeue());
 			InvokeAttack ();
 		});
 	}
