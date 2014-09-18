@@ -88,36 +88,79 @@ public class ShopView : ViewBase {
 		CreateDragView ();
 	}
 
-	private void CreateDragView(){
+	private string GetDiscutPercent(int itemIndex) {
 
-		List<ShopItemData> friendOutDataList = new List<ShopItemData> ();
-
-		friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.MonthCard,1,GameCurrencyAssets.PID_MONTH_CARD,""));
-		friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.WeekCard,1,GameCurrencyAssets.PID_WEEK_CARD,""));
-		if (DataCenter.Instance.AccountInfo.PayTotal == 0) {
-			friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.Stone,120,GameCurrencyAssets.PID_CHIP_PACK1,"100%"));
-			friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.Stone,300,GameCurrencyAssets.PID_CHIP_PACK2,"100%"));
-			friendOutDataList.Add (new ShopItemData ("9.99",ShopItemEnum.Stone,600,GameCurrencyAssets.PID_CHIP_PACK3,"100%"));
-			friendOutDataList.Add (new ShopItemData ("19.99",ShopItemEnum.Stone,1200,GameCurrencyAssets.PID_CHIP_PACK4,"100%"));
-			friendOutDataList.Add (new ShopItemData ("49.99",ShopItemEnum.Stone,3000,GameCurrencyAssets.PID_CHIP_PACK5,"100%"));
-			friendOutDataList.Add (new ShopItemData ("99.99",ShopItemEnum.Stone,6000,GameCurrencyAssets.PID_CHIP_PACK6,"100%"));
-		} else {
-			friendOutDataList.Add (new ShopItemData ("1.99",ShopItemEnum.Stone,120,GameCurrencyAssets.PID_CHIP_PACK1,"0"));
-			friendOutDataList.Add (new ShopItemData ("4.99",ShopItemEnum.Stone,300,GameCurrencyAssets.PID_CHIP_PACK2,"10%"));
-			friendOutDataList.Add (new ShopItemData ("9.99",ShopItemEnum.Stone,600,GameCurrencyAssets.PID_CHIP_PACK3,"20%"));
-			friendOutDataList.Add (new ShopItemData ("19.99",ShopItemEnum.Stone,1200,GameCurrencyAssets.PID_CHIP_PACK4,"30%"));
-			friendOutDataList.Add (new ShopItemData ("49.99",ShopItemEnum.Stone,3000,GameCurrencyAssets.PID_CHIP_PACK5,"40%"));
-			friendOutDataList.Add (new ShopItemData ("99.99",ShopItemEnum.Stone,6000,GameCurrencyAssets.PID_CHIP_PACK6,"50%"));
+		if (DataCenter.Instance.AccountInfo.PayTotal == 0) { // 首冲双倍奖励 +100%
+			if( itemIndex==1 ) {
+				return "0"; //最低价套餐，不赠送
+			} else if (itemIndex==101 || itemIndex==102) { //月卡、周卡 不赠送
+				return "";
+			}
+			else { // 首冲双倍奖励
+				return "100%";
+			}
+		}
+		else { //
+			switch(itemIndex) {
+			case 101:
+				return "";
+			case 102:
+				return "";
+			case 1:
+				return "0";
+			case 2:
+				return "10%";
+			case 3:
+				return "20%";
+			case 4:
+				return "30%";
+			case 5:
+				return "40%";
+			case 6:
+				return "50%";
+			}
 		}
 
+		return "";
+	}
+
+	private void CreateDragView(){
+
+		List<ShopItemData> shopItems = new List<ShopItemData> ();
+
+#if LANGUAGE_CN
+		{ //国内定价: RMB
+			shopItems.Add (new ShopItemData ("30",ShopItemEnum.MonthCard,1,GameCurrencyAssets.PID_MONTH_CARD, GetDiscutPercent(101)));
+			shopItems.Add (new ShopItemData ("10",ShopItemEnum.WeekCard, 1,GameCurrencyAssets.PID_WEEK_CARD,  GetDiscutPercent(102)));
+
+			shopItems.Add (new ShopItemData ("6",ShopItemEnum.Stone,60,GameCurrencyAssets.PID_CHIP_PACK1,   GetDiscutPercent(1) ));
+			shopItems.Add (new ShopItemData ("30",ShopItemEnum.Stone,300,GameCurrencyAssets.PID_CHIP_PACK2, GetDiscutPercent(2) ));
+			shopItems.Add (new ShopItemData ("50",ShopItemEnum.Stone,500,GameCurrencyAssets.PID_CHIP_PACK3, GetDiscutPercent(3) ));
+			shopItems.Add (new ShopItemData ("100",ShopItemEnum.Stone,1000,GameCurrencyAssets.PID_CHIP_PACK4, GetDiscutPercent(4)));
+			shopItems.Add (new ShopItemData ("200",ShopItemEnum.Stone,2000,GameCurrencyAssets.PID_CHIP_PACK5, GetDiscutPercent(5)));
+			shopItems.Add (new ShopItemData ("500",ShopItemEnum.Stone,5000,GameCurrencyAssets.PID_CHIP_PACK6, GetDiscutPercent(6)));
+		}
+#else 
+		{ //国外定价: $
+			shopItems.Add (new ShopItemData ("4.99",ShopItemEnum.MonthCard,1,GameCurrencyAssets.PID_MONTH_CARD, GetDiscutPercent(101)));
+			shopItems.Add (new ShopItemData ("1.99",ShopItemEnum.WeekCard,1,GameCurrencyAssets.PID_WEEK_CARD, GetDiscutPercent(102)));
+
+			shopItems.Add (new ShopItemData ("1.99",ShopItemEnum.Stone,120,GameCurrencyAssets.PID_CHIP_PACK1, GetDiscutPercent(1) ));
+			shopItems.Add (new ShopItemData ("4.99",ShopItemEnum.Stone,300,GameCurrencyAssets.PID_CHIP_PACK2, GetDiscutPercent(2) ));
+			shopItems.Add (new ShopItemData ("9.99",ShopItemEnum.Stone,600,GameCurrencyAssets.PID_CHIP_PACK3, GetDiscutPercent(3) ));
+			shopItems.Add (new ShopItemData ("19.99",ShopItemEnum.Stone,1200,GameCurrencyAssets.PID_CHIP_PACK4, GetDiscutPercent(4)));
+			shopItems.Add (new ShopItemData ("49.99",ShopItemEnum.Stone,3000,GameCurrencyAssets.PID_CHIP_PACK5, GetDiscutPercent(5)));
+			shopItems.Add (new ShopItemData ("99.99",ShopItemEnum.Stone,6000,GameCurrencyAssets.PID_CHIP_PACK6, GetDiscutPercent(6)));
+		} 
+#endif
 
 		dragPanel = new DragPanel("ShopDragPanel", ShopItem.Prefab,windowRoot.transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem (friendOutDataList.Count);
+		dragPanel.AddItem (shopItems.Count);
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			ShopItem fuv = ShopItem.Inject(dragPanel.ScrollItem[ i ]);
-			fuv.Data = friendOutDataList[ i ];
+			fuv.Data = shopItems[ i ];
 //			fuv.callback = ClickItem;
 		}
 	}

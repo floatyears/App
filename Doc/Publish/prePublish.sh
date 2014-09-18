@@ -10,3 +10,4 @@ else
 	echo cp Dimbo.ttf
 	cp -vf $rootpath"Doc/Font/Dimbo Regular.ttf" "$destFont"
 fi
+cd -

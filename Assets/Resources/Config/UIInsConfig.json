@@ -85,7 +85,7 @@
         "path": "Prefabs/UI/Friend/FriendMainUI",
         "parent": 0,
         "x": 0,
-        "y": -100,
+        "y": -150,
         "z": 0, 
         "group" : 0
     },

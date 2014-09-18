@@ -125,6 +125,10 @@ public class UnitDetailView : ViewBase{
 		if (friendEffect.gameObject.activeSelf) {
 			friendEffect.gameObject.SetActive(false);
 		}
+
+		if( swallowEffectIns!=null) {
+			Destroy(swallowEffectIns);
+		}
 	}
 	
 	//----------Init functions of UI Elements----------
