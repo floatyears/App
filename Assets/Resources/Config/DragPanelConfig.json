@@ -53,19 +53,6 @@
 		"depth":1
 	},
 	{
-		"configName":"FriendSelectDragPanel",
-		"scrollerLocalPos":[0,0,0],
-		"position":	[0,0,0],
-		"clipRange":[0, -30, 640, 630],
-		"gridArrange":"Horizontal",
-		"scrollMovement":"Vertical",
-		"scrollBarPosition":[305, 275, 0],
-		"cellWidth":0,	
-		"cellHeight":120,
-		"maxPerLine":1,
-		"depth":2
-	},
-	{
 		"configName":"LevelUpBaseDragPanel",
 		"scrollerLocalPos":[0,-28,0],
 		"position":	[0,0,0],
@@ -132,14 +119,27 @@
 	},
 	{
 		"configName":"QuestSelectDragPanel",
-		"scrollerLocalPos":[0,70,0],
+		"scrollerLocalPos":[0,215,0],
 		"position":	[0,0,0],
-		"clipRange":[0, -30, 640, 670],
+		"clipRange":[0, -30, 640, 630],
 		"gridArrange":"Horizontal",
 		"scrollMovement":"Vertical",
-		"scrollBarPosition":[1280, 1350 , 0],
+		"scrollBarPosition":[305, 275 , 0],
 		"cellWidth":0,	
-		"cellHeight":122,
+		"cellHeight":120,
+		"maxPerLine":1,
+		"depth":2
+	},
+	{
+		"configName":"FriendSelectDragPanel",
+		"scrollerLocalPos":[0,0,0],
+		"position":	[0,0,0],
+		"clipRange":[0, -30, 640, 630],
+		"gridArrange":"Horizontal",
+		"scrollMovement":"Vertical",
+		"scrollBarPosition":[305, 275, 0],
+		"cellWidth":0,	
+		"cellHeight":120,
 		"maxPerLine":1,
 		"depth":2
 	},

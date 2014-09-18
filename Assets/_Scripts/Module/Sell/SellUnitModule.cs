@@ -65,6 +65,9 @@ public class SellUnitModule : ModuleBase {
 ////		SellView view = view as SellView;
 ////		view.ResetUIState();
 //		base.ShowUI ();
+
+		ResetUI();
+
 		view.CallbackView("BackToMainWindow");
 		base.ShowUI ();
 	}

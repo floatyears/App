@@ -32,6 +32,8 @@ public class EvolveView : ViewBase {
 
 		if (viewData != null && viewData.ContainsKey ("friendinfo")) {
 			SelectFriend(viewData["friendinfo"] as TFriendInfo);	
+		} else {
+			ClearAllItems();
 		}
 
 		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
@@ -54,8 +56,18 @@ public class EvolveView : ViewBase {
 			allData[i].isEnable = true;
 		}
 
+		if(viewData != null && viewData.ContainsKey("friendinfo")){
+			viewData.Remove("friendinfo");
+		}
+
 	}
-	
+
+	private void ClearAllItems() {
+		ClearMaterial();
+		baseItem.Refresh(null);
+		friendItem.Refresh(null);
+	}
+
 	public override void DestoryUI () {
 		base.DestoryUI ();
 

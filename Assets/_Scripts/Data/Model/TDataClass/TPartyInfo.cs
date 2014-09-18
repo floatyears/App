@@ -39,8 +39,12 @@ public class TPartyInfo : ProtobufDataBase {
 	}
 
 	public bool UnitIsInParty(TUserUnit tuu) {
+		if( tuu==null ) {
+			Debug.LogError("UnitIsInParty(tuu) >>> ERROR: tuu is NULL.");
+			return false;
+		}
 		if (tuu.userID != DataCenter.Instance.UserInfo.UserId) {
-			return false;	
+			return false;
 		}
 		return UnitIsInParty(tuu.ID);
 	}

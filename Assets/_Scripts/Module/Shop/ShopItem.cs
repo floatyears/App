@@ -9,6 +9,7 @@ public class ShopItem : MonoBehaviour {
 	private UILabel btnText;
 	private UILabel desc;
 	private UILabel count;
+	private UILabel textName;
 
 	private static GameObject prefab;
 
@@ -38,7 +39,8 @@ public class ShopItem : MonoBehaviour {
 				bg = transform.FindChild("Sprite").GetComponent<UISprite>();
 				btnText = transform.FindChild("BuyBtn/Label").GetComponent<UILabel>();
 				desc = transform.FindChild("Desc").GetComponent<UILabel>();
-				count = transform.FindChild("Name").GetComponent<UILabel>();
+				count = transform.FindChild("Count").GetComponent<UILabel>();
+				textName = transform.FindChild("TextName").GetComponent<UILabel>();
 
 				UIEventListenerCustom.Get(transform.FindChild("BuyBtn").gameObject).onClick = OnBuy;
 			}
@@ -46,18 +48,21 @@ public class ShopItem : MonoBehaviour {
 
 			switch (data.type) {
 			case ShopItemEnum.MonthCard:
-				count.text = TextCenter.GetText("MonthCard");
+				textName.text = TextCenter.GetText("MonthCard");
+				count.text = "";
 				desc.text = TextCenter.GetText("MonthCardDesc");
 				bg.enabled = false;
 //				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
 				break;
 			case ShopItemEnum.WeekCard:
-				count.text = TextCenter.GetText("WeekCard");
+				textName.text = TextCenter.GetText("WeekCard");
+				count.text = "";
 				desc.text = TextCenter.GetText("WeekCardDesc");
 				bg.enabled = false;
 				//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
 				break;
 			case ShopItemEnum.Stone:
+				textName.text = "";
 				count.text = TextCenter.GetText("StoneCount") + data.count;//TextCenter.GetText("");
 				bg.enabled = true;
 				if(DataCenter.Instance.AccountInfo.PayTotal == 0){

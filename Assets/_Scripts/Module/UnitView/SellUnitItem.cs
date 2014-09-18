@@ -34,23 +34,30 @@ public class SellUnitItem : MyUnitItem {
 	protected override void InitState(){
 		base.InitState();
 		IsParty = DataCenter.Instance.PartyInfo.UnitIsInParty(userUnit.ID);
+//		Debug.LogError("uid:"+userUnit.ID + " => "+DataCenter.Instance.PartyInfo.UnitIsInParty(userUnit.ID));
+		RefreshEnable();
 	}
 
 	protected override void UpdatePartyState(){
 		partyLabel.enabled = IsParty;
-		IsEnable = !IsParty;
+		RefreshEnable();
 	}
 	
 	protected override void UpdateFocus(){
 		lightSpr.enabled = IsFocus;
 	}
-	
+
+	private void RefreshEnable() {
+		IsEnable = !(IsParty || IsFavorite);
+	}
+
 	protected override void RefreshState(){
 		base.RefreshState();
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
 			//IsEnable is FALSE as long as one state(IsParty or IsFavorite or other...) is TRUE
-			IsEnable = !(IsParty || IsFavorite);
+			RefreshEnable();
+//			if (IsFavorite) Debug.LogWarning(">>>>> userUnit.ID:"+userUnit.ID+" isFavor!");
 		}
 	}
 

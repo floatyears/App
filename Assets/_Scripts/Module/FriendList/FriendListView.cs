@@ -26,6 +26,9 @@ public class FriendListView : ViewBase{
 	public override void HideUI(){
 		base.HideUI();
 //		dragPanel.DestoryUI();
+		if(dragPanel != null)
+			dragPanel.DestoryUI();
+
 		RmvCmdListener();
 	}
 		

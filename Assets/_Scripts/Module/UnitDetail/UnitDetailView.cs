@@ -113,6 +113,8 @@ public class UnitDetailView : ViewBase{
 			curUserUnit = viewData["unit"] as TUserUnit;
 			ShowInfo (curUserUnit);
 		}
+
+		UpdateFavView(curUserUnit.IsFavorite);
 	}
 	
 	public override void HideUI () {
@@ -122,6 +124,10 @@ public class UnitDetailView : ViewBase{
 
 		if (friendEffect.gameObject.activeSelf) {
 			friendEffect.gameObject.SetActive(false);
+		}
+
+		if( swallowEffectIns!=null) {
+			Destroy(swallowEffectIns);
 		}
 	}
 	
@@ -590,6 +596,10 @@ public class UnitDetailView : ViewBase{
 	}
 	
 	void ShowBodyTexture( TUserUnit data ){
+		if (data==null) {
+			Debug.LogError("ShowBodyTexture(null) >>>> ERROR: data is null!");
+			return;
+		}
 		TUnitInfo unitInfo = data.UnitInfo;
 		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
 			Texture2D target = o as Texture2D;
@@ -742,6 +752,12 @@ public class UnitDetailView : ViewBase{
 
 	private void UpdateFavView(int isFav){
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
+
+		if ( curUserUnit.userID != DataCenter.Instance.UserInfo.UserId ) {
+			background.enabled = false;
+			return;
+		}
+
 		Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Lock_close";

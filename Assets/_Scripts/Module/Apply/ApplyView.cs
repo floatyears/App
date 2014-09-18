@@ -24,6 +24,9 @@ public class ApplyView : ViewBase{
 	public override void HideUI(){
 		base.HideUI();
 //		dragPanel.DestoryUI();
+		if(dragPanel != null)
+			dragPanel.DestoryUI();
+
 		RmvCmdListener();
 	}
 	
@@ -34,6 +37,9 @@ public class ApplyView : ViewBase{
 
 	private void CreateDragView(){
 		friendOutDataList = DataCenter.Instance.FriendList.FriendOut;
+		if( dragPanel != null ) {
+			dragPanel.DestoryUI();
+		}
 		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(friendOutDataList.Count);

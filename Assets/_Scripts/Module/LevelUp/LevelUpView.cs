@@ -2,6 +2,42 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class LevelUpView : ViewBase {
+	private bool doNotClearData = false ;
+	private bool fromLevelUpBack = false;
+
+	private bool fromUnitDetail = false;
+	private DataCenter dataCenter;
+	private UIButton levelUpButton;
+	private UIButton sortButton;
+	
+	private DragPanelDynamic myUnitDragPanel;
+	
+	private List<LevelUpUnitItem> myUnitList = new List<LevelUpUnitItem> ();
+	private List<TUserUnit> myUnit = new List<TUserUnit> ();
+	
+	private MyUnitItem prevSelectedItem;
+	private MyUnitItem prevMaterialItem;
+	
+	private GameObject topObject;
+	private GameObject bottomObject;
+
+	/// <summary>
+	/// index:0==base, 1~3==material, 4==friend.
+	/// </summary>
+	private LevelUpItem[] selectedItem = new LevelUpItem[6];
+	private DragPanelConfigItem dragConfig;
+	
+	private const int baseItemIndex = 0;
+	
+	private const int friendItemIndex = 5;
+	/// <summary>
+	/// indx : 0==hplabel, 1==explabel, 2==atk label. 3==exp got label. 4==coin need label. 5==sortlabel;
+	/// </summary>
+	private UILabel[] infoLabel = new UILabel[6];
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI ();
@@ -32,15 +68,31 @@ public class LevelUpView : ViewBase {
 
 		iTween.MoveTo (bottomObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject));
 
-		if(viewData != null && viewData.ContainsKey("friendinfo")){
+		if( doNotClearData && viewData != null && viewData.ContainsKey("friendinfo")){
 			SelectFriend(viewData["friendinfo"] as TFriendInfo);
 		}
+
+//		if( fromLevelUpBack ) {
+//			ClearData(true);
+//		}
+
+		doNotClearData = false;
+		fromLevelUpBack = false;
 	}
 
 	public override void HideUI () {
 		if(selectedItem[baseItemIndex].UserUnit != null) {
 			selectedItem[baseItemIndex].UserUnit.isEnable = true;
 			selectedItem[baseItemIndex].UserUnit.isFocus = false;
+		}
+
+		if(viewData != null && viewData.ContainsKey("friendinfo")){
+			viewData.Remove("friendinfo");
+		}
+
+		//clear selected
+		if( !doNotClearData ) {
+			ClearData(true);
 		}
 
 		base.HideUI ();
@@ -64,25 +116,7 @@ public class LevelUpView : ViewBase {
 			_sortRule = value;
 		}
 	}
-
-	private bool fromUnitDetail = false;
 	
-	private DataCenter dataCenter;
-
-	/// <summary>
-	/// index:0==base, 1~3==material, 4==friend.
-	/// </summary>
-	private LevelUpItem[] selectedItem = new LevelUpItem[6];
-	private DragPanelConfigItem dragConfig;
-
-	private const int baseItemIndex = 0;
-
-	private const int friendItemIndex = 5;
-	/// <summary>
-	/// indx : 0==hplabel, 1==explabel, 2==atk label. 3==exp got label. 4==coin need label. 5==sortlabel;
-	/// </summary>
-	private UILabel[] infoLabel = new UILabel[6];
-
 	private string hp = "0";
 	public string Hp{ 
 		set { 
@@ -132,24 +166,6 @@ public class LevelUpView : ViewBase {
 	public int CoinNeed { 
 		set {coinNeed = value; infoLabel[4].text = coinNeed.ToString();}
 	}
-
-	private UIButton levelUpButton;
-
-	private UIButton sortButton;
-
-	private DragPanelDynamic myUnitDragPanel;
-
-	private List<LevelUpUnitItem> myUnitList = new List<LevelUpUnitItem> ();
-
-	private List<TUserUnit> myUnit = new List<TUserUnit> ();
-
-	private MyUnitItem prevSelectedItem;
-
-	private MyUnitItem prevMaterialItem;
-
-	private GameObject topObject;
-
-	private GameObject bottomObject;
 
 	void ShowData () {
 
@@ -254,7 +270,7 @@ public class LevelUpView : ViewBase {
 	}
 
 	public void ResetUIAfterLevelUp(uint blendID) {
-		ClearData ();
+		ClearData (false);
 		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 //		clear = true;
@@ -267,6 +283,7 @@ public class LevelUpView : ViewBase {
 	}
 
 	void SelectedFriendCallback(LevelUpItem piv) {
+		doNotClearData = true;
 
 		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
@@ -450,12 +467,17 @@ public class LevelUpView : ViewBase {
 		ClearFocus ();
 	}
 
-	void ClearData() {
+	void ClearData(bool remainBase) {
 //		if(friendWindow != null)
 //			friendWindow.HideUI ();
-		foreach (var item in selectedItem) {
-			item.UserUnit = null;
-			item.IsEnable = true;
+
+		for (int i=0; i<selectedItem.Length; i++) {
+			if(remainBase && i==0) {
+				continue;
+			}
+
+			selectedItem[i].UserUnit = null;
+			selectedItem[i].IsEnable = true;
 		}
 		ClearInfoPanelData ();
 	}
@@ -467,7 +489,8 @@ public class LevelUpView : ViewBase {
 		ExpGot = 0;
 		CoinNeed = 0;
 	}
-	
+
+	//LevelUp Button ClickCallback
 	void LevelUpCallback(GameObject go) {
 		if (dataCenter.AccountInfo.Money < coinNeed) {
 			TipsManager.Instance.ShowTipsLabel("not enough money");
@@ -476,6 +499,8 @@ public class LevelUpView : ViewBase {
 		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;
 //		ExcuteCallback (levelUpInfo);
 		ModuleManager.SendMessage (ModuleEnum.LevelUpModule,levelUpInfo);
+
+		fromLevelUpBack = true;
 	}
 
 //	void SortCallback(GameObject go) {
