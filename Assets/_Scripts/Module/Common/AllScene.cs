@@ -178,7 +178,7 @@ public class BattleScene: SceneBase{
 		AddModuleToScene< BattleMapModule >(ModuleEnum.BattleMapModule);
 		AddModuleToScene<BattleManipulationModule>(ModuleEnum.BattleManipulationModule);
 		AddModuleToScene<BattleFullScreenTipsModule> (ModuleEnum.BattleFullScreenTipsModule);
-//		AddModuleToScene<BattleAttackEffectModule> (ModuleEnum.BattleAttackEffectModule);
+		AddModuleToScene<BattleAttackEffectModule> (ModuleEnum.BattleAttackEffectModule);
 		AddModuleToScene<BattleSkillModule> (ModuleEnum.BattleSkillModule);
 	}
 	

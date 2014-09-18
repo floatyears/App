@@ -16,7 +16,9 @@ public class BattleAttackEffectView : ViewBase {
 	public const float activeSkillEffectTime = 1.5f;
 	public const float activeSkillShowNameTime = 0.5f;
 
-	void Awake() {
+	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
+	{
+		base.Init (uiconfig, data);
 		effect = transform.Find ("AE").gameObject;
 		effect.SetActive (false);
 		activeEffect = transform.Find ("ActiveSkill").gameObject;
@@ -24,10 +26,23 @@ public class BattleAttackEffectView : ViewBase {
 		activeEffect.SetActive (false);
 	}
 
-	public void RefreshItem (string userUnitID, int skillID, float atk = 0, bool recoverHP = false) {
+	public override void CallbackView (params object[] args)
+	{
+		switch (args[0].ToString()) {
+		case "refresh_item":
+			RefreshItem(args[1] as AttackInfo, (bool)args[2]);
+			break;
+		case "active_skill":
+			PlayActiveSkill(args[1] as AttackInfo);
+			break;
+		default:
+				break;
+		}
+	}
+
+	void RefreshItem (AttackInfo ai, bool recoverHP = false) {
 		AttackEffectItem aei = GetAttackEffectItem ();
-		int atkShow = (int)atk;
-		aei.RefreshInfo(userUnitID, skillID, End, atkShow, recoverHP);
+		aei.RefreshInfo(ai.UserUnitID, ai.SkillID, End, (int)ai.AttackValue, recoverHP);
 	}
 
 	void End() {
@@ -42,7 +57,7 @@ public class BattleAttackEffectView : ViewBase {
 
 	string skillName = "";
 
-	public void PlayActiveSkill(AttackInfo ai) {
+	void PlayActiveSkill(AttackInfo ai) {
 		activeEffect.SetActive (true);
 		activeEffect.transform.localPosition = BattleManipulationView.activeSkillStartPosition;
 		TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID);

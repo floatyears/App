@@ -305,10 +305,12 @@ public class BattleAttackManager {
         return sortAttack;
     }
 
-	public void RecoverHP(AttackInfo ai) {
+	void RecoverHP(AttackInfo ai) {
 //		Blood += System.Convert.ToInt32 (ai.AttackValue);
 		AddBlood (System.Convert.ToInt32 (ai.AttackValue));
-		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refreshitem", ai.UserUnitID, ai.SkillID,ai.AttackValue, true);
+		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refresh_item", ai, true);
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "attack_enemy",ai);
+//		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "recover_item",ai);
     }
 
     public void InitEnemyInfo(TQuestGrid grid) {
@@ -767,9 +769,11 @@ public class BattleAttackManager {
 //			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_dead",tei);
 			if(grid != null) {
-				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+//				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",grid.DropPos);
 			} else if(dropUnit != null){
-				MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
+//				MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
+				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",dropUnit.DropPos);
 			}
 		}
 		deadEnemy.Clear ();
@@ -786,15 +790,17 @@ public class BattleAttackManager {
 //				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_dead",te);
 				if(grid != null) {
-					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+//					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
+					ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",grid.DropPos);
 				} else if(dropUnit != null){
-					MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
+//					MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
+					ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",dropUnit.DropPos);
 				}
 			}
 		}
 		
 		if (enemyInfo.Count == 0) {
-			BattleBottomView.notClick = false;
+//			BattleBottomView.notClick = false;
 			GameTimer.GetInstance().AddCountDown(1f, BattleEnd); //TODO: set time in const config
 			return false;
 		}
@@ -858,6 +864,7 @@ public class BattleAttackManager {
 //		MsgCenter.Instance.Invoke (CommandEnum.AttackEnemy, ai);
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "attack_enemy",ai);
 		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "attack_enemy",ai);
+		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule, "refresh_item", ai,false);
 	}
 	
 	public void FirstAttack () {

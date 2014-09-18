@@ -8,7 +8,6 @@ public class BattleEnemyView : ViewBase {
 
 	private GameObject enemyRoot;
 	private GameObject enemyItemPrefab;
-	[HideInInspector]
 //	public BattleManipulationView battle;
 
 	private UILabel attackInfoLabel;
@@ -50,9 +49,9 @@ public class BattleEnemyView : ViewBase {
 //		Clear ();
 //		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
-		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 //		battleAttackInfo.HideUI ();
 
@@ -73,9 +72,9 @@ public class BattleEnemyView : ViewBase {
 		}
 //		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //		battleAttackInfo.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
+//		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
-		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 	}
 
@@ -106,6 +105,10 @@ public class BattleEnemyView : ViewBase {
 		case "attack_enemy_end":
 			AttackEnemyEnd(args[1]);
 			break;
+
+		case "drop_item":
+			DropItem(args[1]);
+			break;
 		}
 	}
 
@@ -132,9 +135,9 @@ public class BattleEnemyView : ViewBase {
 	
 	List<AttackInfo> attackList= new List<AttackInfo>();
 
-	void AttackEnemy(object data) {
-		DestoryEffect ();
-	}
+//	void AttackEnemy(object data) {
+////		DestoryEffect ();
+//	}
 
 //	List<EnemyItem> enemyList = new List<EnemyItem>();
 
@@ -227,14 +230,17 @@ public class BattleEnemyView : ViewBase {
 	}
 
 	void DropItem(object data) {
-		int pos = (int)data;
-		uint posSymbol = (uint)pos;
+		uint posSymbol = (uint)(int)data;
 
 		if (enemyList.ContainsKey (posSymbol) && enemyList[posSymbol].enemyInfo.IsDead) {
 			bbproto.EnemyInfo ei = enemyList[posSymbol].enemyInfo.EnemyInfo();
 			BattleConfigData.Instance.storeBattleData.RemoveEnemyInfo(ei);
 //			enemyList.Remove (posSymbol);	
+			enemyList[posSymbol].DropItem();
 		}
+//		foreach (var item in enemyList.Values) {
+//			item.DropItem(data);
+//		}
 	}
 
 	void SortEnemyItem(Dictionary<uint,BattleEnemyItem> enemys) {
@@ -269,7 +275,7 @@ public class BattleEnemyView : ViewBase {
 			scaleVal = (float)ScreenWidth / allWidth;
 		}
 		enemyRoot.transform.localScale = new Vector3 (scaleVal, scaleVal, 0);
-		enemyRoot.transform.localPosition = new Vector3((- allWidth + firstItemWidth)/2*scaleVal, maxHeight*scaleVal/2,0);// enemys[0].texture.width/2;
+		effectPanel.transform.localPosition = enemyRoot.transform.localPosition = new Vector3((- allWidth + firstItemWidth)/2*scaleVal, maxHeight*scaleVal/2,0);// enemys[0].texture.width/2;
 		Debug.Log ("enemy item sort: " + enemyRoot.transform.localPosition);
 
 	}
@@ -329,12 +335,12 @@ public class BattleEnemyView : ViewBase {
 		});
 	}
 	
-	void ExcuteActiveSkillEnd(object data) {
-		bool b = (bool)data;
-		if (!b) {
-			DestoryEffect();
-		}
-	}
+//	void ExcuteActiveSkillEnd(object data) {
+//		bool b = (bool)data;
+//		if (!b) {
+//			DestoryEffect();
+//		}
+//	}
 
 }
 

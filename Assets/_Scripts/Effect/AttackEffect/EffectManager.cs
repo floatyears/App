@@ -31,7 +31,7 @@ public class EffectManager {
 
 	private Dictionary<int, string> effectName = new Dictionary<int, string>();
 //	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
-	private Dictionary<string, GameObject> skillEffectObject = new Dictionary<string, GameObject> ();
+	private Dictionary<string, GameObject> skillEffectPool = new Dictionary<string, GameObject> ();
 
 	public void GetOtherEffect(EffectEnum effect, ResourceCallback resouceCB) {
 		string path = "";
@@ -184,14 +184,14 @@ public class EffectManager {
 
 	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
 		string reallyPath = "Effect/effect/" + path;
-		if (skillEffectObject.ContainsKey (reallyPath)) {
-			resouceCallback(skillEffectObject[reallyPath]);
+		if (skillEffectPool.ContainsKey (reallyPath)) {
+			resouceCallback(skillEffectPool[reallyPath]);
 			return;
 		}
 
 		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => {
 			if(o != null) {
-				skillEffectObject.Add(reallyPath,o as GameObject);
+				skillEffectPool.Add(reallyPath,o as GameObject);
 			}
 			resouceCallback(o);
 		});
@@ -345,6 +345,6 @@ public class EffectManager {
 
 	public void ClearCache() {
 		effectName.Clear ();
-		skillEffectObject.Clear ();
+		skillEffectPool.Clear ();
 	}
 }

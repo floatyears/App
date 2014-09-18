@@ -279,6 +279,7 @@ public class ModuleManager {
 		HideModule (ModuleEnum.BattleSkillModule);
 		HideModule (ModuleEnum.BattleFullScreenTipsModule);
 		HideModule (ModuleEnum.BattleEnemyModule);
+//		HideModule (ModuleEnum.BattleAttackEffectModule);
 	}
 
 }

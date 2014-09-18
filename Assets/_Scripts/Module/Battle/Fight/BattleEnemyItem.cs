@@ -91,7 +91,7 @@ public class BattleEnemyItem : MonoBehaviour {
         MsgCenter.Instance.AddListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.AddListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
-        MsgCenter.Instance.AddListener(CommandEnum.DropItem, DropItem);
+//        MsgCenter.Instance.AddListener(CommandEnum.DropItem, DropItem);
     }
 
     void OnDisable() {
@@ -102,7 +102,7 @@ public class BattleEnemyItem : MonoBehaviour {
         MsgCenter.Instance.RemoveListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
-        MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
     }
 	
     void ReduceDefense(object data) {
@@ -207,9 +207,8 @@ public class BattleEnemyItem : MonoBehaviour {
 		bloodBgSprite.transform.localPosition = new Vector3 (bloodX - 2, pos.y, pos.z);
 	}
 	
-    public void DropItem(object data) {
-        int pos = (int)data;
-        if (pos == (int)enemyInfo.EnemySymbol && !texture.enabled) {
+    public void DropItem() {
+        if (!texture.enabled) {
 			if(enemyInfo.drop == null) {
 				return;
 			}
