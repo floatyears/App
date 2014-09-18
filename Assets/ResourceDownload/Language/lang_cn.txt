@@ -361,7 +361,7 @@ UnitExpandStonesNotEnough=你的魔法石余额不足，无法扩充卡牌容量
 UnitExpansionFinish=卡牌扩容成功
 UnitExpansionResult=当前卡牌容量达到：[FFB14A]{0}[-]
 
-MonthCard=月卡     
+MonthCard=月卡   
 MonthCardDesc=每天获得[FFB14A]100[-]魔法石 ([FFB14A]X30[-]天)
 MoneyUnit=￥
 StoneDescFirst=首充额外赠送[FFB14A]{0}[-]! 仅限一次!
@@ -369,7 +369,7 @@ StoneDescAfterFirst=额外赠送 [FFB14A]{0}[-] 魔法石!
 StonePriceFirst=￥100
 StonePriceAfterFirst=￥100
 StoneCount=X
-WeekCard=周卡     
+WeekCard=周卡   
 WeekCardDesc=每天获得[FFB14A]100[-]魔法石 ([FFB14A]X7[-]天)
 
 ##### gacha

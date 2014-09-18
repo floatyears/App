@@ -43,6 +43,10 @@ public class SellUnitView : ViewBase{
 	
 	public override void HideUI(){
 		base.HideUI();
+		if( dragPanel != null ) {
+			dragPanel.DestoryUI();
+		}
+
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
@@ -307,9 +311,6 @@ public class SellUnitView : ViewBase{
 //		Debug.LogError("xxxxxxx");
 		saleUnitViewList.Clear();
 		List<TUserUnit> dataList = args as List<TUserUnit>;
-		if( dragPanel != null ) {
-			dragPanel.DestoryUI();
-		}
 		dragPanel = new DragPanel("SellUnitDragPanel", SellUnitItem.ItemPrefab, mainRoot.transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(dataList.Count);
