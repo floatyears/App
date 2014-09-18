@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -202,12 +202,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		StartFight();
-	}
 
-	private TEvolveStart evolveStart;
-
-	private void StartFight(){
 		if (DataCenter.gameState == GameState.Evolve) {
 			evolveStart.EvolveStart.restartNew = 1;
 			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
@@ -224,6 +219,8 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		}
 	}
 
+	private TEvolveStart evolveStart;
+	
 	private void RspStartQuest(object data) {
 		TQuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
@@ -240,7 +237,8 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
 			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
-//			ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
+//			ModelManager.Instance.(ModelEnum.MapConfig, tqdd);
+			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
@@ -264,7 +262,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 //		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		ConfigBattleUseData.Instance.gameState = (byte)DataCenter.gameState;
+		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
 	
@@ -272,9 +270,10 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		pickedHelperInfo.FriendPoint = 0;
 		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
-		ConfigBattleUseData.Instance.gotFriendPoint = 0;
-		ConfigBattleUseData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-		ConfigBattleUseData.Instance.ResetFromServer(tqdd);
+		BattleConfigData.Instance.gotFriendPoint = 0;
+		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		BattleConfigData.Instance.ResetFromServer(tqdd);
+		ModuleManager.Instance.EnterBattle ();
 //		UIManager.Instance.EnterBattle();
 
 //		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);

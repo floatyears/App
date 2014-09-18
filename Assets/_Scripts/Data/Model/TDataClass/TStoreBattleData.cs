@@ -46,14 +46,20 @@ public class TStoreBattleData : ProtobufDataBase {
 		set { instance.isBattle = value; }
 	}	
 
+	private List<TClearQuestParam> _questData;
+
 	public List<TClearQuestParam> questData {
 		get { 
-			List<TClearQuestParam> clear = new List<TClearQuestParam>();
-			for (int i = 0; i < instance.questData.Count; i++) {
-				TClearQuestParam tqp = new TClearQuestParam(instance.questData[i]);
-				clear.Add(tqp);
+			if(_questData == null){
+				_questData = new List<TClearQuestParam>();
+				for (int i = 0; i < instance.questData.Count; i++) {
+					TClearQuestParam tqp = new TClearQuestParam(instance.questData[i]);
+					_questData.Add(tqp);
+				}
+
 			}
-			return clear;
+			return _questData;
+
 		}
 		set { 
 			instance.questData.Clear();
@@ -101,5 +107,25 @@ public class TStoreBattleData : ProtobufDataBase {
 	public void RemoveEnemyInfo (EnemyInfo ei) {
 		enemyInfo.Remove (ei);
 	}
+
+	public TClearQuestParam GetLastQuestData(){
+		if (_questData == null) {
+			_questData = new List<TClearQuestParam>();		
+		}
+		if(_questData.Count == 0) {
+			for (int i = 0; i < instance.questData.Count; i++) {
+				TClearQuestParam tqp = new TClearQuestParam(instance.questData[i]);
+				_questData.Add(tqp);
+			}
+		}
+		if (_questData.Count == 0) {
+			ClearQuestParam qp = new ClearQuestParam();
+			TClearQuestParam cqp = new TClearQuestParam(qp);
+			_questData.Add(cqp);	
+		}
+		
+		return _questData[ _questData.Count > 0 ? (_questData.Count - 1) : 0 ];
+	}
+	
 }
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TrapPosion : TrapBase {
@@ -8,7 +8,7 @@ public class TrapPosion : TrapBase {
 	
 	public override void Excute () {
 		Round = (int)GetTrap.effectType;
-		ConfigBattleUseData.Instance.trapPoison = this;
+		BattleConfigData.Instance.trapPoison = this;
 		ExcuteByDisk ();
 	}
 
@@ -32,7 +32,7 @@ public class TrapPosion : TrapBase {
 
 	void ExcuteTrap () {
 		if (Round == 0) {
-			ConfigBattleUseData.Instance.trapPoison = null;
+			BattleConfigData.Instance.trapPoison = null;
 			MsgCenter.Instance.RemoveListener(CommandEnum.MoveToMapItem, RoleMove);
 			MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttackEnd, EnemyAttak);
 			MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, Round);

@@ -467,5 +467,87 @@
         "y": 0,
         "z": 0, 
         "group" : 3
+    },
+    {
+        "name":"BattleBottomModule",
+        "path":"Prefabs/UI/Battle/BattleBottomUI",
+        "parent": 2,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleEnemyModule",
+        "path":"Prefabs/UI/Battle/BattleEnemyUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleMapModule",
+        "path":"Prefabs/UI/Battle/BattleMapUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleResultModule",
+        "path":"Prefabs/UI/Battle/BattleResultUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleTopModule",
+        "path":"Prefabs/UI/Battle/BattleTopUI",
+        "parent": 1,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleManipulationModule",
+        "path":"Prefabs/UI/Battle/BattleManipulationUI",
+        "parent": 2,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleFullScreenTipsModule",
+        "path":"Prefabs/UI/Battle/BattleFullScreenTipsUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleSkillModule",
+        "path":"Prefabs/UI/Battle/BattleSkillUI",
+        "parent": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"BattleAttackEffectModule",
+        "path":"Prefabs/UI/Battle/BattleAttackEffectUI",
+        "parent": 2,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
     }
+
 ]

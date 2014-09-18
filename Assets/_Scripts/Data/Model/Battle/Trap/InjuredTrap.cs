@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -63,10 +63,11 @@ public class InjuredTrap : TrapBase {
 		float value = DGTools.RandomToFloat();
 		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
 		if(value <= probability) {
-			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
+//			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
+//			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule
 		}
 		else {
-			Coordinate cd = BattleUseData.CurrentCoor;
+			Coordinate cd = BattleAttackManager.CurrentCoor;
 			int xRandom = DGTools.RandomToInt(0, randomRange.Length);
 			int yRandom = DGTools.RandomToInt(0, randomRange.Length);
 //			MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;
@@ -95,13 +96,13 @@ public class InjuredTrap : TrapBase {
 	}
 }
 
-public class TrapBase : ProtobufDataBase ,ITrapExcute{
+public class TrapBase{
 
 	public const string poisonTrapSpriteName = "PoisonTrap";
 	public const string environmentSpriteName = "EnvirmentTrap";
 
 	protected TrapInfo instance;
-	public TrapBase(object instance) : base (instance) {
+	public TrapBase(object instance) {
 		this.instance = instance as TrapInfo;
 		trapValueIndex = GetTrap.valueIndex;
 	}
@@ -142,7 +143,7 @@ public class TrapBase : ProtobufDataBase ,ITrapExcute{
 
 
 	public string GetTrapSpriteName () {
-		string spriteName = BattleMap.trapSpriteName;
+		string spriteName = BattleMapView.trapSpriteName;
 //		switch (instance.trapType) {
 //		case ETrapType.Move:
 //			spriteName = MoveTrapName(instance.effectType);

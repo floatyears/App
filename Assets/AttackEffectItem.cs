@@ -64,15 +64,15 @@ public class AttackEffectItem : MonoBehaviour {
 			avatarTexture = transform.Find("Avatar").GetComponent<UISprite>();	
 			skillNameLabel = transform.Find("SkillNameLabel").GetComponent<UILabel>();
 			ATKLabel = transform.Find("ATKLabel").GetComponent<UILabel>();
-			transform.localPosition = BattleCardArea.startPosition;
-			moveEndPosition = new Vector3 (BattleCardArea.endPosition.x,  BattleCardArea.startPosition.y, BattleCardArea.endPosition.z - 10f);
-			dropEndPosition = new Vector3 (moveEndPosition.x, BattleCardArea.endPosition.y, BattleCardArea.endPosition.z - 10f);
-			middlePosition = new Vector3(BattleCardArea.middlePosition.x - backGroundSprite.width * 0.5f, BattleCardArea.middlePosition.y, BattleCardArea.middlePosition.z);
+			transform.localPosition = BattleManipulationView.startPosition;
+			moveEndPosition = new Vector3 (BattleManipulationView.endPosition.x,  BattleManipulationView.startPosition.y, BattleManipulationView.endPosition.z - 10f);
+			dropEndPosition = new Vector3 (moveEndPosition.x, BattleManipulationView.endPosition.y, BattleManipulationView.endPosition.z - 10f);
+			middlePosition = new Vector3(BattleManipulationView.middlePosition.x - backGroundSprite.width * 0.5f, BattleManipulationView.middlePosition.y, BattleManipulationView.middlePosition.z);
 		}
 	}
 	
 	private void Tween () {
-		transform.localPosition = BattleCardArea.startPosition;
+		transform.localPosition = BattleManipulationView.startPosition;
 		iTween.MoveTo(gameObject,iTween.Hash("position",moveEndPosition,"time",0.35f,"easetype",iTween.EaseType.easeInQuart,"islocal",true,"oncomplete","MoveComplete","oncompletetarget",gameObject));
 	}
 	

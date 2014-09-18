@@ -82,7 +82,7 @@ public class ModuleBase{
 		}
 	}
 
-	protected void Create<T>(T extraView, UIConfigItem viewUIConfig, Dictionary<string, object> data = null) where T : ViewBase{
+	protected void CreateUI<T>(T extraView, UIConfigItem viewUIConfig, Dictionary<string, object> data = null) where T : ViewBase{
 		ResourceManager.Instance.LoadLocalAsset (viewUIConfig.resourcePath, o=>{
 			if (o == null){
 				Debug.LogError("there is no ui with the path:" + viewUIConfig.resourcePath);
@@ -157,7 +157,7 @@ public class ModuleBase{
 		{
 			view.CallbackView(data);
 		}else{
-			Debug.Log("send msg fail: ui hasn't been inited" );
+			Debug.Log("send msg fail: "+config.moduleName+"'s ui hasn't been inited" );
 		}
 	}
 

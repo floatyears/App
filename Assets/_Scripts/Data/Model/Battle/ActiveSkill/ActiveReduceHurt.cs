@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -40,7 +40,7 @@ public class ActiveReduceHurt : ActiveSkill {
 
 	public override AttackInfo ExcuteByDisk(AttackInfo ai) {
 		reduceHurtAttack = ai;
-		ConfigBattleUseData.Instance.reduceHurtAttack = reduceHurtAttack;
+		BattleConfigData.Instance.reduceHurtAttack = reduceHurtAttack;
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,reduceHurtAttack);
 		reduceHurtAttack.AttackRound --;
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
@@ -54,7 +54,7 @@ public class ActiveReduceHurt : ActiveSkill {
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,reduceHurtAttack);
 		if (reduceHurtAttack.AttackRound <= 0) {
-			ConfigBattleUseData.Instance.reduceHurtAttack = null;
+			BattleConfigData.Instance.reduceHurtAttack = null;
 			MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 			reduceHurtAttack = null;
 		} 

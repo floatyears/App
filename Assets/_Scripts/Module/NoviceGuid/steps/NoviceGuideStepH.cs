@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class NoviceGuideStepH_StateOne:NoviceGuidState
@@ -18,15 +18,15 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepH state_one");
 
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		MapItem item = null;
 		for(int i = 0; i < MapConfig.MapWidth; i++){
 			for(int j = 0; j < MapConfig.MapHeight; j++){
-				item = bm.GetMapItem(new Coordinate(i,j));
-				if(item.IsKey()){
-					LogHelper.Log ("map coordinate: i:" + i + "j: " + j);
-					goto outLoop;
-				}
+//				item = bm.GetMapItem(new Coordinate(i,j));
+//				if(item.IsKey()){
+//					LogHelper.Log ("map coordinate: i:" + i + "j: " + j);
+//					goto outLoop;
+//				}
 			}
 		}
 
@@ -75,18 +75,18 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 
 	private void ClickOk1(object data)
 	{
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
-		GameObject[] objs = new GameObject[] {
-						bm.GetMapItem (new Coordinate (1, 0)).gameObject,
-						bm.GetMapItem (new Coordinate (2, 1)).gameObject,
-						bm.GetMapItem (new Coordinate (3, 0)).gameObject
-				};
-		NoviceGuideUtil.ShowArrow(objs,new Vector3[]{new Vector3(0,0,1),new Vector3(0,0,1),new Vector3(0,0,1)});
-
-		NoviceGuideUtil.ForceBtnsClick(objs,delegate(GameObject btn){
-			NoviceGuideUtil.RemoveAllArrows();
-			//JumpToNextState = true;
-		});
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
+//		GameObject[] objs = new GameObject[] {
+//						bm.GetMapItem (new Coordinate (1, 0)).gameObject,
+//						bm.GetMapItem (new Coordinate (2, 1)).gameObject,
+//						bm.GetMapItem (new Coordinate (3, 0)).gameObject
+//				};
+//		NoviceGuideUtil.ShowArrow(objs,new Vector3[]{new Vector3(0,0,1),new Vector3(0,0,1),new Vector3(0,0,1)});
+//
+//		NoviceGuideUtil.ForceBtnsClick(objs,delegate(GameObject btn){
+//			NoviceGuideUtil.RemoveAllArrows();
+//			//JumpToNextState = true;
+//		});
 	}
 
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -161,17 +161,17 @@ public class NoviceGuideStepH_StateTwo:NoviceGuidState
 	private void ClickOk2(object data){
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		BattleMap bm = GameObject.Find ("Map").GetComponent<BattleMap> ();
+		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		MapItem item = null;
-		for(int i = 0; i < MapConfig.MapWidth; i++){
-			for(int j = 0; j < MapConfig.MapHeight; j++){
-				item = bm.GetMapItem(new Coordinate(i,j));
-				if(item.IsKey()){
-					LogHelper.Log ("map coordinate: i:" + i + "j: " + j);
-					goto outLoop;
-				}
-			}
-		}
+//		for(int i = 0; i < MapConfig.MapWidth; i++){
+//			for(int j = 0; j < MapConfig.MapHeight; j++){
+//				item = bm.GetMapItem(new Coordinate(i,j));
+//				if(item.IsKey()){
+//					LogHelper.Log ("map coordinate: i:" + i + "j: " + j);
+//					goto outLoop;
+//				}
+//			}
+//		}
 		
 	outLoop:
 		if (item != null) {

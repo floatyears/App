@@ -128,7 +128,7 @@ public class DataCenter {
 
 	private static GameState _gameState = GameState.Normal;
 	public static GameState gameState {
-		set { _gameState = value; ConfigBattleUseData.Instance.gameState = (byte)_gameState; }
+		set { _gameState = value; BattleConfigData.Instance.gameState = (byte)_gameState; }
 		get { return _gameState; }
 	}
 

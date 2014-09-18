@@ -18,7 +18,7 @@ public class MapCamera : MonoBehaviour {
 
 	void OnEnable () {
 		MsgCenter.Instance.AddListener (CommandEnum.MeetEnemy, MeetEnemy);
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.StopInput, StopInput);
 		GameInput.OnUpdate += HandleOnUpdate;
 		SetIsClick (false);
@@ -26,7 +26,7 @@ public class MapCamera : MonoBehaviour {
 
 	void OnDisable () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.MeetEnemy, MeetEnemy);
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.StopInput, StopInput);
 		GameInput.OnUpdate -= HandleOnUpdate;
 		SetIsClick (false);
@@ -49,11 +49,11 @@ public class MapCamera : MonoBehaviour {
 		SetIsClick (false);
 	}
 
-	void BattleEnd (object data) {
-//		Debug.LogWarning("MapCamera BattleEnd");
-//		isClick = true;
-		SetIsClick (true);
-	}
+//	void BattleEnd (object data) {
+////		Debug.LogWarning("MapCamera BattleEnd");
+////		isClick = true;
+//		SetIsClick (true);
+//	}
 
 	static void SetIsClick (bool b) {
 //		Debug.LogWarning ("set is click : " + b);

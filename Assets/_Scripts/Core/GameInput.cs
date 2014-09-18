@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GameInput : MonoBehaviour  {
@@ -9,7 +9,7 @@ public class GameInput : MonoBehaviour  {
 	public static event System.Action OnUpdate;
 	public static event System.Action OnLateUpdate;
 	public static event System.Action OnPressContinued;
-	private bool isCheckInput = false;
+	private bool isCheckInput = true;
 	public bool IsCheckInput {
 		set{ isCheckInput = value; }//Debug.LogError("set ischeck input : " + isCheckInput); }
 		get{ return isCheckInput; }
@@ -61,7 +61,7 @@ public class GameInput : MonoBehaviour  {
 		bool sInput = (bool)data;
 
 		noviceGuideShileInput = !sInput;
-		BattleBottom.noviceGuideNotClick = sInput;
+		BattleBottomView.noviceGuideNotClick = sInput;
 	}
 
 	void CatchException(string condition, string stackInfo, LogType lt) {

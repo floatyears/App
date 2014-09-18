@@ -12,7 +12,7 @@ public class TActiveSkillData : ProtobufDataBase {
 		get { return instance; }
 	}
 
-	public void InitActiveSkill(IActiveSkillExcute activeSkillExcte) {
+	public void InitActiveSkill(ActiveSkill activeSkillExcte) {
 		ActiveSkill activeSkill = activeSkillExcte as ActiveSkill;
 
 		instance.skillId = activeSkill.skillBase.id;

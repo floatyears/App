@@ -177,7 +177,7 @@ public class ResourceManager : MonoBehaviour{
 //		File file = new File (Application.persistentDataPath + "!/assets/" + GetBundleUrlByKey (key));
 
 		assetBundles [key].isLoading = true;
-		Debug.Log ("download start url: " + url);
+//		Debug.Log ("download start url: " + url);
 
 		WWW www = new WWW (url);
 		if (!string.IsNullOrEmpty (www.error)) {
@@ -186,7 +186,7 @@ public class ResourceManager : MonoBehaviour{
 		yield return www;
 
 		if (string.IsNullOrEmpty (www.error)) {
-			Debug.Log ("download complete url: " + url);
+//			Debug.Log ("download complete url: " + url);
 			assetBundles [key].assetBundle = www.assetBundle;
 			assetBundles [key].isLoading = false;
 			

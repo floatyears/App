@@ -53,7 +53,7 @@ public class ResultModule : ModuleBase {
 			SupportApplyFriend(false);
 
 		ShowFriendBriefInfo(friendInfo);
-		ShowFriendPoint(ConfigBattleUseData.Instance.gotFriendPoint);
+		ShowFriendPoint(BattleConfigData.Instance.gotFriendPoint);
 	}
 
 	private bool CheckIsFriend(TFriendInfo friendInfo){

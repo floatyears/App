@@ -33,15 +33,15 @@ public interface ILeaderSkillRecoverHP {
     int RecoverHP(int blood, int type);
 }
 
-public interface IActiveSkillExcute {
-    bool CoolingDone{ get; }
-    void RefreashCooling();
-    object Excute(string userUnitID, int atk = -1);
-	AttackInfo ExcuteByDisk(AttackInfo ai);
-	void StoreSkillCooling(string id);
-	void InitCooling();
-//	void ReadSkillCooling();
-}
+//public interface IActiveSkillExcute {
+//    bool CoolingDone{ get; }
+//    void RefreashCooling();
+//    object Excute(string userUnitID, int atk = -1);
+//	AttackInfo ExcuteByDisk(AttackInfo ai);
+//	void StoreSkillCooling(string id);
+//	void InitCooling();
+////	void ReadSkillCooling();
+//}
 
 public interface IEffectConcrete {
     void Play(List<GameObject> effect, AttackInfo ai);
@@ -70,20 +70,20 @@ public interface IEffectExcute {
 }
 
 
-public interface ITrapExcute {
-    void Excute();
-	void ExcuteByDisk();
-}
+//public interface ITrapExcute {
+//    void Excute();
+//	void ExcuteByDisk();
+//}
 
-public interface IExcutePassiveSkill {
-    List<AttackInfo> Dispose(int attackType, int attack);
-    void DisposeTrap(bool isAvoid);
-}
+//public interface IExcutePassiveSkill {
+//    List<AttackInfo> Dispose(int attackType, int attack);
+//    void DisposeTrap(bool isAvoid);
+//}
 
-public interface IPassiveExcute {
-	SkillBaseInfo skillBaseInfo { get; }
-    object Excute(object trapBase, IExcutePassiveSkill excutePS);
-}
+//public interface IPassiveExcute {
+//	SkillBaseInfo skillBaseInfo { get; }
+//    object Excute(object trapBase, IExcutePassiveSkill excutePS);
+//}
 
 //public interface IUIParty  {
 //    void PartyPaging(object textures);

@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 
 public class ExcuteTrap  {
-	public void Excute (ITrapExcute trap) {
+	public void Excute (TrapBase trap) {
 		trap.Excute ();
 	}
 }

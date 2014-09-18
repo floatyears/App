@@ -124,10 +124,29 @@ public enum ModuleEnum
 	ApplyMessageModule,
 
 	PartyPageModule,
+
+	///--------battle
+	BattleMapModule,
+
+	BattleBottomModule,
+
+	BattleTopModule,
+
+	BattleSkillModule,
+
+	BattleEnemyModule,
+
+	BattleFullScreenTipsModule,
+
+	BattleManipulationModule,
+
+	BattleAttackEffectModule,
+
+	BattleResultModule,
 }
 
 public enum SceneEnum {
 	None,
 	MainScene,
-
+	BattleScene,
 }

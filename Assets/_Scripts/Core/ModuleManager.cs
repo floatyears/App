@@ -10,9 +10,9 @@ public class ModuleManager {
 
 	private static Dictionary<SceneEnum, SceneBase> sceneDic = new Dictionary<SceneEnum, SceneBase>();
 
-	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0};
+	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0,0};
 
-	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
+	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
 
 	private static ModuleManager instance;
 
@@ -34,8 +34,11 @@ public class ModuleManager {
 	/// <param name="module">Module.</param>
 	/// <param name="data">Data.</param>
 	public static void SendMessage(ModuleEnum module, params object[] args){
+
 		if(moduleDic.ContainsKey(module)){
+			Debug.Log ("msg send to: " + module + " args: " + args[0].ToString());
 			moduleDic[module].OnReceiveMessages(args);
+
 		}else{
 			Debug.LogWarning("SendMsg To Module Err: no reciever [[[---" + module + "---]]]");
 		}
@@ -52,18 +55,23 @@ public class ModuleManager {
 		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
 //		Debug.Log ("name: " + name + " group: " + group);
 
-		if (typeGroup [group] == GroupType.Module) {
-			ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
-			if(prevName == name)
-				return;
-			if (prevName != ModuleEnum.None) {
-				HideModule (prevName);
-			}	
-		}else if(typeGroup[group] == GroupType.Scene){
-			SceneEnum prevName = (SceneEnum)moduleGroup [group];
-			if (prevName != SceneEnum.None) {
-				HideScene (prevName);
+		if (group != (int)ModuleGroup.NONE) {
+			if (typeGroup [group] == GroupType.Module) {
+				ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
+				if(prevName == name)
+					return;
+				if (prevName != ModuleEnum.None) {
+					HideModule (prevName);
+				}	
+			}else if(typeGroup[group] == GroupType.Scene){
+				SceneEnum prevName = (SceneEnum)moduleGroup [group];
+				if (prevName != SceneEnum.None) {
+					HideScene (prevName);
+				}
 			}
+
+			moduleGroup [group] = (int)name;
+			typeGroup [group] = GroupType.Module;
 		}
 
 		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Module);	
@@ -77,8 +85,7 @@ public class ModuleManager {
 			GetOrCreateModule(name,args).ShowUI();
 		}
 
-		moduleGroup [group] = (int)name;
-		typeGroup [group] = GroupType.Module;
+
 	}
 
 	/// <summary>
@@ -103,24 +110,28 @@ public class ModuleManager {
 		}
 
 		int group = (int)scene.Group;
-		if (typeGroup [group] == GroupType.Module) {
-			ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
-			if (prevName != ModuleEnum.None) {
-				HideModule (prevName);
+		if (group != (int)ModuleGroup.NONE) {
+			if (typeGroup [group] == GroupType.Module) {
+				ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
+				if (prevName != ModuleEnum.None) {
+					HideModule (prevName);
+				}	
+			}else if(typeGroup[group] == GroupType.Scene){
+				SceneEnum prevName = (SceneEnum)moduleGroup [group];
+				if(prevName == name)
+					return;
+				if (prevName != SceneEnum.None) {
+					HideScene (prevName);
+				}
 			}	
-		}else if(typeGroup[group] == GroupType.Scene){
-			SceneEnum prevName = (SceneEnum)moduleGroup [group];
-			if(prevName == name)
-				return;
-			if (prevName != SceneEnum.None) {
-				HideScene (prevName);
-			}
-		}
-		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Scene);
 
+			moduleGroup [(int)scene.Group] = (int)name;
+			typeGroup [(int)scene.Group] = GroupType.Scene;
+		}
+
+		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Scene);
 		scene.ShowScene();
-		moduleGroup [(int)scene.Group] = (int)name;
-		typeGroup [(int)scene.Group] = GroupType.Scene;
+
 
 	}
 
@@ -133,8 +144,11 @@ public class ModuleManager {
 		if (sceneDic.ContainsKey (name)) {
 			SceneBase scene = sceneDic[name];
 			scene.HideScene();
-			moduleGroup [(int)scene.Group] = (int)ModuleEnum.None;
-			typeGroup[(int)scene.Group] = GroupType.None;
+			if(scene.Group != ModuleGroup.NONE){
+				moduleGroup [(int)scene.Group] = (int)ModuleEnum.None;
+				typeGroup[(int)scene.Group] = GroupType.None;
+			}
+
 		}
 	}
 	/// <summary>
@@ -143,8 +157,10 @@ public class ModuleManager {
 	/// <param name="name">Name.</param>
 	public void HideModule(ModuleEnum name){
 		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
-		moduleGroup [group] = (int)ModuleEnum.None;
-		typeGroup [group] = (int)GroupType.None;
+		if (group != (int)ModuleGroup.NONE) {
+			moduleGroup [group] = (int)ModuleEnum.None;
+			typeGroup [group] = (int)GroupType.None;	
+		}
 
 		if (moduleDic.ContainsKey (name)) {
 			moduleDic[name].HideUI();
@@ -185,6 +201,13 @@ public class ModuleManager {
 		}
 	}
 
+	public T GetModule<T>(ModuleEnum name) where T : ModuleBase{
+		if (moduleDic.ContainsKey (name)) {
+			return moduleDic[name] as T;
+		}
+		return null;
+	}
+
 	/// <summary>
 	/// Removes the module.
 	/// </summary>
@@ -195,8 +218,10 @@ public class ModuleManager {
 			ModuleBase temp = moduleDic[name];
 
 			int group = (int)temp.UIConfig.group;
-			moduleGroup [group] = (int)ModuleEnum.None;
-			typeGroup [group] = GroupType.None;
+			if(group != (int)ModuleGroup.NONE){
+				moduleGroup [group] = (int)ModuleEnum.None;
+				typeGroup [group] = GroupType.None;
+			}
 
 			temp.DestoryUI ();
 			moduleDic.Remove(name);
@@ -209,8 +234,10 @@ public class ModuleManager {
 			SceneBase temp = sceneDic[name];
 
 			int group = (int)temp.Group;
-			moduleGroup [group] = (int)ModuleEnum.None;
-			typeGroup [group] = GroupType.None;
+			if(temp.Group != ModuleGroup.NONE){
+				moduleGroup [group] = (int)ModuleEnum.None;
+				typeGroup [group] = GroupType.None;
+			}
 
 			temp.DestoryScene ();
 			sceneDic.Remove(name);
@@ -222,17 +249,12 @@ public class ModuleManager {
 	/// Clears the modules.
 	/// </summary>
 	public void ClearModules () {
-		List<ModuleBase> cclist = new List<ModuleBase> ();
-		List<ModuleEnum> ccID = new List<ModuleEnum> ();
 
-		for (int i = 0; i < ccID.Count; i++) {
-			moduleDic.Remove(ccID[i]);
+		foreach (var item in moduleDic.Values) {
+			item.DestoryUI();
 		}
-		for (int i = cclist.Count - 1; i >= 0; i--) {
 			//			Debug.LogError("CleartComponent : " + cclist[i]);
-			cclist[i].DestoryUI();
-		}
-		cclist.Clear ();
+		moduleDic.Clear ();
 	}
 
 	/// <summary>
@@ -249,8 +271,14 @@ public class ModuleManager {
 //		ClearAllUIObject ();
 		ClearModules ();
 		Resources.UnloadUnusedAssets ();
+
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
-		ShowModule(ModuleEnum.FightModule);
+
+		ShowScene (SceneEnum.BattleScene);
+		HideModule (ModuleEnum.BattleManipulationModule);
+		HideModule (ModuleEnum.BattleSkillModule);
+		HideModule (ModuleEnum.BattleFullScreenTipsModule);
+		HideModule (ModuleEnum.BattleEnemyModule);
 	}
 
 }
