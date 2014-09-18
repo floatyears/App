@@ -539,6 +539,15 @@
         "y": 0,
         "z": 0, 
         "group" : -1
+    },
+    {
+        "name":"BattleAttackEffectModule",
+        "path":"Prefabs/UI/Battle/BattleAttackEffectUI",
+        "parent": 2,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
     }
 
 ]
