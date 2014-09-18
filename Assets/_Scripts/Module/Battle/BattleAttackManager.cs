@@ -148,7 +148,7 @@ public class BattleAttackManager {
 	}
 
 	bool isInit = false;
-	public void InitBattleUseData (TStoreBattleData sbd) {
+	public void InitData (TStoreBattleData sbd) {
 
 		if (sbd == null) {
 			blood = maxBlood = upi.GetInitBlood ();

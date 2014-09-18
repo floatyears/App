@@ -8,10 +8,10 @@ public class TStoreBattleData : ProtobufDataBase {
 		instance = ins;
 	}
 
-	public RecoveBattleStep recoveBattleStep {
-		get { return instance.recoveBattleStep; }
-		set { instance.recoveBattleStep = value; }
-	}
+//	public RecoveBattleStep recoveBattleStep {
+//		get { return instance.recoveBattleStep; }
+//		set { instance.recoveBattleStep = value; }
+//	}
 
 	public int attackRound {
 		get { return instance.attackRound; }
@@ -41,10 +41,10 @@ public class TStoreBattleData : ProtobufDataBase {
 	/// <summary>
 	/// 0 == not battle, 1 == battle enemy, 2 == battle boss;
 	/// </summary>
-	public int isBattle {
-		get { return instance.isBattle; }
-		set { instance.isBattle = value; }
-	}	
+//	public int isBattle {
+//		get { return instance.isBattle; }
+//		set { instance.isBattle = value; }
+//	}	
 
 	private List<TClearQuestParam> _questData;
 

@@ -76,7 +76,7 @@ public class MapItem : MonoBehaviour {
 		string[] info = name.Split('|');
 		int x = System.Int32.Parse (info[0]);
 		int y = System.Int32.Parse (info [1]);
-		gridItem = BattleConfigData.Instance.questDungeonData.GetCellInfo (new Coordinate (x, y));
+		gridItem = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (new Coordinate (x, y));
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.Star) {

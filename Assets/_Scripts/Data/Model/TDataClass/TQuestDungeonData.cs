@@ -173,7 +173,7 @@ public class TQuestDungeonData : ProtobufDataBase {
 		return index;
 	}
 
-	public TQuestGrid GetCellInfo(Coordinate coor) {
+	public TQuestGrid GetFloorDataByCoor(Coordinate coor) {
 		if (coor.y == 0 && coor.x == 2) {
 			return null;	
 		}

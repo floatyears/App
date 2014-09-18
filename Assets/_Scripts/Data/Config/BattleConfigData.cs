@@ -253,14 +253,6 @@ public class BattleConfigData {
 		return Application.persistentDataPath + path;
 	}
 
-	public void EnterFight(bool isBoos) {
-		_storeBattleData.isBattle = isBoos ? 2 : 1;	// 2 == battle boss, 1 == battle enemy;
-	}
-
-	public void ExitFight () {
-		_storeBattleData.isBattle = 0;
-	}
-
 	void WriteAllBuff() {
 		AttackInfoProto attack = null;
 		if (posionAttack != null) {

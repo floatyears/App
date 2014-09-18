@@ -13,7 +13,7 @@ public class BattleMapView : ViewBase {
 	private MapItem template;
 	private MapItem[,] map;
 
-	private List<MapItem> prevAround = new List<MapItem>();
+	private List<MapItem> surroundedCells = new List<MapItem>();
 
 	private MapItem currentItem;
 	public const float itemWidth = 114f;
@@ -39,7 +39,7 @@ public class BattleMapView : ViewBase {
 
 	private GameObject role;
 
-	private bool ChainLinkBattle = false;
+//	private bool ChainLinkBattle = false;
 	
 	private bool checkOut = false;
 	
@@ -47,11 +47,6 @@ public class BattleMapView : ViewBase {
 
 	private bool isMoving = false;
 	private Vector3 targetPoint;
-	private const int xOffset = -5;
-	private const int YOffset = 20;
-	private const int ZOffset = -40;
-	private Vector3 scale = new Vector3(30f, 25f, 30f);
-	private Vector3 angle = new Vector3(330f, 0f, 0f);
 	private List<Coordinate> movePath = new List<Coordinate>();
 	private Vector3 distance = Vector3.zero;
 
@@ -93,17 +88,17 @@ public class BattleMapView : ViewBase {
 
 		if (BattleConfigData.Instance.hasBattleData () > 0) {
 			
-			Coordinate coor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
+			currentCoor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
 			BattleAttackManager.Instance.Els.CheckLeaderSkillCount();
-			BattleAttackManager.Instance.InitBattleUseData (BattleConfigData.Instance.storeBattleData);
+			BattleAttackManager.Instance.InitData (BattleConfigData.Instance.storeBattleData);
 			
-			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
+			if (currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY) {
 				return;	
 			}
 			
-			TQuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetCellInfo (coor);
-			ChangeStyle (coor);
-			Stop ();
+			TQuestGrid currentFloorData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (currentCoor);
+			HighlightSurroundedCell (currentCoor);
+//			Stop ();
 			
 			if (BattleConfigData.Instance.trapPoison != null) {
 				BattleConfigData.Instance.trapPoison.ExcuteByDisk();
@@ -116,14 +111,14 @@ public class BattleMapView : ViewBase {
 			TStoreBattleData sbd = BattleConfigData.Instance.storeBattleData;
 			
 			// 0 is not in fight.
-			if (sbd.isBattle == 0) {
-				if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
+//			if (sbd.isBattle == 0) {
+//				if (sbd.recoveBattleStep == RecoveBattleStep.RB_BossDead) {
 					BossDead();
 					return;
-				}
+//				}
 				BattleAttackManager.Instance.CheckPlayerDead();
 				return;
-			}
+//			}
 			
 			//		BattleMapView.waitMove = false;
 			List<TEnemyInfo> temp = new List<TEnemyInfo> ();
@@ -134,28 +129,28 @@ public class BattleMapView : ViewBase {
 				DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 			}
 			
-			if (sbd.isBattle == 1) {		// 1 == battle enemy
-				currentMapData.Enemy = temp;
-				BattleAttackManager.Instance.InitEnemyInfo (currentMapData);
+//			if (sbd.isBattle == 1) {		// 1 == battle enemy
+				currentFloorData.Enemy = temp;
+				BattleAttackManager.Instance.InitEnemyInfo (currentFloorData);
 				if(sbd.attackRound == 0) {	// 0 == first attack
 					GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
 				}
-			} else if (sbd.isBattle == 2) {	// 2 == battle boss
-				battleEnemy = true;
+//			} else if (sbd.isBattle == 2) {	// 2 == battle boss
+//				battleEnemy = true;
 				//			battle.ShieldInput (true);
 				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 				BattleConfigData.Instance.questDungeonData.Boss= temp;
 				TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
 				BattleAttackManager.Instance.InitBoss (BattleConfigData.Instance.questDungeonData.Boss, bossDrop);
 				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
-			}
+//			}
 			//		battle.ShowEnemy(temp);
 			
 			GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 			
 			BattleAttackManager.Instance.CheckPlayerDead();	
 		}else{
-			BattleAttackManager.Instance.InitBattleUseData(null);
+			BattleAttackManager.Instance.InitData(null);
 			//init role
 			prevCoor = currentCoor = BattleConfigData.Instance.roleInitCoordinate;
 			
@@ -163,13 +158,13 @@ public class BattleMapView : ViewBase {
 			
 			role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
 			SyncRoleCoordinate(currentCoor);
-			Stop();
+//			Stop();
 		}
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		prevAround.Clear ();
+		surroundedCells.Clear ();
 
 		checkOut = false;
 	}
@@ -225,7 +220,6 @@ public class BattleMapView : ViewBase {
 			movePath.AddRange(CaculateX(endCoord));
 			movePath.AddRange(CaculateY(endCoord));
 		}
-
 
 		Move();
 	}
@@ -317,25 +311,18 @@ public class BattleMapView : ViewBase {
 	
 	void MoveEnd() {
 		Coordinate tempCoor; 
-		if(!isMoving) {
-			movePath.Clear();
-		}
-		else {
-			tempCoor = movePath[0];
-			movePath.RemoveAt(0);
-			ChangeStyle(tempCoor);
-			SyncRoleCoordinate(tempCoor);
-			if(movePath.Count > 0) {
-				GameTimer.GetInstance().AddCountDown(0.1f, Move);
-			}
-			else
-				isMoving = false;
+		tempCoor = movePath[0];
+		movePath.RemoveAt(0);
+		HighlightSurroundedCell(tempCoor);
+		SyncRoleCoordinate(tempCoor);
+		if(movePath.Count > 0) {
+			GameTimer.GetInstance().AddCountDown(0.1f, Move);
 		}
 	}
 	
 	void Stop() {
-		isMoving = false;
-		movePath.Clear ();
+//		isMoving = false;
+
 	}
 	
 	void SyncRoleCoordinate(Coordinate coor) {
@@ -366,18 +353,17 @@ public class BattleMapView : ViewBase {
 				BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)index);
 			}
 			
-			TQuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetCellInfo (coor);
+			TQuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (coor);
 			
-			Stop ();
+//			Stop ();
+			movePath.Clear ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 				//				BattleMapView.waitMove = true;
 				BattleConfigData.Instance.storeBattleData.HitKey = true;
 				RotateAnim (()=>{
+					SetName (BattleFullScreenTipsView.BossBattle);
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-					//		battle.ShieldInput (false);
-					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate");
-					//		BattleMapView.waitMove = false;
 					ArriveAtCell ();
 				});
 				return;
@@ -393,6 +379,7 @@ public class BattleMapView : ViewBase {
 			case EQuestGridType.Q_ENEMY:
 				//				BattleMapView.waitMove = true;
 				RotateAnim (()=>{
+					isMoving = false;
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_battle);
 					//		BattleMapView.waitMove = false;
 					//		ShowBattle();
@@ -404,13 +391,14 @@ public class BattleMapView : ViewBase {
 						DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 					}
 					BattleAttackManager.Instance.InitEnemyInfo (currentMapData);
-					BattleConfigData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
+//					BattleConfigData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
 					//		battle.ShowEnemy (temp);
 					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule);
 					ShowEnemy(temp);
 					ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
 //					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 					GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
+					ArriveAtCell();
 				});
 				break;
 			case EQuestGridType.Q_KEY:
@@ -468,9 +456,10 @@ public class BattleMapView : ViewBase {
 				break;
 			}
 		} else {
-			IfArriveAtTheDoor ();
-			BattleConfigData.Instance.StoreMapData();
+			ArriveAtCell();
 		}
+//		IfArriveAtTheDoor ();
+//		BattleConfigData.Instance.StoreMapData();
 	}
 
 	void ShowEnemy(List<TEnemyInfo> count, bool isBoss = false) {
@@ -575,13 +564,13 @@ public class BattleMapView : ViewBase {
 		return aroundList;
 	}
 
-	void ChangeStyle(Coordinate coor) {
-		if(prevAround.Count > 0) {
-			for (int i = 0; i < prevAround.Count; i++) {
-				prevAround[i].Around(false);
+	void HighlightSurroundedCell(Coordinate coor) {
+		if(surroundedCells.Count > 0) {
+			for (int i = 0; i < surroundedCells.Count; i++) {
+				surroundedCells[i].Around(false);
 			}
 
-			prevAround.Clear();
+			surroundedCells.Clear();
 		}
 
 		//map grid Priority : right > left > bottom > top
@@ -600,7 +589,7 @@ public class BattleMapView : ViewBase {
 
 	void DisposeAround(MapItem item) {
 		item.Around(true);
-		prevAround.Add(item);
+		surroundedCells.Add(item);
 	}
 
 	
@@ -608,20 +597,15 @@ public class BattleMapView : ViewBase {
 		BattleConfigData.Instance.storeBattleData.HitKey = true;
 	}
 	
-	void ShowTapToBattle () {
-		door.SetActive (true);
-		SetName (BattleFullScreenTipsView.BossBattle);
-	}
-	
 	void ClickDoor(GameObject go) {
 		
 		if (currentShowInfo == BattleFullScreenTipsView.BossBattle) {
 			if( BattleConfigData.Instance.questDungeonData.isLastCell() ) {
 				AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
-				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+//				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss");
-				Stop();
-				battleEnemy = true;
+//				Stop();
+//				battleEnemy = true;
 			} else {
 				//			battleMap.door.isClick = false;
 				BattleConfigData.Instance.questDungeonData.currentFloor ++;
@@ -637,7 +621,7 @@ public class BattleMapView : ViewBase {
 				BattleConfigData.Instance.ResetRoleCoordinate();
 				BattleConfigData.Instance.StoreMapData ();
 				
-				battleEnemy = false;
+//				battleEnemy = false;
 				BattleAttackManager.Instance.RemoveListen ();
 				BattleAttackManager.Instance.Reset ();
 				ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
@@ -659,7 +643,7 @@ public class BattleMapView : ViewBase {
 	}
 
 
-	bool battleEnemy = false;
+//	bool battleEnemy = false;
 
 	void ShowTapToCheckOut () {
 		door.SetActive (true);
@@ -669,27 +653,23 @@ public class BattleMapView : ViewBase {
 	}
 
 
-	public void ArriveAtCell(object data = null) {
-		
+	public void ArriveAtCell() {
+		isMoving = false;
 		IfArriveAtTheDoor ();
-		ShieldAllInput (false);
-		bool b = data != null ? (bool)data : false;
-		if (battleEnemy && b) {
-			BossDead();
-			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
-			BattleConfigData.Instance.StoreMapData ();
-			
-			ShieldAllInput (true);
-			return;
-		}
+//		bool b = data != null ? (bool)data : false;
+//		if (battleEnemy && b) {
+//			BossDead();
+////			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
+//			BattleConfigData.Instance.StoreMapData ();
+//			return;
+//		}
 		
-		BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
+//		BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
 		BattleConfigData.Instance.StoreMapData ();
 		
 		int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor);
 		
 		if (index == -1) {
-			ShieldAllInput (true);
 			return;	
 		}
 		
@@ -698,38 +678,28 @@ public class BattleMapView : ViewBase {
 		if (questData.hitGrid.Contains (uIndex)) {
 			index = questData.hitGrid.FindIndex(a=>a == uIndex);
 			if(index != questData.hitGrid.Count - 1) {
-				if(ChainLinkBattle ){
-					ChainLinkBattle = false;
-				}
-				ShieldAllInput (true);
+//				if(ChainLinkBattle ){
+//					ChainLinkBattle = false;
+//				}
 				return;
 			}
 		}
 		
-		TQuestGrid tqg = BattleConfigData.Instance.questDungeonData.GetCellInfo (currentCoor);
+		TQuestGrid tqg = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (currentCoor);
 		
 		if (tqg == null || tqg.Type != EQuestGridType.Q_ENEMY) {
-			ShieldAllInput (true);
 			return;
 		}
 		
 		AddMapSecuritylevel (currentCoor);
 		chainLikeMapItem = AttakAround (currentCoor);
 		
-		if (chainLikeMapItem.Count == 0) {
-			ChainLinkBattle = false;
-		} else {
-			ChainLinkBattle = true;
-			SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
-		}
-		ShieldAllInput (true);
-	}
-
-	
-	void ShieldAllInput (bool shiled) {
-//		Main.Instance.NguiCamera.enabled = shiled;
-//		Main.Instance.GInput.IsCheckInput = shiled;
-//		BattleBottomView.notClick = !shiled;
+//		if (chainLikeMapItem.Count == 0) {
+//			ChainLinkBattle = false;
+//		} else {
+//			ChainLinkBattle = true;
+//			SyncRoleCoordinate (chainLikeMapItem.Dequeue ().Coor);
+//		}
 	}
 	
 	void NoSPMove(object data) {
@@ -764,7 +734,7 @@ public class BattleMapView : ViewBase {
 
 		role.transform.localPosition = targetPoint;
 //		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
-		ChangeStyle (currentCoor);
+		HighlightSurroundedCell (currentCoor);
 	}
 	
 	IEnumerator MoveByTrap() {
@@ -776,7 +746,7 @@ public class BattleMapView : ViewBase {
 			if (distance.magnitude < 1f) {
 				ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
 //				ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
-				ChangeStyle(currentCoor);
+				HighlightSurroundedCell(currentCoor);
 				yield break;
 				
 			}
@@ -819,7 +789,7 @@ public class BattleMapView : ViewBase {
 		
 		//		battle.ShieldInput (false);
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
-		BattleBottomView.notClick = true;
+//		BattleBottomView.notClick = true;
 		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		

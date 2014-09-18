@@ -92,7 +92,7 @@ public class BattleFullScreenTipsView : ViewBase {
 		TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
 		BattleAttackManager.Instance.InitBoss (BattleConfigData.Instance.questDungeonData.Boss, bossDrop);
 		
-		BattleConfigData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
+//		BattleConfigData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
 		//		battle.ShowEnemy (temp, true);
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 
