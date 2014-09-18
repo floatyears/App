@@ -66,17 +66,17 @@ public class BattleAttackInfo : MonoBehaviour {
 	}
 
 	public void ShowUI () {
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RefreshRate);
-		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RefreshRate);
-		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, StartAttack);
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RefreshRate);
+//		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RefreshRate);
+//		MsgCenter.Instance.AddListener (CommandEnum.ShowHands, StartAttack);
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
 
 	public void HideUI () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RefreshRate);
-		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RefreshRate);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ShowHands, StartAttack);
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RefreshRate);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RefreshRate);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ShowHands, StartAttack);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	}
 
 	public void StartAttack(object data) {
@@ -107,7 +107,7 @@ public class BattleAttackInfo : MonoBehaviour {
 
 	}
 
-	void AttackEnemyEnd(object data) {
+	public void AttackEnemyEnd(object data) {
 		RefreshRate (null, true);
 		GameTimer.GetInstance ().AddCountDown (0.5f, ClearAttackInfo);
 	}
@@ -144,7 +144,7 @@ public class BattleAttackInfo : MonoBehaviour {
 	}
 
 	AttackInfo prevAttack;
-	void RefreshRate (object data,bool end = false) {
+	public void RefreshRate (object data,bool end = false) {
 		if (hitLabel == null) {
 			return;	
 		}

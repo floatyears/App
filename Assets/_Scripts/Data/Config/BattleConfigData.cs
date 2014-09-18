@@ -493,7 +493,7 @@ public class BattleConfigData {
 	public int ResumeColorIndex(){
 		int i = questDungeonData.Colors [storeBattleData.colorIndex];
 		storeBattleData.colorIndex++;
-		Debug.Log ("index: " + storeBattleData.colorIndex);
+//		Debug.Log ("index: " + storeBattleData.colorIndex);
 		return i;
 	}
 }

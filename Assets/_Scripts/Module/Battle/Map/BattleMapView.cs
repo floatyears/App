@@ -211,7 +211,7 @@ public class BattleMapView : ViewBase {
 
 	
 	void OnClickMapItem(GameObject go) {
-		Debug.Log ("item name: " + go.name);
+//		Debug.Log ("item name: " + go.name);
 		if (isMoving)
 			return;
 		Coordinate endCoord = go.GetComponent<MapItem>().Coor;

@@ -23,7 +23,7 @@ public class BattleCardAreaItem : MonoBehaviour {
 		set {areaItemID = value;}
 	}
 	private UISprite template;
-	private List<int> haveCard = new List<int> ();
+//	private List<int> haveCard = new List<int> ();
 
 //	private BattleUseData battleUseData;
 	private bool _isBoost = false;
@@ -59,26 +59,6 @@ public class BattleCardAreaItem : MonoBehaviour {
 	void InitFightCard() {
 		template = transform.FindChild("BattleCardTemplate").GetComponent<UISprite>();
 		battleCardInitPos = template.transform.localPosition;
-	}
-
-	public void ShowUI () {
-//		base.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, Attack);
-//		MsgCenter.Instance.AddListener (CommandEnum.StartAttack, StartAttack);
-//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-//		MsgCenter.Instance.AddListener (CommandEnum.RecoverHP, RecoverHP);
-	}
-
-	public void HideUI () {
-//		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, Attack);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.StartAttack, StartAttack);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.RecoverHP, RecoverHP);
-	}
-
-	void RecoverHP (object data) {
-		Attack (data);
 	}
 
 	public int UpdateCardAndAttackInfo(List<CardItem> source) {
@@ -119,7 +99,7 @@ public class BattleCardAreaItem : MonoBehaviour {
 				attackInfos[m].AttackSprite = tex;
 			}
 
-			haveCard.Add(source[i].colorType);
+//			haveCard.Add(source[i].colorType);
 		}
 
 		if (attackInfos.Count > preAttackCount) {
@@ -139,16 +119,12 @@ public class BattleCardAreaItem : MonoBehaviour {
 
 	List <AttackInfo> attackInfos = new List<AttackInfo> ();
 
-	void BattleEnd(object data) {
-		attackInfos.Clear ();
-		battleCardTemplate.Clear ();
-	}
-
-	void Attack(object data) {
+	public void AttackEnemy(object data) {
 		AttackInfo ai = data as AttackInfo;
 		if (ai == null) {
 			return;		
 		}
+
 		AttackInfo aiu = attackInfos.Find (a => a.AttackID == ai.AttackID);
 		attackInfos.Remove (aiu);
 		if (aiu != default(AttackInfo)) {
@@ -165,10 +141,6 @@ public class BattleCardAreaItem : MonoBehaviour {
 			}
 		}
  	}
-
-	void StartAttack(object data) {
-		ClearCard ();
-	}
 
 //	bool isScale = false;
 //	public void Scale(bool on) {
@@ -189,7 +161,14 @@ public class BattleCardAreaItem : MonoBehaviour {
 		smallCardItemList.Clear();
 
 		cardList [5].enabled = false; // cardlist[5] == full sprite
-		haveCard.Clear ();
+
+		attackInfos.Clear ();
+		foreach (var item in battleCardTemplate) {
+			Destroy(item.gameObject);
+		}
+		battleCardTemplate.Clear ();
+//		Debug.Log ("card area clear: " + areaItemID);
+//		haveCard.Clear ();
 	}
 	
 //	void DisposeTweenPosition(CardItem ci) {

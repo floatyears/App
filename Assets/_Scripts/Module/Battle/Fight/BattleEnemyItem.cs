@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class EnemyItem : MonoBehaviour {
+public class BattleEnemyItem : MonoBehaviour {
     [HideInInspector]
     public TEnemyInfo enemyInfo;
     [HideInInspector]
@@ -46,16 +46,22 @@ public class EnemyItem : MonoBehaviour {
 		nextLabel = transform.FindChild("NextLabel").GetComponent<UILabel>();
 		effect = transform.FindChild("Effect").GetComponent<UIPanel>();
 		hurtValueLabel = transform.FindChild("HurtLabel").GetComponent<UILabel>();
-		enemyInfo = te;
+
 		hurtValueLabel.gameObject.SetActive(false);
-		SetData(te);
+
 		
 		stateSprite = transform.FindChild("StateSprite").GetComponent<UILabel>();
-		stateSprite.text = string.Empty;
-		
+
 		stateExceptionSprite = transform.FindChild("StateExceptionSprite").GetComponent<UISprite>();
 		initStateExceptionSprite = stateExceptionSprite.transform.localPosition;
 		
+		RefreshData (te,callBack);
+	}
+
+	public void RefreshData(TEnemyInfo te, Callback callBack){
+		enemyInfo = te;
+		SetData(te);
+		stateSprite.text = string.Empty;
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
 		enemyUnitInfo.GetAsset(UnitAssetType.Profile,o=> {
 			Texture2D tex = o as Texture2D;
@@ -64,10 +70,14 @@ public class EnemyItem : MonoBehaviour {
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3(0f, 100f, 0f);
 			} else {
 				DGTools.ShowTexture(texture,tex);
+
 				SetBloodSpriteWidth ();
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 			}
-			ResetHurtLabelPosition ();
+			texture.enabled = true;
+			Debug.Log ("texture enable: " + texture.enabled);
+			initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
+			hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y - hurtValueLabel.height * 2, initHurtLabelPosition.z);
 			callBack();
 		});
 	}
@@ -77,7 +87,7 @@ public class EnemyItem : MonoBehaviour {
 //        MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
 //        MsgCenter.Instance.AddListener(CommandEnum.EnemyRefresh, EnemyRefresh);
 //        MsgCenter.Instance.AddListener(CommandEnum.EnemyDead, EnemyDead);
-        MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
+//        MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
         MsgCenter.Instance.AddListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.AddListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
@@ -88,7 +98,7 @@ public class EnemyItem : MonoBehaviour {
 //		MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttack, EnemyAttack);
 //        MsgCenter.Instance.RemoveListener(CommandEnum.EnemyRefresh, EnemyRefresh);
 //        MsgCenter.Instance.RemoveListener(CommandEnum.EnemyDead, EnemyDead);
-        MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
         MsgCenter.Instance.RemoveListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.BePosion, BePosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
@@ -108,34 +118,34 @@ public class EnemyItem : MonoBehaviour {
 		}
     }
 
-    Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
-    void Attack(object data) {
+//    Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
+   	public void AttackEnemy(object data) {
         AttackInfo ai = data as AttackInfo;
         if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
             return;
         }
-        attackQueue.Enqueue(ai);
+//        attackQueue.Enqueue(ai);
 		GameTimer.GetInstance().AddCountDown(0.3f, ()=>{
-			AttackInfo ai1 = attackQueue.Dequeue();
+//			AttackInfo ai1 = attackQueue.Dequeue();
 			if (!string.IsNullOrEmpty (stateSprite.text)) {
 				stateSprite.text = string.Empty;
 			}
-			if (DGTools.RestraintType (ai1.AttackType, enemyInfo.GetUnitType ())) {
+			if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType ())) {
 				stateLabel.text = weak; // DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
-			} else if (DGTools.RestraintType (ai1.AttackType, enemyInfo.GetUnitType (), true)) {
+			} else if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType (), true)) {
 				stateLabel.text = guard;// DGTools.ShowSprite (stateSprite, "Guard"); // weak == attack count atlas sprite name.
 			}
 			iTween.ScaleFrom (stateSprite.gameObject, iTween.Hash ("scale", new Vector3 (2f, 2f, 2f), "time", 0.4f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "HideStateSprite", "oncompletetarget", gameObject));
-			DGTools.PlayAttackSound (ai1.AttackType);
+			DGTools.PlayAttackSound (ai.AttackType);
 
 			GameObject hurtLabel = NGUITools.AddChild(gameObject, hurtValueLabel.gameObject);
 			hurtLabel.SetActive(true);
 			hurtLabel.transform.localPosition = initHurtLabelPosition;
 			hurtValueQueue.Enqueue(hurtLabel);
 			UILabel info = hurtLabel.GetComponent<UILabel>();
-			info.text = ai1.InjuryValue.ToString();
+			info.text = ai.InjuryValue.ToString();
 			iTween.MoveTo(hurtLabel, iTween.Hash("position", hurtLabelPosition, "time", 0.8f, "easetype", iTween.EaseType.easeInBack, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
-			//		battleEnemy.EnemyItemPlayEffect (this, ai);
+//			battleEnemy.EnemyItemPlayEffect (this, ai);
 		});
     }
 
@@ -187,26 +197,11 @@ public class EnemyItem : MonoBehaviour {
 		}
     }
 
-	public void CompressTextureSize(float proportion) {
-		if (proportion < 1f) {
-			texture.width = (int)(texture.width * proportion);
-			texture.height = (int)(texture.height * proportion);
-			SetBloodSpriteWidth ();
-			ResetHurtLabelPosition ();
-		}
-	}
-
-	void ResetHurtLabelPosition() {
-		initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
-		hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y - hurtValueLabel.height * 2, initHurtLabelPosition.z);
-	}
-
 	void SetBloodSpriteWidth() {
 		float width = texture.width * 0.6f;
 		bloodSprite.width = (int)width;
 		bloodBgSprite.width = (int)width + 4;
-		float x = texture.transform.localPosition.x;
-		float bloodX = x - width * 0.5f;
+		float bloodX = texture.transform.localPosition.x - width * 0.5f;
 		Vector3 pos = bloodSprite.transform.localPosition;
 		bloodSprite.transform.localPosition = new Vector3 (bloodX, pos.y, pos.z);
 		bloodBgSprite.transform.localPosition = new Vector3 (bloodX - 2, pos.y, pos.z);

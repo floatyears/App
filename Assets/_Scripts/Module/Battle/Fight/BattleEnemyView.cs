@@ -2,11 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleEnemyView : ViewBase {
-	private static Dictionary<uint, EnemyItem> monster = new Dictionary<uint, EnemyItem> ();
+	private Dictionary<uint, BattleEnemyItem> enemyList;
+	private Queue<BattleEnemyItem> enemyItemPool;
 	private GameObject effectPanel;
 
-	private GameObject effectParent;
-	private GameObject effectItemPrefab;
+	private GameObject enemyRoot;
+	private GameObject enemyItemPrefab;
 	[HideInInspector]
 //	public BattleManipulationView battle;
 
@@ -21,17 +22,19 @@ public class BattleEnemyView : ViewBase {
 		base.Init (config, data);
 //	}
 //		transform.localPosition = new Vector3 (0f, 100f, 0f);
+		enemyList = new Dictionary<uint, BattleEnemyItem> ();
+		enemyItemPool = new Queue<BattleEnemyItem> ();
 
 //		base.Init (name);
-		effectPanel = transform.Find ("Enemy/Effect").gameObject;
-		effectParent = transform.Find ("Enemy").gameObject;
-		effectItemPrefab = transform.Find ("Enemy/EnemyItem").gameObject;
-		effectItemPrefab.SetActive (false);
+		effectPanel = transform.Find ("Effect").gameObject;
+		enemyRoot = transform.Find ("EnemyRoot").gameObject;
+		enemyItemPrefab = transform.Find ("EnemyRoot/EnemyItem").gameObject;
+		enemyItemPrefab.SetActive (false);
 //		transform.localPosition += new Vector3 (0f, battle.cardHeight * 6.5f, 0f);
-		attackInfoLabel = FindChild<UILabel>("Enemy/Label");
+		attackInfoLabel = FindChild<UILabel>("Label");
 		attackInfoLabel.text = "";
 		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
-		battleAttackInfo = FindChild<BattleAttackInfo>("Enemy/AttackInfo");
+		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
 		battleAttackInfo.Init ();
 		bgTexture = FindChild<UITexture>("Texture");
 		string path = "Texture/Map/fight_" + BattleConfigData.Instance.GetMapID ().ToString ();
@@ -39,32 +42,36 @@ public class BattleEnemyView : ViewBase {
 		ResourceManager.Instance.LoadLocalAsset (path, o => {
 						bgTexture.mainTexture = o as Texture2D;
 		});
-		if(viewData != null && viewData.ContainsKey("enemy")){
-			Refresh(viewData["enemy"] as List<TEnemyInfo>);
-		}
 
 	}
-
-	int count = 0;
+	
 	public override void HideUI () {
 		base.HideUI ();
 //		Clear ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
-		count--;
 //		battleAttackInfo.HideUI ();
 
+		foreach (var item in enemyList.Values) {
+			if(item != null) {
+				item.gameObject.SetActive(false);
+				enemyItemPool.Enqueue(item);
+			}
+		}
+		enemyList.Clear ();
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, AttackEnemy);
-		count ++;
+
+		if(viewData != null && viewData.ContainsKey("enemy")){
+			Refresh(viewData["enemy"] as List<TEnemyInfo>);
+		}
+//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //		battleAttackInfo.ShowUI ();
 		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
 		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
@@ -76,19 +83,28 @@ public class BattleEnemyView : ViewBase {
 	{
 		switch(args[0].ToString()){
 		case "refresh_enemy":
-			foreach (var item in enemys) {
+			foreach (var item in enemyList.Values) {
 				item.EnemyRefresh(args[1]);
 			}
 			break;
-		case "enemey_attack":
-			foreach (var item in enemys) {
+		case "enemy_attack":
+			foreach (var item in enemyList.Values) {
 				item.EnemyAttack(args[1]);
 			}
 			break;
 		case "enemy_dead":
-			foreach (var item in enemys) {
+			foreach (var item in enemyList.Values) {
 				item.EnemyDead(args[1]);
 			}
+			break;
+		case "attack_enemy":
+			foreach (var item in enemyList.Values) {
+				item.AttackEnemy(args[1]);
+				EnemyItemPlayEffect (item, args[1] as AttackInfo);
+			}
+			break;
+		case "attack_enemy_end":
+			AttackEnemyEnd(args[1]);
 			break;
 		}
 	}
@@ -124,7 +140,7 @@ public class BattleEnemyView : ViewBase {
 
 	AttackInfo prevAttackInfo = null;
 
-	public void EnemyItemPlayEffect(EnemyItem ei, AttackInfo ai) {
+	public void EnemyItemPlayEffect(BattleEnemyItem ei, AttackInfo ai) {
 		// > 0. mean is all attack.
 		if (prevAttackInfo != null &&  prevAttackInfo.IsLink > 0 && prevAttackInfo.IsLink == ai.IsLink) {
 			return;
@@ -156,209 +172,113 @@ public class BattleEnemyView : ViewBase {
 		attackInfoLabel.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
 	}
 
-	private List<EnemyItem> enemys = new List<EnemyItem> ();	 
+//	private List<BattleEnemyItem> enemys = new List<BattleEnemyItem> ();	 
 
 	public void Refresh(List<TEnemyInfo> enemy) {
-		Clear();
-		sortCount = 0;
-		enemys.Clear ();
+//
+//		monster.Clear();
+//		BattleEnemyItem[] ei = transform.GetComponentsInChildren<BattleEnemyItem> ();
+//		foreach (var item in ei) {
+//			item.DestoryUI();
+//		}
+
+		int sortCount = 0;
+//		enemys.Clear ();
+//		List<BattleEnemyItem> enemys = new List<BattleEnemyItem> ();
 		if (enemy.Count == 0) {
 			Debug.Log("no enemy");
-			sortCount++;
-			BeginSort ();
+//			sortCount++;
+//			BeginSort ();
 		} else {
 			sortCount = enemy.Count;
 			for (int i = 0; i < enemy.Count; i++) {
 				TEnemyInfo tei = enemy[i];
 				tei.AddListener();
-				GameObject go = NGUITools.AddChild(effectParent, effectItemPrefab);
+				GameObject go;
+				BattleEnemyItem ei;
+				if(enemyItemPool.Count > 0){
+					go = enemyItemPool.Dequeue().gameObject;
+					ei = go.GetComponent<BattleEnemyItem>();
+					enemyList.Add(tei.EnemySymbol,ei);
+					ei.RefreshData(tei,()=>{
+						sortCount--;
+						
+						if (sortCount == 0) {
+							SortEnemyItem (enemyList);
+						} 
+					});
+				}else{
+					go = NGUITools.AddChild(enemyRoot, enemyItemPrefab);
+					ei = go.AddComponent<BattleEnemyItem>();
+					enemyList.Add(tei.EnemySymbol,ei);
+					//				enemys.Add(ei);
+					ei.Init(tei, ()=>{
+						sortCount--;
+						
+						if (sortCount == 0) {
+							SortEnemyItem (enemyList);
+						} 
+					});
+				}
+
 				go.SetActive(true);
-				EnemyItem ei = go.AddComponent<EnemyItem>();
-				enemys.Add(ei);
-				monster.Add(tei.EnemySymbol,ei);
-				ei.Init(tei, BeginSort);
 			}
 		}
-	}
-
-	int sortCount = 0;
-
-	void BeginSort() {
-		sortCount--;
-
-		if (sortCount == 0) {
-			SortEnemyItem (enemys);
-		} 
 	}
 
 	void DropItem(object data) {
 		int pos = (int)data;
 		uint posSymbol = (uint)pos;
 
-		if (monster.ContainsKey (posSymbol) && monster[posSymbol].enemyInfo.IsDead) {
-			bbproto.EnemyInfo ei = monster[posSymbol].enemyInfo.EnemyInfo();
+		if (enemyList.ContainsKey (posSymbol) && enemyList[posSymbol].enemyInfo.IsDead) {
+			bbproto.EnemyInfo ei = enemyList[posSymbol].enemyInfo.EnemyInfo();
 			BattleConfigData.Instance.storeBattleData.RemoveEnemyInfo(ei);
-			monster.Remove (posSymbol);	
+//			enemyList.Remove (posSymbol);	
 		}
 	}
 
-	void Clear() {
-		foreach (var item in monster) {
-			if(item.Value != null) {
-				item.Value.DestoryUI();
+	void SortEnemyItem(Dictionary<uint,BattleEnemyItem> enemys) {
+
+		int count = enemys.Count;
+		float allWidth = 0f;
+		float pos = 0f;
+		float maxHeight = 0f;
+		UITexture tex;
+		float firstItemWidth = 0f;
+		foreach (var item in enemys.Values) {
+			tex = item.texture;
+			if(pos == 0f){
+				item.transform.localPosition = new Vector3(pos,0,0);
+				pos += tex.width/2;
+
+			}else{
+				pos += tex.width/2;
+				item.transform.localPosition = new Vector3(pos,0,0);
+				pos += tex.width/2;
+			}
+			if(firstItemWidth == 0f){
+				firstItemWidth = tex.width;
+			}
+			allWidth += tex.width;
+			if(maxHeight < tex.height){
+				maxHeight = tex.height;
 			}
 		}
-		monster.Clear();
-		EnemyItem[] ei = transform.GetComponentsInChildren<EnemyItem> ();
-		foreach (var item in ei) {
-			item.DestoryUI();
+		float scaleVal = 1f;
+		if( ScreenWidth < allWidth ) {
+			scaleVal = (float)ScreenWidth / allWidth;
 		}
-	}
+		enemyRoot.transform.localScale = new Vector3 (scaleVal, scaleVal, 0);
+		enemyRoot.transform.localPosition = new Vector3((- allWidth + firstItemWidth)/2*scaleVal, maxHeight*scaleVal/2,0);// enemys[0].texture.width/2;
+		Debug.Log ("enemy item sort: " + enemyRoot.transform.localPosition);
 
-	void SortEnemyItem(List<EnemyItem> enemys) {
-		int count = enemys.Count;
-		if (count == 0) {	return;	}
-		CompressTextureWidth (enemys);
-		if (count == 1) { 
-			enemys[0].transform.localPosition = new Vector3(0f,200f,0f); 
-			return; 
-		}
-		int centerIndex = 0;
-		if (DGTools.IsOddNumber (count)) {
-			centerIndex = count >> 1;
-			enemys[centerIndex].transform.localPosition = new Vector3(0f,200f,0f);
-			DisposeCenterLeft(centerIndex, enemys);
-			DisposeCenterRight(centerIndex, enemys);
-		} else {
-			centerIndex = (count >> 1) - 1;
-			int centerRightIndex = centerIndex + 1;
-			float centerWidth = enemys[centerIndex].texture.width * 0.5f;
-			float centerRightWidth =  enemys[centerRightIndex].texture.width * 0.5f;
-			float Difference = (centerRightWidth - centerWidth);
-			centerWidth += Difference;	
-			centerRightWidth -= Difference;
-			enemys[centerIndex].transform.localPosition = new Vector3(0f - centerWidth, 200f, 0f);
-			enemys[centerRightIndex].transform.localPosition = new Vector3(0f + centerRightWidth, 200f, 0f);
-			DisposeCenterLeft(centerIndex--, enemys);
-			centerRightIndex++;
-			DisposeCenterRight(centerRightIndex, enemys);
-		}
 	}
-
-	float probability;
-	float allWidth;
-	float screenWidth;
 	public const int ScreenWidth = 640;
-	void CompressTextureWidth (List<EnemyItem> enemys) {
-		int count = enemys.Count;
-		if (count == 1) {
-			return;	
-		}
-		if (count == 2) {
-			CompressTexture( GetProbability(ScreenWidth, enemys), enemys);
-			return;
-		}
-
-		screenWidth = ScreenWidth * 0.5f;
-		allWidth = 0;
-//		Debug.LogWarning(" screenWidth="+screenWidth);
-
-		bool isOdd = DGTools.IsOddNumber (count);
-		int centerIndex = count >> 1;
-		probability = 1.0f;
-		if (isOdd) {
-			float allPro = GetProbability (ScreenWidth, enemys);
-//			Debug.LogWarning("isOdd: allPro="+allPro);
-			float remainHalfScreeWidth = screenWidth - enemys [centerIndex].texture.width * 0.5f*allPro;
-			probability = SetgmentationEnemys(enemys, centerIndex, remainHalfScreeWidth);
-			if( probability > allPro ) {
-				probability = allPro;
-			}
-//			Debug.LogWarning("isOdd: final probability="+probability);
-		} else {
-			probability = SetgmentationEnemys(enemys, 0, screenWidth);
-//			Debug.LogWarning("NOTisOdd: final probability="+probability);
-		}
-
-		CompressTexture (probability, enemys);
-	}
-
-	float SetgmentationEnemys(List<EnemyItem> enemys, int centerIndex, float screenWidth) {
-		int leftEndIndex = centerIndex ;
-		int rightStartIndex = centerIndex + 1;
-//		Debug.LogWarning("inSetgmentationEnemys ==> leftEndIndex:"+leftEndIndex+" rightStartIndex:"+rightStartIndex+" screenWidth:"+screenWidth);
-		if (centerIndex == 0) {
-			rightStartIndex = leftEndIndex = enemys.Count >> 1;
-		}
-
-		List<EnemyItem> leftEnemys = new List<EnemyItem> ();
-		List<EnemyItem> rightEnemys = new List<EnemyItem> ();
-
-		for (int i = 0; i < leftEndIndex; i++) {
-			leftEnemys.Add (enemys [i]);
-		}
-		
-		for (int i = rightStartIndex; i < enemys.Count; i++) {
-			rightEnemys.Add (enemys [i]);
-		}
-
-//		Debug.LogWarning("===get for lefrpro...");
-		float lefrpro = GetProbability (screenWidth, leftEnemys);
-//		Debug.LogWarning("===get for rightrpro...");
-		float rightpro = GetProbability (screenWidth, rightEnemys);
-//		Debug.LogWarning("lefrpro:"+lefrpro+" rightpro:"+rightpro);
-
-		return (lefrpro < rightpro ? lefrpro : rightpro);
-	}
-
-	float GetProbability(float screenWidth, List<EnemyItem> enemys) {
-		int width = 0;
-		for (int i = 0; i < enemys.Count; i++) {	//Standardization texture size by rare config.
-			UITexture tex = enemys [i].texture;
-			width += tex.width;
-//			Debug.LogWarning(i+": tex.width="+tex.width+" / "+width+"  screenWidth:"+screenWidth);
-		}
-		if( screenWidth >= width ) {
-			return 1.0f;
-		}
-		return screenWidth / width;
-	}
-
-	void CompressTexture(float probability, List<EnemyItem> enemys) {
-		for (int i = 0; i < enemys.Count; i++) {
-			enemys[i].CompressTextureSize(probability);
-		}
-	}
-
-	void DisposeCenterLeft(int centerIndex, List<EnemyItem> temp) {
-		int tempIndex = centerIndex - 1;
-		while(tempIndex >= 0) {
-			EnemyItem rightEnemyItem = temp[tempIndex + 1];
-			EnemyItem currentEnemyItem = temp[tempIndex];
-			Vector3 localPosition = rightEnemyItem.transform.localPosition;
-			float rightWidth = rightEnemyItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f;
-			currentEnemyItem.transform.localPosition = new Vector3(localPosition.x - rightWidth , 200f, 0f);
-			tempIndex--;
-		}
-	}
-
-	void DisposeCenterRight (int centerIndex, List<EnemyItem> temp) {
-		int tempIndex = centerIndex;
-		while(tempIndex < temp.Count) {
-			EnemyItem leftItem = temp[tempIndex - 1];
-			EnemyItem currentEnemyItem = temp[tempIndex];
-		
-			Vector3 localPosition = leftItem.transform.localPosition;
-			float leftWidth = leftItem.texture.width * 0.5f + currentEnemyItem.texture.width * 0.5f; 
-			temp[tempIndex].transform.localPosition = new Vector3(localPosition.x + leftWidth, 200f, 0f);
-			tempIndex++;
-		}
-	}
 
 	GameObject prevEffect;
 	List<GameObject> extraEffect = new List<GameObject> ();
 
-	void PlayerEffect(EnemyItem ei, AttackInfo ai) {
+	void PlayerEffect(BattleEnemyItem ei, AttackInfo ai) {
 		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
 			if(ei != null)
 				ei.InjuredShake();
@@ -376,7 +296,7 @@ public class BattleEnemyView : ViewBase {
 			System.Type t = pdb.GetType();
 
 			if(t == typeof(TSkillExtraAttack)) {
-				foreach (var item in monster.Values) {
+				foreach (var item in enemyList.Values) {
 					if(item != null) {
 						GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);
 						go.transform.localPosition = item.transform.localPosition;
@@ -415,7 +335,7 @@ public class BattleEnemyView : ViewBase {
 			DestoryEffect();
 		}
 	}
-	
+
 }
 
 public class ShowEnemyUtility {

@@ -494,7 +494,7 @@ public class BattleAttackManager {
 			}
 		}
 	}
-	SkillBaseInfo passiveSkill;
+//	ActiveSkill passiveSkill;
 	public bool battleFail = false;
 	
 	//	private ConfigBattleUseData configBattleUseData;
@@ -613,7 +613,7 @@ public class BattleAttackManager {
 				ai.InjuryValue = hurtValue;
 				tempPreHurtValue += hurtValue;
 				ai.EnemyID = te.EnemySymbol;
-				AttackEnemyEnd (ai);
+				AttackEnemyOnce (ai);
 			}
 		}
 		CheckBattleSuccess ();
@@ -676,7 +676,9 @@ public class BattleAttackManager {
 				
 				BattleAttackManager.Instance.AddBlood(blood);
 				
-				MsgCenter.Instance.Invoke(CommandEnum.AttackEnemyEnd, endCount);
+//				MsgCenter.Instance.Invoke(CommandEnum.AttackEnemyEnd, endCount);
+				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"attack_enemy_end",endCount);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"attack_enemy_end");
 				
 				endCount = 0;
 				
@@ -713,7 +715,7 @@ public class BattleAttackManager {
 			ai.InjuryValue = hurtValue;
 			tempPreHurtValue = hurtValue;
 			ai.EnemyID = prevAttackEnemyInfo.EnemySymbol;
-			AttackEnemyEnd (ai);
+			AttackEnemyOnce (ai);
 			break;
 		case 1:
 			if (enemyInfo.Count == 0) {
@@ -732,7 +734,7 @@ public class BattleAttackManager {
 				tempPreHurtValue += hurtValue1;
 				ai.EnemyID = te.EnemySymbol;
 				ai.IsLink = tempAllAttakSignal;
-				AttackEnemyEnd (ai);
+				AttackEnemyOnce (ai);
 			}
 			break;
 		case 2:
@@ -806,6 +808,7 @@ public class BattleAttackManager {
 		MsgCenter.Instance.Invoke (CommandEnum.GridEnd, null);
 		//		MsgCenter.Instance.Invoke(CommandEnum.BattleEnd, battleFail);
 		ModuleManager.Instance.HideModule(ModuleEnum.BattleManipulationModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.BattleEnemyModule);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleMapModule);
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
 		ClearData();
@@ -851,8 +854,10 @@ public class BattleAttackManager {
 	
 	int tempAllAttakSignal = 1;
 
-	void AttackEnemyEnd (AttackInfo ai){
-		MsgCenter.Instance.Invoke (CommandEnum.AttackEnemy, ai);
+	void AttackEnemyOnce (AttackInfo ai){
+//		MsgCenter.Instance.Invoke (CommandEnum.AttackEnemy, ai);
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "attack_enemy",ai);
+		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "attack_enemy",ai);
 	}
 	
 	public void FirstAttack () {
@@ -926,7 +931,7 @@ public class BattleAttackManager {
 //			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, te);
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",te);
 			//			Debug.LogError("EnemyAttack attackType : " + attackType);
-			List<AttackInfo> temp = null;//passiveSkill.Dispose(attackType, hurtValue);
+			List<AttackInfo> temp = Dispose(attackType, hurtValue);
 			
 			for (int i = 0; i < temp.Count; i++) {
 				temp[i].EnemyID = te.EnemySymbol;
@@ -980,7 +985,7 @@ public class BattleAttackManager {
 		CheckBattleSuccess ();
 		ClearData();
 		//		bud.battleQuest.battle.ShieldInput(true);	
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"enemy_attack_end");
 		BattleConfigData.Instance.storeBattleData.attackRound ++;
 		BattleConfigData.Instance.storeBattleData.tEnemyInfo = enemyInfo;
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyAttackEnd, null);
@@ -1007,7 +1012,7 @@ public class BattleAttackManager {
 			bool restaint = restraintType == te.GetUnitType ();
 			int hurtValue = te.CalculateInjured (ai, restaint);
 			ai.InjuryValue = hurtValue;
-			AttackEnemyEnd (ai);
+			AttackEnemyOnce (ai);
 			LoopAntiAttack ();
 		});
 	}

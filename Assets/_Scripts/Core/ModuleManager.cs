@@ -34,8 +34,11 @@ public class ModuleManager {
 	/// <param name="module">Module.</param>
 	/// <param name="data">Data.</param>
 	public static void SendMessage(ModuleEnum module, params object[] args){
+
 		if(moduleDic.ContainsKey(module)){
+			Debug.Log ("msg send to: " + module + " args: " + args[0].ToString());
 			moduleDic[module].OnReceiveMessages(args);
+
 		}else{
 			Debug.LogWarning("SendMsg To Module Err: no reciever [[[---" + module + "---]]]");
 		}

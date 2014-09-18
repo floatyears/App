@@ -82,6 +82,10 @@ public class BattleManipulationView : ViewBase {
 	private float countDownValue = 1f;
 
 	////------------count down end
+	/// 
+
+	private bool isCardDragable = true;
+	private bool isInCountingDown = false;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -156,10 +160,10 @@ public class BattleManipulationView : ViewBase {
 		////------------battle card end
 
 		countDownUI = FindChild ("CountDown");
+		countDownUI.SetActive (false);
 		numberLabel = FindChild<UILabel>("CountDown/Number");
 		circleSprite = FindChild<UISprite>("CountDown/Circle");
 //		CreatEnemy ();
-
 	}
 
 	public override void ShowUI() {
@@ -173,9 +177,9 @@ public class BattleManipulationView : ViewBase {
 		GenerateShowCard();
 		
 //		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
+//		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 //		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
-		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+//		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 //		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 //		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 
@@ -186,14 +190,15 @@ public class BattleManipulationView : ViewBase {
 		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
 		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
 		GameInput.OnDragEvent += HandleOnDragEvent;
+		isCardDragable = true;
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
 //		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
 
@@ -210,27 +215,33 @@ public class BattleManipulationView : ViewBase {
 		GameInput.OnStationaryEvent -= HandleOnStationaryEvent;
 		GameInput.OnDragEvent -= HandleOnDragEvent;
 		base.DestoryUI ();
+	}
 
-	}
-	
-	void StartAttack () {
-//		MsgCenter.Instance.Invoke (CommandEnum.StartAttack, null);
-		BattleAttackManager.Instance.StartAttack (null);
-		StartBattle (false);
-	}
-	
-	void ExcuteActiveSkillInfo(object data) {
-		bool b = (bool)data;
-//		ShieldInput (!b);
-	}
-	
-	void EnemyAttckEnd (object data) {
-		StartBattle (true);
-//		ShieldInput (true);
-	}
-	
-	void EnemyAttackEnd() {
-		
+	public override void CallbackView (params object[] args)
+	{
+
+		switch (args[0].ToString()) {
+			case "attack_enemy_end":
+	//			StartBattle(false);
+				Debug.Log("area clear start: "+ battleCardAreaItem.Length);
+				foreach (var item in battleCardAreaItem) {
+					
+					item.ClearCard();
+				}
+				break;
+			case "attack_enemy":
+				foreach (var item in battleCardAreaItem) {
+					item.AttackEnemy(args[1]);
+				}
+				break;
+			case "ban_click":
+				break;
+			case "enemy_attack_end":
+				isCardDragable = true;
+				break;
+			default:
+					break;
+		}
 	}
 	
 	void GenerateShowCard () {
@@ -244,10 +255,6 @@ public class BattleManipulationView : ViewBase {
 	int GenerateCardIndex () {
 		int index =  BattleConfigData.Instance.ResumeColorIndex();
 		
-//		if (userGuideIndex != -1) {
-//			index = userGuideIndex;
-//		}
-		
 		currentColor.Add (index);
 		if (currentColor.Count > 5) {
 			currentColor.RemoveAt(0);
@@ -255,27 +262,9 @@ public class BattleManipulationView : ViewBase {
 		return index;
 	}
 	
-	public void SwitchInput(bool isShield) {
-		nguiMainCamera.useMouse = isShield;
-		nguiMainCamera.useKeyboard = isShield;
-		nguiMainCamera.useTouch = isShield;
-//		Main.Instance.GInput.IsCheckInput = !isShield;
-	}
-	
-	public void ShieldGameInput(bool isShield) {
-//		Main.Instance.GInput.IsCheckInput = isShield;
-	}
-	
-//	public void ShieldInput (bool isShield) {
-//		//		Debug.LogError ("ShieldInput : " + isShield);
-//		//		if (shileInputByNoviceGuide) {
-//		//			return;	
-//		//		}
-//		nguiMainCamera.enabled = isShield;
-////		Main.Instance.GInput.IsCheckInput = isShield;
-//	}
-	
 	void HandleOnPressEvent () {
+		if (!isCardDragable)
+			return;
 		if(Check(GameLayer.ActorCard)) {
 			for (int i = 0; i < rayCastHit.Length; i++) {
 				if(rayCastHit[i].collider.gameObject.layer == GameLayer.ActorCard) {
@@ -291,8 +280,8 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void HandleOnReleaseEvent () {
-		Debug.Log ("press release");
-		if(selectTarget.Count == 0) {
+//		Debug.Log ("press release");
+		if(selectTarget.Count == 0 || !isCardDragable) {
 			ResetSelect();
 			return;
 		}
@@ -314,6 +303,9 @@ public class BattleManipulationView : ViewBase {
 	
 	void HandleOnDragEvent (Vector2 obj) {
 //		Debug.Log ("drag");
+		if (!isCardDragable) {
+			return;		
+		}
 		SetCardItemDragState();
 		Vector3 vec = ChangeCameraPosition(obj) - ViewManager.Instance.ParentPanel.transform.localPosition;
 		
@@ -329,8 +321,6 @@ public class BattleManipulationView : ViewBase {
 			}
 		}
 	}
-
-	private bool isCountDownStart = false;
 
 	void GenerateCard() {
 		BattleCardAreaItem bcai = null;
@@ -352,12 +342,10 @@ public class BattleManipulationView : ViewBase {
 //			} 
 
 			//		countDownUI.ShowUI();
-			if(!isCountDownStart){
+			if(!isInCountingDown){
 				StartCoroutine(StartCountDown ());
-				isCountDownStart = true;
+				isInCountingDown = true;
 			}
-				
-
 			for(int i = 0;i < generateCount;i++) {
 				GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].index);
 //				RefreshLine();
@@ -383,9 +371,11 @@ public class BattleManipulationView : ViewBase {
 		//			ShieldInput (false);
 		//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
 		//			showCountDown = false;
-		StartAttack();
+		BattleAttackManager.Instance.StartAttack (null);
+//		RefreshLine();
+		isCardDragable = false;
 		time =  BattleAttackManager.CountDown;
-//		isCountDownStart = false;
+		isInCountingDown = false;
 	}
 
 	void ResetSelect() {
@@ -399,7 +389,7 @@ public class BattleManipulationView : ViewBase {
 			if(cardItemArray[i] == null) {
 				continue;
 			}
-			cardItemArray[i].CanDrag = true;
+			cardItemArray[i].IsDraggable = true;
 		}
 	}
 	
@@ -446,7 +436,7 @@ public class BattleManipulationView : ViewBase {
 		if(ci != null) {
 			if(selectTarget.Contains(ci))
 				return;
-			if(ci.CanDrag) {
+			if(ci.IsDraggable) {
 				ci.AddCardToSelect(true, selectTarget.Count);
 				ci.ActorTexture.depth = ci.InitDepth;
 				selectTarget.Add(ci);
@@ -707,21 +697,7 @@ public class BattleManipulationView : ViewBase {
 		}
 		ci.SetTargetLine (trans);
 	}
-	
-	/// <summary>
-	/// t
-	/// </summary>
-	/// <param name="b">If set to <c>true</c> b.</param>
-	public void StartBattle(bool b) {
-		if (!b) {
-			foreach (var item in cardItemArray) {
-				item.Clear();
-			}
-		} else {
-//			RefreshLine();
-		}
-	}
-	
+
 	bool CheckGenerationAttack (int index) {
 		if (index == 7) {
 			return true;
@@ -736,19 +712,6 @@ public class BattleManipulationView : ViewBase {
 		
 		return false;
 	}
-	
-//	public void IgnoreAreaCollider(bool isIgnore) {
-//		LayerMask layer;
-//		
-//		if(isIgnore)
-//			layer = GameLayer.ActorCard;
-//		else
-//			layer = GameLayer.IgnoreCard;
-//		
-//		for (int i = 0; i < cardItemArray.Length; i++) {
-//			cardItemArray[i].gameObject.layer = layer;
-//		}
-//	}
 	
 	bool SortCard(int sortID,List<CardItem> ci) {
 		CardItem firstCard = ci[0];
@@ -854,7 +817,7 @@ public class BattleManipulationView : ViewBase {
 		{
 			while(i > -1)
 			{
-				cardItemArray[i].CanDrag = false;
+				cardItemArray[i].IsDraggable = false;
 				i --;
 			}
 		}
@@ -874,7 +837,7 @@ public class BattleManipulationView : ViewBase {
 		{
 			while(countID < cardItemArray.Length)
 			{
-				cardItemArray[countID].CanDrag = false;
+				cardItemArray[countID].IsDraggable = false;
 				countID ++;
 			}
 		}

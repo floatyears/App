@@ -40,19 +40,19 @@ public class CardItem : MonoBehaviour {
 		get { return initDepth;}
 	}
 
-	private bool canDrag = true;
+	private bool isDraggable = true;
 
-	public bool CanDrag {
+	public bool IsDraggable {
 		set {
-			canDrag = value;
-			if(canDrag) {
+			isDraggable = value;
+			if(isDraggable) {
 				gameObject.layer = GameLayer.ActorCard;
 			}
 			else{
 				gameObject.layer = GameLayer.IgnoreCard;
 			}
 		}
-		get{return canDrag;}
+		get{return isDraggable;}
 	}
 
 	private Transform parentObject;
@@ -89,7 +89,7 @@ public class CardItem : MonoBehaviour {
 		initPosition = actorTexture.transform.localPosition;
 //		Debug.LogError ("initPosition : " + initPosition + "gameobject : " + gameObject);
 		initDepth = actorTexture.depth;
-		CanDrag = true;
+		IsDraggable = true;
 
 		for (int i = 0; i < 5; i++) {	// 5 == 
 			Transform trans = NGUITools.AddChild(gameObject, linkLineSprite.gameObject).transform;
@@ -143,7 +143,7 @@ public class CardItem : MonoBehaviour {
 	}
 
 	public void OnDragHandler(Vector3 position,int index) {
-		if(!canDrag)
+		if(!isDraggable)
 			return;
 		float offset = index * xOffset;
 		SetPosition (new Vector3 (position.x + offset, position.y - offset, 0f));
@@ -151,7 +151,7 @@ public class CardItem : MonoBehaviour {
 	}
 
 	public void AddCardToSelect(bool isPress,int sortIndex) {
-		if(!canDrag)
+		if(!isDraggable)
 			return;
 		if(isPress) {	
 			SetPositionByIndex(sortIndex);
@@ -178,11 +178,11 @@ public class CardItem : MonoBehaviour {
 
 	public bool SetCanDrag(int type) {
 		if(type == this.colorType)
-			CanDrag = true;
+			IsDraggable = true;
 		else
-			CanDrag = false;
+			IsDraggable = false;
 
-		return canDrag;
+		return isDraggable;
 	}
 
 	public void Move(Vector3 to,float time) {
