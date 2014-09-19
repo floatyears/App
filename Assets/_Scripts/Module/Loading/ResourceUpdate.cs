@@ -86,38 +86,15 @@ public class ResourceUpdate : MonoBehaviour {
 	private Queue<DownloadItemInfo> retryItemList = new Queue<DownloadItemInfo>();
 
 
-	private string appVersion = 
-#if LANGUAGE_CN
-	"版本：";
-#elif LANGUAGE_EN
-	"AppVersion:";
-#else
-	"";
-#endif
-
-	private string currentDownload = 
-#if LANGUAGE_CN
-	"已下载：";
-#elif LANGUAGE_EN
-	"Downloaded: ";
-#else
-	"";
-#endif
-
-	private string totalDownload = 
-#if LANGUAGE_CN
-	"总大小：";
-#elif LANGUAGE_EN
-	"Total: ";
-#else
-	"";
-#endif
+	private string appVersion = DefaultLanguage.Version; //"版本：";
+	private string currentDownload = DefaultLanguage.CurrentDownload; //"已下载：";
+	private string totalDownload = DefaultLanguage.TotalDownload;  //"总大小：";
 
 	// Use this for initialization
 	void Start () {
 
 		//get the gamemanager
-//		Debug.Log ("start download=============");
+		Debug.LogWarning ("start ============= appVersion:"+appVersion);
 		pro = GetComponent<UIProgressBar> ();
 		proText = GameObject.Find("ProgressText").GetComponent<UILabel> ();
 		tipText = GameObject.Find ("TipText").GetComponent<UILabel>();
@@ -250,26 +227,9 @@ public class ResourceUpdate : MonoBehaviour {
 					if (!isShowRetry) {
 						isShowRetry = true;
 
-					    string titleText = 
-#if LANGUAGE_EN
-						"Download Error";
-#else
-						"下载错误";
-#endif
-						//TextCenter.GetText("DownloadErrorTitle");
-						string contentText = //TextCenter.GetText("DownloadErrorContent");
-#if LANGUAGE_EN
-						"There is an error occured when dowloading resources, please connect to the Internet and Retry!";
-#else
-						"下载资源过程中出现错误，请连接到服务器并重试！";
-#endif
-						
-						string btntext = //TextCenter.GetText("Retry");
-#if LANGUAGE_EN
-						"Retry";
-#else
-						"重试";
-#endif
+						string titleText = DefaultLanguage.DownloadError; //"下载错误";
+						string contentText = DefaultLanguage.DownloadErrorDescription; //TextCenter.GetText("DownloadErrorContent"); //"下载资源过程中出现错误，请连接到服务器并重试！";
+						string btntext = DefaultLanguage.Retry; //TextCenter.GetText("Retry");
 						
 //						sure = new BtnParam ();
 //						sure.callback = ExitGame;
@@ -357,12 +317,7 @@ public class ResourceUpdate : MonoBehaviour {
 		}  
 
 		if (tipText.text.Equals(string.Empty)) {
-			tipText.text = //TextCenter.GetText ("DefaultTips");
-#if LANGUAGE_EN
-				"It will take a few seconds to download for the first time, \nplease wait a moment";
-#else
-			"首次进入游戏需要一定时间进行加载，请稍等.";
-#endif
+			tipText.text = DefaultLanguage.FirstDownloadTips; //"首次进入游戏需要一定时间进行加载，请稍等.";  TextCenter.GetText ("DefaultTips");
 		}
 
 	}
@@ -670,25 +625,15 @@ public class ResourceUpdate : MonoBehaviour {
 //			MsgWindowParams mwp = new MsgWindowParams ();
 //			mwp.btnParam = new BtnParam();
 
-			string titleText = 
-#if LANGUAGE_CN
-			"下载错误";
-#else
-			"File Download Error";
-#endif
-			string contentText = 
-#if LANGUAGE_CN
-	"此文件下载错误：" + url;
-#else
-			"Network error.Please check your network connection and try again later.";
+			string titleText = DefaultLanguage.DownloadError; //"下载错误";
+			string contentText = DefaultLanguage.DownloadErrorDescription;
+			string btntext = DefaultLanguage.OK;
+
+#if LANGUAGE_CN && INNER_TEST
+			contentText = "此文件下载错误：" + url;
 #endif
 
-			string btntext = 
-			#if LANGUAGE_CN
-				"确定";
-			#else
-				"OK";
-			#endif
+
 //			mwp.btnParam = null;
 			
 //			sure = new BtnParam ();

@@ -45,12 +45,15 @@ public class LevelUpItem : MyUnitItem {
 	protected override void RefreshState(){
 //		Debug.LogError ("RefreshState");
 		base.RefreshState();
+
 		if(userUnit != null){
 			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
 			//IsEnable is FALSE as long as IsParty is TRUE
 //			Debug.LogError("IsParty : " + IsParty);
 //			IsEnable = !IsParty;
 //			Debug.LogError("IsEnable : " + IsEnable);
+		} else {
+			IsParty = false;
 		}
 	}
 }

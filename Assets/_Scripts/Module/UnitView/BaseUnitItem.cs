@@ -62,8 +62,10 @@ public class BaseUnitItem : MonoBehaviour {
 			return isEnable;
 		}
 		set{
-			isEnable = value;
-			UpdatEnableState();
+			if(isEnable != value) {
+				isEnable = value;
+				UpdatEnableState();
+			}
 		}
 	}
 	

@@ -10,9 +10,9 @@ public class LevelUpView : ViewBase {
 	private UIButton levelUpButton;
 	private UIButton sortButton;
 	
-	private DragPanelDynamic myUnitDragPanel;
+	private DragPanelDynamic dragPanel;
 	
-	private List<LevelUpUnitItem> myUnitList = new List<LevelUpUnitItem> ();
+	private List<LevelUpUnitItem> levelUpItems = new List<LevelUpUnitItem> ();
 	private List<TUserUnit> myUnit = new List<TUserUnit> ();
 	
 	private MyUnitItem prevSelectedItem;
@@ -102,7 +102,7 @@ public class LevelUpView : ViewBase {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		sortRule = SortRule.None;
-		myUnitDragPanel.DestoryDragPanel ();
+		dragPanel.DestoryDragPanel ();
 	}
 
 	public override void CallbackView(params object[] args) {
@@ -169,19 +169,19 @@ public class LevelUpView : ViewBase {
 
 	void ShowData () {
 
-		if (myUnitDragPanel == null) {
+		if (dragPanel == null) {
 			InitDragPanel();
 		}
 
-		myUnitDragPanel.RefreshItem (myUnit);
-		myUnitList.Clear ();
+		dragPanel.RefreshItem (myUnit);
+		levelUpItems.Clear ();
 //		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count + " item : " + myUnitDragPanel.scrollItem [0]);
-		foreach (var item in myUnitDragPanel.scrollItem) {
+		foreach (var item in dragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 
-			myUnitList.Add(pui);
+			levelUpItems.Add(pui);
 		}
 
 		RefreshSortInfo ();
@@ -207,7 +207,7 @@ public class LevelUpView : ViewBase {
 		topObject = FindChild("Top");
 		bottomObject = FindChild ("Middle");
 
-		for (int i = 1; i < 7; i++) {	//gameobject name is 1 ~ 6.
+		for (int i = 1; i <= 6; i++) {	//gameobject name is 1 ~ 6.
 			LevelUpItem pui = FindChild<LevelUpItem>("Top/" + i.ToString());
 			selectedItem[i -1] = pui;
 			pui.Init(null);
@@ -257,13 +257,13 @@ public class LevelUpView : ViewBase {
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
 
 		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("LevelUpDragPanel");
-		myUnitDragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
-		myUnitDragPanel.SetScrollView(dragConfig, transform);
+		dragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
+		dragPanel.SetScrollView(dragConfig, transform);
 
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
 			GameObject rejectItem = o as GameObject;
-			GameObject rejectItemIns = myUnitDragPanel.AddRejectItem (rejectItem);
+			GameObject rejectItemIns = dragPanel.AddRejectItem (rejectItem);
 			rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
 			UIEventListener.Get(rejectItemIns).onClick = RejectCallback;
 		});
@@ -277,7 +277,7 @@ public class LevelUpView : ViewBase {
 		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
 		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
-		myUnitDragPanel.RefreshItem (tuu);
+		dragPanel.RefreshItem (tuu);
 		ShieldParty (false, null);
 		CheckLevelUp ();
 	}
@@ -566,13 +566,14 @@ public class LevelUpView : ViewBase {
 	}
 
 	void ShieldParty(bool shield, MyUnitItem baseItem) {
-		for (int i = 0; i < myUnitList.Count; i++) {
-//			if(myUnitList[i].gameObject == null) {
-//				myUnitList.RemoveAt(i);
+		for (int i = 0; i < levelUpItems.Count; i++) {
+//			if(levelUpItems[i].gameObject == null) {
+//				levelUpItems.RemoveAt(i);
 //				continue;
 //			}
 
-			LevelUpUnitItem pui = myUnitList [i];
+			LevelUpUnitItem pui = levelUpItems [i];
+			pui.IsEnable = true;
 			if(pui.IsParty || pui.IsFavorite) {
 
 				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
@@ -666,8 +667,8 @@ public class LevelUpView : ViewBase {
 		if (tuu == null) {
 			return;	
 		}
-		for (int i = 0; i < myUnitList.Count; i++) {
-			LevelUpUnitItem pui = myUnitList [i];
+		for (int i = 0; i < levelUpItems.Count; i++) {
+			LevelUpUnitItem pui = levelUpItems [i];
 			if (pui.UserUnit.TUserUnitID == tuu.TUserUnitID) {
 				if(pui.IsParty) {
 					pui.PartyLabel.text = TextCenter.GetText("Text_Party");
@@ -691,8 +692,8 @@ public class LevelUpView : ViewBase {
 	private void ReceiveSortInfo(object msg){
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		myUnitDragPanel.RefreshItem (myUnit);
-		myUnitDragPanel.RefreshSortInfo (sortRule);
+		dragPanel.RefreshItem (myUnit);
+		dragPanel.RefreshSortInfo (sortRule);
 //		RefreshSortInfo ();
 	}
 
@@ -825,7 +826,7 @@ public class LevelUpView : ViewBase {
 
 	public LevelUpUnitItem GetPartyUnitItem(uint id){
 
-		foreach (var item in myUnitList) {
+		foreach (var item in levelUpItems) {
 			if(item.UserUnit.UnitID == id){
 				return item;
 			}
@@ -844,7 +845,7 @@ public class LevelUpView : ViewBase {
 			}
 		}
 
-		myUnitDragPanel.RefreshItem (myUnit);
+		dragPanel.RefreshItem (myUnit);
 
 
 	}

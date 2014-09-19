@@ -28,7 +28,6 @@ public class PartyView : ViewBase, IDragChangeView{
 
 	private UILabel totalHpLabel;
 	private UILabel curCostLabel;
-	private UILabel maxCostLabel;
 	private UILabel fireAtkLabel;
 	private UILabel waterAtkLabel;
 	private UILabel windAtkLabel;
@@ -602,9 +601,8 @@ public class PartyView : ViewBase, IDragChangeView{
 
 	private void InitPartyInfoPanel(){
 		totalHpLabel = topRoot.transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
-		curCostLabel = topRoot.transform.FindChild("Label_Cost_Cur").GetComponent<UILabel>();
-		maxCostLabel = topRoot.transform.FindChild("Label_Cost_Max").GetComponent<UILabel>();
-		
+		curCostLabel = topRoot.transform.FindChild("Label_Cost").GetComponent<UILabel>();
+
 		fireAtkLabel = topRoot.transform.FindChild("Label_Atk_Fire").GetComponent<UILabel>();
 		waterAtkLabel = topRoot.transform.FindChild("Label_Atk_Water").GetComponent<UILabel>();
 		windAtkLabel = topRoot.transform.FindChild("Label_Atk_Wind").GetComponent<UILabel>();
@@ -637,11 +635,11 @@ public class PartyView : ViewBase, IDragChangeView{
 		}
 		
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
-		curCostLabel.text = unitParty.TotalCost.ToString();
+		string curCostStr = unitParty.TotalCost.ToString();
 		if (DataCenter.Instance.UserInfo.CostMax < unitParty.TotalCost) {
-			curCostLabel.color = Color.red;	
+			curCostStr = "[FF0000]" + curCostStr + "[-]";
 		}
-		maxCostLabel.text = DataCenter.Instance.UserInfo.CostMax.ToString();
+		curCostLabel.text = curCostStr + "/" +DataCenter.Instance.UserInfo.CostMax.ToString();
 		
 		int value = 0;
 		unitParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);
