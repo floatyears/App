@@ -245,6 +245,8 @@ public class BattleTopView : ViewBase {
 			DataCenter.Instance.RefreshUserInfo (clearQuest);
 			End();
 			QuestEnd(clearQuest);
+
+			Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.ID.ToString());
 		} else {
 			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
 			                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
