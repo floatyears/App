@@ -119,7 +119,7 @@
 	},
 	{
 		"configName":"QuestSelectDragPanel",
-		"scrollerLocalPos":[0,215,0],
+		"scrollerLocalPos":[0,0,0],
 		"position":	[0,0,0],
 		"clipRange":[0, -30, 640, 630],
 		"gridArrange":"Horizontal",

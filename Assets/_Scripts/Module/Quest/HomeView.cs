@@ -274,7 +274,7 @@ public class HomeView : ViewBase{
 			}
 
 
-			ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule, "event", "nothing");
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
 	}

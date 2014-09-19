@@ -31,8 +31,9 @@ public class StageSelectView : ViewBase{
 	private List<GameObject> stageDotList = new List<GameObject>();
 	
 	private GameObject eventStageRoot;
-
 	private string currentCityName = "";
+
+	private bool isQuestSelected = false;
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config,data);
@@ -46,9 +47,11 @@ public class StageSelectView : ViewBase{
 //		MsgCenter.Instance.AddListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
 //		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, );
 		if (viewData != null) {
-			ShowStoryCityView(viewData["data"]);
-		}else{
-			ShowEventCityView();
+			if( viewData.ContainsKey("event")) {
+				ShowEventCityView();
+			}else if (viewData.ContainsKey("data")) {
+				ShowStoryCityView(viewData["data"]);
+			}
 		}
 		if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOVLE_QUEST)
 			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
@@ -56,6 +59,8 @@ public class StageSelectView : ViewBase{
 		if (currentCityName != "") {
 			SetSceneName(currentCityName);
 		}
+
+		isQuestSelected = false;
 	}
 
 	private void ShowEventCityView(){
@@ -67,6 +72,13 @@ public class StageSelectView : ViewBase{
 
 		Debug.Log("Now event stage count is :" + eventStageList.Count);
 
+		//remove Dot if exists
+		foreach (var item in stageDotList) {
+			GameObject.Destroy(item);
+		}
+		stageDotList.Clear ();
+
+		//
 		for (int i = 0; i < eventStageRoot.transform.childCount; i++) {
 			GameObject stageItem = eventStageRoot.transform.GetChild(i).gameObject;
 			Destroy(stageItem);
@@ -423,6 +435,11 @@ public class StageSelectView : ViewBase{
 		currentCityName = name;
 //		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
 //		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (name);
+	}
+
+
+	public void SetQuestSelected() {
+		isQuestSelected = true;
 	}
 }
 

@@ -118,7 +118,8 @@ public class StageItemView : MonoBehaviour{
 			evolveCallback ();
 			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule);
 		} else {
-//			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //do after		
+//			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //do after
+			ModuleManager.SendMessage( ModuleEnum.StageSelectModule, "QuestSelected");
 			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",data);
 		}
 	}

@@ -10,14 +10,16 @@ public class QuestSelectView : ViewBase {
 	{
 		base.Init (uiconfig, data);
 
-		if (viewData != null) {
-			GetQuestInfo();
-		}
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
 //		MsgCenter.Instance.AddListener(CommandEnum.GetQuestInfo, GetQuestInfo);
+
+		if (viewData != null) {
+			GetQuestInfo();
+		}
+
 		MsgCenter.Instance.AddListener (CommandEnum.EvolveSelectStage, EvolveSelectStage);
 		ShowUIAnimation();
 
@@ -60,7 +62,8 @@ public class QuestSelectView : ViewBase {
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList CHANGED, UPDATE prev list view...");
 			pickedStage = newPickedStage;
 			accessQuestList = GetAccessQuest(newQuestList);
-			dragPanel.DestoryUI();
+			if (dragPanel != null)
+				dragPanel.DestoryUI();
 			UpdateQuestListView();
 		} else{
 			Debug.Log("QuestSelectView.GetQuestInfo(), accessQuestList NOT CHANGED, KEEP prev list view...");
