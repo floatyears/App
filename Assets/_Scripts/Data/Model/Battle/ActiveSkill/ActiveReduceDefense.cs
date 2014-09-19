@@ -31,7 +31,8 @@ public class ActiveReduceDefense : ActiveSkill {
 
 	public override AttackInfo ExcuteByDisk (AttackInfo ai) {
 		reduceDefense = ai;
-		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
+//		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
+		BattleAttackManager.Instance.ReduceDefense (reduceDefense);
 		BattleConfigData.Instance.reduceDefenseAttack = reduceDefense;
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 		return null;
@@ -39,7 +40,8 @@ public class ActiveReduceDefense : ActiveSkill {
 
 	void EnemyAttackEnd(object data) {
 		reduceDefense.AttackRound --;
-		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
+//		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
+		BattleAttackManager.Instance.ReduceDefense (reduceDefense);
 		if (reduceDefense.AttackRound <= 0) {
 //			Debug.LogWarning("remove EnemyAttackEnd");
 //			b = false;

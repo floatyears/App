@@ -89,13 +89,15 @@ public class BattleMapView : ViewBase {
 		if (BattleConfigData.Instance.hasBattleData () > 0) {
 			
 			currentCoor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
-			BattleAttackManager.Instance.Els.CheckLeaderSkillCount();
+			BattleAttackManager.Instance.CheckLeaderSkillCount();
 			BattleAttackManager.Instance.InitData (BattleConfigData.Instance.storeBattleData);
 			
 			if (currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY) {
 				return;	
 			}
-			
+			if(BattleConfigData.Instance.storeBattleData.HitKey){
+				currentShowInfo = BattleFullScreenTipsView.BossBattle;
+			}
 			TQuestGrid currentFloorData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (currentCoor);
 			HighlightSurroundedCell (currentCoor);
 //			Stop ();
@@ -116,7 +118,7 @@ public class BattleMapView : ViewBase {
 					BossDead();
 					return;
 //				}
-				BattleAttackManager.Instance.CheckPlayerDead();
+//				BattleAttackManager.Instance.CheckPlayerDead();
 				return;
 //			}
 			
@@ -148,7 +150,7 @@ public class BattleMapView : ViewBase {
 			
 			GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 			
-			BattleAttackManager.Instance.CheckPlayerDead();	
+//			BattleAttackManager.Instance.CheckPlayerDead();	
 		}else{
 			BattleAttackManager.Instance.InitData(null);
 			//init role
@@ -339,9 +341,9 @@ public class BattleMapView : ViewBase {
 				currentItem.HideGridNoAnim ();
 				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
 					
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.Els.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
 				});
-				BattleConfigData.Instance.StoreMapData();
+				ArriveAtCell();
 				return;
 			}
 
@@ -391,13 +393,7 @@ public class BattleMapView : ViewBase {
 						DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 					}
 					BattleAttackManager.Instance.InitEnemyInfo (currentMapData);
-//					BattleConfigData.Instance.storeBattleData.isBattle = 1;	// 1 == battle enemy
-					//		battle.ShowEnemy (temp);
-					ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule);
 					ShowEnemy(temp);
-					ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
-//					ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-					GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 					ArriveAtCell();
 				});
 				break;
@@ -432,7 +428,8 @@ public class BattleMapView : ViewBase {
 						AudioManager.Instance.PlayAudio (AudioEnum.sound_trigger_trap);
 						//		BattleMapView.waitMove = false;
 						TrapBase tb = currentMapData.TrapInfo;
-						MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+//						MsgCenter.Instance.Invoke(CommandEnum.MeetTrap, tb);
+						BattleAttackManager.Instance.DisposeTrapEvent(tb);
 						//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
 						ArriveAtCell ();
 					});
@@ -462,19 +459,44 @@ public class BattleMapView : ViewBase {
 //		BattleConfigData.Instance.StoreMapData();
 	}
 
+	void MeetBoss () {
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+		//		AudioManager.Instance.StopBackgroundMusic (true);
+		//		battle.ShieldInput ( true );
+		//		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		//		BattleMapView.waitMove = false;
+		//		ShowBattle();
+		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
+		for (int i = 0; i < BattleConfigData.Instance.questDungeonData.Boss.Count; i++) {
+			TEnemyInfo tei = BattleConfigData.Instance.questDungeonData.Boss [i];
+			tei.EnemySymbol = (uint)i;
+			temp.Add (tei);
+		}
+		TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
+		BattleAttackManager.Instance.InitBoss (BattleConfigData.Instance.questDungeonData.Boss, bossDrop);
+		
+		//		BattleConfigData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
+		//		battle.ShowEnemy (temp, true);
+		//		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
+		ShowEnemy(temp,true);
+		
+		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
+	}
+
 	void ShowEnemy(List<TEnemyInfo> count, bool isBoss = false) {
-		//		isShowEnemy = true;
-//		IsBoss = isBoss;
-		//		Debug.LogError ("IsBoss : " + IsBoss);
-		//		battleEnemy.Refresh(count);
+
+		ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
+
+		ModuleManager.Instance.ShowModule(ModuleEnum.BattleManipulationModule);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleEnemyModule, "enemy", count);
 		//		MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
 		TStoreBattleData tsbd =  BattleConfigData.Instance.storeBattleData;
 		tsbd.tEnemyInfo = count;
 		BattleConfigData.Instance.storeBattleData.attackRound ++;
 		BattleConfigData.Instance.StoreMapData ();
-		MsgCenter.Instance.Invoke (CommandEnum.StateInfo, DGTools.stateInfo [0]);
-		
+		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, BattleAttackManager.stateInfo [0]);
+
+		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 		//		Debug.Log ("battle guide----------");
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
 //			if(IsBoss){
@@ -489,7 +511,7 @@ public class BattleMapView : ViewBase {
 	}
 	
 	private void IfArriveAtTheDoor() {
-		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor)) {
+		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor) && currentShowInfo != null) {
 			door.SetActive(true);
 		} else {
 			door.SetActive(false);
@@ -592,18 +614,13 @@ public class BattleMapView : ViewBase {
 		surroundedCells.Add(item);
 	}
 
-	
-	void OpenDoor (object data) {
-		BattleConfigData.Instance.storeBattleData.HitKey = true;
-	}
-	
 	void ClickDoor(GameObject go) {
 		
 		if (currentShowInfo == BattleFullScreenTipsView.BossBattle) {
 			if( BattleConfigData.Instance.questDungeonData.isLastCell() ) {
 				AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
 //				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
-				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss");
+				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss",MeetBoss as Callback);
 //				Stop();
 //				battleEnemy = true;
 			} else {
@@ -622,7 +639,7 @@ public class BattleMapView : ViewBase {
 				BattleConfigData.Instance.StoreMapData ();
 				
 //				battleEnemy = false;
-				BattleAttackManager.Instance.RemoveListen ();
+//				BattleAttackManager.Instance.RemoveListen ();
 				BattleAttackManager.Instance.Reset ();
 				ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
 				//			BattleMapView.waitMove = false;
@@ -658,10 +675,10 @@ public class BattleMapView : ViewBase {
 		IfArriveAtTheDoor ();
 //		bool b = data != null ? (bool)data : false;
 //		if (battleEnemy && b) {
-//			BossDead();
-////			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
-//			BattleConfigData.Instance.StoreMapData ();
-//			return;
+			BossDead();
+		//			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
+			BattleConfigData.Instance.StoreMapData ();
+			return;
 //		}
 		
 //		BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
@@ -728,7 +745,8 @@ public class BattleMapView : ViewBase {
 		}
 		Coordinate cd = (Coordinate)data;
 		CalcRoleDestPosByCoor (cd);
-		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
+//		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
+		BattleAttackManager.Instance.TrapTargetPoint (cd);
 //		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
 		RoleCoordinate (cd);
 
@@ -788,7 +806,7 @@ public class BattleMapView : ViewBase {
 		}
 		
 		//		battle.ShieldInput (false);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
+//		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 //		BattleBottomView.notClick = true;
 		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);

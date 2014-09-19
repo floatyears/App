@@ -92,6 +92,12 @@ public class BattleSkillView : ViewBase {
 		if (isBattle || isRecoveSP) {
 			boostAcitveSkill ();
 		}
+
+//		RemoveSkillEffect (prevID);
+		//		Debug.LogError("Boost Active Skill : " + tuu);
+		//		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
+		BattleAttackManager.Instance.ExcuteActiveSkill ();
+
 	}
 
 	public void Close(GameObject go) {

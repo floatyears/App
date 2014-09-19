@@ -4,7 +4,7 @@ using bbproto;
 
 public class TSkillSuicideAttack : ActiveSkill {
 	private SkillSuicideAttack instance;
-	private int blood = 0;
+//	private int blood = 0;
 
 	public int AttackRange {
 		get { return (int)instance.attackType; }
@@ -21,27 +21,26 @@ public class TSkillSuicideAttack : ActiveSkill {
 		if (skillBase.skillCooling == 0) {
 			coolingDone = true;
 		}
-		AddListener ();
 	}
 
-	~TSkillSuicideAttack() {
-		RemoveListener ();
-	}
+//	~TSkillSuicideAttack() {
+//		RemoveListener ();
+//	}
 
-	public void AddListener () {
-		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, RecordBlood);
-	}
-
-	public void RemoveListener() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, RecordBlood);
-	}
-
-	void RecordBlood (object data) {
-		blood = (int)data;
-	}
+//	public void AddListener () {
+//		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, RecordBlood);
+//	}
+//
+//	public void RemoveListener() {
+//		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, RecordBlood);
+//	}
+//
+//	void RecordBlood (object data) {
+//		blood = (int)data;
+//	}
 
 	public override object Excute (string userUnitID, int atk = -1) {
-		if (blood <= 1) {
+		if (BattleConfigData.Instance.storeBattleData.hp <= 1) {
 			return null;		
 		}
 		InitCooling ();
@@ -55,8 +54,10 @@ public class TSkillSuicideAttack : ActiveSkill {
 			ai.AttackValue = instance.value * atk;
 		}
 		ai.AttackRange = (int)instance.attackType;
-		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillAttack, ai);
-		MsgCenter.Instance.Invoke (CommandEnum.SkillSucide, null);
+//		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillAttack, ai);
+		BattleAttackManager.Instance.ActiveSkillAttack (ai);
+//		MsgCenter.Instance.Invoke (CommandEnum.SkillSucide, null);
+		BattleAttackManager.Instance.Sucide (null);
 		return ai;
 	}
 }

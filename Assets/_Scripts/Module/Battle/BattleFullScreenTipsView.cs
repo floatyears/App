@@ -16,7 +16,7 @@ public class BattleFullScreenTipsView : ViewBase {
 	{
 		base.Init (config, data);
 
-		initLocalPosition = transform.localPosition;
+		initLocalPosition = config.localPosition;//transform.localPosition;
 		initLocalScale = transform.localScale;
 
 		UILabel uilabel = FindChild<UILabel>("TopLabel");
@@ -40,7 +40,7 @@ public class BattleFullScreenTipsView : ViewBase {
 		Debug.Log ("full screen tips: " + args[0].ToString());
 		switch (args[0].ToString()) {
 		case "boss":
-			ShowTexture(BossAppears,MeetBoss);
+			ShowTexture(BossAppears,args[1] as Callback);
 			break;
 		case "gate":
 			ShowTexture(OpenGate,OpenGateFunc);
@@ -74,29 +74,6 @@ public class BattleFullScreenTipsView : ViewBase {
 
 	void AttackBack(){
 		BattleAttackManager.Instance.AttackPlayer ();
-	}
-
-	void MeetBoss () {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
-		//		AudioManager.Instance.StopBackgroundMusic (true);
-		//		battle.ShieldInput ( true );
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-//		BattleMapView.waitMove = false;
-		//		ShowBattle();
-		List<TEnemyInfo> temp = new List<TEnemyInfo> ();
-		for (int i = 0; i < BattleConfigData.Instance.questDungeonData.Boss.Count; i++) {
-			TEnemyInfo tei = BattleConfigData.Instance.questDungeonData.Boss [i];
-			tei.EnemySymbol = (uint)i;
-			temp.Add (tei);
-		}
-		TDropUnit bossDrop = BattleConfigData.Instance.questDungeonData.DropUnit.Find (a => a.DropId == 0);
-		BattleAttackManager.Instance.InitBoss (BattleConfigData.Instance.questDungeonData.Boss, bossDrop);
-		
-//		BattleConfigData.Instance.storeBattleData.isBattle = 2; // 2 == battle boss. 
-		//		battle.ShowEnemy (temp, true);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-
-		AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
 	}
 
 	public override void HideUI() {
@@ -224,11 +201,7 @@ public class BattleFullScreenTipsView : ViewBase {
 		transform.localPosition = startPosition;
 		transform.localScale = new Vector3 (1f, 0.1f, 1f);
 
-		StartMoveUI ("BossAppearAnim");
-	}
-
-	void StartMoveUI (string func) {
-		iTween.MoveTo(gameObject,iTween.Hash("position",initLocalPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeInCubic,"oncomplete", func,"oncompletetarget", gameObject));
+		iTween.MoveTo(gameObject,iTween.Hash("position",initLocalPosition,"time",0.2f,"islocal",true,"easetype",iTween.EaseType.easeInCubic,"oncomplete", "BossAppearAnim","oncompletetarget", gameObject));
 	}
 
 	void BossAppearAnim() {

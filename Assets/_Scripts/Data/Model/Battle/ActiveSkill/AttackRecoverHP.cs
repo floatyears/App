@@ -40,8 +40,10 @@ public class TSkillAttackRecoverHP : ActiveSkill {
 		} else if(instance.type == EValueType.FIXED) {
 			ai.AttackValue = instance.value;
 		}
-		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
-		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillDrawHP, null);
+//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
+		BattleAttackManager.Instance.ActiveSkillAttack (ai);
+//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillDrawHP, null);
+		BattleAttackManager.Instance.RecoveHPByActiveSkill ();
 		return ai;
 	}
 

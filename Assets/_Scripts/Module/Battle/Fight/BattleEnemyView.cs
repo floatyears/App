@@ -39,7 +39,7 @@ public class BattleEnemyView : ViewBase {
 		string path = "Texture/Map/fight_" + BattleConfigData.Instance.GetMapID ().ToString ();
 //		Debug.LogError ("BattleEnemy path : " + path);
 		ResourceManager.Instance.LoadLocalAsset (path, o => {
-						bgTexture.mainTexture = o as Texture2D;
+			bgTexture.mainTexture = o as Texture2D;
 		});
 
 	}
@@ -50,7 +50,7 @@ public class BattleEnemyView : ViewBase {
 //		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
-		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 //		battleAttackInfo.HideUI ();
@@ -73,7 +73,7 @@ public class BattleEnemyView : ViewBase {
 //		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //		battleAttackInfo.ShowUI ();
 //		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
-		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
+//		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
 //		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 	}
@@ -108,6 +108,14 @@ public class BattleEnemyView : ViewBase {
 
 		case "drop_item":
 			DropItem(args[1]);
+			break;
+		case "skill_recover_sp":
+			SkillRecoverSP(args[1]);
+			break;
+		case "reduce_info":
+			foreach (var item in enemyList.Values) {
+				item.ReduceDefense(args[1]);
+			}
 			break;
 		}
 	}

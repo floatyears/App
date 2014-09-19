@@ -42,7 +42,8 @@ public class KnockdownAttack : ActiveSkill {
 		ai.IgnoreDefense = instance.ignoreDefense;
 		ai.AttackRange = (int)instance.attackRange;
 		ai.AttackType = 0;
-		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
+//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
+		BattleAttackManager.Instance.ActiveSkillAttack (ai);
 		return ai;
 	}
 }

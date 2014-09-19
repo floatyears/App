@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class TUnitParty : ProtobufDataBase, IComparer, ILeaderSkill {
+public class TUnitParty : ProtobufDataBase, IComparer{
     private List<PartyItem> partyItem = new List<PartyItem>();		
  
     private UnitParty instance;

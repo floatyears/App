@@ -43,7 +43,8 @@ public class TrapPosion : TrapBase {
 
 	void CountDownRound () {
 		MsgCenter.Instance.Invoke (CommandEnum.PlayerPosion, Round);
-		MsgCenter.Instance.Invoke(CommandEnum.InjuredNotDead, GetInjuredValue.trapValue);
+//		MsgCenter.Instance.Invoke(CommandEnum.InjuredNotDead, GetInjuredValue.trapValue);
+		BattleAttackManager.Instance.InjuredNotDead (GetInjuredValue.trapValue);
 		Round--;
 	}
 }

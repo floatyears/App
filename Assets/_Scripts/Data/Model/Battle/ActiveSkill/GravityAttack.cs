@@ -33,7 +33,8 @@ public class GravityAttack : ActiveSkill {
 		ai.IgnoreDefense = true;
 		ai.AttackValue = instance.value;
 		ai.SkillID = skillBase.id;
-		MsgCenter.Instance.Invoke(CommandEnum.SkillGravity, ai);
+//		MsgCenter.Instance.Invoke(CommandEnum.SkillGravity, ai);
+		BattleAttackManager.Instance.SkillGravity (ai);
 		return ai;
 	}
 }

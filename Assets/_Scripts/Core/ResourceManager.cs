@@ -571,6 +571,25 @@ public class ResourceManager : MonoBehaviour{
 			}
 		}
 	}
+
+	public void GetAsset(UnitAssetType uat,ResourceCallback callback) {
+//		string path = string.Empty;
+//		
+//		if (uat == UnitAssetType.Avatar) {
+//			if (avatarTexture == null) {
+//				//				ResourceManager.Instance.GetAvatarAtlas(ID,avatarTexture);
+//				path = string.Format ("Avatar/{0}", ID);
+//				ResourceManager.Instance.LoadLocalAsset (path,o=>{
+//					avatarTexture = o as Texture2D;
+//					callback(o);
+//				});
+//			} else {
+//				callback(avatarTexture);
+//			}
+//		} else {
+//			ResourceManager.Instance.GetProfile(ID, null, callback);
+//		}
+	}
 }
 
 public enum ResourceAssetBundle{

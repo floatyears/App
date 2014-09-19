@@ -59,7 +59,8 @@ public class ActiveAttackTargetType : ActiveSkill {
 		att.targetType = (int)instance.targetUnitType;
 		ai.AttackType = (int)instance.hurtUnitType;
 		att.attackInfo = ai;
-		MsgCenter.Instance.Invoke(CommandEnum.AttackTargetType, att);
+//		MsgCenter.Instance.Invoke(CommandEnum.AttackTargetType, att);
+		BattleAttackManager.Instance.AttackTargetTypeEnemy (att);
 		return att;
 	}
 }

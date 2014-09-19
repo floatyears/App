@@ -175,13 +175,6 @@ public class BattleManipulationView : ViewBase {
 		}
 		//		Debug.LogError ("isShow");
 		GenerateShowCard();
-		
-//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
-//		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
-//		MsgCenter.Instance.AddListener (CommandEnum.DelayTime, DelayTime);
-//		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
-//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideAnim, UserGuideAnim);
-//		MsgCenter.Instance.AddListener (CommandEnum.UserGuideCard, UserGuideCard);
 
 		GameInput.OnUpdate += HandleOnUpdate;
 		
@@ -195,12 +188,6 @@ public class BattleManipulationView : ViewBase {
 	
 	public override void HideUI () {
 		base.HideUI ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttckEnd);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.DelayTime, DelayTime);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillInfo);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideAnim, UserGuideAnim);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.UserGuideCard, UserGuideCard);
 
 		GameInput.OnUpdate -= HandleOnUpdate;
 		GameInput.OnPressEvent -= HandleOnPressEvent;
@@ -238,6 +225,9 @@ public class BattleManipulationView : ViewBase {
 				break;
 			case "enemy_attack_end":
 				isCardDragable = true;
+				break;
+			case "state_info":
+				StateInfo(args[1]);
 				break;
 			default:
 					break;
@@ -336,7 +326,7 @@ public class BattleManipulationView : ViewBase {
 			generateCount = bcai.UpdateCardAndAttackInfo(selectTarget);
 		
 		if(generateCount > 0) {
-			MsgCenter.Instance.Invoke(CommandEnum.StateInfo,"");
+			StateInfo("");
 //			if (showCountDown) {
 //				return ;		
 //			} 
@@ -545,7 +535,7 @@ public class BattleManipulationView : ViewBase {
 			return;
 		}			
 		
-		if (info == DGTools.stateInfo [0]) {
+		if (info == BattleAttackManager.stateInfo [0]) {
 			SetBoost();
 		}
 		
@@ -553,19 +543,19 @@ public class BattleManipulationView : ViewBase {
 			return;	
 		}
 		
-		if (info == DGTools.stateInfo [4]) {
+		if (info == BattleAttackManager.stateInfo [4]) {
 			prevInfo = stateLabel.text;
 		}
 		
-//		Color32[] colors;
+		Color32[] colors;
 		
-//		if (info == DGTools.stateInfo [0] || info == DGTools.stateInfo [1]) {
-//			colors = QuestFullScreenTips.thirdGroupColor;		
-//		} else {
-//			colors = QuestFullScreenTips.secondGroupColor;
-//		}
+		if (info == BattleAttackManager.stateInfo [0] || info == BattleAttackManager.stateInfo [1]) {
+			colors = BattleFullScreenTipsView.thirdGroupColor;		
+		} else {
+			colors = BattleFullScreenTipsView.secondGroupColor;
+		}
 		
-//		QuestFullScreenTips.SetLabelGradient (stateLabel, colors);
+		BattleFullScreenTipsView.SetLabelGradient (stateLabel, colors);
 		ModuleManager.SendMessage (ModuleEnum.BattleFullScreenTipsModule, "label_gradient", stateLabel);
 		
 		if (stateLabel.text == string.Empty) {

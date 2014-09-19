@@ -9,21 +9,17 @@ public class MoveTrap : TrapBase {
 	}
 
 	public override void Excute () {
-		Coordinate cd;
+		Coordinate cd = default(Coordinate);
 		switch (instance.effectType) {
 		case 1:
-			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, null);
 			break;
 		case 2:
-			int xCoor = Random.Range(0, MapConfig.MapWidth);
-			int yCoor = Random.Range(0, MapConfig.MapHeight);
-			cd = new Coordinate(xCoor,yCoor);
-			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, cd);
+			cd = new Coordinate(Random.Range(0, MapConfig.MapWidth),Random.Range(0, MapConfig.MapHeight));
 			break;
 		case 3:
 			cd = new Coordinate(MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
-			MsgCenter.Instance.Invoke(CommandEnum.TrapMove, cd);
 			break;
 		}
+		BattleAttackManager.Instance.TrapMove(cd);
 	}
 }

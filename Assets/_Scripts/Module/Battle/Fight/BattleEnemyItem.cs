@@ -90,7 +90,7 @@ public class BattleEnemyItem : MonoBehaviour {
 //        MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
         MsgCenter.Instance.AddListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.AddListener(CommandEnum.BePosion, BePosion);
-        MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
+//        MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
 //        MsgCenter.Instance.AddListener(CommandEnum.DropItem, DropItem);
     }
 
@@ -101,11 +101,11 @@ public class BattleEnemyItem : MonoBehaviour {
 //        MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
         MsgCenter.Instance.RemoveListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.BePosion, BePosion);
-        MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
+//        MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
 //        MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
     }
 	
-    void ReduceDefense(object data) {
+    public void ReduceDefense(object data) {
 		AttackInfo reduceDefense = data as AttackInfo;
 		if (reduceDefense == null) {
             return;
@@ -222,7 +222,8 @@ public class BattleEnemyItem : MonoBehaviour {
     }
 
 	void TargetEnemy(GameObject go) {
-		MsgCenter.Instance.Invoke (CommandEnum.TargetEnemy, enemyInfo);
+//		MsgCenter.Instance.Invoke (CommandEnum.TargetEnemy, enemyInfo);
+		BattleAttackManager.Instance.TargetEnemy (enemyInfo);
 	}
 	
     void DorpEnd() {

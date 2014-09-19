@@ -54,14 +54,16 @@ public class InjuredTrap : TrapBase {
 	}
 
 	void DisposeTrapping (TrapInfo ti) {
-		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
+//		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
+		BattleAttackManager.Instance.TrapInjuredDead (GetInjuredValue.trapValue);
 
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_attack);
 	}
 	
 	void DisposeMine(TrapInfo ti) {
 		float value = DGTools.RandomToFloat();
-		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
+//		MsgCenter.Instance.Invoke(CommandEnum.TrapInjuredDead, GetInjuredValue.trapValue);
+		BattleAttackManager.Instance.TrapInjuredDead (GetInjuredValue.trapValue);
 		if(value <= probability) {
 //			MsgCenter.Instance.Invoke(CommandEnum.NoSPMove, null);
 //			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule

@@ -13,8 +13,6 @@ public class BattleBottomView : ViewBase {
 	private Dictionary<int, GameObject> enableSKillPos = new Dictionary<int, GameObject> ();
 	private List<int> enablePos = new List<int> ();
 
-	public bool IsUseLeaderSkill = false;
-
 	public static bool noviceGuideNotClick = false;
 
 	public static bool notClick = false;
@@ -32,24 +30,7 @@ public class BattleBottomView : ViewBase {
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
 	
-	private static Vector3 actorPosition = Vector3.zero;
-	public static Vector3 ActorPosition	{
-		get {
-			return actorPosition;
-		}
-	}
-
-	public static void SetClickItem(int pos) {
-		if (pos < 0 || pos > 4 || pos == -1) {
-			setPos = -1;
-			notClick = storeShiedInput;
-			return;
-		}
-
-		storeShiedInput = notClick;
-		notClick = false;
-		setPos = pos;
-	}
+	private Vector3 actorPosition = Vector3.zero; 
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -58,15 +39,17 @@ public class BattleBottomView : ViewBase {
 		this.bottomCamera = Main.Instance.bottomCamera;
 		RemoveAllSkill ();
 
-		InitTransform ();
-
-		if (upi == null) {
-			upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		TUnitParty upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
+		for (int i = 0; i < userUnitInfo.Count; i++) {
+			TUserUnit tuu = (userUnitInfo.ContainsKey(i) ? userUnitInfo[i] : null);
+			if(tuu == null) {
+				continue;
+			}
 		}
 
 		CheckActiveEnableEffect ();
 
-		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
 		Transform actorTrans = transform.Find ("Actor");
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = actorTrans.Find(i.ToString()).gameObject;	
@@ -91,10 +74,10 @@ public class BattleBottomView : ViewBase {
 				if(sbi != null){
 					ActiveSkill activeSkill =  sbi as ActiveSkill;
 					unitInfoPos.Add(i, activeSkill);
-					activeSkill.AddListener(ActiveSkillCallback);
+//					activeSkill.AddListener(ActiveSkillCallback);
 				}
 
-				tui.GetAsset(UnitAssetType.Profile, o=>{
+				ResourceManager.Instance.GetAsset(UnitAssetType.Profile, o=>{
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
 //						float scale = 80f/105f;
@@ -108,9 +91,9 @@ public class BattleBottomView : ViewBase {
 					}
 				});
 				
-				tex.spriteName = GetUnitTypeSpriteName(i, tui.Type);
-				bgSpr.spriteName = GetBGSpriteName(i, tui.Type);
-				skillSpr.spriteName = GetSkillSpriteName(tui.Type);
+				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + ((int)tui.Type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
+				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + ((int)tui.Type).ToString();
+				skillSpr.spriteName = "icon_skill_" + ((int)tui.Type).ToString();
 			}
 			UIEventListener.Get(temp).onClick += ClickItem;
 		}
@@ -138,12 +121,42 @@ public class BattleBottomView : ViewBase {
 		bloodBar = FindChild<UISlider>("Panel/Slider");
 		label = FindChild<UILabel>("Panel/HPLabel");
 	}
+	public override void CallbackView (params object[] args)
+	{
+		switch (args[0].ToString()) {
+		case "initdata":
+			InitData((int)args[1],(int)args[2],(int)args[3]);
+			break;
+		case "playerdead":
+			PlayerDead();
+			break;
+		case "energy_point":
+			ListenEnergyPoint(args[1]);
+			break;
+		case "updat_blood":
+			int blood = (int)args[1];
+			SetBlood (blood);
+			if((bool)args[2]){
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+				spriteAnimation.Reset();
+			}
+			break;
+		default:
+			break;
+		}
+	}
 
 	void ActiveSkillCallback(object data) {
 		ActiveSkill activeSKill = data as ActiveSkill;
 		foreach (var item in unitInfoPos) {
 			if(item.Value.skillBase.id == activeSKill.skillBase.id && item.Value.CoolingDone) {
-				ActiveSkillEffect(item.Key);
+				CheckActiveEnableEffect ();
+				if (enableSKillPos.ContainsKey (item.Key)) {
+					return;	
+				}
+				
+				enableSKillPos.Add (item.Key, null);
+				enablePos.Add (item.Key);
 			}
 		}
 	}
@@ -152,11 +165,6 @@ public class BattleBottomView : ViewBase {
 		if (activeEnableEffect == null) {
 			EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
 		}
-	}
-
-	void ActiveSkillEffect(int pos) {
-		CheckActiveEnableEffect ();
-		AddActivePos (pos);
 	}
 
 	public void RemoveAllSkill() {
@@ -169,15 +177,6 @@ public class BattleBottomView : ViewBase {
 			enableSKillPos.Remove (pos);
 		if(enablePos.Contains(pos))
 			enablePos.Remove (pos);
-	}
-
-	void AddActivePos(int pos) {
-		if (enableSKillPos.ContainsKey (pos)) {
-			return;	
-		}
-
-		enableSKillPos.Add (pos, null);
-		enablePos.Add (pos);
 	}
 
 	readonly Vector3 effectScale = new Vector3 (30f, 30f, 30f);
@@ -197,50 +196,7 @@ public class BattleBottomView : ViewBase {
 			}
 		}
 	}
-
-	string GetSkillSpriteName( bbproto.EUnitType type) {
-		string suffixName = "icon_skill_";
-
-		int typeNumber = (int)type;
-		suffixName += typeNumber.ToString ();
-		return suffixName;
-	}
-
-	string GetBGSpriteName(int pos, bbproto.EUnitType type) {
-		string suffixName = "avatar_bg_";
-		if (pos == 0) {
-			suffixName += "l_";
-		} else {
-			suffixName += "f_";
-		}
-		
-		int typeNumber = (int)type;
-		suffixName += typeNumber.ToString ();
-		return suffixName;
-	}
-
-	string GetUnitTypeSpriteName(int pos, bbproto.EUnitType type) {
-		string suffixName = "avatar_border_";
-		if (pos == 0) {
-			suffixName += "l_";
-		} else {
-			suffixName += "f_";
-		}
-
-		int typeNumber = (int)type;
-		suffixName += typeNumber.ToString ();
-		return suffixName;
-	}
 	
-
-//	void OnDisable () {
-//		GameInput.OnUpdate -= OnRealease;
-//	}
-//
-//	void OnEnable () {
-//		GameInput.OnUpdate += OnRealease;
-//	}
-//
 	public void PlayerDead() {
 		RemoveAllSkill ();
 	}
@@ -271,43 +227,32 @@ public class BattleBottomView : ViewBase {
 //			return;	
 //		}
 
-		try {
-			int id = System.Int32.Parse (obj.name);
+		int id = System.Int32.Parse (obj.name);
 //			Debug.LogError("CheckCollider id : " + id);
-			if(setPos != -1 && id != setPos) {
+		if(setPos != -1 && id != setPos) {
+			return;
+		}
+
+		if (upi.UserUnit.ContainsKey (id)) {
+			if(id == prevID) {
+				CloseSkillWindow();
+				prevID = -1;
 				return;
 			}
-
-			if (upi.UserUnit.ContainsKey (id)) {
-				if(id == prevID) {
-					CloseSkillWindow();
-					prevID = -1;
-					return;
-				}
-				prevID = id;
-				MaskCard (obj.name, true);
-				if(IsUseLeaderSkill && id == 0) {
-					LogHelper.Log("--------use leader skill command");
-					MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
-				}
-				tuu = upi.UserUnit [id];
+			prevID = id;
+			MaskCard (obj.name, true);
+//			if(IsUseLeaderSkill && id == 0) {
+//				LogHelper.Log("--------use leader skill command");
+//				MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
+//			}
+			tuu = upi.UserUnit [id];
 //				battleQuest.topUI.SheildInput(false);
 //				battleSkillObject.SetActive(true);
 //				battleSkill.Refresh(tuu, Boost, Close);
-				ModuleManager.SendMessage(ModuleEnum.BattleSkillModule,"refresh",tuu, Boost as Callback, Close as Callback);
+			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"refresh",tuu);
 //				BattleMapView.waitMove = true;
 //				battleQuest.battle.ShieldGameInput(false);
-			}
-		} catch(System.Exception ex) {
-//			Debug.LogError("exception : " + ex.Message + " name : " + name);
 		}
-	}
-
-	public void Boost() {
-		CloseSkillWindow ();
-		RemoveSkillEffect (prevID);
-//		Debug.LogError("Boost Active Skill : " + tuu);
-		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
 	}
 
 	public void Close () {
@@ -328,7 +273,7 @@ public class BattleBottomView : ViewBase {
 		MaskCard ("", false);
 
 //		battleQuest.topUI.SheildInput(true);
-		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "ban", true);
+//		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "ban", true);
 //		BattleMapView.waitMove = false;
 //		if (battleQuest.battle.isShowEnemy) {
 //			battleQuest.battle.ShieldGameInput(true);
@@ -337,7 +282,6 @@ public class BattleBottomView : ViewBase {
 	}
 
 	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
-		return;
 		if (isInNoviceGuide) {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
 			temp.layer = LayerMask.NameToLayer ("NoviceGuide");	
@@ -352,34 +296,7 @@ public class BattleBottomView : ViewBase {
 //		battleQuest = bq;
 //		//		_battleBottomScript.battleQuest = bq;
 //	}
-	
-	void InitTransform() {
-		TUnitParty upi = DataCenter.Instance.PartyInfo.CurrentParty; 
-		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
-		for (int i = 0; i < userUnitInfo.Count; i++) {
-			TUserUnit tuu = (userUnitInfo.ContainsKey(i) ? userUnitInfo[i] : null);
-			if(tuu == null) {
-				continue;
-			}
-		}
-	}
-	
-	public override void ShowUI () {
-		base.ShowUI ();
-		gameObject.SetActive (true);
-		AddListener ();
-	}
-	//
-	//	public override void CreatUI () {
-	//		base.CreatUI ();
-	//	}
-	
-	public override void HideUI () {
-		base.HideUI ();
-		gameObject.SetActive (false);
-		//		_battleBottomScript.RemoveAllSkill ();
-		RemoveListener ();
-	}
+
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
@@ -403,7 +320,7 @@ public class BattleBottomView : ViewBase {
 			}
 		}
 	}
-	
+
 	private int currentBlood = 0;
 	void SetBlood (int num) {
 		string info = num + "/" + initBlood;
@@ -416,10 +333,6 @@ public class BattleBottomView : ViewBase {
 	}
 	
 	int preBlood = 0;
-	void ListenUnitBlood (object data) {
-		int blood = (int)data;
-		SetBlood (blood);
-	}
 	
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
@@ -436,31 +349,5 @@ public class BattleBottomView : ViewBase {
 			}
 		}
 	}
-	
-	void RecoverHP(object data) {
-				AttackInfo ai = data as AttackInfo;
-		
-				if (ai.AttackRange == 2) {
-					spriteAnimation.Reset();
-				}
-	}
-	
-	void ShowHPAnimation(object data) {
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-		spriteAnimation.Reset();
-	}
-	
-	void AddListener () {
-		MsgCenter.Instance.AddListener (CommandEnum.UnitBlood, ListenUnitBlood);
-		MsgCenter.Instance.AddListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
-		//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemy, RecoverHP);
-		MsgCenter.Instance.AddListener (CommandEnum.ShowHPAnimation, ShowHPAnimation);
-	}
-	
-	void RemoveListener () {
-		MsgCenter.Instance.RemoveListener (CommandEnum.UnitBlood, ListenUnitBlood);
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnergyPoint, ListenEnergyPoint);
-		//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, RecoverHP);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ShowHPAnimation, ShowHPAnimation);
-	}
+
 }

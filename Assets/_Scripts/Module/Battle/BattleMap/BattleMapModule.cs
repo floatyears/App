@@ -49,7 +49,7 @@ public class BattleMapModule : ModuleBase {
 
 	public override void HideUI () {
 		BattleAttackManager.Instance.ResetSkill();
-		BattleAttackManager.Instance.RemoveListen ();
+//		BattleAttackManager.Instance.RemoveListen ();
 		base.HideUI ();
 
 //		MsgCenter.Instance.RemoveListener (CommandEnum.BattleBaseData, BattleBase);

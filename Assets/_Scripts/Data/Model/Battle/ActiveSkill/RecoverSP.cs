@@ -32,7 +32,8 @@ public class TSkillRecoverSP : ActiveSkill {
 //		Debug.LogError("tskillrecoversp excute");
 		int step = (int)instance.value;
 
-		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
+//		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
+		BattleAttackManager.Instance.RecoverEnergePoint (step);
 		return step;
 	}
 }

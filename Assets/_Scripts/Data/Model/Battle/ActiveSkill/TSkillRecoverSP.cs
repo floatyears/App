@@ -28,7 +28,8 @@ public class RecoverSP : ActiveSkill {
 		}
 		InitCooling ();
 		int step = (int)instance.value;
-		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
+//		MsgCenter.Instance.Invoke (CommandEnum.SkillRecoverSP, step);
+		BattleAttackManager.Instance.RecoverEnergePoint (step);
 		return step;
 	}
 }

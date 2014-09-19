@@ -58,7 +58,8 @@ public class TSkillSingleAttack : ActiveSkill  {
 		ai.AttackRange = (int)instance.attackRange;
 //		Debug.LogError ("instance attack range : " + instance.attackRange + " type : " + instance.type);
 		if (instance.attackRange == EAttackType.RECOVER_HP) {
-			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, instance.value);
+//			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, instance.value);
+			BattleAttackManager.Instance.RecoveHPByActiveSkill(instance.value);
 		} else {
 			if (instance.type == EValueType.FIXED) {
 				ai.AttackValue = instance.value;	
@@ -69,7 +70,8 @@ public class TSkillSingleAttack : ActiveSkill  {
 
 		ai.IgnoreDefense = instance.ignoreDefense;
 
-		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
+//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
+		BattleAttackManager.Instance.ActiveSkillAttack (ai);
 		return ai;
 	}
 }

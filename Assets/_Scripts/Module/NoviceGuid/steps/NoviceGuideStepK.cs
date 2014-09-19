@@ -221,12 +221,12 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		BattleBottomView bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottomView>();
 		bbs.SetLeaderToNoviceGuide (true);
-		bbs.IsUseLeaderSkill = true;
+//		bbs.IsUseLeaderSkill = true;
 		MsgCenter.Instance.AddListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
 
 		Debug.Log ("battle leader skill");
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
-		BattleBottomView.SetClickItem (0);
+//		BattleBottomView.SetClickItem (0);
 //		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
 	}
 	
@@ -257,7 +257,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
-		BattleBottomView.SetClickItem (-1);
+//		BattleBottomView.SetClickItem (-1);
 //		nmw = GameObject.Find ("NoviceGuideWindow(Clone)");
 //		UIPanel up = nmw.AddComponent<UIPanel>();
 //		up.depth = 4;
@@ -265,7 +265,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		MsgCenter.Instance.RemoveListener (CommandEnum.UseLeaderSkill, OnUseLeaderSkill);
 		BattleBottomView bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottomView>();
 		bbs.SetLeaderToNoviceGuide (false);
-		bbs.IsUseLeaderSkill = false;
+//		bbs.IsUseLeaderSkill = false;
 		//UIEventListener.Get (leader).onClick += ClickLeader;
 	}
 	
