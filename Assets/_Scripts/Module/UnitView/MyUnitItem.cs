@@ -19,8 +19,10 @@ public class MyUnitItem : BaseUnitItem {
 		}
 		set{
 //			Debug.LogError("isparty : " + isParty + " isenable : " + IsEnable);
-			isParty = value;
-			UpdatePartyState();
+			if( isParty != value) {
+				isParty = value;
+				UpdatePartyState();
+			}
 		}
 	}
 
@@ -30,8 +32,10 @@ public class MyUnitItem : BaseUnitItem {
 			return isFavorite;
 		}
 		set{
-			isFavorite = value;
-			UpdateFavoriteState ();
+			if( isFavorite != value ) {
+				isFavorite = value;
+				UpdateFavoriteState ();
+			}
 		}
 	}
 
@@ -80,6 +84,7 @@ public class MyUnitItem : BaseUnitItem {
 		partyLabel.enabled = false;
 		partyLabel.text = TextCenter.GetText("Text_Party");
 		partyLabel.color = new Color (0.9333f, 0.192f, 0.192f);
+		lockSpr.enabled = false;
 
 		mWidget = GetComponent<UIWidget> ();
 	}

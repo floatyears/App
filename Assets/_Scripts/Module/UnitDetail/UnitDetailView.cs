@@ -76,6 +76,7 @@ public class UnitDetailView : ViewBase{
 	GameObject parent;
 
 	public static bool isEvolve = false;
+	private bool isFavorStateChanged = false;
 
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
@@ -116,7 +117,7 @@ public class UnitDetailView : ViewBase{
 
 		UpdateFavView(curUserUnit.IsFavorite);
 	}
-	
+
 	public override void HideUI () {
 		base.HideUI ();
 		ClearEffectCache();
@@ -128,6 +129,11 @@ public class UnitDetailView : ViewBase{
 
 		if( swallowEffectIns!=null) {
 			Destroy(swallowEffectIns);
+		}
+
+		if( isFavorStateChanged ) {
+			ModuleManager.SendMessage(ModuleEnum.LevelUpModule, "RefreshUnitItem", curUserUnit);
+			isFavorStateChanged = false;
 		}
 	}
 	
@@ -370,9 +376,9 @@ public class UnitDetailView : ViewBase{
 		Vector3 downEndPos = endPos + (-100f * Vector3.up);
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_friend_up);
 
-		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",endPos,"time",0.35f,"easetype",iTween.EaseType.easeInQuart,"islocal",true));
-		iTween.RotateFrom (friendEffect.gameObject, iTween.Hash ("z", 10, "time", 0.15f,"delay",0.35f, "easetype", iTween.EaseType.easeOutBack));
-		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",downEndPos,"time", 0.15f,"delay",0.5f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","ShowLevelup","oncompletetarget",gameObject));
+		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",endPos,"time",0.35f,"delay",1.5f,"easetype",iTween.EaseType.easeInQuart,"islocal",true));
+//		iTween.RotateFrom (friendEffect.gameObject, iTween.Hash ("z", 10, "time", 0.15f,"delay",1.5f, "easetype", iTween.EaseType.easeOutBack));
+//		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",downEndPos,"time", 0.15f,"delay",1.65f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","ShowLevelup","oncompletetarget",gameObject));
 	}
 
 	void ShowLevelup() {
@@ -746,16 +752,25 @@ public class UnitDetailView : ViewBase{
 			
 			return;
 		}
+
 		curUserUnit.IsFavorite = (curUserUnit.IsFavorite == 1) ? 0 : 1;
+
+		//update the user unit 
+		DataCenter.Instance.UserUnitList.UpdateMyUnit( curUserUnit.Unit );
+
 		UpdateFavView(curUserUnit.IsFavorite);
+
+		isFavorStateChanged = true;
 	}
 
 	private void UpdateFavView(int isFav){
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 
 		if ( curUserUnit.userID != DataCenter.Instance.UserInfo.UserId ) {
-			background.enabled = false;
+			background.enabled = false; // hide Lock icon
 			return;
+		} else {
+			background.enabled = true;
 		}
 
 		Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));

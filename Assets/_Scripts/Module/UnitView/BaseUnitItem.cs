@@ -62,8 +62,10 @@ public class BaseUnitItem : MonoBehaviour {
 			return isEnable;
 		}
 		set{
-			isEnable = value;
-			UpdatEnableState();
+			if(isEnable != value) {
+				isEnable = value;
+				UpdatEnableState();
+			}
 		}
 	}
 	
@@ -239,7 +241,7 @@ public class BaseUnitItem : MonoBehaviour {
 
 	protected virtual void SetCommonState(){
 		IsEnable = userUnit.isEnable;
-		if (IsEnable) Debug.LogWarning(">>>>> userUnit.ID:"+userUnit.ID+" SetCommonState to!");
+//		if (IsEnable) Debug.LogWarning(">>>>> userUnit.ID:"+userUnit.ID+" SetCommonState to!");
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
