@@ -633,6 +633,10 @@ public class UserUnitList {
         return uniqueIdList;
     }
 
+	public TUserUnit UpdateMyUnit(UserUnit unit) {
+		return AddMyUnit(unit);
+	}
+
     public TUserUnit AddMyUnit(UserUnit unit) {
 		TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, unit);
 		Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, tuu);

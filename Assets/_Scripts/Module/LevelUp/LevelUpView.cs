@@ -12,7 +12,7 @@ public class LevelUpView : ViewBase {
 	
 	private DragPanelDynamic dragPanel;
 	
-	private List<LevelUpUnitItem> levelUpItems = new List<LevelUpUnitItem> ();
+	private List<LevelUpUnitItem> unitItems = new List<LevelUpUnitItem> ();
 	private List<TUserUnit> myUnit = new List<TUserUnit> ();
 	
 	private MyUnitItem prevSelectedItem;
@@ -174,14 +174,14 @@ public class LevelUpView : ViewBase {
 		}
 
 		dragPanel.RefreshItem (myUnit);
-		levelUpItems.Clear ();
+		unitItems.Clear ();
 //		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count + " item : " + myUnitDragPanel.scrollItem [0]);
 		foreach (var item in dragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
 			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
 
-			levelUpItems.Add(pui);
+			unitItems.Add(pui);
 		}
 
 		RefreshSortInfo ();
@@ -278,7 +278,7 @@ public class LevelUpView : ViewBase {
 		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
 		dragPanel.RefreshItem (tuu);
-		ShieldParty (false, null);
+		ShieldPartyAndFavorite (false, null);
 		CheckLevelUp ();
 	}
 
@@ -351,9 +351,9 @@ public class LevelUpView : ViewBase {
 
 	void DisposeNoPreMaterial(LevelUpItem piv) {
 		if (CheckBaseItem (piv)) {
-			ShieldParty (true,piv);		
+			ShieldPartyAndFavorite (true,piv);		
 		} else {
-			ShieldParty(false,piv);
+			ShieldPartyAndFavorite(false,piv);
 		}
 
 		if (prevSelectedItem != null) {
@@ -447,7 +447,7 @@ public class LevelUpView : ViewBase {
 				lui.UserUnit = null;
 				lui.IsEnable = true;
 				if(i == baseItemIndex) {
-					ShieldParty(true,null);
+					ShieldPartyAndFavorite(true,null);
 					UpdateBaseInfoView ();
 				}
 				else{
@@ -498,7 +498,7 @@ public class LevelUpView : ViewBase {
 		}
 		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;
 //		ExcuteCallback (levelUpInfo);
-		ModuleManager.SendMessage (ModuleEnum.LevelUpModule,levelUpInfo);
+		ModuleManager.SendMessage (ModuleEnum.LevelUpModule, "DoLevelUp", levelUpInfo);
 
 		fromLevelUpBack = true;
 	}
@@ -510,7 +510,7 @@ public class LevelUpView : ViewBase {
 	bool SetBaseItemPreSelectItemNull(MyUnitItem pui) {
 		if (selectedItem [baseItemIndex].UserUnit != null ) { //index 0 is base item object.
 			if(selectedItem [baseItemIndex].UserUnit.MakeUserUnitKey() == pui.UserUnit.MakeUserUnitKey()) {
-				ShieldParty (false, null);
+				ShieldPartyAndFavorite (false, null);
 				return true;
 			} else{
 				return false;
@@ -526,7 +526,7 @@ public class LevelUpView : ViewBase {
 		pui.IsEnable = false;
 		ClearFocus ();
 
-		ShieldParty (false, null);
+		ShieldPartyAndFavorite (false, null);
 		
 		CheckLevelUp ();
 		
@@ -546,7 +546,7 @@ public class LevelUpView : ViewBase {
 		}
 		pui.IsEnable = false;
 		ClearFocus ();
-		ShieldParty (false, selectedItem [baseItemIndex]);
+		ShieldPartyAndFavorite (false, selectedItem [baseItemIndex]);
 
 		CheckLevelUp ();
 
@@ -564,15 +564,15 @@ public class LevelUpView : ViewBase {
 			prevMaterialItem = null;
 		}
 	}
-
-	void ShieldParty(bool shield, MyUnitItem baseItem) {
-		for (int i = 0; i < levelUpItems.Count; i++) {
+	
+	void ShieldPartyAndFavorite(bool shield, MyUnitItem baseItem) {
+		for (int i = 0; i < unitItems.Count; i++) {
 //			if(levelUpItems[i].gameObject == null) {
 //				levelUpItems.RemoveAt(i);
 //				continue;
 //			}
 
-			LevelUpUnitItem pui = levelUpItems [i];
+			LevelUpUnitItem pui = unitItems [i];
 			pui.IsEnable = true;
 			if(pui.IsParty || pui.IsFavorite) {
 
@@ -667,8 +667,8 @@ public class LevelUpView : ViewBase {
 		if (tuu == null) {
 			return;	
 		}
-		for (int i = 0; i < levelUpItems.Count; i++) {
-			LevelUpUnitItem pui = levelUpItems [i];
+		for (int i = 0; i < unitItems.Count; i++) {
+			LevelUpUnitItem pui = unitItems [i];
 			if (pui.UserUnit.TUserUnitID == tuu.TUserUnitID) {
 				if(pui.IsParty) {
 					pui.PartyLabel.text = TextCenter.GetText("Text_Party");
@@ -826,7 +826,7 @@ public class LevelUpView : ViewBase {
 
 	public LevelUpUnitItem GetPartyUnitItem(uint id){
 
-		foreach (var item in levelUpItems) {
+		foreach (var item in unitItems) {
 			if(item.UserUnit.UnitID == id){
 				return item;
 			}
@@ -847,7 +847,17 @@ public class LevelUpView : ViewBase {
 
 		dragPanel.RefreshItem (myUnit);
 
-
 	}
 
+	public void RefreshUnitItem(TUserUnit unit) {
+		for (int i=0; i<myUnit.Count; i++) {
+			if (myUnit[i]!=null && myUnit[i].ID == unit.ID ) {
+				myUnit[i] = unit;
+				break;
+			}
+		}
+
+		dragPanel.RefreshItem(myUnit);
+		ShieldPartyAndFavorite (false, null);
+	}
 }

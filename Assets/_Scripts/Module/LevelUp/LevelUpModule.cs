@@ -18,26 +18,34 @@ public class LevelUpModule : ModuleBase {
 	List<TUserUnit> levelUpInfo = null;
 
 	public override void OnReceiveMessages(params object[] data) {
+		string action = data[0] as string;
+		if ( action == "RefreshUnitItem" ) {
+			TUserUnit tuu = data[1] as TUserUnit;
 
-		levelUpInfo = data[0] as List<TUserUnit>;
-		if (levelUpInfo == null || levelUpInfo.Count <= 0) {
+			(view as LevelUpView).RefreshUnitItem(tuu);
 			return;
+
+		} else if ( action == "DoLevelUp" ) {
+			levelUpInfo = data[1] as List<TUserUnit>;
+			if (levelUpInfo == null || levelUpInfo.Count <= 0) {
+				return;
+			}
+			
+			LevelUp netBase = new LevelUp ();
+			TUserUnit baseUserUnit = levelUpInfo[0];	
+			TUserUnit friendUserUnit = levelUpInfo[1];
+
+			for (int i = levelUpInfo.Count - 1; i > 1; i--) {
+				netBase.PartUniqueId.Add(levelUpInfo[i].ID);
+			}
+
+			netBase.BaseUniqueId = baseUserUnit.ID;
+			netBase.HelperUserId = friendUserUnit.ID;
+			netBase.HelperUserUnit = friendUserUnit;
+			DataCenter.Instance.levelUpFriend = friendUserUnit;
+
+			netBase.OnRequest (null, NetCallback);
 		}
-		
-		LevelUp netBase = new LevelUp ();
-		TUserUnit baseUserUnit = levelUpInfo[0];	
-		TUserUnit friendUserUnit = levelUpInfo[1];
-
-		for (int i = levelUpInfo.Count - 1; i > 1; i--) {
-			netBase.PartUniqueId.Add(levelUpInfo[i].ID);
-		}
-
-		netBase.BaseUniqueId = baseUserUnit.ID;
-		netBase.HelperUserId = friendUserUnit.ID;
-		netBase.HelperUserUnit = friendUserUnit;
-		DataCenter.Instance.levelUpFriend = friendUserUnit;
-
-		netBase.OnRequest (null, NetCallback);
 	}
 	
 //	public bool CheckState() {
@@ -68,6 +76,7 @@ public class LevelUpModule : ModuleBase {
 			dataCenter.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 			dataCenter.levelUpMaterials.Clear();
 
+			//删除消耗的材料
 			for (int i = 0; i < rspLevelUp.partUniqueId.Count; i++) {
 				uint uniqueID = rspLevelUp.partUniqueId[i];
 				TUserUnit tuu = dataCenter.UserUnitList.Get(uniqueID);
@@ -76,7 +85,8 @@ public class LevelUpModule : ModuleBase {
 				dataCenter.UserUnitList.DelMyUnit(uniqueID);
 			}
 	
-//			TUserUnit baseUserUnit = DataCenter.Instance.UserUnitList.AddMyUnit (rspLevelUp.baseUnit);
+			//更新强化后的base卡牌数据
+			DataCenter.Instance.UserUnitList.UpdateMyUnit(rspLevelUp.baseUnit);
 
 			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"levelup",rspLevelUp);
 
