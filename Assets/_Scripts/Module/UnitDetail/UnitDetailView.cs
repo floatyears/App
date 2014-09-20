@@ -377,11 +377,12 @@ public class UnitDetailView : ViewBase{
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_friend_up);
 
 		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",endPos,"time",0.35f,"delay",1.5f,"easetype",iTween.EaseType.easeInQuart,"islocal",true));
-//		iTween.RotateFrom (friendEffect.gameObject, iTween.Hash ("z", 10, "time", 0.15f,"delay",1.5f, "easetype", iTween.EaseType.easeOutBack));
-//		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",downEndPos,"time", 0.15f,"delay",1.65f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","ShowLevelup","oncompletetarget",gameObject));
+		iTween.RotateFrom (friendEffect.gameObject, iTween.Hash ("z", 10, "time", 0.15f,"delay",1.5f, "easetype", iTween.EaseType.easeOutBack));
+		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",downEndPos,"time", 0.15f,"delay",1.65f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","ShowLevelup","oncompletetarget",gameObject));
 	}
 
 	void ShowLevelup() {
+
 		friendEffect.gameObject.SetActive (false);
 
 		DataCenter dataCenter = DataCenter.Instance;
@@ -454,6 +455,9 @@ public class UnitDetailView : ViewBase{
 		///-----------show top panel
 		TUnitInfo unitInfo = userUnit.UnitInfo;
 		number.text = userUnit.UnitID.ToString();
+		if (number.text.Length < 3) {
+			number.text = (number.text.Length == 1) ? ("00" + number.text) : ("0" + number.text);
+		}
 		
 		name.text = unitInfo.Name; //TextCenter.GetText ("UnitName_" + unitInfo.ID);//
 		
