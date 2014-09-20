@@ -276,7 +276,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		ModuleManager.Instance.EnterBattle ();
 //		UIManager.Instance.EnterBattle();
 
-//		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
+		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
 	}
 
 //	private void ShowPartyInfo(){
