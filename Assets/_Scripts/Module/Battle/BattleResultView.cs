@@ -44,8 +44,13 @@ public class BattleResultView : ViewBase {
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		gameObject.SetActive (true);
-		MsgCenter.Instance.AddListener (CommandEnum.VictoryData, VictoryData);
+		if (viewData != null && viewData.ContainsKey ("data")) {
+			TRspClearQuest trcq = viewData["data"] as TRspClearQuest;
+			ShowData (trcq);
+			PlayAnimation ();		
+		}
+
+//		MsgCenter.Instance.AddListener (CommandEnum.VictoryData, VictoryData);
 
 //		UIManager.Instance.HideBaseScene ();
 
@@ -57,7 +62,7 @@ public class BattleResultView : ViewBase {
 	public override void HideUI () {
 		base.HideUI ();
 		gameObject.SetActive (false);
-		MsgCenter.Instance.RemoveListener (CommandEnum.VictoryData, VictoryData);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.VictoryData, VictoryData);
 //		UIManager.Instance.ShowBaseScene ();
 	}
 
@@ -78,13 +83,7 @@ public class BattleResultView : ViewBase {
 	int currentTotalExp = 0;
 	int rank = 0;
 
-	void VictoryData (object data) {
-		TRspClearQuest trcq = data as TRspClearQuest;
-		ShowData (trcq);
-		PlayAnimation ();
-	}
-
-	public void ShowData(TRspClearQuest clearQuest){
+	void ShowData(TRspClearQuest clearQuest){
 		if (clearQuest == null) {
 			return;	
 		}
@@ -234,30 +233,32 @@ public class BattleResultView : ViewBase {
 	}
 
 	void Sure(GameObject go) {
-		DestoryUI ();
-		if (DataCenter.gameState == GameState.Evolve) {
-			UnitDetailView.isEvolve = true;
-			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",rspClearQuest.evolveUser);
-//			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Home;
-			HideUI ();
-			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
-		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
-			TFriendInfo friendHelper = BattleConfigData.Instance.BattleFriend;
-			bool isNull = friendHelper == null;
-			bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+//		DestoryUI ();
 
-			if (!isNull && addFriend) {
-				ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
-				MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
-			} else {
-				DGTools.ChangeToQuest();
-			}
+		ModuleManager.Instance.EnterMainScene();
+//		if (DataCenter.gameState == GameState.Evolve) {
+//			UnitDetailView.isEvolve = true;
+//			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",rspClearQuest.evolveUser);
+////			UIManager.Instance.baseScene.PrevScene = ModuleEnum.Home;
+//			HideUI ();
+//			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
+//		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
+		TFriendInfo friendHelper = BattleConfigData.Instance.BattleFriend;
+		bool isNull = friendHelper == null;
+		bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+
+		if (!isNull && addFriend) {
+			ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
+			MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, friendHelper);
 		} else {
-			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
+			DGTools.ChangeToQuest();
 		}
+//		} else {
+//		}
+		ModuleManager.Instance.DestroyModule (ModuleEnum.BattleResultModule);
 	}
 
-	public void PlayAnimation () {
+	void PlayAnimation () {
 		if (!gameObject.activeSelf) {
 			ShowUI ();
 		}

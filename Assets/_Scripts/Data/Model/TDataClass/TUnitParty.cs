@@ -31,7 +31,7 @@ public class TUnitParty : ProtobufDataBase, IComparer{
             return false;
         }
                 
-        foreach (TUserUnit tUserUnit in UserUnit.Values) {
+        foreach (TUserUnit tUserUnit in UserUnit) {
             if (tUserUnit == null) {
                 continue;
             }
@@ -50,14 +50,13 @@ public class TUnitParty : ProtobufDataBase, IComparer{
         get { return leaderSkill; }
     }
 
-    private Dictionary<int,TUserUnit> userUnit;
-    public Dictionary<int,TUserUnit> UserUnit {
+    private List<TUserUnit> userUnit;
+	public List<TUserUnit> UserUnit {
         get {
             if (userUnit == null) {
-                userUnit = new Dictionary<int,TUserUnit>();
+				userUnit = new List<TUserUnit>(){null,null,null,null,null};
                 for (int i = 0; i < partyItem.Count; i++) {
-                    TUserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
-                    userUnit.Add(partyItem[i].unitPos, uui);
+					userUnit[partyItem[i].unitPos] = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
                 }
             }
             return userUnit;
@@ -66,13 +65,13 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 
 	void EnterBattle(object data) {
 		if (BattleConfigData.Instance.BattleFriend == null) {
-			UserUnit.Add(DataCenter.friendPos, null);
+			UserUnit[DataCenter.friendPos] = null;
 		}
 		else {
 			if (ID == DataCenter.Instance.PartyInfo.CurrentPartyId) {
 				TUserUnit tuu = BattleConfigData.Instance.BattleFriend.UserUnit;
 				DataCenter.Instance.UserUnitList.Add(tuu.userID, tuu.ID, tuu);
-				UserUnit.Add(DataCenter.friendPos, tuu);
+				UserUnit[DataCenter.friendPos] = tuu;
 				
 				cardCount ++;
 			}
@@ -86,9 +85,7 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 	}
 
 	void LeftBattle (object data) {
-		if (UserUnit.ContainsKey (DataCenter.friendPos)) {
-			UserUnit.Remove(DataCenter.friendPos);
-		}
+		UserUnit[DataCenter.friendPos] = null;
 	}
 
     AttackInfo reduceHurt = null;
@@ -179,7 +176,7 @@ public class TUnitParty : ProtobufDataBase, IComparer{
         float attackV = attackValue * Proportion;
         float hurtValue = 0;
 
-		foreach (var item in UserUnit.Values) {
+		foreach (var item in UserUnit) {
 			if(item != null) {
 				hurtValue += item.CalculateInjured(attackType, attackV);
 			}
@@ -208,12 +205,12 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 		}
 
 		foreach (var item in UserUnit) {
-			if(item.Value == null) {
-				LogHelper.Log("skip empty partyItem:"+item.Key);
+			if(item == null) {
+				LogHelper.Log("skip empty partyItem:"+item);
 				continue;
 			}
 
-			if(item.Value.CaculateNeedCard(csu) == index) {
+			if(item.CaculateNeedCard(csu) == index) {
 				return true;
 			}
 		}
@@ -240,17 +237,18 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 			recoverHp.UserPos = 0; // 0 == self leder position
 			tempAttack.Add(recoverHp);
 		}
-
-		foreach (var item in UserUnit) {
-			if(item.Value == null) {
-				LogHelper.Log("skip empty partyItem:"+item.Key);
+		int len = UserUnit.Count;
+		for (int i = 0; i < len; i++) {
+			var item = UserUnit[i];
+			if(item == null) {
+				LogHelper.Log("skip empty partyItem:"+item);
 				continue;
 			}
-			tempAttack.AddRange(item.Value.CaculateAttack(skillUtility));
+			tempAttack.AddRange(item.CaculateAttack(skillUtility));
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
 					AttackInfo ai = tempAttack[j];
-					ai.UserPos = item.Key;
+					ai.UserPos = i;
 
 					ai.AttackValue *= boostValue;
 
@@ -381,7 +379,7 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 
             //update instance and userUnit
             instance.items[item.unitPos] = item;
-            if (userUnit != null && userUnit.ContainsKey(item.unitPos))
+            if (userUnit != null && userUnit[item.unitPos] != null)
                 userUnit[item.unitPos] = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
             //LogHelper.LogError(" SetPartyItem:: => pos:{0} uniqueId:{1}",item.unitPos, item.unitUniqueId);
             this.reAssignData();
@@ -408,7 +406,7 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 	
     public int GetInitBlood() {
         int bloodNum = 0;
-		foreach (var item in UserUnit.Values) {
+		foreach (var item in UserUnit) {
 			if(item != null)
 			bloodNum += item.InitBlood;
 		}
@@ -417,7 +415,7 @@ public class TUnitParty : ProtobufDataBase, IComparer{
 	
     public int GetBlood() {
         int bloodNum = 0;
-		foreach (var item in UserUnit.Values) {
+		foreach (var item in UserUnit) {
 			bloodNum += item.Blood;
 		}
         return bloodNum;

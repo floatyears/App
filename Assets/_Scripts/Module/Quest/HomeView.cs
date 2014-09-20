@@ -234,7 +234,7 @@ public class HomeView : ViewBase{
 			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"data",cityViewInfo [item].ID);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityViewInfo [item].ID);
 //			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
 			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
 		}
@@ -242,14 +242,12 @@ public class HomeView : ViewBase{
 
 	void DownloadComplete(object data){
 //		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-		ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule);
-		MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, (uint)2);
+		ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",(uint)2);
 	}
 
 	void DownloadCompleteEx(object data){
 //		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
-		MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
+		ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule,"event",null);
 	}
 
 	private void PressEventDoor(GameObject item, bool isPressed){
@@ -274,7 +272,7 @@ public class HomeView : ViewBase{
 			}
 
 
-			ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule,"event",null);
 			MsgCenter.Instance.Invoke(CommandEnum.OnPickEventCity, null);
 		}
 	}

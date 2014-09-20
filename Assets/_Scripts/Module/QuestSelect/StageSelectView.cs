@@ -17,7 +17,7 @@ public class StageSelectView : ViewBase{
 	private UILabel rewardLineLabel;
 	private UILabel questNameLabel;
 	private UITexture bossAvatar;
-	private DragPanel dragPanel;
+//	private DragPanel dragPanel;
 	private GameObject scrollView;
 	private GameObject questViewItem;
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
@@ -42,13 +42,12 @@ public class StageSelectView : ViewBase{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		MsgCenter.Instance.AddListener (CommandEnum.EvolveStart, EvolveStartQuest);
-//		MsgCenter.Instance.AddListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
-//		MsgCenter.Instance.AddListener(CommandEnum.OnPickEventCity, );
-		if (viewData != null) {
-			ShowStoryCityView(viewData["data"]);
-		}else{
+		if (viewData.ContainsKey("story")) {
+			ShowStoryCityView(viewData["story"]);
+		}else if(viewData.ContainsKey("event")){
 			ShowEventCityView();
+		}else if(viewData.ContainsKey("evolve")){
+			EvolveStartQuest(viewData["evolve"]);
 		}
 		if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOVLE_QUEST)
 			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
@@ -108,13 +107,6 @@ public class StageSelectView : ViewBase{
 			}
 		}
 		return new List<TStageInfo> (cityData.Values);
-	}
-
-	public override void HideUI(){
-		base.HideUI();
-		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveStart, EvolveStartQuest);
-//		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickStoryCity, ShowStoryCityView);
-//		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickEventCity, ShowEventCityView);
 	}
 
 	private void DestoryStages(){

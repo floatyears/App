@@ -360,7 +360,7 @@ public class MapItem : MonoBehaviour {
 		tws.duration = time;
 		tws.eventReceiver = gameObject;
 
-		if (gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
+		if (gridItem != null &&  gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
 			UILabel coinLabel = transform.FindChild("CoinLabel").GetComponent<UILabel>();//FindChild<UILabel>("CoinLabel");
 			coinLabel.text = gridItem.Coins.ToString();
 			flyCoin = coinLabel.gameObject;

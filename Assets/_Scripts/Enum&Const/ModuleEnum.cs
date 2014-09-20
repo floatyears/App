@@ -89,7 +89,7 @@ public enum ModuleEnum
 	
 	ShowCardEffectModule,
 	
-	VictoryModule,
+	BattleResultModule,
 	
 	PrefaceModule,
 	
@@ -142,7 +142,6 @@ public enum ModuleEnum
 
 	BattleAttackEffectModule,
 
-	BattleResultModule,
 }
 
 public enum SceneEnum {

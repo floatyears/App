@@ -105,7 +105,7 @@ public class ShowNewCardView : ViewBase {
 
 		GameTimer.GetInstance ().AddCountDown (0.5f, ()=>{
 			Debug.Log("show new card effect end1");
-			ResourceManager.Instance.GetProfile (userUnit.Object.unitId, null, texture => {
+			ResourceManager.Instance.GetAvatar (UnitAssetType.Profile, userUnit.Object.unitId, texture => {
 				Texture2D tex = texture as Texture2D;
 				DGTools.ShowTexture(profileTexture, tex);
 				iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.3f, "easetype", iTween.EaseType.easeOutQuart));

@@ -41,7 +41,7 @@ public class BattleMapView : ViewBase {
 
 //	private bool ChainLinkBattle = false;
 	
-	private bool checkOut = false;
+//	private bool checkOut = false;
 	
 	private string currentShowInfo;
 
@@ -89,7 +89,7 @@ public class BattleMapView : ViewBase {
 		if (BattleConfigData.Instance.hasBattleData () > 0) {
 			
 			currentCoor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
-			BattleAttackManager.Instance.CheckLeaderSkillCount();
+//			BattleAttackManager.Instance.CheckLeaderSkillCount();
 			BattleAttackManager.Instance.InitData (BattleConfigData.Instance.storeBattleData);
 			
 			if (currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY) {
@@ -119,7 +119,7 @@ public class BattleMapView : ViewBase {
 					return;
 //				}
 //				BattleAttackManager.Instance.CheckPlayerDead();
-				return;
+//				return;
 //			}
 			
 			//		BattleMapView.waitMove = false;
@@ -162,13 +162,6 @@ public class BattleMapView : ViewBase {
 			SyncRoleCoordinate(currentCoor);
 //			Stop();
 		}
-	}
-
-	public override void HideUI () {
-		base.HideUI ();
-		surroundedCells.Clear ();
-
-		checkOut = false;
 	}
 
 	void StartMap() {
@@ -322,11 +315,6 @@ public class BattleMapView : ViewBase {
 		}
 	}
 	
-	void Stop() {
-//		isMoving = false;
-
-	}
-	
 	void SyncRoleCoordinate(Coordinate coor) {
 		
 		MsgCenter.Instance.Invoke (CommandEnum.MoveToMapItem, coor);
@@ -347,8 +335,6 @@ public class BattleMapView : ViewBase {
 				return;
 			}
 
-//			ConfigBattleUseData.Instance.questDungeonData.currentFloor = 
-
 			int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (coor);
 			
 			if (index != -1) {
@@ -356,8 +342,7 @@ public class BattleMapView : ViewBase {
 			}
 			
 			TQuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (coor);
-			
-//			Stop ();
+
 			movePath.Clear ();
 			if (currentMapData.Star == EGridStar.GS_KEY) {
 				//				BattleMapView.waitMove = true;
@@ -652,10 +637,13 @@ public class BattleMapView : ViewBase {
 			}
 			return;
 		}
-		else if (currentShowInfo == BattleFullScreenTipsView.CheckOut && checkOut) {
-			checkOut = false;
+		else if (currentShowInfo == BattleFullScreenTipsView.CheckOut) {
+//			checkOut = false;
 			door.SetActive(false);
+			BattleConfigData.Instance.ClearData();
+			ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"clear_quest");
 //			battleMap.bQuest.CheckOut();
+
 		}
 	}
 
@@ -666,7 +654,7 @@ public class BattleMapView : ViewBase {
 		door.SetActive (true);
 		
 		SetName (BattleFullScreenTipsView.CheckOut);
-		checkOut = true;
+//		checkOut = true;
 	}
 
 
@@ -675,10 +663,10 @@ public class BattleMapView : ViewBase {
 		IfArriveAtTheDoor ();
 //		bool b = data != null ? (bool)data : false;
 //		if (battleEnemy && b) {
-			BossDead();
-		//			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
-			BattleConfigData.Instance.StoreMapData ();
-			return;
+//			BossDead();
+//		//			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
+//			BattleConfigData.Instance.StoreMapData ();
+//			return;
 //		}
 		
 //		BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
@@ -757,13 +745,10 @@ public class BattleMapView : ViewBase {
 	
 	IEnumerator MoveByTrap() {
 		while (true) {
-			Stop ();	
 			role.transform.localPosition = Vector3.Lerp(role.transform.localPosition,targetPoint,Time.deltaTime * 20);
 			distance = role.transform.localPosition - targetPoint;
 			yield return Time.deltaTime;
 			if (distance.magnitude < 1f) {
-				ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
-//				ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
 				HighlightSurroundedCell(currentCoor);
 				yield break;
 				
@@ -805,10 +790,6 @@ public class BattleMapView : ViewBase {
 			BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.DropId);
 		}
 		
-		//		battle.ShieldInput (false);
-//		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
-//		BattleBottomView.notClick = true;
-		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);
 		
 		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "clear", QuestClear as Callback);
@@ -818,9 +799,7 @@ public class BattleMapView : ViewBase {
 		EnemyAttackEnum eae = currentItem.TriggerAttack ();
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
-			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "back");
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
-			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 			break;
 		case EnemyAttackEnum.FirstAttack:
 			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "first");
@@ -833,7 +812,6 @@ public class BattleMapView : ViewBase {
 
 
 	void QuestClear() {
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick",true);
 		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "banclick",false);
 		StartCoroutine (EndRotate (ShowTapToCheckOut));
 	}

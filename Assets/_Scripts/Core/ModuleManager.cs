@@ -225,7 +225,6 @@ public class ModuleManager {
 
 			temp.DestoryUI ();
 			moduleDic.Remove(name);
-			temp = null;
 		}
 	}
 
@@ -241,27 +240,42 @@ public class ModuleManager {
 
 			temp.DestoryScene ();
 			sceneDic.Remove(name);
-			temp = null;
 		}
 	}
 
 	/// <summary>
 	/// Clears the modules.
 	/// </summary>
-	public void ClearModules () {
+	public void ClearModulesAndScenes () {
 
 		foreach (var item in moduleDic.Values) {
 			item.DestoryUI();
 		}
+		foreach (var item in sceneDic.Values) {
+			item.DestoryScene();
+		}
 			//			Debug.LogError("CleartComponent : " + cclist[i]);
 		moduleDic.Clear ();
+		sceneDic.Clear ();
+
+		moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0,0};
+		
+		typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
+
+	}
+
+	public void EnterMainScene(){
+		ModuleManager.Instance.ShowModule(ModuleEnum.MainBackgroundModule);
+		ModuleManager.Instance.ShowScene(SceneEnum.MainScene);
+		ModuleManager.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
+		ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
 	}
 
 	/// <summary>
 	/// Exits the battle.
 	/// </summary>
 	public void ExitBattle(){
-
+		ClearModulesAndScenes ();
 	}
 
 	/// <summary>
@@ -269,7 +283,7 @@ public class ModuleManager {
 	/// </summary>
 	public void EnterBattle(){
 //		ClearAllUIObject ();
-		ClearModules ();
+		ClearModulesAndScenes ();
 		Resources.UnloadUnusedAssets ();
 
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);

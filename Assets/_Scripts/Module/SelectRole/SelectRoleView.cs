@@ -82,7 +82,8 @@ public class SelectRoleView : ViewBase {
 
 
 
-		unitInfoList[ 0 ].GetAsset(UnitAssetType.Profile, o => {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile, unitInfoList[ 0 ].ID, o => {
+//			
 			UITexture texture1 = contentList[ 0 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
 
 			Texture2D source = o as Texture2D;
@@ -92,7 +93,7 @@ public class SelectRoleView : ViewBase {
 		});
 
 
-		unitInfoList[ 1 ].GetAsset(UnitAssetType.Profile, o => {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,unitInfoList[ 1 ].ID, o => {
 
 			UITexture texture1 = contentList[ 1 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
 
@@ -103,7 +104,7 @@ public class SelectRoleView : ViewBase {
 		});
 
 
-		unitInfoList[ 2 ].GetAsset(UnitAssetType.Profile, o => {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,unitInfoList[ 2 ].ID ,o => {
 			UITexture texture1 = contentList[ 2 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
 			Texture2D source = o as Texture2D;
 			texture1.mainTexture = source;

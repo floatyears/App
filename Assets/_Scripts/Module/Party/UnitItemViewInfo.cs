@@ -84,7 +84,8 @@ public class UnitItemInfo : MonoBehaviour{
 	}
 
 	void RefreshInfo() {
-		userUnitItem.UnitInfo.GetAsset (UnitAssetType.Avatar, o=>{
+		ResourceManager.Instance.GetAvatar (UnitAssetType.Avatar,userUnitItem.UnitID, o=>{
+//			userUnitItem.UnitInfo
 			mainTexture.mainTexture = o as Texture2D;
 		});
 		IsFavorate (userUnitItem.IsFavorite);
@@ -219,7 +220,8 @@ public class UnitItemViewInfo {
 
 		if(ViewItem == null) return;
 		avatar = ViewItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-		dataItem.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, dataItem.UnitID, o=>{
+//			dataItem.UnitInfo
 			avatar.mainTexture = o as Texture2D;
 		});
 	}

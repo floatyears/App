@@ -212,7 +212,7 @@ public class SellUnitModule : ModuleBase {
 	}
 
 	void ShowPickedUnit(int clickPos, int poolPos, TUserUnit tuu){
-		tuu.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,tuu.ID, o=>{
 			Texture2D tex2d = o as Texture2D;
 			string level = tuu.Level.ToString();
 			Dictionary<string, object> viewInfo = new Dictionary<string, object>();

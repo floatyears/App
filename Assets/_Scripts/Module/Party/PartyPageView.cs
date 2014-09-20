@@ -294,7 +294,8 @@ public class PartyPageView : ViewBase {
 
 		int position = (int)argsDic["position"] ;
 		TUserUnit tuu = argsDic["unit"] as TUserUnit;
-		tuu.UnitInfo.GetAsset (UnitAssetType.Avatar, o => {
+		ResourceManager.Instance.GetAvatar (UnitAssetType.Avatar, tuu.UnitID, o => {
+//			tuu.UnitInfo
 			Texture2D texture = o as Texture2D;
 			ChangeTexure (position, texture);
 		});

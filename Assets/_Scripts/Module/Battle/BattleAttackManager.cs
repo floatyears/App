@@ -100,7 +100,7 @@ public class BattleAttackManager {
 //		MsgCenter.Instance.AddListener (CommandEnum.MeetTrap, DisposeTrapEvent);
 
 		//passive skill
-		foreach (var item in leaderSkill.UserUnit.Values) {
+		foreach (var item in leaderSkill.UserUnit) {
 			if (item==null ){
 				continue;
 			}
@@ -275,12 +275,12 @@ public class BattleAttackManager {
 //        StartAttack(temp);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowHands, attack.Count);
 		if (attack.Count > 0) {
-			List<AttackInfo> extraAttack = leaderSkilllExtarAttack.ExtraAttack ();
+			List<AttackInfo> extraAttack = ExtraAttack ();
 			extraAttackCount = extraAttack.Count;
 			attack.AddRange (extraAttack);
 		}
 		
-		float multipe = leaderSkillMultiple.MultipleAttack (attack);
+		float multipe = MultipleAttack (attack);
 		if (multipe > 1.0f) {
 			for (int i = 0; i < attack.Count; i++) {
 				attack[i].AttackValue *= multipe;
@@ -889,7 +889,7 @@ public class BattleAttackManager {
 	}
 	
 	void EnemyAttackEnd () {
-		BattleBottomView.notClick = false;
+//		BattleBottomView.notClick = false;
 		CheckBattleSuccess ();
 		ClearData();
 		//		bud.battleQuest.battle.ShieldInput(true);	
@@ -1028,7 +1028,7 @@ public class BattleAttackManager {
 
 
 	void InitPassiveSkill() {
-		foreach (var item in leaderSkill.UserUnit.Values) {
+		foreach (var item in leaderSkill.UserUnit) {
 			if (item==null) {
 				continue;
 			}
@@ -1063,7 +1063,7 @@ public class BattleAttackManager {
 			foreach (var item in passiveSkills) {
 //				bool b = (bool)item.Value.Excute(tb, this);
 //				if(b) {
-					foreach (var unitItem in leaderSkill.UserUnit.Values) {
+					foreach (var unitItem in leaderSkill.UserUnit) {
 						if(unitItem == null) {
 							continue;
 						}
@@ -1115,7 +1115,7 @@ public class BattleAttackManager {
 		}
 	}
 
-	TUnitParty leadSkill;
+//	TUnitParty leadSkill;
 	List<string> RemoveSkill = new List<string> ();
 	
 	const float time = 0.5f;
@@ -1123,7 +1123,7 @@ public class BattleAttackManager {
 	
 	public void ExcuteActiveSkill() {
 		int temp = 0;
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			temp++;
 			if(item.Value is TSkillBoost) {
 				leaderSkillQueue.Enqueue(item.Key);
@@ -1135,8 +1135,8 @@ public class BattleAttackManager {
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
 		//		Debug.LogError ("ExcuteStartLeaderSkill : " + key);
-		DisposeBoostSkill (key, leadSkill.LeadSkill [key]);
-		leadSkill.LeadSkill.Remove (key);
+		DisposeBoostSkill (key, leaderSkill.LeadSkill [key]);
+		leaderSkill.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
 			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
 		}
@@ -1144,7 +1144,7 @@ public class BattleAttackManager {
 	
 	void RemoveLeaderSkill () {
 		for (int i = 0; i < RemoveSkill.Count; i++) {
-			leadSkill.LeadSkill.Remove(RemoveSkill[i]);
+			leaderSkill.LeadSkill.Remove(RemoveSkill[i]);
 		}
 	}
 	
@@ -1157,7 +1157,7 @@ public class BattleAttackManager {
 			
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
 			
-			foreach (var item in leadSkill.UserUnit.Values) {
+			foreach (var item in leaderSkill.UserUnit) {
 				if( item == null) {
 					continue;
 				}
@@ -1197,10 +1197,10 @@ public class BattleAttackManager {
 	bool isPlay = false;
 	
 	public float ReduceHurtValue (float hurt,int type) {
-		if (leadSkill.LeadSkill.Count == 0) {
+		if (leaderSkill.LeadSkill.Count == 0) {
 			return hurt;	
 		}
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			TSkillReduceHurt trh = item.Value as TSkillReduceHurt;
 			if(trh != null) {
 				
@@ -1222,10 +1222,10 @@ public class BattleAttackManager {
 	public List<AttackInfo> ExtraAttack (){
 		List<AttackInfo> ai = new List<AttackInfo>();
 		
-		if (leadSkill.LeadSkill.Count == 0) {
+		if (leaderSkill.LeadSkill.Count == 0) {
 			return ai;
 		}
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			TSkillExtraAttack tsea = item.Value as TSkillExtraAttack;
 			//			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
 			if(tsea == null) {
@@ -1235,12 +1235,12 @@ public class BattleAttackManager {
 			PlayLeaderSkillAudio();
 			
 			string id = item.Key;
-			foreach (var item1 in leadSkill.UserUnit) {
-				if(item1.Value == null) {
+			foreach (var item1 in leaderSkill.UserUnit) {
+				if(item1 == null) {
 					continue;
 				}
-				if(item1.Value.MakeUserUnitKey() == id) {
-					AttackInfo attack = tsea.AttackValue(item1.Value.Attack, item1.Value);
+				if(item1.MakeUserUnitKey() == id) {
+					AttackInfo attack = tsea.AttackValue(item1.Attack, item1);
 					ai.Add(attack);
 					break;
 				}
@@ -1253,11 +1253,11 @@ public class BattleAttackManager {
 	}
 	
 	public List<int> SwitchCard (List<int> cardQuene) {
-		if (leadSkill.LeadSkill.Count == 0) {
+		if (leaderSkill.LeadSkill.Count == 0) {
 			return null;
 		}
 		
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			TSkillConvertUnitType tcut = item.Value as TSkillConvertUnitType;
 			
 			if(tcut == null) {
@@ -1275,11 +1275,11 @@ public class BattleAttackManager {
 	}
 	
 	public int SwitchCard (int card) {
-		if (leadSkill.LeadSkill.Count == 0) {
+		if (leaderSkill.LeadSkill.Count == 0) {
 			return card;
 		}
 		
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			TSkillConvertUnitType tcut = item.Value as TSkillConvertUnitType;	
 			if(tcut == null) {
 				continue;
@@ -1300,11 +1300,11 @@ public class BattleAttackManager {
 	/// <param name="blood">Blood.</param>
 	/// <param name="type">Type. 0 = right now. 1 = every round. 2 = every step.</param>
 	public int RecoverHP (int blood, int type) {
-		if (leadSkill.LeadSkill.Count == 0) {
+		if (leaderSkill.LeadSkill.Count == 0) {
 			return 0;	//recover zero hp
 		}
 		int recoverHP = 0;
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			TSkillRecoverHP trhp = item.Value as TSkillRecoverHP;
 			if(trhp == null) {
 				continue;
@@ -1318,11 +1318,11 @@ public class BattleAttackManager {
 	}
 	
 	public float MultipleAttack (List<AttackInfo> attackInfo) {
-		if (leadSkill.LeadSkill.Count == 0) {
+		if (leaderSkill.LeadSkill.Count == 0) {
 			return 1f;
 		}
 		float multipe = 0f;
-		foreach (var item in leadSkill.LeadSkill) {
+		foreach (var item in leaderSkill.LeadSkill) {
 			LeaderSkillMultipleAttack trhp = item.Value as LeaderSkillMultipleAttack;
 			if(trhp == null) {
 				continue;
@@ -1343,7 +1343,7 @@ public class BattleAttackManager {
 	/// </summary>
 	int tempLeaderSkillCount = 0;
 	public int CheckLeaderSkillCount () {
-		foreach (var item in leadSkill.LeadSkill.Values) {
+		foreach (var item in leaderSkill.LeadSkill.Values) {
 			if(item is TSkillBoost) {
 				tempLeaderSkillCount ++;
 			}else if(item is TSkillDelayTime){

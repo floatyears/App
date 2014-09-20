@@ -46,9 +46,12 @@ public class LevelUpMaterialWindow : ViewBase {
 		
 		uint curUnitId = materialUnitInfoDic[item].unitId;
 //		Debug.LogError("Material Show Avatar : curUnitId is : " + curUnitId);
-		DataCenter.Instance.GetUnitInfo (curUnitId).GetAsset (UnitAssetType.Avatar, o=>{
+//		DataCenter.Instance.GetUnitInfo (curUnitId).GetAsset (UnitAssetType.Avatar, o=>{
+//			avatarTex.mainTexture = o as Texture2D;
+//		});//UnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,curUnitId, o=>{
 			avatarTex.mainTexture = o as Texture2D;
-		});//UnitInfo[ curUnitId ].GetAsset(UnitAssetType.Avatar);
+		});
 
 		int addAttack = materialUnitInfoDic[ item ].addAttack;
 		int addHp = materialUnitInfoDic[ item ].addHp;

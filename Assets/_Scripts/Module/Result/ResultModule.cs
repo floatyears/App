@@ -25,14 +25,14 @@ public class ResultModule : ModuleBase {
 //		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 		switch (data[0].ToString()){
 			case "ClickOk" : 
-				SendFriendApplyRequest(data[1]);
+				SendFriendApplyRequest();
 				break;
 			default:
 				break;
 		}
 	}
 
-	private void SendFriendApplyRequest(object args){
+	private void SendFriendApplyRequest(){
 		if(curFriendInfo == null) return;
 		AddFriendApplication(curFriendInfo.UserId);
 	}

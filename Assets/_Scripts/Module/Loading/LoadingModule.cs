@@ -211,12 +211,7 @@ public class LoadingModule : ModuleBase {
 		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 		} else {
-			ModuleManager.Instance.ShowModule(ModuleEnum.MainBackgroundModule);
-			ModuleManager.Instance.ShowScene(SceneEnum.MainScene);
-			ModuleManager.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
-			ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
-
-
+			ModuleManager.Instance.EnterMainScene();
 
 			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
 				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null

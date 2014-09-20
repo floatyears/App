@@ -132,7 +132,8 @@ public class PartyPageModule : ModuleBase{
                 textureList.Add(null);
             }
             else {
-				tuuList[i].UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+				ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,tuuList[i].UnitID, o=>{
+//					tuuList[i].UnitInfo
 					textureList.Add(o as Texture2D);
 				});
                 

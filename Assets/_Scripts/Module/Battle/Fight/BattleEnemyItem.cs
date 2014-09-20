@@ -63,7 +63,7 @@ public class BattleEnemyItem : MonoBehaviour {
 		SetData(te);
 		stateSprite.text = string.Empty;
 		enemyUnitInfo = DataCenter.Instance.GetUnitInfo (te.UnitID); //UnitInfo[te.UnitID];
-		enemyUnitInfo.GetAsset(UnitAssetType.Profile,o=> {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,te.UnitID,o=> {
 			Texture2D tex = o as Texture2D;
 			if (tex == null) {
 				texture.mainTexture = null;

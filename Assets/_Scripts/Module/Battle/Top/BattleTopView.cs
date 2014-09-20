@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using bbproto;
-
-public class BattleTopView : ViewBase {
+using bbproto;public class BattleTopView : ViewBase {
 	[HideInInspector]
 	public UILabel coinLabel;
 	private UILabel dropLabel;
@@ -30,9 +28,21 @@ public class BattleTopView : ViewBase {
 		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
 	}
 
-	public override void HideUI () {
-		if(gameObject.activeSelf)
-			gameObject.SetActive (false);
+	public override void CallbackView (params object[] args)
+	{
+		switch (args[0].ToString()) {
+		case "refresh":
+			RefreshTopUI();
+			break;
+		case "setfloor":
+			SetFloor();
+			break;
+		case "clear_quest":
+			RequestData(null);
+			break;
+		default:
+			break;
+		}
 	}
 
 	public override void ShowUI () {
@@ -139,7 +149,7 @@ public class BattleTopView : ViewBase {
 	
 	public void Retry () {
 //		Main.Instance.GInput.IsCheckInput = false;
-		BattleBottomView.notClick = true;
+//		BattleBottomView.notClick = true;
 		
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
 		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.Stone),
@@ -160,12 +170,12 @@ public class BattleTopView : ViewBase {
 		RedoQuest.SendRequest (SureRetryNetWork, BattleConfigData.Instance.questDungeonData.QuestId, BattleConfigData.Instance.questDungeonData.currentFloor);
 		
 //		Main.Instance.GInput.IsCheckInput = true;
-		BattleBottomView.notClick = false;
+//		BattleBottomView.notClick = false;
 	}
 	
 	void CancelInitiativeRetry(object data) {
 //		Main.Instance.GInput.IsCheckInput = true;
-		BattleBottomView.notClick = false;
+//		BattleBottomView.notClick = false;
 	}
 
 	
@@ -264,7 +274,7 @@ public class BattleTopView : ViewBase {
 		
 		ModuleManager.Instance.ExitBattle ();
 		
-		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule,trcq);
+		ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,"data", trcq);
 	}
 	
 	void ResponseEvolveQuest (object data) {
@@ -291,7 +301,7 @@ public class BattleTopView : ViewBase {
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
 		//
 		TUnitParty tup = BattleConfigData.Instance.party;
-		foreach (var item in tup.UserUnit.Values) {
+		foreach (var item in tup.UserUnit) {
 			if(item == null ) {
 				continue;
 			}
@@ -327,7 +337,7 @@ public class BattleTopView : ViewBase {
 		ModuleManager.Instance.ExitBattle ();
 		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
 		
-		ModuleManager.Instance.ShowModule (ModuleEnum.VictoryModule,trcq);
+		ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,trcq);
 	}
 
 	

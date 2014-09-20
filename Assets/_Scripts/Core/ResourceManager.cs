@@ -13,6 +13,10 @@ public class ResourceManager : MonoBehaviour{
 
 	private static ResourceManager instance;
 
+	private Dictionary<uint,Texture2D> profilePool;
+
+	private Dictionary<uint,Texture2D> avatarPool;
+
 	public static List<int> exceptionList = new List<int>(){1,5,9,49,50,51,52,53,54,55,56,57,58,59,60,61,63,65,67,69,71,73,75,77,79,81,83,86,88,90,92,94,96,122,124,126,128,130,132,187,190,193,196,199,202};
 
 	public static ResourceManager Instance
@@ -26,6 +30,8 @@ public class ResourceManager : MonoBehaviour{
 	
 	public void Init(DataListener callback){
 		int num = 1;
+		profilePool = new Dictionary<uint, Texture2D> ();
+		avatarPool = new Dictionary<uint, Texture2D> ();
 		assetBundles[ResourceAssetBundle.PROTOBUF] = new AssetBundleObj(ResourceAssetBundle.PROTOBUF,ResourceManager.ResourceInit,new List<ResourceCallback>{o=>{num--; if(num <= 0)callback(null);}},GetBundleTypeByKey(ResourceAssetBundle.PROTOBUF));
 		StartCoroutine(DownloadResource(ResourceAssetBundle.PROTOBUF));
 	}
@@ -538,57 +544,38 @@ public class ResourceManager : MonoBehaviour{
 	}
 	
 	
-	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
+//	private Dictionary<uint, Texture2D> profileCache = new Dictionary<uint, Texture2D> ();
 	
-	public void GetProfile(uint unitID, UITexture uiTexture = null, ResourceCallback resouceCB = null) {
-		Texture2D profile = null;
-		if (!profileCache.TryGetValue (unitID, out profile)) {
-			string path = string.Format ("Profile/{0}", unitID);
-			ResourceManager.Instance.LoadLocalAsset (path, o => {
-				profile = o as Texture2D;	
-				//				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
-				if(profileCache.ContainsKey(unitID)) {
-					profileCache[unitID] =  profile;
-				} else {
-					profileCache.Add(unitID, profile);
-				}
-				
-				if (uiTexture != null) {
-					uiTexture.mainTexture = profile;
-				}
-				
-				if (resouceCB != null) {
-					resouceCB (profile);
-				}
-			});
-		} else {
-			if (uiTexture != null) {
-				uiTexture.mainTexture = profile;
+	public void GetAvatar(UnitAssetType uat, uint unitID, ResourceCallback callback) {
+		if (uat == UnitAssetType.Avatar) {
+			if (!avatarPool.ContainsKey(unitID)) {
+				//				ResourceManager.Instance.GetAvatarAtlas(ID,avatarTexture);
+				ResourceManager.Instance.LoadLocalAsset (string.Format ("Avatar/{0}", unitID),o=>{
+					avatarPool[unitID] = o as Texture2D;
+					callback(o);
+				});
+			} else {
+				callback(avatarPool[unitID]);
 			}
-			
-			if (resouceCB != null) {
-				resouceCB (profile);
+		} else if(uat == UnitAssetType.Profile){
+//			Texture2D profile = null;
+			if (!profilePool.ContainsKey(unitID)) {
+				ResourceManager.Instance.LoadLocalAsset (string.Format ("Profile/{0}", unitID), o => {
+					Texture2D profile = o as Texture2D;	
+					//				Debug.Log ("unitID : " + unitID + " profile : " + profile.name);
+					profilePool[unitID] = profile;
+										
+					if (callback != null) {
+						callback (profile);
+					}
+				});
+			} else {
+				
+				if (callback != null) {
+					callback (profilePool[unitID]);
+				}
 			}
 		}
-	}
-
-	public void GetAsset(UnitAssetType uat,ResourceCallback callback) {
-//		string path = string.Empty;
-//		
-//		if (uat == UnitAssetType.Avatar) {
-//			if (avatarTexture == null) {
-//				//				ResourceManager.Instance.GetAvatarAtlas(ID,avatarTexture);
-//				path = string.Format ("Avatar/{0}", ID);
-//				ResourceManager.Instance.LoadLocalAsset (path,o=>{
-//					avatarTexture = o as Texture2D;
-//					callback(o);
-//				});
-//			} else {
-//				callback(avatarTexture);
-//			}
-//		} else {
-//			ResourceManager.Instance.GetProfile(ID, null, callback);
-//		}
 	}
 }
 

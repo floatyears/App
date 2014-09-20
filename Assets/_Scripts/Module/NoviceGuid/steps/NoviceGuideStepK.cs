@@ -273,7 +273,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 //		GameObject.Destroy (nmw.GetComponent<UIPanel> ());
 //		nmw = null;
 
-		BattleBottomView.notClick = true;
+//		BattleBottomView.notClick = true;
 
 		GameObject bs = GameObject.FindWithTag ("boost_skill");
 		
@@ -286,7 +286,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	
 	
 	private void ClickSkill(GameObject btn){
-		BattleBottomView.notClick = false;
+//		BattleBottomView.notClick = false;
 
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListener.Get (btn).onClick -= ClickSkill;

@@ -53,9 +53,9 @@ public class UIConfigData
 			ins = new UIConfigItem();
 			try{
 				ins.moduleName = (ModuleEnum)Enum.Parse(typeof(ModuleEnum), jsonData[i] ["name"].ToString());
-				Debug.Log("module name: " + ins.moduleName);
+//				Debug.Log("module name: " + ins.moduleName);
 			}catch(ArgumentException){
-			Debug.LogError("ModuleEnum Convert Err: [[[---"+ jsonData[i] ["name"]+ "---]]] is not a member of the ModuleEnum");
+				Debug.LogError("ModuleEnum Convert Err: [[[---"+ jsonData[i] ["name"]+ "---]]] is not a member of the ModuleEnum");
 				continue;
 			}
 			

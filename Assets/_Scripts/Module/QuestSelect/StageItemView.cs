@@ -114,13 +114,13 @@ public class StageItemView : MonoBehaviour{
 //		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule); //do before
 //		ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule);
 
-		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
-			evolveCallback ();
-			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule);
-		} else {
+//		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
+//			evolveCallback ();
+//			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule);
+//		} else {
 //			MsgCenter.Instance.Invoke(CommandEnum.GetQuestInfo, data); //do after		
 			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",data);
-		}
+//		}
 	}
 
 	private void ShowTip(GameObject item){

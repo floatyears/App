@@ -398,7 +398,7 @@ public class UnitDetailView : ViewBase{
 		DataCenter.Instance.levelUpMaterials.Clear ();
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
-		newBlendUnit.UnitInfo.GetAsset (UnitAssetType.Profile, o => {
+		ResourceManager.Instance.GetAvatar (UnitAssetType.Profile,newBlendUnit.UnitID, o => {
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
 			ShowTexture = true;
 
@@ -607,7 +607,7 @@ public class UnitDetailView : ViewBase{
 			return;
 		}
 		TUnitInfo unitInfo = data.UnitInfo;
-		unitInfo.GetAsset( UnitAssetType.Profile, o=>{
+		ResourceManager.Instance.GetAvatar( UnitAssetType.Profile,unitInfo.ID, o=>{
 			Texture2D target = o as Texture2D;
 			DGTools.ShowTexture(unitBodyTex, target);
 			ShowTexture = true;

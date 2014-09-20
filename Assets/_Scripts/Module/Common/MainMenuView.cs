@@ -104,7 +104,7 @@ public class MainMenuView : ViewBase{
 		if(leaderUnitInfo == null){
 			//first step in
 //			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
-			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile,o=>{
+			ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,newestLeaderUnit.UnitID, o=>{
 				leaderAvatarTex.mainTexture = o as Texture2D;
 
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
@@ -118,7 +118,7 @@ public class MainMenuView : ViewBase{
 //			Debug.LogError("else if  leaderUnitInfo.ID  : " + leaderUnitInfo.ID + " newestLeaderUnit.UnitInfo.ID : " +newestLeaderUnit.UnitInfo.ID);
 			//changed
 //			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED." + newestLeaderUnit.UnitInfo.ID + " leaderUnitInfo: " + leaderUnitInfo.ID);
-			newestLeaderUnit.UnitInfo.GetAsset(UnitAssetType.Profile, o =>{
+			ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,newestLeaderUnit.UnitID, o =>{
 				leaderAvatarTex.mainTexture = o as Texture2D;
 
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;

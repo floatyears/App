@@ -3,22 +3,11 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class BattleBottomView : ViewBase {
-	private Camera bottomCamera;
+//	private Camera bottomCamera;
 	private RaycastHit rch;
-	private TUnitParty upi;
-	private Dictionary<int, UITexture> actorObject = new Dictionary<int, UITexture>();
-	private Dictionary<int, ActiveSkill> unitInfoPos = new Dictionary<int,ActiveSkill> ();
-
-	private GameObject activeEnableEffect;
-	private Dictionary<int, GameObject> enableSKillPos = new Dictionary<int, GameObject> ();
-	private List<int> enablePos = new List<int> ();
-
-	public static bool noviceGuideNotClick = false;
-
-	public static bool notClick = false;
-
-	private static int setPos = -1;
-	private static bool storeShiedInput = false;
+//	private TUnitParty upi;
+//	private Dictionary<GameObject, UITexture> actorObject = new Dictionary<GameObject, UITexture>();
+	private Dictionary<GameObject, ActiveSkill> unitInfoPos = new Dictionary<GameObject,ActiveSkill> ();
 
 	private UITexture[] actor;
 	private UISprite[] spSprite;
@@ -29,28 +18,17 @@ public class BattleBottomView : ViewBase {
 	private int initBlood = -1;
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
-	
-	private Vector3 actorPosition = Vector3.zero; 
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
 
-		this.bottomCamera = Main.Instance.bottomCamera;
-		RemoveAllSkill ();
+		List<TUserUnit> userUnitInfo = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit;
 
-		TUnitParty upi = DataCenter.Instance.PartyInfo.CurrentParty; 
-		Dictionary<int,TUserUnit> userUnitInfo = upi.UserUnit;
-		for (int i = 0; i < userUnitInfo.Count; i++) {
-			TUserUnit tuu = (userUnitInfo.ContainsKey(i) ? userUnitInfo[i] : null);
-			if(tuu == null) {
-				continue;
-			}
-		}
-
-		CheckActiveEnableEffect ();
+//		EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
 
 		Transform actorTrans = transform.Find ("Actor");
+		actor = new UITexture[5];
 		for (int i = 0; i < 5; i++) {
 			GameObject temp = actorTrans.Find(i.ToString()).gameObject;	
 
@@ -58,26 +36,22 @@ public class BattleBottomView : ViewBase {
 			UISprite bgSpr = actorTrans.Find(i.ToString() + "_bg").GetComponent<UISprite>();
 			UISprite skillBGSpr = actorTrans.Find(i.ToString()+ "_skillBg").GetComponent<UISprite>();
 			UISprite skillSpr = actorTrans.Find(i.ToString() + "_skill").GetComponent<UISprite>();
-			UITexture texture = temp.GetComponent<UITexture>();
+			UITexture texture = actor[i] = temp.GetComponent<UITexture>();
 
-			actorObject.Add(i, texture);
-			if(!userUnitInfo.ContainsKey(i) || userUnitInfo[i] == null) {
+//			actorObject.Add(temp, texture);
+			Debug.Log("battle attack: " + userUnitInfo[i] + " i: " + i);
+			if(userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
+
 				skillSpr.enabled = false;
+
 			} else {
 				TUnitInfo tui = userUnitInfo[i].UnitInfo;
 
-				SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo[i].MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);
-				if(sbi != null){
-					ActiveSkill activeSkill =  sbi as ActiveSkill;
-					unitInfoPos.Add(i, activeSkill);
-//					activeSkill.AddListener(ActiveSkillCallback);
-				}
-
-				ResourceManager.Instance.GetAsset(UnitAssetType.Profile, o=>{
+				ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,tui.ID, o=>{
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
 //						float scale = 80f/105f;
@@ -97,30 +71,20 @@ public class BattleBottomView : ViewBase {
 			}
 			UIEventListener.Get(temp).onClick += ClickItem;
 		}
-
-
-		actorPosition = transform.Find ("Position").localPosition;
 		
-		actor = new UITexture[5];
+
 		spSprite = new UISprite[20];
-		string path;
-		
-		for (int i = 0; i < actor.Length; i++) {
-			path = "Actor/" + i.ToString();
-			actor[i] = 	transform.Find(path).GetComponent<UITexture>();
-		}
-		
-		GameObject panel = FindChild("Panel");
-		panel.layer = GameLayer.BottomInfo;
+
+		FindChild("Panel").layer = GameLayer.BottomInfo;
 		for (int i = spSprite.Length; i > 0; i--) {
-			path = "Panel/"+ i;
-			spSprite[spSprite.Length - i] = transform.Find(path).GetComponent<UISprite>();
+			spSprite[spSprite.Length - i] = transform.Find("Panel/"+ i).GetComponent<UISprite>();
 		}
 		
 		spriteAnimation = FindChild<UISpriteAnimationCustom> ("Panel/HP");
 		bloodBar = FindChild<UISlider>("Panel/Slider");
 		label = FindChild<UILabel>("Panel/HPLabel");
 	}
+
 	public override void CallbackView (params object[] args)
 	{
 		switch (args[0].ToString()) {
@@ -128,131 +92,64 @@ public class BattleBottomView : ViewBase {
 			InitData((int)args[1],(int)args[2],(int)args[3]);
 			break;
 		case "playerdead":
-			PlayerDead();
+//			PlayerDead();
+			MaskCard("",false);
 			break;
 		case "energy_point":
 			ListenEnergyPoint(args[1]);
 			break;
-		case "updat_blood":
+		case "update_blood":
 			int blood = (int)args[1];
 			SetBlood (blood);
-			if((bool)args[2]){
+			if(args.Length > 2 && (bool)args[2]){
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				spriteAnimation.Reset();
 			}
+			break;
+		case "close_skill_window":
+			MaskCard("",false);
 			break;
 		default:
 			break;
 		}
 	}
 
-	void ActiveSkillCallback(object data) {
-		ActiveSkill activeSKill = data as ActiveSkill;
-		foreach (var item in unitInfoPos) {
-			if(item.Value.skillBase.id == activeSKill.skillBase.id && item.Value.CoolingDone) {
-				CheckActiveEnableEffect ();
-				if (enableSKillPos.ContainsKey (item.Key)) {
-					return;	
-				}
-				
-				enableSKillPos.Add (item.Key, null);
-				enablePos.Add (item.Key);
+	void InitData (int maxBlood, int blood,int enegyPoint) {
+		initBlood = maxBlood;
+		currentBlood = blood;
+		currentEnergyPoint = initEnergyPoint = enegyPoint;
+		SetBlood (currentBlood); 
+		
+		for (int i = 0; i < spSprite.Length; i++) {
+			if(i >= initEnergyPoint) {
+				spSprite[i].enabled = false;
+			} else {
+				spSprite[i].enabled = true;
 			}
 		}
 	}
 
-	void CheckActiveEnableEffect() {
-		if (activeEnableEffect == null) {
-			EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
-		}
-	}
-
-	public void RemoveAllSkill() {
-		enableSKillPos.Clear ();
-		enablePos.Clear ();
-	}
-
-	void RemoveSkillEffect (int pos) {
-		if(enableSKillPos.ContainsKey(pos))
-			enableSKillPos.Remove (pos);
-		if(enablePos.Contains(pos))
-			enablePos.Remove (pos);
-	}
-
-	readonly Vector3 effectScale = new Vector3 (30f, 30f, 30f);
-	readonly Vector3 effectOffset = new Vector3 (35f, 15f, 0f);
-
-	void LateUpdate () {
-		for (int i = 0; i < enablePos.Count; i++) {
-			int pos = enablePos[i];
-			GameObject go = enableSKillPos[pos];
-			if(go == null) {
-				Transform trans = actorObject[pos].transform;
-				go = NGUITools.AddChild(trans.parent.gameObject, activeEnableEffect);
-				go.layer = GameLayer.EffectLayer;
-				go.transform.localPosition = trans.localPosition + effectOffset;
-				go.transform.localScale = effectScale;
-				enableSKillPos[pos] = go;
-			}
-		}
-	}
-	
-	public void PlayerDead() {
-		RemoveAllSkill ();
-	}
-//
-//	void OnRealease () {
-//		if (noviceGuideNotClick && NoviceGuideStepEntityManager.isInNoviceGuide()) {
-//			return;	
-//		}
-//
-//		if (notClick) {
-//			return;	
-//		}
-//
-//		if (Input.GetMouseButtonDown (0)) {
-//			Ray ray = bottomCamera.ScreenPointToRay (Input.mousePosition);
-//			int receiveMask = GameLayer.LayerToInt(GameLayer.Default);
-//			if (Physics.Raycast (ray, out rch, 100f, receiveMask)) {
-//				string name = rch.collider.name;
-//				CheckCollider(name);
+//	void ActiveSkillCallback(object data) {
+//		ActiveSkill activeSKill = data as ActiveSkill;
+//		foreach (var item in unitInfoPos) {
+//			if(item.Value.skillBase.id == activeSKill.skillBase.id && item.Value.CoolingDone) {
+////				if (enableSKillPos.ContainsKey (item.Key)) {
+////					return;	
+////				}
+////				
+////				enableSKillPos.Add (item.Key, null);
+////				enablePos.Add (item.Key);
 //			}
 //		}
 //	}
 
-	TUserUnit tuu;
-	int prevID = -1;
 	void ClickItem (GameObject obj) {
-//		if (upi == null || battleQuest.role.isMove) {
-//			return;	
-//		}
-
-		int id = System.Int32.Parse (obj.name);
-//			Debug.LogError("CheckCollider id : " + id);
-		if(setPos != -1 && id != setPos) {
-			return;
-		}
-
-		if (upi.UserUnit.ContainsKey (id)) {
-			if(id == prevID) {
-				CloseSkillWindow();
-				prevID = -1;
-				return;
-			}
-			prevID = id;
+		UITexture tex = actor [int.Parse (obj.name)];
+		if (tex != null && tex.color == Color.white) {
+			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"show_skill_window",DataCenter.Instance.PartyInfo.CurrentParty.UserUnit [int.Parse(obj.name)]);
 			MaskCard (obj.name, true);
-//			if(IsUseLeaderSkill && id == 0) {
-//				LogHelper.Log("--------use leader skill command");
-//				MsgCenter.Instance.Invoke(CommandEnum.UseLeaderSkill, null);
-//			}
-			tuu = upi.UserUnit [id];
-//				battleQuest.topUI.SheildInput(false);
-//				battleSkillObject.SetActive(true);
-//				battleSkill.Refresh(tuu, Boost, Close);
-			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"refresh",tuu);
-//				BattleMapView.waitMove = true;
-//				battleQuest.battle.ShieldGameInput(false);
 		}
+
 	}
 
 	public void Close () {
@@ -260,7 +157,7 @@ public class BattleBottomView : ViewBase {
 	}
 
 	void MaskCard(string name,bool mask) {
-		foreach (var item in actorObject.Values) {
+		foreach (var item in actor) {
 			if(name == item.name) {
 				item.color = !mask ? Color.gray : Color.white;
 			} else {
@@ -269,16 +166,32 @@ public class BattleBottomView : ViewBase {
 		}
 	}
 
+	private int currentBlood = 0;
+	void SetBlood (int num) {
+		string info = num + "/" + initBlood;
+		label.text = info;
+		currentBlood = num;
+		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
+	}
+	
+	void ListenEnergyPoint (object data) {
+		int energyPoint = (int) data;
+		for (int i = 0; i < spSprite.Length; i++) {
+			UISprite sprite = spSprite[i];
+			if(i < energyPoint) {
+				if(!sprite.enabled) {
+					sprite.enabled = true;
+				}
+			} else {
+				if(sprite.enabled) {
+					sprite.enabled = false;
+				}
+			}
+		}
+	}
+
 	void CloseSkillWindow () {
 		MaskCard ("", false);
-
-//		battleQuest.topUI.SheildInput(true);
-//		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "ban", true);
-//		BattleMapView.waitMove = false;
-//		if (battleQuest.battle.isShowEnemy) {
-//			battleQuest.battle.ShieldGameInput(true);
-//		}
-//		battleSkillObject.SetActive(false);
 	}
 
 	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
@@ -297,57 +210,11 @@ public class BattleBottomView : ViewBase {
 //		//		_battleBottomScript.battleQuest = bq;
 //	}
 
+
+
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		//		_battleBottomScript = null;
 	}
-	
-	public void InitData (int maxBlood, int blood,int enegyPoint) {
-		initBlood = maxBlood;
-		currentBlood = blood;
-		currentEnergyPoint = initEnergyPoint = enegyPoint;
-		SetBlood (currentBlood); 
-		InitSP ();
-	}
-	
-	void InitSP () {
-		for (int i = 0; i < spSprite.Length; i++) {
-			if(i >= initEnergyPoint) {
-				spSprite[i].enabled = false;
-			} else {
-				spSprite[i].enabled = true;
-			}
-		}
-	}
-
-	private int currentBlood = 0;
-	void SetBlood (int num) {
-		string info = num + "/" + initBlood;
-		label.text = info;
-		//		if (num > currentBlood || num == initBlood) {
-		//			spriteAnimation.Reset();
-		//		}
-		currentBlood = num;
-		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
-	}
-	
-	int preBlood = 0;
-	
-	void ListenEnergyPoint (object data) {
-		int energyPoint = (int) data;
-		for (int i = 0; i < spSprite.Length; i++) {
-			UISprite sprite = spSprite[i];
-			if(i < energyPoint) {
-				if(!sprite.enabled) {
-					sprite.enabled = true;
-				}
-			} else {
-				if(sprite.enabled) {
-					sprite.enabled = false;
-				}
-			}
-		}
-	}
-
 }

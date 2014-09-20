@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class QuestPartyPageModule : PartyPageModule{
@@ -34,8 +34,9 @@ public class QuestPartyPageModule : PartyPageModule{
 	}
 
 	void Refresh (TFriendInfo tfi) {
-		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, tfi.UserUnit.UnitID, o=>{
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", o as Texture2D);
+//			tfi.UserUnit.UnitInfo
 			MsgCenter.Instance.Invoke (CommandEnum.RefreshFriendHelper, null);
 //			view.CallbackView(cbdArgs);
 		});
