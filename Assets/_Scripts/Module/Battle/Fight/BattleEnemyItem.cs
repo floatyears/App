@@ -216,7 +216,7 @@ public class BattleEnemyItem : MonoBehaviour {
 			dropTexture.enabled = true;
 			dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.Rare);
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
-            GameTimer.GetInstance().AddCountDown(0.5f, DorpEnd);
+            GameTimer.GetInstance().AddCountDown(0.5f, DropEnd);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
         }
     }
@@ -226,8 +226,8 @@ public class BattleEnemyItem : MonoBehaviour {
 		BattleAttackManager.Instance.TargetEnemy (enemyInfo);
 	}
 	
-    void DorpEnd() {
-        DestoryUI();
+    void DropEnd() {
+//        DestoryUI();
     }
 
     public void EnemyDead(object data) {

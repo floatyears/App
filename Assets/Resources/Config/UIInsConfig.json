@@ -480,9 +480,9 @@
     {
         "name":"BattleEnemyModule",
         "path":"Prefabs/UI/Battle/BattleEnemyUI",
-        "parent": 0,
+        "parent": 2,
         "x": 0,
-        "y": 0,
+        "y": 600,
         "z": 0, 
         "group" : -1
     },

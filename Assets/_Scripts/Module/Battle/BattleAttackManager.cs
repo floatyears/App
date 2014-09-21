@@ -104,7 +104,7 @@ public class BattleAttackManager {
 			if (item==null ){
 				continue;
 			}
-			ProtobufDataBase pudb = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
+			ControllerBase pudb = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
 			ActiveSkill skill = pudb as ActiveSkill;
 			if(skill == null) {
 				continue;
@@ -271,7 +271,6 @@ public class BattleAttackManager {
     public void StartAttack(object data) {
         attackInfo = upi.Attack;
 		List<AttackInfo> attack = SortAttackSequence();
-        LeadSkillReduceHurt();
 //        StartAttack(temp);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowHands, attack.Count);
 		if (attack.Count > 0) {
@@ -374,7 +373,7 @@ public class BattleAttackManager {
 		blood = addBlood > maxBlood ? maxBlood : addBlood;
 		BattleConfigData.Instance.storeBattleData.hp = blood;
 //		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
-		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood,"show_animation");
+		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood,true);
 //		MsgCenter.Instance.Invoke (CommandEnum.ShowHPAnimation);
 	}
 
@@ -537,18 +536,6 @@ public class BattleAttackManager {
 		
 	}
 	
-	ILeadSkillReduceHurt leadSkillReuduce;
-	ILeaderSkillExtraAttack leaderSkilllExtarAttack;
-	ILeaderSkillRecoverHP leaderSkillRecoverHP;
-	ILeaderSkillMultipleAttack leaderSkillMultiple;
-	
-	public void LeadSkillReduceHurt() {
-//		leadSkillReuduce = lsr as ILeadSkillReduceHurt;
-//		leaderSkilllExtarAttack = lsr as ILeaderSkillExtraAttack;
-//		leaderSkillRecoverHP = lsr as ILeaderSkillRecoverHP;
-//		leaderSkillMultiple = lsr as ILeaderSkillMultipleAttack;
-	}
-	
 	bool CheckEnemy () {
 		if (enemyInfo == null || enemyInfo.Count == 0) {
 			return false;
@@ -581,7 +568,7 @@ public class BattleAttackManager {
 //				MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
 				BattleAttackManager.instance.ReduceActiveSkillRound();
 				
-				int blood = leaderSkillRecoverHP.RecoverHP(BattleAttackManager.Instance.maxBlood, 1);	//1: every round.
+				int blood = RecoverHP(BattleAttackManager.Instance.maxBlood, 1);	//1: every round.
 				
 				BattleAttackManager.Instance.AddBlood(blood);
 				
@@ -826,10 +813,8 @@ public class BattleAttackManager {
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			float reduceValue = te.AttackValue;
-			
-			if(leadSkillReuduce != null) {
-				reduceValue = leadSkillReuduce.ReduceHurtValue(reduceValue, attackType);
-			}
+
+			reduceValue = ReduceHurtValue(reduceValue, attackType);
 			
 			//			Debug.LogError("leadSkillReuduce is null : " + (leadSkillReuduce == null) + " reduceValue : " + reduceValue);
 			
@@ -1148,7 +1133,7 @@ public class BattleAttackManager {
 		}
 	}
 	
-	void DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
+	void DisposeBoostSkill (string userunit, ControllerBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
@@ -1169,7 +1154,7 @@ public class BattleAttackManager {
 		}
 	}
 	
-	void DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
+	void DisposeDelayOperateTime (string userunit, ControllerBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
