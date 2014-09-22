@@ -141,7 +141,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 		
-		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
+//		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
 		ShowHelper (pickedHelperInfo);
 	}
 	
@@ -174,10 +174,10 @@ public class GiveUp__FightReadyView : ViewBase {
 	
 	private void StartFight(){
 		if (DataCenter.gameState == GameState.Evolve) {
-			evolveStart.EvolveStart.restartNew = 1;
-			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+//			evolveStart.EvolveStart.restartNew = 1;
+//			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} else {
-			StartQuest sq = new StartQuest ();
+//			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
 			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
@@ -185,7 +185,7 @@ public class GiveUp__FightReadyView : ViewBase {
 			sqp.questId = questInfo.Data.ID;
 			sqp.stageId = questInfo.StageID;
 			sqp.startNew = 1;
-			sq.OnRequest (sqp, RspStartQuest);
+			QuestController.Instance.StartQuest (sqp, RspStartQuest);
 		}
 	}
 	

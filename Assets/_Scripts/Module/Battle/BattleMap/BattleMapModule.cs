@@ -62,7 +62,7 @@ public class BattleMapModule : ModuleBase {
 			return;
 		}
 
-		ResumeQuest.SendRequest (o=>{
+		QuestController.Instance.ResumeQuest (o=>{
 			Umeng.GA.Buy ("ResumeQuest" , 1, DataCenter.resumeQuestStone);
 			BattleAttackManager.Instance.AddBlood (BattleAttackManager.Instance.maxBlood);
 			BattleAttackManager.Instance.RecoverEnergePoint (DataCenter.maxEnergyPoint);
@@ -76,7 +76,7 @@ public class BattleMapModule : ModuleBase {
 
 
 	void BattleFailExit(object data) {
-		RetireQuest.SendRequest (o=>{
+		QuestController.Instance.RetireQuest (o=>{
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
 			
 			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{

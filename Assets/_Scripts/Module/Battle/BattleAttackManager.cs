@@ -104,7 +104,7 @@ public class BattleAttackManager {
 			if (item==null ){
 				continue;
 			}
-			ControllerBase pudb = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
+			SkillBaseInfo pudb = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
 			ActiveSkill skill = pudb as ActiveSkill;
 			if(skill == null) {
 				continue;
@@ -1133,7 +1133,7 @@ public class BattleAttackManager {
 		}
 	}
 	
-	void DisposeBoostSkill (string userunit, ControllerBase pdb) {
+	void DisposeBoostSkill (string userunit, ProtobufDataBase pdb) {
 		TSkillBoost tbs = pdb as TSkillBoost;
 		if (tbs != null) {
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
@@ -1154,7 +1154,7 @@ public class BattleAttackManager {
 		}
 	}
 	
-	void DisposeDelayOperateTime (string userunit, ControllerBase pdb) {
+	void DisposeDelayOperateTime (string userunit, ProtobufDataBase pdb) {
 		TSkillDelayTime tst = pdb as TSkillDelayTime;
 		if (tst != null) {
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();

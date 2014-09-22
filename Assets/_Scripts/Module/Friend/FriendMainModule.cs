@@ -22,7 +22,7 @@ public class FriendMainModule : ModuleBase{
 			CallTurnToNextScene();
 			return;
 		}
-		GetFriendList.SendRequest(OnSyncFriendList);
+		FriendController.Instance.GetFriendList(OnSyncFriendList,true,false);
 	}
 
 	public void OnSyncFriendList(object data){

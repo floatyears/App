@@ -253,7 +253,7 @@ public class FriendSelectView : ViewBase{
 		EUnitType type = (EUnitType)leader.UnitType;
 		int level = leader.Level;
 
-		GetPremiumHelper.SendRequest(OnRspGetPremium, race, type, level, 0);
+		FriendController.Instance.GetPremiumHelper(OnRspGetPremium, race, type, level, 0);
 	}
 
 	void OnRspGetPremium(object data){

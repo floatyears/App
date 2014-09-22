@@ -165,7 +165,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		evolveStart = data as TEvolveStart;
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
-		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
+//		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
 		UnitParty up = new UnitParty ();
 		up.id = 5;
 		for (int i = 0; i < evolveStart.evolveParty.Count; i++) {
@@ -204,10 +204,11 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
 		if (DataCenter.gameState == GameState.Evolve) {
-			evolveStart.EvolveStart.restartNew = 1;
-			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+//			evolveStart.EvolveStart.restartNew = 1;
+//			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+//			UnitController.Instance.EvolveStart(RspEvolveStartQuest);
 		} else {
-			StartQuest sq = new StartQuest ();
+//			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
 			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
@@ -215,7 +216,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			sqp.questId = questInfo.Data.ID;
 			sqp.stageId = questInfo.StageID;
 			sqp.startNew = 1;
-			sq.OnRequest (sqp, RspStartQuest);
+			QuestController.Instance.StartQuest (sqp, RspStartQuest);
 		}
 	}
 

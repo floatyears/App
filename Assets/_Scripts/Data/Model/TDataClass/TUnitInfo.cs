@@ -358,7 +358,4 @@ public class TUnitInfo : ProtobufDataBase {
 		}
 	}
 
-	public void Send () {}
-	public void Receive (IWWWPost post) {}
-	public void SerialToFile () {}
 }

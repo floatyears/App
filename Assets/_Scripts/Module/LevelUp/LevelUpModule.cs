@@ -31,20 +31,16 @@ public class LevelUpModule : ModuleBase {
 				return;
 			}
 			
-			LevelUp netBase = new LevelUp ();
+//			LevelUp netBase = new LevelUp ();
 			TUserUnit baseUserUnit = levelUpInfo[0];	
 			TUserUnit friendUserUnit = levelUpInfo[1];
-
+			List<uint> PartUniqueId = new List<uint>();
 			for (int i = levelUpInfo.Count - 1; i > 1; i--) {
-				netBase.PartUniqueId.Add(levelUpInfo[i].ID);
+				PartUniqueId.Add(levelUpInfo[i].ID);
 			}
-
-			netBase.BaseUniqueId = baseUserUnit.ID;
-			netBase.HelperUserId = friendUserUnit.ID;
-			netBase.HelperUserUnit = friendUserUnit;
 			DataCenter.Instance.levelUpFriend = friendUserUnit;
 
-			netBase.OnRequest (null, NetCallback);
+			UnitController.Instance.LevelUp (NetCallback,baseUserUnit.ID,PartUniqueId,friendUserUnit.ID,friendUserUnit);
 		}
 	}
 	

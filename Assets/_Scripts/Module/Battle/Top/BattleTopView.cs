@@ -167,7 +167,7 @@ using bbproto;public class BattleTopView : ViewBase {
 		//		if (battle.isShowEnemy) {
 		//			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
 		//		}
-		RedoQuest.SendRequest (SureRetryNetWork, BattleConfigData.Instance.questDungeonData.QuestId, BattleConfigData.Instance.questDungeonData.currentFloor);
+		QuestController.Instance.RedoQuest (SureRetryNetWork, BattleConfigData.Instance.questDungeonData.QuestId, BattleConfigData.Instance.questDungeonData.currentFloor);
 		
 //		Main.Instance.GInput.IsCheckInput = true;
 //		BattleBottomView.notClick = false;
@@ -222,16 +222,11 @@ using bbproto;public class BattleTopView : ViewBase {
 
 	void RequestData (object data) {
 		if (DataCenter.gameState == GameState.Evolve) {
-			EvolveDone evolveDone = new EvolveDone ();
+//			EvolveDone evolveDone = new EvolveDone ();
 			TClearQuestParam cqp = GetQuestData();
-			evolveDone.QuestId = cqp.questId;
-			evolveDone.GetMoney = cqp.getMoney;
-			evolveDone.GetUnit = cqp.getUnit;
-			evolveDone.HitGrid = cqp.hitGrid;
-			evolveDone.OnRequest (null, ResponseEvolveQuest);
+			UnitController.Instance.EvolveDone(ResponseEvolveQuest,cqp.questId,0,cqp.getMoney,cqp.getUnit,cqp.hitGrid);
 		} else {
-			INetBase netBase = new ClearQuest ();
-			netBase.OnRequest (GetQuestData (), ResponseClearQuest);
+			QuestController.Instance.ClearQuest(GetQuestData (), ResponseClearQuest);
 		}
 	}
 

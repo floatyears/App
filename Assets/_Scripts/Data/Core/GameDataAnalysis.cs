@@ -14,7 +14,8 @@ public static class GameDataAnalysis {
 		ed.eventId = eventId.ToString ();
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, data);
+//		UploadStat.SendRequest (null, data);
+		CommonController.Instance.UploadStat (null,data);
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, string key){
@@ -25,7 +26,7 @@ public static class GameDataAnalysis {
 		ed.sValue = key;
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, data);
+		CommonController.Instance.UploadStat (null,data);
 	}
 
 	public static void Event(GameDataAnalysisEventType eventId, Dictionary<string,string> attr){
@@ -44,7 +45,7 @@ public static class GameDataAnalysis {
 		ed.values.AddRange (eventP);
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, data);
+		CommonController.Instance.UploadStat (null,data);
 	}
 
 	
@@ -69,7 +70,7 @@ public static class GameDataAnalysis {
 		ed.values.AddRange(eventP);
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, data);
+		CommonController.Instance.UploadStat (null,data);
 	}
 
 
@@ -103,7 +104,7 @@ public static class GameDataAnalysis {
 
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, data);
+		CommonController.Instance.UploadStat (null,data);
 	}
 
 	public static void Pay(double cash,GA.PaySource source,double coin){
@@ -124,7 +125,7 @@ public static class GameDataAnalysis {
 
 		List<bbproto.EventData> data = new List<bbproto.EventData> ();
 		data.Add (ed);
-		UploadStat.SendRequest (null, data);
+		CommonController.Instance.UploadStat (null,data);
 	}
 	
 }

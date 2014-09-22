@@ -19,15 +19,18 @@ public class LoadingModule : ModuleBase {
 
 	public LoadingModule(UIConfigItem config):base(  config) {
 		CreateUI<LoadingView> ();
+
+//		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
+//		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
     }
 
 	public override void OnReceiveMessages (params object[] data)
 	{
 		if (data [0] == "StartLogin") {
-			INetBase netBase = new AuthUser();
-			netBase.OnRequest(null, LoginSuccess);
+			UserController.Instance.Login(LoginSuccess);
+//			netBase.OnRequest(null, LoginSuccess);
 		}else if(data[0] == "FirstLogin"){
-			AuthUser.FirstLogin((uint)data[1], LoginSuccess);
+			UserController.Instance.FirstLogin( LoginSuccess,(uint)data[1]);
 		}
 	}
 
@@ -162,7 +165,6 @@ public class LoadingModule : ModuleBase {
     }
 	
 	private void StartFight() {
-		StartQuest sq = new StartQuest ();
 		StartQuestParam sqp = new StartQuestParam ();
 		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
 		sqp.helperUserUnit = null;	//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
@@ -170,7 +172,7 @@ public class LoadingModule : ModuleBase {
 		sqp.stageId = 0;			//questInfo.StageID;
 		sqp.startNew = 1;
 		sqp.isUserGuide = 1;
-		sq.OnRequest (sqp, RspStartQuest);
+		QuestController.Instance.StartQuest(sqp, RspStartQuest);
 	}
 	
 	private void RspStartQuest(object data) {
@@ -253,7 +255,7 @@ public class LoadingModule : ModuleBase {
 
 	void Cancel(object data) {
 
-		RetireQuest.SendRequest (RetireQuestCallback, recoverQuestID);
+		QuestController.Instance.RetireQuest (RetireQuestCallback, recoverQuestID);
 	}
 
 	void RetireQuestCallback(object data) {

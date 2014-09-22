@@ -85,7 +85,7 @@ public class FriendListView : ViewBase{
 	}
 
 	void UpdateFriendList(object args){
-		GetFriendList.SendRequest(OnGetFriendList);
+		FriendController.Instance.GetFriendList(OnGetFriendList,true,false);
 	}
 
 	void OnGetFriendList(object data){
@@ -120,7 +120,7 @@ public class FriendListView : ViewBase{
 //	}
 
 	void CallBackDeleteFriend(object args){
-		DelFriend.SendRequest(OnDelFriend, curPickedFriend.UserId);
+		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.UserId);
 	}
 
 	void OnDelFriend(object data){

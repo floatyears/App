@@ -93,26 +93,26 @@ public interface IEffectExcute {
 //    void CustomExtraFunction(object message);
 //}
 
-public interface INetBase {
-    void OnRequest(object data, DataListener callback);
-//    void OnRequest(ResponseCallback callback);
-//	void OnResponse(IWWWPost post);
-}
+//public interface INetBase {
+//    void OnRequest(object data, DataListener callback);
+////    void OnRequest(ResponseCallback callback);
+////	void OnResponse(IWWWPost post);
+//}
 
-public interface IWWWPost {
-    WWW WwwInfo { get; set; }
-    string Url  { get; set; }
-    int Version { get; set; }
+//public interface IWWWPost {
+//    WWW WwwInfo { get; set; }
+//    string Url  { get; set; }
+//    int Version { get; set; }
+//
+//    void ExcuteCallback();
+//    void Send(ControllerBase callback, WWWForm wf);
+//    void Send(ControllerBase nettemp, string urlPath, byte[] data);
+//}
 
-    void ExcuteCallback();
-    void Send(ProtoManager callback, WWWForm wf);
-    void Send(ProtoManager nettemp, string urlPath, byte[] data);
-}
-
-public interface INetSendPost {
-    void SendHttpPost(IWWWPost post);
-    void SendAssetPost(IWWWPost post);
-}
+//public interface INetSendPost {
+//    void SendHttpPost(IWWWPost post);
+//    void SendAssetPost(IWWWPost post);
+//}
 
 
 public delegate void Callback();
@@ -129,6 +129,6 @@ public delegate void ResourceCallback(Object data);
 
 public delegate void ResponseCallback(ErrorMsg errMsg,object data);
 
-public delegate void HttpCallback(NetworkBase network);
+//public delegate void HttpCallback(NetworkBase network);
 
-public delegate void NetCallback(IWWWPost post);
+public delegate void NetCallback(object data);

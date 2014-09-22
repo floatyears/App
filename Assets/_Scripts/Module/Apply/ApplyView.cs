@@ -74,7 +74,7 @@ public class ApplyView : ViewBase{
 	}
 
 	private void CancelFriendRequest(uint friendUid){
-		DelFriend.SendRequest(OnDelFriend, friendUid);
+		FriendController.Instance.DelFriend(OnDelFriend,friendUid);
 	}
 
 	private void OnDelFriend(object data){

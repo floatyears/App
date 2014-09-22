@@ -78,7 +78,7 @@ public class ReceptionView : ViewBase {
 		List <uint> refuseList = new List<uint>();
 		for (int i = 0; i < DataCenter.Instance.FriendList.FriendIn.Count; i++)
 			refuseList.Add(DataCenter.Instance.FriendList.FriendIn [i].UserId);
-		DelFriend.SendRequest(OnDelFriend, refuseList);
+		FriendController.Instance.DelFriend(OnDelFriend, refuseList);
 	}
 
 	void OnDelFriend(object data){
@@ -121,7 +121,7 @@ public class ReceptionView : ViewBase {
 	}
 
 	void CallBackDeleteFriend(object args){
-		DelFriend.SendRequest(OnDelFriend, curPickedFriend.UserId);
+		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.UserId);
 	}
 
 	void DeleteApplyFromOther(object msg){
@@ -130,7 +130,7 @@ public class ReceptionView : ViewBase {
 	}
 
 	void RefuseFriend(uint friendUid){
-		DelFriend.SendRequest(OnDelFriend, friendUid);
+		FriendController.Instance.DelFriend(OnDelFriend, friendUid);
 	}
 
 	void AcceptApplyFromOther(object msg){
@@ -156,7 +156,7 @@ public class ReceptionView : ViewBase {
 	}
 
 	void AcceptFriendRequest(uint friendUid){
-		AcceptFriend.SendRequest(OnAcceptFriend, friendUid);
+		FriendController.Instance.AcceptFriend(OnAcceptFriend, friendUid);
 	}
 
 	void OnAcceptFriend(object data){

@@ -60,7 +60,7 @@ public class RewardView : ViewBase {
 
 //		Debug.Log ("bonusIDs: " + bonusIDs.Count);
 		if(bonusIDs.Count > 0)
-			AcceptBonus.SendRequest(OnAcceptBonus,bonusIDs);
+			BonusController.Instance.AcceptBonus(OnAcceptBonus,bonusIDs);
 
 		int count = dragPanel.ScrollItem.Count;
 		for (int i = 0; i < count; i++) {

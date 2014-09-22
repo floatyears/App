@@ -49,19 +49,19 @@ public class QuestPartyPageModule : PartyPageModule{
 		up.id = 10000;
 		bbproto.PartyItem pi = new bbproto.PartyItem ();
 		pi.unitPos = 0;
-		pi.unitUniqueId = evolveStart.EvolveStart.BaseUnitId;
-		up.items.Add (pi);
-		for (int i = 0; i < evolveStart.EvolveStart.PartUnitId.Count; i++) {
-			pi = new bbproto.PartyItem ();
-			pi.unitPos = i + 1;
-			pi.unitUniqueId = evolveStart.EvolveStart.PartUnitId[i];
-			up.items.Add (pi);
-		}
-		TUnitParty tup = new TUnitParty (up);
-		RefreshEvolvePartyInfo (tup);
-		uint friendID = evolveStart.EvolveStart.HelperUserId;
-		TFriendInfo tfi = DataCenter.Instance.SupportFriends.Find (a => a.UserId == friendID);
-		Refresh (tfi);
+//		pi.unitUniqueId = evolveStart.EvolveStart.BaseUnitId;
+//		up.items.Add (pi);
+//		for (int i = 0; i < evolveStart.EvolveStart.PartUnitId.Count; i++) {
+//			pi = new bbproto.PartyItem ();
+//			pi.unitPos = i + 1;
+//			pi.unitUniqueId = evolveStart.EvolveStart.PartUnitId[i];
+//			up.items.Add (pi);
+//		}
+//		TUnitParty tup = new TUnitParty (up);
+//		RefreshEvolvePartyInfo (tup);
+//		uint friendID = evolveStart.EvolveStart.HelperUserId;
+//		TFriendInfo tfi = DataCenter.Instance.SupportFriends.Find (a => a.UserId == friendID);
+//		Refresh (tfi);
 	}
 
 	void AddCommandListener(){

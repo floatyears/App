@@ -46,7 +46,7 @@ public class NoviceGuideStepEntityManager {
 			// the following three stage don't send to server
 			if(currentNoviceGuideStage == NoviceGuideStage.EVOLVE || currentNoviceGuideStage == NoviceGuideStage.PARTY || currentNoviceGuideStage == NoviceGuideStage.LEVEL_UP || currentNoviceGuideStage == NoviceGuideStage.EVOVLE_QUEST)
 				return;
-			FinishUserGuide.SendRequest(ServerCallback, (int)currentNoviceGuideStage);
+			UserController.Instance.FinishUserGuide(ServerCallback, (int)currentNoviceGuideStage);
 
 		}
 	}
@@ -68,7 +68,7 @@ public class NoviceGuideStepEntityManager {
 	}
 //	
 	public static void FinishCurrentStep(){
-		FinishUserGuide.SendRequest (ServerCallback, (int)currentNoviceGuideStage);
+		UserController.Instance.FinishUserGuide(ServerCallback, (int)currentNoviceGuideStage);
 		//currentNoviceGuideStage++;
 	}
 

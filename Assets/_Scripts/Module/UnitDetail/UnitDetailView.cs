@@ -654,7 +654,7 @@ public class UnitDetailView : ViewBase{
 
 		if (oldBlendUnit != null) {
 			if(curLevel >= oldBlendUnit.UnitInfo.MaxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
-				UserguideEvoUnit.SendRequest(o=>{
+				UnitController.Instance.UserguideEvoUnit(o=>{
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
 						if (rsp != null ) {
@@ -744,7 +744,7 @@ public class UnitDetailView : ViewBase{
 		Debug.LogError ("ClickLock : " + curUserUnit);
 		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
 		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
-		UnitFavorite.SendRequest(OnRspChangeFavState, curUserUnit.ID, favAction);
+		UnitController.Instance.UnitFavorite(OnRspChangeFavState, curUserUnit.ID, favAction);
 	}
 
 	private void OnRspChangeFavState(object data){

@@ -48,11 +48,11 @@ public class FriendSelectModule : ModuleBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
 		if (DataCenter.gameState == GameState.Evolve) {
-			evolveStart.EvolveStart.restartNew = 1;
-			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+//			evolveStart.EvolveStart.restartNew = 1;
+//			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
 		} 
 		else {
-			StartQuest sq = new StartQuest ();
+//			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
 			sqp.helperUserUnit = selectedHelper;
@@ -60,7 +60,7 @@ public class FriendSelectModule : ModuleBase{
 			sqp.stageId = stageID;
 			sqp.startNew = 1;
 //			DataCenter.StartQuestInfo = sqp;
-			sq.OnRequest (sqp, RspStartQuest);
+			QuestController.Instance.StartQuest (sqp, RspStartQuest);
 		}
 	}
 

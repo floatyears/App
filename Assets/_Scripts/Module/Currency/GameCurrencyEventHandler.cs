@@ -54,7 +54,7 @@ public class GameCurrencyEventHandler {
 		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("PurchaseSuccess_Title"),TextCenter.GetText("PurchaseSuccess_Content"),TextCenter.GetText("OK"),o=>{
 			//refresh bonusList
 			if (rsp.productId == GameCurrencyAssets.PID_MONTH_CARD || rsp.productId == GameCurrencyAssets.PID_WEEK_CARD) {
-				GetBonusList.SendRequest (OnBonusList);
+				BonusController.Instance.GetBonusList (OnBonusList);
 			} else {
 				ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
 				ModuleManager.Instance.ShowModule(ModuleEnum.ShopModule);
@@ -88,7 +88,7 @@ public class GameCurrencyEventHandler {
 //		double gotStones = getProductInfo(pvi.ItemId).Stones;
 //		Umeng.GA.Pay (price, Umeng.GA.PaySource.AppStore, gotStones);
 
-		ShopBuy.SendRequest(OnRspShopBuy, pvi.ItemId);
+		ShopController.Instance.ShopBuy(OnRspShopBuy, pvi.ItemId);
 	}
 
 	public void onMarketRefund(PurchasableVirtualItem pvi){

@@ -1,0 +1,157 @@
+﻿using UnityEngine;
+using System.Collections;
+using bbproto;
+
+public class QuestController : ControllerBase {
+
+	private static QuestController instance;
+
+	public static QuestController Instance{
+		get{
+			if(instance == null)
+				instance = new QuestController();
+			return instance;
+		}
+	}
+
+	public void ClearQuest(TClearQuestParam questParam, NetCallback callback){
+		ReqClearQuest reqClearQuest = new ReqClearQuest();
+		reqClearQuest.header = new ProtoHeader();
+		reqClearQuest.header.apiVer = ServerConfig.API_VERSION;
+		
+		if (DataCenter.Instance.UserInfo != null)
+			reqClearQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
+		
+		reqClearQuest.questId = questParam.questId;
+		reqClearQuest.getMoney = questParam.getMoney;
+		reqClearQuest.getUnit.AddRange(questParam.getUnit);
+		reqClearQuest.hitGrid.AddRange(questParam.hitGrid);
+
+		HttpRequestManager.Instance.SendHttpRequest (reqClearQuest, data => {
+
+			RspClearQuest rspClearQuest = data as RspClearQuest;
+			
+			
+			DataCenter.Instance.UserInfo.StaminaNow = rspClearQuest.staminaNow;
+			DataCenter.Instance.UserInfo.StaminaRecover = rspClearQuest.staminaRecover;
+			
+			TRspClearQuest cq = new TRspClearQuest();
+			rspClearQuest = data as RspClearQuest;
+			if (rspClearQuest.header.code != 0) { 
+				Debug.LogError("Response info is error : " + rspClearQuest.header.error + " header code : " + rspClearQuest.header.code);
+				callback(cq);
+				return;
+			}
+			
+			cq.rank = rspClearQuest.rank;
+			cq.exp = rspClearQuest.exp;
+			cq.money = rspClearQuest.money;
+			cq.gotMoney = rspClearQuest.gotMoney;
+			cq.friendPoint = rspClearQuest.friendPoint;
+			cq.staminaNow = rspClearQuest.staminaNow;
+			cq.staminaMax = rspClearQuest.staminaMax;
+			cq.staminaRecover = rspClearQuest.staminaRecover;
+			
+			cq.gotExp = rspClearQuest.gotExp;
+			cq.gotStone = rspClearQuest.gotStone;
+			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
+			foreach (UserUnit uu in rspClearQuest.gotUnit) {
+				DataCenter.Instance.UserUnitList.AddMyUnit(uu);
+				TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
+				cq.gotUnit.Add(tuu);
+			}
+			callback(cq);
+			LogHelper.Log("rspClearQuest code:{0}, error:{1}", rspClearQuest.header.code, rspClearQuest.header.error);
+		}, ProtocolNameEnum.RspClearQuest);
+	}
+
+	public void GetQuestColors(NetCallback callBack, uint questid, int count=0) {
+		ReqGetQuestColors reqGetQuestColors = new ReqGetQuestColors();
+		reqGetQuestColors.header = new ProtoHeader();
+		reqGetQuestColors.header.apiVer = ServerConfig.API_VERSION;
+		reqGetQuestColors.header.userId = DataCenter.Instance.UserInfo.UserId;
+		
+		//request params
+		reqGetQuestColors.questId = questid;
+		if ( count > 0 )
+			reqGetQuestColors.count = count;
+		HttpRequestManager.Instance.SendHttpRequest (reqGetQuestColors, callBack, ProtocolNameEnum.RspGetQuestColors);
+	}
+
+	public void RedoQuest(NetCallback callBack, uint questid, int floor) {
+		ReqRedoQuest reqRedoQuest = new ReqRedoQuest();
+		reqRedoQuest.header = new ProtoHeader();
+		reqRedoQuest.header.apiVer = ServerConfig.API_VERSION;
+		reqRedoQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
+		
+		//request params
+		reqRedoQuest.questId = questid;
+		reqRedoQuest.floor = floor;
+
+		HttpRequestManager.Instance.SendHttpRequest (reqRedoQuest, data =>{
+			RspRedoQuest rrq = data as RspRedoQuest;
+			if (rrq == null) {
+				return;	
+			}
+			
+			if (rrq.header.code != 0) {
+				//			Debug.LogError("rrq.header.code : " + rrq.header.code + rrq.header.error);
+				TipsManager.Instance.ShowTipsLabel(rrq.header.code.ToString() , " : ", rrq.header.error);
+				return;
+			}
+			
+			callBack(data);
+		}, ProtocolNameEnum.RspRedoQuest);
+	}
+
+	public void ResumeQuest(NetCallback callBack, uint questid) {
+		ReqResumeQuest reqResumeQuest = new ReqResumeQuest();
+		reqResumeQuest.header = new ProtoHeader();
+		reqResumeQuest.header.apiVer = ServerConfig.API_VERSION;
+		reqResumeQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
+		
+		//request params
+		reqResumeQuest.questId = questid;
+
+		HttpRequestManager.Instance.SendHttpRequest (reqResumeQuest, callBack, ProtocolNameEnum.RspResumeQuest);
+	}
+
+	public void RetireQuest(NetCallback callBack, uint questid, bool gameover = false) {
+		ReqRetireQuest reqRetireQuest = new ReqRetireQuest();
+		reqRetireQuest.header = new ProtoHeader();
+		reqRetireQuest.header.apiVer = ServerConfig.API_VERSION;
+		reqRetireQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
+		
+		//request params
+		reqRetireQuest.questId = questid;
+		reqRetireQuest.isGameOver = (gameover ? 1 : 0);
+
+		HttpRequestManager.Instance.SendHttpRequest (reqRetireQuest, callBack, ProtocolNameEnum.RspRetireQuest);
+	}
+
+	public void StartQuest(StartQuestParam questParam, NetCallback callback) {
+		ReqStartQuest reqStartQuest = new ReqStartQuest();
+		reqStartQuest.header = new ProtoHeader();
+		reqStartQuest.header.apiVer = ServerConfig.API_VERSION;
+		
+		if (DataCenter.Instance.UserInfo != null)
+			reqStartQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
+		
+		
+		reqStartQuest.stageId = questParam.stageId;
+		reqStartQuest.questId = questParam.questId;
+		if(questParam.helperUserUnit != null)
+			reqStartQuest.helperUserId = questParam.helperUserUnit.UserId;
+		reqStartQuest.currentParty = questParam.currPartyId;
+		reqStartQuest.restartNew = questParam.startNew;
+		//		TUserUnit userunit = DataCenter.Instance.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
+		//		Debug.LogError ("userunit : " + userunit);
+		//        if (userunit != null)
+		if(questParam.helperUserUnit != null)
+			reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
+		reqStartQuest.isUserGuide = questParam.isUserGuide;
+
+		HttpRequestManager.Instance.SendHttpRequest (reqStartQuest, callback, ProtocolNameEnum.RspStartQuest);
+	}
+
+}

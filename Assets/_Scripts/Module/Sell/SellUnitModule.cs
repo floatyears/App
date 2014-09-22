@@ -24,7 +24,7 @@ public class SellUnitModule : ModuleBase {
 				PlanToSell(data[1]);
 				break;
 			case "ClickSellOk" : 
-				SellUnit.SendRequest(OnRspSellUnit, GetOnSaleUnitIDList());
+				UnitController.Instance.SellUnit(OnRspSellUnit,GetOnSaleUnitIDList());
 				break;
 			case "ClickSellCancel" : 
 				view.CallbackView("BackToMainWindow");

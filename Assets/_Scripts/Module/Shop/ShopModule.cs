@@ -40,7 +40,7 @@ public class ShopModule : ModuleBase {
 
     void CallbackFriendExpansion(object data){
 //        MsgCenter.Instance.Invoke(CommandEnum.FriendExpansion);
-		FriendMaxExpand.SendRequest(OnRspFriendExpansion);
+		ShopController.Instance.FriendMaxExpand(OnRspFriendExpansion);
 		Umeng.GA.Buy ("FriendExpansion", 1, DataCenter.friendExpansionStone);
     }
 
@@ -101,7 +101,7 @@ public class ShopModule : ModuleBase {
     }
 
     void CallbackStaminaRecover(object args){
-		RestoreStamina.SendRequest(OnRspStartminaRecover);
+		ShopController.Instance.RestoreStamina(OnRspStartminaRecover);
 
 		Umeng.GA.Buy ("StaminaRecover", 1, DataCenter.staminaRecoverStone);
     }
@@ -154,7 +154,7 @@ public class ShopModule : ModuleBase {
     void CallbackUnitpansion(object args){
 		Umeng.GA.Buy ("UnitExpansion",1, DataCenter.unitExpansionStone);
 
-		UnitMaxExpand.SendRequest(OnRspUnitExpansion);
+		ShopController.Instance.UnitMaxExpand(OnRspUnitExpansion);
     }
 
     void OnRspUnitExpansion(object data){

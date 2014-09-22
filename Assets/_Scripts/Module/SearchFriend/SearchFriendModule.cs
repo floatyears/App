@@ -57,7 +57,7 @@ public class SearchFriendModule : ModuleBase{
 	}
 
 	public void OnRearchFriendWithId(uint friendId){
-		FindFriend.SendRequest(OnRspFindFriend, friendId);
+		FriendController.Instance.FindFriend(OnRspFindFriend, friendId);
 	}
 
 	public void OnRspFindFriend(object data){
@@ -80,7 +80,7 @@ public class SearchFriendModule : ModuleBase{
 	
 	void AddFriendApplication(uint friendUid){
 		LogHelper.Log("AddFriendApplication () start");
-		AddFriend.SendRequest(OnAddFriend, friendUid);
+		FriendController.Instance.AcceptFriend(OnAddFriend, friendUid);
 	}
 
 	void OnAddFriend(object data){

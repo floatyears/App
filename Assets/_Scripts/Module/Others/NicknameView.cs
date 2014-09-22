@@ -79,16 +79,15 @@ public class NicknameView : ViewBase {
 
 
 	// leiliang--------------------------------------------------------------------
-	private INetBase changeName;
 	public void ChangeName(object  name)
 	{
 		//        LogHelper.Log("ChangeName(), start");
 		//		if (changeName == null)
 		//		{
-		changeName = new RenameNick();
-		changeName.OnRequest(name, ReName);
+
 		//			ModuleManger.Instance.ShowModule(ModuleEnum.Start);
 		//		}
+		UserController.Instance.RenameNick (ReName, (string)name );
 	}
 
 	

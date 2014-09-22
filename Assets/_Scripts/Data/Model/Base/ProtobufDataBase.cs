@@ -1,6 +1,6 @@
 using System;
 
-public class ProtobufDataBase : IOriginModel {
+public class ProtobufDataBase {
 	public byte[] originData ;
 
     private ErrorMsg errorMsgInfo = null;

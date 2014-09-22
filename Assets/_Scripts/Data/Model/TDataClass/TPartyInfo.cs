@@ -275,8 +275,7 @@ public class TPartyInfo : ProtobufDataBase {
     public void ExitParty() {
 //		Debug.LogError("ExitParty");
         if (IsModified) {
-            ChangeParty cp = new ChangeParty();
-            cp.OnRequest(this, onRspChangeParty);
+			UnitController.Instance.ChangeParty(this,onRspChangeParty);
         }
 		//Debug.Log("ExitParty(), IsModified is : " + IsModified);
     }

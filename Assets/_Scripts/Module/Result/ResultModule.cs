@@ -83,7 +83,7 @@ public class ResultModule : ModuleBase {
 	}
 
 	private void AddFriendApplication(uint friendUid){
-		AddFriend.SendRequest(OnAddFriend, friendUid);
+		FriendController.Instance.AddFriend(OnAddFriend, friendUid);
 	}
 
 	private void OnAddFriend(object data){

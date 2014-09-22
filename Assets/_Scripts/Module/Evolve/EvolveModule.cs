@@ -49,17 +49,17 @@ public class EvolveModule : ModuleBase {
 			partyID.Add(temp.ID);
 		}
 
-		EvolveStart es = new EvolveStart ();
-		es.BaseUnitId = baseItem.ID;
-		es.EvolveQuestId = questID;
-		es.PartUnitId = partyID;
-		es.HelperPremium = 0;
-		es.friendInfo = firendItem;
-		es.HelperUnit = firendItem.UserUnit.Unit;
-		es.HelperUserId = firendItem.UserId;
+//		EvolveStart es = new e ();
+//		es.BaseUnitId = baseItem.ID;
+//		es.EvolveQuestId = questID;
+//		es.PartUnitId = partyID;
+//		es.HelperPremium = 0;
+//		es.friendInfo = firendItem;
+//		es.HelperUnit = firendItem.UserUnit.Unit;
+//		es.HelperUserId = firendItem.UserId;
 
 		TEvolveStart tes = new TEvolveStart ();
-		tes.EvolveStart = es;
+//		tes.EvolveStart = es;
 		tes.StageInfo = tci.GetStage (stageID);
 		tes.StageInfo.CityId = EvolveCityID;
 		tes.StageInfo.QuestId = questID;
