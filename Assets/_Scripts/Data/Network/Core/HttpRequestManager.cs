@@ -1,186 +1,197 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using System;
+using System.Reflection;
+using bbproto;
+using System.Text;
 
-public class HttpRequestManager {
+public class HttpRequestManager : MonoBehaviour{
     private static HttpRequestManager instance;
     public static HttpRequestManager Instance {
         get {
             if (instance == null) {
-                instance = new HttpRequestManager();
+				instance = FindObjectOfType<HttpRequestManager>();;
             }
             return instance;
         }
     }
 
-//  public static string baseUrl = "http://127.0.0.1:6666/";
-	public static string baseUrl = ServerConfig.ServerHost;
-
-
-//    private List<IWWWPost> wwwRequst = new List<IWWWPost>();
-	private IWWWPost currentRequest = null;
-	private Queue<IWWWPost> wwwRequestQueue = new Queue<IWWWPost>();
-
-    private HttpRequestManager() {
-        GameInput.OnUpdate += HttpUpdate;
-    }
-
-    private string sessionId = "";
-    /// <summary>
-    /// network session id , init on game start, all network request must have this property
-    /// </summary>
-    public string SessionId {
-        get { return sessionId; }
-        set { sessionId = value; }
-    }
-
-    public ErrorMsg ValidateSessionId(object protobufModel) {
-        ErrorMsg errMsg = new ErrorMsg();
-        Type t = protobufModel.GetType();
-        try {
-            string protoSessionId = (string)t.GetProperty("sessionId").GetValue(protobufModel, null);
-            if (protoSessionId != sessionId) {
-                errMsg.Code = (int)ErrorCode.INVALID_SESSIONID;
-            }
-        }
-        catch (Exception ex) {
-            errMsg.Code = (int)ErrorCode.ILLEGAL_PARAM;
-            errMsg.Msg = "request or response not has field sessionId";
-        }
-        return errMsg;
-    }
+	private Queue<HttpRequest> wwwRequestQueue = new Queue<HttpRequest>();
+	private Dictionary<ProtocolNameEnum, NetCallback> protoListeners = new Dictionary<ProtocolNameEnum, NetCallback> ();
+	private List<HttpRequest> requestList = new List<HttpRequest> ();
+//	private Dictionary<string, ProtoBuf.IExtensible> tempMsgDic = new Dictionary<string, ProtoBuf.IExtensible>();
+	private Queue<HttpRequest> requestPool = new Queue<HttpRequest> ();
 	
-    public void SendHttpPost(IWWWPost post) {
-        if (post.WwwInfo != null) {
-//            wwwRequst.Add(post);
-			Debug.Log("http post: " + post.Url);
-			wwwRequestQueue.Enqueue(post);
-        }
-    }
-	
-    public void SendAssetPost(IWWWPost post) {
-        post.WwwInfo = WWW.LoadFromCacheOrDownload(post.Url, post.Version);
-//        wwwRequst.Add(post);
-		wwwRequestQueue.Enqueue(post);
-    }
-
-    void HttpUpdate() {
-		if (wwwRequestQueue.Count == 0 && currentRequest == null) {
-            return;	
-        }
-
-		if (currentRequest == null) {
-			currentRequest = wwwRequestQueue.Dequeue();
+	/// <summary>
+	/// adds the http request. 
+	/// </summary>
+	/// <param name="post">Post.</param>
+	/// <param name="callback">Callback.</param>
+	/// <param name="protoName">Proto name.protoName means the proto from server you want to listen. </param>
+	/// <param name="isSimultanuous">Is simultanuous.simultanuous means send the messages simultanuosly.</param>
+	private void AddHttpRequest(HttpRequest request, bool isSimultanuous = false) {
+		if (request == null) {
+			return;
 		}
-
-		if (currentRequest == null) {
-			return;	
+		requestList.Add (request);
+		if (isSimultanuous) {
+			StartCoroutine (SendMsg(request));
+		}else{
+			wwwRequestQueue.Enqueue(request);
+			if(wwwRequestQueue.Count < 2){
+				StartCoroutine (SendMsg());
+			}
 		}
-
-		if (currentRequest.WwwInfo.isDone && string.IsNullOrEmpty (currentRequest.WwwInfo.error)) {
-			RequestDone(currentRequest);
-			currentRequest = null;
-		} else if(!string.IsNullOrEmpty(currentRequest.WwwInfo.error)) {
-			OpenMsgWindowByError(currentRequest.WwwInfo.error, currentRequest);
-			currentRequest = null;
-		}
-
-//        for (int i = wwwRequst.Count - 1; i >= 0; i--) {
-//            WWW www = wwwRequst[i].WwwInfo;
-//
-//			if (www == null) {
-//				wwwRequst.RemoveAt(i);
-//				continue;
-//			}
-//
-//            if (www.isDone && string.IsNullOrEmpty(www.error)) {
-//                RequestDone(wwwRequst[i]);
-//            } else if (!string.IsNullOrEmpty(www.error)) {
-//                IWWWPost post = wwwRequst[i];
-//                wwwRequst.RemoveAt(i);
-//				OpenMsgWindowByError(www.error, post);
-//            } else {
-//
-//            }
-//        }
     }
 
-    void RequestDone(IWWWPost wwwPost) {
-//		Debug.LogError ("RequestDone:"+wwwPost.WwwInfo.url);
-//        wwwRequst.Remove(wwwPost);
-        wwwPost.ExcuteCallback();
+	/// <summary>
+	/// Sends the http request.
+	/// </summary>
+	/// <param name="msg">Message.</param>
+	/// <param name="callback">Callback.</param>
+	/// <param name="protoName">Proto name.</param>
+	/// <param name="isSimultanuous">Is simultanuous.</param>
+	/// <param name="failCallback">Fail callback.</param>
+	/// <param name="failProtoName">Fail proto name.</param>
+	public void SendHttpRequest(ProtoBuf.IExtensible msg, NetCallback callback, ProtocolNameEnum protoName, bool isSimultanuous = false, NetCallback failCallback = null, ProtocolNameEnum failProtoName = ProtocolNameEnum.NONE){
+		HttpRequest req = null;
+		if(requestPool.Count > 0)
+			req = requestPool.Dequeue ();
+		if(req == null)
+			req = new HttpRequest();
+		req.Msg = msg;
+		req.ProtoName = protoName;
+		req.SuccessCallback = callback;
+		req.FailProtoName = failProtoName;
+		req.FailCallback = failCallback;
+		AddHttpRequest (req, isSimultanuous);
+	}
+
+	/// <summary>
+	/// Add proto listener even though we didn't actully send the proto.
+	/// </summary>
+	/// <param name="protoName">Proto name.</param>
+	/// <param name="callback">Callback.</param>
+	public void AddProtoListener(ProtocolNameEnum protoName, NetCallback callback){
+		if(protoListeners.ContainsKey(protoName)){
+			protoListeners[protoName] = callback;
+		}else{
+			protoListeners.Add(protoName,callback);
+		}
+	}
+
+	/// <summary>
+	/// removes the proto listener.
+	/// </summary>
+	/// <param name="protoName">Proto name.</param>
+	public void RemoveProtoListener(ProtocolNameEnum protoName){
+		if(protoListeners.ContainsKey(protoName)){
+			protoListeners.Remove(protoName);
+		}
+	}
+
+	IEnumerator SendMsg() {
+		if (wwwRequestQueue.Count > 0) {
+			HttpRequest request = wwwRequestQueue.Dequeue();	
+			
+			if (request != null) {
+				Debug.Log ("Proto Send: [[[---" + request.Msg.GetType().Name + "---]]]");
+				WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
+				yield return www;
+				RequestDone (www, request);
+				StartCoroutine(SendMsg ());		
+			}
+		}
+		yield return null;
     }
 
-    void OpenMsgWindowByError(string text, IWWWPost post){
-        LogHelper.Log("OpenMsgWindowByError(), received error, {0}", text);
+	IEnumerator SendMsg(HttpRequest rq) {
+		HttpRequest request = rq;
+		Debug.Log ("Proto Send: [[[---" + rq.Msg.GetType().Name + "---]]]");
+		WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
+		yield return www;
+		RequestDone(www,request);
+	}
 
-		ErrorMsg errMsg = null;
 
-		if (text.StartsWith("Failed to connect to ") || text.StartsWith("couldn't connect to host") || text.StartsWith("Could not connect to the server")){
-//			Debug.LogError("OpenMsgWindowByError() error:"+text);
-//            msgParams = new MsgWindowParams();
-//            msgParams.btnParams = new BtnParam[2]{new BtnParam(), new BtnParam()};
-			errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
-//            msgParams.contentText = errMsg.Msg;
-//			msgParams.titleText = TextCenter.GetText("Error");
-//
-//			msgParams.btnParam = new BtnParam();
-//			msgParams.btnParam.callback = CallbackRetry;
-//			msgParams.btnParam.args = post;
-//			msgParams.btnParam.text = TextCenter.GetText("Retry");
-        }
-        else if (text.StartsWith("500 Internal Server Error")){
-//			Debug.LogError("OpenMsgWindowByError(), 500 Internal Server Error");
-//            msgParams = new MsgWindowParams();
-             errMsg = new ErrorMsg(ErrorCode.SERVER_500);
-//            msgParams.contentText = errMsg.Msg;
-//			msgParams.titleText = TextCenter.GetText("Error");
-//            
-//			msgParams.btnParam = new BtnParam();
-//			msgParams.btnParam.callback = CallbackRetry;
-//			msgParams.btnParam.args = post;
-//			msgParams.btnParam.text = TextCenter.GetText("Retry");
+	private string GetUrlByType(Type type){
+		string url = type.Name.Substring (3);
+		StringBuilder returnVal = new StringBuilder();
+		for (int i = 0; i < url.Length; i ++) {
+			if(char.IsUpper(url[i])){
+				if(i > 0){
+					returnVal.Append('_');
+					returnVal.Append(char.ToLower(url[i]));
+				}else{
+					returnVal.Append(char.ToLower(url[i]));
+				}
+			}else{
+				returnVal.Append(url[i]);
+			}
 		}
-		else if (text.EndsWith("Operation timed out")){
-//			Debug.LogError("OpenMsgWindowByError():"+text);
-//			msgParams = new MsgWindowParams();
-			errMsg = new ErrorMsg(ErrorCode.TIMEOUT);
+		return returnVal.ToString ();
+	}
 
+	void RequestDone(WWW www, HttpRequest request) {
+
+		if (www.isDone && string.IsNullOrEmpty (www.error)) {
+			GeneralProtoRsp returnVal = ProtobufSerializer.ParseFormBytes(www.bytes,typeof(GeneralProtoRsp)) as GeneralProtoRsp;
+//			Type.get
+			PropertyInfo[] properties = typeof(GeneralProtoRsp).GetProperties();
+			object msg;
+			ProtocolNameEnum name;
+			foreach (var item in properties) {
+				msg = item.GetValue(returnVal,null);
+				
+				if(msg != null){
+					Debug.Log("Msg Recv: name-> [[[---" + item.Name  + "---]]]" + " value->" + msg ); 
+					name = (ProtocolNameEnum)Enum.Parse(typeof(ProtocolNameEnum), msg.GetType().Name);
+					if(protoListeners.ContainsKey(name)){
+						protoListeners[name](msg);
+					}
+					HttpRequest req;
+					for (int i = requestList.Count - 1; i >= 0; i--) {
+						req = requestList[i];
+						if(name == req.ProtoName){
+							req.OnRequestSuccessHandler(msg);
+							requestList.RemoveAt(i);
+							requestPool.Enqueue(req);
+
+						}else if(name == req.FailProtoName){
+							req.OnRequestFailHandler(msg);
+							requestList.RemoveAt(i);
+							requestPool.Enqueue(req);
+						}
+					}
+				}
+			}
+
+		} else if(!string.IsNullOrEmpty(www.error)) {
+			string text = www.error;
+			ErrorMsg errMsg = null;
+			if (text.StartsWith("Failed to connect to ") || text.StartsWith("couldn't connect to host") || text.StartsWith("Could not connect to the server")){
+				errMsg = new ErrorMsg(ErrorCode.CONNECT_ERROR);
+			}
+			else if (text.StartsWith("500 Internal Server Error")){
+				errMsg = new ErrorMsg(ErrorCode.SERVER_500);
+			}
+			else if (text.EndsWith("Operation timed out")){
+				errMsg = new ErrorMsg(ErrorCode.TIMEOUT);
+			}
+			else {
+				errMsg = new ErrorMsg(ErrorCode.NETWORK);
+			}
+			if (errMsg != null){
+				//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, msgParams);
+				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Error"),errMsg.Msg , TextCenter.GetText("Retry"),CallbackRetry,request);
+			}
 		}
-        else {
-//			Debug.LogError("OpenMsgWindowByError(), unknown Error: "+text);
-//            msgParams = new MsgWindowParams();
-			errMsg = new ErrorMsg(ErrorCode.NETWORK);
-//            msgParams.contentText = ;
-//			msgParams.titleText = ;
-//
-//			msgParams.btnParam = new BtnParam();
-//			msgParams.btnParam.callback = ;
-//			msgParams.btnParam.args = ;
-//			msgParams.btnParam.text =;
-        }
-
-		if (errMsg != null){
-//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, msgParams);
-			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Error"),errMsg.Msg , TextCenter.GetText("Retry"),CallbackRetry,post);
-
-			post.WwwInfo.Dispose();
-			post.WwwInfo = null;
-            return;
-        }
+		www.Dispose ();
     }
 
     void CallbackRetry(object args){
-//        Debug.LogError("CallbackRetry()");
-        HttpRequest networkBase = args as HttpRequest;
-        if (networkBase != null){
-            networkBase.ReSend();
-        }
-    }
-
-    void CallbackCancelRequest(object args){
-//        Debug.LogError("CallbackCancelRequest()");
-		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.Connecting, false));
-       	ModuleManager.SendMessage(ModuleEnum.MaskModule, "wait", false);
-    }
+		SendMsg (args as HttpRequest);
+	}
+	
 }
