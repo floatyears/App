@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class FriendSelectModule : ModuleBase{
-	TFriendInfo selectedHelper;
+	FriendInfo selectedHelper;
 	uint questID;
 	uint stageID;
 	List<UnitItemViewInfo> supportFriendViewList = new List<UnitItemViewInfo>();
-	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
-	private TEvolveStart evolveStart = null;
+	Dictionary<int,UserUnit> userUnit = new Dictionary<int, UserUnit> ();
+	private UnitDataModel evolveStart = null;
 
 	public FriendSelectModule( UIConfigItem config, params object[] data):base( config, data) {
 		CreateUI<FriendSelectView> ();
@@ -82,15 +83,15 @@ public class FriendSelectModule : ModuleBase{
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
+
 //		tqdd.assignData ();
-		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
+		DataCenter.Instance.SetData(ModelEnum.MapConfig, questDungeonData);
 
 		EnterBattle ();
 	}
 
 	void RspStartQuest(object data) {
-		TQuestDungeonData tqdd = null;
+		QuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
@@ -103,7 +104,7 @@ public class FriendSelectModule : ModuleBase{
 			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
-			tqdd = new TQuestDungeonData (rspStartQuest.dungeonData);
+			tqdd = rspStartQuest.dungeonData;
 //			tqdd.assignData();
 			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
 		} 
@@ -166,12 +167,12 @@ public class FriendSelectModule : ModuleBase{
 
 	void ShowHelperInfo(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		TFriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
+		FriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
 	}
 
-	void RecordSelectedHelper(TFriendInfo tfi){
+	void RecordSelectedHelper(FriendInfo tfi){
 		selectedHelper = tfi;
 	}
 
@@ -215,7 +216,7 @@ public class FriendSelectModule : ModuleBase{
 	}
 	
 	void EvolveSelectQuest(object data) {
-		evolveStart = data as TEvolveStart;
+		evolveStart = data as UnitDataModel;
 	}
 	
 	void RecordSelectedQuest(object msg){

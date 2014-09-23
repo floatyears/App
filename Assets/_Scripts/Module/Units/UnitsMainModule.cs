@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class UnitsMainModule : ModuleBase {
-	TUnitParty unitPartyInfo;
-	Dictionary<int,TUserUnit> userUnit = new Dictionary<int, TUserUnit> ();
+	UnitParty unitPartyInfo;
+	Dictionary<int,UserUnit> userUnit = new Dictionary<int, UserUnit> ();
 
 	public UnitsMainModule(UIConfigItem config):base(  config) {
 		CreateUI<UnitsMainView> ();

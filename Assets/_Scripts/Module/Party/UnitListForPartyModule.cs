@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class UnitListForPartyModule : ModuleBase{
 	PartyUnitItem currentPickedUnit;
 //	List<UnitItemViewInfo> onPartyViewItemList = new List<UnitItemViewInfo>();
-	List<TUserUnit> partyDataList = new List<TUserUnit>();
+	List<UserUnit> partyDataList = new List<UserUnit>();
 
 	public UnitListForPartyModule(UIConfigItem config):base(  config){
 //		CreateUI<un
@@ -117,14 +118,14 @@ public class UnitListForPartyModule : ModuleBase{
 	void ViewUnitDetailInfo(object args){
 		int position = (int)args;
 //		TUserUnit unitInfo = onPartyViewItemList [position - 1].DataItem;
-		TUserUnit unitInfo = partyDataList[position - 1];
+		UserUnit unitInfo = partyDataList[position - 1];
 		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",unitInfo);
 	}
 
 	void RspUnitPickFromView(PartyUnitItem itemView){
 		currentPickedUnit = itemView;
-		TUserUnit tup = partyDataList.Find(a=>a.Equals(itemView.UserUnit));
-		if(tup ==default(TUserUnit)) {
+		UserUnit tup = partyDataList.Find(a=>a.Equals(itemView.UserUnit));
+		if(tup ==default(UserUnit)) {
 			SubmitPickedUnitToParty(true);
 		} else{
 			SubmitPickedUnitToParty(false);

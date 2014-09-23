@@ -33,12 +33,12 @@ public class ActiveAttackTargetType : ActiveSkill {
 		get { return instance.value; }
 	}
 
-	public ActiveAttackTargetType(object instance) : base (instance) {
+	public ActiveAttackTargetType(object instance) :base(instance){
 		this.instance = instance as SkillTargetTypeAttack;
-		skillBase = this.instance.baseInfo;
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;	
-		}
+//		skillBase = this.instance.baseInfo;
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;	
+//		}
 	}
 
 	public override object Excute (string userUnitID, int atk = -1) {
@@ -49,7 +49,7 @@ public class ActiveAttackTargetType : ActiveSkill {
 		AttackTargetType att = new AttackTargetType ();
 		AttackInfo ai = AttackInfo.GetInstance ();
 		ai.UserUnitID = userUnitID;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;	
 		}

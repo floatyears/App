@@ -57,7 +57,7 @@ public class BattleMapModule : ModuleBase {
 	}
 
 	void BattleFailRecover(object data) {
-		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
+		if (DataCenter.Instance.AccountInfo.stone < DataCenter.redoQuestStone) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
@@ -70,7 +70,7 @@ public class BattleMapModule : ModuleBase {
 			
 //			Main.Instance.GInput.IsCheckInput = true;
 //			BattleBottomView.notClick = false;
-		}, BattleConfigData.Instance.questDungeonData.QuestId);
+		}, BattleConfigData.Instance.questDungeonData.questId);
 		BattleAttackManager.Instance.ClearData ();
 	}
 
@@ -84,6 +84,6 @@ public class BattleMapModule : ModuleBase {
 				ModuleManager.Instance.ExitBattle ();
 			}));
 			BattleConfigData.Instance.ClearData ();
-		}, BattleConfigData.Instance.questDungeonData.QuestId, true);
+		}, BattleConfigData.Instance.questDungeonData.questId, true);
 	}
 }

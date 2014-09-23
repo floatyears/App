@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class BattleManipulationView : ViewBase {
 //	private static UIRoot uiRoot;
@@ -66,7 +67,7 @@ public class BattleManipulationView : ViewBase {
 	
 //	private float cardInterv = 0f;
 	
-	private List<TNormalSkill> normalSkill ;
+	private List<NormalSkill> normalSkill ;
 	
 //	private BattleUseData battleUseData;
 	

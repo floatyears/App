@@ -27,7 +27,7 @@ public class PartyUnitItem : MyUnitItem {
 		IsFocus = false;
 
 		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 			IsEnable = !IsParty;
 		}
 	}
@@ -44,7 +44,7 @@ public class PartyUnitItem : MyUnitItem {
 	protected override void RefreshState(){
 		base.RefreshState();
 		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 			//IsEnable is FALSE as long as IsParty is TRUE
 			IsEnable = !IsParty;
 		}
@@ -90,7 +90,7 @@ public class LevelUpUnitItem : MyUnitItem {
 		IsFocus = false;
 		
 		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 			IsEnable = !IsParty;
 		}
 	}
@@ -109,7 +109,7 @@ public class LevelUpUnitItem : MyUnitItem {
 		base.RefreshState();
 		if(userUnit != null){
 //			Debug.LogError("---   1 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.ID);
+			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 //			Debug.LogError("---   2 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
 		}
 	}

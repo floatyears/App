@@ -2,6 +2,7 @@
 using System.Collections;
 using bbproto;
 
+
 public class AttackInfo : ProtobufDataBase{
 	private static int sequenceID = -1;
 	public static void ClearData () {
@@ -10,7 +11,7 @@ public class AttackInfo : ProtobufDataBase{
 
 	private AttackInfoProto instance;
 
-	public AttackInfo (AttackInfoProto ins) : base(ins){
+	public AttackInfo (AttackInfoProto ins){
 		instance = ins;
 		if(instance.continueAttackMultip == 0)
 			instance.continueAttackMultip = 1;

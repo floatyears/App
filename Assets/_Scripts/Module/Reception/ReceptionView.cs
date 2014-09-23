@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class ReceptionView : ViewBase {
 	private SortRule curSortRule;
-	private TFriendInfo curPickedFriend;
+	private FriendInfo curPickedFriend;
 	private DragPanel dragPanel;
 	private UIButton refuseAllBtn;
-	private List<TFriendInfo> friendInDataList = new List<TFriendInfo>();
+	private List<FriendInfo> friendInDataList = new List<FriendInfo>();
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 //		Debug.LogError("ReceptionView Init 1");
@@ -77,7 +78,7 @@ public class ReceptionView : ViewBase {
 	void RefuseAllApplyFromOthers(object msg){
 		List <uint> refuseList = new List<uint>();
 		for (int i = 0; i < DataCenter.Instance.FriendList.FriendIn.Count; i++)
-			refuseList.Add(DataCenter.Instance.FriendList.FriendIn [i].UserId);
+			refuseList.Add(DataCenter.Instance.FriendList.FriendIn [i].userId);
 		FriendController.Instance.DelFriend(OnDelFriend, refuseList);
 	}
 
@@ -121,12 +122,12 @@ public class ReceptionView : ViewBase {
 	}
 
 	void CallBackDeleteFriend(object args){
-		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.UserId);
+		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.userId);
 	}
 
 	void DeleteApplyFromOther(object msg){
 		Debug.LogError("FriendListLogic.DeleteApplyFromOther(), receive the message, to delete apply from other player...");
-		RefuseFriend(curPickedFriend.UserId);
+		RefuseFriend(curPickedFriend.userId);
 	}
 
 	void RefuseFriend(uint friendUid){
@@ -143,7 +144,7 @@ public class ReceptionView : ViewBase {
 			return;
 		}
 		
-		AcceptFriendRequest(curPickedFriend.UserId);
+		AcceptFriendRequest(curPickedFriend.userId);
 	}
 
 	bool CheckFriendCountLimit(){

@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
+using bbproto;
+
 public class BattleBottomView : ViewBase {
 //	private Camera bottomCamera;
 	private RaycastHit rch;
@@ -23,7 +25,7 @@ public class BattleBottomView : ViewBase {
 	{
 		base.Init (uiconfig, data);
 
-		List<TUserUnit> userUnitInfo = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit;
+		List<UserUnit> userUnitInfo = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit;
 
 //		EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
 
@@ -49,25 +51,25 @@ public class BattleBottomView : ViewBase {
 				skillSpr.enabled = false;
 
 			} else {
-				TUnitInfo tui = userUnitInfo[i].UnitInfo;
+				UnitInfo tui = userUnitInfo[i].UnitInfo;
 
-				ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,tui.ID, o=>{
+				ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,tui.id, o=>{
 					if(o != null) {
 						texture.mainTexture = o as Texture2D;
 //						float scale = 80f/105f;
 //						float h = texture.mainTexture.height*tui.ShowPos.h/scale;
-						float height = ((i == 0) ? 135f : 110f)/(115f*105f/80f)*tui.ShowPos.h;
-						float y = tui.ShowPos.y + tui.ShowPos.h - height;
+						float height = ((i == 0) ? 135f : 110f)/(115f*105f/80f)*tui.showPos.h;
+						float y = tui.showPos.y + tui.showPos.h - height;
 						if(y > 1)
 							y = y - 1;
 //						float x = tui.ShowPos.x - tui.ShowPos.w*25f/160f;
-						texture.uvRect = new Rect( tui.ShowPos.x, y, tui.ShowPos.w, height);
+						texture.uvRect = new Rect( tui.showPos.x, y, tui.showPos.w, height);
 					}
 				});
 				
-				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + ((int)tui.Type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
-				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + ((int)tui.Type).ToString();
-				skillSpr.spriteName = "icon_skill_" + ((int)tui.Type).ToString();
+				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + ((int)tui.type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
+				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + ((int)tui.type).ToString();
+				skillSpr.spriteName = "icon_skill_" + ((int)tui.type).ToString();
 			}
 			UIEventListener.Get(temp).onClick += ClickItem;
 		}

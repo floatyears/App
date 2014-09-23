@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using bbproto;
 
 public class BattleEnemyItem : MonoBehaviour {
     [HideInInspector]
-    public TEnemyInfo enemyInfo;
+    public EnemyInfo enemyInfo;
     [HideInInspector]
     public UITexture texture;
 	[HideInInspector]
-	public TUnitInfo enemyUnitInfo;
+	public UnitInfo enemyUnitInfo;
 
     private UISprite dropTexture;
     private UILabel bloodLabel;
@@ -32,7 +33,7 @@ public class BattleEnemyItem : MonoBehaviour {
 	private Dictionary<StateEnum, GameObject> stateCache = new Dictionary<StateEnum, GameObject> ();
 	private Vector3 initStateExceptionSprite;
 
-	public void Init(TEnemyInfo te, Callback callBack) {
+	public void Init(EnemyInfo te, Callback callBack) {
 		stateLabel = transform.FindChild("SateLabel").GetComponent<UILabel>();
 		
 		texture = transform.FindChild("Texture").GetComponent<UITexture>();
@@ -58,7 +59,7 @@ public class BattleEnemyItem : MonoBehaviour {
 		RefreshData (te,callBack);
 	}
 
-	public void RefreshData(TEnemyInfo te, Callback callBack){
+	public void RefreshData(EnemyInfo te, Callback callBack){
 		enemyInfo = te;
 		SetData(te);
 		stateSprite.text = string.Empty;
@@ -212,9 +213,9 @@ public class BattleEnemyItem : MonoBehaviour {
 			if(enemyInfo.drop == null) {
 				return;
 			}
-			TUnitInfo tui = enemyInfo.drop.UnitInfo;
+			UnitInfo tui = enemyInfo.drop.UnitInfo;
 			dropTexture.enabled = true;
-			dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.Rare);
+			dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
             GameTimer.GetInstance().AddCountDown(0.5f, DropEnd);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
@@ -231,7 +232,7 @@ public class BattleEnemyItem : MonoBehaviour {
     }
 
     public void EnemyDead(object data) {
-        TEnemyInfo te = data as TEnemyInfo;
+        EnemyInfo te = data as EnemyInfo;
         if (te == null || te.EnemySymbol != enemyInfo.EnemySymbol) {
             return;		
         }
@@ -241,9 +242,9 @@ public class BattleEnemyItem : MonoBehaviour {
         nextLabel.text = "";
     }
 
-    Queue<TEnemyInfo> tempQue = new Queue<TEnemyInfo>();
+    Queue<EnemyInfo> tempQue = new Queue<EnemyInfo>();
     public void EnemyRefresh(object data) {
-        TEnemyInfo te = data as TEnemyInfo;
+        EnemyInfo te = data as EnemyInfo;
         if (te == null) {
             return;		
         }
@@ -254,10 +255,10 @@ public class BattleEnemyItem : MonoBehaviour {
         tempQue.Enqueue(te);
 		GameTimer.GetInstance().AddCountDown(0.2f, ()=>{
 			enemyInfo = tempQue.Dequeue();
-			float value = (float)enemyInfo.initBlood / enemyInfo.GetInitBlood();
+			float value = (float)enemyInfo.currentHp / enemyInfo.GetInitBlood();
 			//		Debug.LogError ("RefreshData : " + value);
 			SetBlood(value);
-			SetNextLabel(enemyInfo.initAttackRound);
+			SetNextLabel(enemyInfo.currentNext);
 		});
     }
 
@@ -274,9 +275,9 @@ public class BattleEnemyItem : MonoBehaviour {
         iTween.MoveTo(texture.gameObject, iTween.Hash("position", localPosition, "time", 0.2f, "islocal", true, "easetype", iTween.EaseType.easeOutCubic));
     }
 
-    void SetData(TEnemyInfo seu) {
-		bloodSprite.fillAmount =(float)seu.initBlood / seu.GetInitBlood();
-		SetNextLabel(seu.initAttackRound);
+    void SetData(EnemyInfo seu) {
+		bloodSprite.fillAmount =(float)seu.currentHp / seu.GetInitBlood();
+		SetNextLabel(seu.currentNext);
     }
 
     void SetBlood(float value) {

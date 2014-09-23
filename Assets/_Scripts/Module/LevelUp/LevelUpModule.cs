@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using bbproto;
 
 public class LevelUpModule : ModuleBase {
 	public LevelUpModule(UIConfigItem config) : base( config) {
@@ -15,32 +16,32 @@ public class LevelUpModule : ModuleBase {
 //		}
 	}
 	
-	List<TUserUnit> levelUpInfo = null;
+	List<UserUnit> levelUpInfo = null;
 
 	public override void OnReceiveMessages(params object[] data) {
 		string action = data[0] as string;
 		if ( action == "RefreshUnitItem" ) {
-			TUserUnit tuu = data[1] as TUserUnit;
+			UserUnit tuu = data[1] as UserUnit;
 
 			(view as LevelUpView).RefreshUnitItem(tuu);
 			return;
 
 		} else if ( action == "DoLevelUp" ) {
-			levelUpInfo = data[1] as List<TUserUnit>;
+			levelUpInfo = data[1] as List<UserUnit>;
 			if (levelUpInfo == null || levelUpInfo.Count <= 0) {
 				return;
 			}
 			
 //			LevelUp netBase = new LevelUp ();
-			TUserUnit baseUserUnit = levelUpInfo[0];	
-			TUserUnit friendUserUnit = levelUpInfo[1];
+			UserUnit baseUserUnit = levelUpInfo[0];	
+			UserUnit friendUserUnit = levelUpInfo[1];
 			List<uint> PartUniqueId = new List<uint>();
 			for (int i = levelUpInfo.Count - 1; i > 1; i--) {
-				PartUniqueId.Add(levelUpInfo[i].ID);
+				PartUniqueId.Add(levelUpInfo[i].uniqueId);
 			}
 			DataCenter.Instance.levelUpFriend = friendUserUnit;
 
-			UnitController.Instance.LevelUp (NetCallback,baseUserUnit.ID,PartUniqueId,friendUserUnit.ID,friendUserUnit);
+			UnitController.Instance.LevelUp (NetCallback,baseUserUnit.uniqueId,PartUniqueId,friendUserUnit.uniqueId,friendUserUnit);
 		}
 	}
 	
@@ -65,9 +66,9 @@ public class LevelUpModule : ModuleBase {
 			levelUpInfo.Clear();
 			DataCenter dataCenter = DataCenter.Instance;
 
-			dataCenter.supportFriendManager.useFriend.UseTime = GameTimer.GetInstance().GetCurrentSeonds();
+			dataCenter.supportFriendManager.useFriend.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 
-			dataCenter.AccountInfo.Money = (int)rspLevelUp.money;
+			dataCenter.AccountInfo.money = (int)rspLevelUp.money;
 			uint userId = DataCenter.Instance.UserInfo.UserId;
 			dataCenter.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 			dataCenter.levelUpMaterials.Clear();
@@ -75,7 +76,7 @@ public class LevelUpModule : ModuleBase {
 			//删除消耗的材料
 			for (int i = 0; i < rspLevelUp.partUniqueId.Count; i++) {
 				uint uniqueID = rspLevelUp.partUniqueId[i];
-				TUserUnit tuu = dataCenter.UserUnitList.Get(uniqueID);
+				UserUnit tuu = dataCenter.UserUnitList.Get(uniqueID);
 				dataCenter.levelUpMaterials.Add(tuu);
 //				Debug.LogError("NetCallback delete unit : " + uniqueID);
 				dataCenter.UserUnitList.DelMyUnit(uniqueID);

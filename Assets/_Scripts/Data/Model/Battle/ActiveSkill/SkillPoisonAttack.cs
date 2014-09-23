@@ -6,10 +6,10 @@ public class TSkillPoison : ActiveSkill {
 	private SkillPoison instance;
 	public TSkillPoison(object instance) : base (instance) { 
 		this.instance = instance as SkillPoison;
-		skillBase = this.instance.baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 	AttackInfo posionInfo = null;
@@ -24,7 +24,7 @@ public class TSkillPoison : ActiveSkill {
 		ai.AttackRound = instance.roundValue;
 		ai.IgnoreDefense = true;
 		ai.AttackType = 0; //0 = ATK_SINGLE
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 		ai.AttackRange = 1;
 		BattleConfigData.Instance.posionAttack = ai;
 		MsgCenter.Instance.Invoke (CommandEnum.PlayAllEffect, ai);

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class SelectRoleView : ViewBase {
 	UIButton selectBtn;
@@ -66,7 +67,7 @@ public class SelectRoleView : ViewBase {
 	}
 
 	void ShowInitialView(object args){
-		List<TUnitInfo> unitInfoList = args as List<TUnitInfo>;
+		List<UnitInfo> unitInfoList = args as List<UnitInfo>;
 
 		int initialLevel = 1;
 		UITexture texture;
@@ -75,14 +76,14 @@ public class SelectRoleView : ViewBase {
 		//Tab
 		for (int i = 0; i < tabList.Count; i++){
 			label = tabList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
-			label.text = unitInfoList[ i ].Name;
+			label.text = unitInfoList[ i ].name;
 
 			UIEventListener.Get(tabList[ i ]).onClick = ClickTab;
 		}
 
 
 
-		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile, unitInfoList[ 0 ].ID, o => {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile, unitInfoList[ 0 ].id, o => {
 //			
 			UITexture texture1 = contentList[ 0 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
 
@@ -93,7 +94,7 @@ public class SelectRoleView : ViewBase {
 		});
 
 
-		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,unitInfoList[ 1 ].ID, o => {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,unitInfoList[ 1 ].id, o => {
 
 			UITexture texture1 = contentList[ 1 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
 
@@ -104,7 +105,7 @@ public class SelectRoleView : ViewBase {
 		});
 
 
-		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,unitInfoList[ 2 ].ID ,o => {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,unitInfoList[ 2 ].id ,o => {
 			UITexture texture1 = contentList[ 2 ].transform.FindChild("Texture_Role").GetComponent<UITexture>();
 			Texture2D source = o as Texture2D;
 			texture1.mainTexture = source;
@@ -118,10 +119,10 @@ public class SelectRoleView : ViewBase {
 
 
 			label = contentList[ i ].transform.FindChild("Label_No").GetComponent<UILabel>();
-			label.text = unitInfoList[ i ].ID.ToString();
+			label.text = unitInfoList[ i ].id.ToString();
 
 			label = contentList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
-			label.text = unitInfoList[ i ].Name;
+			label.text = unitInfoList[ i ].name;
 
 			label = contentList[ i ].transform.FindChild("Label_LV").GetComponent<UILabel>();
 			label.text = initialLevel.ToString();

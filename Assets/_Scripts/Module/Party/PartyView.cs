@@ -21,7 +21,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	private UISprite pageIndexSpr;
 
 	private Dictionary<int, PageUnitItem> partyItems = new Dictionary<int, PageUnitItem>();
-	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
+	private List<UserUnit> myUnitDataList = new List<UserUnit>();
 	private List<PartyUnitItem> partyUnitViewList = new List<PartyUnitItem>();
 
 	private DragSliderBase dragChangeView;
@@ -47,7 +47,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		UnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
@@ -123,7 +123,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		ClearPartyFocusState();
 		ClearUnitListFocusState();
 
-		TUnitParty tup = null;
+		UnitParty tup = null;
 		if (isRight) {
 			tup = DataCenter.Instance.PartyInfo.PrevParty;
 		} else {
@@ -159,7 +159,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		//Debug.Log("RefreshUnitListByCurId()...curIndex is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			puv.IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.ID);
+			puv.IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.uniqueId);
 			//Debug.Log("puv.IsParty : " + puv.IsParty);
 		}
 	}
@@ -178,7 +178,7 @@ public class PartyView : ViewBase, IDragChangeView{
 			if(pickedFromUnitList != null){
 				int afterpos = GetUnitPosInParty(pickedFromParty);
 
-				if(!DataCenter.Instance.PartyInfo.ChangeParty(afterpos, pickedFromUnitList.UserUnit.ID)) {
+				if(!DataCenter.Instance.PartyInfo.ChangeParty(afterpos, pickedFromUnitList.UserUnit.uniqueId)) {
 					return;
 				}
 
@@ -215,12 +215,12 @@ public class PartyView : ViewBase, IDragChangeView{
 				if(item.Value.UserUnit == null) continue;
 				if(item.Value.UserUnit.Equals(pickedFromParty.UserUnit)){
 					afterPos = item.Key;
-					afterId = item.Value.UserUnit.ID;
+					afterId = item.Value.UserUnit.uniqueId;
 					//Debug.Log("Find afterClickItem...");
 				}
 				if(item.Value.UserUnit.Equals(focusedOnParty.UserUnit)){
 					beforePos = item.Key;
-					beforeId = item.Value.UserUnit.ID;
+					beforeId = item.Value.UserUnit.uniqueId;
 					//Debug.Log("Find beforeClickItem...");
 				}
 			}
@@ -228,7 +228,7 @@ public class PartyView : ViewBase, IDragChangeView{
 			DataCenter.Instance.PartyInfo.ChangeParty(afterPos, beforeId);
 			DataCenter.Instance.PartyInfo.ChangeParty(beforePos, afterId);
 
-			TUserUnit tuu = pickedFromParty.UserUnit; 
+			UserUnit tuu = pickedFromParty.UserUnit; 
 			pickedFromParty.UserUnit = focusedOnParty.UserUnit;
 //			Debug.LogError("focusedOnParty : " + focusedOnParty.UserUnit.ID + " tuu : " + tuu.ID);
 			focusedOnParty.UserUnit = tuu;
@@ -239,7 +239,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
 
 
-	void OutNoParty(TUserUnit tuu) {
+	void OutNoParty(UserUnit tuu) {
 		for (int i = 0; i < partyUnitViewList.Count; i++) {
 			PartyUnitItem puv = partyUnitViewList[i];
 			if(puv.UserUnit.Equals(tuu)) {
@@ -289,7 +289,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 	private void AddToFocusWithPickedUnit(){
 		int focusPos = GetUnitPosInParty(focusedOnParty);
-		if(! DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID))  {
+		if(! DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.uniqueId))  {
 			ClearUnitListFocusState();
 			ClearPartyFocusState();
 			return;
@@ -304,7 +304,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	private void ReplaceFocusWithPickedUnit(){
 		int focusPos = GetUnitPosInParty(focusedOnParty);
 
-		if(!DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.ID)){
+		if(!DataCenter.Instance.PartyInfo.ChangeParty(focusPos, pickedFromUnitList.UserUnit.uniqueId)){
 			ClearUnitListFocusState();
 			ClearPartyFocusState();
 			return ;
@@ -330,7 +330,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		}
 		else{
 			//Access to add
-			if(!DataCenter.Instance.PartyInfo.ChangeParty(pos, target.UserUnit.ID)){
+			if(!DataCenter.Instance.PartyInfo.ChangeParty(pos, target.UserUnit.uniqueId)){
 				ClearUnitListFocusState();
 				ClearPartyFocusState();
 				return false;
@@ -392,8 +392,8 @@ public class PartyView : ViewBase, IDragChangeView{
 		return true;
 	}
 
-	private List<TUserUnit> GetUnitList(){
-		List<TUserUnit> myUnit = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
+	private List<UserUnit> GetUnitList(){
+		List<UserUnit> myUnit = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
 		if(myUnit == null){
 			Debug.LogError("!!!Data Read Error!!! DataCenter.Instance.MyUnitList.GetAll() is return null!");
 			return null;
@@ -445,7 +445,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		}
 	}
 
-	private int GetPartyMemberPosition(TUserUnit tuu){
+	private int GetPartyMemberPosition(UserUnit tuu){
 		int pos = -1;
 		if(tuu == null) return pos;
 		foreach (var item in partyItems){
@@ -593,7 +593,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			if(puv.UserUnit.UnitID == id)
+			if(puv.UserUnit.unitId == id)
 				return dragPanel.ScrollItem[ i ];
 		}
 		return null;
@@ -618,7 +618,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
 
 	private void UpdateInfoPanelView(object data){
-		TUnitParty unitParty = data as TUnitParty;
+		UnitParty unitParty = data as UnitParty;
 		if(unitParty == null){
 			Debug.LogError("PartyInfoView.UpdateView(), TUnitParty is NULL!");
 			return;

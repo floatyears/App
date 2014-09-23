@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class ResultView : ViewBase {
 	UILabel nameLabel;
@@ -93,7 +94,7 @@ public class ResultView : ViewBase {
 
 	void ClickCheck(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		BattleConfigData.Instance.BattleFriend.FriendPoint = 0;
+		BattleConfigData.Instance.BattleFriend.friendPoint = 0;
 //		ModuleManger.Instance.ShowModule(ModuleEnum.Home);
 
 		DGTools.ChangeToQuest();
@@ -101,7 +102,7 @@ public class ResultView : ViewBase {
 
 	void ClickOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		BattleConfigData.Instance.BattleFriend.FriendPoint = 0;
+		BattleConfigData.Instance.BattleFriend.friendPoint = 0;
 //		Debug.LogError("Click ok");
 //		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ClickOk", null);
 //		ExcuteCallback(call);
@@ -123,19 +124,19 @@ public class ResultView : ViewBase {
 
 	void ShowTopView(object msg){
 		Debug.Log("ResultView.ShowTopView(), start...");
-		TFriendInfo viewData = msg as TFriendInfo;
-		TUnitInfo tui = viewData.UserUnit.UnitInfo;
-		ResourceManager.Instance.GetAvatarAtlas (tui.ID, avatarTex);
+		FriendInfo viewData = msg as FriendInfo;
+		UnitInfo tui = viewData.UserUnit.UnitInfo;
+		ResourceManager.Instance.GetAvatarAtlas (tui.id, avatarTex);
 //		viewData.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //			avatarTex.mainTexture = o as Texture2D;
 //		});
 		avatarBgSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBackgroundName();
 		avatarBorderSpr.spriteName = viewData.UserUnit.UnitInfo.GetUnitBorderSprName();
 
-		nameLabel.text = (viewData.NickName == string.Empty) ? TextCenter.GetText("NO_NAME") : viewData.NickName;
-		rankLabel.text = viewData.Rank.ToString();
-		latestPlayLabel.text = Utility.TimeHelper.GetLatestPlayTime(viewData.LastPlayTime);
-		idLabel.text = viewData.UserId.ToString();
+		nameLabel.text = (viewData.nickName == string.Empty) ? TextCenter.GetText("NO_NAME") : viewData.nickName;
+		rankLabel.text = viewData.rank.ToString();
+		latestPlayLabel.text = Utility.TimeHelper.GetLatestPlayTime(viewData.lastPlayTime);
+		idLabel.text = viewData.userId.ToString();
 	}
 
 	void ShowCenterView(object msg){
@@ -146,7 +147,7 @@ public class ResultView : ViewBase {
 		else{
 			gotFriPointLabel.text = TextCenter.GetText("GotFriendPoint", friPoint);
 		}
-		totalFriPointLabel.text = TextCenter.GetText("TotalFriendPoint", DataCenter.Instance.AccountInfo.FriendPoint);
+		totalFriPointLabel.text = TextCenter.GetText("TotalFriendPoint", DataCenter.Instance.AccountInfo.friendPoint);
 
 		if (canStylize) {
 			addFriendTipsLabel.text = TextCenter.GetText ("AddFriendTips");	

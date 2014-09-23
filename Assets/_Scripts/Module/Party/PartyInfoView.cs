@@ -53,7 +53,7 @@ public class PartyInfoView : ViewBase {
 	}
 	
 	private void UpdateInfoPanelView(object data){
-		TUnitParty unitParty = data as TUnitParty;
+		UnitParty unitParty = data as UnitParty;
 		if(unitParty == null){
 			Debug.LogError("PartyInfoView.UpdateView(), TUnitParty is NULL!");
 			return;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class MyUnitItem : BaseUnitItem {
 	protected UISprite lightSpr;
@@ -92,7 +93,7 @@ public class MyUnitItem : BaseUnitItem {
 	protected override void InitState(){
 		base.InitState();
 		if(userUnit == null){return;}
-		IsFavorite = (userUnit.IsFavorite == 1) ? true : false;
+		IsFavorite = (userUnit.isFavorite == 1) ? true : false;
 		IsParty = false;
 	}
 
@@ -116,12 +117,12 @@ public class MyUnitItem : BaseUnitItem {
 		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
 	}
 
-	public void ChangeUserUnit(TUserUnit tuu) {
+	public void ChangeUserUnit(UserUnit tuu) {
 		BehindChangeUserUnit (tuu);
 		userUnit = tuu;
 	} 
 
-	protected virtual void BehindChangeUserUnit(TUserUnit tuu) {
+	protected virtual void BehindChangeUserUnit(UserUnit tuu) {
 
 	}
 }

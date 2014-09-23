@@ -38,28 +38,28 @@ public class BattleConfigData {
 	
 	public Coordinate roleInitCoordinate;
 
-	public TQuestDungeonData questDungeonData;
+	public QuestDungeonData questDungeonData;
 	
-	public TQuestInfo currentQuestInfo;
+	public QuestInfo currentQuestInfo;
 
-	private TStageInfo _currentStageInfo;
-	public TStageInfo currentStageInfo {
+	private StageInfo _currentStageInfo;
+	public StageInfo currentStageInfo {
 		set { _currentStageInfo = value; }// Debug.LogError("currentStageInfo : " + value + " id : " + value.ID) ; }
 		get { return _currentStageInfo; }
 	}
 
-	public TFriendInfo BattleFriend;
+	public FriendInfo BattleFriend;
 
 	public int gotFriendPoint;  //After ClearQuest response from server, gotFriendPoint will be assigned.
 
 	public bool NotDeadEnemy = false;
 
-	private TUnitParty _party;
-	public TUnitParty party {
+	private UnitParty _party;
+	public UnitParty party {
 		get { return _party; }
 		set {
 			_party = value;
-			UnitParty up = _party == null ? null : _party.Object;
+			UnitParty up = _party == null ? null : _party;
 			WriteBuff<UnitParty>(unitPartyName, up);
 		}
 	}
@@ -120,13 +120,13 @@ public class BattleConfigData {
 		}
 	}
 
-	private TStoreBattleData _storeBattleData;
-	public TStoreBattleData storeBattleData {
+	private StoreBattleData _storeBattleData;
+	public StoreBattleData storeBattleData {
 		get { return _storeBattleData; }
 	}
 
-	private TEvolveStart _evolveInfo;
-	public TEvolveStart evolveInfo {
+	private UnitDataModel _evolveInfo;
+	public UnitDataModel evolveInfo {
 		set {
 			_evolveInfo = value;
 		}
@@ -145,7 +145,7 @@ public class BattleConfigData {
 		}
 	}
 
-	public void ResetFromServer(TQuestDungeonData tdd) {
+	public void ResetFromServer(QuestDungeonData tdd) {
 		InitStoreBattleData ();
 		roleInitCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);//
 		_storeBattleData.roleCoordinate = roleInitCoordinate;
@@ -159,7 +159,6 @@ public class BattleConfigData {
 
 	void InitStoreBattleData() {
 		StoreBattleData sbd = new StoreBattleData ();
-		_storeBattleData = new TStoreBattleData (sbd);
 		sbd.sp = DataCenter.maxEnergyPoint;
 		sbd.hp = DataCenter.Instance.PartyInfo.CurrentParty.GetInitBlood ();
 		sbd.xCoordinate = MapConfig.characterInitCoorX;
@@ -186,7 +185,7 @@ public class BattleConfigData {
 		StoreRuntimData ();
 	}
 
-	public void StoreQuestDungeonData(TQuestDungeonData tqdd) {
+	public void StoreQuestDungeonData(QuestDungeonData tqdd) {
 		questDungeonData = tqdd;
 
 		WriteQuestDungeonData ();
@@ -194,14 +193,13 @@ public class BattleConfigData {
 	
 	void ReadRuntimeData () {
 		byte[] runtimeData = ReadFile (storeBattleName);
-		StoreBattleData qi = ProtobufSerializer.ParseFormBytes<StoreBattleData> (runtimeData);
+		_storeBattleData = ProtobufSerializer.ParseFormBytes<StoreBattleData> (runtimeData);
 //		Debug.LogError ("ReadRuntimeData : " + qi.sp + " hp : " + qi.hp); 
-		_storeBattleData = new TStoreBattleData (qi);
 	}
 
 	void StoreRuntimData () {
 //		Debug.LogError ("StoreRuntimData : " + _storeBattleData.instance.hp);
-		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData.instance);
+		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData);
 		WriteToFile (battleData, storeBattleName);
 	}
 
@@ -287,7 +285,7 @@ public class BattleConfigData {
 		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
 //		_trapPoison = ReadBuff<TrapPosion, TrapInfo> (trapPoisonName);
 //		_trapEnvironment = ReadBuff<EnvironmentTrap, TrapInfo> (trapEnvironmentName);
-		_party = ReadBuff<TUnitParty, UnitParty> (unitPartyName);
+		_party = ReadBuff<UnitParty, UnitParty> (unitPartyName);
 
 		if (File.Exists (trapPoisonName)) {
 			_trapPoison = Activator.CreateInstance(typeof(TrapPosion), ProtobufSerializer.ParseFormBytes<TrapInfo> (ReadFile (trapPoisonName))) as TrapPosion;
@@ -318,13 +316,13 @@ public class BattleConfigData {
 		WriteToFile (attack, name);
 	}
 
-	T ReadBuff<T,T1> (string name) where T : ProtobufDataBase where T1 : ProtoBuf.IExtensible {
+	T ReadBuff<T,T1> (string name) where T : class where T1 : ProtoBuf.IExtensible {
 		if (string.IsNullOrEmpty (name)) {
-			return null;	
+			return default(T);	
 		}
 		string path = GetPath (name);
 		if (!File.Exists (path)) {
-			return null;	
+			return default(T);	
 		}
 
 		byte[] attackInfo = ReadFile (name);
@@ -343,7 +341,7 @@ public class BattleConfigData {
 			return;
 
 //		Debug.LogError ("WriteStageInfo currentStageInfo : " + currentStageInfo);
-		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo.stageInfo);
+		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo);
 		WriteToFile (stage, stageInfoName);
 	}
 
@@ -352,8 +350,7 @@ public class BattleConfigData {
 		if (stageInfo == null) {
 			return;	
 		}
-		StageInfo qi = ProtobufSerializer.ParseFormBytes<StageInfo> (stageInfo);
-		currentStageInfo = new TStageInfo (qi);
+		currentStageInfo = ProtobufSerializer.ParseFormBytes<StageInfo> (stageInfo);
 	}
 	//end
 
@@ -361,7 +358,7 @@ public class BattleConfigData {
 	public void WriteQuestInfo() {
 		if (currentQuestInfo == null)
 			return;
-		byte[] quest = ProtobufSerializer.SerializeToBytes<QuestInfo> (currentQuestInfo.questInfo);
+		byte[] quest = ProtobufSerializer.SerializeToBytes<QuestInfo> (currentQuestInfo);
 		WriteToFile (quest, questInfoName);
 	}
 
@@ -370,8 +367,7 @@ public class BattleConfigData {
 		if (friend == null) {
 			return;	
 		}
-		QuestInfo qi = ProtobufSerializer.ParseFormBytes<QuestInfo> (friend);
-		currentQuestInfo = new TQuestInfo (qi);
+		currentQuestInfo = ProtobufSerializer.ParseFormBytes<QuestInfo> (friend);
 	}
 	//end
 
@@ -379,14 +375,13 @@ public class BattleConfigData {
 	public void WriteQuestDungeonData () {
 //		Debug.LogError("WriteQuestDungeonData  : " + questDungeonData.Instance.hp)
 		
-		byte[] tdd = ProtobufSerializer.SerializeToBytes<QuestDungeonData> (questDungeonData.Instance);
+		byte[] tdd = ProtobufSerializer.SerializeToBytes<QuestDungeonData> (questDungeonData);
 		WriteToFile (tdd, questDungeonDataName);
 	}
 
 	void ReadQuestDungeonData() {
 		byte[] questData = ReadFile (questDungeonDataName);
-		QuestDungeonData qdd = ProtobufSerializer.ParseFormBytes<QuestDungeonData> (questData);
-		questDungeonData = new TQuestDungeonData (qdd);
+		questDungeonData= ProtobufSerializer.ParseFormBytes<QuestDungeonData> (questData);
 	}
 	//end
 
@@ -394,7 +389,7 @@ public class BattleConfigData {
 	public void WriteFriend() {
 		if (BattleFriend == null)
 			return;
-		byte[] friend = ProtobufSerializer.SerializeToBytes<FriendInfo>(BattleFriend.Instance);
+		byte[] friend = ProtobufSerializer.SerializeToBytes<FriendInfo>(BattleFriend);
 		WriteToFile (friend, friendFileName);
 	}
 
@@ -403,8 +398,7 @@ public class BattleConfigData {
 		if (friend == null) {
 			return;	
 		}
-		FriendInfo fi = ProtobufSerializer.ParseFormBytes<FriendInfo> (friend);
-		BattleFriend = new TFriendInfo (fi);
+		BattleFriend = ProtobufSerializer.ParseFormBytes<FriendInfo> (friend);
 	}
 	//end 
 
@@ -450,8 +444,8 @@ public class BattleConfigData {
 		if (currentStageInfo == null || NoviceGuideStepEntityManager.isInNoviceGuide()) {
 			return 3; //2 is default stage id.
 		} else {
-			int stageID = ((int)currentStageInfo.ID) % 10;
-			if (BattleConfigData.Instance.currentStageInfo.CityId == 1) {	
+			int stageID = ((int)currentStageInfo.id) % 10;
+			if (BattleConfigData.Instance.currentStageInfo.cityId == 1) {	
 				return stageID == 1 ? 7 : -- stageID;
 			} else {
 				return stageID;
@@ -472,13 +466,11 @@ public class BattleConfigData {
 	public void RefreshCurrentFloor(RspRedoQuest rrq){
 		storeBattleData.questData.RemoveAt (storeBattleData.questData.Count - 1);
 		ClearQuestParam cq = new ClearQuestParam ();
-		TClearQuestParam cqp = new TClearQuestParam (cq);
-		storeBattleData.questData.Add (cqp);
-		TQuestDungeonData tqdd = new TQuestDungeonData (rrq.dungeonData);
+		storeBattleData.questData.Add (cq);
 		int floor = questDungeonData.currentFloor;
-		List<TQuestGrid> reQuestGrid = tqdd.Floors[floor];
+		List<QuestGrid> reQuestGrid = rrq.dungeonData.Floors[floor];
 		questDungeonData.Floors [floor] = reQuestGrid;
-		questDungeonData.Boss = tqdd.Boss;
+		questDungeonData.Boss = rrq.dungeonData.Boss;
 	}
 
 	

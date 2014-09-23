@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 //untis evolve
 public class NoviceGuideStepJ_StateOne:NoviceGuidState{
@@ -147,7 +148,7 @@ public class NoviceGuideStepJ_StateTwo:NoviceGuidState{
 //		fw.selectFriend += OnClickFriend;
 	}
 	
-	private void OnClickFriend(TFriendInfo data){
+	private void OnClickFriend(FriendInfo data){
 		//UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
 		LogHelper.Log("pick a friend to evolve");
 //		GameObject.Find ("FriendWindows(Clone)").GetComponent<FriendSelectLevelUpView> ().selectFriend -= OnClickFriend;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class ShowNewCardView : ViewBase {
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null){
@@ -15,7 +16,7 @@ public class ShowNewCardView : ViewBase {
 		ActiveEffect (true);
 
 		if (viewData.ContainsKey ("data")) {
-			ShowProfile(viewData["data"] as TUserUnit);
+			ShowProfile(viewData["data"] as UserUnit);
 		}
 	}
 
@@ -36,7 +37,7 @@ public class ShowNewCardView : ViewBase {
 	private GameObject bombEffect;
 	private UITexture profileTexture;
 
-	private TUserUnit userUnit;
+	private UserUnit userUnit;
 
 	private UIButton detailButton;
 	private UIButton returnButton;
@@ -80,15 +81,15 @@ public class ShowNewCardView : ViewBase {
 		UIEventListener.Get (returnButton.gameObject).onClick = ReturnButtonCallback;
 	}
 
-	void ShowProfile(TUserUnit userUnit) {
+	void ShowProfile(UserUnit userUnit) {
 
 		if (userUnit== null) {
 			return;	
 		}
 
-		cardNameLabel.text = userUnit.UnitInfo.Name;
+		cardNameLabel.text = userUnit.UnitInfo.name;
 
-		int maxRare = userUnit.UnitInfo.MaxRare == 0 ? userUnit.UnitInfo.Rare : userUnit.UnitInfo.MaxRare;
+		int maxRare = userUnit.UnitInfo.maxStar == 0 ? userUnit.UnitInfo.rare : userUnit.UnitInfo.maxStar;
 
 		if (maxRare <= 0) {
 			return;	
@@ -105,7 +106,7 @@ public class ShowNewCardView : ViewBase {
 
 		GameTimer.GetInstance ().AddCountDown (0.5f, ()=>{
 			Debug.Log("show new card effect end1");
-			ResourceManager.Instance.GetAvatar (UnitAssetType.Profile, userUnit.Object.unitId, texture => {
+			ResourceManager.Instance.GetAvatar (UnitAssetType.Profile, userUnit.unitId, texture => {
 				Texture2D tex = texture as Texture2D;
 				DGTools.ShowTexture(profileTexture, tex);
 				iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.3f, "easetype", iTween.EaseType.easeOutQuart));
@@ -113,7 +114,7 @@ public class ShowNewCardView : ViewBase {
 					Debug.Log("show new card effect end");
 					bombEffect.SetActive (true);
 					
-					StartCoroutine (ShowStar (userUnit.UnitInfo.Rare));
+					StartCoroutine (ShowStar (userUnit.UnitInfo.rare));
 				});
 			});
 		});

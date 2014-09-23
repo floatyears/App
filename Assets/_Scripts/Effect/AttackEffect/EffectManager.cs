@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Text;
+using bbproto;
 
 public class EffectManager {
 	public enum EffectEnum {
@@ -94,9 +95,9 @@ public class EffectManager {
 			return; 
 		}
 		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
-		SkillBaseInfo sbi = DataCenter.Instance.AllSkill[skillStoreID];
+		SkillBase sbi = DataCenter.Instance.AllSkill[skillStoreID];
 		string path = "";
-		TNormalSkill tns = sbi as TNormalSkill;
+		NormalSkill tns = sbi as NormalSkill;
 		if (tns != null) {
 			path = GetNormalSkillEffectName (tns);
 		} else if (sbi is ActiveSkill) {
@@ -146,11 +147,11 @@ public class EffectManager {
 				sb.Append (GetSkillType (tsa.AttackUnitType));
 			}
 			path = sb.ToString ();
-		} else if (sbi is TSkillExtraAttack) {
+		} else if (sbi is SkillExtraAttack) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);
 			path = "ls-claw-1-";
-			TSkillExtraAttack tsea = sbi as TSkillExtraAttack;
-			switch (tsea.UnitType) {
+			SkillExtraAttack tsea = sbi as SkillExtraAttack;
+			switch (tsea.unitType) {
 				case bbproto.EUnitType.UFIRE:
 					path += "fire";
 					break;
@@ -255,11 +256,11 @@ public class EffectManager {
 		}
 	}
 
-	string GetNormalSkillEffectName(TNormalSkill tns) {
+	string GetNormalSkillEffectName(NormalSkill tns) {
 		StringBuilder sb = new StringBuilder ();
 		sb.Append("ns-");
 		sb.Append (GetAttackRanger (tns.AttackRange));
-		float hurtValue = tns.Object.attackValue;
+		float hurtValue = tns.attackValue;
 		sb.Append (GetAttackDanger (tns.AttackRange, hurtValue));
 		sb.Append(GetSkillType(tns.AttackType));
 

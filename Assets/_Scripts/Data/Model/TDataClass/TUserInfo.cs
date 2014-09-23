@@ -3,13 +3,13 @@ using System.Collections;
 
 public class TUserInfo : ProtobufDataBase
 {
-	public TUserInfo(UserInfo inst) : base (inst){ 
+	public TUserInfo(UserInfo inst){ 
 		instance = inst;
-		unit = TUserUnit.GetUserUnit (instance.userId, instance.unit);
+		unit = UserUnit.GetUserUnit (instance.userId, instance.unit);
 	}
 
 	private UserInfo	instance;
-	private TUserUnit	unit;
+	private UserUnit	unit;
 	private EUnitType	evolvetype;
 
 	//////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@ public class TUserInfo : ProtobufDataBase
 			int totalExp = 0;
 			for (int i = 1; i <= nextLevel; i++)
 			{
-				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, i);
+				totalExp += DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, i);
 			}
 			return totalExp - Exp;
 
@@ -48,7 +48,7 @@ public class TUserInfo : ProtobufDataBase
 			int curLevel = Rank;
 			int totalExp = 0;
 			for (int i = 1; i < curLevel; i++) {
-				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, i);
+				totalExp += DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, i);
 			}
 
 //			UnityEngine.Debug.LogError(curLevel+" => CurRankExp:" + totalExp);
@@ -61,7 +61,7 @@ public class TUserInfo : ProtobufDataBase
 			int curLevel = Rank;
 			int totalExp = 0;
 			for (int i = 0; i < curLevel; i++) {
-				totalExp += DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, i);
+				totalExp += DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, i);
 			}
 			return totalExp;
 		}
@@ -73,7 +73,7 @@ public class TUserInfo : ProtobufDataBase
 		{ 
 			int curLevel = Rank + 1;
 			//UnityEngine.Debug.LogError("CurRankExpMax :: " + DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel));
-			return DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel);
+			return DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, curLevel);
 		}
 	} 
 
@@ -88,7 +88,7 @@ public class TUserInfo : ProtobufDataBase
 		get { return instance.staminaRecover; } 
 		set { instance.staminaRecover = value; } 
 	}
-	public	TUserUnit UserUnit { get { return unit; } }
+	public	UserUnit UserUnit { get { return unit; } }
 	public	EUnitType EvolveType { get { return evolvetype; } set { evolvetype = value; } }
 
 	public void RefreshUserInfo(TRspClearQuest rspClearQuest)

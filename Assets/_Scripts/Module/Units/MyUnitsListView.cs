@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class MyUnitsListView : ViewBase {
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
-	private List<TUserUnit> myUnitDataList = new List<TUserUnit>();
+	private List<UserUnit> myUnitDataList = new List<UserUnit>();
 
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
@@ -52,8 +53,8 @@ public class MyUnitsListView : ViewBase {
 		SortUnitByCurRule();
 	}
 
-	private List<TUserUnit> GetUnitList(){
-		List<TUserUnit> myUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
+	private List<UserUnit> GetUnitList(){
+		List<UserUnit> myUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
 		if(myUnitList == null){
 			return null;
 		}

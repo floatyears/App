@@ -111,11 +111,11 @@ public class UnitDetailView : ViewBase{
 		}else if(viewData.ContainsKey("evolve")){
 
 		}else if(viewData.ContainsKey("unit")){
-			curUserUnit = viewData["unit"] as TUserUnit;
+			curUserUnit = viewData["unit"] as UserUnit;
 			ShowInfo (curUserUnit);
 		}
 
-		UpdateFavView(curUserUnit.IsFavorite);
+		UpdateFavView(curUserUnit.isFavorite);
 	}
 
 	public override void HideUI () {
@@ -339,10 +339,10 @@ public class UnitDetailView : ViewBase{
 				}					
 				uint cityId = stageId/10;
 				if ( cityId>0 && stageId>0 ) {
-					TCityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
-					TStageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
+					CityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
+					StageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
 					if ( cityInfo!=null && stageInfo!= null) {
-						gw += cityInfo.CityName+"-"+stageInfo.StageName+"\n";
+						gw += cityInfo.cityName+"-"+stageInfo.stageName+"\n";
 					}
 				}
 			}
@@ -367,8 +367,8 @@ public class UnitDetailView : ViewBase{
 		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		curUserUnit = newBlendUnit;
 		ShowInfo (oldBlendUnit, true);
-		TUserUnit tuu = DataCenter.Instance.levelUpFriend;
-		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, friendSprite);
+		UserUnit tuu = DataCenter.Instance.levelUpFriend;
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, friendSprite);
 		friendEffect.gameObject.SetActive (true);
 		friendEffect.spriteName = tuu.UnitType.ToString ();
 		Transform effectTrans = friendEffect.transform;
@@ -387,19 +387,19 @@ public class UnitDetailView : ViewBase{
 
 		DataCenter dataCenter = DataCenter.Instance;
 		for (int i = 0; i < dataCenter.levelUpMaterials.Count; i++) {
-			TUnitInfo tui = dataCenter.levelUpMaterials[i].UnitInfo;
+			UnitInfo tui = dataCenter.levelUpMaterials[i].UnitInfo;
 			GameObject go = NGUITools.AddChild(parent, materilItem);
 			go.SetActive(true);
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
-			ResourceManager.Instance.GetAvatarAtlas(tui.ID, sprite);
-			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.Type);
-			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.Type);
+			ResourceManager.Instance.GetAvatarAtlas(tui.id, sprite);
+			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.type);
+			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.type);
 			material.Enqueue(go);
 		}
 		DataCenter.Instance.levelUpMaterials.Clear ();
 		parent.GetComponent<UIGrid> ().Reposition ();
 		count = material.Count;
-		ResourceManager.Instance.GetAvatar (UnitAssetType.Profile,newBlendUnit.UnitID, o => {
+		ResourceManager.Instance.GetAvatar (UnitAssetType.Profile,newBlendUnit.unitId, o => {
 			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
 			ShowTexture = true;
 
@@ -414,20 +414,20 @@ public class UnitDetailView : ViewBase{
 
 	void ShowLevelupInfo(object data) {
 		ShowInfo (newBlendUnit, true);
-		curLevel = oldBlendUnit.Level;
+		curLevel = oldBlendUnit.level;
 		gotExp = levelUpData.blendExp;
 		
 		levelDone = gotExp > 0;
 		
 		curExp = oldBlendUnit.CurExp;
-		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.MaxLevel;
+		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
 		Calculate ();
 	}
 
-	TUserUnit oldBlendUnit = null;
-	TUserUnit newBlendUnit = null;
+	UserUnit oldBlendUnit = null;
+	UserUnit newBlendUnit = null;
 	
-	private TUserUnit curUserUnit;
+	private UserUnit curUserUnit;
 	
 	bool levelDone = false;
 
@@ -445,7 +445,7 @@ public class UnitDetailView : ViewBase{
 
 	
 	//------------------end-----------------------------------------
-	void ShowInfo(TUserUnit userUnit, bool isLevelUp = false) {
+	void ShowInfo(UserUnit userUnit, bool isLevelUp = false) {
 
 		if (!isLevelUp) {
 			ShowBodyTexture( userUnit ); 
@@ -453,28 +453,28 @@ public class UnitDetailView : ViewBase{
 		}
 
 		///-----------show top panel
-		TUnitInfo unitInfo = userUnit.UnitInfo;
-		number.text = userUnit.UnitID.ToString();
+		UnitInfo unitInfo = userUnit.UnitInfo;
+		number.text = userUnit.unitId.ToString();
 		if (number.text.Length < 3) {
 			number.text = (number.text.Length == 1) ? ("00" + number.text) : ("0" + number.text);
 		}
 		
-		name.text = unitInfo.Name; //TextCenter.GetText ("UnitName_" + unitInfo.ID);//
+		name.text = unitInfo.name; //TextCenter.GetText ("UnitName_" + unitInfo.ID);//
 		
 		type.spriteName = "type_" + unitInfo.UnitType;
 		
-		cost.text = unitInfo.Cost.ToString();
+		cost.text = unitInfo.cost.ToString();
 		
 		int len = 0;
-		if (unitInfo.MaxRare > unitInfo.Rare) {
+		if (unitInfo.maxStar > unitInfo.rare) {
 			grayStar.enabled = true;
-			grayStar.width = (unitInfo.MaxRare - unitInfo.Rare) * grayWidth;
-			len = 2*unitInfo.Rare - unitInfo.MaxRare;
+			grayStar.width = (unitInfo.maxStar - unitInfo.rare) * grayWidth;
+			len = 2*unitInfo.rare - unitInfo.maxStar;
 		} else {
 			grayStar.enabled = false;
-			len = unitInfo.Rare;
+			len = unitInfo.rare;
 		}
-		lightStar.width = unitInfo.Rare*lightWidth;
+		lightStar.width = unitInfo.rare*lightWidth;
 		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
 
 		//-----status
@@ -490,12 +490,12 @@ public class UnitDetailView : ViewBase{
 		//rare
 		//		rareLabel.text = unitInfo.Rare.ToString();
 		
-		levelLabel.text = userUnit.Level.ToString() + " / " + unitInfo.MaxLevel.ToString();
+		levelLabel.text = userUnit.level.ToString() + " / " + unitInfo.maxLevel.ToString();
 		//		Debug.Log("ShowStatusContent() :: data.Level="+data.Level+" nextExp:"+data.NextExp);
 		//next level need
-		if ((userUnit.Level > unitInfo.MaxLevel ) 
-		    || (userUnit.Level == unitInfo.MaxLevel && userUnit.NextExp <= 0) ) {
-			levelLabel.text = unitInfo.MaxLevel.ToString() + " / " + unitInfo.MaxLevel.ToString();
+		if ((userUnit.level > unitInfo.maxLevel ) 
+		    || (userUnit.level == unitInfo.maxLevel && userUnit.NextExp <= 0) ) {
+			levelLabel.text = unitInfo.maxLevel.ToString() + " / " + unitInfo.maxLevel.ToString();
 			needExpLabel.text = TextCenter.GetText("Text_Max");
 			expSlider.value = 1f;
 		} else {
@@ -504,49 +504,49 @@ public class UnitDetailView : ViewBase{
 		}
 
 		//////--------skill 1
-		int skillId1 = unitInfo.NormalSkill1;
+		int skillId1 = unitInfo.skill1;
 		if (skillId1 == 0) {
 			normalSkill1NameLabel.text = TextCenter.GetText("Text_None");
 			normalSkill1DscpLabel.text = "";
 			return;	
 		}
-		SkillBaseInfo sbi1 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId1, SkillType.NormalSkill); //Skill[ skillId ];
-		SkillBase skill1 = sbi1.GetSkillInfo();
+		SkillBase sbi1 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId1, SkillType.NormalSkill); //Skill[ skillId ];
+		SkillBase skill1 = sbi1;
 		
 		normalSkill1NameLabel.text = TextCenter.GetText ("SkillName_"+skill1.id);//skill.name;
 		normalSkill1DscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill1.id);//skill.description;
 		
-		TNormalSkill ns1 = sbi1 as TNormalSkill;
-		List<uint> sprNameList1 = ns1.Object.activeBlocks;
+		NormalSkill ns1 = sbi1 as NormalSkill;
+		List<uint> sprNameList1 = ns1.activeBlocks;
 		for( int i = 0; i < sprNameList1.Count; i++ ){
 			blockLsit1[ i ].enabled = true;
 			blockLsit1[ i ].spriteName = sprNameList1[ i ].ToString();
 		}
 
 		///skill 2
-		int skillId2 = unitInfo.PassiveSkill == 0 ? unitInfo.NormalSkill2 : unitInfo.PassiveSkill;
+		int skillId2 = unitInfo.passiveSkill == 0 ? unitInfo.skill2 : unitInfo.passiveSkill;
 		if (skillId2 == 0) {
 			normalSkill2NameLabel.text = TextCenter.GetText("Text_None");
 			normalSkill2DscpLabel.text = "";
 			return;	
 		}
 		
-		SkillBaseInfo sbi2 = null;//Skill[ skillId ];
+		SkillBase sbi2 = null;//Skill[ skillId ];
 		SkillBase skill2 = null;
 		
-		if (unitInfo.PassiveSkill == 0) {
+		if (unitInfo.passiveSkill == 0) {
 			sbi2 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId2, SkillType.NormalSkill);
-			skill2 = sbi2.GetSkillInfo();
+			skill2 = sbi2;
 			FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Normal_Skill_2");
-			TNormalSkill ns2 = sbi2 as TNormalSkill;
-			List<uint> sprNameList2 = ns2.Object.activeBlocks;
+			NormalSkill ns2 = sbi2 as NormalSkill;
+			List<uint> sprNameList2 = ns2.activeBlocks;
 			for( int i = 0; i < sprNameList2.Count; i++ ){
 				blockLsit2[ i ].enabled = true;
 				blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
 			}
 		}else{
 			sbi2 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId2, SkillType.PassiveSkill);
-			skill2 = sbi2.GetSkillInfo();
+			skill2 = sbi2;
 			FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Passive_Skill");
 		}
 		normalSkill2NameLabel.text = TextCenter.GetText ("SkillName_"+skill2.id); //skill.name;
@@ -554,31 +554,31 @@ public class UnitDetailView : ViewBase{
 
 
 		///------------leader skill
-		int skillId3 = unitInfo.LeaderSkill;
+		int skillId3 = unitInfo.leaderSkill;
 		if (skillId3 == 0) {
 			leaderSkillNameLabel.text = TextCenter.GetText("Text_None");
 			leaderSkillDscpLabel.text = "";
 			return;	
 		}
-		SkillBase skill3 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId3, SkillType.NormalSkill).GetSkillInfo();
+		SkillBase skill3 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId3, SkillType.NormalSkill);
 		leaderSkillNameLabel.text = TextCenter.GetText ("SkillName_"+skill3.id);//skill.name;
 		leaderSkillDscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill3.id);//skill.description;
 
 		////-----------active skill
 		/// TUnitInfo unitInfo = data.UnitInfo;
-		int skillId4 = unitInfo.ActiveSkill;
+		int skillId4 = unitInfo.activeSkill;
 		if (skillId4 == 0) {
 			activeSkillNameLabel.text = TextCenter.GetText("Text_None");
 			activeSkillDscpLabel.text = "";
 			return;	
 		} 
-		SkillBase skill4 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId4, SkillType.NormalSkill).GetSkillInfo();
+		SkillBase skill4 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId4, SkillType.NormalSkill);
 		activeSkillNameLabel.text = TextCenter.GetText ("SkillName_" + skill4.id);//skill.name;
 		activeSkillDscpLabel.text = TextCenter.GetText ("SkillDesc_" + skill4.id);//skill.description;
 	
 
 		////--------profile content
-		if (unitInfo.Race == EUnitRace.EVOLVEPARTS || (unitInfo.ID >= 49 && unitInfo.ID <= 72)) {
+		if (unitInfo.race == EUnitRace.EVOLVEPARTS || (unitInfo.id >= 49 && unitInfo.id <= 72)) {
 			profileLabel.text = GetWayString(unitInfo.UnitGetWay);
 			profileTitle.text = TextCenter.GetText ("UnitDetail_EvolveTitle");
 		}else{
@@ -605,13 +605,13 @@ public class UnitDetailView : ViewBase{
 		unitAlpha.PlayForward();
 	}
 	
-	void ShowBodyTexture( TUserUnit data ){
+	void ShowBodyTexture( UserUnit data ){
 		if (data==null) {
 			Debug.LogError("ShowBodyTexture(null) >>>> ERROR: data is null!");
 			return;
 		}
-		TUnitInfo unitInfo = data.UnitInfo;
-		ResourceManager.Instance.GetAvatar( UnitAssetType.Profile,unitInfo.ID, o=>{
+		UnitInfo unitInfo = data.UnitInfo;
+		ResourceManager.Instance.GetAvatar( UnitAssetType.Profile,unitInfo.id, o=>{
 			Texture2D target = o as Texture2D;
 			DGTools.ShowTexture(unitBodyTex, target);
 			ShowTexture = true;
@@ -625,7 +625,7 @@ public class UnitDetailView : ViewBase{
 			return;
 		}
 
-		levelLabel.text = curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.MaxLevel;
+		levelLabel.text = curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.maxLevel;
 
 		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(curLevel); 
 
@@ -653,7 +653,7 @@ public class UnitDetailView : ViewBase{
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 
 		if (oldBlendUnit != null) {
-			if(curLevel >= oldBlendUnit.UnitInfo.MaxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+			if(curLevel >= oldBlendUnit.UnitInfo.maxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
 				UnitController.Instance.UserguideEvoUnit(o=>{
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
@@ -664,7 +664,7 @@ public class UnitDetailView : ViewBase{
 					}else {
 						Debug.LogError("UserGuideEvolveUnit ret err:"+rsp.header.code);
 					}
-				},oldBlendUnit.UnitID);
+				},oldBlendUnit.unitId);
 			}
 
 			oldBlendUnit = null;	
@@ -703,7 +703,7 @@ public class UnitDetailView : ViewBase{
 		if(curExp >= currMaxExp) {
 			gotExp += curExp - currMaxExp;
 			curExp = 0;
-			if ( curLevel < oldBlendUnit.UnitInfo.MaxLevel ){
+			if ( curLevel < oldBlendUnit.UnitInfo.maxLevel ){
 				curLevel ++;
 				PlayLevelupEffect();
 			} else { // reach MaxLevel
@@ -719,9 +719,9 @@ public class UnitDetailView : ViewBase{
 
 		int needExp = currMaxExp - curExp;
 
-		if ((curLevel > oldBlendUnit.UnitInfo.MaxLevel) 
-		    || (curLevel == oldBlendUnit.UnitInfo.MaxLevel && needExp <= 0) ) {
-			levelLabel.text = oldBlendUnit.UnitInfo.MaxLevel.ToString() + "/" + oldBlendUnit.UnitInfo.MaxLevel.ToString();
+		if ((curLevel > oldBlendUnit.UnitInfo.maxLevel) 
+		    || (curLevel == oldBlendUnit.UnitInfo.maxLevel && needExp <= 0) ) {
+			levelLabel.text = oldBlendUnit.UnitInfo.maxLevel.ToString() + "/" + oldBlendUnit.UnitInfo.maxLevel.ToString();
 			needExpLabel.text = "Max";
 			expSlider.value = 1.0f;
 			return;
@@ -737,14 +737,14 @@ public class UnitDetailView : ViewBase{
 	}
 
 	private void ShowFavState(object msg){
-		UpdateFavView(curUserUnit.IsFavorite);
+		UpdateFavView(curUserUnit.isFavorite);
 	}
 
 	private void ClickLock(GameObject go){
 		Debug.LogError ("ClickLock : " + curUserUnit);
-		bool isFav = (curUserUnit.IsFavorite == 1) ? true : false;
+		bool isFav = (curUserUnit.isFavorite == 1) ? true : false;
 		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
-		UnitController.Instance.UnitFavorite(OnRspChangeFavState, curUserUnit.ID, favAction);
+		UnitController.Instance.UnitFavorite(OnRspChangeFavState, curUserUnit.uniqueId, favAction);
 	}
 
 	private void OnRspChangeFavState(object data){
@@ -757,12 +757,12 @@ public class UnitDetailView : ViewBase{
 			return;
 		}
 
-		curUserUnit.IsFavorite = (curUserUnit.IsFavorite == 1) ? 0 : 1;
+		curUserUnit.isFavorite = (curUserUnit.isFavorite == 1) ? 0 : 1;
 
 		//update the user unit 
-		DataCenter.Instance.UserUnitList.UpdateMyUnit( curUserUnit.Unit );
+		DataCenter.Instance.UserUnitList.UpdateMyUnit( curUserUnit );
 
-		UpdateFavView(curUserUnit.IsFavorite);
+		UpdateFavView(curUserUnit.isFavorite);
 
 		isFavorStateChanged = true;
 	}
@@ -777,7 +777,7 @@ public class UnitDetailView : ViewBase{
 			background.enabled = true;
 		}
 
-		Debug.Log("Name is : " + curUserUnit.UnitInfo.Name + "  UpdateFavView(), isFav : " + (isFav == 1));
+		Debug.Log("Name is : " + curUserUnit.UnitInfo.name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Lock_close";
 			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
@@ -834,8 +834,8 @@ public class UnitDetailView : ViewBase{
 
 	void LevelUpAnim() {
 
-		curLevel = oldBlendUnit.Level;
-		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.MaxLevel;
+		curLevel = oldBlendUnit.level;
+		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
 		gotExp = levelUpData.blendExp;
 		
 		levelDone = gotExp > 0;

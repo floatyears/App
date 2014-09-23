@@ -71,7 +71,7 @@ public class HelperUnitItem : FriendUnitItem {
 
 		friendTypeLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
 		friendPointLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
-		switch (friendInfo.FriendState) {
+		switch (friendInfo.friendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
 				friendTypeLabel.text = TextCenter.GetText("Text_Support");
 				rankLabel.color = Color.white;
@@ -92,8 +92,8 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	private void SetFriendPoint(){
-		if(friendInfo.FriendPoint != 0){
-			friendPointLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.FriendPoint.ToString());
+		if(friendInfo.friendPoint != 0){
+			friendPointLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.friendPoint.ToString());
 		}
 		else{
 			friendPointLabel.text = string.Empty;
@@ -101,7 +101,7 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	private void SetFriendRank(){
-		rankLabel.text = TextCenter.GetText("Text_Rank")+": " + friendInfo.Rank;
+		rankLabel.text = TextCenter.GetText("Text_Rank")+": " + friendInfo.rank;
 	}
 
 }

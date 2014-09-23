@@ -6,10 +6,10 @@ public class KnockdownAttack : ActiveSkill {
 	private SkillSingleAttack instance;
 	public KnockdownAttack (object instance) : base (instance){ 
 		this.instance = instance as SkillSingleAttack;
-		skillBase = this.instance.baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 //	public bool CoolingDone {
@@ -30,7 +30,7 @@ public class KnockdownAttack : ActiveSkill {
 //		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
 		AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 		float value = DGTools.RandomToFloat ();
 //		Debug.LogError ("random value : " + value);
 		if (value <= instance.value) {

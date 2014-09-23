@@ -5,7 +5,7 @@ using bbproto;
 
 public class LevelUpMaterialWindow : ViewBase {
 	DragPanel materialDragPanel;
-	private List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
+	private List<UserUnit> userUnitInfoList = new List<UserUnit>();
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);

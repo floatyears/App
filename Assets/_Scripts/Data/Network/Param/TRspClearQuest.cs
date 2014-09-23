@@ -15,6 +15,6 @@ public class TRspClearQuest {
     public int			gotExp;	
     public int			gotStone;
     public int			gotFriendPoint;
-    public List<TUserUnit>		gotUnit = new List<TUserUnit>();
-	public TUserUnit evolveUser;
+    public List<UserUnit>		gotUnit = new List<UserUnit>();
+	public UserUnit evolveUser;
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class ApplyMessageModule : ModuleBase{
 
@@ -34,7 +35,7 @@ public class ApplyMessageModule : ModuleBase{
 	}
 
 	void ShowApplyInfo(object msg){
-		TFriendInfo tfi = msg as TFriendInfo;
+		FriendInfo tfi = msg as FriendInfo;
 		RefreshApplyFriendInfo(tfi);
 	}
 
@@ -52,7 +53,7 @@ public class ApplyMessageModule : ModuleBase{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ViewApplyInfo, ShowApplyInfo);
 	}
 
-	void RefreshApplyFriendInfo(TFriendInfo tfi){
+	void RefreshApplyFriendInfo(FriendInfo tfi){
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs();
 		view.CallbackView("RefreshContent", tfi);
 	}

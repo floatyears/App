@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class QuestItemView : MonoBehaviour {
 	private UISprite bossAvatarSpr;
@@ -39,8 +40,8 @@ public class QuestItemView : MonoBehaviour {
 		}
 	}
 
-	private TQuestInfo data;
-	public TQuestInfo Data{
+	private QuestInfo data;
+	public QuestInfo Data{
 		get{
 			return data;
 		}
@@ -56,26 +57,26 @@ public class QuestItemView : MonoBehaviour {
 		}
 	}
 
-	private TStageInfo _stageInfo;
-	public TStageInfo stageInfo{
-		set { _stageInfo = value; stageID = _stageInfo.ID; }
+	private StageInfo _stageInfo;
+	public StageInfo stageInfo{
+		set { _stageInfo = value; stageID = _stageInfo.id; }
 		get {return _stageInfo;}
 	}
 
 	public Callback evolveCallback;
 	
 	private void ShowQuestInfo(){
-		ResourceManager.Instance.GetAvatarAtlas(data.BossID[ 0 ], bossAvatarSpr);
+		ResourceManager.Instance.GetAvatarAtlas(data.bossId[ 0 ], bossAvatarSpr);
 	
-		nameLabel.text = data.Name;
+		nameLabel.text = data.name;
 		//staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
-		staminaLabel.text = TextCenter.GetText("Stamina") + " " + data.Stamina;
+		staminaLabel.text = TextCenter.GetText("Stamina") + " " + data.stamina;
 		//floorLabel.text = string.Format( "FLOOR {0}", data.Floor);
 //		floorLabel.text = TextCenter.GetText("Floor") + " " + data.Floor;
 
-		expLabel.text = data.RewardExp.ToString();
-		coinLabel.text = data.RewardMoney.ToString();
-		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.ID);
+		expLabel.text = data.rewardExp.ToString();
+		coinLabel.text = data.rewardMoney.ToString();
+		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.id);
 
 		/*Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
 		          + ", isClear = " + isClear);*/
@@ -86,7 +87,7 @@ public class QuestItemView : MonoBehaviour {
 
 		clearFlagLabel.text = isClear ? TextCenter.GetText("clearQuest") : "";
 
-		TUnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.BossID[ 0 ]);
+		UnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.bossId[ 0 ]);
 		avatarBgSpr.spriteName = bossUnitInfo.GetUnitBackgroundName();
 //		Debug.Log("avatarBgSpr.spriteName : " + avatarBgSpr.spriteName);
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
@@ -137,7 +138,7 @@ public class QuestItemView : MonoBehaviour {
 	}
 
 	private bool CheckStaminaEnough(){
-		int staminaNeed = Data.Stamina;
+		int staminaNeed = Data.stamina;
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
 
 		if(staminaNeed > staminaNow) 

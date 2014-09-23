@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class UnitItemInfo : MonoBehaviour{
 	private GameObject _scrollItem;
@@ -17,9 +18,9 @@ public class UnitItemInfo : MonoBehaviour{
 
 	public UISprite star;
 
-	private TUserUnit _userUnitItem;
+	private UserUnit _userUnitItem;
 
-	public TUserUnit userUnitItem {
+	public UserUnit userUnitItem {
 		set { _userUnitItem = value; RefreshInfo();}
 		get { return _userUnitItem; }
 	}
@@ -84,12 +85,12 @@ public class UnitItemInfo : MonoBehaviour{
 	}
 
 	void RefreshInfo() {
-		ResourceManager.Instance.GetAvatar (UnitAssetType.Avatar,userUnitItem.UnitID, o=>{
+		ResourceManager.Instance.GetAvatar (UnitAssetType.Avatar,userUnitItem.unitId, o=>{
 //			userUnitItem.UnitInfo
 			mainTexture.mainTexture = o as Texture2D;
 		});
-		IsFavorate (userUnitItem.IsFavorite);
-		bool isParty = DataCenter.Instance.PartyInfo.UnitIsInParty (userUnitItem.ID);
+		IsFavorate (userUnitItem.isFavorite);
+		bool isParty = DataCenter.Instance.PartyInfo.UnitIsInParty (userUnitItem.uniqueId);
 		IsPartyItem(isParty);
 		bbproto.EvolveInfo ei = userUnitItem.UnitInfo.evolveInfo;
 		if (ei == null || ei.materialUnitId.Count == 0) {
@@ -185,15 +186,15 @@ public class UnitItemViewInfo {
         }
     }
 
-    private TUserUnit dataItem;
-    public TUserUnit DataItem {
+    private UserUnit dataItem;
+    public UserUnit DataItem {
         get {
             return dataItem;
         }
     }
 
-	private TFriendInfo helperItem;
-	public TFriendInfo HelperItem {
+	private FriendInfo helperItem;
+	public FriendInfo HelperItem {
 		get {
 			return helperItem;
 		}
@@ -201,12 +202,12 @@ public class UnitItemViewInfo {
 
     private UnitItemViewInfo(){}
 
-    public static UnitItemViewInfo Create(TUserUnit dataItem) {
+    public static UnitItemViewInfo Create(UserUnit dataItem) {
         UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
         partyUnitItemView.InitWithTUserUnit(dataItem);
         return partyUnitItemView;
     }
-	public static UnitItemViewInfo Create(TUserUnit dataItem, bool inAllParty) {
+	public static UnitItemViewInfo Create(UserUnit dataItem, bool inAllParty) {
 		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
 		partyUnitItemView.InitWithTUserUnit(dataItem);
 		if (inAllParty){
@@ -220,7 +221,7 @@ public class UnitItemViewInfo {
 
 		if(ViewItem == null) return;
 		avatar = ViewItem.transform.FindChild("Texture_Avatar").GetComponent<UITexture>();
-		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, dataItem.UnitID, o=>{
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, dataItem.unitId, o=>{
 //			dataItem.UnitInfo
 			avatar.mainTexture = o as Texture2D;
 		});
@@ -228,14 +229,14 @@ public class UnitItemViewInfo {
 
 
 
-	public static UnitItemViewInfo Create(TFriendInfo friendItem){
+	public static UnitItemViewInfo Create(FriendInfo friendItem){
 		UnitItemViewInfo partyUnitItemView = new UnitItemViewInfo();
 		partyUnitItemView.InitWithTFriendInfo(friendItem);
 		return partyUnitItemView;
 	}
 
 	public void SetStateInAllParty(){
-		IsParty = DataCenter.Instance.PartyInfo.UnitIsInParty(dataItem.ID);
+		IsParty = DataCenter.Instance.PartyInfo.UnitIsInParty(dataItem.uniqueId);
 	}
 
     public void RefreshStates(Dictionary <string, object> statesDic) {
@@ -263,14 +264,14 @@ public class UnitItemViewInfo {
         this.crossShowTextAfter = textList[ 1 ];
     }
 
-    private void InitWithTUserUnit(TUserUnit dataItem) {
+    private void InitWithTUserUnit(UserUnit dataItem) {
         InitDataItem(dataItem);
         InitWithArgs();
 //        GetAvatar();
 		GetTypeColor();
     }
 
-	private void InitWithTFriendInfo(TFriendInfo dataItem) {
+	private void InitWithTFriendInfo(FriendInfo dataItem) {
 		this.dataItem = dataItem.UserUnit;
 		this.helperItem = dataItem;
 		InitWithArgs();
@@ -278,13 +279,13 @@ public class UnitItemViewInfo {
 		GetTypeColor();
 	}
        
-    private void InitDataItem(TUserUnit dataItem) {
+    private void InitDataItem(UserUnit dataItem) {
         this.dataItem = dataItem;
     }
 
     private void InitCrossShowText() {
-        crossShowTextBefore = dataItem.Level.ToString();
-        crossShowTextAfter = (dataItem.AddHP + dataItem.AddAttack).ToString();
+        crossShowTextBefore = dataItem.level.ToString();
+        crossShowTextAfter = (dataItem.addHp + dataItem.addAttack).ToString();
     }
 
     private void InitWithArgs() {
@@ -295,11 +296,11 @@ public class UnitItemViewInfo {
             Debug.LogError("InitWithArgs(), GlobalData.PartyInfo == null, return");
             return;
         }
-        initArgs.Add("party", DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(dataItem.ID));
+        initArgs.Add("party", DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(dataItem.uniqueId));
 
         List<string> textList = new List<string>();
-        textList.Add(dataItem.Level.ToString());
-        textList.Add((dataItem.AddHP + dataItem.AddAttack).ToString());
+        textList.Add(dataItem.level.ToString());
+        textList.Add((dataItem.addHp + dataItem.addAttack).ToString());
         initArgs.Add("cross", textList);
         RefreshStates(initArgs);
     }
@@ -309,7 +310,7 @@ public class UnitItemViewInfo {
     }
 
 	private void GetTypeColor(){
-		switch (dataItem.UnitInfo.Type){
+		switch (dataItem.UnitInfo.type){
 			case bbproto.EUnitType.UFIRE : 
 				typeColor = Color.red;
 				break;

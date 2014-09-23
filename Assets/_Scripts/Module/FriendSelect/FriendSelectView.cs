@@ -4,7 +4,7 @@ using bbproto;
 
 public class FriendSelectView : ViewBase{
 
-	public System.Action<TFriendInfo> selectFriend;
+	public System.Action<FriendInfo> selectFriend;
 	public EvolveItem evolveItem;
 
 	protected DragPanel generalDragPanel = null;
@@ -15,8 +15,8 @@ public class FriendSelectView : ViewBase{
 	protected UIButton premiumBtn;
 	protected UILabel premiumBtnLabel;
 
-	protected List<TFriendInfo> generalFriendList;
-	protected List<TFriendInfo> premiumFriendList;
+	protected List<FriendInfo> generalFriendList;
+	protected List<FriendInfo> premiumFriendList;
 
 	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
 
@@ -65,13 +65,13 @@ public class FriendSelectView : ViewBase{
 		UIEventListener.Get(premiumBtn.gameObject).onClick = ClickPremiumBtn;
 	}
 
-	List<TFriendInfo> GetPremiumData(){
-		List<TFriendInfo> tfiList = new List<TFriendInfo>();
+	List<FriendInfo> GetPremiumData(){
+		List<FriendInfo> tfiList = new List<FriendInfo>();
 		return tfiList;
 	}
 	
 	private void CreatePremiumListView(){
-		List<TFriendInfo> newest = GetPremiumData();
+		List<FriendInfo> newest = GetPremiumData();
 
 		if(premiumFriendList == null){
 			premiumFriendList = newest;
@@ -87,7 +87,7 @@ public class FriendSelectView : ViewBase{
 	}
 
 	private void CreateGeneralListView(){
-		List<TFriendInfo> newest = DataCenter.Instance.supportFriendManager.GetSupportFriend ();//SupportFriends;
+		List<FriendInfo> newest = DataCenter.Instance.supportFriendManager.GetSupportFriend ();//SupportFriends;
 		if(generalFriendList == null){
 			generalFriendList = newest;
 			generalDragPanel = RefreshDragView(FriendInfoType.General);
@@ -106,7 +106,7 @@ public class FriendSelectView : ViewBase{
 		DragPanel dragPanel = null;
 		friendInfoTyp = fType;
 		string dragPanelName;
-		List<TFriendInfo> dataList;
+		List<FriendInfo> dataList;
 
 		if(fType == FriendInfoType.General){
 			dragPanelName = "GeneralDragPanel";
@@ -212,7 +212,7 @@ public class FriendSelectView : ViewBase{
 	/// <param name="staminaNeed">Stamina need.</param>
 	/// <param name="staminaNow">Stamina now.</param>
 	private bool CheckStaminaEnough(){
-		int staminaNeed = pickedQuestInfo.Data.Stamina;
+		int staminaNeed = pickedQuestInfo.Data.stamina;
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
 		if(staminaNeed > staminaNow) return true;
 		else return false;
@@ -247,11 +247,11 @@ public class FriendSelectView : ViewBase{
 
 	bool isShowPremium = false;
 	protected void ClickPremiumBtn(GameObject btn){
-		TUserUnit leader = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
+		UserUnit leader = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 
 		EUnitRace race = (EUnitRace)leader.UnitRace;
 		EUnitType type = (EUnitType)leader.UnitType;
-		int level = leader.Level;
+		int level = leader.level;
 
 		FriendController.Instance.GetPremiumHelper(OnRspGetPremium, race, type, level, 0);
 	}
@@ -270,12 +270,9 @@ public class FriendSelectView : ViewBase{
 			return;
 		}
 
-		List<TFriendInfo> rspPremiumList = new List<TFriendInfo>();
+		List<FriendInfo> rspPremiumList = new List<FriendInfo>();
 
-		for (int i = 0; i < rspFriendInfo.Count; i++){
-			TFriendInfo tfi = new TFriendInfo(rspFriendInfo[ i ]);
-			rspPremiumList.Add(tfi);
-		}
+		rspPremiumList.AddRange(rspFriendInfo);
 
 		premiumFriendList = rspPremiumList;
 
@@ -317,9 +314,9 @@ public class FriendSelectView : ViewBase{
 		}
 	}
 	
-	bool CheckEvolve(HelperRequire hr, TUserUnit tuu) {
+	bool CheckEvolve(HelperRequire hr, UserUnit tuu) {
 
-		if (tuu.Level >= hr.level && ((hr.race == 0) || (tuu.UnitRace == (int)hr.race)) && ((hr.type == 0) || (tuu.UnitType == (int)hr.type))) {
+		if (tuu.level >= hr.level && ((hr.race == 0) || (tuu.UnitRace == (int)hr.race)) && ((hr.type == 0) || (tuu.UnitType == (int)hr.type))) {
 			return true;	
 		} else {
 			return false;	

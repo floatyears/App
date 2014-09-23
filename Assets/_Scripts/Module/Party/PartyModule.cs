@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class PartyModule : ModuleBase{
 	private int currentFoucsPosition;
@@ -65,7 +66,7 @@ public class PartyModule : ModuleBase{
 		SetFocusPostion(position);
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
 //		TUserUnit tuu = null;
-		List<TUserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
+		List<UserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
 //		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
 //		if (temp[ position - 1 ] == null) {
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
@@ -90,12 +91,12 @@ public class PartyModule : ModuleBase{
 			return;
 		}
 
-		List<TUserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		List<UserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
 		if (tuu[currentFoucsPosition - 1]==null)
 			return;
 
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
-		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].ID;
+		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].uniqueId;
 	
 //		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0); 
 
@@ -113,7 +114,7 @@ public class PartyModule : ModuleBase{
 	void ShowFocusUnitDetail(object data) {
 		if (currentFoucsPosition == 0)   return;
 		
-		TUserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
+		UserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
 		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",targetUnit);
 	}
 
@@ -129,8 +130,8 @@ public class PartyModule : ModuleBase{
 	void ReplaceFocusPartyItem(object data) {
 //		LogHelper.Log("PartyPageUILogic.ReplaceFocusPartyItem(), Start...");
 		
-		TUserUnit newPartyUnit = data as TUserUnit;
-		uint uniqueId = newPartyUnit.ID;
+		UserUnit newPartyUnit = data as UserUnit;
+		uint uniqueId = newPartyUnit.uniqueId;
 		
 		Dictionary<string,object> replaceArgsDic = new Dictionary<string, object>();
 		replaceArgsDic.Add("position", currentFoucsPosition);

@@ -6,10 +6,10 @@ public class ActiveReduceDefense : ActiveSkill {
 	private SkillReduceDefence instance;
 	public ActiveReduceDefense(object instance) : base (instance) {
 		this.instance = instance as SkillReduceDefence;
-		skillBase = this.instance.baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 	AttackInfo reduceDefense = null;
@@ -24,7 +24,7 @@ public class ActiveReduceDefense : ActiveSkill {
 		ai.UserUnitID = userUnitID;
 		ai.AttackRound = instance.period;
 		ai.AttackValue = instance.value;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 //		b = true;
 		return ExcuteByDisk(ai);
 	}

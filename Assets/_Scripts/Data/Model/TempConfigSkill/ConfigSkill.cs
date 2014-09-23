@@ -11,7 +11,7 @@ public class ConfigSkill  {
 
 	void ConfigHeartSkill () {
 		//General recoverHP skillId: [101 - 104]
-		Dictionary<int,SkillBaseInfo> infoList = new Dictionary<int, SkillBaseInfo> ();
+		Dictionary<int,SkillBase> infoList = new Dictionary<int, SkillBase> ();
 		for (int i = 1; i <= 4; i++) {
 			NormalSkill ns			= new NormalSkill ();
 			ns.baseInfo				= new SkillBase ();
@@ -31,7 +31,7 @@ public class ConfigSkill  {
 				ns.activeBlocks.Add( (int)bbproto.EUnitType.UHeart );
 			}
 
-			TNormalSkill tns = new TNormalSkill(ns);
+			NormalSkill tns = ns;
 			if(infoList.ContainsKey(ns.baseInfo.id)) {
 				infoList[ns.baseInfo.id] = tns;
 			}else{

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
@@ -56,22 +56,22 @@ public class FightReadyPage : ViewBase {
 		helper = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 	}
 
-	public void RefreshParty(TUnitParty party){
+	public void RefreshParty(UnitParty party){
 		RefreshView (party.GetUserUnit ());
 		
 		ShowPartyInfo(party);
 	}
 
-	private void RefreshView(List<TUserUnit> partyData) {
+	private void RefreshView(List<UserUnit> partyData) {
 		for (int i = 0; i < partyData.Count; i++) {
 			partyView[i].UserUnit = partyData[i];
 		}
 	}
 
-	private void ShowPartyInfo(TUnitParty party){
+	private void ShowPartyInfo(UnitParty party){
 //		Debug.LogError ("FightReadyView.pickedHelperInfo == null : " + (FightReadyView.pickedHelperInfo == null));
 		if(FightReadyView.pickedHelperInfo == null) return;
-		int partyIDIndex = party.ID + 1;
+		int partyIDIndex = party.id + 1;
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
 		partyNoLabel.text = partyIDIndex.ToString() + "/" + suffix;
 		UpdateOwnLeaderSkillInfo(party);
@@ -83,12 +83,12 @@ public class FightReadyPage : ViewBase {
 		}
 	}
 
-	void ShowHelper(TFriendInfo friendInfo) {
+	void ShowHelper(FriendInfo friendInfo) {
 		helper.Init(friendInfo);
 	} 
 	
 
-	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
+	private void UpdateOwnLeaderSkillInfo(UnitParty curParty){
 		SkillBase skill = curParty.GetLeaderSkillInfo();
 		UpdateLeaderSkillView(skill, ownSkillNameLabel, ownSkillDscpLabel);
 	}
@@ -98,19 +98,19 @@ public class FightReadyPage : ViewBase {
 			return;
 		}
 		
-		TUnitInfo unitInfo = FightReadyView.pickedHelperInfo.UserUnit.UnitInfo;
-		int skillId = unitInfo.LeaderSkill;
+		UnitInfo unitInfo = FightReadyView.pickedHelperInfo.UserUnit.UnitInfo;
+		int skillId = unitInfo.leaderSkill;
 		if(skillId == 0){
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		} else {
 			string userUnitKey = FightReadyView.pickedHelperInfo.UserUnit.MakeUserUnitKey();
-			SkillBaseInfo baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
-			SkillBase leaderSkill = baseInfo.GetSkillInfo();	
+			SkillBase baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
+			SkillBase leaderSkill = baseInfo;	
 			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
 		}
 	}
 
-	private void UpdatePartyAtkInfo(TUnitParty curParty){
+	private void UpdatePartyAtkInfo(UnitParty curParty){
 		int totalHp = curParty.TotalHp + FightReadyView.pickedHelperInfo.UserUnit.Hp;
 		totalHPLabel.text = totalHp.ToString();
 		

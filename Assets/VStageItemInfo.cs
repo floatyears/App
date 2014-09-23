@@ -13,8 +13,8 @@ public class VStageItemInfo{
 		}
 	}
 
-	private TStageInfo stageInfo;
-	public TStageInfo StageInfo{
+	private StageInfo stageInfo;
+	public StageInfo StageInfo{
 		get{
 			return stageInfo;
 		}
@@ -53,7 +53,7 @@ public class VStageItemInfo{
 		}
 	}
 
-	public void Refresh(GameObject viewItem, TStageInfo stageInfo){
+	public void Refresh(GameObject viewItem, StageInfo stageInfo){
 		this.viewItem = viewItem;
 		this.stageInfo = stageInfo;
 
@@ -61,9 +61,9 @@ public class VStageItemInfo{
 		nameLabel = viewItem.transform.Find("Label_Bottom").GetComponent<UILabel>();
 		texture = viewItem.transform.Find("Texture").GetComponent<UITexture>();
 
-		clearInfoLabel.text = GetStageStateText(stageInfo.State);
-		clearInfoLabel.color = GetStageStateTextColor(stageInfo.State);
-		nameLabel.text = stageInfo.StageName;
+		clearInfoLabel.text = GetStageStateText(stageInfo.state);
+		clearInfoLabel.color = GetStageStateTextColor(stageInfo.state);
+		nameLabel.text = stageInfo.stageName;
 		texture.mainTexture = Resources.Load("Stage/" + stageInfo.StageId) as Texture2D;
 	}
 

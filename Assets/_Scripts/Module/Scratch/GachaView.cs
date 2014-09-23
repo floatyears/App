@@ -25,7 +25,7 @@ public class GachaView : ViewBase {
     private List<GameObject> clickedGrids = new List<GameObject>();
 
     private Dictionary<GameObject, int> gridDict = new Dictionary<GameObject, int>();
-    private Dictionary<GameObject, TUserUnit> gridUnitDict = new Dictionary<GameObject, TUserUnit>();
+    private Dictionary<GameObject, UserUnit> gridUnitDict = new Dictionary<GameObject, UserUnit>();
 
 	public override void Init ( UIConfigItem config, Dictionary<string, object> data = null ) {
         base.Init (config, data);
@@ -120,8 +120,8 @@ public class GachaView : ViewBase {
 		currentUserUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
 		currentGrid = grid;
 		sprite = currentGrid.transform.Find ("Cell/Texture").GetComponent<UISprite> ();
-		TUnitInfo tui = currentUserUnit.UnitInfo;
-		ResourceManager.Instance.GetAvatarAtlas(tui.ID, sprite, o => {
+		UnitInfo tui = currentUserUnit.UnitInfo;
+		ResourceManager.Instance.GetAvatarAtlas(tui.id, sprite, o => {
 			sprite.enabled = false;
 		});
 
@@ -130,7 +130,7 @@ public class GachaView : ViewBase {
 
 	GameObject currentGrid = null;
 	UISprite sprite = null;
-	TUserUnit currentUserUnit = null;
+	UserUnit currentUserUnit = null;
 
 	void RecoverScale() {
 		currentGrid.transform.Find ("Label").GetComponent<UILabel> ().text = "";
@@ -142,11 +142,11 @@ public class GachaView : ViewBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 		GameTimer.GetInstance ().AddCountDown (0.3f, () => {
 			autoShowIndex += 1;
-			bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserUnit.UnitID);
+			bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserUnit.unitId);
 			if (have) {
 				AutoShowOneCard ();
 			} else {
-				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.UnitID);
+				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.unitId);
 				ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, "data",currentUserUnit);
 			}
 		});
@@ -245,8 +245,8 @@ public class GachaView : ViewBase {
     }
 
     private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
-        TUserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueId);
-        ShowUnitById(btn, userUnit.UnitInfo.ID, userUnit);
+        UserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueId);
+        ShowUnitById(btn, userUnit.UnitInfo.id, userUnit);
         DealAfterShowUnit(gridDict[btn]);
     }
 
@@ -260,7 +260,7 @@ public class GachaView : ViewBase {
 
         yield return new WaitForSeconds(0.5f);
 //		Debug.LogError ("ShowUnitRareById : " + grid);
-		TUserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
+		UserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
@@ -271,7 +271,7 @@ public class GachaView : ViewBase {
         DealAfterShowUnit(gridDict[grid]);
     }
 
-    private void ShowUnitById(GameObject grid, uint unitId, TUserUnit userUnit = null){
+    private void ShowUnitById(GameObject grid, uint unitId, UserUnit userUnit = null){
         LogHelper.Log("ShowUnitById(), unitId {0}, userUnit not null= {1} btn not null= {2}", unitId, userUnit != null, grid != null);
         // 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
@@ -279,12 +279,12 @@ public class GachaView : ViewBase {
         UISprite background = grid.transform.FindChild("Cell/Background").GetComponent<UISprite>();
 
 		UISprite texture = grid.transform.FindChild("Cell/Texture").GetComponent<UISprite>();
-        TUnitInfo currentUnitInfo;
+        UnitInfo currentUnitInfo;
         int level;
 
         if (userUnit != null){
             currentUnitInfo = userUnit.UnitInfo;
-            level = userUnit.Level;
+            level = userUnit.level;
             SetAddInfo(grid, userUnit);
         }
         else {
@@ -292,7 +292,7 @@ public class GachaView : ViewBase {
             level = 1;
         }
 
-		ResourceManager.Instance.GetAvatarAtlas (currentUnitInfo.ID, texture);
+		ResourceManager.Instance.GetAvatarAtlas (currentUnitInfo.id, texture);
 //		currentUnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //			texture.mainTexture = o as Texture2D;
 //		});
@@ -302,7 +302,7 @@ public class GachaView : ViewBase {
         SyncGachaInfos();
     }
 
-    private void SetAddInfo(GameObject btn, TUserUnit userUnit){
+    private void SetAddInfo(GameObject btn, UserUnit userUnit){
         //
         LogHelper.Log("SetAddInfo() ");
     }
@@ -373,14 +373,14 @@ public class GachaView : ViewBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 
 		GameObject grid = sortedGrids[showIndex];
-    	ShowUnitById(grid, gridUnitDict[grid].UnitInfo.ID, gridUnitDict[grid]);
+    	ShowUnitById(grid, gridUnitDict[grid].UnitInfo.id, gridUnitDict[grid]);
 		showIndex += 1;
-		TUserUnit currentUserunit = gridUnitDict [grid];
-		bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserunit.UnitID);
+		UserUnit currentUserunit = gridUnitDict [grid];
+		bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserunit.unitId);
 		if (have) {
 			ShowUnitGrid ();
 		} else {
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.Object.unitId);
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.unitId);
 //			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
 //			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule,"data",currentUserunit);

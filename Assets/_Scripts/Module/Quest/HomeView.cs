@@ -9,7 +9,7 @@ public class HomeView : ViewBase{
 	private DragPanel storyDragPanel;
 	private DragPanel eventDragPanel;
 	private Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo>();
-	private Dictionary<GameObject, TCityInfo> cityViewInfo = new Dictionary<GameObject, TCityInfo>();
+	private Dictionary<GameObject, CityInfo> cityViewInfo = new Dictionary<GameObject, CityInfo>();
 
 	private UISprite fog;
 
@@ -112,12 +112,12 @@ public class HomeView : ViewBase{
 	}
 
 	void CreateStoryView(object args){
-		List<TCityInfo> tciList = args as List<TCityInfo>;
+		List<CityInfo> tciList = args as List<CityInfo>;
 		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab,transform);
 		CreateScrollView(storyDragPanel, tciList);
 	}
 
-	void CreateScrollView(DragPanel panel, List<TCityInfo> cityList){
+	void CreateScrollView(DragPanel panel, List<CityInfo> cityList){
 //		panel.CreatUI();
 		panel.AddItem(GetDragPanelCellCount(cityList));               
 		UpdateInfo (panel, cityList);
@@ -126,13 +126,13 @@ public class HomeView : ViewBase{
 			UIEventListener.Get(item).onClick = ClickStoryItem;
 	}
 
-	void UpdateInfo (DragPanel panel, List<TCityInfo> cityList) {
-		List<TStageInfo> temp = new List<TStageInfo>();
+	void UpdateInfo (DragPanel panel, List<CityInfo> cityList) {
+		List<StageInfo> temp = new List<StageInfo>();
 		for (int i = 0; i < cityList.Count; i++) {
-			TCityInfo tci = cityList[ i ];
-			for (int j = 0; j < tci.Stages.Count; j++) {
-				TStageInfo tsi = tci.Stages[ j ];
-				tsi.InitStageId(tci.ID);
+			CityInfo tci = cityList[ i ];
+			for (int j = 0; j < tci.stages.Count; j++) {
+				StageInfo tsi = tci.stages[ j ];
+				tsi.InitStageId(tci.id);
 				temp.Add(tsi);
 			}
 		}
@@ -144,10 +144,10 @@ public class HomeView : ViewBase{
 		}
 	}
 	
-	int GetDragPanelCellCount(List<TCityInfo> cityList){
+	int GetDragPanelCellCount(List<CityInfo> cityList){
 		int count = 0;
 		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
-			count += cityList[ cityIndex ].Stages.Count;
+			count += cityList[ cityIndex ].stages.Count;
 		}
 		return count;
 	}
@@ -176,7 +176,7 @@ public class HomeView : ViewBase{
 	/// Gets the city view info, bind gameObject with data.
 	/// </summary>
 	private void GetCityViewInfo(){
-		List<TCityInfo> data = DataCenter.Instance.GetCityListInfo();
+		List<CityInfo> data = DataCenter.Instance.GetCityListInfo();
 		for (int i = 0; i < data.Count; i++){
 			GameObject cityItem = transform.FindChild("StoryDoor/" + i.ToString()).gameObject;
 			FindChild("StoryDoor/" + i.ToString() + "/Label").GetComponent<UILabel>().text = TextCenter.GetText("City_Name_" + (i+1));
@@ -218,12 +218,12 @@ public class HomeView : ViewBase{
 			return;
 		}
                 
-		if (DataCenter.Instance.QuestClearInfo.GetStoryCityState (cityViewInfo [item].ID) == StageState.LOCKED) {
+		if (DataCenter.Instance.QuestClearInfo.GetStoryCityState (cityViewInfo [item].id) == StageState.LOCKED) {
 			TipsManager.Instance.ShowTipsLabel (TextCenter.GetText ("Stage_Locked"), item);
 		} else {
 //			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-			if(cityViewInfo [item].ID == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+			if(cityViewInfo [item].id == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				
 //				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
@@ -234,9 +234,9 @@ public class HomeView : ViewBase{
 			}
 
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityViewInfo [item].ID);
+			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityViewInfo [item].id);
 //			MsgCenter.Instance.Invoke (CommandEnum.OnPickStoryCity, cityViewInfo [item].ID);
-			Debug.Log ("CityID is : " + cityViewInfo [item].ID);
+			Debug.Log ("CityID is : " + cityViewInfo [item].id);
 		}
 	}
 

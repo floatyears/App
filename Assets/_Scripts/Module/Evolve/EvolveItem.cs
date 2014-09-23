@@ -6,7 +6,7 @@ using bbproto;
 public class EvolveItem {
 	public GameObject itemObject;
 //	public BoxCollider boxCollider;
-	public TUserUnit userUnit;
+	public UserUnit userUnit;
 	public UISprite showTexture;
 	public UILabel haveLabel;
 	public UISprite maskSprite;
@@ -36,7 +36,7 @@ public class EvolveItem {
 		maskSprite = trans.Find ("Mask").GetComponent<UISprite> ();
 	}
 
-	public void Refresh (TUserUnit tuu, bool isHave = true) {
+	public void Refresh (UserUnit tuu, bool isHave = true) {
 		userUnit = tuu;
 		HaveUserUnit = isHave;
 		ShowShield (!isHave);
@@ -52,7 +52,7 @@ public class EvolveItem {
 //			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //				showTexture.mainTexture = o as Texture2D;
 //			});
-			ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitInfo.ID, showTexture);
+			ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitInfo.id, showTexture);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class EvolveItem {
 	}
 
 	private void ShowUnitType(){
-		switch (userUnit.UnitInfo.Type){
+		switch (userUnit.UnitInfo.type){
 		case EUnitType.UFIRE :
 			bgprite.spriteName = "avatar_bg_fire";
 			borderSprite.spriteName = "avatar_border_fire";

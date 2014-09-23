@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class SearchFriendModule : ModuleBase{
-	TFriendInfo currentSearchFriend;
+	FriendInfo currentSearchFriend;
     uint searchFriendUid;
 
 	public SearchFriendModule(UIConfigItem config) : base(   config ){
@@ -74,8 +75,7 @@ public class SearchFriendModule : ModuleBase{
 			return;
 		}
 
-		TFriendInfo searchResult = new TFriendInfo(rsp.friend);
-		ShowSearchFriendResult(searchResult);
+		ShowSearchFriendResult(rsp.friend);
 	}
 	
 	void AddFriendApplication(uint friendUid){
@@ -107,7 +107,7 @@ public class SearchFriendModule : ModuleBase{
         DataCenter.Instance.SetFriendList(inst);
 	}
 
-	public void ShowSearchFriendResult(TFriendInfo resultInfo){
+	public void ShowSearchFriendResult(FriendInfo resultInfo){
 		currentSearchFriend = resultInfo;
 		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, resultInfo);
 	}
@@ -140,7 +140,7 @@ public class SearchFriendModule : ModuleBase{
 			return;
 		}
 
-		AddFriendApplication(currentSearchFriend.UserId);
+		AddFriendApplication(currentSearchFriend.userId);
 	}
 
 }

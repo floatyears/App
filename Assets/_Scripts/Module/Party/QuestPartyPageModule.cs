@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class QuestPartyPageModule : PartyPageModule{
-	private TEvolveStart evolveStart;
+	private UnitDataModel evolveStart;
 
 	public QuestPartyPageModule(UIConfigItem config) : base(  config){
 //		CreateUI<questp
@@ -29,12 +30,12 @@ public class QuestPartyPageModule : PartyPageModule{
 	}
 
 	void AddHelperItem(object msg){
-		TFriendInfo tfi = msg as TFriendInfo;
+		FriendInfo tfi = msg as FriendInfo;
 		Refresh (tfi);
 	}
 
-	void Refresh (TFriendInfo tfi) {
-		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, tfi.UserUnit.UnitID, o=>{
+	void Refresh (FriendInfo tfi) {
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, tfi.UserUnit.unitId, o=>{
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", o as Texture2D);
 //			tfi.UserUnit.UnitInfo
 			MsgCenter.Instance.Invoke (CommandEnum.RefreshFriendHelper, null);
@@ -44,7 +45,7 @@ public class QuestPartyPageModule : PartyPageModule{
 	}
 	
 	void EvolveSelectQuest(object data) {
-		evolveStart = data as TEvolveStart;
+		evolveStart = data as UnitDataModel;
 		bbproto.UnitParty up = new bbproto.UnitParty ();
 		up.id = 10000;
 		bbproto.PartyItem pi = new bbproto.PartyItem ();

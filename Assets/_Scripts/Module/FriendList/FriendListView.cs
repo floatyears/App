@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class FriendListView : ViewBase{
 	private SortRule curSortRule;
 	private DragPanel dragPanel;
-	private TFriendInfo curPickedFriend;
+	private FriendInfo curPickedFriend;
 	private UIButton updateBtn;
-	private List<TFriendInfo> friendDataList = new List<TFriendInfo>();
+	private List<FriendInfo> friendDataList = new List<FriendInfo>();
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
@@ -120,7 +121,7 @@ public class FriendListView : ViewBase{
 //	}
 
 	void CallBackDeleteFriend(object args){
-		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.UserId);
+		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.userId);
 	}
 
 	void OnDelFriend(object data){

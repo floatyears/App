@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class AttackEffectItem : MonoBehaviour {
 	private UISprite backGroundSprite;
@@ -17,13 +18,13 @@ public class AttackEffectItem : MonoBehaviour {
 
 		callback = cb;
 
-		TUserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
+		UserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
 		if (tuu == null) {
 //			Debug.LogError("userunit is null : " + userUnitID);	
 			return;
 		}
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
-		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTexture, returnValue => {
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture, returnValue => {
 //			BaseUnitItem.SetAvatarSprite (avatarTexture, returnValue, tuu.UnitInfo.ID);
 			Tween ();
 			if (atk == 0) {
@@ -32,17 +33,17 @@ public class AttackEffectItem : MonoBehaviour {
 			}
 
 			if (skillID >= 101 && skillID <= 104) { 						//General RecoverHP Skill
-				SkillBaseInfo sbi = DataCenter.Instance.Skill [skillID]; 	//(userUnitID, skillID, SkillType.NormalSkill);
-				skillNameLabel.text =  TextCenter.GetText (SkillBaseInfo.SkillNamePrefix + skillID);//sbi.skillBase.name;
+				SkillBase sbi = DataCenter.Instance.Skill [skillID]; 	//(userUnitID, skillID, SkillType.NormalSkill);
+				skillNameLabel.text =  TextCenter.GetText (SkillBase.SkillNamePrefix + skillID);//sbi.skillBase.name;
 				ATKLabel.text = "HEAL " + atk;
 			} else {
 				string id = DataCenter.Instance.GetSkillID (userUnitID, skillID);
-				SkillBaseInfo sbi = null;
+				SkillBase sbi = null;
 
 				if (!DataCenter.Instance.AllSkill.TryGetValue (id, out sbi)) {
 						return;
 				}
-				skillNameLabel.text = TextCenter.GetText (SkillBaseInfo.SkillNamePrefix + skillID);
+				skillNameLabel.text = TextCenter.GetText (SkillBase.SkillNamePrefix + skillID);
 				ATKLabel.text = "ATK " + atk;
 			}
 		});

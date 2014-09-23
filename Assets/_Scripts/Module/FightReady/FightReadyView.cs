@@ -64,7 +64,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	#region IDragChangeView implementation
 
 	public void RefreshParty (bool isRight) {	
-		TUnitParty tup = null;
+		UnitParty tup = null;
 		if (isRight) {
 			tup = DataCenter.Instance.PartyInfo.PrevParty;
 		} else {
@@ -124,12 +124,12 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	}
 	
 	private void PrevPage(GameObject go){
-		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
+		UnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty();  
 	}
 	
 	private void NextPage(GameObject go){
-		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
+		UnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty();
 	}
 
@@ -143,7 +143,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	}
 
 	public Dictionary<string, object> pickedInfoForFight;
-	static public TFriendInfo pickedHelperInfo;
+	static public FriendInfo pickedHelperInfo;
 
 	private void RecordPickedInfoForFight(object msg){
 //		Debug.LogError ("RecordPickedInfoForFight msg : " + msg);
@@ -154,7 +154,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //			Debug.LogError("item.key : " + item.Key + " item.value : " + item.Value);
 //		}
 
-		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
+		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as FriendInfo;
 //		ShowHelper(pickedHelperInfo);
 //		Debug.LogError ("RecordPickedInfoForFight");
 		RefreshParty();
@@ -162,7 +162,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 	void EvolveSelectQuest(object data) {
 		Debug.LogError ("EvolveSelectQuest");
-		evolveStart = data as TEvolveStart;
+		evolveStart = data as UnitDataModel;
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 //		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
@@ -171,16 +171,15 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		for (int i = 0; i < evolveStart.evolveParty.Count; i++) {
 			PartyItem pi = new PartyItem();
 			pi.unitPos = i;
-			pi.unitUniqueId = evolveStart.evolveParty[i] == null ? 0 : evolveStart.evolveParty[i].ID;
+			pi.unitUniqueId = evolveStart.evolveParty[i] == null ? 0 : evolveStart.evolveParty[i].uniqueId;
 			up.items.Add(pi);
 		}
 
-		TUnitParty tup = new TUnitParty (up);
 		dragSlider.StopOperate = true;
-		dragSlider.RefreshData (tup);
+		dragSlider.RefreshData (up);
 	}
 
-	void RefreshParty(List<TUserUnit> evolveParty) {
+	void RefreshParty(List<UserUnit> evolveParty) {
 //		for (int i = 0; i < evolveParty.Count; i++){
 //			partyView[ i ].Init(evolveParty [ i ]);
 //		}
@@ -192,7 +191,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //		ShowPartyInfo();
 	}
 
-	void ShowHelper(TFriendInfo friendInfo) {
+	void ShowHelper(FriendInfo friendInfo) {
 		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
 		helperUnitItem.Init(friendInfo);
@@ -211,19 +210,19 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
 			QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
-			sqp.questId = questInfo.Data.ID;
+			sqp.questId = questInfo.Data.id;
 			sqp.stageId = questInfo.StageID;
 			sqp.startNew = 1;
 			QuestController.Instance.StartQuest (sqp, RspStartQuest);
 		}
 	}
 
-	private TEvolveStart evolveStart;
+	private UnitDataModel evolveStart;
 	
 	private void RspStartQuest(object data) {
-		TQuestDungeonData tqdd = null;
+		QuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
@@ -231,13 +230,13 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			return;
 		}
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
-			TFriendInfo tfi = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-			tfi.UseTime = GameTimer.GetInstance().GetCurrentSeonds();
+			FriendInfo tfi = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
+			tfi.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
-			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+			tqdd = rspStartQuest.dungeonData;
 //			ModelManager.Instance.(ModelEnum.MapConfig, tqdd);
 			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
 		}
@@ -256,20 +255,19 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			return;
 		}
 
-		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
 //		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
-		EnterBattle (tqdd);
+		EnterBattle (questDungeonData);
 	}
 	
-	private void EnterBattle (TQuestDungeonData tqdd) {
-		pickedHelperInfo.FriendPoint = 0;
-		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+	private void EnterBattle (QuestDungeonData tqdd) {
+		pickedHelperInfo.friendPoint = 0;
+		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
 		BattleConfigData.Instance.gotFriendPoint = 0;
 		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
@@ -277,7 +275,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		ModuleManager.Instance.EnterBattle ();
 //		UIManager.Instance.EnterBattle();
 
-		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
+		Umeng.GA.StartLevel ("Quest" + tqdd.questId);
 	}
 
 //	private void ShowPartyInfo(){

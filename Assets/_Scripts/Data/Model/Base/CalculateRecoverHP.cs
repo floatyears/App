@@ -1,15 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
+
 
 public class CalculateRecoverHP {
 
-	private TNormalSkill[] recoverHPSkill = new TNormalSkill[4];
+	private NormalSkill[] recoverHPSkill = new NormalSkill[4];
 
 	public CalculateRecoverHP() {
-		SkillBaseInfo recoverHP;
+		SkillBase recoverHP;
 		for (int i = 1; i <= 4; i++) {
 			if(DataCenter.Instance.Skill.TryGetValue(ConfigSkill.RECOVER_HP_ID + i, out recoverHP)) {
-				TNormalSkill tns = recoverHP as TNormalSkill;
+				NormalSkill tns = recoverHP as NormalSkill;
 				recoverHPSkill[i-1] = tns;
 			} else {
 				Debug.LogError("recover hp not init : " + (ConfigSkill.RECOVER_HP_ID + i));
@@ -21,7 +23,7 @@ public class CalculateRecoverHP {
 		AttackInfo ai = null;
 		List<uint> copyCard = new List<uint> (card);
 		for (int i = 0; i < recoverHPSkill.Length; i++) {
-			TNormalSkill tns = recoverHPSkill[i];
+			NormalSkill tns = recoverHPSkill[i];
 			tns.DisposeUseSkillID(ignorSkillID);
 			int count = tns.CalculateCard(copyCard);
 			if(count > 0){
@@ -44,7 +46,7 @@ public class CalculateRecoverHP {
 		AttackInfo ai = null;
 		List<uint> copyCard = new List<uint> (csu.haveCard);
 		for (int i = 0; i < recoverHPSkill.Length; i++) {
-			TNormalSkill tns = recoverHPSkill[i];
+			NormalSkill tns = recoverHPSkill[i];
 			tns.DisposeUseSkillID(csu.alreadyUseSkill);
 			int count = tns.CalculateCard(copyCard);
 			if(count > 0){

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class FightReadyDragView : DragSliderBase {
 
@@ -10,9 +11,9 @@ public class FightReadyDragView : DragSliderBase {
 	}
 
 	public override void RefreshData () {
-		TUnitParty current = DataCenter.Instance.PartyInfo.CurrentParty;
-		TUnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
-		TUnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
+		UnitParty current = DataCenter.Instance.PartyInfo.CurrentParty;
+		UnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
+		UnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
 		
 		FightReadyPage rpi = moveParent.GetComponent<FightReadyPage> ();
 		rpi.RefreshParty (current);
@@ -23,7 +24,7 @@ public class FightReadyDragView : DragSliderBase {
 		dragChangeViewData.RefreshView (rpi.partyViewList);
 	}
 
-	public override void RefreshData (TUnitParty tup) {
+	public override void RefreshData (UnitParty tup) {
 		FightReadyPage rpi = moveParent.GetComponent<FightReadyPage> ();
 		rpi.RefreshParty (tup);
 	}

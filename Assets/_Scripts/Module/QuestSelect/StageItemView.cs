@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class StageItemView : MonoBehaviour{
 	public string[] stageOrderList1 = new string[7] {
@@ -51,8 +52,8 @@ public class StageItemView : MonoBehaviour{
 		}
 	}
 
-	private TStageInfo data;
-	public TStageInfo Data{
+	private StageInfo data;
+	public StageInfo Data{
 		get{
 			return data;
 		}
@@ -79,9 +80,9 @@ public class StageItemView : MonoBehaviour{
 	private void SetPosition(){
 		float x = 0;
 		float y = 0;
-		if(data.Pos != null){
-			x = data.Pos.x;  // - 320f
-			y = data.Pos.y;  // - 450f
+		if(data.pos != null){
+			x = data.pos.x;  // - 320f
+			y = data.pos.y;  // - 450f
 		}
 		else{
 			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
@@ -93,7 +94,7 @@ public class StageItemView : MonoBehaviour{
 	private void SetIconView(){
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 //		if (data.Type == bbproto.QuestType.E_QUEST_STORY) {
-			StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState (data.ID);
+			StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState (data.id);
 			ShowIconByState (clearState);
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
 //
@@ -187,7 +188,7 @@ public class StageItemView : MonoBehaviour{
 	private void ShowIconAccessState(UISprite icon){
 		int stagePos = int.Parse(gameObject.name);
 
-		if(data.CityId == 1){
+		if(data.cityId == 1){
 			//first city by the order of list1
 			icon.spriteName = stageOrderList1[ stagePos ];
 		}

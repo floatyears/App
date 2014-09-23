@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -15,12 +15,12 @@ public class UnitController : ControllerBase {
 		}
 	}
 
-	public void ChangeParty(TPartyInfo partyInfo, NetCallback callback) {
+	public void ChangeParty(PartyInfo partyInfo, NetCallback callback) {
 		ReqChangeParty reqChangeParty = new ReqChangeParty();
 		reqChangeParty.header = new ProtoHeader();
 		reqChangeParty.header.apiVer = ServerConfig.API_VERSION;
 		reqChangeParty.header.userId = DataCenter.Instance.UserInfo.UserId;
-		reqChangeParty.party = partyInfo.Object;
+		reqChangeParty.party = partyInfo;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqChangeParty, callback, ProtocolNameEnum.RspChangeParty);
 	}
@@ -101,7 +101,7 @@ public class UnitController : ControllerBase {
 		HttpRequestManager.Instance.SendHttpRequest (reqAddEvolveUnit, callBack, ProtocolNameEnum.RspUserGuideEvolveUnit);
 	}
 
-	public void LevelUp(NetCallback callback, uint baseUniqueId, List<uint> partUniqueId, uint helperUserId, TUserUnit helperUserUnit ){
+	public void LevelUp(NetCallback callback, uint baseUniqueId, List<uint> partUniqueId, uint helperUserId, UserUnit helperUserUnit ){
 		ReqLevelUp reqLevelUp = new ReqLevelUp();
 		reqLevelUp.header = new ProtoHeader();
 		reqLevelUp.header.apiVer = ServerConfig.API_VERSION;
@@ -112,7 +112,7 @@ public class UnitController : ControllerBase {
 		reqLevelUp.baseUniqueId = baseUniqueId;
 		reqLevelUp.partUniqueId.AddRange(partUniqueId);
 		reqLevelUp.helperUserId = helperUserId;
-		reqLevelUp.helperUnit = helperUserUnit.Object;
+		reqLevelUp.helperUnit = helperUserUnit;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqLevelUp, callback, ProtocolNameEnum.RspLevelUp);
 	}

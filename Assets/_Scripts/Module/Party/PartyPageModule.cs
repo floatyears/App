@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class PartyPageModule : ModuleBase{
 	int currentFoucsPosition;
@@ -48,8 +49,8 @@ public class PartyPageModule : ModuleBase{
 		currentFoucsPosition = position;
 	}
 
-    TUnitParty GetPartyBySignal(string signal) {
-        TUnitParty currentParty = null;
+    UnitParty GetPartyBySignal(string signal) {
+        UnitParty currentParty = null;
 		switch (signal) {
 			case "current": 
 				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to current party");
@@ -73,7 +74,7 @@ public class PartyPageModule : ModuleBase{
         string partyType = args as string;
 		if (DataCenter.Instance.PartyInfo.CurrentParty == null) return; 
         SetFocusPostion(0);
-        TUnitParty curParty = GetPartyBySignal(partyType);
+        UnitParty curParty = GetPartyBySignal(partyType);
 
 //		if (curParty == null)	return;
 //        if (curParty.GetUserUnit() == null)	return;
@@ -100,7 +101,7 @@ public class PartyPageModule : ModuleBase{
 
 	//==add by lei liang start==================================================
 
-	protected void RefreshEvolvePartyInfo (TUnitParty unitParty) {
+	protected void RefreshEvolvePartyInfo (UnitParty unitParty) {
 		if (unitParty == null)	{
 			return;
 		}
@@ -108,7 +109,7 @@ public class PartyPageModule : ModuleBase{
 			return;
 		}
 		
-		List<TUserUnit> curUserUnitList = unitParty.GetUserUnit();
+		List<UserUnit> curUserUnitList = unitParty.GetUserUnit();
 //		List<Texture2D> curPartyTexList = GetPartyTexture(curUserUnitList);
 		
 //		int curPartyIndex = 1;
@@ -124,7 +125,7 @@ public class PartyPageModule : ModuleBase{
 
 	//==add by lei liang end==================================================
 	
-    List<Texture2D> GetPartyTexture(List<TUserUnit> tuuList) {
+    List<Texture2D> GetPartyTexture(List<UserUnit> tuuList) {
         List<Texture2D> textureList = new List<Texture2D>();
 		for (int i = 0; i < tuuList.Count; i++) {
             if (tuuList[i] == null) {
@@ -132,7 +133,7 @@ public class PartyPageModule : ModuleBase{
                 textureList.Add(null);
             }
             else {
-				ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,tuuList[i].UnitID, o=>{
+				ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,tuuList[i].unitId, o=>{
 //					tuuList[i].UnitInfo
 					textureList.Add(o as Texture2D);
 				});
@@ -156,14 +157,14 @@ public class PartyPageModule : ModuleBase{
 //        	DataCenter.Instance.PartyInfo.ExitParty();
     }
 
-    void NoticeInfoPanel(TUnitParty tup) {
+    void NoticeInfoPanel(UnitParty tup) {
         MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);
     }
 
     void ViewPartyMemberUnitDetail(object args) {
         LogHelper.Log("PartyPageLogic.ViewPartyMemberUnitDetail(), Start...");
         int position = (int)args;
-        TUserUnit tuu = null;
+        UserUnit tuu = null;
 		
         if (DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1] == null) {
             LogHelper.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position - 1));

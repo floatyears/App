@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class DragSliderBase : MonoBehaviour {
 	protected Transform moveParent = null;
@@ -58,9 +59,9 @@ public class DragSliderBase : MonoBehaviour {
 	}
 
 	public virtual void RefreshData() { }
-	public virtual void RefreshData(TUnitParty tup) { }
+	public virtual void RefreshData(UnitParty tup) { }
 
-	public void RefreshCustomData(TUnitParty tup) {
+	public void RefreshCustomData(UnitParty tup) {
 		stopOperate = true;
 		RefreshData (tup);
 	}

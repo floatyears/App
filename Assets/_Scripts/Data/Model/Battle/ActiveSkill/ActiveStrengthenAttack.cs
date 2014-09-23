@@ -6,10 +6,10 @@ public class ActiveStrengthenAttack : ActiveSkill {
 	private SkillStrengthenAttack instance;
 	public ActiveStrengthenAttack (object instance) : base (instance) {
 		this.instance = instance as SkillStrengthenAttack;
-		skillBase = this.instance.baseInfo;
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;	
-		}
+//		skillBase = this.instance.baseInfo;
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;	
+//		}
 	}
 	
 	AttackInfo strengthenAttack = null;

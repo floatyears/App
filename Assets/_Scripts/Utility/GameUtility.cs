@@ -35,8 +35,8 @@ public class DGTools {
 		return go;
 	}
 
-	public static bool CheckFavorate(TUserUnit tuu) {
-		return tuu.IsFavorite == 1 ? true : false;
+	public static bool CheckFavorate(UserUnit tuu) {
+		return tuu.isFavorite == 1 ? true : false;
 	}
 
 
@@ -74,18 +74,18 @@ public class DGTools {
 //		UIManager manager = UIManager.Instance;
 		MsgCenter msgCenter = MsgCenter.Instance;
 
-		TStageInfo tsi = BattleConfigData.Instance.currentStageInfo;
-		TQuestInfo tqi = BattleConfigData.Instance.currentQuestInfo;
+		StageInfo tsi = BattleConfigData.Instance.currentStageInfo;
+		QuestInfo tqi = BattleConfigData.Instance.currentQuestInfo;
 
-		uint cityID = tsi.CityId;
-		TCityInfo tci = dataCenter.GetCityInfo (cityID);
+		uint cityID = tsi.cityId;
+		CityInfo tci = dataCenter.GetCityInfo (cityID);
 
 		if (tsi == null || tqi == null || tci == null) {
 			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 			return;
 		}
 
-		StageState questStage = dataCenter.QuestClearInfo.GetStoryStageState (tsi.ID);
+		StageState questStage = dataCenter.QuestClearInfo.GetStoryStageState (tsi.id);
 
 		if (questStage == StageState.NEW) {
 
@@ -100,7 +100,7 @@ public class DGTools {
 		StageState stageClearStage = dataCenter.QuestClearInfo.GetStoryCityState (cityID);
 
 		if (questStage == StageState.CLEAR) { 	
-			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].ID != tqi.ID) { // current quest not the last quest.
+			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].id != tqi.id) { // current quest not the last quest.
 				ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityID);
 
 				ModuleManager.Instance.ShowModule (ModuleEnum.QuestSelectModule,"data",tsi);
@@ -108,7 +108,7 @@ public class DGTools {
 				MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 			} else {
 				if (stageClearStage == StageState.CLEAR) {
-					if (tci.cityInfo.stages [tci.cityInfo.stages.Count - 1].id != tsi.ID) {	// current stage not the last stage
+					if (tci.stages [tci.stages.Count - 1].id != tsi.id) {	// current stage not the last stage
 						ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityID);
 
 						MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
@@ -218,9 +218,8 @@ public class DGTools {
 		userUnit.level = 1;
 		userUnit.exp = 0;
 		userUnit.unitId = (uint)unitID;
-		TUserUnit tuu = new TUserUnit(userUnit);
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",tuu);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",userUnit);
 	}
 
 	/// <summary>
@@ -523,24 +522,24 @@ public class DGTools {
 		return System.Convert.ToBoolean (number & 1);
 	}
 
-	public static float TypeMultiple (TUserUnit baseUnit, TUserUnit friend) {
-		if (baseUnit.UnitInfo.Type == friend.UnitInfo.Type) {
+	public static float TypeMultiple (UserUnit baseUnit, UserUnit friend) {
+		if (baseUnit.UnitInfo.type == friend.UnitInfo.type) {
 			return 1.25f;	
 		} else {
 			return 1f;
 		}
 	}
 	
-	public static float RaceMultiple (TUserUnit baseUnit, TUserUnit friend) {
-		if (baseUnit.UnitInfo.Race == friend.UnitInfo.Race) {
+	public static float RaceMultiple (UserUnit baseUnit, UserUnit friend) {
+		if (baseUnit.UnitInfo.race == friend.UnitInfo.race) {
 			return 1.25f;
 		} else {
 			return 1f;
 		}
 	}
 
-	public static float OnlyTypeMultiple(TUserUnit baseUnit, TUserUnit material) {
-		if (baseUnit.UnitInfo.Type == material.UnitInfo.Type) {
+	public static float OnlyTypeMultiple(UserUnit baseUnit, UserUnit material) {
+		if (baseUnit.UnitInfo.type == material.UnitInfo.type) {
 			return 1.5f;		
 		} else {
 			return 1f;		
@@ -551,7 +550,7 @@ public class DGTools {
 		return type + race - 1;
 	}
 
-	public static float AllMultiple (TUserUnit baseUnit, TUserUnit friend) {
+	public static float AllMultiple (UserUnit baseUnit, UserUnit friend) {
 		return AllMultiple (TypeMultiple (baseUnit, friend), RaceMultiple (baseUnit, friend));
 	}
 
@@ -559,7 +558,7 @@ public class DGTools {
 	private const string skillPath = "Skill/";
 	private static SkillJsonConfig skillJsonData;
 
-	public static SkillBaseInfo LoadSkill (int id, SkillType type) {
+	public static SkillBase LoadSkill (int id, SkillType type) {
 		string reallyPath = path +  skillPath;
 		if (skillJsonData == null) {
 			TextAsset json = LoadTextAsset(reallyPath + "skills");
@@ -576,92 +575,81 @@ public class DGTools {
 		return DisposeByte(ta.bytes, className, type);
 	}
 
-	static SkillBaseInfo DisposeByte(byte[] data, string typeName,SkillType type) {
-		switch (typeName) {
-		case "NormalSkill" :
-			NormalSkill ns = ProtobufDataBase.DeserializeData<NormalSkill>(data);
-			return new TNormalSkill(ns);
-		case "SkillSingleAttack":
-			SkillSingleAttack ssa = ProtobufDataBase.DeserializeData<SkillSingleAttack>(data);
-			if(ssa.type == EValueType.PERCENT) {
-				return new KnockdownAttack(ssa);
-			}
-			else{
-				return new TSkillSingleAttack(ssa);
-			}
-		case "SkillBoost" : 
-			SkillBoost sb = ProtobufDataBase.DeserializeData<SkillBoost>(data);
-			return new TSkillBoost(sb);
-		case "SkillRecoverSP" : 
-			SkillRecoverSP srh = ProtobufDataBase.DeserializeData<SkillRecoverSP>(data);
-			return new TSkillRecoverSP(srh);
-		case "SkillPoison" : 
-			SkillPoison sp = ProtobufDataBase.DeserializeData<SkillPoison>(data);
-			return new TSkillPoison(sp);
-		case "SkillDodgeTrap" : 
-			SkillDodgeTrap passiveDodge = ProtobufDataBase.DeserializeData<SkillDodgeTrap>(data);
-			return new PassiveDodgeTrap(passiveDodge);
-		case "SkillAttackRecoverHP" :
-			SkillAttackRecoverHP attackRecoHp = ProtobufDataBase.DeserializeData<SkillAttackRecoverHP>(data);
-			return new TSkillAttackRecoverHP (attackRecoHp);
-		case "SkillSuicideAttack" :
-			SkillSuicideAttack suicideAttack = ProtobufDataBase.DeserializeData<SkillSuicideAttack>(data);
-			return new TSkillSuicideAttack(suicideAttack);
-		case "SkillTargetTypeAttack":
-			SkillTargetTypeAttack attackTargetType = ProtobufDataBase.DeserializeData<SkillTargetTypeAttack>(data);
-			return new  ActiveAttackTargetType (attackTargetType);
-		case "SkillStrengthenAttack":
-			SkillStrengthenAttack strengthenAttack = ProtobufDataBase.DeserializeData<SkillStrengthenAttack>(data);
-			return new ActiveStrengthenAttack(strengthenAttack);
-		case "SkillKillHP" :
-			SkillKillHP killHP = ProtobufDataBase.DeserializeData<SkillKillHP>(data);
-			return new GravityAttack(killHP);
-		case "SkillRecoverHP":
-			SkillRecoverHP recoverHP = ProtobufDataBase.DeserializeData<SkillRecoverHP>(data);
-			if(recoverHP.period == EPeriod.EP_RIGHT_NOW) {
-				return new TAcitveRecoverHP(recoverHP);
-			} else {
-				return new TSkillRecoverHP(recoverHP);
-			}
-		case "SkillReduceHurt" :
-			SkillReduceHurt reduceHurt = ProtobufDataBase.DeserializeData<SkillReduceHurt>(data);
-			if(reduceHurt.baseInfo.skillCooling > 0){
-				return new ActiveReduceHurt(reduceHurt);
-			} else{
-				return new TSkillReduceHurt(reduceHurt);
-			}
-		case "SkillReduceDefence":
-			SkillReduceDefence reduceDefense = ProtobufDataBase.DeserializeData<SkillReduceDefence>(data);
-			return new ActiveReduceDefense(reduceDefense);
-		case "SkillDeferAttackRound":
-			SkillDeferAttackRound deferAttackRound = ProtobufDataBase.DeserializeData<SkillDeferAttackRound>(data);
-			return new ActiveDeferAttackRound(deferAttackRound);
-		case "SkillDelayTime":
-			SkillDelayTime delayTime = ProtobufDataBase.DeserializeData<SkillDelayTime>(data);
-			if(delayTime.baseInfo.skillCooling > 0){
-				return new ActiveDelayTime(delayTime);
-			}else{
-				return new TSkillDelayTime(delayTime);
-			}
-		case "SkillConvertUnitType":
-			SkillConvertUnitType convertType = ProtobufDataBase.DeserializeData<SkillConvertUnitType>(data);
-			if(convertType.baseInfo.skillCooling > 0) {
-				return new ActiveChangeCardColor(convertType);
-			} else{
-				return new TSkillConvertUnitType(convertType);
-			}
-		case "SkillAntiAttack":
-			SkillAntiAttack antiAttack = ProtobufDataBase.DeserializeData<SkillAntiAttack>(data);
-			return new TSkillAntiAttack(antiAttack);
-		case "SkillExtraAttack":
-			SkillExtraAttack extraAttack = ProtobufDataBase.DeserializeData<SkillExtraAttack>(data);
-			return new TSkillExtraAttack(extraAttack);
-		case "SkillMultipleAttack":
-			SkillMultipleAttack multiple = ProtobufDataBase.DeserializeData<SkillMultipleAttack>(data);
-			return new LeaderSkillMultipleAttack(multiple);
-		default:
-			return null;
-		}
+	static SkillBase DisposeByte(byte[] data, string typeName,SkillType type) {
+		return null;
+//		switch (typeName) {
+//		case "NormalSkill" :
+//			return ProtobufSerializer.ParseFormBytes<NormalSkill>(data);
+//		case "SkillSingleAttack":
+////			if(ssa.type == EValueType.PERCENT) {
+////				return ProtobufSerializer.ParseFormBytes<KnockdownAttack>(data);
+////			}
+////			else{
+////				return ProtobufSerializer.ParseFormBytes<TSkillSingleAttack>(data);
+////			}
+//		case "SkillBoost" : 
+//				return ProtobufSerializer.ParseFormBytes<SkillBoost>(data);
+//		case "SkillRecoverSP" : 
+//				return ProtobufSerializer.ParseFormBytes<SkillRecoverSP>(data);
+//		case "SkillPoison" : 
+//				return ProtobufSerializer.ParseFormBytes<SkillPoison>(data);
+//		case "SkillDodgeTrap" : 
+//				return ProtobufSerializer.ParseFormBytes<SkillDodgeTrap>(data);
+//		case "SkillAttackRecoverHP" :
+//				return ProtobufSerializer.ParseFormBytes<SkillAttackRecoverHP>(data);
+//		case "SkillSuicideAttack" :
+//				return ProtobufSerializer.ParseFormBytes<SkillSuicideAttack>(data);
+//		case "SkillTargetTypeAttack":
+//				return ProtobufSerializer.ParseFormBytes<SkillTargetTypeAttack>(data);
+//		case "SkillStrengthenAttack":
+//				return ProtobufSerializer.ParseFormBytes<SkillStrengthenAttack>(data);
+//		case "SkillKillHP" :
+//				return ProtobufSerializer.ParseFormBytes<SkillKillHP>(data);
+////		case "SkillRecoverHP":
+////			if(recoverHP.period == EPeriod.EP_RIGHT_NOW) {
+////				return ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
+////			} else {
+////				return ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
+////			}
+////		case "SkillReduceHurt" :
+////
+////			if(reduceHurt.baseInfo.skillCooling > 0){
+////				return ProtobufSerializer.ParseFormBytes<ActiveReduceHurt>(data);
+////			} else{
+////				return ProtobufSerializer.ParseFormBytes<SkillReduceHurt>(data);
+////			}
+////		case "SkillReduceDefence":
+////			SkillReduceDefence reduceDefense = ProtobufSerializer.ParseFormBytes<SkillReduceDefence>(data);
+////			return new ActiveReduceDefense(reduceDefense);
+////		case "SkillDeferAttackRound":
+////			SkillDeferAttackRound deferAttackRound = ProtobufSerializer.ParseFormBytes<SkillDeferAttackRound>(data);
+////			return new ActiveDeferAttackRound(deferAttackRound);
+////		case "SkillDelayTime":
+////			SkillDelayTime delayTime = ProtobufSerializer.ParseFormBytes<SkillDelayTime>(data);
+////			if(delayTime.baseInfo.skillCooling > 0){
+////				return new ActiveDelayTime(delayTime);
+////			}else{
+////				return new SkillDelayTime(delayTime);
+////			}
+////		case "SkillConvertUnitType":
+////			SkillConvertUnitType convertType = ProtobufSerializer.ParseFormBytes<SkillConvertUnitType>(data);
+////			if(convertType.baseInfo.skillCooling > 0) {
+////				return new ActiveChangeCardColor(convertType);
+////			} else{
+////				return new SkillConvertUnitType(convertType);
+////			}
+////		case "SkillAntiAttack":
+////			SkillAntiAttack antiAttack = ProtobufSerializer.ParseFormBytes<SkillAntiAttack>(data);
+////			return new TSkillAntiAttack(antiAttack);
+////		case "SkillExtraAttack":
+////			SkillExtraAttack extraAttack = ProtobufSerializer.ParseFormBytes<SkillExtraAttack>(data);
+////			return new SkillExtraAttack(extraAttack);
+////		case "SkillMultipleAttack":
+////			SkillMultipleAttack multiple = ProtobufSerializer.ParseFormBytes<SkillMultipleAttack>(data);
+////			return new LeaderSkillMultipleAttack(multiple);
+////		default:
+////			return null;
+//		}
 	}
 
 	//============load unitinfo====================================================
@@ -674,7 +662,7 @@ public class DGTools {
 	"Protobuf/";
 #endif
 	private const string unitInfoPath = "Unit/unit_";
-	public static TUnitInfo LoadUnitInfoProtobuf(uint unitID) {
+	public static UnitInfo LoadUnitInfoProtobuf(uint unitID) {
 		string url = path +unitInfoPath + unitID;
 		TextAsset ta = LoadTextAsset (url);
 //		Debug.Log ("unitID: "+ unitID +" proto len: " +   ta.bytes.Length);
@@ -682,33 +670,28 @@ public class DGTools {
 			Debug.LogError( "load unit info fail : " + " url : " + url + " unit id : " + unitID);	
 			return null;
 		}
-		UnitInfo ui = ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
+		return ProtobufSerializer.ParseFormBytes<UnitInfo> (ta.bytes);
 //		File.WriteAllBytes ("Assets/ResourceDownload/Output/" + unitID,ta.bytes);
 
-		TUnitInfo tui = new TUnitInfo (ui);
-		return tui;
 	}
 
 	//============load questinfo====================================================
 	private const string CityPath = "City/";
-	public static TCityInfo LoadCityInfo (uint cityID) {
+	public static CityInfo LoadCityInfo (uint cityID) {
 		string url = path + CityPath + "city_" + cityID;
 //		Debug.LogError ("LoadCityInfo : " + url);
 		TextAsset ta = LoadTextAsset (url);
-		CityInfo ci = ProtobufSerializer.ParseFormBytes<CityInfo> (ta.bytes);
-		TCityInfo tci = new TCityInfo(ci);
-		return tci;
+		return ProtobufSerializer.ParseFormBytes<CityInfo> (ta.bytes);
 	}
 	
-	public static List<TCityInfo> LoadCityList(){
-		List<TCityInfo> cityList = new List<TCityInfo>();
+	public static List<CityInfo> LoadCityList(){
+		List<CityInfo> cityList = new List<CityInfo>();
 		string url = path + CityPath + "CityList";
 		TextAsset ta = LoadTextAsset (url);
 		WorldMapInfo wmi = ProtobufSerializer.ParseFormBytes<WorldMapInfo> (ta.bytes);
 //		Debug.LogError("LoadCityList(), wmi.citylist count is : " + wmi.citylist.Count);
 		for (int i = 0; i < wmi.citylist.Count; i++){
-			TCityInfo tci = new TCityInfo(wmi.citylist[ i ]);
-			cityList.Add(tci);
+			cityList.Add(wmi.citylist[ i ]);
 		}
 		return cityList;
 	}

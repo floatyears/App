@@ -107,14 +107,14 @@ public class ConfigUnitBaseInfo {
 			pv.value = TableCostMax[i];
             pt.power.Add(pv);
         }
-        TPowerTableInfo tbi = new TPowerTableInfo(pt);
+		PowerTable tbi = pt;
 
-		Dictionary<int,TPowerTableInfo> infoList = new Dictionary<int, TPowerTableInfo> ();
-		if (infoList.ContainsKey (TPowerTableInfo.UserCostMax)) {
-			infoList[TPowerTableInfo.UserCostMax] = tbi;
+		Dictionary<int,PowerTable> infoList = new Dictionary<int, PowerTable> ();
+		if (infoList.ContainsKey (PowerTable.UserCostMax)) {
+			infoList[PowerTable.UserCostMax] = tbi;
 		}
 		else {
-			infoList.Add(TPowerTableInfo.UserCostMax, tbi);
+			infoList.Add(PowerTable.UserCostMax, tbi);
 		}
 
 		DataCenter.Instance.SetData (ModelEnum.UnitValue, infoList);
@@ -156,13 +156,13 @@ public class ConfigUnitBaseInfo {
 			pv.value = TableUserRankExp[i];
             pt.power.Add(pv);
         }
-        TPowerTableInfo tbi = new TPowerTableInfo(pt);
+		PowerTable tbi = pt;
 
-		if (DataCenter.Instance.UnitValue.ContainsKey (TPowerTableInfo.UserExpType)) {
-			DataCenter.Instance.UnitValue[TPowerTableInfo.UserExpType] = tbi;
+		if (DataCenter.Instance.UnitValue.ContainsKey (PowerTable.UserExpType)) {
+			DataCenter.Instance.UnitValue[PowerTable.UserExpType] = tbi;
 		}
 		else {
-			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UserExpType, tbi);
+			DataCenter.Instance.UnitValue.Add(PowerTable.UserExpType, tbi);
 		}
 
 //        DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UserExpType, tbi);

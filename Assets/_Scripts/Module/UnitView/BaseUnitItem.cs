@@ -35,8 +35,8 @@ public class BaseUnitItem : MonoBehaviour {
 //		Debug.LogError ("gameobject : " + gameObject + "FindUIElement : " + maskSpr);
 	}
 
-	protected TUserUnit userUnit;
-	public TUserUnit UserUnit {
+	protected UserUnit userUnit;
+	public UserUnit UserUnit {
 		get{
 			return userUnit;
 		}
@@ -80,7 +80,7 @@ public class BaseUnitItem : MonoBehaviour {
 		}
 	}
 	
-	public void Init(TUserUnit userUnit){
+	public void Init(UserUnit userUnit){
 		Awake();
 		this.userUnit = userUnit;
 		InitState();
@@ -210,7 +210,7 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 	
 	private void CrossFadeLevelFirst(){
-		crossFadeBeforeText = "Lv" + userUnit.Level;
+		crossFadeBeforeText = "Lv" + userUnit.level;
 		if(userUnit.AddNumber == 0){ 
 			canCrossed = false;
 			crossFadeLabel.text = crossFadeBeforeText;
@@ -246,7 +246,7 @@ public class BaseUnitItem : MonoBehaviour {
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 		ExecuteCrossFade ();
 //		Debug.LogError ("gameobject : " + gameObject + "set common state : " + avatar.spriteName + " userUnit.UnitID : " + userUnit.UnitID);
-		ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitID, avatar);
+		ResourceManager.Instance.GetAvatarAtlas(userUnit.unitId, avatar);
 	}
 
 	string GetBorderSpriteName () {
@@ -304,7 +304,7 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	private void ShowUnitType(){
-		switch (userUnit.UnitInfo.Type){
+		switch (userUnit.UnitInfo.type){
 			case EUnitType.UFIRE :
 				avatarBg.spriteName = "avatar_bg_fire";
 				avatarBorderSpr.spriteName = "avatar_border_fire";

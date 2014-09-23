@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class PartyDragView : DragSliderBase {
 
@@ -10,9 +11,9 @@ public class PartyDragView : DragSliderBase {
 	}
 
 	public override void RefreshData () {
-		TUnitParty current = DataCenter.Instance.PartyInfo.CurrentParty;
-		TUnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
-		TUnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
+		UnitParty current = DataCenter.Instance.PartyInfo.CurrentParty;
+		UnitParty prev = DataCenter.Instance.PartyInfo.GetPrePartyData;
+		UnitParty next = DataCenter.Instance.PartyInfo.GetNextPartyData;
 		
 		RefreshPartyInfo rpi = moveParent.GetComponent<RefreshPartyInfo> ();
 		rpi.RefreshView (current);

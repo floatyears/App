@@ -74,7 +74,7 @@ public class OperationNoticeView : ViewBase {
 				bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
 				if(data != null){
 					GameObject item1 = NGUITools.AddChild(content,prefab);
-					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.LoginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.FriendPoint));
+					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.loginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.friendPoint));
 				}
 			}
 		});

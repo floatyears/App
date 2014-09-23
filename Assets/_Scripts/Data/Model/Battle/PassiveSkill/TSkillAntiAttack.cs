@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillAntiAttack : SkillBaseInfo {
+public class TSkillAntiAttack : SkillBase {
 	private SkillAntiAttack instance;
 	public EUnitType AttackSource {
 		get { return instance.attackSource; }
 	}
-	public TSkillAntiAttack(object instance) : base (instance) {
+	public TSkillAntiAttack(object instance){
 		this.instance = instance as SkillAntiAttack;
-		skillBase = this.instance.baseInfo;
+//		skillBase = this.instance.baseInfo;
 	}
 
 	public object Excute (object trapBase) {
@@ -34,7 +34,7 @@ public class TSkillAntiAttack : SkillBaseInfo {
 		return null;
 	}
 
-	public SkillBaseInfo skillBaseInfo {
+	public SkillBase skillBaseInfo {
 		get {
 			return this;
 		}

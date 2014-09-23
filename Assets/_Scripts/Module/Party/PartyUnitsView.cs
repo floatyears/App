@@ -1,19 +1,21 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
+
 public class PartyUnitsView : ViewBase {
 	DragPanel dragPanel;
 	GameObject unitItem;
 	GameObject rejectItem;
 	bool exchange = false;
-    List<TUserUnit> userUnitInfoList = new List<TUserUnit>();
+    List<UserUnit> userUnitInfoList = new List<UserUnit>();
 	Dictionary<string, object> dragPanelArgs = new Dictionary<string, object>();
-	Dictionary<GameObject, TUserUnit> dragItemViewDic = new Dictionary<GameObject, TUserUnit>();
+	Dictionary<GameObject, UserUnit> dragItemViewDic = new Dictionary<GameObject, UserUnit>();
 	List<UnitInfoStruct> unitInfoStruct = new List<UnitInfoStruct>();
 	List<UILabel> crossShowLabelList = new List<UILabel>();
 	List<string> crossShowTextList = new List<string>();
 	List<UnitItemViewInfo> viewInfoList = new List<UnitItemViewInfo>();
-	List<TUserUnit> currentPaty = new List<TUserUnit>();
+	List<UserUnit> currentPaty = new List<UserUnit>();
 	List<PartyUnitItem> partyViewList = new List<PartyUnitItem>();
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
@@ -36,8 +38,8 @@ public class PartyUnitsView : ViewBase {
 		currentPaty = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
 		for (int i = 0; i < partyViewList.Count; i++) {
 			PartyUnitItem puv = partyViewList[i];
-			TUserUnit tuu = currentPaty.Find(a=>a.MakeUserUnitKey() == puv.UserUnit.MakeUserUnitKey());
-			if(tuu != default(TUserUnit)) {
+			UserUnit tuu = currentPaty.Find(a=>a.MakeUserUnitKey() == puv.UserUnit.MakeUserUnitKey());
+			if(tuu != default(UserUnit)) {
 				puv.IsParty = true;
 			}else{
 				puv.IsParty = false;
@@ -230,7 +232,7 @@ public class PartyUnitsView : ViewBase {
 
 	void CreateDragView(object args){
 		partyViewList.Clear();
-		List<TUserUnit> data = args as List<TUserUnit>;
+		List<UserUnit> data = args as List<UserUnit>;
 		dragPanel = new DragPanel("DragPanel", MyUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(data.Count);

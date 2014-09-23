@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ public class SortUnitTool{
 		return nextRule;
 	}
 
-	public static void SortByTargetRule(SortRule targetRule, List<TUserUnit> targetList){
+	public static void SortByTargetRule(SortRule targetRule, List<UserUnit> targetList){
 //		Debug.LogError("SortByTargetRule befoure : " + targetRule);
 		switch (targetRule){
 			case SortRule.AddPoint : 
@@ -76,7 +76,7 @@ public class SortUnitTool{
 //		Debug.LogError("SortByTargetRule end : " + targetRule);
 	}
 
-	public static void SortByTargetRule(SortRule targetRule, List<TFriendInfo> targetList){
+	public static void SortByTargetRule(SortRule targetRule, List<FriendInfo> targetList){
 		switch (targetRule){
 			case SortRule.AddPoint : 
 				DGTools.InsertSort(targetList, new TFriendUnitSortAddPoint());
@@ -126,11 +126,11 @@ public class SortUnitTool{
 
 //------------------------------TUserUnit-------------------------------
 public class TUserUnitSortBase : IComparer {
-	protected TUserUnit firstUserUnit;
-	protected TUserUnit secondUserUnit;
+	protected UserUnit firstUserUnit;
+	protected UserUnit secondUserUnit;
 	public virtual int Compare(object x, object y) {
-		firstUserUnit = x as TUserUnit;
-		secondUserUnit = y as TUserUnit;
+		firstUserUnit = x as UserUnit;
+		secondUserUnit = y as UserUnit;
 		return default(int);
 	}
 }
@@ -152,21 +152,21 @@ public class TUserUnitSortAtk : TUserUnitSortBase{
 public class TUserUnitSortID : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		return firstUserUnit.UnitID.CompareTo(secondUserUnit.UnitID);
+		return firstUserUnit.unitId.CompareTo(secondUserUnit.unitId);
 	}
 }
 
 public class TUserUnitSortGetTime : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		return firstUserUnit.Unit.getTime.CompareTo(secondUserUnit.Unit.getTime);
+		return firstUserUnit.getTime.CompareTo(secondUserUnit.getTime);
 	}
 }
 
 public class TUserUnitSortFavourite : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		return firstUserUnit.IsFavorite.CompareTo (secondUserUnit.IsFavorite);
+		return firstUserUnit.isFavorite.CompareTo (secondUserUnit.isFavorite);
 	}
 }
 
@@ -180,8 +180,8 @@ public class TUserUnitSortAddPoint : TUserUnitSortBase{
 public class TUserUnitSortAttribute : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		int first = (int)firstUserUnit.UnitInfo.Type;
-		int second = (int)secondUserUnit.UnitInfo.Type;
+		int first = (int)firstUserUnit.UnitInfo.type;
+		int second = (int)secondUserUnit.UnitInfo.type;
 		int compareValue = - first.CompareTo(second);
 		return compareValue;
 	}		
@@ -190,8 +190,8 @@ public class TUserUnitSortAttribute : TUserUnitSortBase{
 public class TUserUnitSortRace : TUserUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		int first = (int)firstUserUnit.UnitInfo.Race;
-		int second = (int)secondUserUnit.UnitInfo.Race;
+		int first = (int)firstUserUnit.UnitInfo.race;
+		int second = (int)secondUserUnit.UnitInfo.race;
 		return first.CompareTo(second);
 
 	}
@@ -199,11 +199,11 @@ public class TUserUnitSortRace : TUserUnitSortBase{
 
 //------------------------------TFriendInfo-------------------------------
 public class TFriendUnitSortBase : IComparer {
-	protected TFriendInfo firstFriendUnit;
-	protected TFriendInfo secondFriendUnit;
+	protected FriendInfo firstFriendUnit;
+	protected FriendInfo secondFriendUnit;
 	public virtual int Compare(object x, object y) {
-		firstFriendUnit = x as TFriendInfo;
-		secondFriendUnit = y as TFriendInfo;
+		firstFriendUnit = x as FriendInfo;
+		secondFriendUnit = y as FriendInfo;
 		return default(int);
 	}
 }
@@ -229,8 +229,8 @@ public class TFriendUnitSortAtk : TFriendUnitSortBase{
 public class TFriendUnitSortID : TFriendUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		uint firstID = firstFriendUnit.UserUnit.UnitID;
-		uint secondID = secondFriendUnit.UserUnit.UnitID;
+		uint firstID = firstFriendUnit.UserUnit.unitId;
+		uint secondID = secondFriendUnit.UserUnit.unitId;
 		return firstID.CompareTo(secondID);
 	}
 }
@@ -238,8 +238,8 @@ public class TFriendUnitSortID : TFriendUnitSortBase{
 public class TFriendUnitSortLoginTime : TFriendUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		uint firstGetTime = firstFriendUnit.LastPlayTime;
-		uint secondGetTime = secondFriendUnit.LastPlayTime;
+		uint firstGetTime = firstFriendUnit.lastPlayTime;
+		uint secondGetTime = secondFriendUnit.lastPlayTime;
 		return firstGetTime.CompareTo(secondGetTime);
 	}
 }
@@ -264,8 +264,8 @@ public class TFriendUnitSortAddPoint : TFriendUnitSortBase{
 public class TFriendUnitSortAttribute : TFriendUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		int firstType = (int)firstFriendUnit.UserUnit.UnitInfo.Type;
-		int secondType = (int)secondFriendUnit.UserUnit.UnitInfo.Type;
+		int firstType = (int)firstFriendUnit.UserUnit.UnitInfo.type;
+		int secondType = (int)secondFriendUnit.UserUnit.UnitInfo.type;
 		return -firstType.CompareTo(secondType);
 	}		
 }
@@ -273,8 +273,8 @@ public class TFriendUnitSortAttribute : TFriendUnitSortBase{
 public class TFriendUnitSortRace : TFriendUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		int firstRace = (int)firstFriendUnit.UserUnit.UnitInfo.Race;
-		int secondRace = (int)secondFriendUnit.UserUnit.UnitInfo.Race;
+		int firstRace = (int)firstFriendUnit.UserUnit.UnitInfo.race;
+		int secondRace = (int)secondFriendUnit.UserUnit.UnitInfo.race;
 		return firstRace.CompareTo(secondRace);
 	}
 }
@@ -282,8 +282,8 @@ public class TFriendUnitSortRace : TFriendUnitSortBase{
 public class TFriendUnitSortRank : TFriendUnitSortBase{
 	public override int Compare(object x, object y) {
 		base.Compare(x,y);
-		int firstRank = (int)firstFriendUnit.Rank;
-		int secondRank = (int)secondFriendUnit.Rank;
+		int firstRank = (int)firstFriendUnit.rank;
+		int secondRank = (int)secondFriendUnit.rank;
 		return firstRank.CompareTo(secondRank);
 	}
 }

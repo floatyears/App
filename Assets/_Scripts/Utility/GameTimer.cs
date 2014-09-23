@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 using bbproto;
@@ -133,7 +133,7 @@ public class GameTimer : MonoBehaviour {
 			GameTimer.GetInstance().InitDateTime(rspAuthUser.serverTime);
 			
 			if (rspAuthUser.account != null) {
-				DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
+				DataCenter.Instance.AccountInfo = rspAuthUser.account;
 			}
 			
 			if (rspAuthUser.user != null) {
@@ -149,11 +149,10 @@ public class GameTimer : MonoBehaviour {
 			}
 			
 			if (rspAuthUser.friends != null) {
-				List<TFriendInfo> supportFriends = new List<TFriendInfo>();
+				List<FriendInfo> supportFriends = new List<FriendInfo>();
 				foreach (FriendInfo fi in rspAuthUser.friends) {
-					TFriendInfo tfi = new TFriendInfo(fi);
-					supportFriends.Add(tfi);
-					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
+					supportFriends.Add(fi);
+					DataCenter.Instance.UserUnitList.Add(fi.userId, fi.UserUnit.uniqueId, fi.UserUnit);
 				}
 				DataCenter.Instance.SupportFriends = supportFriends;
 			}
@@ -161,40 +160,39 @@ public class GameTimer : MonoBehaviour {
 				Debug.LogError("rsp.friends==null");
 			}
 			
-			DataCenter.Instance.EventStageList = new List<TStageInfo>();
+			DataCenter.Instance.EventStageList = new List<StageInfo>();
 			if (rspAuthUser.eventList != null) {
 				foreach (StageInfo stage in rspAuthUser.eventList) {
-					TStageInfo tsi = new TStageInfo(stage);
-					DataCenter.Instance.EventStageList.Add(tsi);
+					DataCenter.Instance.EventStageList.Add(stage);
 				}
 			}
 			
 			if (rspAuthUser.unitList != null) {
 				foreach (UserUnit unit in rspAuthUser.unitList) {
 					//					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
-					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId, unit));
+					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, UserUnit.GetUserUnit(userId, unit));
 				}
 				LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
 			}
 			
 			if (rspAuthUser.party != null && rspAuthUser.party.partyList != null) {
-				DataCenter.Instance.PartyInfo = new TPartyInfo(rspAuthUser.party);
+				DataCenter.Instance.PartyInfo = rspAuthUser.party;
 				//TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
 				DataCenter.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 			}
 			
 			if (rspAuthUser.questClear != null) {
-				DataCenter.Instance.QuestClearInfo = new TQuestClearInfo(rspAuthUser.questClear);
+				DataCenter.Instance.QuestClearInfo = rspAuthUser.questClear;
 			}
 			
-			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+			DataCenter.Instance.CatalogInfo = new UnitCatalogDataModel(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 			
 			if( rspAuthUser.notice != null){
-				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
+				DataCenter.Instance.NoticeInfo = rspAuthUser.notice;
 			}
 			
 			if( rspAuthUser.login != null){
-				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
+				DataCenter.Instance.LoginInfo = rspAuthUser.login;
 			}
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
 			

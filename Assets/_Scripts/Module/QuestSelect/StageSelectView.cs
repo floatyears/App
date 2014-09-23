@@ -24,9 +24,9 @@ public class StageSelectView : ViewBase{
 	private UITexture background;
 
 	private List<QuestInfo> questInfoList = new List<QuestInfo>();
-	private TStageInfo curStageInfo;
+	private StageInfo curStageInfo;
 	private int curQuestIndex;
-	private TEvolveStart evolveStageInfo;
+	private UnitDataModel evolveStageInfo;
 	private List<StageItemView> storyStageList = new List<StageItemView>();
 	private List<GameObject> stageDotList = new List<GameObject>();
 	
@@ -58,7 +58,7 @@ public class StageSelectView : ViewBase{
 	}
 
 	private void ShowEventCityView(){
-		List<TStageInfo> eventStageList = FilterEventCityData(DataCenter.Instance.EventStageList);
+		List<StageInfo> eventStageList = FilterEventCityData(DataCenter.Instance.EventStageList);
 		if(eventStageList == null){
 			Debug.LogError("DataCenter.Instance.EventStageList == NULL, return...");
 			return;
@@ -88,25 +88,25 @@ public class StageSelectView : ViewBase{
 		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVENTSTAGE"));
 	}
 
-	private List<TStageInfo> FilterEventCityData(List<TStageInfo> eventCityData){
-		Dictionary<uint,TStageInfo> cityData = new Dictionary<uint,TStageInfo> ();
+	private List<StageInfo> FilterEventCityData(List<StageInfo> eventCityData){
+		Dictionary<uint,StageInfo> cityData = new Dictionary<uint,StageInfo> ();
 		uint now = GameTimer.GetInstance ().GetCurrentSeonds ();
 		foreach (var item in eventCityData) {
-			if(cityData.ContainsKey(item.CityId)) {
-				if(cityData[item.CityId].endTime > item.endTime){
+			if(cityData.ContainsKey(item.cityId)) {
+				if(cityData[item.cityId].endTime > item.endTime){
 					if(now < item.endTime){
-						cityData[item.CityId] = item;
+						cityData[item.cityId] = item;
 					}
 				}else{
-					if(now > cityData[item.CityId].endTime){
-						cityData[item.CityId] = item;
+					if(now > cityData[item.cityId].endTime){
+						cityData[item.cityId] = item;
 					}
 				}
 			} else {
-				cityData[item.CityId] = item;
+				cityData[item.cityId] = item;
 			}
 		}
-		return new List<TStageInfo> (cityData.Values);
+		return new List<StageInfo> (cityData.Values);
 	}
 
 	private void DestoryStages(){
@@ -132,12 +132,12 @@ public class StageSelectView : ViewBase{
 
 	//--------------------------------New---------------------------------------
 
-	private TCityInfo currPickedCityInfo;
+	private CityInfo currPickedCityInfo;
 	private GameObject storyStageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
-		TCityInfo received = DataCenter.Instance.GetCityInfo(cityID);
+		CityInfo received = DataCenter.Instance.GetCityInfo(cityID);
 
 //		if(currPickedCityInfo == null){
 //			//when first time to step in
@@ -167,7 +167,7 @@ public class StageSelectView : ViewBase{
 		eventStageRoot.gameObject.SetActive(false);
 		GetData((uint)msg);
 
-		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.ID));
+		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.id));
 	}
 
 	private void FillView(){
@@ -176,7 +176,7 @@ public class StageSelectView : ViewBase{
 			return;
 		}
 	
-		List<TStageInfo> accessStageList = currPickedCityInfo.Stages;
+		List<StageInfo> accessStageList = currPickedCityInfo.stages;
 		GenerateStages(accessStageList);
 
 	}
@@ -186,16 +186,16 @@ public class StageSelectView : ViewBase{
 	/// Add the whole cleared stage and the first one not cleared to the list
 	/// </summary>
 	/// <returns>The access stage list.</returns>
-	private List<TStageInfo> GetAccessStageList(List<TStageInfo> stageInfoList){
-		List<TStageInfo> accessStageList = new List<TStageInfo>();
+	private List<StageInfo> GetAccessStageList(List<StageInfo> stageInfoList){
+		List<StageInfo> accessStageList = new List<StageInfo>();
 		for (int i = 0; i < stageInfoList.Count; i++){
-			if(stageInfoList[ i ].Type == QuestType.E_QUEST_STORY){
+			if(stageInfoList[ i ].type == QuestType.E_QUEST_STORY){
 				accessStageList.Add(stageInfoList[ i ]);
 				if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(stageInfoList[ i ]))
 					break;					
 			}
 			else{
-				Debug.LogError("Error: invalid quest type:" + stageInfoList[i].Type);
+				Debug.LogError("Error: invalid quest type:" + stageInfoList[i].type);
 				break;
 			}
 		}
@@ -206,7 +206,7 @@ public class StageSelectView : ViewBase{
 	/// Generates the stage page.
 	/// </summary>
 	/// <param name="count">Count.</param>
-	private void GenerateStages(List<TStageInfo> accessStageList){
+	private void GenerateStages(List<StageInfo> accessStageList){
 		background = FindChild<UITexture>("Background");
 		ResourceManager.Instance.LoadLocalAsset("Stage/1" /*+ currPickedCityInfo.ID*/, o =>{
 			background.mainTexture = o as Texture2D;
@@ -336,7 +336,7 @@ public class StageSelectView : ViewBase{
 	/// The last stage which has been cleared.
 	/// </summary>
 	/// <returns>The curr stage index.</returns>
-	private int GetCurrStageIndex(List<TStageInfo> stageInfoList){
+	private int GetCurrStageIndex(List<StageInfo> stageInfoList){
 		return stageInfoList.Count;
 	}
 
@@ -349,8 +349,8 @@ public class StageSelectView : ViewBase{
 	//===========evolve==============================================
 	void EvolveStartQuest (object data) {
 //		Debug.LogError ("EvolveStartQuest");
-		evolveStageInfo = data as TEvolveStart;
-		GetData(evolveStageInfo.StageInfo.CityId);
+		evolveStageInfo = data as UnitDataModel;
+		GetData(evolveStageInfo.StageInfo.cityId);
 		FillViewEvolve();
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
@@ -388,7 +388,7 @@ public class StageSelectView : ViewBase{
 	public GameObject GetStageNewItem(){
 		if(storyStageRoot != null)
 		foreach(var i in storyStageRoot.transform.GetComponentsInChildren<StageItemView>()){
-			if(DataCenter.Instance.QuestClearInfo.GetStoryStageState(i.Data.ID) == StageState.NEW){
+			if(DataCenter.Instance.QuestClearInfo.GetStoryStageState(i.Data.id) == StageState.NEW){
 				return i.gameObject;
 			}
 		}

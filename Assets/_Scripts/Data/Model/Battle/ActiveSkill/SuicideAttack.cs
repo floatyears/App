@@ -16,11 +16,11 @@ public class TSkillSuicideAttack : ActiveSkill {
 
 	public TSkillSuicideAttack (object instance) : base(instance) {
 		this.instance = instance as SkillSuicideAttack;
-		skillBase = this.instance.baseInfo;	
-//		initSkillCooling = skillBase.skillCooling;
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+////		initSkillCooling = skillBase.skillCooling;
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 //	~TSkillSuicideAttack() {
@@ -46,7 +46,7 @@ public class TSkillSuicideAttack : ActiveSkill {
 		InitCooling ();
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 		if (instance.type == EValueType.FIXED) {
 			ai.AttackValue = instance.value;
 		}

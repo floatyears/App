@@ -168,8 +168,8 @@ public class PlayerInfoBarView : ViewBase{
 		floatRankValueLabel.text = DataCenter.Instance.UserInfo.Rank.ToString ();
 		//Cion
 		if (DataCenter.Instance.AccountInfo != null){
-			cionNumValueLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
-			chipNumValueLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
+			cionNumValueLabel.text = DataCenter.Instance.AccountInfo.money.ToString();
+			chipNumValueLabel.text = DataCenter.Instance.AccountInfo.stone.ToString();
 		}
 		//Stamina
 		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
@@ -209,7 +209,7 @@ public class PlayerInfoBarView : ViewBase{
 
 	}
 	void SyncCoins(object args){
-		cionNumValueLabel.text = DataCenter.Instance.AccountInfo.Money.ToString();
+		cionNumValueLabel.text = DataCenter.Instance.AccountInfo.money.ToString();
 	}
 
 	float  CountFillCount(int cur, int max)
@@ -221,7 +221,7 @@ public class PlayerInfoBarView : ViewBase{
 
 
     void SyncChips(object args){
-        chipNumValueLabel.text = DataCenter.Instance.AccountInfo.Stone.ToString();
+        chipNumValueLabel.text = DataCenter.Instance.AccountInfo.stone.ToString();
     }
 
     void SyncStamina(object args){

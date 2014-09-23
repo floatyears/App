@@ -13,11 +13,11 @@ public class TSkillAttackRecoverHP : ActiveSkill {
 	public TSkillAttackRecoverHP(object instance) : base (instance) {
 //		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
 		this.instance = instance as SkillAttackRecoverHP;
-		skillBase = this.instance.baseInfo;
-//		initSkillCooling = skillBase.skillCooling;
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;
+////		initSkillCooling = skillBase.skillCooling;
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 //	public void RefreashCooling () {
@@ -34,7 +34,7 @@ public class TSkillAttackRecoverHP : ActiveSkill {
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackType;
 		ai.UserUnitID = userUnitID;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 		if (instance.type == EValueType.MULTIPLE) {
 			ai.AttackValue = atk * instance.value;		
 		} else if(instance.type == EValueType.FIXED) {

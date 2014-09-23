@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public interface ILeaderSkill {
     Dictionary<string, ProtobufDataBase> LeadSkill { get; }
-    Dictionary<int,TUserUnit> UserUnit { get ; }
+    Dictionary<int,UserUnit> UserUnit { get ; }
 }
 
 public interface ILeadSkillReduceHurt {

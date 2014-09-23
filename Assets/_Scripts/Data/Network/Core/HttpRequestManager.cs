@@ -75,7 +75,7 @@ public class HttpRequestManager : MonoBehaviour{
 	/// <param name="callback">Callback.</param>
 	public void AddProtoListener(ProtocolNameEnum protoName, NetCallback callback){
 		if(protoListeners.ContainsKey(protoName)){
-			protoListeners[protoName] = callback;
+			protoListeners[protoName] += callback;
 		}else{
 			protoListeners.Add(protoName,callback);
 		}
@@ -85,9 +85,9 @@ public class HttpRequestManager : MonoBehaviour{
 	/// removes the proto listener.
 	/// </summary>
 	/// <param name="protoName">Proto name.</param>
-	public void RemoveProtoListener(ProtocolNameEnum protoName){
+	public void RemoveProtoListener(ProtocolNameEnum protoName,NetCallback callback){
 		if(protoListeners.ContainsKey(protoName)){
-			protoListeners.Remove(protoName);
+			protoListeners[protoName] -= callback;
 		}
 	}
 

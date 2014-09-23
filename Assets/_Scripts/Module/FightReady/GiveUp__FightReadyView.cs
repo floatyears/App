@@ -102,17 +102,17 @@ public class GiveUp__FightReadyView : ViewBase {
 	}
 	
 	private void PrevPage(GameObject go){
-		TUnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
+		UnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
 	}
 	
 	private void NextPage(GameObject go){
-		TUnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
+		UnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
 		RefreshParty(nextParty);
 	}
 	
-	private void RefreshParty(TUnitParty party){
-		List<TUserUnit> partyMemberList = party.GetUserUnit();
+	private void RefreshParty(UnitParty party){
+		List<UserUnit> partyMemberList = party.GetUserUnit();
 		for (int i = 0; i < partyMemberList.Count; i++) {
 			partyView[ i ].Init(partyMemberList [ i ]);	
 		}
@@ -126,17 +126,17 @@ public class GiveUp__FightReadyView : ViewBase {
 	}
 	
 	private Dictionary<string, object> pickedInfoForFight;
-	private TFriendInfo pickedHelperInfo;
+	private FriendInfo pickedHelperInfo;
 	
 	private void RecordPickedInfoForFight(object msg){
 		pickedInfoForFight = msg as Dictionary<string, object>;
-		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as TFriendInfo;
+		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as FriendInfo;
 		ShowHelper(pickedHelperInfo);
 		RefreshParty(DataCenter.Instance.PartyInfo.CurrentParty);
 	}
 	
 	void EvolveSelectQuest(object data) {
-		evolveStart = data as TEvolveStart;
+		evolveStart = data as UnitDataModel;
 		RefreshParty (evolveStart.evolveParty);
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
@@ -145,7 +145,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		ShowHelper (pickedHelperInfo);
 	}
 	
-	void RefreshParty(List<TUserUnit> evolveParty) {
+	void RefreshParty(List<UserUnit> evolveParty) {
 		for (int i = 0; i < evolveParty.Count; i++){
 			partyView[ i ].Init(evolveParty [ i ]);
 		}
@@ -157,7 +157,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		ShowPartyInfo();
 	}
 	
-	void ShowHelper(TFriendInfo friendInfo) {
+	void ShowHelper(FriendInfo friendInfo) {
 		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
 		helperUnitItem.Init(friendInfo);
@@ -170,7 +170,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		StartFight();
 	}
 	
-	private TEvolveStart evolveStart;
+	private UnitDataModel evolveStart;
 	
 	private void StartFight(){
 		if (DataCenter.gameState == GameState.Evolve) {
@@ -180,9 +180,9 @@ public class GiveUp__FightReadyView : ViewBase {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
-			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
 			QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
-			sqp.questId = questInfo.Data.ID;
+			sqp.questId = questInfo.Data.id;
 			sqp.stageId = questInfo.StageID;
 			sqp.startNew = 1;
 			QuestController.Instance.StartQuest (sqp, RspStartQuest);
@@ -190,7 +190,7 @@ public class GiveUp__FightReadyView : ViewBase {
 	}
 	
 	private void RspStartQuest(object data) {
-		TQuestDungeonData tqdd = null;
+		QuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
@@ -198,13 +198,13 @@ public class GiveUp__FightReadyView : ViewBase {
 			return;
 		}
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
-			TFriendInfo tfi = pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-			tfi.UseTime = GameTimer.GetInstance().GetCurrentSeonds();
+			FriendInfo tfi = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
+			tfi.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 			
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
-			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+			tqdd = rspStartQuest.dungeonData;
 			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
@@ -222,20 +222,19 @@ public class GiveUp__FightReadyView : ViewBase {
 			return;
 		}
 		
-		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 		
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
-		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-		TQuestDungeonData tqdd = new TQuestDungeonData (questDungeonData);
+		QuestDungeonData tqdd = rsp.dungeonData;
 		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
 	
-	private void EnterBattle (TQuestDungeonData tqdd) {
-		pickedHelperInfo.FriendPoint = 0;
-		pickedHelperInfo.UseTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+	private void EnterBattle (QuestDungeonData tqdd) {
+		pickedHelperInfo.friendPoint = 0;
+		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 		
 		BattleConfigData.Instance.gotFriendPoint = 0;
 		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
@@ -247,12 +246,12 @@ public class GiveUp__FightReadyView : ViewBase {
 	
 	private void ShowPartyInfo(){
 		if(pickedHelperInfo == null) return;
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		UnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 		partyNoLabel.text = DataCenter.Instance.PartyInfo.CurrentPartyId + 1 + "/5";
 		UpdateOwnLeaderSkillInfo(curParty);
 		UpdateHelperLeaderSkillInfo();
 		UpdatePartyAtkInfo(curParty);
-		UpdatePageLight(curParty.ID);
+		UpdatePageLight(curParty.id);
 	}
 	
 	private void AddCmdLisenter(){
@@ -276,7 +275,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		helper.UserUnit = pickedHelperInfo.UserUnit;
 	}
 	
-	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
+	private void UpdateOwnLeaderSkillInfo(UnitParty curParty){
 		SkillBase skill = curParty.GetLeaderSkillInfo();
 		UpdateLeaderSkillView(skill, ownSkillNameLabel, ownSkillDscpLabel);
 	}
@@ -287,15 +286,15 @@ public class GiveUp__FightReadyView : ViewBase {
 			return;
 		}
 		
-		TUnitInfo unitInfo = pickedHelperInfo.UserUnit.UnitInfo;
-		int skillId = unitInfo.LeaderSkill;
+		UnitInfo unitInfo = pickedHelperInfo.UserUnit.UnitInfo;
+		int skillId = unitInfo.leaderSkill;
 		if(skillId == 0){
 			//			Debug.Log("UpdateHelperLeaderSkillInfo(), skillId == 0, do not have leader skill!");
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		} else {
 			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
-			SkillBaseInfo baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
-			SkillBase leaderSkill = baseInfo.GetSkillInfo();	
+			SkillBase baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
+			SkillBase leaderSkill = baseInfo;	
 			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
 		}
 	}
@@ -312,7 +311,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		}
 	}
 	
-	private void UpdatePartyAtkInfo(TUnitParty curParty){
+	private void UpdatePartyAtkInfo(UnitParty curParty){
 		int totalHp = curParty.TotalHp + pickedHelperInfo.UserUnit.Hp;
 		totalHPLabel.text = totalHp.ToString();
 		
@@ -384,7 +383,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		int newPartyPos = pageLightList.IndexOf(lightObj);
 		Debug.Log("ClickPageLight(), newPartyPos is : " + newPartyPos);
 		Debug.Log("ChangeParty before :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
-		TUnitParty targetParty = DataCenter.Instance.PartyInfo.TargetParty(newPartyPos);
+		UnitParty targetParty = DataCenter.Instance.PartyInfo.TargetParty(newPartyPos);
 		Debug.Log("ChangeParty after :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
 		RefreshParty(targetParty);
 	}

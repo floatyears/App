@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using bbproto;
 
 public class MapItem : MonoBehaviour {
 	private Coordinate coor; 
@@ -25,7 +26,7 @@ public class MapItem : MonoBehaviour {
 	private Vector3 initPosition = Vector3.zero;
 	private Vector3 initRotation = Vector3.zero;
 
-	private TQuestGrid gridItem;
+	private QuestGrid gridItem;
 
 	public int  Width {
 		get{ return mapItemSprite.width; }
@@ -79,7 +80,7 @@ public class MapItem : MonoBehaviour {
 		gridItem = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (new Coordinate (x, y));
 		InitStar ();
 		if (gridItem != null) {
-			switch (gridItem.Star) {
+			switch (gridItem.star) {
 				case bbproto.EGridStar.GS_KEY:
 					spriteName = "key";
 					break;
@@ -96,7 +97,7 @@ public class MapItem : MonoBehaviour {
 
 			DGTools.ShowSprite(mapItemSprite, spriteName);
 			backSpriteName = "";
-			switch (gridItem.Type) {
+			switch (gridItem.type) {
 			case bbproto.EQuestGridType.Q_NONE:
 				if(mapBackSprite != null) {
 					mapBackSprite.spriteName = backSpriteName;
@@ -115,9 +116,9 @@ public class MapItem : MonoBehaviour {
 			case bbproto.EQuestGridType.Q_ENEMY:
 				if(gridItem.Enemy.Count != 0) {
 					uint unitID = gridItem.Enemy [0].UnitID;
-					TUnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
+					UnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
 					if (tui != null) {
-						ResourceManager.Instance.GetAvatarAtlas(tui.ID, mapBackSprite);
+						ResourceManager.Instance.GetAvatarAtlas(tui.id, mapBackSprite);
 					}
 				}
 				break;
@@ -231,7 +232,7 @@ public class MapItem : MonoBehaviour {
 		animEnd = cb;
 
 //		gameObject.SetActive (true);
-		EffectManager.Instance.GetMapEffect (gridItem.Type, returnValue => {
+		EffectManager.Instance.GetMapEffect (gridItem.type, returnValue => {
 			StartCoroutine (MeetEffect (returnValue)); }
 		);
 	}
@@ -360,9 +361,9 @@ public class MapItem : MonoBehaviour {
 		tws.duration = time;
 		tws.eventReceiver = gameObject;
 
-		if (gridItem != null &&  gridItem.Star != bbproto.EGridStar.GS_KEY && gridItem.Type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
+		if (gridItem != null &&  gridItem.star != bbproto.EGridStar.GS_KEY && gridItem.type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
 			UILabel coinLabel = transform.FindChild("CoinLabel").GetComponent<UILabel>();//FindChild<UILabel>("CoinLabel");
-			coinLabel.text = gridItem.Coins.ToString();
+			coinLabel.text = gridItem.coins.ToString();
 			flyCoin = coinLabel.gameObject;
 			flyCoin.SetActive(true);
 			flyCoin.SetActive (true);
@@ -447,7 +448,7 @@ public class MapItem : MonoBehaviour {
 		if (_hasBeenReached) {
 			return false;	
 		}
-		if (countShow == 2 && gridItem.Type == bbproto.EQuestGridType.Q_ENEMY) {
+		if (countShow == 2 && gridItem.type == bbproto.EQuestGridType.Q_ENEMY) {
 			return true;
 		}
 		return false;
@@ -497,7 +498,7 @@ public class MapItem : MonoBehaviour {
 	 
 	List<int> GetSpritIndex () {
 		List<int> index = new List<int> ();
-		switch (gridItem.Star) {
+		switch (gridItem.star) {
 		case  bbproto.EGridStar.GS_STAR_1:
 			index.Add(2);
 			break;

@@ -5744,7 +5744,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UnitParty")]
   public partial class UnitParty : global::ProtoBuf.IExtensible
   {
-    public UnitParty() {}
     
     private int _id = default(int);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -8148,8 +8147,7 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillRecoverHP")]
   public partial class SkillRecoverHP : global::ProtoBuf.IExtensible
   {
-    public SkillRecoverHP() {}
-    
+	public SkillRecoverHP(){}
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]

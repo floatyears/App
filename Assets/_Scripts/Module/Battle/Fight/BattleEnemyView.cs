@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class BattleEnemyView : ViewBase {
 	private Dictionary<uint, BattleEnemyItem> enemyList;
@@ -68,7 +69,7 @@ public class BattleEnemyView : ViewBase {
 		base.ShowUI ();
 
 		if(viewData != null && viewData.ContainsKey("enemy")){
-			Refresh(viewData["enemy"] as List<TEnemyInfo>);
+			Refresh(viewData["enemy"] as List<EnemyInfo>);
 		}
 //		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 //		battleAttackInfo.ShowUI ();
@@ -185,7 +186,7 @@ public class BattleEnemyView : ViewBase {
 
 //	private List<BattleEnemyItem> enemys = new List<BattleEnemyItem> ();	 
 
-	public void Refresh(List<TEnemyInfo> enemy) {
+	public void Refresh(List<EnemyInfo> enemy) {
 //
 //		monster.Clear();
 //		BattleEnemyItem[] ei = transform.GetComponentsInChildren<BattleEnemyItem> ();
@@ -203,7 +204,7 @@ public class BattleEnemyView : ViewBase {
 		} else {
 			sortCount = enemy.Count;
 			for (int i = 0; i < enemy.Count; i++) {
-				TEnemyInfo tei = enemy[i];
+				EnemyInfo tei = enemy[i];
 				tei.AddListener();
 				GameObject go;
 				BattleEnemyItem ei;
@@ -241,7 +242,7 @@ public class BattleEnemyView : ViewBase {
 		uint posSymbol = (uint)(int)data;
 
 		if (enemyList.ContainsKey (posSymbol) && enemyList[posSymbol].enemyInfo.IsDead) {
-			bbproto.EnemyInfo ei = enemyList[posSymbol].enemyInfo.EnemyInfo();
+			bbproto.EnemyInfo ei = enemyList[posSymbol].enemyInfo;
 			BattleConfigData.Instance.storeBattleData.RemoveEnemyInfo(ei);
 //			enemyList.Remove (posSymbol);	
 			enemyList[posSymbol].DropItem();
@@ -305,11 +306,11 @@ public class BattleEnemyView : ViewBase {
 
 			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
 
-			ProtobufDataBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
+			SkillBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
 
 			System.Type t = pdb.GetType();
 
-			if(t == typeof(TSkillExtraAttack)) {
+			if(t == typeof(SkillExtraAttack)) {
 				foreach (var item in enemyList.Values) {
 					if(item != null) {
 						GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -27,8 +27,8 @@ public class QuestItem : MonoBehaviour {
 		questPosLabel = transform.FindChild("Label_Pos").GetComponent<UILabel>();
 	}
 
-	private TStageInfo stageInfo;
-	public TStageInfo StageInfo{
+	private StageInfo stageInfo;
+	public StageInfo StageInfo{
 		get{
 			return stageInfo;
 		}
@@ -37,8 +37,8 @@ public class QuestItem : MonoBehaviour {
 		}
 	}
 
-	private TQuestInfo questInfo;
-	public TQuestInfo QuestInfo{
+	private QuestInfo questInfo;
+	public QuestInfo QuestInfo{
 		get{
 			return questInfo;
 		}
@@ -50,16 +50,16 @@ public class QuestItem : MonoBehaviour {
 			}
 			else{
 				//do some view show by QuestClear state
-				uint bossID = questInfo.BossID[ 0 ];
+				uint bossID = questInfo.bossId[ 0 ];
 				ResourceManager.Instance.GetAvatarAtlas(bossID, bossAvatarSpr);
 
-				EUnitType unitType = DataCenter.Instance.GetUnitInfo(bossID).Type;
+				EUnitType unitType = DataCenter.Instance.GetUnitInfo(bossID).type;
 				bossTypeSpr.color = DGTools.TypeToColor(unitType);
 
-				if(stageInfo.Type == QuestType.E_QUEST_STORY)
-					IsClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageInfo.ID, questInfo.ID);
-				else if(stageInfo.Type == QuestType.E_QUEST_EVENT)
-					IsClear = DataCenter.Instance.QuestClearInfo.IsEventQuestClear(stageInfo.ID, questInfo.ID);
+				if(stageInfo.type == QuestType.E_QUEST_STORY)
+					IsClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageInfo.id, questInfo.id);
+				else if(stageInfo.type == QuestType.E_QUEST_EVENT)
+					IsClear = DataCenter.Instance.QuestClearInfo.IsEventQuestClear(stageInfo.id, questInfo.id);
 				else{}
 			}
 		}

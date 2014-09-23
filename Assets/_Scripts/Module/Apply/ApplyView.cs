@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class ApplyView : ViewBase{
 	private SortRule curSortRule;
-	private TFriendInfo curPickedFriend;
+	private FriendInfo curPickedFriend;
 	private DragPanel dragPanel;
-	private List<TFriendInfo> friendOutDataList = new List<TFriendInfo>();
+	private List<FriendInfo> friendOutDataList = new List<FriendInfo>();
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
 		InitUIElement();
@@ -70,7 +71,7 @@ public class ApplyView : ViewBase{
 	}
 
 	private void DeleteMyApply(object msg){
-		CancelFriendRequest(curPickedFriend.UserId);
+		CancelFriendRequest(curPickedFriend.userId);
 	}
 
 	private void CancelFriendRequest(uint friendUid){

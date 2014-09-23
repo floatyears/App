@@ -1,32 +1,33 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class SupportFriendManager {
-	private List<TFriendInfo> supportFriend = new List<TFriendInfo> ();
-	private List<TFriendInfo> userFriend = new List<TFriendInfo> ();
+	private List<FriendInfo> supportFriend = new List<FriendInfo> ();
+	private List<FriendInfo> userFriend = new List<FriendInfo> ();
 
-	private List<TFriendInfo> tempFriend = new List<TFriendInfo> ();
-	private List<TFriendInfo> selectFriend = new List<TFriendInfo>();
+	private List<FriendInfo> tempFriend = new List<FriendInfo> ();
+	private List<FriendInfo> selectFriend = new List<FriendInfo>();
 
 	private GameTimer gameTime ;
 
 	public const int selectFriendNumber = 10;
 
-	public TFriendInfo useFriend = null;
+	public FriendInfo useFriend = null;
 
 	public SupportFriendManager () {
 		gameTime = GameTimer.GetInstance ();
 	}
 
-	public void AddSupportFriend(List<TFriendInfo> friendInfo) {
+	public void AddSupportFriend(List<FriendInfo> friendInfo) {
 		supportFriend.AddRange (friendInfo);
 	}
 
-	public void AddSupportFriend(TFriendInfo friendInfo) {
+	public void AddSupportFriend(FriendInfo friendInfo) {
 		supportFriend.Add (friendInfo);
 	}
 
-	public List<TFriendInfo> GetSupportFriend () {
+	public List<FriendInfo> GetSupportFriend () {
 		selectFriend.Clear ();
 
 //		for (int i = supportFriend.Count - 1; i >= 0; i--) {
@@ -50,7 +51,7 @@ public class SupportFriendManager {
 //			}
 //		}
 
-		List<TFriendInfo> canUseFriend = userFriend.FindAll (a => !IsLimitTimeOver(a));
+		List<FriendInfo> canUseFriend = userFriend.FindAll (a => !IsLimitTimeOver(a));
 		supportFriend.AddRange (canUseFriend);
 		userFriend.RemoveAll(a=>canUseFriend.Contains(a));
 
@@ -64,7 +65,7 @@ public class SupportFriendManager {
 				break;
 			}
 			int randomIndex = Random.Range(0, maxNumber);
-			TFriendInfo tfi = supportFriend[randomIndex];
+			FriendInfo tfi = supportFriend[randomIndex];
 			selectFriend.Add(tfi);
 			supportFriend.RemoveAt(randomIndex);
 		}
@@ -74,25 +75,25 @@ public class SupportFriendManager {
 		return selectFriend;
 	}
 
-	bool IsLimitTimeOver(TFriendInfo friendInfo) {
-		return ((gameTime.GetCurrentSeonds () - friendInfo.UseTime) < GameTimer.TenMinuteSeconds);
+	bool IsLimitTimeOver(FriendInfo friendInfo) {
+		return ((gameTime.GetCurrentSeonds () - friendInfo.usedTime) < GameTimer.TenMinuteSeconds);
 	}
 
-	public bool CheckIsMyFriend(TFriendInfo tfi) {
-		TFriendList tfl = DataCenter.Instance.FriendList;
+	public bool CheckIsMyFriend(FriendInfo tfi) {
+		FriendDataModel tfl = DataCenter.Instance.FriendList;
 
 		if (tfl == null) {
 			return false;
 		}
 
 		for (int i = 0; i < tfl.Friend.Count; i++) {
-			if(tfl.Friend[i].UserId == tfi.UserId) {
+			if(tfl.Friend[i].userId == tfi.userId) {
 				return true;
 			}
 		}
 
 		for (int i = 0; i < tfl.FriendOut.Count; i++) {
-			if(tfl.FriendOut[i].UserId == tfi.UserId) {
+			if(tfl.FriendOut[i].userId == tfi.userId) {
 				return true;
 			}
 		}

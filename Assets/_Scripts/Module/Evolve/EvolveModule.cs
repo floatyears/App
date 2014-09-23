@@ -35,18 +35,18 @@ public class EvolveModule : ModuleBase {
 	}
 
 	public override void OnReceiveMessages (params object[] data) {
-		List<ProtobufDataBase> evolveInfoLisst = data[0] as List<ProtobufDataBase>;
-		TUserUnit baseItem = evolveInfoLisst [0] as TUserUnit ;
-		TFriendInfo firendItem = evolveInfoLisst [1] as TFriendInfo;
-		TUserUnit tuu = baseItem;
-		TUnitInfo tui = tuu.UnitInfo;
-		TCityInfo tci = DataCenter.Instance.GetCityInfo (EvolveCityID);
-		uint stageID = GetEvolveStageID (tui.Type, tui.Rare);
-		uint questID = GetEvolveQuestID (tui.Type, tui.Rare);
+		List<ProtoBuf.IExtensible> evolveInfoLisst = data[0] as List<ProtoBuf.IExtensible>;
+		UserUnit baseItem = evolveInfoLisst [0] as UserUnit ;
+		FriendInfo firendItem = evolveInfoLisst [1] as FriendInfo;
+		UserUnit tuu = baseItem;
+		UnitInfo tui = tuu.UnitInfo;
+		CityInfo tci = DataCenter.Instance.GetCityInfo (EvolveCityID);
+		uint stageID = GetEvolveStageID (tui.type, tui.rare);
+		uint questID = GetEvolveQuestID (tui.type, tui.rare);
 		List<uint> partyID = new List<uint> ();
 		for (int i = 2; i < evolveInfoLisst.Count; i++) {
-			TUserUnit temp = evolveInfoLisst[i] as TUserUnit;
-			partyID.Add(temp.ID);
+			UserUnit temp = evolveInfoLisst[i] as UserUnit;
+			partyID.Add(temp.uniqueId);
 		}
 
 //		EvolveStart es = new e ();
@@ -58,14 +58,14 @@ public class EvolveModule : ModuleBase {
 //		es.HelperUnit = firendItem.UserUnit.Unit;
 //		es.HelperUserId = firendItem.UserId;
 
-		TEvolveStart tes = new TEvolveStart ();
+		UnitDataModel tes = new UnitDataModel ();
 //		tes.EvolveStart = es;
 		tes.StageInfo = tci.GetStage (stageID);
-		tes.StageInfo.CityId = EvolveCityID;
+		tes.StageInfo.cityId = EvolveCityID;
 		tes.StageInfo.QuestId = questID;
 		tes.evolveParty.Add (baseItem);
 		for (int i = 2; i < evolveInfoLisst.Count; i++) {
-			TUserUnit temp = evolveInfoLisst[i] as TUserUnit;
+			UserUnit temp = evolveInfoLisst[i] as UserUnit;
 			tes.evolveParty.Add(temp);
 		}
 		for (int i = tes.evolveParty.Count; i < 3; i++) {
@@ -88,7 +88,7 @@ public class EvolveModule : ModuleBase {
 	//================================================================================
 	private Dictionary<string, object> TransferData = new Dictionary<string, object> ();
 	private const uint EvolveCityID = 100;
-	public List<TUserUnit> unitItemData = new List<TUserUnit>();
+	public List<UserUnit> unitItemData = new List<UserUnit>();
 
 
 	void ReturnPreScene(object data) {

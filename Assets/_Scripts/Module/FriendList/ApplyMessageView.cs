@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class ApplyMessageView : ViewBase{
 	GameObject rootPanel;
@@ -125,19 +126,19 @@ public class ApplyMessageView : ViewBase{
 	}
 
 	void ShowCenterContent(object args){
-		TFriendInfo tfi = args as TFriendInfo;
+		FriendInfo tfi = args as FriendInfo;
 
 //		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //			avatarTexture.mainTexture = o as Texture2D;
 //		});
-		if(tfi.NickName == string.Empty)
+		if(tfi.nickName == string.Empty)
 			nameLabel.text = "NoName";
 		else
-			nameLabel.text = tfi.NickName;
+			nameLabel.text = tfi.nickName;
 
-		rankLabel.text = tfi.Rank.ToString();
-		timeLabel.text = Utility.TimeHelper.GetLatestPlayTime(tfi.LastPlayTime);
-		idLabel.text = tfi.UserId.ToString();
+		rankLabel.text = tfi.rank.ToString();
+		timeLabel.text = Utility.TimeHelper.GetLatestPlayTime(tfi.lastPlayTime);
+		idLabel.text = tfi.userId.ToString();
 
 		FriendUnitItem fuv = FriendUnitItem.Inject(FindChild("Window/Avatar"));
 		fuv.Init(tfi);

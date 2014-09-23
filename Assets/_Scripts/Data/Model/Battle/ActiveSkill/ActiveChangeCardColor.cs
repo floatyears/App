@@ -4,12 +4,12 @@ using bbproto;
 
 public class ActiveChangeCardColor : ActiveSkill {
 	private SkillConvertUnitType instance;
-	public 	ActiveChangeCardColor(object instance) : base (instance) { 
+	public 	ActiveChangeCardColor(object instance):base(instance) { 
 		this.instance = instance as SkillConvertUnitType;
-		skillBase = this.instance.baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 //	public bool CoolingDone {
 //		get {

@@ -6,10 +6,10 @@ public class GravityAttack : ActiveSkill {
 	private SkillKillHP instance; 
 	public GravityAttack (object instance) : base (instance) {
 		this.instance = instance as SkillKillHP;
-		skillBase = this.instance.baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 //	public bool CoolingDone {
@@ -32,7 +32,7 @@ public class GravityAttack : ActiveSkill {
 		ai.UserUnitID = userUnitID;
 		ai.IgnoreDefense = true;
 		ai.AttackValue = instance.value;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id;
 //		MsgCenter.Instance.Invoke(CommandEnum.SkillGravity, ai);
 		BattleAttackManager.Instance.SkillGravity (ai);
 		return ai;

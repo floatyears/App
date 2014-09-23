@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class PassiveDodgeTrap : SkillBaseInfo {
+public class PassiveDodgeTrap : SkillBase {
 	private SkillDodgeTrap instance;
-	public PassiveDodgeTrap(object instance) : base (instance) {
+	public PassiveDodgeTrap(object instance) {
 		this.instance = instance as SkillDodgeTrap;
-		skillBase = this.instance.baseInfo;
+//		skillBase = this.instance.baseInfo;
 	}
 
 	public object Excute (object trapBase) {
@@ -31,7 +31,7 @@ public class PassiveDodgeTrap : SkillBaseInfo {
 	}
 
 
-	public SkillBaseInfo skillBaseInfo {
+	public SkillBase skillBaseInfo {
 		get {
 			return this;
 		}

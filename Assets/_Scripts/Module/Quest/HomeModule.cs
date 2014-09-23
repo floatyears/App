@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using bbproto;
 
 public class HomeModule : ModuleBase{
-	private List<TCityInfo> storyCityList = new List<TCityInfo>();
-	private List<TStageInfo> storyStageList = new List<TStageInfo>();
+	private List<CityInfo> storyCityList = new List<CityInfo>();
+	private List<StageInfo> storyStageList = new List<StageInfo>();
 
 	public HomeModule(UIConfigItem config):base(  config){
 		CreateUI<HomeView> ();
@@ -41,9 +41,9 @@ public class HomeModule : ModuleBase{
 	void GetStoryStageList(){
 		//Debug.LogError("QuestController.GetStoryStageList()......Story City Count : " + storyCityList.Count);
 		for (int cityIndex = 0; cityIndex < storyCityList.Count; cityIndex++){
-			TCityInfo tci = storyCityList[ cityIndex ];
-			for (int stageIndex = 0; stageIndex < tci.Stages.Count; stageIndex++) {
-				TStageInfo tsi = tci.Stages[ stageIndex ];
+			CityInfo tci = storyCityList[ cityIndex ];
+			for (int stageIndex = 0; stageIndex < tci.stages.Count; stageIndex++) {
+				StageInfo tsi = tci.stages[ stageIndex ];
 				storyStageList.Add(tsi);
 				//Debug.LogError("tsi id : " + tsi.State.ToString());
 			}
@@ -62,7 +62,7 @@ public class HomeModule : ModuleBase{
 
 	void TurnToSelectQuest(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		TStageInfo stageSelected =args as TStageInfo ; 
+		StageInfo stageSelected =args as StageInfo ; 
 		if (stageSelected != null) {
 
 			BattleConfigData.Instance.currentStageInfo = stageSelected;

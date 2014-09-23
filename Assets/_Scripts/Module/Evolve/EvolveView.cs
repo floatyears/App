@@ -31,7 +31,7 @@ public class EvolveView : ViewBase {
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 
 		if (viewData != null && viewData.ContainsKey ("friendinfo")) {
-			SelectFriend(viewData["friendinfo"] as TFriendInfo);	
+			SelectFriend(viewData["friendinfo"] as FriendInfo);	
 		} else {
 			ClearAllItems();
 		}
@@ -111,9 +111,9 @@ public class EvolveView : ViewBase {
 	private UIButton evolveButton;
 	private EvolveItem baseItem;
 	private EvolveItem friendItem;
-	private TFriendInfo friendInfo;
+	private FriendInfo friendInfo;
 	private EvolveItem prevItem = null;
-	private List<TUserUnit> materialUnit = new List<TUserUnit>();
+	private List<UserUnit> materialUnit = new List<UserUnit>();
 	private int ClickIndex = 0;
 //	private FriendSelectLevelUpView friendWindow;
 	private bool fromUnitDetail = false;
@@ -122,20 +122,20 @@ public class EvolveView : ViewBase {
 	private GameObject topObject;
 	
 	private GameObject unitItem;	
-	private List<TUserUnit> allData = new List<TUserUnit>();
+	private List<UserUnit> allData = new List<UserUnit>();
 	private DragPanelDynamic unitItemDragPanel;
 	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
 	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
 	
-	private TUserUnit selectBase = null;
-	private TUserUnit baseData = null;
+	private UserUnit selectBase = null;
+	private UserUnit baseData = null;
 	private SortRule _sortRule;
 
 	private DragPanelConfigItem dragConfig;
 
 	//	private GameObject bottomObject;
 	
-	List<TUserUnit> materialInfo = new List<TUserUnit> ();
+	List<UserUnit> materialInfo = new List<UserUnit> ();
 	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
 
 	public const string SetDragPanel = "setDragPanel";
@@ -146,7 +146,7 @@ public class EvolveView : ViewBase {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void PickFriendUnitInfo(object data) {
-		TFriendInfo tuu = data as TFriendInfo;
+		FriendInfo tuu = data as FriendInfo;
 		friendInfo = tuu;
 		friendItem.Refresh (tuu.UserUnit);
 		CheckCanEvolve ();
@@ -178,12 +178,12 @@ public class EvolveView : ViewBase {
 		if (data == null) {
 			return;	
 		}
-		List<TUserUnit> hasMaterial = data as List<TUserUnit>;
+		List<UserUnit> hasMaterial = data as List<UserUnit>;
 		if (hasMaterial == null) {
-			TUserUnit hasUnit = data as TUserUnit;
+			UserUnit hasUnit = data as UserUnit;
 //			Debug.LogError("selectUnitMaterial hasunit");
 			materialItem[state].Refresh(hasUnit);
-			List<TUserUnit> materialList = new List<TUserUnit>();
+			List<UserUnit> materialList = new List<UserUnit>();
 			for (int i = 2; i < 5; i++) {
 				materialList.Add(materialItem[i].userUnit);
 			}
@@ -197,18 +197,18 @@ public class EvolveView : ViewBase {
 	void DisposeCallback (KeyValuePair<string, object> keyValue) {
 		switch (keyValue.Key) {
 		case BaseData:
-			TUserUnit tuu = keyValue.Value as TUserUnit;
+			UserUnit tuu = keyValue.Value as UserUnit;
 			DisposeSelectData(tuu);
 			break;
 		case MaterialData:
-			List<TUserUnit> itemInfo = keyValue.Value as List<TUserUnit>;
+			List<UserUnit> itemInfo = keyValue.Value as List<UserUnit>;
 			if(itemInfo != null) {
 				DisposeMaterial(itemInfo);
 			}
 			else{
-				TUserUnit userUnit = keyValue.Value as TUserUnit;
+				UserUnit userUnit = keyValue.Value as UserUnit;
 				materialItem[state].Refresh(userUnit);
-				List<TUserUnit> temp = new List<TUserUnit>();
+				List<UserUnit> temp = new List<UserUnit>();
 				for (int i = 2; i < 5; i++) {
 					temp.Add(materialItem[i].userUnit);
 				}
@@ -217,7 +217,7 @@ public class EvolveView : ViewBase {
 			break;
 
 		case RefreshData:
-			List<TUserUnit> tuuList = keyValue.Value as List<TUserUnit>;
+			List<UserUnit> tuuList = keyValue.Value as List<UserUnit>;
 			allData.Clear();
 			if (tuuList != null) {
 				allData.AddRange(tuuList);
@@ -236,19 +236,19 @@ public class EvolveView : ViewBase {
 	}
 	
 
-	void DisposeMaterial (List<TUserUnit> itemInfo) {
+	void DisposeMaterial (List<UserUnit> itemInfo) {
 		if (itemInfo == null || baseItem == null) {
 			return;	
 		}
 		List<uint> evolveNeedUnit = new List<uint> (baseItem.userUnit.UnitInfo.evolveInfo.materialUnitId);
 
 		for (int i = 0; i < evolveNeedUnit.Count ; i++) {
-			TUserUnit material = null;
+			UserUnit material = null;
 			uint ID = evolveNeedUnit[i];
 			bool isHave = true;
 
 			for (int j = 0; j < itemInfo.Count; j++) {
-				if(itemInfo[j] != null && itemInfo[j].UnitInfo.ID == ID) {
+				if(itemInfo[j] != null && itemInfo[j].UnitInfo.id == ID) {
 					material = itemInfo[j];
 					itemInfo.Remove(material);
 					break;
@@ -258,7 +258,7 @@ public class EvolveView : ViewBase {
 			if(material == null) {
 				bbproto.UserUnit uu = new bbproto.UserUnit();
 				uu.unitId = ID;
-				material = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
+				material = UserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
 				isHave = false;
 			}
 			materialItem[i + 2].Refresh(material, isHave);
@@ -266,12 +266,12 @@ public class EvolveView : ViewBase {
 		CheckCanEvolve ();
 	}
 
-	void DisposeSelectData (TUserUnit tuu) {
+	void DisposeSelectData (UserUnit tuu) {
 		if(tuu == null ) {
 			return;
 		}
 
-		if (baseItem.userUnit != null && baseItem.userUnit.ID == tuu.ID) {
+		if (baseItem.userUnit != null && baseItem.userUnit.uniqueId == tuu.uniqueId) {
 			return;	
 		}
 	
@@ -293,16 +293,16 @@ public class EvolveView : ViewBase {
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	void ShowEvolveInfo (TUserUnit tuu) {
+	void ShowEvolveInfo (UserUnit tuu) {
 		uint evolveUnitID = tuu.UnitInfo.evolveInfo.evolveUnitId;
-		TUnitInfo tui = DataCenter.Instance.GetUnitInfo (evolveUnitID);
+		UnitInfo tui = DataCenter.Instance.GetUnitInfo (evolveUnitID);
 
 		showInfoLabel [hp].text = tuu.Hp + " -> [AA0000]" + tuu.CalculateHP (tui) + "[-]";
 		showInfoLabel [atk].text = tuu.Attack + " -> [AA0000]" + tuu.CalculateATK (tui) + "[-]";
-		showInfoLabel [lv].text = tuu.UnitInfo.MaxLevel + " -> [AA0000]" + (tui == null ? "Unknown": tui.MaxLevel.ToString()) + "[-]";
+		showInfoLabel [lv].text = tuu.UnitInfo.maxLevel + " -> [AA0000]" + (tui == null ? "Unknown": tui.maxLevel.ToString()) + "[-]";
 		showInfoLabel [type].text = tui.UnitTypeText;
 		showInfoLabel [race].text = tui.UnitRace;//GetRaceText(tui.Race);
-		showInfoLabel [coins].text = (tui.MaxLevel * 500).ToString ();
+		showInfoLabel [coins].text = (tui.maxLevel * 500).ToString ();
 	}
 
 	private string GetRaceText(EUnitRace race){
@@ -425,7 +425,7 @@ public class EvolveView : ViewBase {
 		}
 	}
 
-	void SelectFriend(TFriendInfo friendInfo) {
+	void SelectFriend(FriendInfo friendInfo) {
 		SetObjectActive (true);
 //		state = 1;
 		foreach (var item in evolveItem) {
@@ -516,19 +516,19 @@ public class EvolveView : ViewBase {
 	}
 	
 	void Evolve(GameObject go) {
-		TUserUnit baseUserUnit = baseItem.userUnit;
-		if (baseUserUnit.Level < baseUserUnit.UnitInfo.MaxLevel) {
+		UserUnit baseUserUnit = baseItem.userUnit;
+		if (baseUserUnit.level < baseUserUnit.UnitInfo.maxLevel) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("notmaxleveltips"));
 			return;
 		}
 
 		TipsManager.Instance.ShowMsgWindow( TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
 			MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,o1 =>{
-				List<ProtobufDataBase> evolveInfoList = new List<ProtobufDataBase> ();
+				List<ProtoBuf.IExtensible> evolveInfoList = new List<ProtoBuf.IExtensible> ();
 				evolveInfoList.Add (baseItem.userUnit);
 				evolveInfoList.Add (friendInfo);
 				foreach (var item in materialItem.Values) {
-					TUserUnit tuu = item.userUnit;
+					UserUnit tuu = item.userUnit;
 					if(tuu != null) {
 						evolveInfoList.Add(tuu);
 					}
@@ -550,7 +550,7 @@ public class EvolveView : ViewBase {
 	////////////////////////////////////////////////////////////////////////////
 	/// 
 	void UnitDisplayBaseData (object data) {
-		TUserUnit tuu = data as TUserUnit;
+		UserUnit tuu = data as UserUnit;
 		if (tuu == null) {
 			return;
 		}
@@ -573,7 +573,7 @@ public class EvolveView : ViewBase {
 		
 		for (int i = 0; i < count; i++) {
 			uint id = tuu.UnitInfo.evolveInfo.materialUnitId[i];
-			TUserUnit material = allData.Find(a=>a.UnitInfo.ID == id);
+			UserUnit material = allData.Find(a=>a.UnitInfo.id == id);
 			materialInfo.Add(material);
 		}
 		
@@ -581,7 +581,7 @@ public class EvolveView : ViewBase {
 			materialInfo.Add(null);
 		}
 		
-		List<TUserUnit> temp = new List<TUserUnit> (materialInfo);
+		List<UserUnit> temp = new List<UserUnit> (materialInfo);
 		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, temp);
 	}
 
@@ -614,7 +614,7 @@ public class EvolveView : ViewBase {
 	}
 
 	void UnitMaterialList(object data) {
-		materialInfo = data as List<TUserUnit>;
+		materialInfo = data as List<UserUnit>;
 		ShowMaterial();
 	}
 
@@ -660,7 +660,7 @@ public class EvolveView : ViewBase {
 	
 	bool CheckMaterialInfoNull () {
 		int index = state - 2;
-		TUserUnit uii = materialInfo [index];
+		UserUnit uii = materialInfo [index];
 		if (uii == null) {
 			return 	true;
 		} else {
@@ -668,7 +668,7 @@ public class EvolveView : ViewBase {
 		}
 	}
 	
-	TUserUnit uiima;
+	UserUnit uiima;
 	
 	void ShowMaterial () {
 		if ( CheckMaterialInfoNull () ) {
@@ -685,7 +685,7 @@ public class EvolveView : ViewBase {
 		}
 		
 		int index = state - 2;
-		TUserUnit temp = materialInfo [index];
+		UserUnit temp = materialInfo [index];
 		if (temp == null) {
 			return;
 		}
@@ -699,13 +699,13 @@ public class EvolveView : ViewBase {
 			uiima.isFocus = true;
 		}
 		
-		uint id = temp.UnitInfo.ID;
+		uint id = temp.UnitInfo.id;
 		
 		if(baseData == null)
 			baseData.isEnable = false;
 		
 		for (int i = 0; i < allData.Count; i++) {
-			if(allData[i].UnitInfo.ID != id) {
+			if(allData[i].UnitInfo.id != id) {
 				allData[i].isEnable = false;
 			} else{
 				allData[i].isEnable = true;
@@ -724,9 +724,9 @@ public class EvolveView : ViewBase {
 			EvolveDragItem edi = item as EvolveDragItem;
 			evolveDragItem.Add(edi);
 			edi.callback = ClickDragItem;
-			TUnitInfo tui = edi.UserUnit.UnitInfo;
+			UnitInfo tui = edi.UserUnit.UnitInfo;
 			bool evolveInfoNull = tui.evolveInfo != null;
-			bool rareIsMax = tui.MaxRare > 0 && tui.Rare < tui.MaxRare;
+			bool rareIsMax = tui.maxStar > 0 && tui.rare < tui.maxStar;
 			if(evolveInfoNull && rareIsMax) {
 				edi.CanEvolve = true;
 			} else {
@@ -771,13 +771,13 @@ public class EvolveView : ViewBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
 	}
 
-	bool CheckBaseNeedMaterial (TUserUnit tuu, int index) {
+	bool CheckBaseNeedMaterial (UserUnit tuu, int index) {
 		int tempIndex = index - 2;
 		List<uint> temp = baseData.UnitInfo.evolveInfo.materialUnitId; 
 		if (tempIndex < temp.Count) {
 			
 			uint materialNeed = temp [tempIndex];
-			if (materialNeed == tuu.UnitID) {
+			if (materialNeed == tuu.unitId) {
 				return true;	
 			} else {
 				return false;	
@@ -800,15 +800,15 @@ public class EvolveView : ViewBase {
 	
 	public uint GetMaxLvUnitID(){
 		foreach (var item in unitItemDragPanel.scrollItem) {
-			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
-				return item.UserUnit.UnitID;
+			if(item.UserUnit.level >= item.UserUnit.UnitInfo.maxLevel){
+				return item.UserUnit.unitId;
 			}
 		}
 		return 0;
 	}
 	public GameObject GetMaxLvUnitItem(){
 		foreach (var item in unitItemDragPanel.scrollItem) {
-			if(item.UserUnit.Level >= item.UserUnit.UnitInfo.MaxLevel){
+			if(item.UserUnit.level >= item.UserUnit.UnitInfo.maxLevel){
 				return item.gameObject;
 			}
 		}
@@ -817,7 +817,7 @@ public class EvolveView : ViewBase {
 	
 	public void SetItemVisible(uint unitId){
 		foreach (var item in allData) {
-			if(item.UnitID == unitId)
+			if(item.unitId == unitId)
 			{
 				allData.Remove(item);
 				allData.Add(item);

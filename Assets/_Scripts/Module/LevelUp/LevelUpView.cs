@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class LevelUpView : ViewBase {
 	private bool doNotClearData = false ;
@@ -13,7 +14,7 @@ public class LevelUpView : ViewBase {
 	private DragPanelDynamic dragPanel;
 	
 	private List<LevelUpUnitItem> unitItems = new List<LevelUpUnitItem> ();
-	private List<TUserUnit> myUnit = new List<TUserUnit> ();
+	private List<UserUnit> myUnit = new List<UserUnit> ();
 	
 	private MyUnitItem prevSelectedItem;
 	private MyUnitItem prevMaterialItem;
@@ -69,7 +70,7 @@ public class LevelUpView : ViewBase {
 		iTween.MoveTo (bottomObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject));
 
 		if( doNotClearData && viewData != null && viewData.ContainsKey("friendinfo")){
-			SelectFriend(viewData["friendinfo"] as TFriendInfo);
+			SelectFriend(viewData["friendinfo"] as FriendInfo);
 		}
 
 //		if( fromLevelUpBack ) {
@@ -144,19 +145,19 @@ public class LevelUpView : ViewBase {
 			expGot = value; 
 			infoLabel[2].text = expGot.ToString();
 
-			TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
+			UserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
 			if(baseInfo == null)
 				return;
-			TUnitInfo tu = baseInfo.UnitInfo;
-			int toLevel = tu.GetLevelByExp (expGot + baseInfo.Exp);
+			UnitInfo tu = baseInfo.UnitInfo;
+			int toLevel = tu.GetLevelByExp (expGot + baseInfo.exp);
 			if (expGot == 0) {
 				Hp = baseInfo.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
 				Atk =  baseInfo.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
-				ExpNeed = baseInfo.Level + "";// + "->" + toLevel;
+				ExpNeed = baseInfo.level + "";// + "->" + toLevel;
 			}else{
 				Hp = baseInfo.Hp + " -> " + "[AA0000]" + tu.GetHpByLevel(toLevel) + "[-]";
 				Atk =  baseInfo.Attack + " -> [AA0000]" + tu.GetAtkByLevel(toLevel) + "[-]";
-				ExpNeed = baseInfo.Level + " -> [AA0000]" + toLevel + "[-]";
+				ExpNeed = baseInfo.level + " -> [AA0000]" + toLevel + "[-]";
 			}
 
 		}
@@ -271,7 +272,7 @@ public class LevelUpView : ViewBase {
 
 	public void ResetUIAfterLevelUp(uint blendID) {
 		ClearData (false);
-		TUserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
+		UserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 //		clear = true;
 		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
@@ -294,8 +295,8 @@ public class LevelUpView : ViewBase {
 		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"type","levelup");
 	}
 
-	TFriendInfo levelUpUerFriend;
-	void SelectFriend(TFriendInfo friendInfo) {
+	FriendInfo levelUpUerFriend;
+	void SelectFriend(FriendInfo friendInfo) {
 		gameObject.SetActive (true);
 		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
 
@@ -492,7 +493,7 @@ public class LevelUpView : ViewBase {
 
 	//LevelUp Button ClickCallback
 	void LevelUpCallback(GameObject go) {
-		if (dataCenter.AccountInfo.Money < coinNeed) {
+		if (dataCenter.AccountInfo.money < coinNeed) {
 			TipsManager.Instance.ShowTipsLabel("not enough money");
 			return;
 		}
@@ -576,7 +577,7 @@ public class LevelUpView : ViewBase {
 			pui.IsEnable = true;
 			if(pui.IsParty || pui.IsFavorite) {
 
-				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
+				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.uniqueId == baseItem.UserUnit.uniqueId) {
 					continue;
 				}
 				pui.IsEnable = shield;
@@ -637,7 +638,7 @@ public class LevelUpView : ViewBase {
 			return false;
 		}
 		
-		if (dataCenter.PartyInfo.UnitIsInParty(piv.UserUnit.ID)) {
+		if (dataCenter.PartyInfo.UnitIsInParty(piv.UserUnit.uniqueId)) {
 			return true;
 		}
 		
@@ -656,14 +657,14 @@ public class LevelUpView : ViewBase {
 			return false;
 		}
 
-		TUserUnit tuu = selectedItem.UserUnit;
+		UserUnit tuu = selectedItem.UserUnit;
 		selectedItem.UserUnit = materialItem.UserUnit;
 		materialItem.IsEnable = false;
 		EnabledItem (tuu);
 		return true;
 	}
 //
-	void EnabledItem(TUserUnit tuu) {
+	void EnabledItem(UserUnit tuu) {
 		if (tuu == null) {
 			return;	
 		}
@@ -712,18 +713,18 @@ public class LevelUpView : ViewBase {
 
 	}
 
-	List<TUserUnit> levelUpInfo = new List<TUserUnit>() ;
+	List<UserUnit> levelUpInfo = new List<UserUnit>() ;
 	void CheckLevelUp() {
 		levelUpInfo.Clear ();
 
-		TUserUnit baseItem = selectedItem [baseItemIndex].UserUnit;
+		UserUnit baseItem = selectedItem [baseItemIndex].UserUnit;
 		if (baseItem == null) {
 			levelUpButton.isEnabled = false;
 			return;	
 		}
 		levelUpInfo.Add (baseItem);
 
-		TUserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;
+		UserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;
 		if (friendInfo == null) {
 			levelUpButton.isEnabled = false;
 			return;	
@@ -747,7 +748,7 @@ public class LevelUpView : ViewBase {
 	}
 
 	void UpdateBaseInfoView(){
-		TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
+		UserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
 		if (baseInfo == null) {
 			ClearInfoPanelData();
 			return;	
@@ -781,17 +782,17 @@ public class LevelUpView : ViewBase {
 			return;	
 		}
 
-		TUserUnit friend = selectedItem [friendItemIndex].UserUnit;
+		UserUnit friend = selectedItem [friendItemIndex].UserUnit;
 		if (friend == null) {
 			return ;
 		}
 
-		TUserUnit baseInfo = selectedItem[baseItemIndex].UserUnit;
+		UserUnit baseInfo = selectedItem[baseItemIndex].UserUnit;
 		ExpGot = System.Convert.ToInt32(LevelUpCurExp() * DGTools.AllMultiple (friend, baseInfo) );
 	}
 
 	bool CheckBaseIsNull() {
-		TUserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
+		UserUnit baseInfo = selectedItem [baseItemIndex].UserUnit;
 		if (baseInfo == null) {
 			return true;	
 		}
@@ -810,7 +811,7 @@ public class LevelUpView : ViewBase {
 			}
 		}
 
-		return selectedItem [baseItemIndex].UserUnit.Level * CoinBase * totalMoney;
+		return selectedItem [baseItemIndex].UserUnit.level * CoinBase * totalMoney;
 	}
 
 	int LevelUpCurExp () {
@@ -827,7 +828,7 @@ public class LevelUpView : ViewBase {
 	public LevelUpUnitItem GetPartyUnitItem(uint id){
 
 		foreach (var item in unitItems) {
-			if(item.UserUnit.UnitID == id){
+			if(item.UserUnit.unitId == id){
 				return item;
 			}
 		}
@@ -836,7 +837,7 @@ public class LevelUpView : ViewBase {
 
 	public void SetItemVisible(uint unitId){
 		foreach (var item in myUnit) {
-			if(item.UnitID == unitId)
+			if(item.unitId == unitId)
 			{
 				myUnit.Remove(item);
 				myUnit.Add(item);
@@ -849,9 +850,9 @@ public class LevelUpView : ViewBase {
 
 	}
 
-	public void RefreshUnitItem(TUserUnit unit) {
+	public void RefreshUnitItem(UserUnit unit) {
 		for (int i=0; i<myUnit.Count; i++) {
-			if (myUnit[i]!=null && myUnit[i].ID == unit.ID ) {
+			if (myUnit[i]!=null && myUnit[i].uniqueId == unit.uniqueId ) {
 				myUnit[i] = unit;
 				break;
 			}

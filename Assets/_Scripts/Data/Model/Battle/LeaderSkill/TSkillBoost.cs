@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class TSkillBoost : SkillBaseInfo {
+public class TSkillBoost : SkillBase {
 	private SkillBoost instance;
-	public TSkillBoost (object instance) : base (instance) {
+	public TSkillBoost (object instance) {
 		this.instance = instance as SkillBoost;
-		skillBase = this.instance.baseInfo;
+//		skillBase = this.instance.baseInfo;
 	}
 	
 	SkillBoost Get(){

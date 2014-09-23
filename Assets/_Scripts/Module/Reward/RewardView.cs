@@ -89,9 +89,9 @@ public class RewardView : ViewBase {
 					}
 				}
 			}
-			DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-			DataCenter.Instance.AccountInfo.Money = rsp.money;
-			DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+			DataCenter.Instance.AccountInfo.stone = rsp.stone;
+			DataCenter.Instance.AccountInfo.money = rsp.money;
+			DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
 			DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.newUnitList);
 
 			MsgCenter.Instance.Invoke(CommandEnum.SyncChips);

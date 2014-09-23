@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class UserBriefInfoView : ViewBase{
 	GameObject window;
@@ -172,19 +173,19 @@ public class UserBriefInfoView : ViewBase{
 	}
 
 	void RefreshUnitInfoView(object args){
-		TUserUnit tuu = args as TUserUnit;
-		hpLabel.text = tuu.Level.ToString();
+		UserUnit tuu = args as UserUnit;
+		hpLabel.text = tuu.level.ToString();
 		atkLabel.text = tuu.Attack.ToString();
-		lvLabel.text = tuu.Level.ToString();
-		nameLabel.text = tuu.UnitInfo.Name;
+		lvLabel.text = tuu.level.ToString();
+		nameLabel.text = tuu.UnitInfo.name;
 		raceLabel.text = tuu.UnitInfo.UnitRace.ToString();
 //		tuu.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
 //			avatarTex.mainTexture = o as Texture2D;
 //		});
 
-		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTex);
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTex);
 
-		slvLabel.text = tuu.UnitInfo.ActiveSkill.ToString();
+		slvLabel.text = tuu.UnitInfo.activeSkill.ToString();
 	}
 
 	void RefreshLastLogin(object args){

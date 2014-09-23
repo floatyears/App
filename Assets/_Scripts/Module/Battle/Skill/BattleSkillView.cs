@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class BattleSkillView : ViewBase {
 	private string[] SKill = new string[5]{ "LeaderSkill","NormalSKill1","NormalSkill2","ActiveSkill","PassiveSKill"};
@@ -71,7 +72,7 @@ public class BattleSkillView : ViewBase {
 	{
 		base.ShowUI ();
 		if (viewData != null && viewData.ContainsKey("show_skill_window")) {
-			Refresh(viewData ["show_skill_window"] as TUserUnit);
+			Refresh(viewData ["show_skill_window"] as UserUnit);
 		}
 	}
 
@@ -89,20 +90,20 @@ public class BattleSkillView : ViewBase {
 	bool boost = false;
 	bool isRecoveSP = false;
 	bool isBattle = false ;
- 	void Refresh(TUserUnit userUnitInfo) {
-		TUnitInfo tui = userUnitInfo.UnitInfo;
+ 	void Refresh(UserUnit userUnitInfo) {
+		UnitInfo tui = userUnitInfo.UnitInfo;
 
-		UpdateSkillInfo (0, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.LeaderSkill, SkillType.LeaderSkill));
+		UpdateSkillInfo (0, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.leaderSkill, SkillType.LeaderSkill));
 
-		UpdateSkillInfo (1, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill1, SkillType.NormalSkill));
+		UpdateSkillInfo (1, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.skill1, SkillType.NormalSkill));
 
-		UpdateSkillInfo (2, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.NormalSkill2, SkillType.NormalSkill));
+		UpdateSkillInfo (2, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.skill2, SkillType.NormalSkill));
 
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.ActiveSkill, SkillType.ActiveSkill);
+		SkillBase sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.activeSkill, SkillType.ActiveSkill);
 		UpdateSkillInfo (3, sbi);
 
 		bool notNull = sbi != null;
-		bool isCooling = notNull && (sbi.skillBase.skillCooling == 0);
+		bool isCooling = notNull && (sbi.skillCooling == 0);
 		isRecoveSP = notNull && sbi.GetType () == typeof(TSkillRecoverSP);
 //		isBattle = battleQuest.battle.GetState == UIState.UIShow;
 		if (notNull && isCooling) {
@@ -117,13 +118,13 @@ public class BattleSkillView : ViewBase {
 		if (sbi == null) {
 			roundLabel.text = "";
 		}  else {
-			roundLabel.text = "CD: "+ sbi.skillBase.skillCooling;
+			roundLabel.text = "CD: "+ sbi.skillCooling;
 		}
 
-		UpdateSkillInfo (4, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.PassiveSkill, SkillType.PassiveSkill));
+		UpdateSkillInfo (4, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.passiveSkill, SkillType.PassiveSkill));
 	}
 
-	void UpdateSkillInfo(int index, SkillBaseInfo sbi) {
+	void UpdateSkillInfo(int index, SkillBase sbi) {
 		if (index == 4 ) {
 			if(sbi == null)
 				skillDic [SKill [index]].ShowSkillInfo (sbi, true);
@@ -144,7 +145,7 @@ public class SkillItem {
 	public UILabel skillDescribeLabel;
 	public List<UISprite> skillSprite;
 
-	public void ShowSkillInfo (SkillBaseInfo sbi, bool isPassiveSkill = false) {
+	public void ShowSkillInfo (SkillBase sbi, bool isPassiveSkill = false) {
 		if (sbi == null) {
 			if(isPassiveSkill) {
 				ClearPassiveSkill();
@@ -154,12 +155,12 @@ public class SkillItem {
 			return;
 		}
 		skillTypeLabel.enabled = true;
-		string id = sbi.skillBase.id.ToString ();
+		string id = sbi.id.ToString ();
 
-		skillName.text = TextCenter.GetText (SkillBaseInfo.SkillNamePrefix + id);
-		skillDescribeLabel.text = TextCenter.GetText (SkillBaseInfo.SkillDescribeFix + id);
+		skillName.text = TextCenter.GetText (SkillBase.SkillNamePrefix + id);
+		skillDescribeLabel.text = TextCenter.GetText (SkillBase.SkillDescribeFix + id);
 
-		TNormalSkill tns = sbi as TNormalSkill;
+		NormalSkill tns = sbi as NormalSkill;
 		if (tns != null) {
 			ShowSprite (tns.Blocks);
 		} else {

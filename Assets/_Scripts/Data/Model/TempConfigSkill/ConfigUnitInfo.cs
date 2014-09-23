@@ -7,7 +7,7 @@ using System.Collections;
 
 public class CalculateSkillUtility {
 	public List<uint> haveCard = new List<uint>();
-	public List<TNormalSkill> alreadyUseSkill = new List<TNormalSkill>();
+	public List<NormalSkill> alreadyUseSkill = new List<NormalSkill>();
 
 	public List<uint> residualCard;
 

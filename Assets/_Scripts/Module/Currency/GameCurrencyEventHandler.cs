@@ -44,10 +44,10 @@ public class GameCurrencyEventHandler {
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.OnBuyEvent,new Dictionary<string,string>(){{"id",rsp.productId},{"success","1"}});
 		//update user's account
-		DataCenter.Instance.AccountInfo.Stone = rsp.stone;
-		DataCenter.Instance.AccountInfo.StonePay = rsp.stonePay;
-		DataCenter.Instance.AccountInfo.StoneFree = rsp.stoneFree;
-		DataCenter.Instance.AccountInfo.PayTotal = rsp.payTotal;
+		DataCenter.Instance.AccountInfo.stone = rsp.stone;
+		DataCenter.Instance.AccountInfo.stonePay = rsp.stonePay;
+		DataCenter.Instance.AccountInfo.stoneFree = rsp.stoneFree;
+		DataCenter.Instance.AccountInfo.payTotal = rsp.payTotal;
 		
 		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBarView>().UpdateData();
 

@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class UserBriefInfoModule : ModuleBase{
-	TUserUnit currentPickedUserUnit;
+	UserUnit currentPickedUserUnit;
 
 	public UserBriefInfoModule(UIConfigItem config):base(  config){
 		CreateUI<UserBriefInfoView> ();
@@ -60,15 +61,15 @@ public class UserBriefInfoModule : ModuleBase{
 	}
 
 	void ReceiveShowBriefRquest(object msg){
-		TFriendInfo tfi = msg as TFriendInfo;
+		FriendInfo tfi = msg as FriendInfo;
 		currentPickedUserUnit = tfi.UserUnit;
 		RefreshUnitInfo(tfi.UserUnit);
-		RefreshRank(tfi.Rank);
-		RefreshUserName(tfi.NickName);
-		RefreshLastLogin(tfi.LastPlayTime);
+		RefreshRank(tfi.rank);
+		RefreshUserName(tfi.nickName);
+		RefreshLastLogin(tfi.lastPlayTime);
 	}
 
-	void RefreshUnitInfo(TUserUnit tuu){
+	void RefreshUnitInfo(UserUnit tuu){
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("RefreshUnitInfoView", tuu);
 		view.CallbackView("RefreshUnitInfoView");
 	}

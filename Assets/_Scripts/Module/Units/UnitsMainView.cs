@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class UnitsMainView : ViewBase, IDragChangeView{
 	private UIButton prePageBtn;
@@ -22,7 +23,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		UnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 //		RefreshParty();
 
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
@@ -151,7 +152,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	}
 
 	public void RefreshParty (bool isRight){
-		TUnitParty tup = null;
+		UnitParty tup = null;
 		if (isRight) {
 			tup = DataCenter.Instance.PartyInfo.PrevParty;
 		} else {

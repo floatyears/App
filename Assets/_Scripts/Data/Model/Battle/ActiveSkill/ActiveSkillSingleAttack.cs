@@ -35,8 +35,8 @@ public class TSkillSingleAttack : ActiveSkill  {
 
 	public TSkillSingleAttack(object instance) : base (instance) {
 		this.instance = instance as SkillSingleAttack;
-		skillBase = this.instance.baseInfo;	
-		initSkillCooling = skillBase.skillCooling;
+//		skillBase = this.instance.baseInfo;	
+//		initSkillCooling = skillBase.skillCooling;
 		
 		if (initSkillCooling == 0) {
 			coolingDone = true;
@@ -53,7 +53,7 @@ public class TSkillSingleAttack : ActiveSkill  {
 		InitCooling ();
 		AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
 		ai.UserUnitID = userUnitID;
-		ai.SkillID = skillBase.id;
+		ai.SkillID = id; 
 		ai.AttackType = (int)instance.unitType;
 		ai.AttackRange = (int)instance.attackRange;
 //		Debug.LogError ("instance attack range : " + instance.attackRange + " type : " + instance.type);

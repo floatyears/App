@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class FriendUnitItem : BaseUnitItem {
 	protected UILabel nameLabel;
@@ -13,13 +14,13 @@ public class FriendUnitItem : BaseUnitItem {
 		return view;
 	}
 
-	protected TFriendInfo friendInfo;
-	public TFriendInfo FriendInfo{
+	protected FriendInfo friendInfo;
+	public FriendInfo FriendInfo{
 		get{ return friendInfo; }
 		set{ friendInfo = value; }
 	}
 		
-	public void Init(TFriendInfo friendInfo){
+	public void Init(FriendInfo friendInfo){
 		this.friendInfo = friendInfo;
 		base.Init(friendInfo.UserUnit);
 	}
@@ -62,11 +63,11 @@ public class FriendUnitItem : BaseUnitItem {
 	}
 
 	private void SetName(){
-		if(string.IsNullOrEmpty(friendInfo.NickName)){
+		if(string.IsNullOrEmpty(friendInfo.nickName)){
 			nameLabel.text = "NONAME";
 		}
 		else{
-			nameLabel.text = friendInfo.NickName;
+			nameLabel.text = friendInfo.nickName;
 		}
 	}
 }

@@ -120,15 +120,15 @@ public class SellUnitView : ViewBase{
 		submitRoot.transform.localPosition = new Vector3(-1000, -215, 0);
 		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f));
 
-		List<TUserUnit> readySaleList = args as List<TUserUnit>;
+		List<UserUnit> readySaleList = args as List<UserUnit>;
 		FillLastSureWindow(readySaleList);
 	}
 
-	void FillLastSureWindow(List<TUserUnit> dataInfoList){
+	void FillLastSureWindow(List<UserUnit> dataInfoList){
 		for (int i = 0; i < dataInfoList.Count; i++){
-			ResourceManager.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.ID, FindTextureWithPosition( i, readyItemList) );
+			ResourceManager.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.id, FindTextureWithPosition( i, readyItemList) );
 
-			string level = dataInfoList[ i ].Level.ToString();
+			string level = dataInfoList[ i ].level.ToString();
 //			FindLabelWithPosition(i, readyItemList).text = "Lv" + level;
 			UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
 			UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
@@ -263,7 +263,7 @@ public class SellUnitView : ViewBase{
 
 	void ClickSellBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		List<TUserUnit> picked = new List<TUserUnit>();
+		List<UserUnit> picked = new List<UserUnit>();
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
 			SellUnitItem sellUnitItem = pickUnitViewList[ i ];
 			if(sellUnitItem == null)
@@ -310,7 +310,7 @@ public class SellUnitView : ViewBase{
 	void CreateDragView(object args){
 //		Debug.LogError("xxxxxxx");
 		saleUnitViewList.Clear();
-		List<TUserUnit> dataList = args as List<TUserUnit>;
+		List<UserUnit> dataList = args as List<UserUnit>;
 		if (dragPanel!=null) {
 			dragPanel.DestoryUI();
 		}
@@ -364,7 +364,7 @@ public class SellUnitView : ViewBase{
 				pickUnitViewList[index] = item;
 			}
 
-			ChangeTotalSaleValue(item.UserUnit.UnitInfo.SaleValue);
+			ChangeTotalSaleValue(item.UserUnit.UnitInfo.saleValue);
 			Dictionary<string,object> temp = new Dictionary<string, object>();
 			temp.Add("poolPos", poolPos);
 			temp.Add("clickPos", clickPos);
@@ -372,12 +372,12 @@ public class SellUnitView : ViewBase{
 
 			GameObject targetItem = pickItemList[ poolPos ];
 			UISprite sprite = targetItem.transform.Find("Texture").GetComponent<UISprite>();
-			ResourceManager.Instance.GetAvatarAtlas(item.UserUnit.UnitInfo.ID, sprite, returnValue => {
+			ResourceManager.Instance.GetAvatarAtlas(item.UserUnit.UnitInfo.id, sprite, returnValue => {
 				string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
 				temp.Add("background", sprName);
 				sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
 				temp.Add("border", sprName);
-				temp.Add("label", item.UserUnit.Level.ToString());
+				temp.Add("label", item.UserUnit.level.ToString());
 				AddViewItem(temp);
 				
 				ActivateButton();
@@ -394,7 +394,7 @@ public class SellUnitView : ViewBase{
 			temp.Add("poolPos", poolPos);
 			temp.Add("clickPos", clickPos);
 			RmvViewItem(temp);
-			ChangeTotalSaleValue(-item.UserUnit.UnitInfo.SaleValue);
+			ChangeTotalSaleValue(-item.UserUnit.UnitInfo.saleValue);
 		}
 		ActivateButton();
 	}
@@ -483,7 +483,7 @@ public class SellUnitView : ViewBase{
 	private void SortUnitByCurRule(){
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.SellView);
 
-		List<TUserUnit> unitList = new List<TUserUnit>();
+		List<UserUnit> unitList = new List<UserUnit>();
 		for (int i = 0; i < saleUnitViewList.Count; i++){
 			unitList.Add(saleUnitViewList[ i ].UserUnit);
 		}
@@ -505,8 +505,8 @@ public class SellUnitView : ViewBase{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	private void ShowUnitType(TUserUnit tuu, UISprite avatarBg, UISprite avatarBorderSpr){
-		switch (tuu.UnitInfo.Type){
+	private void ShowUnitType(UserUnit tuu, UISprite avatarBg, UISprite avatarBorderSpr){
+		switch (tuu.UnitInfo.type){
 			case EUnitType.UFIRE :
 				avatarBg.spriteName = "avatar_bg_fire";
 				avatarBorderSpr.spriteName = "avatar_border_fire";

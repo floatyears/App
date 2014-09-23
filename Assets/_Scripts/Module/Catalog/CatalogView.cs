@@ -303,13 +303,13 @@ public class CatalogView : ViewBase {
 //		setter.depth = 2;	
 //		dynamicDragPanel.SetDragPanel (setter);
 
-		List<TUserUnit> catalogDataList =  new List<TUserUnit>();
+		List<UserUnit> catalogDataList =  new List<UserUnit>();
 		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
 			UserUnit userUnit = new UserUnit();
 			userUnit.level = 1;
 			userUnit.exp = 0;
 			userUnit.unitId = (uint)(i + 1);
-			catalogDataList.Add(new TUserUnit(userUnit));
+			catalogDataList.Add(userUnit);
 		}
 		dynamicDragPanel.RefreshItem(catalogDataList);
 		yield return null;

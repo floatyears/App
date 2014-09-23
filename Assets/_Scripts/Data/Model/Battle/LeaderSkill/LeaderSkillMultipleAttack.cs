@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class LeaderSkillMultipleAttack : SkillBaseInfo {
+public class LeaderSkillMultipleAttack : SkillBase {
 	private SkillMultipleAttack instance;
-	public LeaderSkillMultipleAttack(object instance) : base (instance) {
+	public LeaderSkillMultipleAttack(object instance) {
 		this.instance = instance as SkillMultipleAttack;
-		skillBase = this.instance.baseInfo;
+//		skillBase = this.instance.baseInfo;
 	}
 
 	public float MultipeAttack (List<AttackInfo> attackInfo) {

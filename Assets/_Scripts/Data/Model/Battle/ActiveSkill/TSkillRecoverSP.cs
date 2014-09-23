@@ -6,10 +6,10 @@ public class RecoverSP : ActiveSkill {
 	private SkillRecoverSP instance;
 	public RecoverSP (object instance) : base (instance) { 
 		this.instance = instance as SkillRecoverSP;
-		skillBase = this.instance.baseInfo;	
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;	
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 
 //	public bool CoolingDone {

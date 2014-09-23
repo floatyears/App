@@ -6,7 +6,7 @@ using bbproto;
 public class SellUnitModule : ModuleBase {
 	int maxPickCount = 12;
 	int totalSaleValue = 0;
-	List<TUserUnit> pickedUnitList = new List<TUserUnit>();
+	List<UserUnit> pickedUnitList = new List<UserUnit>();
 
 	public SellUnitModule(UIConfigItem config):base(  config) {
 		CreateUI<SellUnitView> ();
@@ -49,7 +49,7 @@ public class SellUnitModule : ModuleBase {
 		int gotMoney = rsp.gotMoney;
 		List<UserUnit> unitList = rsp.unitList;
 
-		DataCenter.Instance.AccountInfo.Money = rsp.money;
+		DataCenter.Instance.AccountInfo.money = rsp.money;
 
 		DataCenter.Instance.UserUnitList.DelMyUnitList(GetOnSaleUnitIDList());
 
@@ -73,7 +73,7 @@ public class SellUnitModule : ModuleBase {
 	}
 
 	void PlanToSell(object args){
-		pickedUnitList = args as List<TUserUnit>;
+		pickedUnitList = args as List<UserUnit>;
 		if(CheckPickedUnitRare()) 
 			GiveRareWarning();
 		else 
@@ -93,13 +93,13 @@ public class SellUnitModule : ModuleBase {
 		for (int i = 0; i < pickedUnitList.Count; i++){
 
 			if(pickedUnitList[ i ] != null)
-				idList.Add(pickedUnitList[ i ].ID);
+				idList.Add(pickedUnitList[ i ].uniqueId);
 		}
 		return idList;
 	}
 
-	List<TUserUnit> GetReadySaleUnitList(){
-		List<TUserUnit> readySaleList = new List<TUserUnit>();
+	List<UserUnit> GetReadySaleUnitList(){
+		List<UserUnit> readySaleList = new List<UserUnit>();
 		for (int i = 0; i < pickedUnitList.Count; i++){
 			if(pickedUnitList[ i ] != null)
 				readySaleList.Add(pickedUnitList[ i ]);
@@ -111,7 +111,7 @@ public class SellUnitModule : ModuleBase {
 		bool noteSignal = false;
 		for (int i = 0; i < pickedUnitList.Count; i++){
 			if(pickedUnitList[ i ] == null) continue;
-			if(pickedUnitList[ i ].UnitInfo.Rare >= 3){
+			if(pickedUnitList[ i ].UnitInfo.rare >= 3){
 				noteSignal = true;
 				break;
 			}
@@ -120,10 +120,10 @@ public class SellUnitModule : ModuleBase {
 	}
 
 
-	private List<TUserUnit> curUseUnitList;
+	private List<UserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
 //		Debug.LogError("GetUnitCellViewList()...");
-		List<TUserUnit> userUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit(); //new List<TUserUnit>();	
+		List<UserUnit> userUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit(); //new List<TUserUnit>();	
 		//userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
 			curUseUnitList = userUnitList;
@@ -141,17 +141,17 @@ public class SellUnitModule : ModuleBase {
 		}
 	}
 	
-	bool CanBeCancel(TUserUnit info){
+	bool CanBeCancel(UserUnit info){
 		bool ret = false;
 		ret = pickedUnitList.Contains(info);
 		return ret;
 	}
 
-	void CancelPick(int clickPos, TUserUnit info){
+	void CancelPick(int clickPos, UserUnit info){
 		int poolPos = pickedUnitList.IndexOf(info);
 		pickedUnitList[ poolPos ] = null;
 		CancelShowUnit(clickPos, poolPos);
-		ChangeTotalSaleValue( -info.UnitInfo.SaleValue );
+		ChangeTotalSaleValue( -info.UnitInfo.saleValue );
 	}
 
 	void ChangeTotalSaleValue(int value){
@@ -164,7 +164,7 @@ public class SellUnitModule : ModuleBase {
 		view.CallbackView("UpdateCoinLabel", value);
 	}
 
-	void Pick(int clickPos, TUserUnit info){
+	void Pick(int clickPos, UserUnit info){
 		int firstEmptyIndex = -1;
 		for (int i = 0; i < pickedUnitList.Count; i++){
 			if(pickedUnitList[ i ] == null){
@@ -183,7 +183,7 @@ public class SellUnitModule : ModuleBase {
 			pickedIndex = firstEmptyIndex;
 		}
 		ShowPickedUnit(clickPos, pickedIndex, info);
-		ChangeTotalSaleValue(info.UnitInfo.SaleValue);
+		ChangeTotalSaleValue(info.UnitInfo.saleValue);
 	}
 
 	bool CanActivateSellBtn(){
@@ -211,10 +211,10 @@ public class SellUnitModule : ModuleBase {
 		return pickedCount;
 	}
 
-	void ShowPickedUnit(int clickPos, int poolPos, TUserUnit tuu){
-		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,tuu.ID, o=>{
+	void ShowPickedUnit(int clickPos, int poolPos, UserUnit tuu){
+		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar,tuu.uniqueId, o=>{
 			Texture2D tex2d = o as Texture2D;
-			string level = tuu.Level.ToString();
+			string level = tuu.level.ToString();
 			Dictionary<string, object> viewInfo = new Dictionary<string, object>();
 			viewInfo.Add("poolPos", poolPos);
 			viewInfo.Add("clickPos", clickPos);

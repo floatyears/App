@@ -4,12 +4,12 @@ using bbproto;
 
 public class ActiveDelayTime : ActiveSkill {
 	private SkillDelayTime instance;
-	public ActiveDelayTime(object instance) : base (instance) {
+	public ActiveDelayTime(object instance) :base(instance){
 		this.instance = instance as SkillDelayTime;
-		skillBase = this.instance.baseInfo;
-		if (skillBase.skillCooling == 0) {
-			coolingDone = true;
-		}
+//		skillBase = this.instance.baseInfo;
+//		if (skillBase.skillCooling == 0) {
+//			coolingDone = true;
+//		}
 	}
 //	public bool CoolingDone {
 //		get {

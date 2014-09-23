@@ -152,12 +152,12 @@ using bbproto;public class BattleTopView : ViewBase {
 //		BattleBottomView.notClick = true;
 		
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
-		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.Stone),
+		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.stone),
 		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
 	}
 
 	void SureInitiativeRetry(object data) {
-		if (DataCenter.Instance.AccountInfo.Stone < DataCenter.redoQuestStone) {
+		if (DataCenter.Instance.AccountInfo.stone < DataCenter.redoQuestStone) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
@@ -167,7 +167,7 @@ using bbproto;public class BattleTopView : ViewBase {
 		//		if (battle.isShowEnemy) {
 		//			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
 		//		}
-		QuestController.Instance.RedoQuest (SureRetryNetWork, BattleConfigData.Instance.questDungeonData.QuestId, BattleConfigData.Instance.questDungeonData.currentFloor);
+		QuestController.Instance.RedoQuest (SureRetryNetWork, BattleConfigData.Instance.questDungeonData.questId, BattleConfigData.Instance.questDungeonData.currentFloor);
 		
 //		Main.Instance.GInput.IsCheckInput = true;
 //		BattleBottomView.notClick = false;
@@ -195,7 +195,7 @@ using bbproto;public class BattleTopView : ViewBase {
 			return;	
 		}
 		
-		DataCenter.Instance.AccountInfo.Stone = rrq.stone;
+		DataCenter.Instance.AccountInfo.stone = rrq.stone;
 		BattleConfigData.Instance.RefreshCurrentFloor(rrq);;
 		BattleConfigData.Instance.InitRoleCoordinate (new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY));
 		BattleConfigData.Instance.StoreMapData ();
@@ -223,17 +223,16 @@ using bbproto;public class BattleTopView : ViewBase {
 	void RequestData (object data) {
 		if (DataCenter.gameState == GameState.Evolve) {
 //			EvolveDone evolveDone = new EvolveDone ();
-			TClearQuestParam cqp = GetQuestData();
-			UnitController.Instance.EvolveDone(ResponseEvolveQuest,cqp.questId,0,cqp.getMoney,cqp.getUnit,cqp.hitGrid);
+			ClearQuestParam cqp = GetQuestData();
+			UnitController.Instance.EvolveDone(ResponseEvolveQuest,cqp.questID,0,cqp.getMoney,cqp.getUnit,cqp.hitGrid);
 		} else {
 			QuestController.Instance.ClearQuest(GetQuestData (), ResponseClearQuest);
 		}
 	}
 
-	TClearQuestParam GetQuestData () {
-		ClearQuestParam cq = new ClearQuestParam ();
-		TClearQuestParam cqp = new TClearQuestParam (cq);
-		cqp.questId = BattleConfigData.Instance.questDungeonData.QuestId;
+	ClearQuestParam GetQuestData () {
+		ClearQuestParam cqp = new ClearQuestParam ();
+		cqp.questID = BattleConfigData.Instance.questDungeonData.questId;
 		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			cqp.getMoney += item.getMoney;
 			cqp.getUnit.AddRange(item.getUnit);
@@ -251,10 +250,10 @@ using bbproto;public class BattleTopView : ViewBase {
 			End();
 			QuestEnd(clearQuest);
 
-			Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.ID.ToString());
+			Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.id.ToString());
 		} else {
 			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
-			                                                                                                  DataCenter.Instance.AccountInfo.Stone),TextCenter.GetText("Retry"),RequestData);
+			                                                                                                  DataCenter.Instance.AccountInfo.stone),TextCenter.GetText("Retry"),RequestData);
 			
 		}
 	}
@@ -262,10 +261,10 @@ using bbproto;public class BattleTopView : ViewBase {
 	
 	void QuestEnd (TRspClearQuest trcq) {
 		if (BattleConfigData.Instance.currentStageInfo != null) {
-			if ( BattleConfigData.Instance.currentStageInfo.Type == QuestType.E_QUEST_STORY ) { // story quest
-				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.ID, BattleConfigData.Instance.currentQuestInfo.ID);
+			if ( BattleConfigData.Instance.currentStageInfo.type == QuestType.E_QUEST_STORY ) { // story quest
+				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
 			} else { 
-				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.ID, BattleConfigData.Instance.currentQuestInfo.ID);
+				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
 			}	
 		}
 		
@@ -291,19 +290,19 @@ using bbproto;public class BattleTopView : ViewBase {
 		//		DataCenter.Instance.RefreshUserInfo(rsp)
 		DataCenter.Instance.UserInfo.Rank = rsp.rank;
 		DataCenter.Instance.UserInfo.Exp = rsp.exp;
-		DataCenter.Instance.AccountInfo.Money = rsp.money;
-		DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
+		DataCenter.Instance.AccountInfo.money = rsp.money;
+		DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
 		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
 		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
 		//
-		TUnitParty tup = BattleConfigData.Instance.party;
+		UnitParty tup = BattleConfigData.Instance.party;
 		foreach (var item in tup.UserUnit) {
 			if(item == null ) {
 				continue;
 			}
-			if ( item.ID != rsp.evolvedUnit.uniqueId ) { //only delete Evo Materials, not delete BaseUnit
-				DataCenter.Instance.UserUnitList.DelMyUnit(item.ID);
+			if ( item.isFavorite != rsp.evolvedUnit.uniqueId ) { //only delete Evo Materials, not delete BaseUnit
+				DataCenter.Instance.UserUnitList.DelMyUnit(item.uniqueId);
 			}
 		}
 		BattleConfigData.Instance.party = null;
@@ -321,10 +320,10 @@ using bbproto;public class BattleTopView : ViewBase {
 		trcq.money = rsp.money;
 		trcq.gotMoney = rsp.gotMoney;
 		trcq.gotStone = rsp.gotStone;
-		trcq.evolveUser = TUserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
-		List<TUserUnit> temp = new List<TUserUnit> ();
+		trcq.evolveUser = UserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
+		List<UserUnit> temp = new List<UserUnit> ();
 		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
-			TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId,rsp.gotUnit[i]);
+			UserUnit tuu = UserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId,rsp.gotUnit[i]);
 			temp.Add(tuu);
 		}
 		trcq.gotUnit = temp;

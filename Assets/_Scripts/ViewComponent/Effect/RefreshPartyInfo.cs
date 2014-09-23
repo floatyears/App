@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class RefreshPartyInfo : MonoBehaviour {
 	public List<PageUnitItem> partyView = null;
@@ -7,11 +8,11 @@ public class RefreshPartyInfo : MonoBehaviour {
 
 	private PageUnitItem friendItem;
 
-	public void RefreshView (TUnitParty unitParty) {
+	public void RefreshView (UnitParty unitParty) {
 		if (partyView == null || partyView.Count == 0) {
 			InitComponent();
 		}
-		List<TUserUnit> partyMemberList = unitParty.GetUserUnit();
+		List<UserUnit> partyMemberList = unitParty.GetUserUnit();
 		for (int i = 0; i < partyMemberList.Count; i++){
 			partyView[i].UserUnit = partyMemberList[i];
 		}
@@ -30,7 +31,7 @@ public class RefreshPartyInfo : MonoBehaviour {
 		}
 	}
 
-	public void SetFriend(TUserUnit tuu) {
+	public void SetFriend(UserUnit tuu) {
 		friendItem.UserUnit = tuu;
 	} 
 }

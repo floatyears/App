@@ -60,10 +60,10 @@ public class BattleAttackEffectView : ViewBase {
 	void PlayActiveSkill(AttackInfo ai) {
 		activeEffect.SetActive (true);
 		activeEffect.transform.localPosition = BattleManipulationView.activeSkillStartPosition;
-		TUserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID);
-		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.ID, avatarTexture);
-		SkillBaseInfo sbi = DataCenter.Instance.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
-		skillName = sbi == null ? "" : TextCenter.GetText (SkillBaseInfo.SkillNamePrefix + sbi.skillBase.id);//sbi.SkillName;
+		UserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID);
+		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture);
+		SkillBase sbi = DataCenter.Instance.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
+		skillName = sbi == null ? "" : TextCenter.GetText (SkillBase.SkillNamePrefix + sbi.id);//sbi.SkillName;
 		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleManipulationView.startPosition, "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutQuad));  
 //		Debug.LogError ("PlayActiveSkill MoveTo");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_fly);

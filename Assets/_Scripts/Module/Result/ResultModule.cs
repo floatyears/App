@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 
 public class ResultModule : ModuleBase {
-	TFriendInfo curFriendInfo;
+	FriendInfo curFriendInfo;
 	public ResultModule(UIConfigItem config) : base(  config){
 		CreateUI<ResultView> ();
 	}
@@ -34,12 +34,12 @@ public class ResultModule : ModuleBase {
 
 	private void SendFriendApplyRequest(){
 		if(curFriendInfo == null) return;
-		AddFriendApplication(curFriendInfo.UserId);
+		AddFriendApplication(curFriendInfo.userId);
 	}
 
 	//main process
 	private void ShowFriendPointUpdateResult(object info){
-		TFriendInfo friendInfo = info as TFriendInfo;
+		FriendInfo friendInfo = info as FriendInfo;
 		if(friendInfo == null){
 			Debug.LogError("ShowFriendPointUpdateResult(), friendInfo is null!!!");
 			return;
@@ -56,9 +56,9 @@ public class ResultModule : ModuleBase {
 		ShowFriendPoint(BattleConfigData.Instance.gotFriendPoint);
 	}
 
-	private bool CheckIsFriend(TFriendInfo friendInfo){
+	private bool CheckIsFriend(FriendInfo friendInfo){
 		bool isFriend = false;
-		if(friendInfo.FriendState == EFriendState.ISFRIEND){
+		if(friendInfo.friendState == EFriendState.ISFRIEND){
 			isFriend = true;
 		}
 		else
@@ -72,7 +72,7 @@ public class ResultModule : ModuleBase {
 		view.CallbackView("Stylize", isSupport);
 	}
 
-	private void ShowFriendBriefInfo(TFriendInfo friendInfo){
+	private void ShowFriendBriefInfo(FriendInfo friendInfo){
 //		CallBackDispatcherArgs call = new CallBackDispatcherArgs("ShowTopView", friendInfo);
 		view.CallbackView("ShowTopView", friendInfo);
 	}
@@ -113,8 +113,8 @@ public class ResultModule : ModuleBase {
 		curFriendInfo = null;
 	}
 
-	private void AddGotFriendPoint(TFriendInfo friendInfo){
-		DataCenter.Instance.AccountInfo.FriendPoint += friendInfo.FriendPoint;
+	private void AddGotFriendPoint(FriendInfo friendInfo){
+		DataCenter.Instance.AccountInfo.friendPoint += friendInfo.friendPoint;
 	}
 
 }

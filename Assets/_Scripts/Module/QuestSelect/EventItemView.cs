@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class EventItemView : MonoBehaviour{
 	UILabel time;
@@ -55,8 +56,8 @@ public class EventItemView : MonoBehaviour{
 		}
 	}
 
-	private TStageInfo data;
-	public TStageInfo Data{
+	private StageInfo data;
+	public StageInfo Data{
 		get{
 			return data;
 		}
@@ -88,9 +89,9 @@ public class EventItemView : MonoBehaviour{
 	private void SetPosition(){
 		float x = 0;
 		float y = 0;
-		if(data.Pos != null){
-			x = data.Pos.x;
-			y = data.Pos.y;
+		if(data.pos != null){
+			x = data.pos.x;
+			y = data.pos.y;
 		}
 		else{
 			Debug.LogError("Stage.Pos is NULL!" + "  gameObject  is : " + gameObject);
@@ -109,7 +110,7 @@ public class EventItemView : MonoBehaviour{
 //		}
 
 		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
-		Debug.Log ("id: " + data.stageInfo.id + " current time: " + currentTime + " start time: " + data.StartTime + " end time: " + data.endTime);
+		Debug.Log ("id: " + data.id + " current time: " + currentTime + " start time: " + data.StartTime + " end time: " + data.endTime);
 		if (data.StartTime < currentTime) {
 			if(currentTime < data.endTime){
 //				time.enabled = false;
@@ -192,7 +193,7 @@ public class EventItemView : MonoBehaviour{
 			attr.atlas = atlas;
 			bg.atlas = atlas;
 
-			if(data.CityId == 101){
+			if(data.cityId == 101){
 				bg.spriteName = "icon_event_1";
 			}else{
 				bg.spriteName = "icon_event_2";
@@ -233,7 +234,7 @@ public class EventItemView : MonoBehaviour{
 //		int stagePos;
 //		int.TryParse(,out stagePos);
 
-		icon.spriteName = stageOrderList1[ (int)data.ID%10 - 1 ];
+		icon.spriteName = stageOrderList1[ (int)data.id%10 - 1 ];
 	}
 
 

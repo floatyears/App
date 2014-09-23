@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class DragPanelDynamic {
 	private static GameObject dragPanelPrefab;
@@ -14,7 +15,7 @@ public class DragPanelDynamic {
 
 	public DragPanelView dragPanelView;
 	public List<MyUnitItem> scrollItem = new List<MyUnitItem> ();
-	private List<TUserUnit> scrollItemData = new List<TUserUnit> ();
+	private List<UserUnit> scrollItemData = new List<UserUnit> ();
 
 	private int maxLine = 1;
 	private int maxPerLine = 1;
@@ -61,7 +62,7 @@ public class DragPanelDynamic {
 		}
 	}
 
-	public void RefreshItem(TUserUnit tuu) {
+	public void RefreshItem(UserUnit tuu) {
 		int index = scrollItemData.FindIndex (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 		if (index > -1) {
 			scrollItemData[index] = tuu;
@@ -117,7 +118,7 @@ public class DragPanelDynamic {
 	/// Refreshs the item by data.
 	/// </summary>
 	/// <param name="tuuList">data list.</param>
-	public List<MyUnitItem> RefreshItem(List<TUserUnit> tuuList) {
+	public List<MyUnitItem> RefreshItem(List<UserUnit> tuuList) {
 		endIndex = tuuList.Count;
 
 		if (scrollItem.Count == 0 && tuuList.Count > 0) {
@@ -252,7 +253,7 @@ public class DragPanelDynamic {
 		scrollItem [targetIndex].UserUnit = scrollItemData [dataIndex];
 	}
 
-	void CreatItem(List<TUserUnit> tuuList) {
+	void CreatItem(List<UserUnit> tuuList) {
 		int endItemIndex = tuuList.Count > maxIndex ? maxIndex : tuuList.Count;
 //		Debug.LogError("CreatItem AddGameObject befoure");
 		AddGameObject (endItemIndex);

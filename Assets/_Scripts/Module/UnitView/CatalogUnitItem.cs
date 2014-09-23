@@ -59,8 +59,8 @@ public class CatalogUnitItem : MyUnitItem {
 //		CatalogUserUnit = new TUserUnit(userUnit);
 	}
 	
-	private TUserUnit catalogUserUnit;
-	public TUserUnit CatalogUserUnit{
+	private UserUnit catalogUserUnit;
+	public UserUnit CatalogUserUnit{
 		get{
 			return catalogUserUnit;
 		}
@@ -72,11 +72,11 @@ public class CatalogUnitItem : MyUnitItem {
 			}
 			else{
 				//Debug.LogError("gameObject is : " + gameObject.name + "    unitId is : " + catalogUserUnit.UnitID);
-				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.UnitID)){
+				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.unitId)){
 					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isHave.");
 					State = CatalogState.Got;
 				}
-				else if(DataCenter.Instance.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.UnitID)){
+				else if(DataCenter.Instance.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.unitId)){
 					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isMeet.");
 					State = CatalogState.Meet;
 				}
@@ -102,7 +102,7 @@ public class CatalogUnitItem : MyUnitItem {
 				case CatalogState.Got : 
 //				Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID + " state: " + state);
 //				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
+				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.unitId, avatarSprite);
 //					avatarSprite.atlas = ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
 					erotemeSpr.enabled = false;
@@ -116,7 +116,7 @@ public class CatalogUnitItem : MyUnitItem {
 				case CatalogState.Meet : 
 //					avatarSprite.atlas = ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
 //					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
-					ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID, avatarSprite);
+				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.unitId, avatarSprite);
 					maskSprite.enabled = true;
 					erotemeSpr.enabled = false;
 					//translucentMaskSpr.enabled = true;
@@ -140,7 +140,7 @@ public class CatalogUnitItem : MyUnitItem {
 					//translucentMaskSpr.enabled = false;
 					break;
 			}
-			idLabel.text = "No. " + catalogUserUnit.UnitID.ToString();
+			idLabel.text = "No. " + catalogUserUnit.unitId.ToString();
 //			idLabel.color = Color.green;
 		}
 	}

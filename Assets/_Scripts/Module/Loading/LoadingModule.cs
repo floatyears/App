@@ -77,7 +77,7 @@ public class LoadingModule : ModuleBase {
 			GameTimer.GetInstance().recovertime = rspAuthUser.user.staminaRecover - rspAuthUser.serverTime;
 
             if (rspAuthUser.account != null) {
-                DataCenter.Instance.AccountInfo = new TAccountInfo(rspAuthUser.account);
+				DataCenter.Instance.AccountInfo = rspAuthUser.account;
             }
             
             if (rspAuthUser.user != null) {
@@ -90,23 +90,21 @@ public class LoadingModule : ModuleBase {
             }
             
             if (rspAuthUser.friends != null) {
-				List<TFriendInfo> supportFriends = new List<TFriendInfo>();
+				List<FriendInfo> supportFriends = new List<FriendInfo>();
                 foreach (FriendInfo fi in rspAuthUser.friends) {
-                    TFriendInfo tfi = new TFriendInfo(fi);
-					supportFriends.Add(tfi);
-					DataCenter.Instance.UserUnitList.Add(tfi.UserId, tfi.UserUnit.ID, tfi.UserUnit);
+					supportFriends.Add(fi);
+					DataCenter.Instance.UserUnitList.Add(fi.userId, fi.UserUnit.uniqueId, fi.UserUnit);
                 }
 				DataCenter.Instance.SupportFriends = supportFriends;
             } else {
 //                Debug.LogError("rsp.friends==null");
             }
             
-			DataCenter.Instance.EventStageList = new List<TStageInfo>();
+			DataCenter.Instance.EventStageList = new List<StageInfo>();
 			if (rspAuthUser.eventList != null) {
 				foreach (StageInfo stage in rspAuthUser.eventList) {
 					if(stage.quests.Count >0){
-						TStageInfo tsi = new TStageInfo(stage);
-						DataCenter.Instance.EventStageList.Add(tsi);
+						DataCenter.Instance.EventStageList.Add(stage);
 					}
 				}
 			}
@@ -114,30 +112,30 @@ public class LoadingModule : ModuleBase {
 			if (rspAuthUser.unitList != null) {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
 //					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
-					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId, unit));
+					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, UserUnit.GetUserUnit(userId, unit));
                 }
                 LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
             }
             
             if (rspAuthUser.party != null && rspAuthUser.party.partyList != null) {
-                DataCenter.Instance.PartyInfo = new TPartyInfo(rspAuthUser.party);
+				DataCenter.Instance.PartyInfo = rspAuthUser.party;
                 //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
 				DataCenter.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
             }
             
             if (rspAuthUser.questClear != null) {
-                DataCenter.Instance.QuestClearInfo = new TQuestClearInfo(rspAuthUser.questClear);
+				DataCenter.Instance.QuestClearInfo = rspAuthUser.questClear;
             }
             
-			DataCenter.Instance.CatalogInfo = new TUnitCatalog(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+			DataCenter.Instance.CatalogInfo = new UnitCatalogDataModel(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
 			if( rspAuthUser.notice != null) {
-				DataCenter.Instance.NoticeInfo = new TNoticeInfo(rspAuthUser.notice);
+				DataCenter.Instance.NoticeInfo = rspAuthUser.notice;
 				DataCenter.Instance.HelperCount = rspAuthUser.helpCountInfo;
 			}
 
 			if( rspAuthUser.login != null) {
-				DataCenter.Instance.LoginInfo = new TLoginInfo(rspAuthUser.login);
+				DataCenter.Instance.LoginInfo = rspAuthUser.login;
 			}
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
@@ -176,7 +174,7 @@ public class LoadingModule : ModuleBase {
 	}
 	
 	private void RspStartQuest(object data) {
-		TQuestDungeonData tqdd = null;
+		QuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
 			Debug.LogError("Rsp code: "+rspStartQuest.header.code+", error:"+rspStartQuest.header.error);
@@ -188,18 +186,18 @@ public class LoadingModule : ModuleBase {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
-			tqdd = new TQuestDungeonData(rspStartQuest.dungeonData);
+			tqdd = rspStartQuest.dungeonData;
 			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
 
-		Umeng.GA.StartLevel ("Quest" + tqdd.QuestId);
+		Umeng.GA.StartLevel ("Quest" + tqdd.questId);
 
 		EnterBattle (tqdd);
 	} 
 
-	private void EnterBattle (TQuestDungeonData tqdd) {
+	private void EnterBattle (QuestDungeonData tqdd) {
 		BattleConfigData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 //		Debug.LogError(tqdd.)
 		BattleConfigData.Instance.ResetFromServer(tqdd);
@@ -246,7 +244,7 @@ public class LoadingModule : ModuleBase {
 	void RecoverParty() {
 		GameState gs = (GameState)BattleConfigData.Instance.gameState;
 		if (gs == GameState.Evolve) {
-			TPartyInfo tpi = DataCenter.Instance.PartyInfo;
+			PartyInfo tpi = DataCenter.Instance.PartyInfo;
 			tpi.CurrentPartyId = tpi.AllParty.Count;
 			tpi.AllParty.Add(BattleConfigData.Instance.party);
 		}

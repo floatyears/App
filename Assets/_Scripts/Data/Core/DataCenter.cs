@@ -132,7 +132,7 @@ public class DataCenter {
 		get { return _gameState; }
 	}
 
-	public static TEvolveStart evolveInfo = null;
+	public static UnitDataModel evolveInfo = null;
 
     public const int maxEnergyPoint = 20;
     public const int posStart = 0;
@@ -164,30 +164,30 @@ public class DataCenter {
         get { return GetData(ModelEnum.UserInfo) as TUserInfo; } 
         set { SetData(ModelEnum.UserInfo, value); } 
     }
-    public TAccountInfo AccountInfo {
-        get { return GetData(ModelEnum.AccountInfo) as TAccountInfo; }
+    public AccountInfo AccountInfo {
+        get { return GetData(ModelEnum.AccountInfo) as AccountInfo; }
         set { SetData(ModelEnum.AccountInfo, value); }
     }
 
 	public SupportFriendManager supportFriendManager;
 
-    public List<TFriendInfo> SupportFriends {
+    public List<FriendInfo> SupportFriends {
 		get { return supportFriendManager.GetSupportFriend(); }
 		set { supportFriendManager.AddSupportFriend(value); }
     }
 
-    public TFriendList FriendList { 
-        get { return GetData(ModelEnum.FriendList) as TFriendList; }
+    public FriendDataModel FriendList { 
+        get { return GetData(ModelEnum.FriendList) as FriendDataModel; }
         set { SetData(ModelEnum.FriendList, value); } 
     }
 
-	public List<TStageInfo> EventStageList { 
-		get { return GetData(ModelEnum.EventStageList) as List<TStageInfo>; }
+	public List<StageInfo> EventStageList { 
+		get { return GetData(ModelEnum.EventStageList) as List<StageInfo>; }
 		set { SetData(ModelEnum.EventStageList, value); } 
 	}
 
-	public TQuestClearInfo QuestClearInfo {
-		get { return GetData(ModelEnum.QuestClearInfo) as TQuestClearInfo; }
+	public QuestClearInfo QuestClearInfo {
+		get { return GetData(ModelEnum.QuestClearInfo) as QuestClearInfo; }
 		set { SetData(ModelEnum.QuestClearInfo, value); }
 	}
 
@@ -214,10 +214,10 @@ public class DataCenter {
                 ret = (int)GetData(ModelEnum.FriendCount);
             }
             else{
-                List<TFriendInfo> supporters = SupportFriends;
+                List<FriendInfo> supporters = SupportFriends;
                 if (supporters != null){
                     for (int i = 0; i < supporters.Count; i++){
-                        if (supporters[i].FriendState == EFriendState.ISFRIEND){
+                        if (supporters[i].friendState == EFriendState.ISFRIEND){
                             ret += 1;
                         }
                     }
@@ -231,18 +231,18 @@ public class DataCenter {
             SetData(ModelEnum.FriendCount, value);
         }
     }
-    public TPartyInfo PartyInfo { 
-        get { return GetData(ModelEnum.PartyInfo) as TPartyInfo; }
+    public PartyInfo PartyInfo { 
+        get { return GetData(ModelEnum.PartyInfo) as PartyInfo; }
         set { SetData(ModelEnum.PartyInfo, value); }
     }
 
-	public TUnitCatalog CatalogInfo { 
-		get { return GetData(ModelEnum.UnitCatalogInfo) as TUnitCatalog; }
+	public UnitCatalogDataModel CatalogInfo { 
+		get { return GetData(ModelEnum.UnitCatalogInfo) as UnitCatalogDataModel; }
 		set { SetData(ModelEnum.UnitCatalogInfo, value); }
 	}
 
-	public TNoticeInfo NoticeInfo { 
-		get { return GetData(ModelEnum.NoticeInfo) as TNoticeInfo; }
+	public NoticeInfo NoticeInfo { 
+		get { return GetData(ModelEnum.NoticeInfo) as NoticeInfo; }
 		set { SetData(ModelEnum.NoticeInfo, value); }
 	}
 
@@ -252,8 +252,8 @@ public class DataCenter {
 	}
 
 
-	public TLoginInfo LoginInfo { 
-		get { return GetData(ModelEnum.LoginInfo) as TLoginInfo; }
+	public LoginInfo LoginInfo { 
+		get { return GetData(ModelEnum.LoginInfo) as LoginInfo; }
 		set { SetData(ModelEnum.LoginInfo, value); }
 	}
 
@@ -266,17 +266,17 @@ public class DataCenter {
 	/// <summary>
 	/// store befoure levelup's level
 	/// </summary>
-	public TUserUnit oldUserUnitInfo = null;
+	public UserUnit oldUserUnitInfo = null;
 
 	/// <summary>
 	/// store levelup's materials
 	/// </summary>
-	public List<TUserUnit> levelUpMaterials = new List<TUserUnit> ();
+	public List<UserUnit> levelUpMaterials = new List<UserUnit> ();
 
 	/// <summary>
 	/// store levelup helper info.
 	/// </summary>
-	public TUserUnit levelUpFriend = null;
+	public UserUnit levelUpFriend = null;
 
     public UserUnitList UserUnitList {
         get { 
@@ -291,11 +291,11 @@ public class DataCenter {
     }
 
     // unit configs table(come from config file: ) e.g.<hp, hpLevelConfigList>
-    public Dictionary<int,TPowerTableInfo> UnitValue {
+    public Dictionary<int,PowerTable> UnitValue {
         get { 
-            Dictionary<int,TPowerTableInfo> ret = GetData(ModelEnum.UnitValue) as Dictionary<int, TPowerTableInfo>;
+            Dictionary<int,PowerTable> ret = GetData(ModelEnum.UnitValue) as Dictionary<int, PowerTable>;
             if (ret == null) {
-                ret = new Dictionary<int,TPowerTableInfo>();
+                ret = new Dictionary<int,PowerTable>();
                 SetData(ModelEnum.UnitValue, ret);
             }
             return ret; 
@@ -303,11 +303,11 @@ public class DataCenter {
         set { SetData(ModelEnum.UnitValue, value); } 
     }
 
-    public Dictionary<int, SkillBaseInfo> Skill {
+    public Dictionary<int, SkillBase> Skill {
         get { 
-            Dictionary<int, SkillBaseInfo> ret = GetData(ModelEnum.Skill) as Dictionary<int, SkillBaseInfo>;
+            Dictionary<int, SkillBase> ret = GetData(ModelEnum.Skill) as Dictionary<int, SkillBase>;
             if (ret == null) {
-                ret = new Dictionary<int, SkillBaseInfo>();
+                ret = new Dictionary<int, SkillBase>();
                 SetData(ModelEnum.Skill, ret);
             }
             return ret; 
@@ -315,11 +315,11 @@ public class DataCenter {
         set { SetData(ModelEnum.Skill, value); } 
     }
 
-	public Dictionary<string, SkillBaseInfo> AllSkill {
+	public Dictionary<string, SkillBase> AllSkill {
 		get { 
-			Dictionary<string, SkillBaseInfo> ret = GetData(ModelEnum.AllSkill) as Dictionary<string, SkillBaseInfo>;
+			Dictionary<string, SkillBase> ret = GetData(ModelEnum.AllSkill) as Dictionary<string, SkillBase>;
 			if (ret == null) {
-				ret = new Dictionary<string, SkillBaseInfo>();
+				ret = new Dictionary<string, SkillBase>();
 				SetData(ModelEnum.AllSkill, ret);
 			}
 			return ret; 
@@ -327,12 +327,12 @@ public class DataCenter {
 		set { SetData(ModelEnum.AllSkill, value); } 
 	}
 
-	public SkillBaseInfo GetSkill(string userUnitID, int skillID, SkillType skillType) {
+	public SkillBase GetSkill(string userUnitID, int skillID, SkillType skillType) {
 		if (skillID == 0) {
 
 			return null;
 		}
-		SkillBaseInfo skill = null;
+		SkillBase skill = null;
 		string skillUserID = GetSkillID (userUnitID, skillID);
 
 		if (!AllSkill.TryGetValue (skillUserID, out skill)) {
@@ -353,11 +353,11 @@ public class DataCenter {
 	}
 
 
-    private Dictionary<uint, TUnitInfo>  UnitInfo {
+    private Dictionary<uint, UnitInfo>  UnitInfo {
         get { 
-            Dictionary<uint, TUnitInfo> ret = GetData(ModelEnum.UnitInfo) as Dictionary<uint, TUnitInfo>;
+            Dictionary<uint, UnitInfo> ret = GetData(ModelEnum.UnitInfo) as Dictionary<uint, UnitInfo>;
             if (ret == null) {
-                ret = new Dictionary<uint, TUnitInfo>();
+                ret = new Dictionary<uint, UnitInfo>();
                 SetData(ModelEnum.UnitInfo, ret);
             }
             return ret; 
@@ -365,11 +365,11 @@ public class DataCenter {
         set { SetData(ModelEnum.UnitInfo, value); } 
     }
 
-    public Dictionary<uint, TEnemyInfo> EnemyInfo {
+    public Dictionary<uint, EnemyInfo> EnemyInfo {
         get { 
-            Dictionary<uint, TEnemyInfo> ret = GetData(ModelEnum.EnemyInfo) as Dictionary<uint, TEnemyInfo>;
+            Dictionary<uint, EnemyInfo> ret = GetData(ModelEnum.EnemyInfo) as Dictionary<uint, EnemyInfo>;
             if (ret == null) {
-                ret = new Dictionary<uint, TEnemyInfo>();
+                ret = new Dictionary<uint, EnemyInfo>();
                 SetData(ModelEnum.EnemyInfo, ret);
             }
             return ret; 
@@ -390,11 +390,11 @@ public class DataCenter {
 //    }
 
 	//new add by Lynn
-	public List<TCityInfo> CityListInfo{
+	public List<CityInfo> CityListInfo{
 		get { 
-			List<TCityInfo> ret = GetData(ModelEnum.CityListInfo) as List<TCityInfo>;
+			List<CityInfo> ret = GetData(ModelEnum.CityListInfo) as List<CityInfo>;
 			if (ret == null) {
-				ret = new List<TCityInfo>();
+				ret = new List<CityInfo>();
 				SetData(ModelEnum.CityListInfo, ret);
 			}
 			return ret; 
@@ -402,11 +402,11 @@ public class DataCenter {
 		set { SetData(ModelEnum.CityListInfo, value); } 
 	}
 
-	public Dictionary<uint, TCityInfo> CityInfo {
+	public Dictionary<uint, CityInfo> CityInfo {
 		get {
-			Dictionary<uint, TCityInfo> ret = GetData(ModelEnum.CityInfo) as Dictionary<uint, TCityInfo>;
+			Dictionary<uint, CityInfo> ret = GetData(ModelEnum.CityInfo) as Dictionary<uint, CityInfo>;
 			if (ret == null) {
-				ret = new Dictionary<uint, TCityInfo>();
+				ret = new Dictionary<uint, CityInfo>();
 				SetData(ModelEnum.CityInfo, ret);
 			}
 			return ret;
@@ -481,7 +481,7 @@ public class DataCenter {
 			return;
 		}
         if (FriendList == null){
-            FriendList = new TFriendList(friendList);
+            FriendList = new FriendDataModel(friendList);
         }
         else {
             FriendList.RefreshFriendList(friendList);
@@ -491,7 +491,7 @@ public class DataCenter {
     // return UserCost of curr Rank.
     public int UserCost {
         get {
-            return GetUnitValue(TPowerTableInfo.UserCostMax, UserInfo.Rank); 
+            return GetUnitValue(PowerTable.UserCostMax, UserInfo.Rank); 
         }
     }
     
@@ -508,7 +508,7 @@ public class DataCenter {
 			return 0;
 		}
 
-        TPowerTableInfo pti = UnitValue[type];
+        PowerTable pti = UnitValue[type];
         return pti.GetValue(level);
     }
 
@@ -523,41 +523,41 @@ public class DataCenter {
 //        return totalValue;
 //    }
 
-    public TUnitInfo GetUnitInfo(uint unitID) {
+    public UnitInfo GetUnitInfo(uint unitID) {
         if (UnitInfo.ContainsKey(unitID)) {
-            TUnitInfo tui = UnitInfo[unitID];
+            UnitInfo tui = UnitInfo[unitID];
             return tui;
         }
         else {
-			TUnitInfo tui = DGTools.LoadUnitInfoProtobuf(unitID);
+			UnitInfo tui = DGTools.LoadUnitInfoProtobuf(unitID);
 			if(tui == null) {
 				Debug.LogError("uintid : " + unitID + " is invalid");
 				return null;
 			}
-			UnitInfo.Add(tui.ID,tui);
+			UnitInfo.Add(tui.id,tui);
 			return tui;
         }
     }
 
 	//PS: GetStageInfo() only used for story stage ( event stage cannot use)
-	public TStageInfo GetStageInfo (uint stageID) {
+	public StageInfo GetStageInfo (uint stageID) {
 		uint cityId = stageID/10;
-		TCityInfo cityInfo = GetCityInfo(cityId);
-		for(int i=0; i < cityInfo.Stages.Count; i++) {
-			if (stageID==cityInfo.Stages[i].ID)
-				return cityInfo.Stages[i];
+		CityInfo cityInfo = GetCityInfo(cityId);
+		for(int i=0; i < cityInfo.stages.Count; i++) {
+			if (stageID==cityInfo.stages[i].id)
+				return cityInfo.stages[i];
 		}
 
 		return null;
 	}
 
-	public TCityInfo GetCityInfo (uint cityID) {
+	public CityInfo GetCityInfo (uint cityID) {
 		if (CityInfo.ContainsKey(cityID)) {
-			TCityInfo tui = CityInfo[cityID];
+			CityInfo tui = CityInfo[cityID];
 			return tui;
 		}
 		else {
-			TCityInfo tui = DGTools.LoadCityInfo(cityID);
+			CityInfo tui = DGTools.LoadCityInfo(cityID);
 			if(tui == null) {
 				Debug.LogError("city id : " + cityID + " is invalid");
 				return null;
@@ -568,7 +568,7 @@ public class DataCenter {
 		}
 	}
 
-	public List<TCityInfo> GetCityListInfo(){
+	public List<CityInfo> GetCityListInfo(){
 		if(CityListInfo.Count == 0){
 //			Debug.Log("DataCenter.GetCityListInfo(), CityListInfo is NULL");
 			CityListInfo = DGTools.LoadCityList();
@@ -577,9 +577,9 @@ public class DataCenter {
 		return CityListInfo;
 	}
 
-	public TFriendInfo GetSupporterInfo(uint friendUid){
+	public FriendInfo GetSupporterInfo(uint friendUid){
 		foreach (var item in SupportFriends) {
-			if (item.UserId == friendUid) {
+			if (item.userId == friendUid) {
 				return item;
 			}
 		}
@@ -593,7 +593,7 @@ public class DataCenter {
     public int GetAvailableFriendGachaTimes(){
         if (GetFriendGachaNeedPoints() == 0)
             return 0;
-        return AccountInfo.FriendPoint / GetFriendGachaNeedPoints();
+        return AccountInfo.friendPoint / GetFriendGachaNeedPoints();
     }
 
     public int GetRareGachaNeedStones(){
@@ -603,7 +603,7 @@ public class DataCenter {
     public int GetAvailableRareGachaTimes(){
         if (GetRareGachaNeedStones() == 0)
             return 0;
-        return AccountInfo.Stone / GetRareGachaNeedStones();
+        return AccountInfo.stone / GetRareGachaNeedStones();
     }
 
     public int GetEventGachaNeedStones(){
@@ -615,7 +615,7 @@ public class DataCenter {
             return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-        return AccountInfo.Stone / GetEventGachaNeedStones();
+        return AccountInfo.stone / GetEventGachaNeedStones();
     }
 
 	public List<AudioConfigItem> ConfigAudioList{

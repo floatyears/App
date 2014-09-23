@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -14,7 +14,7 @@ public class QuestController : ControllerBase {
 		}
 	}
 
-	public void ClearQuest(TClearQuestParam questParam, NetCallback callback){
+	public void ClearQuest(ClearQuestParam questParam, NetCallback callback){
 		ReqClearQuest reqClearQuest = new ReqClearQuest();
 		reqClearQuest.header = new ProtoHeader();
 		reqClearQuest.header.apiVer = ServerConfig.API_VERSION;
@@ -22,7 +22,7 @@ public class QuestController : ControllerBase {
 		if (DataCenter.Instance.UserInfo != null)
 			reqClearQuest.header.userId = DataCenter.Instance.UserInfo.UserId;
 		
-		reqClearQuest.questId = questParam.questId;
+		reqClearQuest.questId = questParam.questID;
 		reqClearQuest.getMoney = questParam.getMoney;
 		reqClearQuest.getUnit.AddRange(questParam.getUnit);
 		reqClearQuest.hitGrid.AddRange(questParam.hitGrid);
@@ -57,7 +57,7 @@ public class QuestController : ControllerBase {
 			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
 			foreach (UserUnit uu in rspClearQuest.gotUnit) {
 				DataCenter.Instance.UserUnitList.AddMyUnit(uu);
-				TUserUnit tuu = TUserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
+				UserUnit tuu = UserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
 				cq.gotUnit.Add(tuu);
 			}
 			callback(cq);
@@ -141,14 +141,14 @@ public class QuestController : ControllerBase {
 		reqStartQuest.stageId = questParam.stageId;
 		reqStartQuest.questId = questParam.questId;
 		if(questParam.helperUserUnit != null)
-			reqStartQuest.helperUserId = questParam.helperUserUnit.UserId;
+			reqStartQuest.helperUserId = questParam.helperUserUnit.userId;
 		reqStartQuest.currentParty = questParam.currPartyId;
 		reqStartQuest.restartNew = questParam.startNew;
 		//		TUserUnit userunit = DataCenter.Instance.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
 		//		Debug.LogError ("userunit : " + userunit);
 		//        if (userunit != null)
 		if(questParam.helperUserUnit != null)
-			reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit.Object;
+			reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit;
 		reqStartQuest.isUserGuide = questParam.isUserGuide;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqStartQuest, callback, ProtocolNameEnum.RspStartQuest);

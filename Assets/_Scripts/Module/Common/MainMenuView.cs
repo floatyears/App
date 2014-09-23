@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class MainMenuView : ViewBase{
 	private UITexture leaderAvatarTex;
@@ -91,9 +92,9 @@ public class MainMenuView : ViewBase{
         }
     }
 
-	private TUnitInfo leaderUnitInfo;
+	private UnitInfo leaderUnitInfo;
 	private void UpdateLeaderAvatar(object msg){
-		TUserUnit newestLeaderUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
+		UserUnit newestLeaderUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 //		Debug.LogError ((newestLeaderUnit == null) + "  leaderUnitInfo == null : " + (leaderUnitInfo == null));
 		if(newestLeaderUnit == null){
 			leaderAvatarTex.mainTexture = null;
@@ -104,25 +105,25 @@ public class MainMenuView : ViewBase{
 		if(leaderUnitInfo == null){
 			//first step in
 //			Debug.Log("UpdateLeaderAvatar(), Leader data is FRIST assigned.");
-			ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,newestLeaderUnit.UnitID, o=>{
+			ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,newestLeaderUnit.unitId, o=>{
 				leaderAvatarTex.mainTexture = o as Texture2D;
 
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
-				SetUVByConfig(leaderUnitInfo.ShowPos);
+				SetUVByConfig(leaderUnitInfo.showPos);
 			} );
 
 			return;
 		}
 
-	 	if(leaderUnitInfo.ID != newestLeaderUnit.UnitInfo.ID){
+	 	if(leaderUnitInfo.id != newestLeaderUnit.UnitInfo.id){
 //			Debug.LogError("else if  leaderUnitInfo.ID  : " + leaderUnitInfo.ID + " newestLeaderUnit.UnitInfo.ID : " +newestLeaderUnit.UnitInfo.ID);
 			//changed
 //			Debug.Log("UpdateLeaderAvatar(), Leader data CHANGED." + newestLeaderUnit.UnitInfo.ID + " leaderUnitInfo: " + leaderUnitInfo.ID);
-			ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,newestLeaderUnit.UnitID, o =>{
+			ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,newestLeaderUnit.unitId, o =>{
 				leaderAvatarTex.mainTexture = o as Texture2D;
 
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
-				SetUVByConfig(leaderUnitInfo.ShowPos);
+				SetUVByConfig(leaderUnitInfo.showPos);
 			});
  
 
@@ -151,14 +152,14 @@ public class MainMenuView : ViewBase{
 	public void ShowTips(){
 		times--;
 		if (times <= 0) {
-			if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.Data != null) {
-				if (DataCenter.Instance.LoginInfo.Data.Rank < 5) {
+			if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.rank != null) {
+				if (DataCenter.Instance.LoginInfo.rank < 5) {
 					labelTips.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
-				} else if (DataCenter.Instance.LoginInfo.Data.Rank < 10) {
+				} else if (DataCenter.Instance.LoginInfo.rank < 10) {
 					labelTips.text = TextCenter.GetText ("Tips_B_" + Utility.MathHelper.RandomToInt (1, 10));
-				} else if (DataCenter.Instance.LoginInfo.Data.Rank < 20) {
+				} else if (DataCenter.Instance.LoginInfo.rank < 20) {
 					labelTips.text = TextCenter.GetText ("Tips_C_" + Utility.MathHelper.RandomToInt (1, 18));
-				} else if (DataCenter.Instance.LoginInfo.Data.Rank < 30) {
+				} else if (DataCenter.Instance.LoginInfo.rank < 30) {
 					labelTips.text = TextCenter.GetText ("Tips_D_" + Utility.MathHelper.RandomToInt (1, 18));
 				} else {
 					labelTips.text = TextCenter.GetText ("Tips_E_" + Utility.MathHelper.RandomToInt (1, 24));

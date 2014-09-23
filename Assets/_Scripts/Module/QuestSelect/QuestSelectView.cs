@@ -28,7 +28,7 @@ public class QuestSelectView : ViewBase {
 		if (pickedStage != null) {
 //			GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
 //			obj.GetComponent<SceneInfoBarView> ().SetSceneName ();
-			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage",pickedStage.StageName);
+			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage",pickedStage.stageName);
 		}
 	}
 
@@ -45,12 +45,12 @@ public class QuestSelectView : ViewBase {
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 	}
 	
-	private TStageInfo pickedStage;
-	private List<TQuestInfo> accessQuestList;
+	private StageInfo pickedStage;
+	private List<QuestInfo> accessQuestList;
 
 	private void GetQuestInfo(){
-		TStageInfo newPickedStage = viewData["data"] as TStageInfo;
-		List<TQuestInfo> newQuestList = newPickedStage.QuestInfo;
+		StageInfo newPickedStage = viewData["data"] as StageInfo;
+		List<QuestInfo> newQuestList = newPickedStage.QuestInfo;
 //		newQuestList.Reverse ();
 
 		if(accessQuestList == null){
@@ -105,24 +105,24 @@ public class QuestSelectView : ViewBase {
 //		uiScrollView.horizontalScrollBar = null	;	
 	}
 	
-	private List<TQuestInfo> GetAccessQuest(List<TQuestInfo> questInfoList){
-		List<TQuestInfo> accessQuestList = new List<TQuestInfo>();
+	private List<QuestInfo> GetAccessQuest(List<QuestInfo> questInfoList){
+		List<QuestInfo> accessQuestList = new List<QuestInfo>();
 		for (int i = 0; i < questInfoList.Count; i++){
 			accessQuestList.Add(questInfoList[ i ]);
 
-			if(!CheckQuestIsClear(pickedStage, questInfoList[ i ].ID)) 
+			if(!CheckQuestIsClear(pickedStage, questInfoList[ i ].id)) 
 				break;
 		}
 		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessQuestList.Count);
 		return accessQuestList;
 	}
 	
-	private bool CheckQuestIsClear(TStageInfo stageInfo, uint questID){
-		if(stageInfo.Type == QuestType.E_QUEST_STORY){
-			return DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageInfo.ID, questID);
+	private bool CheckQuestIsClear(StageInfo stageInfo, uint questID){
+		if(stageInfo.type == QuestType.E_QUEST_STORY){
+			return DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageInfo.id, questID);
 		}
-		else if(stageInfo.Type == QuestType.E_QUEST_EVENT){
-			return DataCenter.Instance.QuestClearInfo.IsEventQuestClear(stageInfo.ID, questID);
+		else if(stageInfo.type == QuestType.E_QUEST_EVENT){
+			return DataCenter.Instance.QuestClearInfo.IsEventQuestClear(stageInfo.id, questID);
 		}
 		else{
 			Debug.LogError("Exception :: CheckQuestIsClear().");
@@ -130,17 +130,17 @@ public class QuestSelectView : ViewBase {
 		}
 	}
 
-	TEvolveStart evolveStart;
+	UnitDataModel evolveStart;
 	private List<QuestItemView> questItem = new List<QuestItemView>();
 
 	void EvolveSelectStage(object data) {
-		evolveStart = data as TEvolveStart;
+		evolveStart = data as UnitDataModel;
 
 		GenerateQuest(evolveStart.StageInfo.QuestInfo, evolveStart.StageInfo);
 		
 		foreach (var item in questItem) {
 //			Debug.LogError("item.Data.ID : " + item.Data.ID + " evolveStart.StageInfo.QuestId : " + evolveStart.StageInfo.QuestId);
-			if(item.Data.ID == evolveStart.StageInfo.QuestId) {
+			if(item.Data.id == evolveStart.StageInfo.QuestId) {
 				item.evolveCallback = EvolveCallback;
 				continue;
 			} else {
@@ -151,17 +151,17 @@ public class QuestSelectView : ViewBase {
 		}
 	}
 
-	void GenerateQuest(List<TQuestInfo> questInfo, TStageInfo targetStage) {
+	void GenerateQuest(List<QuestInfo> questInfo, StageInfo targetStage) {
 		if (dragPanel != null)
 			dragPanel.DestoryUI ();
 		dragPanel = new DragPanel("QuestDragPanel", QuestItemView.Prefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(1);
-		TQuestInfo quest = questInfo.Find (a => a.ID == targetStage.QuestId);
+		QuestInfo quest = questInfo.Find (a => a.id == targetStage.QuestId);
 		CustomDragPanel();
 
 		questItem.Clear ();
-		if (quest == default(TQuestInfo)) {
+		if (quest == default(QuestInfo)) {
 			return;	
 		}
 		QuestItemView qiv = QuestItemView.Inject (dragPanel.ScrollItem [0]);

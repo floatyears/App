@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class PartyPageView : ViewBase {
 	UILabel curPartyIndexLabel;
@@ -17,10 +18,10 @@ public class PartyPageView : ViewBase {
 	Dictionary< int, string > partyIndexDic = new Dictionary< int, string >();
 	Dictionary<GameObject, int> itemDic = new Dictionary<GameObject, int>();
 
-	private List<TUserUnit> currentPartyData = new List<TUserUnit> ();
+	private List<UserUnit> currentPartyData = new List<UserUnit> ();
 
 	public void RefreshPartyData() {
-		TUnitParty party = DataCenter.Instance.PartyInfo.CurrentParty;
+		UnitParty party = DataCenter.Instance.PartyInfo.CurrentParty;
 		currentPartyData = party.GetUserUnit();
 	}
 	
@@ -293,8 +294,8 @@ public class PartyPageView : ViewBase {
 		Dictionary<string,object> argsDic = args as Dictionary<string, object>;
 
 		int position = (int)argsDic["position"] ;
-		TUserUnit tuu = argsDic["unit"] as TUserUnit;
-		ResourceManager.Instance.GetAvatar (UnitAssetType.Avatar, tuu.UnitID, o => {
+		UserUnit tuu = argsDic["unit"] as UserUnit;
+		ResourceManager.Instance.GetAvatar (UnitAssetType.Avatar, tuu.unitId, o => {
 //			tuu.UnitInfo
 			Texture2D texture = o as Texture2D;
 			ChangeTexure (position, texture);

@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class SelectRoleModule : ModuleBase {
 
 	int curSelectPos = 0;
 
-	List<TUnitInfo> supportSelectUnits = new List<TUnitInfo>();
+	List<UnitInfo> supportSelectUnits = new List<UnitInfo>();
 
 	public SelectRoleModule(UIConfigItem config) : base(  config){
 		CreateUI<SelectRoleView> ();
@@ -34,7 +35,7 @@ public class SelectRoleModule : ModuleBase {
 				RecordSelectState(data[1]);
 				break;
 			case "ClickButton" :
-				ModuleManager.SendMessage (ModuleEnum.LoadingModule, "FirstLogin", supportSelectUnits[ curSelectPos ].ID);
+				ModuleManager.SendMessage (ModuleEnum.LoadingModule, "FirstLogin", supportSelectUnits[ curSelectPos ].id);
 				ModuleManager.Instance.DestroyModule(ModuleEnum.SelectRoleModule);
                 break;
         	default:

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class BattleResultView : ViewBase {
 	private UISlider levelProgress;
@@ -19,9 +20,9 @@ public class BattleResultView : ViewBase {
 	private UIButton sureButton;
 	private GameObject parent;
 	private GameObject dropItem;
-	private Dictionary<TUserUnit, GameObject> dropItemList = new Dictionary<TUserUnit, GameObject> ();
+	private Dictionary<UserUnit, GameObject> dropItemList = new Dictionary<UserUnit, GameObject> ();
 	private TRspClearQuest rspClearQuest = null;
-	private Queue<TUserUnit> getUserUnit = new Queue<TUserUnit> ();
+	private Queue<UserUnit> getUserUnit = new Queue<UserUnit> ();
 
 	private int coinNumber = 0;
 	private int empireNumber = 0;
@@ -99,9 +100,9 @@ public class BattleResultView : ViewBase {
 		rank = DataCenter.Instance.oldAccountInfo.Rank;
 		int totalPreExp = DataCenter.Instance.oldAccountInfo.CurPrevExp;
 		currentLevelExp = clearQuest.exp - totalPreExp ;
-		currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+		currentTotalExp = DataCenter.Instance.GetUnitValue (PowerTable.UserExpType, rank);
 		add = (float)gotExp * 0.05f;
-		int curCoin = DataCenter.Instance.AccountInfo.Money;
+		int curCoin = DataCenter.Instance.AccountInfo.money;
 		int maxCoin = clearQuest.money;
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
@@ -113,16 +114,16 @@ public class BattleResultView : ViewBase {
 		StartCoroutine (UpdateCoinNumber (addCoin, curCoin, gotCoin));
 
 		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
-			TUserUnit tuu = clearQuest.gotUnit[i];
+			UserUnit tuu = clearQuest.gotUnit[i];
 		
 			GameObject go = NGUITools.AddChild(parent, dropItem);
 			go.SetActive(true);
-			uint unitID = tuu.UnitInfo.ID;
+			uint unitID = tuu.UnitInfo.id;
 			go.name = i.ToString();
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
 			ResourceManager.Instance.GetAvatarAtlas(unitID, sprite);
 			sprite.enabled = false;
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(tuu.UnitInfo.ID);
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(tuu.UnitInfo.id);
 			getUserUnit.Enqueue(tuu);
 			dropItemList.Add(tuu, go);
 		}
@@ -137,7 +138,7 @@ public class BattleResultView : ViewBase {
 	}
 
 	GameObject goAnim = null;
-	TUserUnit showUserUnit = null;
+	UserUnit showUserUnit = null;
 
 	void ShowGetCard () {
 		showUserUnit = getUserUnit.Dequeue ();
@@ -153,14 +154,14 @@ public class BattleResultView : ViewBase {
 	}
 
 	void AnimEnd () {
-		if (showUserUnit.UnitInfo.Rare >= 4) {
+		if (showUserUnit.UnitInfo.rare >= 4) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_card_4);
 		}
 
-		if (DataCenter.Instance.CatalogInfo.IsHaveUnit (showUserUnit.Object.unitId)) {
+		if (DataCenter.Instance.CatalogInfo.IsHaveUnit (showUserUnit.unitId)) {
 			StartShowGetCard ();
 		} else {
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.Object.unitId);
+			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.unitId);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, showUserUnit);
 		}
@@ -181,7 +182,7 @@ public class BattleResultView : ViewBase {
 				currentLevelExp -= currentTotalExp;
 				rank++;
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
-				currentTotalExp = DataCenter.Instance.GetUnitValue (TPowerTableInfo.UserExpType, rank);
+				currentTotalExp = DataCenter.Instance.GetUnitValue (PowerTable.UserExpType, rank);
 				SetRankUpEnable(true);
 				yield return new WaitForSeconds(0.5f);
 				rankUpScale.ResetToBeginning();
@@ -243,9 +244,9 @@ public class BattleResultView : ViewBase {
 //			HideUI ();
 //			AudioManager.Instance.PlayAudio (AudioEnum.sound_card_evo);
 //		} else if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
-		TFriendInfo friendHelper = BattleConfigData.Instance.BattleFriend;
+		FriendInfo friendHelper = BattleConfigData.Instance.BattleFriend;
 		bool isNull = friendHelper == null;
-		bool addFriend = isNull ? false : (friendHelper.FriendState != bbproto.EFriendState.ISFRIEND || friendHelper.FriendPoint > 0);
+		bool addFriend = isNull ? false : (friendHelper.friendState != bbproto.EFriendState.ISFRIEND || friendHelper.friendPoint > 0);
 
 		if (!isNull && addFriend) {
 			ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);

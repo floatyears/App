@@ -82,12 +82,12 @@ public class ScratchModule : ModuleBase {
 			return;
 		}
 
-        DataCenter.Instance.AccountInfo.FriendPoint = rsp.friendPoint;
-        DataCenter.Instance.AccountInfo.Stone = rsp.stone;
+        DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
+        DataCenter.Instance.AccountInfo.stone = rsp.stone;
         
         // TODO do evolve start over;
         LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
-                      ,  DataCenter.Instance.AccountInfo.FriendPoint, DataCenter.Instance.AccountInfo.Stone);
+                      ,  DataCenter.Instance.AccountInfo.friendPoint, DataCenter.Instance.AccountInfo.stone);
         
         // record
         List<uint> blankList = rsp.blankUnitId;
@@ -166,7 +166,7 @@ public class ScratchModule : ModuleBase {
 		LogHelper.Log("GetFriendGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
 		string content2 = TextCenter.GetText("FriendGachaStatus", DataCenter.friendGachaFriendPoint, 
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.friendGachaFriendPoint,
-		                                     DataCenter.Instance.AccountInfo.FriendPoint);
+		                                     DataCenter.Instance.AccountInfo.friendPoint);
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("FriendGacha"), new string[2]{TextCenter.GetText ("FriendGachaDescription"),content2}, 
 					TextCenter.GetText ("ConfirmOneFriendGacha"), 
 					TextCenter.GetText ("ConfirmMaxRareGacha", maxGachaTimes),
@@ -194,7 +194,7 @@ public class ScratchModule : ModuleBase {
 		LogHelper.Log("GetRareGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
 		string content2 = TextCenter.GetText("RareGachaStatus", DataCenter.rareGachaStone, 
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.rareGachaStone,
-		                                     DataCenter.Instance.AccountInfo.Stone);
+		                                     DataCenter.Instance.AccountInfo.stone);
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RareGacha"), new string[2] {TextCenter.GetText ("RareGachaDescription"),content2}, 
 				TextCenter.GetText ("ConfirmOneRareGacha"), 
 				TextCenter.GetText ("ConfirmMaxRareGacha", maxGachaTimes), 
@@ -226,7 +226,7 @@ public class ScratchModule : ModuleBase {
 		LogHelper.Log("GetEventGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
 		string content2 = TextCenter.GetText("EventGachaStatus", DataCenter.eventGachaStone, 
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.eventGachaStone,
-		                                     DataCenter.Instance.AccountInfo.Stone);
+		                                     DataCenter.Instance.AccountInfo.stone);
 
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("EventGacha"), new string[2] {TextCenter.GetText ("EventGachaDescription"),content2}, 
 				TextCenter.GetText ("ConfirmOneEventGacha"), 
