@@ -97,7 +97,7 @@ public class BattleResultView : ViewBase {
 		int nextEmp = DataCenter.Instance.UserInfo.NextExp;
 		int maxEmp = clearQuest.exp;
 		gotExp= clearQuest.gotExp;
-		rank = DataCenter.Instance.oldAccountInfo.Rank;
+		rank = DataCenter.Instance.oldAccountInfo.rank;
 		int totalPreExp = DataCenter.Instance.oldAccountInfo.CurPrevExp;
 		currentLevelExp = clearQuest.exp - totalPreExp ;
 		currentTotalExp = DataCenter.Instance.GetUnitValue (PowerTable.UserExpType, rank);

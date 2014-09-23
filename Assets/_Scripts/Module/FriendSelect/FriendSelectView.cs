@@ -213,7 +213,7 @@ public class FriendSelectView : ViewBase{
 	/// <param name="staminaNow">Stamina now.</param>
 	private bool CheckStaminaEnough(){
 		int staminaNeed = pickedQuestInfo.Data.stamina;
-		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
 		if(staminaNeed > staminaNow) return true;
 		else return false;
 	}

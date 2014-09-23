@@ -27,7 +27,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
     }
 
 	public bool UnitIsInCurrentParty(UserUnit tuu) {
-		if (tuu.userID != DataCenter.Instance.UserInfo.UserId) {
+		if (tuu.userID != DataCenter.Instance.UserInfo.userId) {
 			return false;
 		}
 
@@ -39,7 +39,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 			Debug.LogError("UnitIsInParty(tuu) >>> ERROR: tuu is NULL.");
 			return false;
 		}
-		if (tuu.userID != DataCenter.Instance.UserInfo.UserId) {
+		if (tuu.userID != DataCenter.Instance.UserInfo.userId) {
 			return false;
 		}
 		return UnitIsInParty(tuu.uniqueId);
@@ -56,7 +56,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 
     public void assignParty() {
 		originalPartyId = currentParty;
-
+		currParty = partyList [CurrentPartyId];
 //        this.partyList = new List<UnitParty>();
 
         foreach (UnitParty party in partyList) {
@@ -68,7 +68,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 //				Debug.LogError(party.id + " item unitPos : " + item.unitPos + " item unitUniqueId : " + item.unitUniqueId);
 //			}
 
-			partyList.Add(party);
+//			partyList.Add(party);
         }
     }
 
@@ -84,16 +84,16 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 	
     public	int	 CurrentPartyId { 
         get { return currentParty; } 
-        set { currentParty = value; }
+        set { currentParty = value; 
+				currParty = partyList[CurrentPartyId];
+			}
     }
 
-    public	UnitParty	CurrentParty { 
+	private UnitParty currParty;
+
+    public	UnitParty CurrentParty { 
         get { 
-            if (this.partyList == null || CurrentPartyId > this.partyList.Count - 1) {
-                return null;
-            }
-		
-            return this.partyList[CurrentPartyId];
+			return currParty;
         } 
     }
 
@@ -198,9 +198,9 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 					oldCost = CurrentParty.UserUnit[pos].UnitInfo.cost;
 			}
 			
-			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.CostMax ) {
+			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.costMax ) {
 				TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("CostLimitText"));
-				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.CostMax);
+				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.costMax);
 				return true;
 			}
 		}

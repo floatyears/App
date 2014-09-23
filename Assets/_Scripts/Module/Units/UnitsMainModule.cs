@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using bbproto;
 
 public class UnitsMainModule : ModuleBase {
-	UnitParty unitPartyInfo;
 	Dictionary<int,UserUnit> userUnit = new Dictionary<int, UserUnit> ();
 
 	public UnitsMainModule(UIConfigItem config):base(  config) {

@@ -81,7 +81,7 @@ public class LoadingModule : ModuleBase {
             }
             
             if (rspAuthUser.user != null) {
-				DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
+				DataCenter.Instance.UserInfo = rspAuthUser.user;
                 if (rspAuthUser.evolveType != null) {
                     DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
@@ -112,7 +112,8 @@ public class LoadingModule : ModuleBase {
 			if (rspAuthUser.unitList != null) {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
 //					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
-					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, UserUnit.GetUserUnit(userId, unit));
+					unit.userID = userId;
+					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, unit);
                 }
                 LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
             }
@@ -127,7 +128,7 @@ public class LoadingModule : ModuleBase {
 				DataCenter.Instance.QuestClearInfo = rspAuthUser.questClear;
             }
             
-			DataCenter.Instance.CatalogInfo = new UnitCatalogDataModel(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+			DataCenter.Instance.CatalogInfo = new UnitCatalogInfo(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
 			if( rspAuthUser.notice != null) {
 				DataCenter.Instance.NoticeInfo = rspAuthUser.notice;
@@ -184,8 +185,8 @@ public class LoadingModule : ModuleBase {
 
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
@@ -268,17 +269,17 @@ public class LoadingModule : ModuleBase {
             return;
         }
         
-        if (DataCenter.Instance.UserInfo.NickName == null) {
+        if (DataCenter.Instance.UserInfo.nickName == null) {
             Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
             return;
         }
         
-        if (DataCenter.Instance.UserInfo.NickName.Length == 0) {
+        if (DataCenter.Instance.UserInfo.nickName.Length == 0) {
 			ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
 //            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         
-        Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.NickName);
+        Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.nickName);
     }
 }
 

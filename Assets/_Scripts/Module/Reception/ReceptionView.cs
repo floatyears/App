@@ -139,7 +139,7 @@ public class ReceptionView : ViewBase {
 			Debug.LogError(string.Format("Friend Count limited. Current Friend count is :" + DataCenter.Instance.FriendCount));
 //			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FirendOverflow"),
-			                                   TextCenter.GetText("FriendOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.UnitMax),
+			                                   TextCenter.GetText("FriendOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.unitMax),
 			                                   TextCenter.GetText("DoFriendExpand"),TextCenter.GetText("CANCEL"),CallBackScratchScene);
 			return;
 		}
@@ -148,7 +148,7 @@ public class ReceptionView : ViewBase {
 	}
 
 	bool CheckFriendCountLimit(){
-		if(DataCenter.Instance.FriendList.Friend.Count >= DataCenter.Instance.UserInfo.FriendMax){
+		if(DataCenter.Instance.FriendList.Friend.Count >= DataCenter.Instance.UserInfo.friendMax){
 			Debug.LogError("Friend.Count > FriendMax!!! Refuse to add this friend...");
 			return true;
 		}

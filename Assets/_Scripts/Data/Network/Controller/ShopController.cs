@@ -18,7 +18,7 @@ public class ShopController : ControllerBase {
 		ReqFriendMaxExpand reqFriendMaxExpand = new ReqFriendMaxExpand();
 		reqFriendMaxExpand.header = new ProtoHeader();
 		reqFriendMaxExpand.header.apiVer = ServerConfig.API_VERSION;
-		reqFriendMaxExpand.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqFriendMaxExpand.header.userId = DataCenter.Instance.UserInfo.userId;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqFriendMaxExpand, callBack, ProtocolNameEnum.RspFriendMaxExpand);
 	}
@@ -27,7 +27,7 @@ public class ShopController : ControllerBase {
 		ReqRestoreStamina reqRestoreStamina = new ReqRestoreStamina();
 		reqRestoreStamina.header = new ProtoHeader();
 		reqRestoreStamina.header.apiVer = ServerConfig.API_VERSION;
-		reqRestoreStamina.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqRestoreStamina.header.userId = DataCenter.Instance.UserInfo.userId;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqRestoreStamina, callBack, ProtocolNameEnum.RspRestoreStamina);
 	}
@@ -36,7 +36,7 @@ public class ShopController : ControllerBase {
 		ReqShopBuy reqShopBuy = new ReqShopBuy();
 		reqShopBuy.header = new ProtoHeader();
 		reqShopBuy.header.apiVer = ServerConfig.API_VERSION;
-		reqShopBuy.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqShopBuy.header.userId = DataCenter.Instance.UserInfo.userId;
 		
 		//request params
 		reqShopBuy.productId = productId;
@@ -48,7 +48,7 @@ public class ShopController : ControllerBase {
 		ReqUnitMaxExpand reqUnitMaxExpand = new ReqUnitMaxExpand();
 		reqUnitMaxExpand.header = new ProtoHeader();
 		reqUnitMaxExpand.header.apiVer = ServerConfig.API_VERSION;
-		reqUnitMaxExpand.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqUnitMaxExpand.header.userId = DataCenter.Instance.UserInfo.userId;
 		HttpRequestManager.Instance.SendHttpRequest (reqUnitMaxExpand, callBack, ProtocolNameEnum.RspUnitMaxExpand);
 	}
 

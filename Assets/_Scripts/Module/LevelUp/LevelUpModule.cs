@@ -69,7 +69,7 @@ public class LevelUpModule : ModuleBase {
 			dataCenter.supportFriendManager.useFriend.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 
 			dataCenter.AccountInfo.money = (int)rspLevelUp.money;
-			uint userId = DataCenter.Instance.UserInfo.UserId;
+			uint userId = DataCenter.Instance.UserInfo.userId;
 			dataCenter.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 			dataCenter.levelUpMaterials.Clear();
 

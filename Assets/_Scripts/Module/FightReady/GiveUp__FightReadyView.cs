@@ -202,8 +202,8 @@ public class GiveUp__FightReadyView : ViewBase {
 			tfi.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 			
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
@@ -224,8 +224,8 @@ public class GiveUp__FightReadyView : ViewBase {
 		
 		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 		
-		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
+		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;
 		QuestDungeonData tqdd = rsp.dungeonData;
 		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;

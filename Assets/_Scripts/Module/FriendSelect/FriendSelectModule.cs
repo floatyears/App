@@ -80,8 +80,8 @@ public class FriendSelectModule : ModuleBase{
 		}
 
 		// TODO do evolve start over;
-		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
+		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 
 //		tqdd.assignData ();
@@ -102,8 +102,8 @@ public class FriendSelectModule : ModuleBase{
 //		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.StaminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.StaminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 //			tqdd.assignData();
 			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);

@@ -23,7 +23,6 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-		UnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
 //		RefreshParty();
 
 		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
@@ -31,7 +30,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		dragChangeView.RefreshData ();
 
 
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, curParty);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
 		ShowUIAnimation();
 	}
 	
@@ -80,7 +79,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
 		buttonInfo.Add(go, ModuleEnum.MyUnitsListModule);
 
-		dragChangeView = FindChild<DragSliderBase> ("Top/DragParty");
+		dragChangeView = FindChild<DragSliderBase> ("Top/DragPartyUnits");
 		dragChangeView.SetDataInterface (this);
 //		Debug.LogError ("InitChildScenes dragChangeView.Init ");
 //		dragChangeView.Init ();

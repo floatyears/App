@@ -8,10 +8,14 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     private List<PartyItem> partyItem = new List<PartyItem>();		
  
 	public UnitParty() { 
-		AddListener ();
-        reAssignData();
-        GetSkillCollection();
+		
     }
+
+	public void Init(){
+		AddListener ();
+		reAssignData();
+		GetSkillCollection();
+	}
 
 	public void AddListener() {
 		MsgCenter.Instance.AddListener(CommandEnum.ActiveReduceHurt, ReduceHurt);      

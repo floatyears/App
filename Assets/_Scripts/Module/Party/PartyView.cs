@@ -83,7 +83,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
 		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
 
-		dragChangeView = FindChild<PartyDragView>("Top/DragParty");
+		dragChangeView = FindChild<PartyDragView>("Top/DragPartyLevelUp");
 		dragChangeView.SetDataInterface (this);
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o=>{
@@ -574,7 +574,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.unitMax);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
@@ -636,10 +636,10 @@ public class PartyView : ViewBase, IDragChangeView{
 		
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
 		string curCostStr = unitParty.TotalCost.ToString();
-		if (DataCenter.Instance.UserInfo.CostMax < unitParty.TotalCost) {
+		if (DataCenter.Instance.UserInfo.costMax < unitParty.TotalCost) {
 			curCostStr = "[FF0000]" + curCostStr + "[-]";
 		}
-		curCostLabel.text = curCostStr + "/" +DataCenter.Instance.UserInfo.CostMax.ToString();
+		curCostLabel.text = curCostStr + "/" +DataCenter.Instance.UserInfo.costMax.ToString();
 		
 		int value = 0;
 		unitParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);

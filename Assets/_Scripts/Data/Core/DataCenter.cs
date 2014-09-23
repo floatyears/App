@@ -160,10 +160,26 @@ public class DataCenter {
 
 	public const int friendPos = 4;
 
-    public TUserInfo UserInfo { 
-        get { return GetData(ModelEnum.UserInfo) as TUserInfo; } 
-        set { SetData(ModelEnum.UserInfo, value); } 
+	private UserDataModel userData;
+
+	public UserDataModel UserData{
+		get{
+			return userData;
+		}
+		set{
+			UserData = value;
+		}
+	}
+
+    public UserInfo UserInfo { 
+        get { return GetData(ModelEnum.UserInfo) as UserInfo; } 
+        set { 
+			SetData(ModelEnum.UserInfo, value);
+			value.Init();
+		} 
     }
+
+
     public AccountInfo AccountInfo {
         get { return GetData(ModelEnum.AccountInfo) as AccountInfo; }
         set { SetData(ModelEnum.AccountInfo, value); }
@@ -233,11 +249,14 @@ public class DataCenter {
     }
     public PartyInfo PartyInfo { 
         get { return GetData(ModelEnum.PartyInfo) as PartyInfo; }
-        set { SetData(ModelEnum.PartyInfo, value); }
+        set { 
+			SetData(ModelEnum.PartyInfo, value);
+			value.assignParty();
+		}
     }
 
-	public UnitCatalogDataModel CatalogInfo { 
-		get { return GetData(ModelEnum.UnitCatalogInfo) as UnitCatalogDataModel; }
+	public UnitCatalogInfo CatalogInfo { 
+		get { return GetData(ModelEnum.UnitCatalogInfo) as UnitCatalogInfo; }
 		set { SetData(ModelEnum.UnitCatalogInfo, value); }
 	}
 
@@ -261,7 +280,7 @@ public class DataCenter {
 	/// <summary>
 	/// store operate befoure account info
 	/// </summary>
-	public TUserInfo oldAccountInfo = null;
+	public UserInfo oldAccountInfo = null;
 
 	/// <summary>
 	/// store befoure levelup's level
@@ -491,7 +510,7 @@ public class DataCenter {
     // return UserCost of curr Rank.
     public int UserCost {
         get {
-            return GetUnitValue(PowerTable.UserCostMax, UserInfo.Rank); 
+            return GetUnitValue(PowerTable.UserCostMax, UserInfo.rank); 
         }
     }
     

@@ -150,7 +150,7 @@ public class FriendListView : ViewBase{
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		string title = TextCenter.GetText("FriendCounterTitle");
 		int current = DataCenter.Instance.FriendCount;
-		int max = DataCenter.Instance.UserInfo.FriendMax;
+		int max = DataCenter.Instance.UserInfo.friendMax;
 		countArgs.Add("title", title);
 		countArgs.Add("current", current);
 		countArgs.Add("max", max);

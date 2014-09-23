@@ -14,7 +14,7 @@ public class UnitDataModel : ProtobufDataBase {
 	public int evolvePartyID = 0;
 	UnitParty tup;
 
-	private UnitCatalogDataModel catalogData;
+	private UnitCatalogInfo catalogData;
 
 	public void StoreData () {
 		DataCenter.evolveInfo = this;

@@ -258,7 +258,8 @@ public class EvolveView : ViewBase {
 			if(material == null) {
 				bbproto.UserUnit uu = new bbproto.UserUnit();
 				uu.unitId = ID;
-				material = UserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, uu);
+				uu.userID = DataCenter.Instance.UserInfo.userId;
+				material = uu;
 				isHave = false;
 			}
 			materialItem[i + 2].Refresh(material, isHave);
@@ -288,7 +289,7 @@ public class EvolveView : ViewBase {
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.unitMax);
 		countArgs.Add ("posy",-725);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}

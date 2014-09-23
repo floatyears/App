@@ -46,7 +46,7 @@ public class ShopModule : ModuleBase {
 
     void OnFriendExpansion(){
 //        LogHelper.Log("start OnFriendExpansion()");
-        if (DataCenter.Instance.UserInfo.FriendMax >= DataCenter.maxFriendLimit) {
+        if (DataCenter.Instance.UserInfo.friendMax >= DataCenter.maxFriendLimit) {
 //            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.FriendExpansion, BuyFailType.NoNeedToBuy));
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FriendExpansionFailed"),TextCenter.GetText("FriendCountLimitReachedMax"),TextCenter.GetText("OK"));
             return;
@@ -58,7 +58,7 @@ public class ShopModule : ModuleBase {
         }
 //        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgWindowParams());
 		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FriendExpand"),
-		                                   new string[2]{ TextCenter.GetText("FriendExpansionConfirm", DataCenter.friendExpansionStone, DataCenter.friendsExpandCount), TextCenter.GetText("FriendExpansionInfo", DataCenter.Instance.FriendCount,DataCenter.Instance.UserInfo.FriendMax) },
+		                                   new string[2]{ TextCenter.GetText("FriendExpansionConfirm", DataCenter.friendExpansionStone, DataCenter.friendsExpandCount), TextCenter.GetText("FriendExpansionInfo", DataCenter.Instance.FriendCount,DataCenter.Instance.UserInfo.friendMax) },
 										   TextCenter.GetText("DoFriendExpand"),TextCenter.GetText("CANCEL"),CallbackFriendExpansion);
 
     }
@@ -78,16 +78,16 @@ public class ShopModule : ModuleBase {
             return;
         }
         
-        DataCenter.Instance.UserInfo.FriendMax = rsp.friendMax;
+        DataCenter.Instance.UserInfo.friendMax = rsp.friendMax;
         DataCenter.Instance.AccountInfo.stone = rsp.stone;
         MsgCenter.Instance.Invoke(CommandEnum.SyncChips);
 //        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.FriendExpansion));
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("FriendExpansionFinish"), TextCenter.GetText ("FriendExpansionResult", DataCenter.Instance.UserInfo.FriendMax),TextCenter.GetText("OK"));
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("FriendExpansionFinish"), TextCenter.GetText ("FriendExpansionResult", DataCenter.Instance.UserInfo.friendMax),TextCenter.GetText("OK"));
 
     }
 	
     void OnStaminaRecover(){
-        if (DataCenter.Instance.UserInfo.StaminaNow >= DataCenter.Instance.UserInfo.StaminaMax) {
+        if (DataCenter.Instance.UserInfo.staminaNow >= DataCenter.Instance.UserInfo.staminaMax) {
 //            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuyFailMsgWindowParams(BuyType.StaminaRecover, BuyFailType.NoNeedToBuy));
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaRecoverFailed"),TextCenter.GetText("StaminaStillFull"),TextCenter.GetText("OK"));
             return;
@@ -122,21 +122,21 @@ public class ShopModule : ModuleBase {
 
         LogHelper.Log("OnRspStartminaRecover StaminaNow:{0}", rsp.staminaNow);
 
-        DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;
-        DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
-        DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
+        DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;
+        DataCenter.Instance.UserInfo.staminaMax = rsp.staminaMax;
+        DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
 
         DataCenter.Instance.AccountInfo.stone = rsp.stone;
         MsgCenter.Instance.Invoke(CommandEnum.SyncStamina, null);
         MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("StaminaRecoverFinish"), TextCenter.GetText ("StaminaRecoverResult", DataCenter.Instance.UserInfo.StaminaNow),TextCenter.GetText("OK"));
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("StaminaRecoverFinish"), TextCenter.GetText ("StaminaRecoverResult", DataCenter.Instance.UserInfo.staminaNow),TextCenter.GetText("OK"));
     }
 
 
 
     void OnUnitExpansion(){
 
-        if (DataCenter.Instance.UserInfo.UnitMax >= DataCenter.maxUnitLimit) {
+        if (DataCenter.Instance.UserInfo.unitMax >= DataCenter.maxUnitLimit) {
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("UnitExpansionFailed"),TextCenter.GetText("UnitCountLimitReachedMax"),TextCenter.GetText("OK"));
             return;
         }
@@ -146,7 +146,7 @@ public class ShopModule : ModuleBase {
         }
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("UnitExpand"), new string[2] {
 						TextCenter.GetText ("UnitExpansionConfirm", DataCenter.unitExpansionStone),
-						TextCenter.GetText ("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit ().Count, DataCenter.Instance.UserInfo.UnitMax)}, 
+						TextCenter.GetText ("UnitExpansionInfo", DataCenter.Instance.UserUnitList.GetAllMyUnit ().Count, DataCenter.Instance.UserInfo.unitMax)}, 
 						TextCenter.GetText ("DoUnitExpansion"),TextCenter.GetText("CANCEL"), CallbackUnitpansion);
 
     }
@@ -172,11 +172,11 @@ public class ShopModule : ModuleBase {
             return;
         }
         
-        DataCenter.Instance.UserInfo.UnitMax = rsp.unitMax;
+        DataCenter.Instance.UserInfo.unitMax = rsp.unitMax;
         DataCenter.Instance.AccountInfo.stone = rsp.stone;
         MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
 //        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetBuySuccessWindowParams(BuyType.UnitExpansion));
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("UnitExpansionFinish"), TextCenter.GetText ("UnitExpansionResult", DataCenter.Instance.UserInfo.UnitMax),TextCenter.GetText("OK"));
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("UnitExpansionFinish"), TextCenter.GetText ("UnitExpansionResult", DataCenter.Instance.UserInfo.unitMax),TextCenter.GetText("OK"));
     }
 
 }

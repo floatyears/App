@@ -139,7 +139,7 @@ public class QuestItemView : MonoBehaviour {
 
 	private bool CheckStaminaEnough(){
 		int staminaNeed = Data.stamina;
-		int staminaNow = DataCenter.Instance.UserInfo.StaminaNow;
+		int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
 
 		if(staminaNeed > staminaNow) 
 			return true;

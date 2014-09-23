@@ -10,11 +10,6 @@ public partial class UserUnit : ProtoBuf.IExtensible {
 		MsgCenter.Instance.AddListener(CommandEnum.StrengthenTargetType, StrengthenTargetType);
 	}
 
-	public static UserUnit GetUserUnit(uint id, UserUnit uu)  {
-		uu.userID = id;
-		return uu;
-	}
-
 	public bool isEnable = true;
 	public bool isFocus = false;
 		

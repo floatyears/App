@@ -46,7 +46,7 @@ public class NicknameView : ViewBase {
 		nickNameInput = FindChild< UIInput >("NickNameInput" );
 //		nickNameInput.
 
-		if (string.IsNullOrEmpty(DataCenter.Instance.UserInfo.NickName)) {
+		if (string.IsNullOrEmpty(DataCenter.Instance.UserInfo.nickName)) {
 			nickNameInput.value = TextCenter.GetText ("Default_Nickname");
 //			FindChild<UILabel>("NickNameInput/Label").text = TextCenter.GetText ("Default_Nickname");	
 		}
@@ -106,7 +106,7 @@ public class NicknameView : ViewBase {
 			bool renameSuccess = (rspRenameNick.header.code == 0);
 			if (renameSuccess && rspRenameNick.newNickName != null)
 			{
-				DataCenter.Instance.UserInfo.NickName = rspRenameNick.newNickName;
+				DataCenter.Instance.UserInfo.nickName = rspRenameNick.newNickName;
 				
 				GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBarView>().UpdateData();
 			} else

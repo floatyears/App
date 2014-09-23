@@ -37,6 +37,9 @@ public class UserUnitList {
     public  UserUnit Get(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
 //		Debug.LogError (" key : " + key);
+//		foreach (var item in userUnitInfo.Keys) {
+//			Debug.Log("unit list: " + item);
+//				}
         if (!userUnitInfo.ContainsKey(key)) {
 //            Debug.Log("Cannot find key " + key + " in Global.userUnitInfo");
             return null;
@@ -74,7 +77,7 @@ public class UserUnitList {
 
 	public List<UserUnit> GetAllMyUnit() {
 		List<UserUnit> myUnitList = new List<UserUnit> ();
-		uint myID = DataCenter.Instance.UserInfo.UserId;
+		uint myID = DataCenter.Instance.UserInfo.userId;
 		foreach (var item in userUnitInfo.Values) {
 			if(item.userID == myID) {
 				myUnitList.Add(item);
@@ -89,7 +92,7 @@ public class UserUnitList {
             return null;
         }
 		
-        return Get(DataCenter.Instance.UserInfo.UserId, uniqueId);
+        return Get(DataCenter.Instance.UserInfo.userId, uniqueId);
     }
 
 	public  UserUnit GetMyUnit(string id) {
@@ -106,7 +109,7 @@ public class UserUnitList {
             return;
         }
 	
-        Del(DataCenter.Instance.UserInfo.UserId, uniqueId);
+        Del(DataCenter.Instance.UserInfo.userId, uniqueId);
 //        foreach (var item in userUnitInfo) {
 //            TUserUnit tUnit = item.Value as TUserUnit;
 //        }
@@ -151,9 +154,9 @@ public class UserUnitList {
 	}
 
     public UserUnit AddMyUnit(UserUnit unit) {
-		UserUnit tuu = UserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId, unit);
-		Add(DataCenter.Instance.UserInfo.UserId, unit.uniqueId, tuu);
-		return tuu;
+		unit.userID = DataCenter.Instance.UserInfo.userId;
+		Add(DataCenter.Instance.UserInfo.userId, unit.uniqueId, unit);
+		return unit;
     }
 
     public void AddMyUnitList(List <UserUnit> unitList){

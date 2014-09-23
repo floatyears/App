@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using bbproto;
@@ -12,7 +12,7 @@ public class FriendDataModel : ProtobufDataBase {
 	private List<FriendInfo> friendIn;
 	private List<FriendInfo> friendOut;
 	
-	private TUserInfo searchResult;
+	private UserInfo searchResult;
 	private ErrorMsg errMsg;
 	
 	//// property ////
@@ -20,7 +20,7 @@ public class FriendDataModel : ProtobufDataBase {
 	public List<FriendInfo> Friend { get { return friend; } }
 	public List<FriendInfo> FriendIn { get { return friendIn; } }
 	public List<FriendInfo> FriendOut { get { return friendOut; } }
-	public TUserInfo SearchResult { get { return searchResult; } }
+	public UserInfo SearchResult { get { return searchResult; } }
 	public ErrorMsg ErrMsg { get { return errMsg; } }
 	
 	//constructor

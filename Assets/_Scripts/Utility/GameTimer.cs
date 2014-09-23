@@ -139,7 +139,7 @@ public class GameTimer : MonoBehaviour {
 			if (rspAuthUser.user != null) {
 				Debug.Log("authUser response userId:" + rspAuthUser.user.userId);
 				
-				DataCenter.Instance.UserInfo = new TUserInfo(rspAuthUser.user);
+				DataCenter.Instance.UserInfo = rspAuthUser.user;
 				if (rspAuthUser.evolveType != null) {
 					DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
 				}
@@ -170,7 +170,7 @@ public class GameTimer : MonoBehaviour {
 			if (rspAuthUser.unitList != null) {
 				foreach (UserUnit unit in rspAuthUser.unitList) {
 					//					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
-					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, UserUnit.GetUserUnit(userId, unit));
+					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, unit);
 				}
 				LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
 			}
@@ -185,7 +185,7 @@ public class GameTimer : MonoBehaviour {
 				DataCenter.Instance.QuestClearInfo = rspAuthUser.questClear;
 			}
 			
-			DataCenter.Instance.CatalogInfo = new UnitCatalogDataModel(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+			DataCenter.Instance.CatalogInfo = new UnitCatalogInfo(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 			
 			if( rspAuthUser.notice != null){
 				DataCenter.Instance.NoticeInfo = rspAuthUser.notice;

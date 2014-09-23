@@ -288,13 +288,13 @@ using bbproto;public class BattleTopView : ViewBase {
 		
 		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
 		//		DataCenter.Instance.RefreshUserInfo(rsp)
-		DataCenter.Instance.UserInfo.Rank = rsp.rank;
-		DataCenter.Instance.UserInfo.Exp = rsp.exp;
+		DataCenter.Instance.UserInfo.rank = rsp.rank;
+		DataCenter.Instance.UserInfo.exp = rsp.exp;
 		DataCenter.Instance.AccountInfo.money = rsp.money;
 		DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
-		DataCenter.Instance.UserInfo.StaminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.StaminaMax = rsp.staminaMax;
-		DataCenter.Instance.UserInfo.StaminaRecover = rsp.staminaRecover;	
+		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserInfo.staminaMax = rsp.staminaMax;
+		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;	
 		//
 		UnitParty tup = BattleConfigData.Instance.party;
 		foreach (var item in tup.UserUnit) {
@@ -320,10 +320,12 @@ using bbproto;public class BattleTopView : ViewBase {
 		trcq.money = rsp.money;
 		trcq.gotMoney = rsp.gotMoney;
 		trcq.gotStone = rsp.gotStone;
-		trcq.evolveUser = UserUnit.GetUserUnit (DataCenter.Instance.UserInfo.UserId, rsp.evolvedUnit);
+		rsp.evolvedUnit.userID = DataCenter.Instance.UserInfo.userId;
+		trcq.evolveUser = rsp.evolvedUnit;
 		List<UserUnit> temp = new List<UserUnit> ();
 		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
-			UserUnit tuu = UserUnit.GetUserUnit(DataCenter.Instance.UserInfo.UserId,rsp.gotUnit[i]);
+			rsp.gotUnit[i].userID = DataCenter.Instance.UserInfo.userId;
+			UserUnit tuu = rsp.gotUnit[i];
 			temp.Add(tuu);
 		}
 		trcq.gotUnit = temp;

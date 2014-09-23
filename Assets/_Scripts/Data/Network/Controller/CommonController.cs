@@ -16,7 +16,7 @@ public class CommonController : ControllerBase {
 		ReqGetServerTime reqGetServerTime = new ReqGetServerTime();
 		reqGetServerTime.header = new ProtoHeader();
 		reqGetServerTime.header.apiVer = ServerConfig.API_VERSION;
-		reqGetServerTime.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqGetServerTime.header.userId = DataCenter.Instance.UserInfo.userId;
 		HttpRequestManager.Instance.SendHttpRequest (reqGetServerTime,callBack, ProtocolNameEnum.RspGetServerTime);
 	}
 
@@ -24,7 +24,7 @@ public class CommonController : ControllerBase {
 		ReqUploadStat reqUploadStat = new ReqUploadStat();
 		reqUploadStat.header = new ProtoHeader();
 		reqUploadStat.header.apiVer = ServerConfig.API_VERSION;
-		reqUploadStat.header.userId = DataCenter.Instance.UserInfo != null ? DataCenter.Instance.UserInfo.UserId : 0;
+		reqUploadStat.header.userId = DataCenter.Instance.UserInfo != null ? DataCenter.Instance.UserInfo.userId : 0;
 		
 		//request params
 		reqUploadStat.events.AddRange( events );

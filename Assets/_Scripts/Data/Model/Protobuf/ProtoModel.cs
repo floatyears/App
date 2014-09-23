@@ -5252,7 +5252,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UserInfo")]
   public partial class UserInfo : global::ProtoBuf.IExtensible
   {
-    public UserInfo() {}
     
     private string _uuid = "";
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"uuid", DataFormat = global::ProtoBuf.DataFormat.Default)]

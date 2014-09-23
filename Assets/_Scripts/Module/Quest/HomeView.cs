@@ -257,7 +257,7 @@ public class HomeView : ViewBase{
 				return;
 			}
 
-			if(DataCenter.Instance.UserInfo.Rank < 10){
+			if(DataCenter.Instance.UserInfo.rank < 10){
 				
 //				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventRankNeedTitle"),TextCenter.GetText("EventRankNeedContent"),TextCenter.GetText("OK"));
@@ -279,7 +279,7 @@ public class HomeView : ViewBase{
 
 	private bool CheckUnitsLimit(){
 //		Debug.Log ("click-------------");
-		int userUnitMaxCount = DataCenter.Instance.UserInfo.UnitMax;
+		int userUnitMaxCount = DataCenter.Instance.UserInfo.unitMax;
 		//Debug.Log("userUnitMaxCount : " + userUnitMaxCount);
 		int userCurrGotUnitCount = DataCenter.Instance.UserUnitList.GetAllMyUnit().Count;
 		//Debug.Log("userCurrGotUnitCount : " + userCurrGotUnitCount);
@@ -292,7 +292,7 @@ public class HomeView : ViewBase{
 
 //			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("UnitOverflow"),
-			                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.UnitMax),
+			                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.unitMax),
 			                                   TextCenter.GetText("OK"),
 			                                   TurnScene);
 

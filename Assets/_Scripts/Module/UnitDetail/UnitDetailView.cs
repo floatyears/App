@@ -770,7 +770,7 @@ public class UnitDetailView : ViewBase{
 	private void UpdateFavView(int isFav){
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 
-		if ( curUserUnit.userID != DataCenter.Instance.UserInfo.UserId ) {
+		if ( curUserUnit.userID != DataCenter.Instance.UserInfo.userId ) {
 			background.enabled = false; // hide Lock icon
 			return;
 		} else {

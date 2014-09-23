@@ -500,7 +500,7 @@ public class SellUnitView : ViewBase{
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.UnitMax);
+		countArgs.Add("max", DataCenter.Instance.UserInfo.unitMax);
 		countArgs.Add ("posy", -705);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}

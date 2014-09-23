@@ -71,7 +71,7 @@ public class PartyInfoView : ViewBase {
 
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
 		curCostLabel.text = unitParty.TotalCost.ToString();
-		maxCostLabel.text = DataCenter.Instance.UserInfo.CostMax.ToString();
+		maxCostLabel.text = DataCenter.Instance.UserInfo.costMax.ToString();
 
 		int value = 0;
 		unitParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);

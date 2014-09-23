@@ -47,8 +47,8 @@ public class UserController : ControllerBase {
 		ReqRenameNick reqRenameNick = new ReqRenameNick();
 		reqRenameNick.header = new ProtoHeader();
 		reqRenameNick.header.apiVer = ServerConfig.API_VERSION;
-		if (DataCenter.Instance.UserInfo != null && DataCenter.Instance.UserInfo.UserId > 0) {
-			reqRenameNick.header.userId = DataCenter.Instance.UserInfo.UserId;
+		if (DataCenter.Instance.UserInfo != null && DataCenter.Instance.UserInfo.userId > 0) {
+			reqRenameNick.header.userId = DataCenter.Instance.UserInfo.userId;
 		}
 		else {
 			reqRenameNick.header.userId = GameDataPersistence.Instance.GetUInt(GameDataPersistence.USER_ID);
@@ -66,7 +66,7 @@ public class UserController : ControllerBase {
 		ReqFinishUserGuide reqFinishUserGuide = new ReqFinishUserGuide();
 		reqFinishUserGuide.header = new ProtoHeader();
 		reqFinishUserGuide.header.apiVer = ServerConfig.API_VERSION;
-		reqFinishUserGuide.header.userId = DataCenter.Instance.UserInfo.UserId;
+		reqFinishUserGuide.header.userId = DataCenter.Instance.UserInfo.userId;
 		
 		//request params
 		reqFinishUserGuide.step = step;

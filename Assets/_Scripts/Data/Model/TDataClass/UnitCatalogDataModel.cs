@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class UnitCatalogDataModel : ProtobufDataBase{
+public class UnitCatalogInfo : ProtobufDataBase{
 
 	private List<byte> meetFlag;
 	private List<byte> haveFlag;
@@ -25,7 +25,7 @@ public class UnitCatalogDataModel : ProtobufDataBase{
 	}
 	
 	//constructor
-	public UnitCatalogDataModel(byte[] meetflag, byte[]haveflag) {
+	public UnitCatalogInfo(byte[] meetflag, byte[]haveflag) {
 		this.meetFlag = new List<byte>();
 		this.haveFlag = new List<byte>();
 		ConvertFlag(meetflag, this.meetFlag);
