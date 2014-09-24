@@ -27,6 +27,7 @@ namespace bbproto{
 				EnemyInfo e = boss[i];
 				e.currentHp = e.GetInitBlood();
 				e.currentNext = e.GetInitRound();
+				e.IsBoss = true;
 				if (bossDrop!=null && bossDrop.dropPos == i ) {
 					e.drop = bossDrop;
 				}

@@ -67,8 +67,8 @@ public class BattleBottomView : ViewBase {
 					}
 				});
 				
-				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + ((int)tui.type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
-				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + ((int)tui.type).ToString();
+				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + "_" + ((int)tui.type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
+				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + "_"  + ((int)tui.type).ToString();
 				skillSpr.spriteName = "icon_skill_" + ((int)tui.type).ToString();
 			}
 			UIEventListener.Get(temp).onClick += ClickItem;

@@ -5,32 +5,9 @@ using LitJson;
 using System.Collections.Generic;
 
 public enum ModelEnum {
-    UserInfo = 100,
-    AccountInfo,
-    SupportFriends,
-    FriendList,
-    PartyInfo,
-    MyUnitList,
-    UserUnitList,
-    UnitValue,
-    Skill,
-	AllSkill,
-    UnitInfo,
-    EnemyInfo,
-    UnitBaseInfo,
-    TrapInfo,
-    FriendBaseInfo,
-	QuestClearInfo,
-	UnitCatalogInfo,
-	NoticeInfo,
-	HelperInfo,
-	LoginInfo,
-	EventStageList,
-	AudioList,
 	ViewData,
 
 	//new add
-	CityListInfo,
 
     User            = 1000,
     UnitPartyInfo   = 1001,
@@ -133,11 +110,11 @@ public class DataCenter {
 
 	
 
-	private static GameState _gameState = GameState.Normal;
-	public static GameState gameState {
-		set { _gameState = value; BattleConfigData.Instance.gameState = (byte)_gameState; }
-		get { return _gameState; }
-	}
+//	private static GameState _gameState = GameState.Normal;
+//	public static GameState gameState {
+//		set { _gameState = value; BattleConfigData.Instance.gameState = (byte)_gameState; }
+//		get { return _gameState; }
+//	}
 
 	public static UnitDataModel evolveInfo = null;
 

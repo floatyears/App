@@ -64,12 +64,12 @@ public class StageItemView : MonoBehaviour{
 				return;
 			}
 
-			if(DataCenter.gameState == GameState.Normal) {
+//			if(DataCenter.gameState == GameState.Normal) {
 				SetIconView();
-			}
-			else{
-				SetEvolveIcon();
-			}
+//			}
+//			else{
+//				SetEvolveIcon();
+//			}
 
 			SetPosition();
 		}

@@ -238,29 +238,26 @@ public class LoadingModule : ModuleBase {
 
 	void SureRetry(object data) {
 		BattleConfigData.Instance.ResetFromDisk();
-		RecoverParty ();
+//		RecoverParty ();
 		ModuleManager.Instance.EnterBattle();
 	}
 
-	void RecoverParty() {
-		GameState gs = (GameState)BattleConfigData.Instance.gameState;
-		if (gs == GameState.Evolve) {
-			PartyInfo tpi = DataCenter.Instance.UnitData.PartyInfo;
-			tpi.CurrentPartyId = tpi.AllParty.Count;
-			tpi.AllParty.Add(BattleConfigData.Instance.party);
-		}
-		DataCenter.gameState = gs;
-	}
+//	void RecoverParty() {
+//		GameState gs = (GameState)BattleConfigData.Instance.gameState;
+//		if (gs == GameState.Evolve) {
+//			PartyInfo tpi = DataCenter.Instance.UnitData.PartyInfo;
+//			tpi.CurrentPartyId = tpi.AllParty.Count;
+//			tpi.AllParty.Add(BattleConfigData.Instance.party);
+//		}
+//		DataCenter.gameState = gs;
+//	}
 
 	void Cancel(object data) {
 
-		QuestController.Instance.RetireQuest (RetireQuestCallback, recoverQuestID);
-	}
-
-	void RetireQuestCallback(object data) {
-		BattleConfigData.Instance.ClearData ();
-		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
-		EnterGame();
+		QuestController.Instance.RetireQuest (o=>{
+			BattleConfigData.Instance.ClearData ();
+			EnterGame();
+		}, recoverQuestID);
 	}
 
     void TurnToReName() {

@@ -173,10 +173,10 @@ public class GiveUp__FightReadyView : ViewBase {
 	private UnitDataModel evolveStart;
 	
 	private void StartFight(){
-		if (DataCenter.gameState == GameState.Evolve) {
-//			evolveStart.EvolveStart.restartNew = 1;
-//			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
-		} else {
+//		if (DataCenter.gameState == GameState.Evolve) {
+////			evolveStart.EvolveStart.restartNew = 1;
+////			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+//		} else {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
@@ -186,7 +186,7 @@ public class GiveUp__FightReadyView : ViewBase {
 			sqp.stageId = questInfo.StageID;
 			sqp.startNew = 1;
 			QuestController.Instance.StartQuest (sqp, RspStartQuest);
-		}
+//		}
 	}
 	
 	private void RspStartQuest(object data) {
@@ -229,7 +229,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		QuestDungeonData tqdd = rsp.dungeonData;
 		tqdd.assignData ();
 		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
+//		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
 	}
 	

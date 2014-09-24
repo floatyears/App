@@ -39,6 +39,7 @@ public class ConfigSkill  {
 			}
 		}
 
-		DataCenter.Instance.SetData(ModelEnum.Skill,infoList);
+//		DataCenter.Instance.SetData(ModelEnum.Skill,infoList);
+		DataCenter.Instance.BattleData.Skill = infoList;
 	}
 }

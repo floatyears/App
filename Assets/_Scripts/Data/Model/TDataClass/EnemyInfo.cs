@@ -2,23 +2,25 @@ using UnityEngine;
 using System.Collections;
 
 namespace bbproto{
-public partial class EnemyInfo  : global::ProtoBuf.IExtensible{
+public partial class EnemyInfo : global::ProtoBuf.IExtensible{
 
-		public void AddListener () {
-			MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
-			MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
-		}
+	public void AddListener () {
+		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
+	}
 		
-		public void RemoveListener () {
-			MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
-			MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
-		}
+	public void RemoveListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
+	}
 
 
 	public bool isDeferAttackRound = false;
 	private AttackInfo posionAttack;
 
 	public DropUnit drop;
+
+	public bool IsBoss = false;
 
 	public bool IsInjured () {
 		if (currentHp > 0 && currentHp < hp) { return true; }

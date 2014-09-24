@@ -131,48 +131,40 @@ public class BattleConfigData {
 			_evolveInfo = value;
 		}
 	}
-
-//	private byte _gameState;
-	public byte gameState {
-		set { GameDataPersistence.Instance.StoreDataNoEncrypt(gameStateName, value); }
-		get {
-			byte _gameState = 0;
-			if(GameDataPersistence.Instance.HasInfo(gameStateName)) {
-				string info = GameDataPersistence.Instance.GetDataNoEncrypt(gameStateName);
-				_gameState = byte.Parse(info);
-			}
-			return _gameState;
-		}
-	}
-
+	
 	public void ResetFromServer(QuestDungeonData tdd) {
-		InitStoreBattleData ();
-		roleInitCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);//
-		_storeBattleData.roleCoordinate = roleInitCoordinate;
+		_storeBattleData = new StoreBattleData ();
+		_storeBattleData.sp = DataCenter.maxEnergyPoint;
+		_storeBattleData.hp = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetInitBlood ();
+		_storeBattleData.xCoordinate = MapConfig.characterInitCoorX;
+		_storeBattleData.yCoordinate = MapConfig.characterInitCoorY;
+
+		_storeBattleData.roleCoordinate = roleInitCoordinate= new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
 		_storeBattleData.colorIndex = 0;
 		questDungeonData = tdd;
-		WriteFriend ();
-		WriteQuestInfo ();
-		WriteStageInfo ();
-		WriteQuestDungeonData ();
-	}
 
-	void InitStoreBattleData() {
-		StoreBattleData sbd = new StoreBattleData ();
-		sbd.sp = DataCenter.maxEnergyPoint;
-		sbd.hp = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetInitBlood ();
-		sbd.xCoordinate = MapConfig.characterInitCoorX;
-		sbd.yCoordinate = MapConfig.characterInitCoorY;
-		_storeBattleData = sbd;
+		WriteToFile<FriendInfo> (BattleFriend, friendFileName);
+
+		WriteToFile<QuestInfo> (currentQuestInfo, questInfoName);
+
+		WriteToFile<StageInfo> (currentStageInfo, stageInfoName);
+
+		WriteToFile<QuestDungeonData> (questDungeonData,questDungeonDataName);
 	}
 
 	public void ResetFromDisk() {
-		ReadFriend ();
-		ReadQuestDungeonData ();
-		ReadQuestInfo ();
-		ReadStageInfo ();
+		BattleFriend = ReadFile<FriendInfo> (friendFileName);
+
+		questDungeonData= ReadFile<QuestDungeonData> (questDungeonDataName);
+		questDungeonData.assignData ();
+
+		currentQuestInfo = ReadFile<QuestInfo>(questInfoName);
+
+		currentStageInfo = ReadFile<StageInfo>(stageInfoName);
+
+		_storeBattleData = ReadFile<StoreBattleData> (storeBattleName);
+
 		ReadAllBuff ();
-		ReadRuntimeData ();
 		roleInitCoordinate = _storeBattleData.roleCoordinate;
 		if (_storeBattleData.colorIndex > 5) {
 			_storeBattleData.colorIndex -= 5;	
@@ -183,26 +175,16 @@ public class BattleConfigData {
 
 	public void StoreMapData () {
 		WriteAllBuff ();
-		StoreRuntimData ();
+//		StoreRuntimData ();
+		WriteToFile<StoreBattleData> (_storeBattleData,storeBattleName);
 	}
 
-	public void StoreQuestDungeonData(QuestDungeonData tqdd) {
-		questDungeonData = tqdd;
-
-		WriteQuestDungeonData ();
-	}
-	
-	void ReadRuntimeData () {
-		byte[] runtimeData = ReadFile (storeBattleName);
-		_storeBattleData = ProtobufSerializer.ParseFormBytes<StoreBattleData> (runtimeData);
-//		Debug.LogError ("ReadRuntimeData : " + qi.sp + " hp : " + qi.hp); 
-	}
-
-	void StoreRuntimData () {
-//		Debug.LogError ("StoreRuntimData : " + _storeBattleData.instance.hp);
-		byte[] battleData = ProtobufSerializer.SerializeToBytes<StoreBattleData> (_storeBattleData);
-		WriteToFile (battleData, storeBattleName);
-	}
+//	public void StoreQuestDungeonData(QuestDungeonData tqdd) {
+//		questDungeonData = tqdd;
+//
+////		WriteQuestDungeonData ();
+//		WriteToFile<QuestDungeonData> (questDungeonData,questDungeonDataName);
+//	}
 
 	public void StoreData (uint questID) {
 		int id = (int)questID;
@@ -289,10 +271,10 @@ public class BattleConfigData {
 		_party = ReadBuff<UnitParty, UnitParty> (unitPartyName);
 
 		if (File.Exists (trapPoisonName)) {
-			_trapPoison = Activator.CreateInstance(typeof(TrapPosion), ProtobufSerializer.ParseFormBytes<TrapInfo> (ReadFile (trapPoisonName))) as TrapPosion;
+			_trapPoison = Activator.CreateInstance(typeof(TrapPosion), ReadFile<TrapInfo> (trapPoisonName)) as TrapPosion;
 		}
 		if (File.Exists (trapEnvironmentName)) {
-			_trapEnvironment = Activator.CreateInstance(typeof(EnvironmentTrap), ProtobufSerializer.ParseFormBytes<TrapInfo> (ReadFile (trapEnvironmentName))) as EnvironmentTrap;
+			_trapEnvironment = Activator.CreateInstance(typeof(EnvironmentTrap), ReadFile<TrapInfo> ( trapEnvironmentName)) as EnvironmentTrap;
 		}
 
 
@@ -313,8 +295,8 @@ public class BattleConfigData {
 			return;
 		}
 //		Debug.LogError (" WriteBuff<T> : " + name);
-		byte[] attack = ProtobufSerializer.SerializeToBytes<T> (buff);
-		WriteToFile (attack, name);
+//		byte[] attack = ProtobufSerializer.SerializeToBytes<T> (buff);
+		WriteToFile<T> (buff, name);
 	}
 
 	T ReadBuff<T,T1> (string name) where T : class where T1 : ProtoBuf.IExtensible {
@@ -326,8 +308,7 @@ public class BattleConfigData {
 			return default(T);	
 		}
 
-		byte[] attackInfo = ReadFile (name);
-		T1 aip = ProtobufSerializer.ParseFormBytes<T1> (attackInfo);
+		T1 aip = ReadFile<T1> (name);
 		T t = Activator.CreateInstance(typeof(T), aip) as T;
 //		Debug.LogError ("t : " + t);
 		return t;
@@ -337,71 +318,10 @@ public class BattleConfigData {
 	
 	//stage
 	public void WriteStageInfo() {
-//		Debug.LogError ("WriteStageInfo currentStageInfo");
-		if (currentStageInfo == null)
-			return;
 
-//		Debug.LogError ("WriteStageInfo currentStageInfo : " + currentStageInfo);
-		byte[] stage = ProtobufSerializer.SerializeToBytes<StageInfo> (currentStageInfo);
-		WriteToFile (stage, stageInfoName);
 	}
 
-	void ReadStageInfo() {
-		byte[] stageInfo = ReadFile (stageInfoName);
-		if (stageInfo == null) {
-			return;	
-		}
-		currentStageInfo = ProtobufSerializer.ParseFormBytes<StageInfo> (stageInfo);
-	}
-	//end
 
-	//quest info
-	public void WriteQuestInfo() {
-		if (currentQuestInfo == null)
-			return;
-		byte[] quest = ProtobufSerializer.SerializeToBytes<QuestInfo> (currentQuestInfo);
-		WriteToFile (quest, questInfoName);
-	}
-
-	void ReadQuestInfo() {
-		byte[] friend = ReadFile (questInfoName);
-		if (friend == null) {
-			return;	
-		}
-		currentQuestInfo = ProtobufSerializer.ParseFormBytes<QuestInfo> (friend);
-	}
-	//end
-
-	//dungeonData
-	public void WriteQuestDungeonData () {
-//		Debug.LogError("WriteQuestDungeonData  : " + questDungeonData.Instance.hp)
-		
-		byte[] tdd = ProtobufSerializer.SerializeToBytes<QuestDungeonData> (questDungeonData);
-		WriteToFile (tdd, questDungeonDataName);
-	}
-
-	void ReadQuestDungeonData() {
-		byte[] questData = ReadFile (questDungeonDataName);
-		questDungeonData= ProtobufSerializer.ParseFormBytes<QuestDungeonData> (questData);
-		questDungeonData.assignData ();
-	}
-	//end
-
-	//friend
-	public void WriteFriend() {
-		if (BattleFriend == null)
-			return;
-		byte[] friend = ProtobufSerializer.SerializeToBytes<FriendInfo>(BattleFriend);
-		WriteToFile (friend, friendFileName);
-	}
-
-	void ReadFriend() {
-		byte[] friend = ReadFile (friendFileName);
-		if (friend == null) {
-			return;	
-		}
-		BattleFriend = ProtobufSerializer.ParseFormBytes<FriendInfo> (friend);
-	}
 	//end 
 
 	void DeleteAndWrite(string fileName){
@@ -410,12 +330,16 @@ public class BattleConfigData {
 		}
 	}
 
-	void WriteToFile(byte[] data, string fileName){
+	void WriteToFile<T>(T data, string fileName){
+		if(data == null)
+			return;
+		byte[] bytes = ProtobufSerializer.SerializeToBytes<T> (data);
+
 		string path = GetPath (fileName);
 		DeleteAndWrite (path);
 		try {
 			FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write);
-			fs.Write(data, 0, data.Length);
+			fs.Write(bytes, 0, bytes.Length);
 			fs.Close();
 			fs.Dispose();
 //			Debug.LogError("write to file success : " + fileName);
@@ -424,8 +348,10 @@ public class BattleConfigData {
 		}
 	}
 
-	byte[] ReadFile(string fileName) {
+	T ReadFile<T>(string fileName) {
 		string path = GetPath (fileName);
+
+
 		byte[] data = null;
 		try {
 			FileStream fs = new FileStream (path, FileMode.Open, FileAccess.Read);
@@ -438,13 +364,16 @@ public class BattleConfigData {
 			Debug.LogError ("ReadFile exception : " + ex.Message);
 		}
 
-		return data;
+		if (data == null) {
+			return default(T);	
+		}
+		return ProtobufSerializer.ParseFormBytes<T> (data);
+
 	}
 
 	public int GetMapID () {
-//		Debug.LogError ("currentStageInfo == null :  " + (currentStageInfo == null));
 		if (currentStageInfo == null || NoviceGuideStepEntityManager.isInNoviceGuide()) {
-			return 3; //2 is default stage id.
+			return 3;
 		} else {
 			int stageID = ((int)currentStageInfo.id) % 10;
 			if (BattleConfigData.Instance.currentStageInfo.cityId == 1) {	

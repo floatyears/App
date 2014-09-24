@@ -221,13 +221,13 @@ using bbproto;public class BattleTopView : ViewBase {
 	}
 
 	void RequestData (object data) {
-		if (DataCenter.gameState == GameState.Evolve) {
-//			EvolveDone evolveDone = new EvolveDone ();
-			ClearQuestParam cqp = GetQuestData();
-			UnitController.Instance.EvolveDone(ResponseEvolveQuest,cqp.questID,0,cqp.getMoney,cqp.getUnit,cqp.hitGrid);
-		} else {
-			QuestController.Instance.ClearQuest(GetQuestData (), ResponseClearQuest);
-		}
+//		if (DataCenter.gameState == GameState.Evolve) {
+////			EvolveDone evolveDone = new EvolveDone ();
+//			ClearQuestParam cqp = GetQuestData();
+//			UnitController.Instance.EvolveDone(ResponseEvolveQuest,cqp.questID,0,cqp.getMoney,cqp.getUnit,cqp.hitGrid);
+//		} else {
+		QuestController.Instance.ClearQuest(GetQuestData (), ResponseClearQuest);
+//		}
 	}
 
 	ClearQuestParam GetQuestData () {
@@ -286,7 +286,7 @@ using bbproto;public class BattleTopView : ViewBase {
 		
 		Umeng.GA.Event ("Evolve");
 		
-		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
+//		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
 		//		DataCenter.Instance.RefreshUserInfo(rsp)
 		DataCenter.Instance.UserData.UserInfo.rank = rsp.rank;
 		DataCenter.Instance.UserData.UserInfo.exp = rsp.exp;

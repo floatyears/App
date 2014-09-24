@@ -46,7 +46,8 @@ public class ConfigTrap {
 		} else {
 			trapList.Add (ti.trapID, mt);
 		}
-		DataCenter.Instance.SetData (ModelEnum.TrapInfo, trapList);
+//		DataCenter.Instance.SetData (ModelEnum.TrapInfo, trapList);
+		DataCenter.Instance.BattleData.TrapInfo = trapList;
 	}
 
 	public void ConfigTrapInjured (int effectType) {

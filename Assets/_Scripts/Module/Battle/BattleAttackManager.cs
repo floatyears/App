@@ -1111,7 +1111,7 @@ public class BattleAttackManager {
 		int temp = 0;
 		foreach (var item in leaderSkill.LeadSkill) {
 			temp++;
-			if(item.Value is TSkillBoost) {
+			if(item.Value is SkillBoost) {
 				leaderSkillQueue.Enqueue(item.Key);
 				GameTimer.GetInstance().AddCountDown(temp*time, ExcuteStartLeaderSkill);
 			}
@@ -1135,7 +1135,7 @@ public class BattleAttackManager {
 	}
 	
 	void DisposeBoostSkill (string userunit, SkillBase pdb) {
-		TSkillBoost tbs = pdb as TSkillBoost;
+		SkillBoost tbs = pdb as SkillBoost;
 		if (tbs != null) {
 			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
 			ai.UserUnitID = userunit;
@@ -1147,7 +1147,7 @@ public class BattleAttackManager {
 				if( item == null) {
 					continue;
 				}
-				item.SetAttack(tbs.GetBoostValue, tbs.GetTargetValue, tbs.GetTargetType, tbs.GetBoostType);
+				item.SetAttack(tbs.boostValue, tbs.targetValue, tbs.targetType, tbs.boostType);
 			}
 		}
 		else {
@@ -1309,7 +1309,7 @@ public class BattleAttackManager {
 		}
 		float multipe = 0f;
 		foreach (var item in leaderSkill.LeadSkill) {
-			LeaderSkillMultipleAttack trhp = item.Value as LeaderSkillMultipleAttack;
+			SkillMultipleAttack trhp = item.Value as SkillMultipleAttack;
 			if(trhp == null) {
 				continue;
 			}
@@ -1330,7 +1330,7 @@ public class BattleAttackManager {
 	int tempLeaderSkillCount = 0;
 	public int CheckLeaderSkillCount () {
 		foreach (var item in leaderSkill.LeadSkill.Values) {
-			if(item is TSkillBoost) {
+			if(item is SkillBoost) {
 				tempLeaderSkillCount ++;
 			}else if(item is SkillDelayTime){
 				tempLeaderSkillCount ++;
