@@ -94,7 +94,7 @@ public class StageItemView : MonoBehaviour{
 	private void SetIconView(){
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 //		if (data.Type == bbproto.QuestType.E_QUEST_STORY) {
-			StageState clearState = DataCenter.Instance.QuestClearInfo.GetStoryStageState (data.id);
+			StageState clearState = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (data.id);
 			ShowIconByState (clearState);
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
 //
@@ -104,7 +104,7 @@ public class StageItemView : MonoBehaviour{
 
 	void SetEvolveIcon() {
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
-//		StageState clearState = StageState.CLEAR; //DataCenter.Instance.QuestClearInfo.GetStoryStageState(data.ID);
+//		StageState clearState = StageState.CLEAR; //DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(data.ID);
 //		ShowIconByState(clearState);
 		UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
 	}

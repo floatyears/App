@@ -77,13 +77,13 @@ public class LoadingModule : ModuleBase {
 			GameTimer.GetInstance().recovertime = rspAuthUser.user.staminaRecover - rspAuthUser.serverTime;
 
             if (rspAuthUser.account != null) {
-				DataCenter.Instance.AccountInfo = rspAuthUser.account;
+				DataCenter.Instance.UserData.AccountInfo = rspAuthUser.account;
             }
             
             if (rspAuthUser.user != null) {
-				DataCenter.Instance.UserInfo = rspAuthUser.user;
+				DataCenter.Instance.UserData.UserInfo = rspAuthUser.user;
                 if (rspAuthUser.evolveType != null) {
-                    DataCenter.Instance.UserInfo.EvolveType = rspAuthUser.evolveType;
+                    DataCenter.Instance.UserData.UserInfo.EvolveType = rspAuthUser.evolveType;
                 }
             } else {
 //				Debug.LogError("authUser response rspAuthUser.user == null");
@@ -93,18 +93,18 @@ public class LoadingModule : ModuleBase {
 				List<FriendInfo> supportFriends = new List<FriendInfo>();
                 foreach (FriendInfo fi in rspAuthUser.friends) {
 					supportFriends.Add(fi);
-					DataCenter.Instance.UserUnitList.Add(fi.userId, fi.UserUnit.uniqueId, fi.UserUnit);
+					DataCenter.Instance.UnitData.UserUnitList.Add(fi.userId, fi.UserUnit.uniqueId, fi.UserUnit);
                 }
-				DataCenter.Instance.SupportFriends = supportFriends;
+				DataCenter.Instance.FriendData.AddSupportFriend(supportFriends);
             } else {
 //                Debug.LogError("rsp.friends==null");
             }
             
-			DataCenter.Instance.EventStageList = new List<StageInfo>();
+			DataCenter.Instance.QuestData.EventStageList = new List<StageInfo>();
 			if (rspAuthUser.eventList != null) {
 				foreach (StageInfo stage in rspAuthUser.eventList) {
 					if(stage.quests.Count >0){
-						DataCenter.Instance.EventStageList.Add(stage);
+						DataCenter.Instance.QuestData.EventStageList.Add(stage);
 					}
 				}
 			}
@@ -113,30 +113,30 @@ public class LoadingModule : ModuleBase {
                 foreach (UserUnit unit in rspAuthUser.unitList) {
 //					DataCenter.Instance.MyUnitList.Add(userId, unit.uniqueId, TUserUnit.GetUserUnit(userId,unit));
 					unit.userID = userId;
-					DataCenter.Instance.UserUnitList.Add(userId, unit.uniqueId, unit);
+					DataCenter.Instance.UnitData.UserUnitList.Add(userId, unit.uniqueId, unit);
                 }
                 LogHelper.Log("rspAuthUser add to myUserUnit.count: {0}", rspAuthUser.unitList.Count);
             }
             
             if (rspAuthUser.party != null && rspAuthUser.party.partyList != null) {
-				DataCenter.Instance.PartyInfo = rspAuthUser.party;
-                //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.PartyInfo.CurrentParty
-				DataCenter.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+				DataCenter.Instance.UnitData.PartyInfo = rspAuthUser.party;
+                //TODO: replace ModelManager.GetData(UnitPartyInfo) with DataCenter.Instance.UnitData.PartyInfo.CurrentParty
+				DataCenter.Instance.SetData(ModelEnum.UnitPartyInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
             }
             
             if (rspAuthUser.questClear != null) {
-				DataCenter.Instance.QuestClearInfo = rspAuthUser.questClear;
+				DataCenter.Instance.QuestData.QuestClearInfo = rspAuthUser.questClear;
             }
             
-			DataCenter.Instance.CatalogInfo = new UnitCatalogInfo(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
+			DataCenter.Instance.UnitData.CatalogInfo = new UnitCatalogInfo(rspAuthUser.meetUnitFlag, rspAuthUser.haveUnitFlag);
 
 			if( rspAuthUser.notice != null) {
-				DataCenter.Instance.NoticeInfo = rspAuthUser.notice;
-				DataCenter.Instance.HelperCount = rspAuthUser.helpCountInfo;
+				DataCenter.Instance.CommonData.NoticeInfo = rspAuthUser.notice;
+				DataCenter.Instance.FriendData.HelperInfo = rspAuthUser.helpCountInfo;
 			}
 
 			if( rspAuthUser.login != null) {
-				DataCenter.Instance.LoginInfo = rspAuthUser.login;
+				DataCenter.Instance.UserData.LoginInfo = rspAuthUser.login;
 			}
 
 			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
@@ -165,7 +165,7 @@ public class LoadingModule : ModuleBase {
 	
 	private void StartFight() {
 		StartQuestParam sqp = new StartQuestParam ();
-		sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+		sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
 		sqp.helperUserUnit = null;	//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		sqp.questId = 0;			//questInfo.Data.ID;
 		sqp.stageId = 0;			//questInfo.StageID;
@@ -185,8 +185,8 @@ public class LoadingModule : ModuleBase {
 
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
@@ -215,15 +215,15 @@ public class LoadingModule : ModuleBase {
 			ModuleManager.Instance.EnterMainScene();
 
 			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
-				if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null
-				    && DataCenter.Instance.NoticeInfo.NoticeList.Count > 0 ) {
+				if (DataCenter.Instance.CommonData.NoticeInfo != null && DataCenter.Instance.CommonData.NoticeInfo.NoticeList != null
+				    && DataCenter.Instance.CommonData.NoticeInfo.NoticeList.Count > 0 ) {
 					ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	
 				}
 				else { // no 
-					if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
-					    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 ) {
+					if (DataCenter.Instance.UserData.LoginInfo.Bonus != null && DataCenter.Instance.UserData.LoginInfo.Bonus != null
+					    && DataCenter.Instance.UserData.LoginInfo.Bonus.Count > 0 ) {
 //						Debug.LogError("show Reward scene... ");
-						foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+						foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
 							if(item.enabled == 1){
 								ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
 								return;
@@ -245,7 +245,7 @@ public class LoadingModule : ModuleBase {
 	void RecoverParty() {
 		GameState gs = (GameState)BattleConfigData.Instance.gameState;
 		if (gs == GameState.Evolve) {
-			PartyInfo tpi = DataCenter.Instance.PartyInfo;
+			PartyInfo tpi = DataCenter.Instance.UnitData.PartyInfo;
 			tpi.CurrentPartyId = tpi.AllParty.Count;
 			tpi.AllParty.Add(BattleConfigData.Instance.party);
 		}
@@ -264,22 +264,22 @@ public class LoadingModule : ModuleBase {
 	}
 
     void TurnToReName() {
-        if (DataCenter.Instance.UserInfo == null) {
-//            Debug.LogError("DataCenter.Instance.UserInfo is null");
+        if (DataCenter.Instance.UserData.UserInfo == null) {
+//            Debug.LogError("DataCenter.Instance.UserData.UserInfo is null");
             return;
         }
         
-        if (DataCenter.Instance.UserInfo.nickName == null) {
-            Debug.LogError("DataCenter.Instance.UserInfo.NickName is null");
+        if (DataCenter.Instance.UserData.UserInfo.nickName == null) {
+            Debug.LogError("DataCenter.Instance.UserData.UserInfo.NickName is null");
             return;
         }
         
-        if (DataCenter.Instance.UserInfo.nickName.Length == 0) {
+        if (DataCenter.Instance.UserData.UserInfo.nickName.Length == 0) {
 			ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
 //            Debug.Log("PlayerInfoBar.ChangeScene( Others ).");
         }
         
-        Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserInfo.nickName);
+        Debug.Log("PlayerInfoBar.TurnToReName() : End. NickName is " + DataCenter.Instance.UserData.UserInfo.nickName);
     }
 }
 

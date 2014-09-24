@@ -120,10 +120,10 @@ public class ResourceUpdate : MonoBehaviour {
 		localVersionDic = new Dictionary<string, DownloadItemInfo> ();
 		serverVersionDic = new Dictionary<string, DownloadItemInfo> ();
 
-//			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
+//			List<TStageInfo> stages = DataCenter.Instance.QuestData.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-//			Debug.Log("quest: " + DataCenter.Instance.QuestClearInfo.GetStoryCityState(2));
-//			if (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR)) {
+//			Debug.Log("quest: " + DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(2));
+//			if (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR && (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(2) == StageState.CLEAR)) {
 				//load the server version.txt
 		StartDownload ();
 		
@@ -300,14 +300,14 @@ public class ResourceUpdate : MonoBehaviour {
 //	}
 
 	private void ShowTipText(){
-		if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.rank != null) {
-			if (DataCenter.Instance.LoginInfo.rank < 5) {
+		if (DataCenter.Instance.UserData.LoginInfo != null && DataCenter.Instance.UserData.LoginInfo.rank != null) {
+			if (DataCenter.Instance.UserData.LoginInfo.rank < 5) {
 				tipText.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
-			} else if (DataCenter.Instance.LoginInfo.rank < 10) {
+			} else if (DataCenter.Instance.UserData.LoginInfo.rank < 10) {
 				tipText.text = TextCenter.GetText ("Tips_B_" + Utility.MathHelper.RandomToInt (1, 10));
-			} else if (DataCenter.Instance.LoginInfo.rank < 20) {
+			} else if (DataCenter.Instance.UserData.LoginInfo.rank < 20) {
 				tipText.text = TextCenter.GetText ("Tips_C_" + Utility.MathHelper.RandomToInt (1, 18));
-			} else if (DataCenter.Instance.LoginInfo.rank < 30) {
+			} else if (DataCenter.Instance.UserData.LoginInfo.rank < 30) {
 				tipText.text = TextCenter.GetText ("Tips_D_" + Utility.MathHelper.RandomToInt (1, 18));
 			} else {
 				tipText.text = TextCenter.GetText ("Tips_E_" + Utility.MathHelper.RandomToInt (1, 24));

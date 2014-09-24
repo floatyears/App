@@ -33,8 +33,8 @@ public class SellUnitItem : MyUnitItem {
 
 	protected override void InitState(){
 		base.InitState();
-		IsParty = DataCenter.Instance.PartyInfo.UnitIsInParty(userUnit.uniqueId);
-//		Debug.LogError("uid:"+userUnit.ID + " => "+DataCenter.Instance.PartyInfo.UnitIsInParty(userUnit.ID));
+		IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(userUnit.uniqueId);
+//		Debug.LogError("uid:"+userUnit.ID + " => "+DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(userUnit.ID));
 		RefreshEnable();
 	}
 
@@ -54,7 +54,7 @@ public class SellUnitItem : MyUnitItem {
 	protected override void RefreshState(){
 		base.RefreshState();
 		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
+			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 			//IsEnable is FALSE as long as one state(IsParty or IsFavorite or other...) is TRUE
 			RefreshEnable();
 //			if (IsFavorite) Debug.LogWarning(">>>>> userUnit.ID:"+userUnit.ID+" isFavor!");

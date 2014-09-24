@@ -20,7 +20,7 @@ public class BonusController : ControllerBase {
 		ReqAcceptBonus reqAcceptBonus = new ReqAcceptBonus();
 		reqAcceptBonus.header = new ProtoHeader();
 		reqAcceptBonus.header.apiVer = ServerConfig.API_VERSION;
-		reqAcceptBonus.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqAcceptBonus.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqAcceptBonus.bonusId.AddRange( bonusId );
@@ -33,7 +33,7 @@ public class BonusController : ControllerBase {
 		ReqBonusList reqBonusList = new ReqBonusList();
 		reqBonusList.header = new ProtoHeader();
 		reqBonusList.header.apiVer = ServerConfig.API_VERSION;
-		reqBonusList.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqBonusList.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqBonusList, callBack, ProtocolNameEnum.RspBonusList);
 	}

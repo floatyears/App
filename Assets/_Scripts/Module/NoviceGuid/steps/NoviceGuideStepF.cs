@@ -53,7 +53,7 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListenerCustom.Get (btn).onClick -= EmptyClick;
 
-//		uint leaderId = DataCenter.Instance.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.ID;
+//		uint leaderId = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.ID;
 //		uint cardId = 0;
 //		switch (leaderId) {
 //		case 1:

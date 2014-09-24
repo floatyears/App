@@ -72,11 +72,11 @@ public class CatalogUnitItem : MyUnitItem {
 			}
 			else{
 				//Debug.LogError("gameObject is : " + gameObject.name + "    unitId is : " + catalogUserUnit.UnitID);
-				if(DataCenter.Instance.CatalogInfo.IsHaveUnit(catalogUserUnit.unitId)){
+				if(DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit(catalogUserUnit.unitId)){
 					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isHave.");
 					State = CatalogState.Got;
 				}
-				else if(DataCenter.Instance.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.unitId)){
+				else if(DataCenter.Instance.UnitData.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.unitId)){
 					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isMeet.");
 					State = CatalogState.Meet;
 				}

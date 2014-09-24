@@ -35,7 +35,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 	}
 
 	private void ClickOK(object data){
-		uint leaderId = DataCenter.Instance.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.id;
+		uint leaderId = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetPartyItem(0).UnitInfo.id;
 //		uint cardId = 0;
 //		switch (leaderId) {
 //		case 1:

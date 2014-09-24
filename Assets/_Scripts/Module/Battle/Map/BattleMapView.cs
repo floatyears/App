@@ -128,7 +128,7 @@ public class BattleMapView : ViewBase {
 				EnemyInfo tei = sbd.enemyInfo[i];
 				tei.EnemySymbol = (uint)i;
 				temp.Add (tei);
-				DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+				DataCenter.Instance.UnitData.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 			}
 			
 //			if (sbd.isBattle == 1) {		// 1 == battle enemy
@@ -375,7 +375,7 @@ public class BattleMapView : ViewBase {
 						EnemyInfo tei = currentMapData.Enemy[i];
 						tei.EnemySymbol = (uint)i;
 						temp.Add(tei);
-						DataCenter.Instance.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+						DataCenter.Instance.UnitData.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 					}
 					BattleAttackManager.Instance.InitEnemyInfo (currentMapData);
 					ShowEnemy(temp);

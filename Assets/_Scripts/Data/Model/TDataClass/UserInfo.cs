@@ -24,11 +24,11 @@ namespace bbproto{
 				int totalExp = 0;
 				for (int i = 1; i <= nextLevel; i++)
 				{
-					totalExp += DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, i);
+					totalExp += DataCenter.Instance.UnitData.GetUnitValue(PowerTable.UserExpType, i);
 				}
 				return totalExp - exp;
 
-	//			return DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType,Rank + 1); 
+	//			return DataCenter.Instance.UnitData.GetUnitValue(TPowerTableInfo.UserExpType,Rank + 1); 
 			}
 		} 
 
@@ -38,7 +38,7 @@ namespace bbproto{
 				int curLevel = rank;
 				int totalExp = 0;
 				for (int i = 1; i < curLevel; i++) {
-					totalExp += DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, i);
+					totalExp += DataCenter.Instance.UnitData.GetUnitValue(PowerTable.UserExpType, i);
 				}
 
 	//			UnityEngine.Debug.LogError(curLevel+" => CurRankExp:" + totalExp);
@@ -51,7 +51,7 @@ namespace bbproto{
 				int curLevel = rank;
 				int totalExp = 0;
 				for (int i = 0; i < curLevel; i++) {
-					totalExp += DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, i);
+					totalExp += DataCenter.Instance.UnitData.GetUnitValue(PowerTable.UserExpType, i);
 				}
 				return totalExp;
 			}
@@ -62,8 +62,8 @@ namespace bbproto{
 			get
 			{ 
 				int curLevel = rank + 1;
-				//UnityEngine.Debug.LogError("CurRankExpMax :: " + DataCenter.Instance.GetUnitValue(TPowerTableInfo.UserExpType, curLevel));
-				return DataCenter.Instance.GetUnitValue(PowerTable.UserExpType, curLevel);
+				//UnityEngine.Debug.LogError("CurRankExpMax :: " + DataCenter.Instance.UnitData.GetUnitValue(TPowerTableInfo.UserExpType, curLevel));
+				return DataCenter.Instance.UnitData.GetUnitValue(PowerTable.UserExpType, curLevel);
 			}
 		} 
 

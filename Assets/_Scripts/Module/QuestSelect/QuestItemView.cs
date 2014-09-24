@@ -76,7 +76,7 @@ public class QuestItemView : MonoBehaviour {
 
 		expLabel.text = data.rewardExp.ToString();
 		coinLabel.text = data.rewardMoney.ToString();
-		bool isClear = DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageID, data.id);
+		bool isClear = DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageID, data.id);
 
 		/*Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
 		          + ", isClear = " + isClear);*/
@@ -87,7 +87,7 @@ public class QuestItemView : MonoBehaviour {
 
 		clearFlagLabel.text = isClear ? TextCenter.GetText("clearQuest") : "";
 
-		UnitInfo bossUnitInfo = DataCenter.Instance.GetUnitInfo(data.bossId[ 0 ]);
+		UnitInfo bossUnitInfo = DataCenter.Instance.UnitData.GetUnitInfo(data.bossId[ 0 ]);
 		avatarBgSpr.spriteName = bossUnitInfo.GetUnitBackgroundName();
 //		Debug.Log("avatarBgSpr.spriteName : " + avatarBgSpr.spriteName);
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
@@ -139,7 +139,7 @@ public class QuestItemView : MonoBehaviour {
 
 	private bool CheckStaminaEnough(){
 		int staminaNeed = Data.stamina;
-		int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
+		int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
 
 		if(staminaNeed > staminaNow) 
 			return true;

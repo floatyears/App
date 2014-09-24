@@ -27,7 +27,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
     }
 
 	public bool UnitIsInCurrentParty(UserUnit tuu) {
-		if (tuu.userID != DataCenter.Instance.UserInfo.userId) {
+		if (tuu.userID != DataCenter.Instance.UserData.UserInfo.userId) {
 			return false;
 		}
 
@@ -39,7 +39,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 			Debug.LogError("UnitIsInParty(tuu) >>> ERROR: tuu is NULL.");
 			return false;
 		}
-		if (tuu.userID != DataCenter.Instance.UserInfo.userId) {
+		if (tuu.userID != DataCenter.Instance.UserData.UserInfo.userId) {
 			return false;
 		}
 		return UnitIsInParty(tuu.uniqueId);
@@ -63,6 +63,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
             Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int>();
 			
             party.items.Sort(SortParty);
+			party.Init();
 
 //			foreach (var item in party.items) {
 //				Debug.LogError(party.id + " item unitPos : " + item.unitPos + " item unitUniqueId : " + item.unitUniqueId);
@@ -192,15 +193,15 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 
 	public bool IsCostOverflow(int pos, uint newUniqueId) {
 		if( newUniqueId != 0 ) { // check cost max
-			int newCost = DataCenter.Instance.UserUnitList.GetMyUnit( newUniqueId ).UnitInfo.cost;
+			int newCost = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit( newUniqueId ).UnitInfo.cost;
 			int oldCost = 0;
 			if( CurrentParty.UserUnit[pos] != null ) {
 					oldCost = CurrentParty.UserUnit[pos].UnitInfo.cost;
 			}
 			
-			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserInfo.costMax ) {
+			if ( (CurrentParty.TotalCost - oldCost + newCost) > DataCenter.Instance.UserData.UserInfo.costMax ) {
 				TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("CostLimitText"));
-				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserInfo.costMax);
+				Debug.LogError("TPartyInfo.ChangeParty:: costTotal="+(CurrentParty.TotalCost - oldCost + newCost)+" > "+DataCenter.Instance.UserData.UserInfo.costMax);
 				return true;
 			}
 		}
@@ -231,7 +232,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 		item.unitUniqueId = newUniqueId;
         partyList[CurrentPartyId].items[pos] = item;
 
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 		MsgCenter.Instance.Invoke(CommandEnum.ModifiedParty, null);
         return true;
     }

@@ -339,8 +339,8 @@ public class UnitDetailView : ViewBase{
 				}					
 				uint cityId = stageId/10;
 				if ( cityId>0 && stageId>0 ) {
-					CityInfo cityInfo = DataCenter.Instance.GetCityInfo(cityId);
-					StageInfo stageInfo = DataCenter.Instance.GetStageInfo(stageId);
+					CityInfo cityInfo = DataCenter.Instance.QuestData.GetCityInfo(cityId);
+					StageInfo stageInfo = DataCenter.Instance.QuestData.GetStageInfo(stageId);
 					if ( cityInfo!=null && stageInfo!= null) {
 						gw += cityInfo.cityName+"-"+stageInfo.stageName+"\n";
 					}
@@ -364,7 +364,7 @@ public class UnitDetailView : ViewBase{
 
 		levelUpData = rlu;
 		oldBlendUnit = DataCenter.Instance.oldUserUnitInfo;
-		newBlendUnit = DataCenter.Instance.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
+		newBlendUnit = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(levelUpData.blendUniqueId);
 		curUserUnit = newBlendUnit;
 		ShowInfo (oldBlendUnit, true);
 		UserUnit tuu = DataCenter.Instance.levelUpFriend;
@@ -510,7 +510,7 @@ public class UnitDetailView : ViewBase{
 			normalSkill1DscpLabel.text = "";
 			return;	
 		}
-		SkillBase sbi1 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId1, SkillType.NormalSkill); //Skill[ skillId ];
+		SkillBase sbi1 = DataCenter.Instance.BattleData.GetSkill (userUnit.MakeUserUnitKey (), skillId1, SkillType.NormalSkill); //Skill[ skillId ];
 		SkillBase skill1 = sbi1;
 		
 		normalSkill1NameLabel.text = TextCenter.GetText ("SkillName_"+skill1.id);//skill.name;
@@ -535,7 +535,7 @@ public class UnitDetailView : ViewBase{
 		SkillBase skill2 = null;
 		
 		if (unitInfo.passiveSkill == 0) {
-			sbi2 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId2, SkillType.NormalSkill);
+			sbi2 = DataCenter.Instance.BattleData.GetSkill (userUnit.MakeUserUnitKey (), skillId2, SkillType.NormalSkill);
 			skill2 = sbi2;
 			FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Normal_Skill_2");
 			NormalSkill ns2 = sbi2 as NormalSkill;
@@ -545,7 +545,7 @@ public class UnitDetailView : ViewBase{
 				blockLsit2[ i ].spriteName = sprNameList2[ i ].ToString();
 			}
 		}else{
-			sbi2 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId2, SkillType.PassiveSkill);
+			sbi2 = DataCenter.Instance.BattleData.GetSkill (userUnit.MakeUserUnitKey (), skillId2, SkillType.PassiveSkill);
 			skill2 = sbi2;
 			FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_2").text = TextCenter.GetText ("Text_Passive_Skill");
 		}
@@ -560,7 +560,7 @@ public class UnitDetailView : ViewBase{
 			leaderSkillDscpLabel.text = "";
 			return;	
 		}
-		SkillBase skill3 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId3, SkillType.NormalSkill);
+		SkillBase skill3 = DataCenter.Instance.BattleData.GetSkill (userUnit.MakeUserUnitKey (), skillId3, SkillType.NormalSkill);
 		leaderSkillNameLabel.text = TextCenter.GetText ("SkillName_"+skill3.id);//skill.name;
 		leaderSkillDscpLabel.text = TextCenter.GetText ("SkillDesc_"+skill3.id);//skill.description;
 
@@ -572,7 +572,7 @@ public class UnitDetailView : ViewBase{
 			activeSkillDscpLabel.text = "";
 			return;	
 		} 
-		SkillBase skill4 = DataCenter.Instance.GetSkill (userUnit.MakeUserUnitKey (), skillId4, SkillType.NormalSkill);
+		SkillBase skill4 = DataCenter.Instance.BattleData.GetSkill (userUnit.MakeUserUnitKey (), skillId4, SkillType.NormalSkill);
 		activeSkillNameLabel.text = TextCenter.GetText ("SkillName_" + skill4.id);//skill.name;
 		activeSkillDscpLabel.text = TextCenter.GetText ("SkillDesc_" + skill4.id);//skill.description;
 	
@@ -658,7 +658,7 @@ public class UnitDetailView : ViewBase{
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
 						if (rsp != null ) {
-							DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.addUnit);
+							DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(rsp.addUnit);
 							NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
 						}
 					}else {
@@ -760,7 +760,7 @@ public class UnitDetailView : ViewBase{
 		curUserUnit.isFavorite = (curUserUnit.isFavorite == 1) ? 0 : 1;
 
 		//update the user unit 
-		DataCenter.Instance.UserUnitList.UpdateMyUnit( curUserUnit );
+		DataCenter.Instance.UnitData.UserUnitList.UpdateMyUnit( curUserUnit );
 
 		UpdateFavView(curUserUnit.isFavorite);
 
@@ -770,7 +770,7 @@ public class UnitDetailView : ViewBase{
 	private void UpdateFavView(int isFav){
 		UISprite background = unitLock.transform.FindChild("Background").GetComponent<UISprite>();
 
-		if ( curUserUnit.userID != DataCenter.Instance.UserInfo.userId ) {
+		if ( curUserUnit.userID != DataCenter.Instance.UserData.UserInfo.userId ) {
 			background.enabled = false; // hide Lock icon
 			return;
 		} else {

@@ -46,7 +46,7 @@ public class RewardView : ViewBase {
 //		Debug.Log ("purchase success, change to reward. rsp data:"+data);
 //		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
 //		if (rsp != null && rsp.bonus != null ) {
-//			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
+//			DataCenter.Instance.UserData.LoginInfo.Bonus = rsp.bonus;
 //
 //
 ////			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab);
@@ -82,17 +82,17 @@ public class RewardView : ViewBase {
 		if(rsp.header.code == ErrorCode.SUCCESS)
 		{
 			foreach (var num in bonusIDs) {
-				for (int i = DataCenter.Instance.LoginInfo.Bonus.Count - 1; i >= 0; i--) {
-					if(DataCenter.Instance.LoginInfo.Bonus[i].id == num){
-						DataCenter.Instance.LoginInfo.Bonus.RemoveAt(i);
+				for (int i = DataCenter.Instance.UserData.LoginInfo.Bonus.Count - 1; i >= 0; i--) {
+					if(DataCenter.Instance.UserData.LoginInfo.Bonus[i].id == num){
+						DataCenter.Instance.UserData.LoginInfo.Bonus.RemoveAt(i);
 						continue;
 					}
 				}
 			}
-			DataCenter.Instance.AccountInfo.stone = rsp.stone;
-			DataCenter.Instance.AccountInfo.money = rsp.money;
-			DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
-			DataCenter.Instance.UserUnitList.AddMyUnitList(rsp.newUnitList);
+			DataCenter.Instance.UserData.AccountInfo.stone = rsp.stone;
+			DataCenter.Instance.UserData.AccountInfo.money = rsp.money;
+			DataCenter.Instance.UserData.AccountInfo.friendPoint = rsp.friendPoint;
+			DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(rsp.newUnitList);
 
 			MsgCenter.Instance.Invoke(CommandEnum.SyncChips);
 			
@@ -132,7 +132,7 @@ public class RewardView : ViewBase {
 
 	private void InitData(){
 		aList.Clear ();
-		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+		foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
 			if(item.type <= 3){
 
 				if(!aList.ContainsKey(item.type))

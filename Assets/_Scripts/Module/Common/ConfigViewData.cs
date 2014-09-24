@@ -61,7 +61,7 @@ public class ConfigViewData
 		tempUserUnit.addHp = 24;
 		OwnedUnitInfoList.Add( tempUserUnit );
 
-		DataCenter.Instance.SetData (ModelEnum.ViewData, OwnedUnitInfoList);
+		DataCenter.Instance.ConfigViewData = OwnedUnitInfoList;//SetData (ModelEnum.ViewData, OwnedUnitInfoList);
 //		Debug.Log(string.Format( "Finlish configging owned unit info, the Count of OwnedUnitInfoList is {0}", OwnedUnitInfoList.Count) );
 
 

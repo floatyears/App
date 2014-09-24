@@ -20,7 +20,7 @@ public class FriendController : ControllerBase {
 		ReqAddFriend reqAddFriend = new ReqAddFriend();
 		reqAddFriend.header = new ProtoHeader();
 		reqAddFriend.header.apiVer = ServerConfig.API_VERSION;
-		reqAddFriend.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqAddFriend.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 
 		reqAddFriend.friendUid = friendUid;
 
@@ -34,7 +34,7 @@ public class FriendController : ControllerBase {
 		ReqAcceptFriend reqAcceptFriend = new ReqAcceptFriend();
 		reqAcceptFriend.header = new bbproto.ProtoHeader();
 		reqAcceptFriend.header.apiVer = ServerConfig.API_VERSION;
-		reqAcceptFriend.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqAcceptFriend.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 
 		reqAcceptFriend.friendUid = friendUid;
 
@@ -48,7 +48,7 @@ public class FriendController : ControllerBase {
 		ReqDelFriend reqDelFriend = new ReqDelFriend();
 		reqDelFriend.header = new ProtoHeader();
 		reqDelFriend.header.apiVer = ServerConfig.API_VERSION;
-		reqDelFriend.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqDelFriend.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqDelFriend.friendUid.Clear();
@@ -61,7 +61,7 @@ public class FriendController : ControllerBase {
 		ReqDelFriend reqDelFriend = new ReqDelFriend();
 		reqDelFriend.header = new ProtoHeader();
 		reqDelFriend.header.apiVer = ServerConfig.API_VERSION;
-		reqDelFriend.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqDelFriend.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqDelFriend.friendUid.Clear();
@@ -74,7 +74,7 @@ public class FriendController : ControllerBase {
 		ReqFindFriend reqFindFriend = new ReqFindFriend();
 		reqFindFriend.header = new ProtoHeader();
 		reqFindFriend.header.apiVer = ServerConfig.API_VERSION;
-		reqFindFriend.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqFindFriend.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqFindFriend.friendUid = friendUid;
@@ -87,7 +87,7 @@ public class FriendController : ControllerBase {
 		ReqGetFriend reqGetFriend = new ReqGetFriend();
 		reqGetFriend.header = new ProtoHeader();
 		reqGetFriend.header.apiVer = ServerConfig.API_VERSION;
-		reqGetFriend.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqGetFriend.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqGetFriend.getFriend = ToGetFriend;
@@ -101,7 +101,7 @@ public class FriendController : ControllerBase {
 		ReqGetPremiumHelper reqGetPremiumHelper = new ReqGetPremiumHelper();
 		reqGetPremiumHelper.header = new ProtoHeader();
 		reqGetPremiumHelper.header.apiVer = ServerConfig.API_VERSION;
-		reqGetPremiumHelper.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqGetPremiumHelper.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		reqGetPremiumHelper.race = race;
 		reqGetPremiumHelper.type = type;

@@ -304,9 +304,9 @@ public class BattleEnemyView : ViewBase {
 
 			GameObject prefab = returnValue as GameObject;
 
-			string skillStoreID = DataCenter.Instance.GetSkillID(ai.UserUnitID, ai.SkillID);
+			string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(ai.UserUnitID, ai.SkillID);
 
-			SkillBase pdb = DataCenter.Instance.AllSkill[skillStoreID];
+			SkillBase pdb = DataCenter.Instance.BattleData.AllSkill[skillStoreID];
 
 			System.Type t = pdb.GetType();
 

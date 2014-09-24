@@ -10,7 +10,7 @@ public class CalculateRecoverHP {
 	public CalculateRecoverHP() {
 		SkillBase recoverHP;
 		for (int i = 1; i <= 4; i++) {
-			if(DataCenter.Instance.Skill.TryGetValue(ConfigSkill.RECOVER_HP_ID + i, out recoverHP)) {
+			if(DataCenter.Instance.BattleData.Skill.TryGetValue(ConfigSkill.RECOVER_HP_ID + i, out recoverHP)) {
 				NormalSkill tns = recoverHP as NormalSkill;
 				recoverHPSkill[i-1] = tns;
 			} else {

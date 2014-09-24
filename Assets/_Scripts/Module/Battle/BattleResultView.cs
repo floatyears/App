@@ -94,15 +94,15 @@ public class BattleResultView : ViewBase {
 
 		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_home);
 
-		int nextEmp = DataCenter.Instance.UserInfo.NextExp;
+		int nextEmp = DataCenter.Instance.UserData.UserInfo.NextExp;
 		int maxEmp = clearQuest.exp;
 		gotExp= clearQuest.gotExp;
 		rank = DataCenter.Instance.oldAccountInfo.rank;
 		int totalPreExp = DataCenter.Instance.oldAccountInfo.CurPrevExp;
 		currentLevelExp = clearQuest.exp - totalPreExp ;
-		currentTotalExp = DataCenter.Instance.GetUnitValue (PowerTable.UserExpType, rank);
+		currentTotalExp = DataCenter.Instance.UnitData.GetUnitValue (PowerTable.UserExpType, rank);
 		add = (float)gotExp * 0.05f;
-		int curCoin = DataCenter.Instance.AccountInfo.money;
+		int curCoin = DataCenter.Instance.UserData.AccountInfo.money;
 		int maxCoin = clearQuest.money;
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
@@ -123,7 +123,7 @@ public class BattleResultView : ViewBase {
 			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
 			ResourceManager.Instance.GetAvatarAtlas(unitID, sprite);
 			sprite.enabled = false;
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(tuu.UnitInfo.id);
+			DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(tuu.UnitInfo.id);
 			getUserUnit.Enqueue(tuu);
 			dropItemList.Add(tuu, go);
 		}
@@ -158,10 +158,10 @@ public class BattleResultView : ViewBase {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_card_4);
 		}
 
-		if (DataCenter.Instance.CatalogInfo.IsHaveUnit (showUserUnit.unitId)) {
+		if (DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit (showUserUnit.unitId)) {
 			StartShowGetCard ();
 		} else {
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(showUserUnit.unitId);
+			DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(showUserUnit.unitId);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, showUserUnit);
 		}
@@ -182,7 +182,7 @@ public class BattleResultView : ViewBase {
 				currentLevelExp -= currentTotalExp;
 				rank++;
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_rank_up);
-				currentTotalExp = DataCenter.Instance.GetUnitValue (PowerTable.UserExpType, rank);
+				currentTotalExp = DataCenter.Instance.UnitData.GetUnitValue (PowerTable.UserExpType, rank);
 				SetRankUpEnable(true);
 				yield return new WaitForSeconds(0.5f);
 				rankUpScale.ResetToBeginning();

@@ -77,7 +77,7 @@ public class UserUnitList {
 
 	public List<UserUnit> GetAllMyUnit() {
 		List<UserUnit> myUnitList = new List<UserUnit> ();
-		uint myID = DataCenter.Instance.UserInfo.userId;
+		uint myID = DataCenter.Instance.UserData.UserInfo.userId;
 		foreach (var item in userUnitInfo.Values) {
 			if(item.userID == myID) {
 				myUnitList.Add(item);
@@ -88,15 +88,15 @@ public class UserUnitList {
 	}
 
     public  UserUnit GetMyUnit(uint uniqueId) {
-        if (DataCenter.Instance.UserInfo == null) {
+        if (DataCenter.Instance.UserData.UserInfo == null) {
             return null;
         }
 		
-        return Get(DataCenter.Instance.UserInfo.userId, uniqueId);
+        return Get(DataCenter.Instance.UserData.UserInfo.userId, uniqueId);
     }
 
 	public  UserUnit GetMyUnit(string id) {
-		if (DataCenter.Instance.UserInfo == null) {
+		if (DataCenter.Instance.UserData.UserInfo == null) {
 			return null;
 		}
 
@@ -104,12 +104,12 @@ public class UserUnitList {
 	}
 
     public  void DelMyUnit(uint uniqueId) {
-        if (DataCenter.Instance.UserInfo == null) {
+        if (DataCenter.Instance.UserData.UserInfo == null) {
             Debug.LogError ("TUserUnit.GetMyUnit() : Global.userInfo=null");
             return;
         }
 	
-        Del(DataCenter.Instance.UserInfo.userId, uniqueId);
+        Del(DataCenter.Instance.UserData.UserInfo.userId, uniqueId);
 //        foreach (var item in userUnitInfo) {
 //            TUserUnit tUnit = item.Value as TUserUnit;
 //        }
@@ -154,8 +154,8 @@ public class UserUnitList {
 	}
 
     public UserUnit AddMyUnit(UserUnit unit) {
-		unit.userID = DataCenter.Instance.UserInfo.userId;
-		Add(DataCenter.Instance.UserInfo.userId, unit.uniqueId, unit);
+		unit.userID = DataCenter.Instance.UserData.UserInfo.userId;
+		Add(DataCenter.Instance.UserData.UserInfo.userId, unit.uniqueId, unit);
 		return unit;
     }
 

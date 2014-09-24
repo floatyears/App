@@ -76,7 +76,7 @@ public class CatalogView : ViewBase {
 	private int GetCurGotUnitCount(){
 		int gotCount = 0;
 		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
-			if(DataCenter.Instance.CatalogInfo.IsHaveUnit((uint)i)){
+			if(DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit((uint)i)){
 				gotCount ++;
 			}
 		}

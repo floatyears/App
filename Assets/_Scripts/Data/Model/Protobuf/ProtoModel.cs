@@ -1644,7 +1644,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"QuestGrid")]
   public partial class QuestGrid : global::ProtoBuf.IExtensible
   {
-    public QuestGrid() {}
     
     private int _position = default(int);
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"position", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]

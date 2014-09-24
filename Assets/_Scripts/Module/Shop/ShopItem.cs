@@ -65,7 +65,7 @@ public class ShopItem : MonoBehaviour {
 				textName.text = "";
 				count.text = TextCenter.GetText("StoneCount") + data.count;//TextCenter.GetText("");
 				bg.enabled = true;
-				if(DataCenter.Instance.AccountInfo.payTotal == 0){
+				if(DataCenter.Instance.UserData.AccountInfo.payTotal == 0){
 //					btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
 					desc.text = string.Format(TextCenter.GetText("StoneDescFirst"),data.sale);
 				}else{

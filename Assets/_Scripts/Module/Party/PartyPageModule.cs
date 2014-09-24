@@ -54,15 +54,15 @@ public class PartyPageModule : ModuleBase{
 		switch (signal) {
 			case "current": 
 				LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to current party");
-		        currentParty = DataCenter.Instance.PartyInfo.CurrentParty;
+		        currentParty = DataCenter.Instance.UnitData.PartyInfo.CurrentParty;
 		        break;
 	        case "prev":
 		            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to prev party");
-		            currentParty = DataCenter.Instance.PartyInfo.PrevParty;
+		            currentParty = DataCenter.Instance.UnitData.PartyInfo.PrevParty;
 		            break;
 	        case "next":
 		            LogHelper.Log("PartyPagePanel.RefreshCurrentPartyInfo(), to next party");
-		            currentParty = DataCenter.Instance.PartyInfo.NextParty;
+		            currentParty = DataCenter.Instance.UnitData.PartyInfo.NextParty;
 		            break;
 	        default:
 	            	break;
@@ -72,7 +72,7 @@ public class PartyPageModule : ModuleBase{
 
     protected void RefreshCurrentPartyInfo(object args) {
         string partyType = args as string;
-		if (DataCenter.Instance.PartyInfo.CurrentParty == null) return; 
+		if (DataCenter.Instance.UnitData.PartyInfo.CurrentParty == null) return; 
         SetFocusPostion(0);
         UnitParty curParty = GetPartyBySignal(partyType);
 
@@ -149,12 +149,12 @@ public class PartyPageModule : ModuleBase{
     }
 
     int GetPartyIndex() {
-        return DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+        return DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
     }
 	
     void NoticeServerUpdatePartyInfo() {
 //		if(UIManager.Instance.baseScene.CurrentScene != ModuleEnum.UnitDetail)
-//        	DataCenter.Instance.PartyInfo.ExitParty();
+//        	DataCenter.Instance.UnitData.PartyInfo.ExitParty();
     }
 
     void NoticeInfoPanel(UnitParty tup) {
@@ -166,12 +166,12 @@ public class PartyPageModule : ModuleBase{
         int position = (int)args;
         UserUnit tuu = null;
 		
-        if (DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1] == null) {
+        if (DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[position - 1] == null) {
             LogHelper.LogError(string.Format("The position[{0}] of the current don't exist, do nothing!", position - 1));
             return;
         }
         else {
-            tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[position - 1];
+            tuu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[position - 1];
         }
 
 		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",tuu);

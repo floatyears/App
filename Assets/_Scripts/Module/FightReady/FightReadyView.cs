@@ -66,11 +66,11 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	public void RefreshParty (bool isRight) {	
 		UnitParty tup = null;
 		if (isRight) {
-			tup = DataCenter.Instance.PartyInfo.PrevParty;
+			tup = DataCenter.Instance.UnitData.PartyInfo.PrevParty;
 		} else {
-			tup = DataCenter.Instance.PartyInfo.NextParty;
+			tup = DataCenter.Instance.UnitData.PartyInfo.NextParty;
 		}
-//		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+//		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
 		RefreshParty();  
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   
 	}
@@ -124,12 +124,12 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	}
 	
 	private void PrevPage(GameObject go){
-		UnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
+		UnitParty preParty = DataCenter.Instance.UnitData.PartyInfo.PrevParty;
 		RefreshParty();  
 	}
 	
 	private void NextPage(GameObject go){
-		UnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
+		UnitParty nextParty = DataCenter.Instance.UnitData.PartyInfo.NextParty;
 		RefreshParty();
 	}
 
@@ -209,7 +209,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		} else {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
-			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
 			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
 			QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
 			sqp.questId = questInfo.Data.id;
@@ -234,9 +234,10 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			tfi.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
+			tqdd.assignData();
 //			ModelManager.Instance.(ModelEnum.MapConfig, tqdd);
 			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
 		}
@@ -257,9 +258,10 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
-		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;
+		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
+		questDungeonData.assignData ();
 //		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (questDungeonData);
@@ -280,8 +282,8 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 //	private void ShowPartyInfo(){
 //		if(pickedHelperInfo == null) return;
-//		TUnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-////		partyNoLabel.text = DataCenter.Instance.PartyInfo.CurrentPartyId + 1 + "/5";
+//		TUnitParty curParty = DataCenter.Instance.UnitData.PartyInfo.CurrentParty;
+////		partyNoLabel.text = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1 + "/5";
 ////		UpdateOwnLeaderSkillInfo(curParty);
 ////		UpdateHelperLeaderSkillInfo();
 ////		UpdatePartyAtkInfo(curParty);
@@ -324,7 +326,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 //		} else {
 //			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
-//			SkillBaseInfo baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
+//			SkillBaseInfo baseInfo = DataCenter.Instance.BattleData.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
 //			SkillBase leaderSkill = baseInfo.GetSkillInfo();	
 //			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
 //		}

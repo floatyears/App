@@ -84,7 +84,7 @@
 //    }
 //
 //    void GetUnitInfoList() {
-//        TUnitParty upi = DataCenter.Instance.PartyInfo.CurrentParty; // ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as TUnitParty;
+//        TUnitParty upi = DataCenter.Instance.UnitData.PartyInfo.CurrentParty; // ModelManager.Instance.GetData(ModelEnum.UnitPartyInfo, new ErrorMsg()) as TUnitParty;
 //        userUnitInfoList = upi.GetUserUnit();
 //    }
 //

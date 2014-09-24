@@ -102,12 +102,12 @@ public class GiveUp__FightReadyView : ViewBase {
 	}
 	
 	private void PrevPage(GameObject go){
-		UnitParty preParty = DataCenter.Instance.PartyInfo.PrevParty;
+		UnitParty preParty = DataCenter.Instance.UnitData.PartyInfo.PrevParty;
 		RefreshParty(preParty);  
 	}
 	
 	private void NextPage(GameObject go){
-		UnitParty nextParty = DataCenter.Instance.PartyInfo.NextParty;
+		UnitParty nextParty = DataCenter.Instance.UnitData.PartyInfo.NextParty;
 		RefreshParty(nextParty);
 	}
 	
@@ -132,7 +132,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		pickedInfoForFight = msg as Dictionary<string, object>;
 		pickedHelperInfo = pickedInfoForFight[ "HelperInfo"] as FriendInfo;
 		ShowHelper(pickedHelperInfo);
-		RefreshParty(DataCenter.Instance.PartyInfo.CurrentParty);
+		RefreshParty(DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 	}
 	
 	void EvolveSelectQuest(object data) {
@@ -179,7 +179,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		} else {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
-			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
 			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
 			QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
 			sqp.questId = questInfo.Data.id;
@@ -202,8 +202,8 @@ public class GiveUp__FightReadyView : ViewBase {
 			tfi.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 			
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
@@ -224,9 +224,10 @@ public class GiveUp__FightReadyView : ViewBase {
 		
 		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 		
-		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;
+		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
 		QuestDungeonData tqdd = rsp.dungeonData;
+		tqdd.assignData ();
 		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (tqdd);
@@ -246,8 +247,8 @@ public class GiveUp__FightReadyView : ViewBase {
 	
 	private void ShowPartyInfo(){
 		if(pickedHelperInfo == null) return;
-		UnitParty curParty = DataCenter.Instance.PartyInfo.CurrentParty;
-		partyNoLabel.text = DataCenter.Instance.PartyInfo.CurrentPartyId + 1 + "/5";
+		UnitParty curParty = DataCenter.Instance.UnitData.PartyInfo.CurrentParty;
+		partyNoLabel.text = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1 + "/5";
 		UpdateOwnLeaderSkillInfo(curParty);
 		UpdateHelperLeaderSkillInfo();
 		UpdatePartyAtkInfo(curParty);
@@ -293,7 +294,7 @@ public class GiveUp__FightReadyView : ViewBase {
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		} else {
 			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
-			SkillBase baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
+			SkillBase baseInfo = DataCenter.Instance.BattleData.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
 			SkillBase leaderSkill = baseInfo;	
 			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
 		}
@@ -382,9 +383,9 @@ public class GiveUp__FightReadyView : ViewBase {
 		
 		int newPartyPos = pageLightList.IndexOf(lightObj);
 		Debug.Log("ClickPageLight(), newPartyPos is : " + newPartyPos);
-		Debug.Log("ChangeParty before :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
-		UnitParty targetParty = DataCenter.Instance.PartyInfo.TargetParty(newPartyPos);
-		Debug.Log("ChangeParty after :: CurrentPartyId is : " + DataCenter.Instance.PartyInfo.CurrentPartyId);
+		Debug.Log("ChangeParty before :: CurrentPartyId is : " + DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId);
+		UnitParty targetParty = DataCenter.Instance.UnitData.PartyInfo.TargetParty(newPartyPos);
+		Debug.Log("ChangeParty after :: CurrentPartyId is : " + DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId);
 		RefreshParty(targetParty);
 	}
 	

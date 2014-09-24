@@ -160,9 +160,10 @@ public class BattleConfigData {
 	void InitStoreBattleData() {
 		StoreBattleData sbd = new StoreBattleData ();
 		sbd.sp = DataCenter.maxEnergyPoint;
-		sbd.hp = DataCenter.Instance.PartyInfo.CurrentParty.GetInitBlood ();
+		sbd.hp = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetInitBlood ();
 		sbd.xCoordinate = MapConfig.characterInitCoorX;
 		sbd.yCoordinate = MapConfig.characterInitCoorY;
+		_storeBattleData = sbd;
 	}
 
 	public void ResetFromDisk() {
@@ -382,6 +383,7 @@ public class BattleConfigData {
 	void ReadQuestDungeonData() {
 		byte[] questData = ReadFile (questDungeonDataName);
 		questDungeonData= ProtobufSerializer.ParseFormBytes<QuestDungeonData> (questData);
+		questDungeonData.assignData ();
 	}
 	//end
 

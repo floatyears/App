@@ -35,7 +35,7 @@ public class PartyUnitsView : ViewBase {
 	}
 
 	void RefreshOnPartyUnitList(object data) {
-		currentPaty = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		currentPaty = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit();
 		for (int i = 0; i < partyViewList.Count; i++) {
 			PartyUnitItem puv = partyViewList[i];
 			UserUnit tuu = currentPaty.Find(a=>a.MakeUserUnitKey() == puv.UserUnit.MakeUserUnitKey());

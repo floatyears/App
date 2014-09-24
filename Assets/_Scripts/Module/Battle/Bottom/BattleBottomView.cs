@@ -25,7 +25,7 @@ public class BattleBottomView : ViewBase {
 	{
 		base.Init (uiconfig, data);
 
-		List<UserUnit> userUnitInfo = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit;
+		List<UserUnit> userUnitInfo = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit;
 
 //		EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
 
@@ -41,7 +41,7 @@ public class BattleBottomView : ViewBase {
 			UITexture texture = actor[i] = temp.GetComponent<UITexture>();
 
 //			actorObject.Add(temp, texture);
-			Debug.Log("battle attack: " + userUnitInfo[i] + " i: " + i);
+//			Debug.Log("battle attack: " + userUnitInfo[i] + " i: " + i);
 			if(userUnitInfo[i] == null) {
 				temp.gameObject.SetActive(false);
 				tex.enabled = false;
@@ -148,7 +148,7 @@ public class BattleBottomView : ViewBase {
 	void ClickItem (GameObject obj) {
 		UITexture tex = actor [int.Parse (obj.name)];
 		if (tex != null && tex.color == Color.white) {
-			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"show_skill_window",DataCenter.Instance.PartyInfo.CurrentParty.UserUnit [int.Parse(obj.name)]);
+			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"show_skill_window",DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [int.Parse(obj.name)]);
 			MaskCard (obj.name, true);
 		}
 

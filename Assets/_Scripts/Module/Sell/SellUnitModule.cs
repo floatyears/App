@@ -49,9 +49,9 @@ public class SellUnitModule : ModuleBase {
 		int gotMoney = rsp.gotMoney;
 		List<UserUnit> unitList = rsp.unitList;
 
-		DataCenter.Instance.AccountInfo.money = rsp.money;
+		DataCenter.Instance.UserData.AccountInfo.money = rsp.money;
 
-		DataCenter.Instance.UserUnitList.DelMyUnitList(GetOnSaleUnitIDList());
+		DataCenter.Instance.UnitData.UserUnitList.DelMyUnitList(GetOnSaleUnitIDList());
 
 		UpdateViewAfterRspSellUnit();
 
@@ -123,8 +123,8 @@ public class SellUnitModule : ModuleBase {
 	private List<UserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
 //		Debug.LogError("GetUnitCellViewList()...");
-		List<UserUnit> userUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit(); //new List<TUserUnit>();	
-		//userUnitList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
+		List<UserUnit> userUnitList = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(); //new List<TUserUnit>();	
+		//userUnitList.AddRange(DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
 			curUseUnitList = userUnitList;
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);

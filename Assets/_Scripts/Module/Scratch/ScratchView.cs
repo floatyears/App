@@ -56,7 +56,7 @@ public class ScratchView : ViewBase {
 		eventGachaTimes = FindChild<UILabel>("Gacha_Entrance/3/TimesParent/Times");
 
 		scratchContent = FindChild<UILabel> ("Notice_Window/Content");
-		scratchContent.text = DataCenter.Instance.NoticeInfo.GachaNotice;
+		scratchContent.text = DataCenter.Instance.CommonData.NoticeInfo.GachaNotice;
 
 		infoPanelRoot = transform.FindChild("Notice_Window").gameObject;
 		windowRoot = transform.FindChild("Gacha_Entrance").gameObject;

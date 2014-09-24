@@ -17,7 +17,7 @@ public class FriendMainModule : ModuleBase{
 	}
 
 	public void SyncFriendList(object args){
-		if (DataCenter.Instance.FriendList != null){
+		if (DataCenter.Instance.FriendData != null){
 //			Debug.Log("SyncFriendList().FriendList not null, not need to sync friend list from server");
 			CallTurnToNextScene();
 			return;
@@ -47,7 +47,7 @@ public class FriendMainModule : ModuleBase{
 			return;
 		}
 
-        DataCenter.Instance.SetFriendList(inst);
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 		CallTurnToNextScene();
 	}
 

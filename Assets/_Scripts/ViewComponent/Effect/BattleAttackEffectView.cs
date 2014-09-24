@@ -60,9 +60,9 @@ public class BattleAttackEffectView : ViewBase {
 	void PlayActiveSkill(AttackInfo ai) {
 		activeEffect.SetActive (true);
 		activeEffect.transform.localPosition = BattleManipulationView.activeSkillStartPosition;
-		UserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(ai.UserUnitID);
+		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(ai.UserUnitID);
 		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture);
-		SkillBase sbi = DataCenter.Instance.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
+		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
 		skillName = sbi == null ? "" : TextCenter.GetText (SkillBase.SkillNamePrefix + sbi.id);//sbi.SkillName;
 		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleManipulationView.startPosition, "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutQuad));  
 //		Debug.LogError ("PlayActiveSkill MoveTo");

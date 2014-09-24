@@ -51,9 +51,9 @@ public class FriendMainView : ViewBase {
             UIEventListener.Get(btn).onClick = ClickBtn;
         }
 
-		bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
+		bbproto.StatHelperCount data = DataCenter.Instance.FriendData.HelperInfo;
 		if(data != null){
-			FindChild<UILabel>("Top/Info").text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.loginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.friendPoint);//nItem.message;
+			FindChild<UILabel>("Top/Info").text = string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.UserData.LoginInfo.loginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.UserData.AccountInfo.friendPoint);//nItem.message;
 		}
     }
 

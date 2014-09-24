@@ -37,7 +37,7 @@ public class HomeView : ViewBase{
 
 	private void ShowRewardInfo(){
 		int count = 0;
-		foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+		foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
 			if(item.enabled == 1){
 				count++;
 			}
@@ -176,7 +176,7 @@ public class HomeView : ViewBase{
 	/// Gets the city view info, bind gameObject with data.
 	/// </summary>
 	private void GetCityViewInfo(){
-		List<CityInfo> data = DataCenter.Instance.GetCityListInfo();
+		List<CityInfo> data = DataCenter.Instance.QuestData.GetCityListInfo();
 		for (int i = 0; i < data.Count; i++){
 			GameObject cityItem = transform.FindChild("StoryDoor/" + i.ToString()).gameObject;
 			FindChild("StoryDoor/" + i.ToString() + "/Label").GetComponent<UILabel>().text = TextCenter.GetText("City_Name_" + (i+1));
@@ -218,12 +218,12 @@ public class HomeView : ViewBase{
 			return;
 		}
                 
-		if (DataCenter.Instance.QuestClearInfo.GetStoryCityState (cityViewInfo [item].id) == StageState.LOCKED) {
+		if (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityViewInfo [item].id) == StageState.LOCKED) {
 			TipsManager.Instance.ShowTipsLabel (TextCenter.GetText ("Stage_Locked"), item);
 		} else {
-//			List<TStageInfo> stages = DataCenter.Instance.GetCityInfo(1).Stages;
+//			List<TStageInfo> stages = DataCenter.Instance.QuestData.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-			if(cityViewInfo [item].id == 2 && (DataCenter.Instance.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+			if(cityViewInfo [item].id == 2 && (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				
 //				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
@@ -257,7 +257,7 @@ public class HomeView : ViewBase{
 				return;
 			}
 
-			if(DataCenter.Instance.UserInfo.rank < 10){
+			if(DataCenter.Instance.UserData.UserInfo.rank < 10){
 				
 //				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventRankNeedTitle"),TextCenter.GetText("EventRankNeedContent"),TextCenter.GetText("OK"));
@@ -279,9 +279,9 @@ public class HomeView : ViewBase{
 
 	private bool CheckUnitsLimit(){
 //		Debug.Log ("click-------------");
-		int userUnitMaxCount = DataCenter.Instance.UserInfo.unitMax;
+		int userUnitMaxCount = DataCenter.Instance.UserData.UserInfo.unitMax;
 		//Debug.Log("userUnitMaxCount : " + userUnitMaxCount);
-		int userCurrGotUnitCount = DataCenter.Instance.UserUnitList.GetAllMyUnit().Count;
+		int userCurrGotUnitCount = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count;
 		//Debug.Log("userCurrGotUnitCount : " + userCurrGotUnitCount);
 	
 		if(userUnitMaxCount < userCurrGotUnitCount){
@@ -292,7 +292,7 @@ public class HomeView : ViewBase{
 
 //			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitCountOverParams());
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("UnitOverflow"),
-			                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.unitMax),
+			                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserData.UserInfo.unitMax),
 			                                   TextCenter.GetText("OK"),
 			                                   TurnScene);
 

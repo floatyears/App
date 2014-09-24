@@ -19,8 +19,8 @@ public class QuestController : ControllerBase {
 		reqClearQuest.header = new ProtoHeader();
 		reqClearQuest.header.apiVer = ServerConfig.API_VERSION;
 		
-		if (DataCenter.Instance.UserInfo != null)
-			reqClearQuest.header.userId = DataCenter.Instance.UserInfo.userId;
+		if (DataCenter.Instance.UserData.UserInfo != null)
+			reqClearQuest.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		reqClearQuest.questId = questParam.questID;
 		reqClearQuest.getMoney = questParam.getMoney;
@@ -32,8 +32,8 @@ public class QuestController : ControllerBase {
 			RspClearQuest rspClearQuest = data as RspClearQuest;
 			
 			
-			DataCenter.Instance.UserInfo.staminaNow = rspClearQuest.staminaNow;
-			DataCenter.Instance.UserInfo.staminaRecover = rspClearQuest.staminaRecover;
+			DataCenter.Instance.UserData.UserInfo.staminaNow = rspClearQuest.staminaNow;
+			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspClearQuest.staminaRecover;
 			
 			TRspClearQuest cq = new TRspClearQuest();
 			rspClearQuest = data as RspClearQuest;
@@ -56,8 +56,8 @@ public class QuestController : ControllerBase {
 			cq.gotStone = rspClearQuest.gotStone;
 			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
 			foreach (UserUnit uu in rspClearQuest.gotUnit) {
-				DataCenter.Instance.UserUnitList.AddMyUnit(uu);
-				uu.userID = DataCenter.Instance.UserInfo.userId;
+				DataCenter.Instance.UnitData.UserUnitList.AddMyUnit(uu);
+				uu.userID = DataCenter.Instance.UserData.UserInfo.userId;
 				cq.gotUnit.Add(uu);
 			}
 			callback(cq);
@@ -69,7 +69,7 @@ public class QuestController : ControllerBase {
 		ReqGetQuestColors reqGetQuestColors = new ReqGetQuestColors();
 		reqGetQuestColors.header = new ProtoHeader();
 		reqGetQuestColors.header.apiVer = ServerConfig.API_VERSION;
-		reqGetQuestColors.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqGetQuestColors.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqGetQuestColors.questId = questid;
@@ -82,7 +82,7 @@ public class QuestController : ControllerBase {
 		ReqRedoQuest reqRedoQuest = new ReqRedoQuest();
 		reqRedoQuest.header = new ProtoHeader();
 		reqRedoQuest.header.apiVer = ServerConfig.API_VERSION;
-		reqRedoQuest.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqRedoQuest.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqRedoQuest.questId = questid;
@@ -108,7 +108,7 @@ public class QuestController : ControllerBase {
 		ReqResumeQuest reqResumeQuest = new ReqResumeQuest();
 		reqResumeQuest.header = new ProtoHeader();
 		reqResumeQuest.header.apiVer = ServerConfig.API_VERSION;
-		reqResumeQuest.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqResumeQuest.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqResumeQuest.questId = questid;
@@ -120,7 +120,7 @@ public class QuestController : ControllerBase {
 		ReqRetireQuest reqRetireQuest = new ReqRetireQuest();
 		reqRetireQuest.header = new ProtoHeader();
 		reqRetireQuest.header.apiVer = ServerConfig.API_VERSION;
-		reqRetireQuest.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqRetireQuest.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqRetireQuest.questId = questid;
@@ -134,8 +134,8 @@ public class QuestController : ControllerBase {
 		reqStartQuest.header = new ProtoHeader();
 		reqStartQuest.header.apiVer = ServerConfig.API_VERSION;
 		
-		if (DataCenter.Instance.UserInfo != null)
-			reqStartQuest.header.userId = DataCenter.Instance.UserInfo.userId;
+		if (DataCenter.Instance.UserData.UserInfo != null)
+			reqStartQuest.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		
 		reqStartQuest.stageId = questParam.stageId;
@@ -144,7 +144,7 @@ public class QuestController : ControllerBase {
 			reqStartQuest.helperUserId = questParam.helperUserUnit.userId;
 		reqStartQuest.currentParty = questParam.currPartyId;
 		reqStartQuest.restartNew = questParam.startNew;
-		//		TUserUnit userunit = DataCenter.Instance.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
+		//		TUserUnit userunit = DataCenter.Instance.UnitData.UserUnitList.Get(questParam.helperUserId, questParam.helperUniqueId);
 		//		Debug.LogError ("userunit : " + userunit);
 		//        if (userunit != null)
 		if(questParam.helperUserUnit != null)

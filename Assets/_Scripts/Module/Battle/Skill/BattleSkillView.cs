@@ -93,13 +93,13 @@ public class BattleSkillView : ViewBase {
  	void Refresh(UserUnit userUnitInfo) {
 		UnitInfo tui = userUnitInfo.UnitInfo;
 
-		UpdateSkillInfo (0, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.leaderSkill, SkillType.LeaderSkill));
+		UpdateSkillInfo (0, DataCenter.Instance.BattleData.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.leaderSkill, SkillType.LeaderSkill));
 
-		UpdateSkillInfo (1, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.skill1, SkillType.NormalSkill));
+		UpdateSkillInfo (1, DataCenter.Instance.BattleData.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.skill1, SkillType.NormalSkill));
 
-		UpdateSkillInfo (2, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.skill2, SkillType.NormalSkill));
+		UpdateSkillInfo (2, DataCenter.Instance.BattleData.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.skill2, SkillType.NormalSkill));
 
-		SkillBase sbi = DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.activeSkill, SkillType.ActiveSkill);
+		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.activeSkill, SkillType.ActiveSkill);
 		UpdateSkillInfo (3, sbi);
 
 		bool notNull = sbi != null;
@@ -121,7 +121,7 @@ public class BattleSkillView : ViewBase {
 			roundLabel.text = "CD: "+ sbi.skillCooling;
 		}
 
-		UpdateSkillInfo (4, DataCenter.Instance.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.passiveSkill, SkillType.PassiveSkill));
+		UpdateSkillInfo (4, DataCenter.Instance.BattleData.GetSkill (userUnitInfo.MakeUserUnitKey (), tui.passiveSkill, SkillType.PassiveSkill));
 	}
 
 	void UpdateSkillInfo(int index, SkillBase sbi) {

@@ -146,40 +146,40 @@ public class PlayerInfoBarView : ViewBase{
 	}
 	
 	public void UpdateData(){
-		if (DataCenter.Instance.UserInfo == null){
+		if (DataCenter.Instance.UserData.UserInfo == null){
 			Debug.Log("PlayerInfoBar.UpdateData() , userInfo is null , return ");
 			return;
 		}
 		//Rank
-		outRankValueLabel.text = DataCenter.Instance.UserInfo.rank.ToString();
-		floatIDValueLabel.text = DataCenter.Instance.UserInfo.userId.ToString();
+		outRankValueLabel.text = DataCenter.Instance.UserData.UserInfo.rank.ToString();
+		floatIDValueLabel.text = DataCenter.Instance.UserData.UserInfo.userId.ToString();
 		//Name
-		userNameValueLabel.text = DataCenter.Instance.UserInfo.nickName;
+		userNameValueLabel.text = DataCenter.Instance.UserData.UserInfo.nickName;
 		//Exp
-		int nextExp = DataCenter.Instance.UserInfo.NextExp;
-		int totalExp = DataCenter.Instance.UserInfo.exp;
-		int curRankExp = totalExp - DataCenter.Instance.UserInfo.CurRankExp;
-//		UnityEngine.Debug.LogError("totalExp:"+totalExp+" - CurRankExp:" + DataCenter.Instance.UserInfo.CurRankExp + " = " +curRankExp+"/"+DataCenter.Instance.UserInfo.CurRankExpMax);
+		int nextExp = DataCenter.Instance.UserData.UserInfo.NextExp;
+		int totalExp = DataCenter.Instance.UserData.UserInfo.exp;
+		int curRankExp = totalExp - DataCenter.Instance.UserData.UserInfo.CurRankExp;
+//		UnityEngine.Debug.LogError("totalExp:"+totalExp+" - CurRankExp:" + DataCenter.Instance.UserData.UserInfo.CurRankExp + " = " +curRankExp+"/"+DataCenter.Instance.UserData.UserInfo.CurRankExpMax);
 
 		floatNextExpValueLabel.text = nextExp.ToString();
 		floatTotalExpValueLabel.text = totalExp.ToString();
 		//TODO Get current rank max exp 
-		expSpr.fillAmount = CountFillCount(curRankExp, DataCenter.Instance.UserInfo.CurRankExpMax);
-		floatRankValueLabel.text = DataCenter.Instance.UserInfo.rank.ToString ();
+		expSpr.fillAmount = CountFillCount(curRankExp, DataCenter.Instance.UserData.UserInfo.CurRankExpMax);
+		floatRankValueLabel.text = DataCenter.Instance.UserData.UserInfo.rank.ToString ();
 		//Cion
-		if (DataCenter.Instance.AccountInfo != null){
-			cionNumValueLabel.text = DataCenter.Instance.AccountInfo.money.ToString();
-			chipNumValueLabel.text = DataCenter.Instance.AccountInfo.stone.ToString();
+		if (DataCenter.Instance.UserData.AccountInfo != null){
+			cionNumValueLabel.text = DataCenter.Instance.UserData.AccountInfo.money.ToString();
+			chipNumValueLabel.text = DataCenter.Instance.UserData.AccountInfo.stone.ToString();
 		}
 		//Stamina
-		int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
-		int staminaMax = DataCenter.Instance.UserInfo.staminaMax;
+		int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
+		int staminaMax = DataCenter.Instance.UserData.UserInfo.staminaMax;
 //		stamMaxValueLabel.text = staminaNow.ToString();
 		stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
 		stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
 
 		//Evo
-		int evoType = (int)DataCenter.Instance.UserInfo.EvolveType;
+		int evoType = (int)DataCenter.Instance.UserData.UserInfo.EvolveType;
 	}
 	
 
@@ -209,7 +209,7 @@ public class PlayerInfoBarView : ViewBase{
 
 	}
 	void SyncCoins(object args){
-		cionNumValueLabel.text = DataCenter.Instance.AccountInfo.money.ToString();
+		cionNumValueLabel.text = DataCenter.Instance.UserData.AccountInfo.money.ToString();
 	}
 
 	float  CountFillCount(int cur, int max)
@@ -221,12 +221,12 @@ public class PlayerInfoBarView : ViewBase{
 
 
     void SyncChips(object args){
-        chipNumValueLabel.text = DataCenter.Instance.AccountInfo.stone.ToString();
+        chipNumValueLabel.text = DataCenter.Instance.UserData.AccountInfo.stone.ToString();
     }
 
     void SyncStamina(object args){
-        int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
-        int staminaMax = DataCenter.Instance.UserInfo.staminaMax;
+        int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
+        int staminaMax = DataCenter.Instance.UserData.UserInfo.staminaMax;
 //        stamMaxValueLabel.text = staminaNow.ToString();
 		stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
         stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
@@ -234,7 +234,7 @@ public class PlayerInfoBarView : ViewBase{
 
 	void AddStamina(){
 		if (currentTime > 0) {
-			if(DataCenter.Instance.UserInfo.staminaNow >= DataCenter.Instance.UserInfo.staminaMax){
+			if(DataCenter.Instance.UserData.UserInfo.staminaNow >= DataCenter.Instance.UserData.UserInfo.staminaMax){
 				countDown.text = "";
 			}
 			else{
@@ -244,10 +244,10 @@ public class PlayerInfoBarView : ViewBase{
 			currentTime--;
 		}else{
 			currentTime = 600;
-			if(DataCenter.Instance.UserInfo.staminaNow < DataCenter.Instance.UserInfo.staminaMax)
-				DataCenter.Instance.UserInfo.staminaNow++;
-			int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
-			int staminaMax = DataCenter.Instance.UserInfo.staminaMax;
+			if(DataCenter.Instance.UserData.UserInfo.staminaNow < DataCenter.Instance.UserData.UserInfo.staminaMax)
+				DataCenter.Instance.UserData.UserInfo.staminaNow++;
+			int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
+			int staminaMax = DataCenter.Instance.UserData.UserInfo.staminaMax;
 //			stamMaxValueLabel.text = staminaNow.ToString();
 			stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
 			stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);

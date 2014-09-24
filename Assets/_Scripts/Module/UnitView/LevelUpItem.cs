@@ -28,7 +28,7 @@ public class LevelUpItem : MyUnitItem {
 		IsFocus = false;
 		
 		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
+			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 //			IsEnable = !IsParty;
 		}
 	}
@@ -47,7 +47,7 @@ public class LevelUpItem : MyUnitItem {
 		base.RefreshState();
 
 		if(userUnit != null){
-			IsParty = DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
+			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 			//IsEnable is FALSE as long as IsParty is TRUE
 //			Debug.LogError("IsParty : " + IsParty);
 //			IsEnable = !IsParty;

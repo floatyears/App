@@ -94,7 +94,7 @@ public class MainMenuView : ViewBase{
 
 	private UnitInfo leaderUnitInfo;
 	private void UpdateLeaderAvatar(object msg){
-		UserUnit newestLeaderUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
+		UserUnit newestLeaderUnit = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 //		Debug.LogError ((newestLeaderUnit == null) + "  leaderUnitInfo == null : " + (leaderUnitInfo == null));
 		if(newestLeaderUnit == null){
 			leaderAvatarTex.mainTexture = null;
@@ -152,14 +152,14 @@ public class MainMenuView : ViewBase{
 	public void ShowTips(){
 		times--;
 		if (times <= 0) {
-			if (DataCenter.Instance.LoginInfo != null && DataCenter.Instance.LoginInfo.rank != null) {
-				if (DataCenter.Instance.LoginInfo.rank < 5) {
+			if (DataCenter.Instance.UserData.LoginInfo != null && DataCenter.Instance.UserData.LoginInfo.rank != null) {
+				if (DataCenter.Instance.UserData.LoginInfo.rank < 5) {
 					labelTips.text = TextCenter.GetText ("Tips_A_" + Utility.MathHelper.RandomToInt (1, 13));
-				} else if (DataCenter.Instance.LoginInfo.rank < 10) {
+				} else if (DataCenter.Instance.UserData.LoginInfo.rank < 10) {
 					labelTips.text = TextCenter.GetText ("Tips_B_" + Utility.MathHelper.RandomToInt (1, 10));
-				} else if (DataCenter.Instance.LoginInfo.rank < 20) {
+				} else if (DataCenter.Instance.UserData.LoginInfo.rank < 20) {
 					labelTips.text = TextCenter.GetText ("Tips_C_" + Utility.MathHelper.RandomToInt (1, 18));
-				} else if (DataCenter.Instance.LoginInfo.rank < 30) {
+				} else if (DataCenter.Instance.UserData.LoginInfo.rank < 30) {
 					labelTips.text = TextCenter.GetText ("Tips_D_" + Utility.MathHelper.RandomToInt (1, 18));
 				} else {
 					labelTips.text = TextCenter.GetText ("Tips_E_" + Utility.MathHelper.RandomToInt (1, 24));

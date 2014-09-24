@@ -59,7 +59,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
             if (userUnit == null) {
 				userUnit = new List<UserUnit>(){null,null,null,null,null};
                 for (int i = 0; i < partyItem.Count; i++) {
-					userUnit[partyItem[i].unitPos] = DataCenter.Instance.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+					userUnit[partyItem[i].unitPos] = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
                 }
             }
             return userUnit;
@@ -71,9 +71,9 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 			UserUnit[DataCenter.friendPos] = null;
 		}
 		else {
-			if (id == DataCenter.Instance.PartyInfo.CurrentPartyId) {
+			if (id == DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId) {
 				UserUnit tuu = BattleConfigData.Instance.BattleFriend.UserUnit;
-				DataCenter.Instance.UserUnitList.Add(tuu.userID, tuu.uniqueId, tuu);
+				DataCenter.Instance.UnitData.UserUnitList.Add(tuu.userID, tuu.uniqueId, tuu);
 				UserUnit[DataCenter.friendPos] = tuu;
 				
 				cardCount ++;
@@ -325,7 +325,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		UserUnit tuu;
 		foreach (var item in items) {
 			uint id = item.unitUniqueId;
-			tuu = DataCenter.Instance.UserUnitList.GetMyUnit(id);
+			tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(id);
 			if(tuu != null)
 				temp.AddRange(tuu.GetNormalSkill());
 		}                
@@ -341,7 +341,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     void GetLeaderSkill() {
         if (items.Count > 0) {
             uint id = items[0].unitUniqueId;
-			UserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(id);
+			UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(id);
 			AddLeadSkill(tuu);
         }
 
@@ -356,7 +356,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 			return;
 		}
 		string uniqueID = tuu.MakeUserUnitKey();
-		SkillBase pdb = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.LeadSKill, SkillType.LeaderSkill); //Skill[tuu.LeadSKill];
+		SkillBase pdb = DataCenter.Instance.BattleData.GetSkill (tuu.MakeUserUnitKey (), tuu.LeadSKill, SkillType.LeaderSkill); //Skill[tuu.LeadSKill];
 			if (leaderSkill.ContainsKey(uniqueID)) {
 			leaderSkill[uniqueID] = pdb;
 	    }
@@ -375,7 +375,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
             //update instance and userUnit
             items[item.unitPos] = item;
             if (userUnit != null && userUnit[item.unitPos] != null)
-                userUnit[item.unitPos] = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
+                userUnit[item.unitPos] = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(item.unitUniqueId);
             //LogHelper.LogError(" SetPartyItem:: => pos:{0} uniqueId:{1}",item.unitPos, item.unitUniqueId);
             this.reAssignData();
         }
@@ -454,7 +454,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     }
 	
     NormalSkill GetSecondSkill(PartyItem pi) {
-        UserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(pi.unitUniqueId);
+        UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(pi.unitUniqueId);
         if (tuu == null) {
             return null;
         }
@@ -463,7 +463,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		if (ui1.skill2 == 0) {
 			return null;		
 		}
-		NormalSkill ns = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), ui1.skill2, SkillType.NormalSkill) as NormalSkill; //Skill[ui1.skill2] as TNormalSkill;
+		NormalSkill ns = DataCenter.Instance.BattleData.GetSkill (tuu.MakeUserUnitKey (), ui1.skill2, SkillType.NormalSkill) as NormalSkill; //Skill[ui1.skill2] as TNormalSkill;
 		if (ns == null) {
 			return null;	
 		} 
@@ -476,7 +476,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
         List<UserUnit> temp = new List<UserUnit>();
         foreach (var item in items) {
 //			Debug.LogError("GetUserUnit befoure : " + ID + " item.unitUniqueId : " + item.unitUniqueId + "  item.pos : " + item.unitPos);
-			UserUnit tuu = DataCenter.Instance.UserUnitList.GetMyUnit(item.unitUniqueId);
+			UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(item.unitUniqueId);
 //			Debug.LogError("GetUserUnit end : " + tuu + "     ---------");
 			temp.Add(tuu);
 		}
@@ -484,11 +484,11 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     }
 
     public SkillBase GetLeaderSkillInfo() {
-        UserUnit uui = DataCenter.Instance.UserUnitList.GetMyUnit(items[0].unitUniqueId);
+        UserUnit uui = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(items[0].unitUniqueId);
         if (uui == null)
             return null;
 
-		SkillBase sbi = DataCenter.Instance.GetSkill (uui.MakeUserUnitKey (), uui.LeadSKill, SkillType.LeaderSkill); //Skill[uui.LeadSKill];
+		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (uui.MakeUserUnitKey (), uui.LeadSKill, SkillType.LeaderSkill); //Skill[uui.LeadSKill];
         return sbi;
     }
 
@@ -499,7 +499,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		for (int i = 0; i < items.Count; i++) {
 			Debug.LogError("GetPartyItem i : " + i + " instance.items : " + items[i]);
 				}
-	 	return DataCenter.Instance.UserUnitList.GetMyUnit( items [index].unitUniqueId);
+	 	return DataCenter.Instance.UnitData.UserUnitList.GetMyUnit( items [index].unitUniqueId);
 	}
 	}
 }

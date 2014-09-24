@@ -14,7 +14,7 @@ public class MainMenuModule : ModuleBase {
 					//msg box show 
 //					MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetUnitExpansionMsgParams());
 					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("UnitOverflow"),
-					                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserInfo.unitMax),
+					                                   TextCenter.GetText("UnitOverflowText",DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserData.UserInfo.unitMax),
 					                                   TextCenter.GetText("DoUnitExpansion"),CallBackScratchScene);
 					return;
 				}
@@ -28,8 +28,8 @@ public class MainMenuModule : ModuleBase {
 
 	bool CheckUnitCountLimit(){
 //		Debug.LogError("Current MyUnitList count is " + DataCenter.Instance.MyUnitList.Count);
-//		Debug.LogError("Current MyUnit Max is " + DataCenter.Instance.UserInfo.UnitMax);
-		if(DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.unitMax){
+//		Debug.LogError("Current MyUnit Max is " + DataCenter.Instance.UserData.UserInfo.UnitMax);
+		if(DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserData.UserInfo.unitMax){
 			Debug.LogError("MyUnitList's count > MyMax!!! Refuse to scene of Quest...");
 			return true;
 		}

@@ -124,7 +124,7 @@ public class RewardItemView : MonoBehaviour {
 			obj.GetComponent<UIDragScrollView>().enabled = true;
 
 			ResourceManager.Instance.GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
-			int type = (int)DataCenter.Instance.GetUnitInfo((uint)gift.value).type;
+			int type = (int)DataCenter.Instance.UnitData.GetUnitInfo((uint)gift.value).type;
 			obj.transform.FindChild("Bg").GetComponent<UISprite>().spriteName = GetAvatarBgSpriteName(type);
 			obj.transform.FindChild("Border").GetComponent<UISprite>().spriteName = GetBorderSpriteName(type);
 

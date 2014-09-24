@@ -29,11 +29,11 @@ public class ConfigUnitBaseInfo {
 //            pt.power.Add(pv);
 //        }
 ////        TPowerTableInfo tbi = new TPowerTableInfo(pt);
-////		if (DataCenter.Instance.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoExpType1)) {
-////			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoExpType1] = tbi;
+////		if (DataCenter.Instance.UnitData.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoExpType1)) {
+////			DataCenter.Instance.UnitData.UnitValue[TPowerTableInfo.UnitInfoExpType1] = tbi;
 ////		}
 ////		else {
-////			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoExpType1, tbi);
+////			DataCenter.Instance.UnitData.UnitValue.Add(TPowerTableInfo.UnitInfoExpType1, tbi);
 ////		}
 //        
 //    }
@@ -48,14 +48,14 @@ public class ConfigUnitBaseInfo {
 ////        }
 ////        TPowerTableInfo tbi = new TPowerTableInfo(pt);
 ////
-////		if (DataCenter.Instance.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoAttackType1)) {
-////			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoAttackType1] = tbi;
+////		if (DataCenter.Instance.UnitData.UnitValue.ContainsKey(TPowerTableInfo.UnitInfoAttackType1)) {
+////			DataCenter.Instance.UnitData.UnitValue[TPowerTableInfo.UnitInfoAttackType1] = tbi;
 ////		}
 ////		else {
-////			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi);
+////			DataCenter.Instance.UnitData.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi);
 ////		}
 //
-////        DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi); 
+////        DataCenter.Instance.UnitData.UnitValue.Add(TPowerTableInfo.UnitInfoAttackType1, tbi); 
 //    }
 
 //    void GenerateUnitBaseHP() {
@@ -68,11 +68,11 @@ public class ConfigUnitBaseInfo {
 ////        }
 ////        TPowerTableInfo tbi = new TPowerTableInfo(pt);
 ////
-////		if (DataCenter.Instance.UnitValue.ContainsKey (TPowerTableInfo.UnitInfoHPType1)) {
-////			DataCenter.Instance.UnitValue[TPowerTableInfo.UnitInfoHPType1] = tbi;
+////		if (DataCenter.Instance.UnitData.UnitValue.ContainsKey (TPowerTableInfo.UnitInfoHPType1)) {
+////			DataCenter.Instance.UnitData.UnitValue[TPowerTableInfo.UnitInfoHPType1] = tbi;
 ////		}
 ////		else {
-////			DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UnitInfoHPType1, tbi);
+////			DataCenter.Instance.UnitData.UnitValue.Add(TPowerTableInfo.UnitInfoHPType1, tbi);
 ////		}
 //
 //    }
@@ -158,14 +158,14 @@ public class ConfigUnitBaseInfo {
         }
 		PowerTable tbi = pt;
 
-		if (DataCenter.Instance.UnitValue.ContainsKey (PowerTable.UserExpType)) {
-			DataCenter.Instance.UnitValue[PowerTable.UserExpType] = tbi;
+		if (DataCenter.Instance.UnitData.UnitValue.ContainsKey (PowerTable.UserExpType)) {
+			DataCenter.Instance.UnitData.UnitValue[PowerTable.UserExpType] = tbi;
 		}
 		else {
-			DataCenter.Instance.UnitValue.Add(PowerTable.UserExpType, tbi);
+			DataCenter.Instance.UnitData.UnitValue.Add(PowerTable.UserExpType, tbi);
 		}
 
-//        DataCenter.Instance.UnitValue.Add(TPowerTableInfo.UserExpType, tbi);
+//        DataCenter.Instance.UnitData.UnitValue.Add(TPowerTableInfo.UserExpType, tbi);
     }
 
 //    void GenerateUnitBaseInfo() {

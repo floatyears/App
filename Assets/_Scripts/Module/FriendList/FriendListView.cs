@@ -53,7 +53,7 @@ public class FriendListView : ViewBase{
 
 	void CreateDragView(){
 		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
-		friendDataList = DataCenter.Instance.FriendList.Friend;
+		friendDataList = DataCenter.Instance.FriendData.Friend;
 		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
 //		dragPanel.CreatUI();
 		dragPanel.AddItem(friendDataList.Count);
@@ -101,7 +101,7 @@ public class FriendListView : ViewBase{
 		}
 		
 		bbproto.FriendList inst = rsp.friends;
-		DataCenter.Instance.SetFriendList(inst);
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 		HideUI();
 		ShowUI();
 	}
@@ -140,7 +140,7 @@ public class FriendListView : ViewBase{
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
 		
-		DataCenter.Instance.SetFriendList(inst);
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 		
 		HideUI();
 		ShowUI();
@@ -149,8 +149,8 @@ public class FriendListView : ViewBase{
 	void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		string title = TextCenter.GetText("FriendCounterTitle");
-		int current = DataCenter.Instance.FriendCount;
-		int max = DataCenter.Instance.UserInfo.friendMax;
+		int current = DataCenter.Instance.FriendData.FriendCount;
+		int max = DataCenter.Instance.UserData.UserInfo.friendMax;
 		countArgs.Add("title", title);
 		countArgs.Add("current", current);
 		countArgs.Add("max", max);

@@ -44,10 +44,10 @@ public class GameCurrencyEventHandler {
 		}
 		MsgCenter.Instance.Invoke(CommandEnum.OnBuyEvent,new Dictionary<string,string>(){{"id",rsp.productId},{"success","1"}});
 		//update user's account
-		DataCenter.Instance.AccountInfo.stone = rsp.stone;
-		DataCenter.Instance.AccountInfo.stonePay = rsp.stonePay;
-		DataCenter.Instance.AccountInfo.stoneFree = rsp.stoneFree;
-		DataCenter.Instance.AccountInfo.payTotal = rsp.payTotal;
+		DataCenter.Instance.UserData.AccountInfo.stone = rsp.stone;
+		DataCenter.Instance.UserData.AccountInfo.stonePay = rsp.stonePay;
+		DataCenter.Instance.UserData.AccountInfo.stoneFree = rsp.stoneFree;
+		DataCenter.Instance.UserData.AccountInfo.payTotal = rsp.payTotal;
 		
 		GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBarView>().UpdateData();
 
@@ -73,7 +73,7 @@ public class GameCurrencyEventHandler {
 		Debug.Log ("purchase success, change to reward. rsp data:"+data);
 		bbproto.RspBonusList rsp = data as bbproto.RspBonusList;
 		if (rsp != null && rsp.bonus != null ) {
-			DataCenter.Instance.LoginInfo.Bonus = rsp.bonus;
+			DataCenter.Instance.UserData.LoginInfo.Bonus = rsp.bonus;
 			ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
 			MsgCenter.Instance.Invoke(CommandEnum.GotoRewardMonthCardTab,4);
 		}

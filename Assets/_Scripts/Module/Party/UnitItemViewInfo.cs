@@ -90,7 +90,7 @@ public class UnitItemInfo : MonoBehaviour{
 			mainTexture.mainTexture = o as Texture2D;
 		});
 		IsFavorate (userUnitItem.isFavorite);
-		bool isParty = DataCenter.Instance.PartyInfo.UnitIsInParty (userUnitItem.uniqueId);
+		bool isParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnitItem.uniqueId);
 		IsPartyItem(isParty);
 		bbproto.EvolveInfo ei = userUnitItem.UnitInfo.evolveInfo;
 		if (ei == null || ei.materialUnitId.Count == 0) {
@@ -236,7 +236,7 @@ public class UnitItemViewInfo {
 	}
 
 	public void SetStateInAllParty(){
-		IsParty = DataCenter.Instance.PartyInfo.UnitIsInParty(dataItem.uniqueId);
+		IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(dataItem.uniqueId);
 	}
 
     public void RefreshStates(Dictionary <string, object> statesDic) {
@@ -292,11 +292,11 @@ public class UnitItemViewInfo {
         Dictionary <string, object> initArgs = new Dictionary<string, object>();
         initArgs.Add("collect", false);
         initArgs.Add("enable", false);
-        if (DataCenter.Instance.PartyInfo == null || dataItem == null) {
+        if (DataCenter.Instance.UnitData.PartyInfo == null || dataItem == null) {
             Debug.LogError("InitWithArgs(), GlobalData.PartyInfo == null, return");
             return;
         }
-        initArgs.Add("party", DataCenter.Instance.PartyInfo.UnitIsInCurrentParty(dataItem.uniqueId));
+        initArgs.Add("party", DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(dataItem.uniqueId));
 
         List<string> textList = new List<string>();
         textList.Add(dataItem.level.ToString());

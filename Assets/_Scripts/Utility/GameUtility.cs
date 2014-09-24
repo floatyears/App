@@ -78,14 +78,14 @@ public class DGTools {
 		QuestInfo tqi = BattleConfigData.Instance.currentQuestInfo;
 
 		uint cityID = tsi.cityId;
-		CityInfo tci = dataCenter.GetCityInfo (cityID);
+		CityInfo tci = DataCenter.Instance.QuestData.GetCityInfo (cityID);
 
 		if (tsi == null || tqi == null || tci == null) {
 			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 			return;
 		}
 
-		StageState questStage = dataCenter.QuestClearInfo.GetStoryStageState (tsi.id);
+		StageState questStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (tsi.id);
 
 		if (questStage == StageState.NEW) {
 
@@ -97,7 +97,7 @@ public class DGTools {
 			return;
 		}
 
-		StageState stageClearStage = dataCenter.QuestClearInfo.GetStoryCityState (cityID);
+		StageState stageClearStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityID);
 
 		if (questStage == StageState.CLEAR) { 	
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].id != tqi.id) { // current quest not the last quest.

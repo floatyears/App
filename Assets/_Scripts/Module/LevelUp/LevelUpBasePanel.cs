@@ -188,7 +188,7 @@
 //		if (data == null) {
 //			ShieldParty(false);
 //			if(baseSelectItem != null) {
-//				if(DataCenter.Instance.PartyInfo.UnitIsInParty(baseSelectItem.userUnitItem.ID)) {
+//				if(DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(baseSelectItem.userUnitItem.ID)) {
 //					baseSelectItem.stateLabel.text = "Party";
 //				}
 //				else{
@@ -258,7 +258,7 @@
 //	}
 //
 //    void SetDisposeBaseItemLabel(UnitItemInfo uui){
-//        if (DataCenter.Instance.PartyInfo.UnitIsInParty(uui.userUnitItem.ID)){
+//        if (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(uui.userUnitItem.ID)){
 //            uui.stateLabel.text = "Party";
 //        }
 //        else {
@@ -338,7 +338,7 @@
 //			return;
 //		}
 //		List<TUserUnit> temp = new List<TUserUnit> ();
-//		List<TUnitParty> allParty = DataCenter.Instance.PartyInfo.AllParty;
+//		List<TUnitParty> allParty = DataCenter.Instance.UnitData.PartyInfo.AllParty;
 //		for (int i = 0; i < allParty.Count; i++) {
 //			List<TUserUnit> dic = allParty [i].GetUserUnit ();
 //			foreach (var item in dic) {
@@ -402,7 +402,7 @@
 //		UITexture avatarTex = avatarGo.GetComponent< UITexture >();
 //		TUserUnit uu = item.userUnitItem;
 //		uint uid = uu.UnitID;
-//		avatarTex.mainTexture = DataCenter.Instance.GetUnitInfo (uid).GetAsset (UnitAssetType.Avatar); //UnitInfo [uid].GetAsset (UnitAssetType.Avatar);
+//		avatarTex.mainTexture = DataCenter.Instance.UnitData.GetUnitInfo (uid).GetAsset (UnitAssetType.Avatar); //UnitInfo [uid].GetAsset (UnitAssetType.Avatar);
 //		ShowMask (item.scrollItem, false);
 //	}
 //	

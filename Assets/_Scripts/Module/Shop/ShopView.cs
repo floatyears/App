@@ -90,7 +90,7 @@ public class ShopView : ViewBase {
 
 	private string GetDiscutPercent(int itemIndex) {
 
-		if (DataCenter.Instance.AccountInfo.payTotal == 0) { // 首冲双倍奖励 +100%
+		if (DataCenter.Instance.UserData.AccountInfo.payTotal == 0) { // 首冲双倍奖励 +100%
 			if( itemIndex==1 ) {
 				return "0"; //最低价套餐，不赠送
 			} else if (itemIndex==101 || itemIndex==102) { //月卡、周卡 不赠送

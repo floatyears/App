@@ -54,7 +54,7 @@ public class UnitListForPartyModule : ModuleBase{
 //		onPartyViewItemList.Clear();
 		partyDataList.Clear();
 //		List<TUserUnit> tuuList = new List<TUserUnit>();
-		partyDataList.AddRange(DataCenter.Instance.UserUnitList.GetAllMyUnit());
+		partyDataList.AddRange(DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit());
 
 //		for (int i = 0; i < tuuList.Count; i++){
 //			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(tuuList [i]);

@@ -66,7 +66,7 @@ public class PartyModule : ModuleBase{
 		SetFocusPostion(position);
 		LogHelper.LogError("currentFoucsPosition is : " + currentFoucsPosition);
 //		TUserUnit tuu = null;
-		List<UserUnit> temp = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit ();
+		List<UserUnit> temp = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit ();
 //		Debug.LogError ("temp.count : " + temp.Count + " position - 1 : " + (position - 1));
 //		if (temp[ position - 1 ] == null) {
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("LightCurSprite", currentFoucsPosition);
@@ -74,7 +74,7 @@ public class PartyModule : ModuleBase{
 //			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
 //		}
 //		else {
-//			tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
+//			tuu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[ position - 1 ];
 //			BriefUnitInfo briefInfo = new BriefUnitInfo("PartyItem", tuu);
 //			MsgCenter.Instance.Invoke(CommandEnum.ShowUnitBriefInfo, briefInfo);
 			MsgCenter.Instance.Invoke(CommandEnum.ActivateMyUnitDragPanelState, true);
@@ -91,19 +91,19 @@ public class PartyModule : ModuleBase{
 			return;
 		}
 
-		List<UserUnit> tuu = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		List<UserUnit> tuu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit();
 		if (tuu[currentFoucsPosition - 1]==null)
 			return;
 
 		Debug.LogError ("currentFoucsPosition : " + currentFoucsPosition + " tuu : " + tuu.Count);
 		uint focusUnitUniqueId = tuu[currentFoucsPosition - 1].uniqueId;
 	
-//		DataCenter.Instance.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0); 
+//		DataCenter.Instance.UnitData.PartyInfo.ChangeParty(currentFoucsPosition - 1, 0); 
 
 //		CallBackDispatcherArgs cbd = new CallBackDispatcherArgs("ClearItem", currentFoucsPosition);
 		view.CallbackView("ClearItem", currentFoucsPosition);
 		
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 	}
 
 	void EnsureFocusOnCurrentPick(object msg) {
@@ -114,7 +114,7 @@ public class PartyModule : ModuleBase{
 	void ShowFocusUnitDetail(object data) {
 		if (currentFoucsPosition == 0)   return;
 		
-		UserUnit targetUnit = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
+		UserUnit targetUnit = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[currentFoucsPosition - 1];
 		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",targetUnit);
 	}
 
@@ -140,7 +140,7 @@ public class PartyModule : ModuleBase{
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ReplaceItemView", replaceArgsDic);
 		view.CallbackView("ReplaceItemView", replaceArgsDic);
 	
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 		
 	}
 	

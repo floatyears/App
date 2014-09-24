@@ -77,7 +77,7 @@ using UnityEngine;
 //			Debug.Log(" temp is null ");		
 //		}
 //		foreach (var item in temp) {
-//			TNormalSkill tns = DataCenter.Instance.Skill[item.skillID] as TNormalSkill;
+//			TNormalSkill tns = DataCenter.Instance.BattleData.Skill[item.skillID] as TNormalSkill;
 //			Debug.Log("attackProperty : " + item.attackProperty + "-- userProperty : " + item.userProperty +"-- skill name : " + tns.Name);
 //		}
 //	}

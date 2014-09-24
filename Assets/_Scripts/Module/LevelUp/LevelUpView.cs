@@ -55,7 +55,7 @@ public class LevelUpView : ViewBase {
 
 		base.ShowUI ();
 		ClearFocus ();
-		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
+		myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
 		ShowData ();
@@ -180,7 +180,7 @@ public class LevelUpView : ViewBase {
 		foreach (var item in dragPanel.scrollItem) {
 			LevelUpUnitItem pui = item as LevelUpUnitItem;
 			pui.callback = MyUnitClickCallback;
-			pui.IsParty = dataCenter.PartyInfo.UnitIsInParty(pui.UserUnit);
+			pui.IsParty = dataCenter.UnitData.PartyInfo.UnitIsInParty(pui.UserUnit);
 
 			unitItems.Add(pui);
 		}
@@ -194,8 +194,8 @@ public class LevelUpView : ViewBase {
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
-		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.unitMax);
+		countArgs.Add("current", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
+		countArgs.Add("max", DataCenter.Instance.UserData.UserInfo.unitMax);
 		countArgs.Add("posy",-745);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
@@ -272,10 +272,10 @@ public class LevelUpView : ViewBase {
 
 	public void ResetUIAfterLevelUp(uint blendID) {
 		ClearData (false);
-		UserUnit tuu = dataCenter.UserUnitList.GetMyUnit (blendID);
+		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit (blendID);
 		selectedItem [baseItemIndex].UserUnit = tuu;
 //		clear = true;
-		myUnit = dataCenter.UserUnitList.GetAllMyUnit ();
+		myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
 		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
 		dragPanel.RefreshItem (tuu);
@@ -493,11 +493,11 @@ public class LevelUpView : ViewBase {
 
 	//LevelUp Button ClickCallback
 	void LevelUpCallback(GameObject go) {
-		if (dataCenter.AccountInfo.money < coinNeed) {
+		if (dataCenter. UserData.AccountInfo.money < coinNeed) {
 			TipsManager.Instance.ShowTipsLabel("not enough money");
 			return;
 		}
-		dataCenter.supportFriendManager.useFriend = levelUpUerFriend;
+		DataCenter.Instance.FriendData.useFriend = levelUpUerFriend;
 //		ExcuteCallback (levelUpInfo);
 		ModuleManager.SendMessage (ModuleEnum.LevelUpModule, "DoLevelUp", levelUpInfo);
 
@@ -638,7 +638,7 @@ public class LevelUpView : ViewBase {
 			return false;
 		}
 		
-		if (dataCenter.PartyInfo.UnitIsInParty(piv.UserUnit.uniqueId)) {
+		if (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(piv.UserUnit.uniqueId)) {
 			return true;
 		}
 		

@@ -119,10 +119,10 @@ public class QuestSelectView : ViewBase {
 	
 	private bool CheckQuestIsClear(StageInfo stageInfo, uint questID){
 		if(stageInfo.type == QuestType.E_QUEST_STORY){
-			return DataCenter.Instance.QuestClearInfo.IsStoryQuestClear(stageInfo.id, questID);
+			return DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageInfo.id, questID);
 		}
 		else if(stageInfo.type == QuestType.E_QUEST_EVENT){
-			return DataCenter.Instance.QuestClearInfo.IsEventQuestClear(stageInfo.id, questID);
+			return DataCenter.Instance.QuestData.QuestClearInfo.IsEventQuestClear(stageInfo.id, questID);
 		}
 		else{
 			Debug.LogError("Exception :: CheckQuestIsClear().");

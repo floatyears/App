@@ -57,10 +57,10 @@ public class OperationNoticeView : ViewBase {
 		ResourceManager.Instance.LoadLocalAsset (sourcePath,o =>{
 
 			GameObject prefab = o as GameObject;
-			if (DataCenter.Instance.NoticeInfo != null && DataCenter.Instance.NoticeInfo.NoticeList != null) {
+			if (DataCenter.Instance.CommonData.NoticeInfo != null && DataCenter.Instance.CommonData.NoticeInfo.NoticeList != null) {
 //				Debug.Log("operation notice");
-//				DataCenter.Instance.NoticeInfo.NoticeList.Reverse();
-				foreach (var nItem in DataCenter.Instance.NoticeInfo.NoticeList) {
+//				DataCenter.Instance.CommonData.NoticeInfo.NoticeList.Reverse();
+				foreach (var nItem in DataCenter.Instance.CommonData.NoticeInfo.NoticeList) {
 					GameObject item = NGUITools.AddChild(content,prefab);
 					
 					LogHelper.Log("------operation notice transform:" + item);
@@ -71,10 +71,10 @@ public class OperationNoticeView : ViewBase {
 
 				
 //				LogHelper.Log("------operation notice transform:" + item);
-				bbproto.StatHelperCount data = DataCenter.Instance.HelperCount;
+				bbproto.StatHelperCount data = DataCenter.Instance.FriendData.HelperInfo;
 				if(data != null){
 					GameObject item1 = NGUITools.AddChild(content,prefab);
-					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.LoginInfo.loginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.AccountInfo.friendPoint));
+					SetItemContent(item1,TextCenter.GetText("Notice_HelperTitle"),string.Format(TextCenter.GetText("Notice_HelperContent"),DataCenter.Instance.UserData.LoginInfo.loginDayTotal, data.helpFriendCount,data.helpHelperCount,data.friendPointGet,DataCenter.Instance.UserData.AccountInfo.friendPoint));
 				}
 			}
 		});
@@ -116,12 +116,12 @@ public class OperationNoticeView : ViewBase {
 //			backHome = true;
 		if (!backHome) {
 			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
-			if (DataCenter.Instance.LoginInfo.Bonus != null && DataCenter.Instance.LoginInfo.Bonus != null
-			    && DataCenter.Instance.LoginInfo.Bonus.Count > 0 && firstShow) {
+			if (DataCenter.Instance.UserData.LoginInfo.Bonus != null && DataCenter.Instance.UserData.LoginInfo.Bonus != null
+			    && DataCenter.Instance.UserData.LoginInfo.Bonus.Count > 0 && firstShow) {
 				//			Debug.LogError ("show Reward scene... ");
 //				HideUI();
 				firstShow = false;
-				foreach (var item in DataCenter.Instance.LoginInfo.Bonus) {
+				foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
 					if(item.enabled == 1){
 						ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
 						return;

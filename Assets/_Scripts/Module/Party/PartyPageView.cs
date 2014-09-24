@@ -21,7 +21,7 @@ public class PartyPageView : ViewBase {
 	private List<UserUnit> currentPartyData = new List<UserUnit> ();
 
 	public void RefreshPartyData() {
-		currentPartyData = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit();
+		currentPartyData = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit();
 	}
 	
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){

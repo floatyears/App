@@ -131,14 +131,14 @@ public partial class UserUnit : ProtoBuf.IExtensible {
     }
 
     void InitSkill() {
-		UnitInfo ui = DataCenter.Instance.GetUnitInfo (unitId);
+		UnitInfo ui = DataCenter.Instance.UnitData.GetUnitInfo (unitId);
         NormalSkill firstSkill = null;
         NormalSkill secondSkill = null;
         if (ui.skill1 > 0) {
-			firstSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as NormalSkill; //Skill[ui.skill1] as TNormalSkill;	
+			firstSkill = DataCenter.Instance.BattleData.GetSkill(MakeUserUnitKey(),ui.skill1,SkillType.NormalSkill) as NormalSkill; //Skill[ui.skill1] as TNormalSkill;	
         }
         if (ui.skill2 > 0) {
-			secondSkill = DataCenter.Instance.GetSkill(MakeUserUnitKey(),ui.skill2,SkillType.NormalSkill) as NormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
+			secondSkill = DataCenter.Instance.BattleData.GetSkill(MakeUserUnitKey(),ui.skill2,SkillType.NormalSkill) as NormalSkill; //.Skill[ui.skill2] as TNormalSkill;	
         }
         AddSkill(firstSkill, secondSkill);
     }
@@ -149,7 +149,7 @@ public partial class UserUnit : ProtoBuf.IExtensible {
         if (normalSkill[0] == null) {
             InitSkill();	
         }
-		UnitInfo tui = DataCenter.Instance.GetUnitInfo (unitId);
+		UnitInfo tui = DataCenter.Instance.UnitData.GetUnitInfo (unitId);
 		UnitInfo ui = tui;
         for (int i = 0; i < normalSkill.Length; i++) {
             NormalSkill tns = normalSkill[i];
@@ -177,7 +177,7 @@ public partial class UserUnit : ProtoBuf.IExtensible {
 		if (normalSkill[0] == null) {
 			InitSkill();	
 		}
-		UnitInfo tui = DataCenter.Instance.GetUnitInfo (unitId);
+		UnitInfo tui = DataCenter.Instance.UnitData.GetUnitInfo (unitId);
 		UnitInfo ui = tui;
 		for (int i = 0; i < normalSkill.Length; i++) {
 			NormalSkill tns = normalSkill[i];
@@ -317,7 +317,7 @@ public partial class UserUnit : ProtoBuf.IExtensible {
     public UnitInfo UnitInfo {
         get {
 //			Debug.LogError("instance : " + instance.uniqueId + " ubitid : " + instance.unitId);
-			return DataCenter.Instance.GetUnitInfo(unitId); //UnitInfo[instance.unitId];
+			return DataCenter.Instance.UnitData.GetUnitInfo(unitId); //UnitInfo[instance.unitId];
         }
     }
 

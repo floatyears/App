@@ -25,18 +25,18 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		base.ShowUI();
 //		RefreshParty();
 
-		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 		dragChangeView.RefreshData ();
 
 
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.PartyInfo.CurrentParty);
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 		ShowUIAnimation();
 	}
 	
 	public override void HideUI(){
 		base.HideUI();
-		DataCenter.Instance.PartyInfo.ExitParty();
+		DataCenter.Instance.UnitData.PartyInfo.ExitParty();
 	}
 
 	public override void DestoryUI(){
@@ -132,7 +132,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 //	void RefreshParty(TUnitParty party){
 //		List<TUserUnit> partyMemberList = party.GetUserUnit();
-//		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+//		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
 //		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 //
 //		for (int i = 0; i < partyMemberList.Count; i++){
@@ -153,11 +153,11 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	public void RefreshParty (bool isRight){
 		UnitParty tup = null;
 		if (isRight) {
-			tup = DataCenter.Instance.PartyInfo.PrevParty;
+			tup = DataCenter.Instance.UnitData.PartyInfo.PrevParty;
 		} else {
-			tup = DataCenter.Instance.PartyInfo.NextParty;
+			tup = DataCenter.Instance.UnitData.PartyInfo.NextParty;
 		}
-		int curPartyIndex = DataCenter.Instance.PartyInfo.CurrentPartyId + 1;
+		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 		dragChangeView.RefreshData ();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   

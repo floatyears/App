@@ -54,7 +54,7 @@ public class MyUnitsListView : ViewBase {
 	}
 
 	private List<UserUnit> GetUnitList(){
-		List<UserUnit> myUnitList = DataCenter.Instance.UserUnitList.GetAllMyUnit ();
+		List<UserUnit> myUnitList = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
 		if(myUnitList == null){
 			return null;
 		}
@@ -75,8 +75,8 @@ public class MyUnitsListView : ViewBase {
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
-		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.unitMax);
+		countArgs.Add("current", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
+		countArgs.Add("max", DataCenter.Instance.UserData.UserInfo.unitMax);
 		countArgs.Add("posy", -740);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}

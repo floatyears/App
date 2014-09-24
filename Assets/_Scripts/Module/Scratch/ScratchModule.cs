@@ -82,24 +82,24 @@ public class ScratchModule : ModuleBase {
 			return;
 		}
 
-        DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
-        DataCenter.Instance.AccountInfo.stone = rsp.stone;
+        DataCenter.Instance.UserData.AccountInfo.friendPoint = rsp.friendPoint;
+        DataCenter.Instance.UserData.AccountInfo.stone = rsp.stone;
         
         // TODO do evolve start over;
         LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
-                      ,  DataCenter.Instance.AccountInfo.friendPoint, DataCenter.Instance.AccountInfo.stone);
+                      ,  DataCenter.Instance.UserData.AccountInfo.friendPoint, DataCenter.Instance.UserData.AccountInfo.stone);
         
         // record
         List<uint> blankList = rsp.blankUnitId;
         List<UserUnit> unitList = rsp.unitList;
         
-        LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
+        LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
         // delete unit;
 
-        List<uint> newUnitIdList = DataCenter.Instance.UserUnitList.FirstGetUnits(unitList);
-        DataCenter.Instance.UserUnitList.AddMyUnitList(unitList);
+        List<uint> newUnitIdList = DataCenter.Instance.UnitData.UserUnitList.FirstGetUnits(unitList);
+        DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(unitList);
         
-        LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
+        LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
 
         LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
 		ModuleManager.Instance.HideModule (ModuleEnum.ScratchModule);
@@ -153,7 +153,7 @@ public class ScratchModule : ModuleBase {
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FriendGachaFailed"),TextCenter.GetText("GachaFriendPointNotEnough", DataCenter.friendGachaFriendPoint),TextCenter.GetText("Back"));
             return;
         }
-//        else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
+//        else if (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserData.UserInfo.UnitMax){
 //            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.FriendGachaUnitCountReachedMax));
 //            return;
@@ -166,7 +166,7 @@ public class ScratchModule : ModuleBase {
 		LogHelper.Log("GetFriendGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
 		string content2 = TextCenter.GetText("FriendGachaStatus", DataCenter.friendGachaFriendPoint, 
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.friendGachaFriendPoint,
-		                                     DataCenter.Instance.AccountInfo.friendPoint);
+		                                     DataCenter.Instance.UserData.AccountInfo.friendPoint);
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("FriendGacha"), new string[2]{TextCenter.GetText ("FriendGachaDescription"),content2}, 
 					TextCenter.GetText ("ConfirmOneFriendGacha"), 
 					TextCenter.GetText ("ConfirmMaxRareGacha", maxGachaTimes),
@@ -182,7 +182,7 @@ public class ScratchModule : ModuleBase {
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("RareGachaFailed"),TextCenter.GetText("RareGachaStoneNotEnough", DataCenter.rareGachaStone),TextCenter.GetText("Back"));
             return;
         }
-//        else if (DataCenter.Instance.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserInfo.UnitMax){
+//        else if (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count > DataCenter.Instance.UserData.UserInfo.UnitMax){
 //            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.RareGachaUnitCountReachedMax));
 //            return;
@@ -194,7 +194,7 @@ public class ScratchModule : ModuleBase {
 		LogHelper.Log("GetRareGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
 		string content2 = TextCenter.GetText("RareGachaStatus", DataCenter.rareGachaStone, 
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.rareGachaStone,
-		                                     DataCenter.Instance.AccountInfo.stone);
+		                                     DataCenter.Instance.UserData.AccountInfo.stone);
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RareGacha"), new string[2] {TextCenter.GetText ("RareGachaDescription"),content2}, 
 				TextCenter.GetText ("ConfirmOneRareGacha"), 
 				TextCenter.GetText ("ConfirmMaxRareGacha", maxGachaTimes), 
@@ -205,14 +205,15 @@ public class ScratchModule : ModuleBase {
 
     private void OpenEventGachaWindow(){
         LogHelper.Log("OnEventGacha() start");
-        if (!DataCenter.Instance.InEventGacha) {
-            LogHelper.Log("OpenEventGachaWindow()  not in EventGacha");
-//            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
-//                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaNotOpen));
-			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventGachaFailed"),TextCenter.GetText("EventGachaNotOpen"),TextCenter.GetText("Back"));
-            return;
-        }
-        else if (DataCenter.Instance.GetAvailableEventGachaTimes() < 1) {
+//        if (!DataCenter.Instance.InEventGacha) {
+//            LogHelper.Log("OpenEventGachaWindow()  not in EventGacha");
+////            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
+////                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaNotOpen));
+//			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventGachaFailed"),TextCenter.GetText("EventGachaNotOpen"),TextCenter.GetText("Back"));
+//            return;
+//        }
+//        else 
+		if (DataCenter.Instance.GetAvailableEventGachaTimes() < 1) {
             LogHelper.Log("OpenEventGachaWindow() stone not enough");
 //            MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow,
 //                                      GetGachaFailedMsgWindowParams(GachaFailedType.EventGachaStoneNotEnough));
@@ -226,7 +227,7 @@ public class ScratchModule : ModuleBase {
 		LogHelper.Log("GetEventGachaMsgWindowParams() maxGachaTimes {0}", maxGachaTimes);
 		string content2 = TextCenter.GetText("EventGachaStatus", DataCenter.eventGachaStone, 
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.eventGachaStone,
-		                                     DataCenter.Instance.AccountInfo.stone);
+		                                     DataCenter.Instance.UserData.AccountInfo.stone);
 
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("EventGacha"), new string[2] {TextCenter.GetText ("EventGachaDescription"),content2}, 
 				TextCenter.GetText ("ConfirmOneEventGacha"), 

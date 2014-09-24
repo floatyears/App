@@ -643,7 +643,7 @@ public class ConfigAudio {
 		audioItem.type 				= EPlayType.ONCE;
 		audioList.Add(audioItem);
 
-		DataCenter.Instance.SetData (ModelEnum.AudioList, audioList);
+		DataCenter.Instance.ConfigAudioList = audioList;;
 //		Debug.Log("Audio's configging has completed!, the audio clip's COUNT is: " + audioList.Count);
 	}
 }

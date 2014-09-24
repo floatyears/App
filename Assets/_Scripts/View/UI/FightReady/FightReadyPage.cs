@@ -104,7 +104,7 @@ public class FightReadyPage : ViewBase {
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		} else {
 			string userUnitKey = FightReadyView.pickedHelperInfo.UserUnit.MakeUserUnitKey();
-			SkillBase baseInfo = DataCenter.Instance.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
+			SkillBase baseInfo = DataCenter.Instance.BattleData.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
 			SkillBase leaderSkill = baseInfo;	
 			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
 		}

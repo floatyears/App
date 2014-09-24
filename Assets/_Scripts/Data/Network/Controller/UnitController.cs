@@ -19,7 +19,7 @@ public class UnitController : ControllerBase {
 		ReqChangeParty reqChangeParty = new ReqChangeParty();
 		reqChangeParty.header = new ProtoHeader();
 		reqChangeParty.header.apiVer = ServerConfig.API_VERSION;
-		reqChangeParty.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqChangeParty.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		reqChangeParty.party = partyInfo;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqChangeParty, callback, ProtocolNameEnum.RspChangeParty);
@@ -31,7 +31,7 @@ public class UnitController : ControllerBase {
 		ReqEvolveStart reqEvolveStart = new ReqEvolveStart();
 		reqEvolveStart.header = new ProtoHeader();
 		reqEvolveStart.header.apiVer = ServerConfig.API_VERSION;
-		reqEvolveStart.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqEvolveStart.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqEvolveStart.baseUniqueId = baseUnitId;
@@ -50,7 +50,7 @@ public class UnitController : ControllerBase {
 		ReqEvolveDone reqEvolveDone = new ReqEvolveDone();
 		reqEvolveDone.header = new ProtoHeader();
 		reqEvolveDone.header.apiVer = ServerConfig.API_VERSION;
-		reqEvolveDone.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqEvolveDone.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqEvolveDone.questId = questId;
@@ -66,7 +66,7 @@ public class UnitController : ControllerBase {
 		ReqUnitFavorite reqUnitFavorite = new ReqUnitFavorite();
 		reqUnitFavorite.header = new ProtoHeader();
 		reqUnitFavorite.header.apiVer = ServerConfig.API_VERSION;
-		reqUnitFavorite.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqUnitFavorite.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqUnitFavorite.unitUniqueId = uniqueid;
@@ -79,7 +79,7 @@ public class UnitController : ControllerBase {
 		ReqGacha reqGacha = new ReqGacha();
 		reqGacha.header = new ProtoHeader();
 		reqGacha.header.apiVer = ServerConfig.API_VERSION;
-		reqGacha.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqGacha.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		
@@ -93,7 +93,7 @@ public class UnitController : ControllerBase {
 		ReqUserGuideEvolveUnit reqAddEvolveUnit = new ReqUserGuideEvolveUnit();
 		reqAddEvolveUnit.header = new ProtoHeader();
 		reqAddEvolveUnit.header.apiVer = ServerConfig.API_VERSION;
-		reqAddEvolveUnit.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqAddEvolveUnit.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
 		reqAddEvolveUnit.unitId = unitId;
@@ -106,8 +106,8 @@ public class UnitController : ControllerBase {
 		reqLevelUp.header = new ProtoHeader();
 		reqLevelUp.header.apiVer = ServerConfig.API_VERSION;
 		
-		if (DataCenter.Instance.UserInfo != null)
-			reqLevelUp.header.userId = DataCenter.Instance.UserInfo.userId;
+		if (DataCenter.Instance.UserData.UserInfo != null)
+			reqLevelUp.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		reqLevelUp.baseUniqueId = baseUniqueId;
 		reqLevelUp.partUniqueId.AddRange(partUniqueId);
@@ -121,7 +121,7 @@ public class UnitController : ControllerBase {
 		ReqSellUnit reqSellUnit = new ReqSellUnit();
 		reqSellUnit.header = new ProtoHeader();
 		reqSellUnit.header.apiVer = ServerConfig.API_VERSION;
-		reqSellUnit.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqSellUnit.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		reqSellUnit.unitUniqueId.Clear ();
 		reqSellUnit.unitUniqueId.AddRange (unitUniqueIdArray);
 
@@ -132,7 +132,7 @@ public class UnitController : ControllerBase {
 		ReqSellUnit reqSellUnit = new ReqSellUnit();
 		reqSellUnit.header = new ProtoHeader();
 		reqSellUnit.header.apiVer = ServerConfig.API_VERSION;
-		reqSellUnit.header.userId = DataCenter.Instance.UserInfo.userId;
+		reqSellUnit.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		reqSellUnit.unitUniqueId.Clear ();
 		reqSellUnit.unitUniqueId.AddRange (unitUniqueIdArray);
 		

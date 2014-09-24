@@ -58,9 +58,9 @@ public class StageSelectView : ViewBase{
 	}
 
 	private void ShowEventCityView(){
-		List<StageInfo> eventStageList = FilterEventCityData(DataCenter.Instance.EventStageList);
+		List<StageInfo> eventStageList = FilterEventCityData(DataCenter.Instance.QuestData.EventStageList);
 		if(eventStageList == null){
-			Debug.LogError("DataCenter.Instance.EventStageList == NULL, return...");
+			Debug.LogError("DataCenter.Instance.QuestData.EventStageList == NULL, return...");
 			return;
 		}
 
@@ -137,7 +137,7 @@ public class StageSelectView : ViewBase{
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
 	private void GetData(uint cityID){
-		CityInfo received = DataCenter.Instance.GetCityInfo(cityID);
+		CityInfo received = DataCenter.Instance.QuestData.GetCityInfo(cityID);
 
 //		if(currPickedCityInfo == null){
 //			//when first time to step in
@@ -191,7 +191,7 @@ public class StageSelectView : ViewBase{
 		for (int i = 0; i < stageInfoList.Count; i++){
 			if(stageInfoList[ i ].type == QuestType.E_QUEST_STORY){
 				accessStageList.Add(stageInfoList[ i ]);
-				if (!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(stageInfoList[ i ]))
+				if (!DataCenter.Instance.QuestData.QuestClearInfo.IsStoryStageClear(stageInfoList[ i ]))
 					break;					
 			}
 			else{
@@ -222,7 +222,7 @@ public class StageSelectView : ViewBase{
 
 //			if(!searchFarthestArrivedStageSucceed){
 //
-//				if(!DataCenter.Instance.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
+//				if(!DataCenter.Instance.QuestData.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
 //					stageItemView.IsArrivedStage = true;
 //					searchFarthestArrivedStageSucceed = true;
 //				}
@@ -388,7 +388,7 @@ public class StageSelectView : ViewBase{
 	public GameObject GetStageNewItem(){
 		if(storyStageRoot != null)
 		foreach(var i in storyStageRoot.transform.GetComponentsInChildren<StageItemView>()){
-			if(DataCenter.Instance.QuestClearInfo.GetStoryStageState(i.Data.id) == StageState.NEW){
+			if(DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(i.Data.id) == StageState.NEW){
 				return i.gameObject;
 			}
 		}

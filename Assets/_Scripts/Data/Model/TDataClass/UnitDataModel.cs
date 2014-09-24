@@ -8,7 +8,10 @@ public class UnitDataModel : ProtobufDataBase {
 	private StageInfo stageInfo;
 	public StageInfo StageInfo {
 		get { return stageInfo; }
-		set { stageInfo = value; }
+		set { 
+			stageInfo = value; 
+//			stageInfo.InitStageId();
+		}
 	}
 	
 	public int evolvePartyID = 0;
@@ -41,30 +44,95 @@ public class UnitDataModel : ProtobufDataBase {
 			up.items.Add(pi);
 		}
 		
-		evolvePartyID = DataCenter.Instance.PartyInfo.AllParty.Count;
+		evolvePartyID = DataCenter.Instance.UnitData.PartyInfo.AllParty.Count;
 		
 		up.id = evolvePartyID;
 		
 		tup = up;
 		
-		currentPartyID = DataCenter.Instance.PartyInfo.CurrentPartyId;
+		currentPartyID = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
 		
-		DataCenter.Instance.PartyInfo.CurrentPartyId = evolvePartyID;
+		DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId = evolvePartyID;
 		
-		DataCenter.Instance.PartyInfo.AllParty.Add (tup);
+		DataCenter.Instance.UnitData.PartyInfo.AllParty.Add (tup);
 		
 		BattleConfigData.Instance.party = tup;
 		
-		//		Debug.LogError (DataCenter.Instance.PartyInfo.AllParty.Count + " id : " + tup.ID);
+		//		Debug.LogError (DataCenter.Instance.UnitData.PartyInfo.AllParty.Count + " id : " + tup.ID);
 	}
 	
 	private int currentPartyID = 0;
 	
 	public  void ClearData () {
-		DataCenter.Instance.PartyInfo.CurrentPartyId = currentPartyID;
-		DataCenter.Instance.PartyInfo.AllParty.Remove (tup);
+		DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId = currentPartyID;
+		DataCenter.Instance.UnitData.PartyInfo.AllParty.Remove (tup);
 		DataCenter.evolveInfo = null;
 	}
 	
 	public List<UserUnit> evolveParty = new List<UserUnit>();
+
+
+	private PartyInfo partyInfo;
+	public PartyInfo PartyInfo { 
+		get { return partyInfo; }
+		set { 
+			partyInfo = value;
+			value.assignParty();
+		}
+	}
+
+
+	private UnitCatalogInfo catalogInfo;
+	public UnitCatalogInfo CatalogInfo { 
+		get { return catalogInfo; }
+		set { catalogInfo = value; }
+	}
+
+
+	private UserUnitList userUnitList;
+	public UserUnitList UserUnitList {
+		get { 
+			if (userUnitList == null) {
+				userUnitList = new UserUnitList();
+			}
+			return userUnitList; 
+		}
+		set { userUnitList = value; } 
+	}
+
+	private Dictionary<uint, UnitInfo> unitInfo = new Dictionary<uint, UnitInfo>();
+	
+	public UnitInfo GetUnitInfo(uint unitID) {
+		if (unitInfo.ContainsKey(unitID)) {
+			UnitInfo tui = unitInfo[unitID];
+			return tui;
+		}
+		else {
+			UnitInfo tui = DGTools.LoadUnitInfoProtobuf(unitID);
+			if(tui == null) {
+				Debug.LogError("uintid : " + unitID + " is invalid");
+				return null;
+			}
+			unitInfo.Add(tui.id,tui);
+			return tui;
+		}
+	}
+
+	private Dictionary<int,PowerTable> unitValue = new Dictionary<int, PowerTable>();
+	public Dictionary<int,PowerTable> UnitValue {
+		get { 
+			return unitValue; 
+		}
+		set { unitValue = value; } 
+	}
+
+	public int GetUnitValue(int type, int level) {
+		if ( !UnitValue.ContainsKey(type)) {
+			Debug.LogError("FATAL ERROR: GetUnitValue() :: type:"+type+" not exists in UnitValue.");
+			return 0;
+		}
+		
+		PowerTable pti = UnitValue[type];
+		return pti.GetValue(level);
+	}
 }

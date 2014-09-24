@@ -66,24 +66,24 @@ public class LevelUpModule : ModuleBase {
 			levelUpInfo.Clear();
 			DataCenter dataCenter = DataCenter.Instance;
 
-			dataCenter.supportFriendManager.useFriend.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
+			DataCenter.Instance.FriendData.useFriend.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 
-			dataCenter.AccountInfo.money = (int)rspLevelUp.money;
-			uint userId = DataCenter.Instance.UserInfo.userId;
-			dataCenter.oldUserUnitInfo = DataCenter.Instance.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
+			dataCenter.UserData.AccountInfo.money = (int)rspLevelUp.money;
+			uint userId = DataCenter.Instance.UserData.UserInfo.userId;
+			dataCenter.oldUserUnitInfo = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
 			dataCenter.levelUpMaterials.Clear();
 
 			//删除消耗的材料
 			for (int i = 0; i < rspLevelUp.partUniqueId.Count; i++) {
 				uint uniqueID = rspLevelUp.partUniqueId[i];
-				UserUnit tuu = dataCenter.UserUnitList.Get(uniqueID);
+				UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.Get(uniqueID);
 				dataCenter.levelUpMaterials.Add(tuu);
 //				Debug.LogError("NetCallback delete unit : " + uniqueID);
-				dataCenter.UserUnitList.DelMyUnit(uniqueID);
+				DataCenter.Instance.UnitData.UserUnitList.DelMyUnit(uniqueID);
 			}
 	
 			//更新强化后的base卡牌数据
-			DataCenter.Instance.UserUnitList.UpdateMyUnit(rspLevelUp.baseUnit);
+			DataCenter.Instance.UnitData.UserUnitList.UpdateMyUnit(rspLevelUp.baseUnit);
 
 			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"levelup",rspLevelUp);
 

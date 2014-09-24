@@ -103,8 +103,8 @@ public class SearchFriendModule : ModuleBase{
 		
 		bbproto.FriendList inst = rsp.friends;
         LogHelper.Log("OnAddFriend(), rsp.friends {0}", inst);
-        LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendList, DataCenter.Instance.FriendList == null);
-        DataCenter.Instance.SetFriendList(inst);
+        LogHelper.Log("OnAddFriend(), friendlist {0}, friendList == null {1}", DataCenter.Instance.FriendData, DataCenter.Instance.FriendData == null);
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 	}
 
 	public void ShowSearchFriendResult(FriendInfo resultInfo){

@@ -37,7 +37,7 @@ public class ApplyView : ViewBase{
 	}
 
 	private void CreateDragView(){
-		friendOutDataList = DataCenter.Instance.FriendList.FriendOut;
+		friendOutDataList = DataCenter.Instance.FriendData.FriendOut;
 		if( dragPanel != null ) {
 			dragPanel.DestoryUI();
 		}
@@ -55,7 +55,7 @@ public class ApplyView : ViewBase{
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		string title = TextCenter.GetText("ApplyCounterTitle");
-		int current = DataCenter.Instance.FriendList.FriendOut.Count;
+		int current = DataCenter.Instance.FriendData.FriendOut.Count;
 		int max = 0;
 		countArgs.Add("title", title);
 		countArgs.Add("current", current);
@@ -93,7 +93,7 @@ public class ApplyView : ViewBase{
 
 		bbproto.FriendList inst = rsp.friends;
 		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
-		DataCenter.Instance.SetFriendList(inst);
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 		HideUI();
 		ShowUI();
 	}

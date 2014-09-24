@@ -258,7 +258,7 @@ public class EvolveView : ViewBase {
 			if(material == null) {
 				bbproto.UserUnit uu = new bbproto.UserUnit();
 				uu.unitId = ID;
-				uu.userID = DataCenter.Instance.UserInfo.userId;
+				uu.userID = DataCenter.Instance.UserData.UserInfo.userId;
 				material = uu;
 				isHave = false;
 			}
@@ -288,15 +288,15 @@ public class EvolveView : ViewBase {
 	private void RefreshCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
-		countArgs.Add("current", DataCenter.Instance.UserUnitList.GetAllMyUnit().Count);
-		countArgs.Add("max", DataCenter.Instance.UserInfo.unitMax);
+		countArgs.Add("current", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
+		countArgs.Add("max", DataCenter.Instance.UserData.UserInfo.unitMax);
 		countArgs.Add ("posy",-725);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
 	void ShowEvolveInfo (UserUnit tuu) {
 		uint evolveUnitID = tuu.UnitInfo.evolveInfo.evolveUnitId;
-		UnitInfo tui = DataCenter.Instance.GetUnitInfo (evolveUnitID);
+		UnitInfo tui = DataCenter.Instance.UnitData.GetUnitInfo (evolveUnitID);
 
 		showInfoLabel [hp].text = tuu.Hp + " -> [AA0000]" + tuu.CalculateHP (tui) + "[-]";
 		showInfoLabel [atk].text = tuu.Attack + " -> [AA0000]" + tuu.CalculateATK (tui) + "[-]";

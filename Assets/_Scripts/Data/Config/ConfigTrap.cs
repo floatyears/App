@@ -61,10 +61,10 @@ public class ConfigTrap {
 			ti.trapType = ETrapType.Injured;
 
 			InjuredTrap it = new InjuredTrap (ti);
-			if (DataCenter.Instance.TrapInfo.ContainsKey (ti.trapID)) {
-				DataCenter.Instance.TrapInfo [ti.trapID] = it;
+			if (DataCenter.Instance.BattleData.TrapInfo.ContainsKey (ti.trapID)) {
+				DataCenter.Instance.BattleData.TrapInfo [ti.trapID] = it;
 			} else {
-				DataCenter.Instance.TrapInfo.Add (ti.trapID, it);
+				DataCenter.Instance.BattleData.TrapInfo.Add (ti.trapID, it);
 			}
 		}
 	}
@@ -79,10 +79,10 @@ public class ConfigTrap {
 			ti.valueIndex =  (int)index;
 			EnvironmentTrap et = new EnvironmentTrap (ti);
 			
-			if (DataCenter.Instance.TrapInfo.ContainsKey (ti.trapID)) {
-				DataCenter.Instance.TrapInfo [ti.trapID] = et;
+			if (DataCenter.Instance.BattleData.TrapInfo.ContainsKey (ti.trapID)) {
+				DataCenter.Instance.BattleData.TrapInfo [ti.trapID] = et;
 			} else {
-				DataCenter.Instance.TrapInfo.Add (ti.trapID, et);
+				DataCenter.Instance.BattleData.TrapInfo.Add (ti.trapID, et);
 			}
 		}
 	}
@@ -97,10 +97,10 @@ public class ConfigTrap {
 			ti.effectType = 5; //PS: use effectType as round=5 for Poison
 			TrapPosion tp = new TrapPosion (ti);
 
-			if (DataCenter.Instance.TrapInfo.ContainsKey (ti.trapID)) {
-				DataCenter.Instance.TrapInfo [ti.trapID] = tp;
+			if (DataCenter.Instance.BattleData.TrapInfo.ContainsKey (ti.trapID)) {
+				DataCenter.Instance.BattleData.TrapInfo [ti.trapID] = tp;
 			} else {
-				DataCenter.Instance.TrapInfo.Add (ti.trapID, tp);
+				DataCenter.Instance.BattleData.TrapInfo.Add (ti.trapID, tp);
 			}
 		}
 	}

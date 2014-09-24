@@ -94,8 +94,8 @@ public class EffectManager {
 			resouceCb(null);
 			return; 
 		}
-		string skillStoreID = DataCenter.Instance.GetSkillID(userUnitID, skillID);
-		SkillBase sbi = DataCenter.Instance.AllSkill[skillStoreID];
+		string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(userUnitID, skillID);
+		SkillBase sbi = DataCenter.Instance.BattleData.AllSkill[skillStoreID];
 		string path = "";
 		NormalSkill tns = sbi as NormalSkill;
 		if (tns != null) {

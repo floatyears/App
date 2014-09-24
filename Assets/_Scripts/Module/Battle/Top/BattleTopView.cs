@@ -152,12 +152,12 @@ using bbproto;public class BattleTopView : ViewBase {
 //		BattleBottomView.notClick = true;
 		
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
-		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.AccountInfo.stone),
+		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.UserData.AccountInfo.stone),
 		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
 	}
 
 	void SureInitiativeRetry(object data) {
-		if (DataCenter.Instance.AccountInfo.stone < DataCenter.redoQuestStone) {
+		if (DataCenter.Instance.UserData.AccountInfo.stone < DataCenter.redoQuestStone) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}
@@ -195,7 +195,7 @@ using bbproto;public class BattleTopView : ViewBase {
 			return;	
 		}
 		
-		DataCenter.Instance.AccountInfo.stone = rrq.stone;
+		DataCenter.Instance.UserData.AccountInfo.stone = rrq.stone;
 		BattleConfigData.Instance.RefreshCurrentFloor(rrq);;
 		BattleConfigData.Instance.InitRoleCoordinate (new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY));
 		BattleConfigData.Instance.StoreMapData ();
@@ -244,16 +244,16 @@ using bbproto;public class BattleTopView : ViewBase {
 
 	void ResponseClearQuest (object data) {
 		if (data != null) {
-			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
+			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserData.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
-			DataCenter.Instance.RefreshUserInfo (clearQuest);
+			DataCenter.Instance.UserData.RefreshUserInfo (clearQuest);
 			End();
 			QuestEnd(clearQuest);
 
 			Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.id.ToString());
 		} else {
 			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
-			                                                                                                  DataCenter.Instance.AccountInfo.stone),TextCenter.GetText("Retry"),RequestData);
+			                                                                                                  DataCenter.Instance.UserData.AccountInfo.stone),TextCenter.GetText("Retry"),RequestData);
 			
 		}
 	}
@@ -262,9 +262,9 @@ using bbproto;public class BattleTopView : ViewBase {
 	void QuestEnd (TRspClearQuest trcq) {
 		if (BattleConfigData.Instance.currentStageInfo != null) {
 			if ( BattleConfigData.Instance.currentStageInfo.type == QuestType.E_QUEST_STORY ) { // story quest
-				DataCenter.Instance.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
+				DataCenter.Instance.QuestData.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
 			} else { 
-				DataCenter.Instance.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
+				DataCenter.Instance.QuestData.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
 			}	
 		}
 		
@@ -288,13 +288,13 @@ using bbproto;public class BattleTopView : ViewBase {
 		
 		BattleConfigData.Instance.gameState = (byte)GameState.Normal;
 		//		DataCenter.Instance.RefreshUserInfo(rsp)
-		DataCenter.Instance.UserInfo.rank = rsp.rank;
-		DataCenter.Instance.UserInfo.exp = rsp.exp;
-		DataCenter.Instance.AccountInfo.money = rsp.money;
-		DataCenter.Instance.AccountInfo.friendPoint = rsp.friendPoint;
-		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.staminaMax = rsp.staminaMax;
-		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;	
+		DataCenter.Instance.UserData.UserInfo.rank = rsp.rank;
+		DataCenter.Instance.UserData.UserInfo.exp = rsp.exp;
+		DataCenter.Instance.UserData.AccountInfo.money = rsp.money;
+		DataCenter.Instance.UserData.AccountInfo.friendPoint = rsp.friendPoint;
+		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserData.UserInfo.staminaMax = rsp.staminaMax;
+		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;	
 		//
 		UnitParty tup = BattleConfigData.Instance.party;
 		foreach (var item in tup.UserUnit) {
@@ -302,17 +302,17 @@ using bbproto;public class BattleTopView : ViewBase {
 				continue;
 			}
 			if ( item.isFavorite != rsp.evolvedUnit.uniqueId ) { //only delete Evo Materials, not delete BaseUnit
-				DataCenter.Instance.UserUnitList.DelMyUnit(item.uniqueId);
+				DataCenter.Instance.UnitData.UserUnitList.DelMyUnit(item.uniqueId);
 			}
 		}
 		BattleConfigData.Instance.party = null;
 		
 		for (int i = 0; i < rsp.gotUnit.Count; i++) {
-			DataCenter.Instance.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
+			DataCenter.Instance.UnitData.UserUnitList.AddMyUnit(rsp.gotUnit[i]);
 		}
 		
 		//update the evolved unit
-		DataCenter.Instance.UserUnitList.AddMyUnit(rsp.evolvedUnit);
+		DataCenter.Instance.UnitData.UserUnitList.AddMyUnit(rsp.evolvedUnit);
 		
 		TRspClearQuest trcq = new TRspClearQuest ();
 		trcq.exp = rsp.exp;
@@ -320,20 +320,20 @@ using bbproto;public class BattleTopView : ViewBase {
 		trcq.money = rsp.money;
 		trcq.gotMoney = rsp.gotMoney;
 		trcq.gotStone = rsp.gotStone;
-		rsp.evolvedUnit.userID = DataCenter.Instance.UserInfo.userId;
+		rsp.evolvedUnit.userID = DataCenter.Instance.UserData.UserInfo.userId;
 		trcq.evolveUser = rsp.evolvedUnit;
 		List<UserUnit> temp = new List<UserUnit> ();
 		for (int i = 0; i <  rsp.gotUnit.Count; i++) {
-			rsp.gotUnit[i].userID = DataCenter.Instance.UserInfo.userId;
+			rsp.gotUnit[i].userID = DataCenter.Instance.UserData.UserInfo.userId;
 			UserUnit tuu = rsp.gotUnit[i];
 			temp.Add(tuu);
 		}
 		trcq.gotUnit = temp;
 		trcq.rank = rsp.rank;
-		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserInfo;
+		DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserData.UserInfo;
 		End();
 		ModuleManager.Instance.ExitBattle ();
-		DataCenter.Instance.PartyInfo.CurrentPartyId = 0;
+		DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId = 0;
 		
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,trcq);
 	}

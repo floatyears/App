@@ -147,7 +147,7 @@ public class ResultView : ViewBase {
 		else{
 			gotFriPointLabel.text = TextCenter.GetText("GotFriendPoint", friPoint);
 		}
-		totalFriPointLabel.text = TextCenter.GetText("TotalFriendPoint", DataCenter.Instance.AccountInfo.friendPoint);
+		totalFriPointLabel.text = TextCenter.GetText("TotalFriendPoint", DataCenter.Instance.UserData.AccountInfo.friendPoint);
 
 		if (canStylize) {
 			addFriendTipsLabel.text = TextCenter.GetText ("AddFriendTips");	

@@ -40,7 +40,7 @@ public class EvolveModule : ModuleBase {
 		FriendInfo firendItem = evolveInfoLisst [1] as FriendInfo;
 		UserUnit tuu = baseItem;
 		UnitInfo tui = tuu.UnitInfo;
-		CityInfo tci = DataCenter.Instance.GetCityInfo (EvolveCityID);
+		CityInfo tci = DataCenter.Instance.QuestData.GetCityInfo (EvolveCityID);
 		uint stageID = GetEvolveStageID (tui.type, tui.rare);
 		uint questID = GetEvolveQuestID (tui.type, tui.rare);
 		List<uint> partyID = new List<uint> ();
@@ -190,7 +190,7 @@ public class EvolveModule : ModuleBase {
 
 	void ReadData() {
 		unitItemData.Clear ();
-		unitItemData.AddRange (DataCenter.Instance.UserUnitList.GetAllMyUnit ());
+		unitItemData.AddRange (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ());
 		TransferData.Clear ();
 		TransferData.Add (EvolveView.RefreshData, unitItemData);
 		view.CallbackView (TransferData);

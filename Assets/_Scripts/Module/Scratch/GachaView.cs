@@ -117,7 +117,7 @@ public class GachaView : ViewBase {
 	}
 
 	void ShowInfo(GameObject grid, uint uniqueID) {
-		currentUserUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
+		currentUserUnit = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(uniqueID);
 		currentGrid = grid;
 		sprite = currentGrid.transform.Find ("Cell/Texture").GetComponent<UISprite> ();
 		UnitInfo tui = currentUserUnit.UnitInfo;
@@ -142,11 +142,11 @@ public class GachaView : ViewBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 		GameTimer.GetInstance ().AddCountDown (0.3f, () => {
 			autoShowIndex += 1;
-			bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserUnit.unitId);
+			bool have = DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit (currentUserUnit.unitId);
 			if (have) {
 				AutoShowOneCard ();
 			} else {
-				DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserUnit.unitId);
+				DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(currentUserUnit.unitId);
 				ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule, "data",currentUserUnit);
 			}
 		});
@@ -245,7 +245,7 @@ public class GachaView : ViewBase {
     }
 
     private void ShowUnitByUserUnitID(GameObject btn, uint uniqueId){
-        UserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueId);
+        UserUnit userUnit = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(uniqueId);
         ShowUnitById(btn, userUnit.UnitInfo.id, userUnit);
         DealAfterShowUnit(gridDict[btn]);
     }
@@ -260,7 +260,7 @@ public class GachaView : ViewBase {
 
         yield return new WaitForSeconds(0.5f);
 //		Debug.LogError ("ShowUnitRareById : " + grid);
-		UserUnit userUnit = DataCenter.Instance.UserUnitList.GetMyUnit(uniqueID);
+		UserUnit userUnit = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(uniqueID);
 
         UILabel label = grid.transform.FindChild("Label").GetComponent<UILabel>();
         label.text = string.Empty;
@@ -288,7 +288,7 @@ public class GachaView : ViewBase {
             SetAddInfo(grid, userUnit);
         }
         else {
-            currentUnitInfo = DataCenter.Instance.GetUnitInfo(unitId);
+            currentUnitInfo = DataCenter.Instance.UnitData.GetUnitInfo(unitId);
             level = 1;
         }
 
@@ -376,11 +376,11 @@ public class GachaView : ViewBase {
     	ShowUnitById(grid, gridUnitDict[grid].UnitInfo.id, gridUnitDict[grid]);
 		showIndex += 1;
 		UserUnit currentUserunit = gridUnitDict [grid];
-		bool have = DataCenter.Instance.CatalogInfo.IsHaveUnit (currentUserunit.unitId);
+		bool have = DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit (currentUserunit.unitId);
 		if (have) {
 			ShowUnitGrid ();
 		} else {
-			DataCenter.Instance.CatalogInfo.AddHaveUnit(currentUserunit.unitId);
+			DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(currentUserunit.unitId);
 //			ModuleManager.Instance.ShowModule(ModuleEnum.ShowCardEffectModule);
 //			MsgCenter.Instance.Invoke(CommandEnum.ShowNewCard, currentUserunit);
 			ModuleManager.Instance.ShowModule(ModuleEnum.ShowNewCardModule,"data",currentUserunit);
@@ -392,7 +392,7 @@ public class GachaView : ViewBase {
         if (newUnitId == 0){
             return;
         }
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",DataCenter.Instance.UserUnitList.GetMyUnit(newUnitId));
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(newUnitId));
     }
 
     List<GameObject> GetSortedGrids(){

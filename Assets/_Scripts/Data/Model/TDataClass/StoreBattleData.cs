@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using bbproto;
 
 namespace bbproto{
-public partial class StoreBattleData : ProtoBuf.IExtensible {
+	public partial class StoreBattleData : ProtoBuf.IExtensible {
 
 //	public RecoveBattleStep recoveBattleStep {
 //		get { return instance.recoveBattleStep; }
@@ -18,32 +18,35 @@ public partial class StoreBattleData : ProtoBuf.IExtensible {
 //		set { instance.isBattle = value; }
 //	}	
 
-	public List<ClearQuestParam> QuestData {
-		set { 
-			_questData.Clear();
-			_questData.AddRange(value);
+		public List<ClearQuestParam> QuestData {
+			set { 
+				_questData.Clear();
+				_questData.AddRange(value);
+			}
 		}
-	}
-	public List<EnemyInfo> EnemyInfo {
-		set { 
-			_enemyInfo.Clear();
-			_enemyInfo.AddRange(value);
+		public List<EnemyInfo> EnemyInfo {
+			set { 
+				_enemyInfo.Clear();
+				_enemyInfo.AddRange(value);
+			}
 		}
-	}
 
-	public Coordinate roleCoordinate {
-		get { return new Coordinate(xCoordinate,yCoordinate); }
-		set { xCoordinate = value.x; yCoordinate = value.y; }
-	}
+		public Coordinate roleCoordinate {
+			get { return new Coordinate(xCoordinate,yCoordinate); }
+			set { xCoordinate = value.x; yCoordinate = value.y; }
+		}
 
-	public void RemoveEnemyInfo (EnemyInfo ei) {
-		enemyInfo.Remove (ei);
-	}
+		public void RemoveEnemyInfo (EnemyInfo ei) {
+			enemyInfo.Remove (ei);
+		}
 
-	public ClearQuestParam GetLastQuestData(){
-		return _questData[ _questData.Count > 0 ? (_questData.Count - 1) : 0 ];
-	}
+		public ClearQuestParam GetLastQuestData(){
+			if (_questData.Count == 0) {
+				_questData.Add(new ClearQuestParam());
+			}
+			return _questData[(_questData.Count - 1)];
+		}
 	
-}
+	}
 }
 

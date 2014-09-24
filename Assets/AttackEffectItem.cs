@@ -18,7 +18,7 @@ public class AttackEffectItem : MonoBehaviour {
 
 		callback = cb;
 
-		UserUnit tuu = DataCenter.Instance.UserUnitList.Get (userUnitID);
+		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.Get (userUnitID);
 		if (tuu == null) {
 //			Debug.LogError("userunit is null : " + userUnitID);	
 			return;
@@ -33,14 +33,14 @@ public class AttackEffectItem : MonoBehaviour {
 			}
 
 			if (skillID >= 101 && skillID <= 104) { 						//General RecoverHP Skill
-				SkillBase sbi = DataCenter.Instance.Skill [skillID]; 	//(userUnitID, skillID, SkillType.NormalSkill);
+				SkillBase sbi = DataCenter.Instance.BattleData.Skill [skillID]; 	//(userUnitID, skillID, SkillType.NormalSkill);
 				skillNameLabel.text =  TextCenter.GetText (SkillBase.SkillNamePrefix + skillID);//sbi.skillBase.name;
 				ATKLabel.text = "HEAL " + atk;
 			} else {
-				string id = DataCenter.Instance.GetSkillID (userUnitID, skillID);
+				string id = DataCenter.Instance.BattleData.GetSkillID (userUnitID, skillID);
 				SkillBase sbi = null;
 
-				if (!DataCenter.Instance.AllSkill.TryGetValue (id, out sbi)) {
+				if (!DataCenter.Instance.BattleData.AllSkill.TryGetValue (id, out sbi)) {
 						return;
 				}
 				skillNameLabel.text = TextCenter.GetText (SkillBase.SkillNamePrefix + skillID);

@@ -87,7 +87,7 @@ public class FriendSelectView : ViewBase{
 	}
 
 	private void CreateGeneralListView(){
-		List<FriendInfo> newest = DataCenter.Instance.supportFriendManager.GetSupportFriend ();//SupportFriends;
+		List<FriendInfo> newest = DataCenter.Instance.FriendData.GetSupportFriend ();//SupportFriends;
 		if(generalFriendList == null){
 			generalFriendList = newest;
 			generalDragPanel = RefreshDragView(FriendInfoType.General);
@@ -213,7 +213,7 @@ public class FriendSelectView : ViewBase{
 	/// <param name="staminaNow">Stamina now.</param>
 	private bool CheckStaminaEnough(){
 		int staminaNeed = pickedQuestInfo.Data.stamina;
-		int staminaNow = DataCenter.Instance.UserInfo.staminaNow;
+		int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
 		if(staminaNeed > staminaNow) return true;
 		else return false;
 	}
@@ -247,7 +247,7 @@ public class FriendSelectView : ViewBase{
 
 	bool isShowPremium = false;
 	protected void ClickPremiumBtn(GameObject btn){
-		UserUnit leader = DataCenter.Instance.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
+		UserUnit leader = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 
 		EUnitRace race = (EUnitRace)leader.UnitRace;
 		EUnitType type = (EUnitType)leader.UnitType;

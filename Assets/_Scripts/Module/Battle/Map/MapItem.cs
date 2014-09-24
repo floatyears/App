@@ -116,7 +116,7 @@ public class MapItem : MonoBehaviour {
 			case bbproto.EQuestGridType.Q_ENEMY:
 				if(gridItem.Enemy.Count != 0) {
 					uint unitID = gridItem.Enemy [0].UnitID;
-					UnitInfo tui = DataCenter.Instance.GetUnitInfo (unitID);
+					UnitInfo tui = DataCenter.Instance.UnitData.GetUnitInfo (unitID);
 					if (tui != null) {
 						ResourceManager.Instance.GetAvatarAtlas(tui.id, mapBackSprite);
 					}

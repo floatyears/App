@@ -25,7 +25,7 @@ public class PartyInfoView : ViewBase {
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
-		UpdateInfoPanelView(DataCenter.Instance.PartyInfo.CurrentParty);
+		UpdateInfoPanelView(DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 		ShowUIAnimation();
 		//Debug.LogError("PartyInfoView.ShowUI()...");
 	}
@@ -71,7 +71,7 @@ public class PartyInfoView : ViewBase {
 
 		totalHpLabel.text = unitParty.TotalHp.ToString();	
 		curCostLabel.text = unitParty.TotalCost.ToString();
-		maxCostLabel.text = DataCenter.Instance.UserInfo.costMax.ToString();
+		maxCostLabel.text = DataCenter.Instance.UserData.UserInfo.costMax.ToString();
 
 		int value = 0;
 		unitParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);

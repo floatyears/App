@@ -55,7 +55,7 @@ public class FriendSelectModule : ModuleBase{
 		else {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
-			sqp.currPartyId = DataCenter.Instance.PartyInfo.CurrentPartyId;
+			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
 			sqp.helperUserUnit = selectedHelper;
 			sqp.questId = questID;
 			sqp.stageId = stageID;
@@ -80,10 +80,10 @@ public class FriendSelectModule : ModuleBase{
 		}
 
 		// TODO do evolve start over;
-		DataCenter.Instance.UserInfo.staminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserInfo.staminaRecover = rsp.staminaRecover;
+		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
+		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-
+		questDungeonData.assignData ();
 //		tqdd.assignData ();
 		DataCenter.Instance.SetData(ModelEnum.MapConfig, questDungeonData);
 
@@ -102,8 +102,8 @@ public class FriendSelectModule : ModuleBase{
 //		Debug.LogError (rspStartQuest.header.code  + "  " + rspStartQuest.header.error);
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
 			LogHelper.Log ("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
-			DataCenter.Instance.UserInfo.staminaNow = rspStartQuest.staminaNow;
-			DataCenter.Instance.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
+			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
+			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 //			tqdd.assignData();
 			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
@@ -167,7 +167,7 @@ public class FriendSelectModule : ModuleBase{
 
 	void ShowHelperInfo(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		FriendInfo helper = DataCenter.Instance.SupportFriends[ (int)args ];
+		FriendInfo helper = DataCenter.Instance.FriendData.GetSupportFriend()[ (int)args ];
 		RecordSelectedHelper(helper);
 		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
 	}

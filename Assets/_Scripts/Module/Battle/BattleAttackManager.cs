@@ -70,7 +70,7 @@ public class BattleAttackManager {
 //		configBattleUseData = ConfigBattleUseData.Instance;
 //		ListenEvent();
 		errorMsg = new ErrorMsg();
-		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		upi = DataCenter.Instance.UnitData.PartyInfo.CurrentParty; 
 		upi.GetSkillCollection();
 		GetBaseData ();
 
@@ -105,7 +105,7 @@ public class BattleAttackManager {
 			if (item==null ){
 				continue;
 			}
-			SkillBase pudb = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
+			SkillBase pudb = DataCenter.Instance.BattleData.GetSkill(item.MakeUserUnitKey(), item.ActiveSkill, SkillType.ActiveSkill); //Skill[item.ActiveSkill];
 			ActiveSkill skill = pudb as ActiveSkill;
 			if(skill == null) {
 				continue;
@@ -125,7 +125,7 @@ public class BattleAttackManager {
 
 	public void Reset () {
 		errorMsg = new ErrorMsg();
-		upi = DataCenter.Instance.PartyInfo.CurrentParty; 
+		upi = DataCenter.Instance.UnitData.PartyInfo.CurrentParty; 
 		upi.GetSkillCollection();
 		GetBaseData ();
 //		els = new ExcuteLeadSkill(upi);
@@ -926,8 +926,8 @@ public class BattleAttackManager {
 	/// novice guide active skill cooling done.
 	/// </summary>
 	public static void CoolingDoneLeaderActiveSkill() {
-		UserUnit tuu = DataCenter.Instance.PartyInfo.CurrentParty.UserUnit [0];
-		ActiveSkill sbi = DataCenter.Instance.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.activeSkill, SkillType.ActiveSkill) as ActiveSkill;
+		UserUnit tuu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [0];
+		ActiveSkill sbi = DataCenter.Instance.BattleData.GetSkill (tuu.MakeUserUnitKey (), tuu.UnitInfo.activeSkill, SkillType.ActiveSkill) as ActiveSkill;
 		sbi.skillCooling = 0;
 		sbi.RefreashCooling ();
 	}
@@ -1025,7 +1025,7 @@ public class BattleAttackManager {
 				continue;
 			}
 			
-			SkillBase ipe = DataCenter.Instance.GetSkill(item.MakeUserUnitKey(), id, SkillType.PassiveSkill); //Skill[id] as IPassiveExcute;
+			SkillBase ipe = DataCenter.Instance.BattleData.GetSkill(item.MakeUserUnitKey(), id, SkillType.PassiveSkill); //Skill[id] as IPassiveExcute;
 			
 			if(ipe == null) {
 				continue;

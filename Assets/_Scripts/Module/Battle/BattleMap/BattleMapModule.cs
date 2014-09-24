@@ -57,7 +57,7 @@ public class BattleMapModule : ModuleBase {
 	}
 
 	void BattleFailRecover(object data) {
-		if (DataCenter.Instance.AccountInfo.stone < DataCenter.redoQuestStone) {
+		if (DataCenter.Instance.UserData.AccountInfo.stone < DataCenter.redoQuestStone) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 			return;
 		}

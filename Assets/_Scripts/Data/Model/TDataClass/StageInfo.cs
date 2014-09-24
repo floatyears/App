@@ -13,15 +13,15 @@ public partial class StageInfo : ProtoBuf.IExtensible {
 	
 	private List<QuestInfo> questInfo;
 
-	public void InitQuestInfo (StageInfo si) {
-		questInfo = new List<QuestInfo> ();
-
-		for (int i = 0; i < si.quests.Count; i++) {
-//			Debug.LogError("InitQuestInfo : " + si.quests[i].id);
-			questInfo.Add(quests[i]);
-		}
-		validTime.Sort((Period x, Period y)=>{return x.startTime.CompareTo(y.startTime);});
-	}
+//	public void InitQuestInfo (StageInfo si) {
+//		questInfo = new List<QuestInfo> ();
+//
+//		for (int i = 0; i < si.quests.Count; i++) {
+////			Debug.LogError("InitQuestInfo : " + si.quests[i].id);
+//			questInfo.Add(quests[i]);
+//		}
+//		
+//	}
 
 	public uint StartTime {
 		get { 
@@ -76,7 +76,10 @@ public partial class StageInfo : ProtoBuf.IExtensible {
 	}
 
 	public List<QuestInfo> QuestInfo {
-		get {return questInfo;}
+//		set{
+//				validTime.Sort((Period x, Period y)=>{return x.startTime.CompareTo(y.startTime);});
+//		}
+		get {return quests;}
 	}
 
 	public void InitStageId(uint cityId){

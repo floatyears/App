@@ -28,7 +28,7 @@ public partial class QuestClearInfo : ProtobufDataBase {
 				return 0;
 			}
 			//get prev city's last stage
-			CityInfo cityinfo = DataCenter.Instance.GetCityInfo(cityId-1);
+			CityInfo cityinfo = DataCenter.Instance.QuestData.GetCityInfo(cityId-1);
 			return cityinfo.stages[cityinfo.stages.Count-1].id;
 		}
 
@@ -37,7 +37,7 @@ public partial class QuestClearInfo : ProtobufDataBase {
 
 	//return 0:locked  1:cleared 2: currentOpen
 	public StageState GetStoryCityState(uint cityId) {
-		CityInfo cityinfo = DataCenter.Instance.GetCityInfo(cityId);
+		CityInfo cityinfo = DataCenter.Instance.QuestData.GetCityInfo(cityId);
 		bool isClear = true;
 			foreach( StageInfo stage in cityinfo.stages ) {
 			if (!IsStoryStageClear(stage)){
@@ -52,7 +52,7 @@ public partial class QuestClearInfo : ProtobufDataBase {
 			return StageState.NEW;
 
 		//curr cityId is not clear, check prevCity
-		CityInfo prevCity = DataCenter.Instance.GetCityInfo(cityId-1);
+		CityInfo prevCity = DataCenter.Instance.QuestData.GetCityInfo(cityId-1);
 		bool prevIsClear = true;
 			foreach( StageInfo stage in prevCity.stages ) {
 			if (!IsStoryStageClear(stage)){
@@ -68,7 +68,7 @@ public partial class QuestClearInfo : ProtobufDataBase {
 
 		//return 0:locked  1:cleared 2: currentOpen
 	public StageState GetStoryStageState(uint stageId) {
-		StageInfo stageinfo = DataCenter.Instance.GetStageInfo(stageId);
+		StageInfo stageinfo = DataCenter.Instance.QuestData.GetStageInfo(stageId);
 
 		bool isClear = IsStoryStageClear(stageinfo);
 		if ( isClear ) {
@@ -77,7 +77,7 @@ public partial class QuestClearInfo : ProtobufDataBase {
 
 		// current isClear==false, but previous stage is Cleared.
 		uint prevStage = prevStageId(stageId);
-		if (prevStage == 0 || IsStoryStageClear( DataCenter.Instance.GetStageInfo(prevStage) ) )
+		if (prevStage == 0 || IsStoryStageClear( DataCenter.Instance.QuestData.GetStageInfo(prevStage) ) )
 			return StageState.NEW;
 
 		return StageState.LOCKED;
