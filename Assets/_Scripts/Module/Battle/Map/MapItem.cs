@@ -277,6 +277,7 @@ public class MapItem : MonoBehaviour {
 
 	void ShowBattleEnd(string funciton) {
 		GameObject go = null;
+		hasBeenReached = true;
 		if (mapBackSprite == null) {
 			if(mapBackTexture != null && !mapBackTexture.gameObject.activeSelf) {
 				go = mapBackTexture.gameObject;

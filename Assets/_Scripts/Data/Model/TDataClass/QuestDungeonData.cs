@@ -27,9 +27,9 @@ namespace bbproto{
 				EnemyInfo e = boss[i];
 				e.currentHp = e.GetInitBlood();
 				e.currentNext = e.GetInitRound();
-				e.IsBoss = true;
+				e.enemeyType = EEnemyType.BOSS;
 				if (bossDrop!=null && bossDrop.dropPos == i ) {
-					e.drop = bossDrop;
+					e.dropUnit = bossDrop;
 				}
 
 	//			this.Boss.Add(e);
@@ -48,7 +48,7 @@ namespace bbproto{
 							continue;
 						}
 
-						if ( drop[i].dropId == grid.dropId ){
+						if (drop[i].dropId == grid.dropId ){
 							grid.Drop = drop [i];
 							break;
 						}
@@ -61,7 +61,10 @@ namespace bbproto{
 								enemys[i].currentHp = enemys[i].hp;
 								enemys[i].currentNext = enemys[i].nextAttack;
 								EnemyInfo tei =  CopyEnemyInfo(enemys[i] ) ;
-								tei.drop = grid.Drop;
+								tei.enemeyType = EEnemyType.NORMAL;
+								if(grid.dropPos == g){
+									tei.dropUnit = grid.Drop;
+								}
 								grid.Enemy.Add(tei);
 								break;
 							}

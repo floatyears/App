@@ -148,6 +148,7 @@ public class BattleConfigData {
 
 		questDungeonData = ReadFile<QuestDungeonData> (questDungeonDataName);
 		questDungeonData.assignData ();
+//		questDungeonData.boss.
 
 		currentQuestInfo = ReadFile<QuestInfo>(questInfoName);
 

@@ -47,14 +47,7 @@ public class BattleEnemyView : ViewBase {
 	
 	public override void HideUI () {
 		base.HideUI ();
-//		Clear ();
-//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemy, AttackEnemy);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.DropItem, DropItem);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
-//		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.RemoveListener (CommandEnum.PlayAllEffect, PlayAllEffect);
-//		battleAttackInfo.HideUI ();
 
 		foreach (var item in enemyList.Values) {
 			if(item != null) {
@@ -71,11 +64,6 @@ public class BattleEnemyView : ViewBase {
 		if(viewData != null && viewData.ContainsKey("enemy")){
 			Refresh(viewData["enemy"] as List<EnemyInfo>);
 		}
-//		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
-//		battleAttackInfo.ShowUI ();
-//		MsgCenter.Instance.AddListener (CommandEnum.DropItem, DropItem);
-//		MsgCenter.Instance.AddListener (CommandEnum.SkillRecoverSP, SkillRecoverSP);
-//		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, ExcuteActiveSkillEnd);
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 	}
 
@@ -93,10 +81,12 @@ public class BattleEnemyView : ViewBase {
 			}
 			break;
 		case "enemy_dead":
-			foreach (var item in enemyList.Values) {
-				item.EnemyDead(args[1]);
-
+			EnemyInfo en = args[1] as EnemyInfo;
+			if (enemyList.ContainsKey (en.EnemySymbol) && enemyList[en.EnemySymbol].enemyInfo.IsDead) {
+				bbproto.EnemyInfo ei = enemyList[en.EnemySymbol].enemyInfo;
+				enemyList[en.EnemySymbol].EnemyDead();
 			}
+
 			BattleConfigData.Instance.storeBattleData.EnemyInfo.Remove(args[1] as EnemyInfo);
 			BattleConfigData.Instance.StoreMapData();
 			break;
@@ -108,10 +98,6 @@ public class BattleEnemyView : ViewBase {
 			break;
 		case "attack_enemy_end":
 			AttackEnemyEnd(args[1]);
-			break;
-
-		case "drop_item":
-			DropItem(args[1]);
 			break;
 		case "skill_recover_sp":
 			SkillRecoverSP(args[1]);
@@ -160,6 +146,8 @@ public class BattleEnemyView : ViewBase {
 		if (prevAttackInfo != null &&  prevAttackInfo.isLink > 0 && prevAttackInfo.isLink == ai.isLink) {
 			return;
 		}
+		if (ei.enemyInfo.EnemySymbol != ai.enemyID)
+				return;
 //		Debug.LogError ("EnemyItemPlayEffect ");
 		prevAttackInfo = ai;
 		PlayerEffect (ei, ai);
@@ -237,22 +225,9 @@ public class BattleEnemyView : ViewBase {
 					});
 				}
 
-				go.SetActive(true);
+//				go.SetActive(true);
 			}
 		}
-	}
-
-	void DropItem(object data) {
-		uint posSymbol = (uint)(int)data;
-
-		if (enemyList.ContainsKey (posSymbol) && enemyList[posSymbol].enemyInfo.IsDead) {
-			bbproto.EnemyInfo ei = enemyList[posSymbol].enemyInfo;
-//			enemyList.Remove (posSymbol);	
-			enemyList[posSymbol].DropItem();
-		}
-//		foreach (var item in enemyList.Values) {
-//			item.DropItem(data);
-//		}
 	}
 
 	void SortEnemyItem(Dictionary<uint,BattleEnemyItem> enemys) {
@@ -281,6 +256,7 @@ public class BattleEnemyView : ViewBase {
 			if(maxHeight < tex.height){
 				maxHeight = tex.height;
 			}
+			item.gameObject.SetActive(true);
 		}
 		float scaleVal = 1f;
 		if( ScreenWidth < allWidth ) {
@@ -323,14 +299,15 @@ public class BattleEnemyView : ViewBase {
 				}
 			} else {
 				Vector3 pos = prefab.transform.localPosition;
-				prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
-				prevEffect.transform.localPosition = pos;
+				GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);
+				go.transform.localPosition = pos;
+				extraEffect.Add(go);
 				if(ai.attackRange == 0) {
 					UITexture tex = ei.texture;
 					float x = ei.transform.localPosition.x;
 					float y = tex.transform.localPosition.y +  tex.height * 0.5f;
 
-					prevEffect.transform.localPosition =  new Vector3(x, y, 0f);
+					go.transform.localPosition =  new Vector3(x, y, 0f);
 				}
 			}
 		});

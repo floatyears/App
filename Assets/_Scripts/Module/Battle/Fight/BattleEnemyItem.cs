@@ -75,7 +75,6 @@ public class BattleEnemyItem : MonoBehaviour {
 				SetBloodSpriteWidth ();
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 			}
-			texture.enabled = true;
 			Debug.Log ("texture enable: " + texture.enabled);
 			initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
 			hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y - hurtValueLabel.height * 2, initHurtLabelPosition.z);
@@ -85,25 +84,13 @@ public class BattleEnemyItem : MonoBehaviour {
 
 
     void OnEnable() {
-//        MsgCenter.Instance.AddListener(CommandEnum.EnemyAttack, EnemyAttack);
-//        MsgCenter.Instance.AddListener(CommandEnum.EnemyRefresh, EnemyRefresh);
-//        MsgCenter.Instance.AddListener(CommandEnum.EnemyDead, EnemyDead);
-//        MsgCenter.Instance.AddListener(CommandEnum.AttackEnemy, Attack);
         MsgCenter.Instance.AddListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.AddListener(CommandEnum.BePosion, BePosion);
-//        MsgCenter.Instance.AddListener(CommandEnum.ReduceDefense, ReduceDefense);
-//        MsgCenter.Instance.AddListener(CommandEnum.DropItem, DropItem);
     }
 
     void OnDisable() {
-//		MsgCenter.Instance.RemoveListener(CommandEnum.EnemyAttack, EnemyAttack);
-//        MsgCenter.Instance.RemoveListener(CommandEnum.EnemyRefresh, EnemyRefresh);
-//        MsgCenter.Instance.RemoveListener(CommandEnum.EnemyDead, EnemyDead);
-//        MsgCenter.Instance.RemoveListener(CommandEnum.AttackEnemy, Attack);
         MsgCenter.Instance.RemoveListener(CommandEnum.SkillPosion, SkillPosion);
         MsgCenter.Instance.RemoveListener(CommandEnum.BePosion, BePosion);
-//        MsgCenter.Instance.RemoveListener(CommandEnum.ReduceDefense, ReduceDefense);
-//        MsgCenter.Instance.RemoveListener(CommandEnum.DropItem, DropItem);
     }
 	
     public void ReduceDefense(object data) {
@@ -210,10 +197,10 @@ public class BattleEnemyItem : MonoBehaviour {
 	
     public void DropItem() {
         if (!texture.enabled) {
-			if(enemyInfo.drop == null) {
+			if(enemyInfo.dropUnit == null) {
 				return;
 			}
-			UnitInfo tui = enemyInfo.drop.UnitInfo;
+			UnitInfo tui = enemyInfo.dropUnit.UnitInfo;
 			dropTexture.enabled = true;
 			dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
             iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
@@ -228,18 +215,17 @@ public class BattleEnemyItem : MonoBehaviour {
 	}
 	
     void DropEnd() {
-//        DestoryUI();
+		gameObject.SetActive (false);
     }
 
-    public void EnemyDead(object data) {
-        EnemyInfo te = data as EnemyInfo;
-        if (te == null || te.EnemySymbol != enemyInfo.EnemySymbol) {
-            return;		
-        }
+    public void EnemyDead() {
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
-        texture.enabled = false;
-		bloodBgSprite.enabled = false;
-        nextLabel.text = "";
+		if (enemyInfo.dropUnit != null) {
+			DropItem();
+		}else{
+			gameObject.SetActive (false);
+		}
+
     }
 
     Queue<EnemyInfo> tempQue = new Queue<EnemyInfo>();
