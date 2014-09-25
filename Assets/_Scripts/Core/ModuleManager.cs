@@ -254,11 +254,12 @@ public class ModuleManager {
 	/// </summary>
 	public void ClearModulesAndScenes () {
 
-		foreach (var item in moduleDic.Values) {
-			item.DestoryUI();
-		}
 		foreach (var item in sceneDic.Values) {
 			item.DestoryScene();
+		}
+
+		foreach (var item in moduleDic.Values) {
+			item.DestoryUI();
 		}
 			//			Debug.LogError("CleartComponent : " + cclist[i]);
 		moduleDic.Clear ();
@@ -275,6 +276,8 @@ public class ModuleManager {
 		ModuleManager.Instance.ShowScene(SceneEnum.MainScene);
 		ModuleManager.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
 		ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
+		ModuleManager.instance.GetOrCreateModule (ModuleEnum.MsgWindowModule);
+		ModuleManager.instance.GetOrCreateModule (ModuleEnum.MaskModule);
 	}
 
 	/// <summary>
@@ -297,7 +300,9 @@ public class ModuleManager {
 
 //		ShowScene (SceneEnum.BattleScene);
 
-		ShowModule(ModuleEnum.BattleFullScreenTipsModule);
+		GetOrCreateModule(ModuleEnum.BattleFullScreenTipsModule);
+		GetOrCreateModule(ModuleEnum.BattleAttackEffectModule);
+		GetOrCreateModule (ModuleEnum.MsgWindowModule);
 		ShowModule(ModuleEnum.BattleBottomModule);
 		ShowModule(ModuleEnum.BattleTopModule);
 		ShowModule(ModuleEnum.BattleMapModule);
@@ -305,12 +310,11 @@ public class ModuleManager {
 //
 //		ShowModule(ModuleEnum.BattleManipulationModule);
 
-		ShowModule(ModuleEnum.BattleAttackEffectModule);
+
 //		ShowModule(ModuleEnum.BattleSkillModule);
 
 //		HideModule (ModuleEnum.BattleManipulationModule);
 //		HideModule (ModuleEnum.BattleSkillModule);
-		HideModule (ModuleEnum.BattleFullScreenTipsModule);
 //		HideModule (ModuleEnum.BattleEnemyModule);
 //		HideModule (ModuleEnum.BattleAttackEffectModule);
 	}

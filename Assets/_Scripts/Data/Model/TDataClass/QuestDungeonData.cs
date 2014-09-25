@@ -40,6 +40,7 @@ namespace bbproto{
 							
 //				LogHelper.Log ("===fill floor[{0}]", nFloor);
 				for(int f=0; f< floors[nFloor].gridInfo.Count; f++){
+
 					QuestGrid grid = floors[nFloor].gridInfo[f];
 
 					//assign DropUnit
@@ -62,7 +63,7 @@ namespace bbproto{
 								enemys[i].currentNext = enemys[i].nextAttack;
 								EnemyInfo tei =  CopyEnemyInfo(enemys[i] ) ;
 								tei.enemeyType = EEnemyType.NORMAL;
-								if(grid.dropPos == g){
+								if(grid.Drop != null && grid.dropPos == g){
 									tei.dropUnit = grid.Drop;
 								}
 								grid.Enemy.Add(tei);
@@ -74,6 +75,9 @@ namespace bbproto{
 					floor.Add (grid);
 
 				} //end of gridInfo...
+				if(floors[nFloor].gridInfo.Count == 24){
+					floor.Insert(2,new QuestGrid());
+				}
 
 				Floors.Add (floor);
 			}
@@ -158,25 +162,18 @@ namespace bbproto{
 		public int currentFloor = 0;
 
 		public int GetGridIndex(Coordinate coor) {
-			if (coor.y == 0 && coor.x == 2) {
-				return -1;	
-			}
-			int index = coor.y * 5 + coor.x - 1 + currentFloor * 24;
-			if (index < 2) {
-				index++;		
-			}
+			int index = coor.y * 5 + coor.x + currentFloor * 24;
 			return index;
 		}
 
 		public QuestGrid GetFloorDataByCoor(Coordinate coor) {
 			if (coor.y == 0 && coor.x == 2) {
-				return null;	
+				QuestGrid item = new QuestGrid();
+				item.type = EQuestGridType.Q_NONE;
+				return item;
 			}
 
-			int index = coor.y * 5 + coor.x - 1;
-			if (coor.y == 0 && coor.x < 3) {
-				index++;
-			} 
+			int index = coor.y * 5 + coor.x;
 	//		UnityEngine.Debug.LogError ("currentFloor : " + currentFloor);
 			return Floors [currentFloor] [index];
 		}
@@ -188,35 +185,11 @@ namespace bbproto{
 		public Coordinate GetGridCoordinate(uint index) {
 			int indexValue = (int)index;
 			indexValue -= currentFloor * 24;
-			int y = GetYCoordinate (indexValue);
-			if (y == -1) { 
-				UnityEngine.Debug.LogError(" get coordinate error : " + indexValue + " y : " + y);
-			}
+			int y = (int)indexValue/5;
 
-			int x = (indexValue - y * 5) + 1;
-	//		UnityEngine.Debug.LogError(" get coordinate error : " + indexValue + " x : " + x);
-			if (indexValue < 2) {
-				x --;	
-			}
+			int x = (indexValue - y * 5);
 			return new Coordinate (x, y);
 		}
-
-		int GetYCoordinate(int index) {
-			if (index >= 0 && index <= 3) {
-				return 0;		
-			} else if (index <= 8) {
-				return 1;		
-			} else if (index <= 13) {
-				return 2;
-			} else if (index <= 18) {
-				return 3;	
-			} else if (index <= 23) {
-				return 4;	
-			}
-
-			return -1;
-		}
-
 
 	
 	}
