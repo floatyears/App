@@ -300,7 +300,7 @@ public class ModuleManager {
 
 //		ShowScene (SceneEnum.BattleScene);
 
-		GetOrCreateModule(ModuleEnum.BattleFullScreenTipsModule);
+		ShowModule(ModuleEnum.BattleFullScreenTipsModule);
 		GetOrCreateModule(ModuleEnum.BattleAttackEffectModule);
 		GetOrCreateModule (ModuleEnum.MsgWindowModule);
 		ShowModule(ModuleEnum.BattleBottomModule);
@@ -309,7 +309,7 @@ public class ModuleManager {
 //
 //
 //		ShowModule(ModuleEnum.BattleManipulationModule);
-
+		HideModule(ModuleEnum.BattleFullScreenTipsModule);
 
 //		ShowModule(ModuleEnum.BattleSkillModule);
 
