@@ -131,7 +131,7 @@ public class BattleEnemyItem : MonoBehaviour {
 			hurtLabel.transform.localPosition = initHurtLabelPosition;
 			hurtValueQueue.Enqueue(hurtLabel);
 			UILabel info = hurtLabel.GetComponent<UILabel>();
-			info.text = ai.injuryValue.ToString();
+			info.text = "-" + ai.injuryValue.ToString(); //掉血数字
 			iTween.MoveTo(hurtLabel, iTween.Hash("position", hurtLabelPosition, "time", 0.8f, "easetype", iTween.EaseType.easeInBack, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
 //			battleEnemy.EnemyItemPlayEffect (this, ai);
 		});
