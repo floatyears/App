@@ -126,7 +126,7 @@ public class BattleConfigData {
 	public void ResetFromServer(QuestDungeonData tdd) {
 		_storeBattleData = new StoreBattleData ();
 		_storeBattleData.sp = DataCenter.maxEnergyPoint;
-		_storeBattleData.hp = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetInitBlood ();
+		_storeBattleData.hp = -1;//DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetInitBlood ();
 		_storeBattleData.xCoordinate = MapConfig.characterInitCoorX;
 		_storeBattleData.yCoordinate = MapConfig.characterInitCoorY;
 

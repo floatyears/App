@@ -35,7 +35,7 @@ public class SceneBase {
 
 	public virtual void DestoryScene () {
 		foreach (var item in moduleList) {
-			item.DestoryUI();
+			ModuleManager.Instance.DestroyModule(item.UIConfig.moduleName);
 		}
 		moduleList.Clear ();
 	}

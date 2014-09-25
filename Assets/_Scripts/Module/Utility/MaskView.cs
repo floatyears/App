@@ -12,29 +12,35 @@ public class MaskView : ViewBase {
 		InitUI();
 	}
 
-	public override void ShowUI(){
-		base.ShowUI();
-	}
-
-	public override void HideUI(){
-//		base.HideUI();
-		SetMaskActive (false);
-	}
-
 	public override void CallbackView(params object[] args){
 //		base.CallbackView(data);
 //		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
 		switch (args[0].ToString()){
-			case "ShowMask" :
-				SetMaskActive(args[1]);
+
+			case "block":
+				ShowMask(args[1]);
 				break;
-			case "ShowConnect" :
-				SetConnectActive(args[1]);
+			case "connect":
+				SetConnectActive((bool)args[1]);
 				break;
 			default:
 				break;
 		}
+	}
+	
+	void ShowMask(object msg){
+		//LogHelper.LogError("MaskController.ShowMask(), start...");
+//		Debug.Log ("show mask");
+		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
+		
+		TouchEventBlocker.Instance.SetState(bmArgs.reason, bmArgs.isBlocked);
+		if (background == null) {
+			return;	
+		}
+		
+		background.enabled = bmArgs.isBlocked;
+		gameObject.SetActive(bmArgs.isBlocked);
 	}
 
 	void InitUI(){
@@ -45,41 +51,27 @@ public class MaskView : ViewBase {
 		connecting.transform.parent.gameObject.SetActive(false);
 	}
 
-	void SetMaskActive(object args){
-		if (background == null) {
-			return;	
-		}
-		bool isActive = (bool)args;
+	void SetMaskActive(bool isActive){
 
-		background.enabled = isActive;
-		connecting.SetActive (false);
-		gameObject.SetActive(isActive);
 	}
 
-	void SetConnectActive(object args){
+	void SetConnectActive(bool isActive){
 
 		if (connecting == null) {
 			CancelInvoke ("ShowTipText");
 			return;	
 		}
 		FindChild<UILabel> ("Tips/Sprite_Connect/Label_Text").text = TextCenter.GetText ("Connecting");
-		bool isActive = (bool)args;
 
 		if (isActive) {
-			NGUITools.AdjustDepth (gameObject, 5);
+			ModuleManager.Instance.ShowModule(ModuleEnum.MaskModule);
 			InvokeRepeating ("ShowTipText", 0, 3.0f);
 		}
 			
 		else{
-			NGUITools.AdjustDepth (gameObject, -5);
+			ModuleManager.Instance.HideModule(ModuleEnum.MaskModule);
 			CancelInvoke ("ShowTipText");
 		}
-			
-
-		connecting.SetActive(isActive);
-		gameObject.SetActive(isActive);
-
-
 	}
 
 	

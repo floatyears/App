@@ -89,7 +89,7 @@ public class BattleBottomView : ViewBase {
 	public override void CallbackView (params object[] args)
 	{
 		switch (args[0].ToString()) {
-		case "initdata":
+		case "init_data":
 			InitData((int)args[1],(int)args[2],(int)args[3]);
 			break;
 		case "player_dead":
@@ -102,7 +102,7 @@ public class BattleBottomView : ViewBase {
 		case "update_blood":
 			int blood = (int)args[1];
 			SetBlood (blood);
-			if(args.Length > 2 && (bool)args[2]){
+			if(args.Length > 2 && (bool)args[2]){ // recover
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				spriteAnimation.Reset();
 			}
@@ -115,7 +115,7 @@ public class BattleBottomView : ViewBase {
 		}
 	}
 
-	void InitData (int maxBlood, int blood,int enegyPoint) {
+	void InitData (int blood , int maxBlood,int enegyPoint) {
 		initBlood = maxBlood;
 		currentBlood = blood;
 		currentEnergyPoint = initEnergyPoint = enegyPoint;

@@ -12,32 +12,23 @@ public class BattleAttackManager {
     private int blood = 0;
     public int Blood {
 		set {
-//			Debug.LogError("Blood : " + value);
-			if(value == 0) {
-				blood = value;
-				PlayerDead();
-			} else if(value < 0) {
-				if(blood == 0) 
-					return;
-				blood = 0;
-				ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood);
-			} else if(value > maxBlood) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-				if(blood < maxBlood) {
-					blood = maxBlood;
-					ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood);
-				}
+			bool isRecover = false;
+			if(value <= 0) {
+				CheckPlayerDead();
+				blood = (value > 0 ? value : 0);
 
-			} else {
-				if(value > blood) {
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-					ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood);
-				}
+			} if(value > blood) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
+				blood = (value < maxBlood ? value : maxBlood);
+				isRecover = true;
+			} else{
 				blood = value;
 			}
+			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood,isRecover);
 			BattleConfigData.Instance.storeBattleData.hp = blood;
+			BattleConfigData.Instance.StoreMapData();
 		}
-        get { return blood; }
+		get { return blood; }
     }
     private int recoverHP = 0;
     public static int maxEnergyPoint = 0;
@@ -62,39 +53,18 @@ public class BattleAttackManager {
 	float enemyAttackTime = 0.5f;
 
     private BattleAttackManager() {
-//		battleQuest = bq;
-//		configBattleUseData = ConfigBattleUseData.Instance;
-//		ListenEvent();
 		errorMsg = new ErrorMsg();
 		upi = DataCenter.Instance.UnitData.PartyInfo.CurrentParty; 
 		upi.GetSkillCollection();
-		GetBaseData ();
+//		GetBaseData ();
 
-//		els = new ExcuteLeadSkill(upi);
-
-//		els = upi;
-
-//		skillRecoverHP = els;
-		//		configBattleUseData = ConfigBattleUseData.Instance;
 		SetEffectTime (2f);
-
-//		Excute();
-
-		BattleConfigData.Instance.storeBattleData.hp = blood;
-//		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
-		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood);
-//		eas = new ExcuteActiveSkill(upi);
-//		eps = new ExcutePassiveSkill(upi);
-		//		ac = new BattleAttackController(eps, upi);
-//		Config.Instance.SwitchCard(els);
-//		ConfigBattleUseData.Instance.StoreMapData ();
-
+	
 
 		// active skill
 		leaderSkill = upi;
 		excuteTrap = new ExcuteTrap ();
 		InitPassiveSkill ();
-//		MsgCenter.Instance.AddListener (CommandEnum.MeetTrap, DisposeTrapEvent);
 
 		//passive skill
 		foreach (var item in leaderSkill.UserUnit) {
@@ -110,8 +80,6 @@ public class BattleAttackManager {
 			skill.StoreSkillCooling(item.MakeUserUnitKey());
 		}
 		
-//		MsgCenter.Instance.AddListener (CommandEnum.LaunchActiveSkill, Excute);
-//		MsgCenter.Instance.AddListener (CommandEnum.ReduceActiveSkillRound, ReduceActiveSkillRound);	// this command use to reduce cooling one round.
     }
 
 	public void ResetBlood () {
@@ -128,17 +96,15 @@ public class BattleAttackManager {
 //		skillRecoverHP = els;
 	}
 	
-	public void InitData (StoreBattleData sbd) {
-
-		if (sbd == null) {
-			blood = maxBlood = upi.GetInitBlood ();
+	public void InitData () {
+		StoreBattleData sbd = BattleConfigData.Instance.storeBattleData;
+		if (sbd.hp == -1) {
+			Blood = maxBlood = upi.GetInitBlood ();
 			maxEnergyPoint = DataCenter.maxEnergyPoint;
 		} else {
 			maxBlood = upi.GetInitBlood ();
-			blood = sbd.hp;
-			if(blood <= 0) {
-				PlayerDead();
-			}
+			Blood = sbd.hp;
+			CheckPlayerDead();
 			maxEnergyPoint = sbd.sp;
 		}
 
@@ -146,8 +112,9 @@ public class BattleAttackManager {
 	}
 
 	public void CheckPlayerDead() {
-		if(blood <= 0) {
-			PlayerDead();
+		if(Blood <= 0) {
+			ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"player_dead");
+			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"player_dead");
 		}
 	}
 
@@ -162,16 +129,9 @@ public class BattleAttackManager {
 		KillHp (hurtValue, true);
 		BattleConfigData.Instance.StoreMapData ();
     }
-
-	public void PlayerDead() {
-		if (blood <= 0) {
-			ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"player_dead");
-			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"player_dead");
-		}
-	}
-
+	
 	public void InjuredNotDead(float probability) {
-        float residualBlood = blood - maxBlood * probability;
+        float residualBlood = Blood - maxBlood * probability;
 		if (residualBlood < 1) {
 			residualBlood = 1;	
         }
@@ -182,10 +142,10 @@ public class BattleAttackManager {
 		float value = (data == null ? tempPreHurtValue : (float)data);
         float add = 0;
         if (value <= 1) {
-            add = blood * value + blood;
+            add = Blood * value + Blood;
         }
         else {
-            add = value + blood;
+            add = value + Blood;
         }
 		AttackInfoProto ai = new AttackInfoProto();
 		ai.attackValue = add;
@@ -345,22 +305,23 @@ public class BattleAttackManager {
 	bool isLimit = false;
 
 	public void KillHp(int value,bool dead) {
-		int killBlood = blood - value;
+		if (BattleConfigData.Instance.storeBattleData.hp == -1)
+			return;
+		int killBlood = Blood - value;
 
 		if (dead) {
-			if(blood == 0) {
+			if(killBlood == 0) {
 				return;
 			}
-			blood = killBlood < 0 ? 0 : killBlood;
-			PlayerDead();
+			Blood = killBlood < 0 ? 0 : killBlood;
+			CheckPlayerDead();
 
 		} else {
-			blood = killBlood < 1 ? 1 : killBlood;
+			Blood = killBlood < 1 ? 1 : killBlood;
 		}
 
-		BattleConfigData.Instance.storeBattleData.hp = blood;
+
 //		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
-		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood);
 	}
 
 	public void AddBlood (int value) {
@@ -368,12 +329,8 @@ public class BattleAttackManager {
 			return;	
 		}
 
-		int addBlood = blood + value;
-		blood = addBlood > maxBlood ? maxBlood : addBlood;
-		BattleConfigData.Instance.storeBattleData.hp = blood;
-//		MsgCenter.Instance.Invoke(CommandEnum.UnitBlood, blood);
-		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"update_blood",blood,true);
-//		MsgCenter.Instance.Invoke (CommandEnum.ShowHPAnimation);
+		int addBlood = Blood + value;
+		Blood = addBlood > maxBlood ? maxBlood : addBlood;
 	}
 
     void ConsumeEnergyPoint() {	
@@ -393,17 +350,12 @@ public class BattleAttackManager {
 			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"energy_point",maxEnergyPoint);
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
-				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_sp_limited_over);
-				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule,"splimit", SPLimit as Callback);
+				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule,"splimit");
 			}
         }
     }
-
-	void SPLimit () {
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-	}
-
+	
     public void Hurt(int hurtValue) {
 //		Blood -= hurtValue;
 		KillHp (hurtValue, true);
@@ -794,7 +746,7 @@ public class BattleAttackManager {
 	
 	void EnemyAttack () {
 		if (te.GetRound () <= 0) {
-			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,te.EnemySymbol);
+			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_attack",te.EnemySymbol);
 			int attackType = te.GetUnitType ();
 			float reduceValue = te.AttackValue;
 
@@ -806,7 +758,7 @@ public class BattleAttackManager {
 			
 			//			Debug.LogError("hurtValue : " + hurtValue);
 			
-			BattleAttackManager.Instance.Hurt(hurtValue);
+			KillHp(hurtValue,true);
 			te.ResetAttakAround ();	
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",te);
 			//			Debug.LogError("EnemyAttack attackType : " + attackType);

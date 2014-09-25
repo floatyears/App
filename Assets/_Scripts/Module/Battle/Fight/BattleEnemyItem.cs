@@ -195,18 +195,20 @@ public class BattleEnemyItem : MonoBehaviour {
 		bloodBgSprite.transform.localPosition = new Vector3 (bloodX - 2, pos.y, pos.z);
 	}
 	
-    public void DropItem() {
-        if (!texture.enabled) {
-			if(enemyInfo.dropUnit == null) {
-				return;
-			}
-			UnitInfo tui = enemyInfo.dropUnit.UnitInfo;
-			dropTexture.enabled = true;
-			dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
-            iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
-            GameTimer.GetInstance().AddCountDown(0.5f, DropEnd);
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
-        }
+    void DropItem() {
+//        if (!texture.enabled) {
+		texture.enabled = false;
+		bloodSprite.enabled = false;
+		nextLabel.enabled = false;
+		bloodBgSprite.enabled = false;
+
+		UnitInfo tui = enemyInfo.dropUnit.UnitInfo;
+		dropTexture.enabled = true;
+		dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
+	    iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
+	    GameTimer.GetInstance().AddCountDown(0.5f, DropEnd);
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_get_chess);
+//        }
     }
 
 	void TargetEnemy(GameObject go) {
@@ -215,6 +217,11 @@ public class BattleEnemyItem : MonoBehaviour {
 	}
 	
     void DropEnd() {
+		texture.enabled = true;
+		bloodSprite.enabled = true;
+		nextLabel.enabled = true;
+		bloodBgSprite.enabled = true;
+
 		gameObject.SetActive (false);
     }
 

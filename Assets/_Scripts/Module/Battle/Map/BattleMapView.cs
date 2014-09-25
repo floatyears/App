@@ -86,95 +86,76 @@ public class BattleMapView : ViewBase {
 
 		StartMap ();
 
-		if (BattleConfigData.Instance.hasBattleData () > 0) {
-
-			if(BattleConfigData.Instance.storeBattleData.isBattle == 1){
-				SetName (BattleFullScreenTipsView.CheckOut);
-			}else if(BattleConfigData.Instance.storeBattleData.hitKey){
-				SetName (BattleFullScreenTipsView.BossBattle);
-			}
-
-			prevCoor = currentCoor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
-			CalcRoleDestPosByCoor(currentCoor);
-			
-			role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
-			SyncRoleCoordinate(currentCoor);
-//			BattleAttackManager.Instance.CheckLeaderSkillCount();
-			BattleAttackManager.Instance.InitData (BattleConfigData.Instance.storeBattleData);
-			
-//			if (currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY) {
-//				return;	
-//			}
+		if(BattleConfigData.Instance.storeBattleData.isBattle == 1){
+			SetName (BattleFullScreenTipsView.CheckOut);
+		}else if(BattleConfigData.Instance.storeBattleData.hitKey){
+			SetName (BattleFullScreenTipsView.BossBattle);
+		}
 
 
-			QuestGrid currentFloorData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (currentCoor);
-			HighlightSurroundedCell (currentCoor);
-//			Stop ();
-			
-			if (BattleConfigData.Instance.trapPoison != null) {
-				BattleConfigData.Instance.trapPoison.ExcuteByDisk();
-			}
-			
-			if (BattleConfigData.Instance.trapEnvironment != null) {
-				BattleConfigData.Instance.trapEnvironment.ExcuteByDisk();
-			}
-			
-			StoreBattleData sbd = BattleConfigData.Instance.storeBattleData;
-			BattleAttackManager.Instance.CheckPlayerDead();
-			// 0 is not in fight.
-//			if (sbd.isBattle == 1) {
-//				BossDead();
-//			}
-			
-			//		BattleMapView.waitMove = false;
-			for (int i = 0; i < sbd.EnemyInfo.Count; i++) {
-				EnemyInfo tei = sbd.EnemyInfo[i];
-				tei.EnemySymbol = (uint)i;
-				DataCenter.Instance.UnitData.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
-			}
+		BattleAttackManager.Instance.InitData ();
 
-			if(sbd.EnemyInfo.Count > 0){
-				currentFloorData.Enemy = sbd.EnemyInfo;
-				if(sbd.EnemyInfo[0].enemeyType == EEnemyType.BOSS){
-					BattleAttackManager.Instance.InitBoss (sbd.EnemyInfo, BattleConfigData.Instance.questDungeonData.drop.Find (a => a.dropId == 0));
-					AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
-				}else{
+		prevCoor = currentCoor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
+		CalcRoleDestPosByCoor(currentCoor);
+		role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
 
-					BattleAttackManager.Instance.InitEnemyInfo (currentFloorData);
-					if(sbd.attackRound == 0) {	// 0 == first attack
-						GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
-					}
-				}
-				GameTimer.GetInstance ().AddCountDown (0.1f, ()=>{
-					ShowEnemy(currentFloorData.Enemy);
+		//init role pos
+
+		MapItem item = map [currentCoor.x, currentCoor.y];
+		if (!item.hasBeenReached) {
+			item.hasBeenReached = true;
+			item.HideGridNoAnim();
+
+			BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor));
+
+			if(currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY){
+				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
 				});
-			
 			}
+		}
 
-//			if (sbd.isBattle == 1) {		// 1 == battle enemy
 
-//			} else if (sbd.isBattle == 2) {	// 2 == battle boss
-//				battleEnemy = true;
-				//			battle.ShieldInput (true);
-//				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-				
-				
-//			}
-			//		battle.ShowEnemy(temp);
-			
-			GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
-			
-//			BattleAttackManager.Instance.CheckPlayerDead();	
-		}else{
-			BattleAttackManager.Instance.InitData(null);
-			//init role
-			prevCoor = currentCoor = BattleConfigData.Instance.storeBattleData.roleCoordinate;
-			
-			CalcRoleDestPosByCoor(currentCoor);
-			
-			role.transform.localPosition = new Vector3 (targetPoint.x, targetPoint.y, 0f);
-			SyncRoleCoordinate(currentCoor);
-//			Stop();
+		QuestGrid currentFloorData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (currentCoor);
+		HighlightSurroundedCell (currentCoor);
+//			Stop ();
+
+		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
+
+		if (BattleConfigData.Instance.trapPoison != null) {
+			BattleConfigData.Instance.trapPoison.ExcuteByDisk();
+		}
+		
+		if (BattleConfigData.Instance.trapEnvironment != null) {
+			BattleConfigData.Instance.trapEnvironment.ExcuteByDisk();
+		}
+		
+		StoreBattleData sbd = BattleConfigData.Instance.storeBattleData;
+		BattleAttackManager.Instance.CheckPlayerDead();
+		// 0 is not in fight.
+
+		for (int i = 0; i < sbd.EnemyInfo.Count; i++) {
+			EnemyInfo tei = sbd.EnemyInfo[i];
+			tei.EnemySymbol = (uint)i;
+			DataCenter.Instance.UnitData.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
+		}
+
+		if(sbd.EnemyInfo.Count > 0){
+			currentFloorData.Enemy = sbd.EnemyInfo;
+			if(sbd.EnemyInfo[0].enemeyType == EEnemyType.BOSS){
+				BattleAttackManager.Instance.InitBoss (sbd.EnemyInfo, BattleConfigData.Instance.questDungeonData.drop.Find (a => a.dropId == 0));
+				AudioManager.Instance.PlayBackgroundAudio(AudioEnum.music_boss_battle);
+			}else{
+
+				BattleAttackManager.Instance.InitEnemyInfo (currentFloorData);
+				if(sbd.attackRound == 0) {	// 0 == first attack
+					GameTimer.GetInstance ().AddCountDown (0.3f, StartBattleEnemyAttack);
+				}
+			}
+			GameTimer.GetInstance ().AddCountDown (0.1f, ()=>{
+				ShowEnemy(currentFloorData.Enemy);
+			});
+		
 		}
 	}
 
@@ -344,25 +325,10 @@ public class BattleMapView : ViewBase {
 		currentItem = map[coor.x,coor.y];
 		BattleAttackManager.Instance.TrapTargetPoint (coor);
 		if (!currentItem.hasBeenReached) {
-			int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (coor);
-			
-			if (index != -1) {
-				BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)index);
-			}
+
+			BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)BattleConfigData.Instance.questDungeonData.GetGridIndex (coor));
 			movePath.Clear ();
 
-			if (coor.x == MapConfig.characterInitCoorX && coor.y == MapConfig.characterInitCoorY) {
-				currentItem.HideGridNoAnim ();
-				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
-					
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
-				});
-				ArriveAtCell();
-				return;
-			}
-
-
-			
 			QuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (coor);
 
 
@@ -412,16 +378,9 @@ public class BattleMapView : ViewBase {
 				GameTimer.GetInstance().AddCountDown(showTime + scaleTime, ()=>{
 					RotateAnim (()=>{
 						AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
-						//		BattleMapView.waitMove = false;
-						//		questData.getMoney += currentMapData.Coins;
 								BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.coins;
-						//		topUI.Coin = GetCoin ();//questData.getMoney;
 						ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"updatecoin");
 
-						
-						//		MsgCenter.Instance.Invoke (CommandEnum.MeetCoin, currentMapData);
-						//		MsgCenter.Instance.Invoke (CommandEnum.BattleEnd, null);
-						//		BattleEnd ();
 						ArriveAtCell ();
 					});
 				});
@@ -443,27 +402,22 @@ public class BattleMapView : ViewBase {
 				});
 				break;
 			case EQuestGridType.Q_QUESTION:
-				//				BattleMapView.waitMove = true;
 				RotateAnim (()=>{
 					ArriveAtCell();
 				});
 				break;
 			case EQuestGridType.Q_EXCLAMATION:
-				//				BattleMapView.waitMove = true;
 				RotateAnim (()=>{
 					ArriveAtCell();
 				});
 				break;
 			default:
-				//				BattleMapView.waitMove = false;
 				ArriveAtCell();
 				break;
 			}
 		} else {
 			ArriveAtCell();
 		}
-//		IfArriveAtTheDoor ();
-//		BattleConfigData.Instance.StoreMapData();
 	}
 
 	void MeetBoss () {
@@ -623,15 +577,11 @@ public class BattleMapView : ViewBase {
 
 	void ClickDoor(GameObject go) {
 		
-		if (currentShowInfo == BattleFullScreenTipsView.BossBattle) {
+		if (BattleConfigData.Instance.storeBattleData.isBattle != 1) {
 			if( BattleConfigData.Instance.questDungeonData.isLastCell() ) {
 				AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
-//				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss",MeetBoss as Callback);
-//				Stop();
-//				battleEnemy = true;
 			} else {
-				//			battleMap.door.isClick = false;
 				BattleConfigData.Instance.questDungeonData.currentFloor ++;
 				BattleConfigData.Instance.storeBattleData.questData.Add (new ClearQuestParam ());
 				ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"setfloor");
@@ -643,60 +593,35 @@ public class BattleMapView : ViewBase {
 				BattleConfigData.Instance.ResetRoleCoordinate();
 				BattleConfigData.Instance.StoreMapData ();
 				
-//				battleEnemy = false;
-//				BattleAttackManager.Instance.RemoveListen ();
 				BattleAttackManager.Instance.Reset ();
 				ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
-				//			BattleMapView.waitMove = false;
-				//		MsgCenter.Instance.Invoke (CommandEnum.InquiryBattleBaseData);
 				BattleAttackManager.Instance.GetBaseData ();
-				//		if (questFullScreenTips == null) {
-				//			CreatBoosAppear();
-				//		}
 				
 			}
 			return;
 		}
 		else if (currentShowInfo == BattleFullScreenTipsView.CheckOut) {
-//			checkOut = false;
 			door.SetActive(false);
 			BattleConfigData.Instance.ClearData();
 			ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"clear_quest");
-//			battleMap.bQuest.CheckOut();
 
 		}
 	}
 
 
-//	bool battleEnemy = false;
-
 	void ShowTapToCheckOut () {
 		door.SetActive (true);
 		
 		SetName (BattleFullScreenTipsView.CheckOut);
-//		checkOut = true;
 	}
 
 
 	public void ArriveAtCell() {
 		isMoving = false;
 		IfArriveAtTheDoor ();
-//		bool b = data != null ? (bool)data : false;
-//		if (battleEnemy && b) {
-//			BossDead();
-//		//			BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_BossDead;
-//			BattleConfigData.Instance.StoreMapData ();
-//			return;
-//		}
-
-//		BattleConfigData.Instance.storeBattleData.recoveBattleStep = RecoveBattleStep.RB_None;
 		BattleConfigData.Instance.StoreMapData ();
 		
 		int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor);
-		
-		if (index == -1) {
-			return;	
-		}
 		
 		uint uIndex = (uint)index;
 		ClearQuestParam questData = BattleConfigData.Instance.storeBattleData.GetLastQuestData ();

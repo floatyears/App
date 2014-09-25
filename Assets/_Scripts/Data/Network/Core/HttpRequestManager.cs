@@ -97,20 +97,24 @@ public class HttpRequestManager : MonoBehaviour{
 			
 			if (request != null) {
 				Debug.Log ("Proto Send: [[[---" + request.Msg.GetType().Name + "---]]]");
+				ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
 				WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
 				yield return www;
 				RequestDone (www, request);
 				StartCoroutine(SendMsg ());		
 			}
 		}
+		ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
 		yield return null;
     }
 
 	IEnumerator SendMsg(HttpRequest rq) {
 		HttpRequest request = rq;
 		Debug.Log ("Proto Send: [[[---" + rq.Msg.GetType().Name + "---]]]");
+		ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
 		WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
 		yield return www;
+		ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
 		RequestDone(www,request);
 	}
 
