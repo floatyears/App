@@ -2,34 +2,36 @@ using UnityEngine;
 using System.Collections;
 
 namespace bbproto{
-public partial class EnemyInfo  : global::ProtoBuf.IExtensible{
+public partial class EnemyInfo : global::ProtoBuf.IExtensible{
 
-		public void AddListener () {
-			MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
-			MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
-		}
+	public void AddListener () {
+		MsgCenter.Instance.AddListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.AddListener (CommandEnum.DeferAttackRound, DeferAttackRound);
+	}
 		
-		public void RemoveListener () {
-			MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
-			MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
-		}
+	public void RemoveListener () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.SkillPosion, SkillPosion);
+		MsgCenter.Instance.RemoveListener (CommandEnum.DeferAttackRound, DeferAttackRound);
+	}
 
 
 	public bool isDeferAttackRound = false;
-	private AttackInfo posionAttack;
+	private AttackInfoProto posionAttack;
 
 	public DropUnit drop;
+
+	public bool IsBoss = false;
 
 	public bool IsInjured () {
 		if (currentHp > 0 && currentHp < hp) { return true; }
 		else { return false; }
 	}
 
-	public int CalculateInjured (AttackInfo attackInfo, bool restraint) {
+	public int CalculateInjured (AttackInfoProto attackInfo, bool restraint) {
 		float injured = 0;
-		bool ignoreDefense = attackInfo.IgnoreDefense;
-		int unitType = attackInfo.AttackType;
-		float attackvalue = attackInfo.AttackValue;
+		bool ignoreDefense = attackInfo.ignoreDefense;
+		int unitType = attackInfo.attackType;
+		float attackvalue = attackInfo.attackValue;
 		if (restraint) {
 			injured = attackvalue * 2;
 		} 
@@ -54,7 +56,7 @@ public partial class EnemyInfo  : global::ProtoBuf.IExtensible{
 	}
 
 	float reduceProportion = 0f;
-	public void ReduceDefense(float value, AttackInfo ai) {
+	public void ReduceDefense(float value, AttackInfoProto ai) {
 		reduceProportion = value;
 	}
 
@@ -62,12 +64,12 @@ public partial class EnemyInfo  : global::ProtoBuf.IExtensible{
 		if (currentHp <= 0) {
 			return;	
 		}
-		posionAttack = data as AttackInfo;
+		posionAttack = data as AttackInfoProto;
 		if (posionAttack == null) {
 			return;	
 		}
 
-		int value = System.Convert.ToInt32 (posionAttack.AttackValue);
+		int value = System.Convert.ToInt32 (posionAttack.attackValue);
 		KillHP (value);
 	}
 

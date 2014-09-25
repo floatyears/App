@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using bbproto;
 
 public class BattleCardAreaItem : MonoBehaviour {
 
@@ -117,17 +118,17 @@ public class BattleCardAreaItem : MonoBehaviour {
 		return maxLimit;
 	}
 
-	List <AttackInfo> attackInfos = new List<AttackInfo> ();
+	List <AttackInfoProto> attackInfos = new List<AttackInfoProto> ();
 
 	public void AttackEnemy(object data) {
-		AttackInfo ai = data as AttackInfo;
+		AttackInfoProto ai = data as AttackInfoProto;
 		if (ai == null) {
 			return;		
 		}
 
-		AttackInfo aiu = attackInfos.Find (a => a.AttackID == ai.AttackID);
+		AttackInfoProto aiu = attackInfos.Find (a => a.attackID == ai.attackID);
 		attackInfos.Remove (aiu);
-		if (aiu != default(AttackInfo)) {
+		if (aiu != default(AttackInfoProto)) {
 			UISprite sprite = aiu.AttackSprite;
 			int index = battleCardTemplate.IndexOf(sprite);
 			battleCardTemplate.Remove(sprite);

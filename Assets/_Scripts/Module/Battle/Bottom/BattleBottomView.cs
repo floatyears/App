@@ -67,8 +67,8 @@ public class BattleBottomView : ViewBase {
 					}
 				});
 				
-				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + ((int)tui.type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
-				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + ((int)tui.type).ToString();
+				tex.spriteName = "avatar_border_" + (i == 0 ? "l" : "f") + "_" + ((int)tui.type).ToString();//GetUnitTypeSpriteName(i, tui.Type);
+				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + "_"  + ((int)tui.type).ToString();
 				skillSpr.spriteName = "icon_skill_" + ((int)tui.type).ToString();
 			}
 			UIEventListener.Get(temp).onClick += ClickItem;
@@ -93,7 +93,7 @@ public class BattleBottomView : ViewBase {
 		case "initdata":
 			InitData((int)args[1],(int)args[2],(int)args[3]);
 			break;
-		case "playerdead":
+		case "player_dead":
 //			PlayerDead();
 			MaskCard("",false);
 			break;

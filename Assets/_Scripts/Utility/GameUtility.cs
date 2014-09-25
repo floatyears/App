@@ -435,13 +435,13 @@ public class DGTools {
 		}
 	}
 
-	public static string GetNormalSkillSpriteName (AttackInfo ai) {
+	public static string GetNormalSkillSpriteName (AttackInfoProto ai) {
 //		Debug.LogError ("ai.FixRecoverHP : " + ai.FixRecoverHP + " ai.AttackRange :" + ai.AttackRange);
-		if (ai.FixRecoverHP || ai.AttackRange == 2) {
+		if (ai.fixRecoverHP || ai.attackRange == 2) {
 			return "7_1";
 		}
-		string name1 = ai.AttackType.ToString ();
-		string name2 = ai.AttackRange.ToString ();
+		string name1 = ai.attackType.ToString ();
+		string name2 = ai.attackRange.ToString ();
 		return name1 + "_" + name2;
 	}
 
@@ -576,80 +576,76 @@ public class DGTools {
 	}
 
 	static SkillBase DisposeByte(byte[] data, string typeName,SkillType type) {
-		return null;
-//		switch (typeName) {
-//		case "NormalSkill" :
-//			return ProtobufSerializer.ParseFormBytes<NormalSkill>(data);
-//		case "SkillSingleAttack":
-////			if(ssa.type == EValueType.PERCENT) {
-////				return ProtobufSerializer.ParseFormBytes<KnockdownAttack>(data);
-////			}
-////			else{
-////				return ProtobufSerializer.ParseFormBytes<TSkillSingleAttack>(data);
-////			}
-//		case "SkillBoost" : 
-//				return ProtobufSerializer.ParseFormBytes<SkillBoost>(data);
-//		case "SkillRecoverSP" : 
-//				return ProtobufSerializer.ParseFormBytes<SkillRecoverSP>(data);
-//		case "SkillPoison" : 
-//				return ProtobufSerializer.ParseFormBytes<SkillPoison>(data);
-//		case "SkillDodgeTrap" : 
-//				return ProtobufSerializer.ParseFormBytes<SkillDodgeTrap>(data);
-//		case "SkillAttackRecoverHP" :
-//				return ProtobufSerializer.ParseFormBytes<SkillAttackRecoverHP>(data);
-//		case "SkillSuicideAttack" :
-//				return ProtobufSerializer.ParseFormBytes<SkillSuicideAttack>(data);
-//		case "SkillTargetTypeAttack":
-//				return ProtobufSerializer.ParseFormBytes<SkillTargetTypeAttack>(data);
-//		case "SkillStrengthenAttack":
-//				return ProtobufSerializer.ParseFormBytes<SkillStrengthenAttack>(data);
-//		case "SkillKillHP" :
-//				return ProtobufSerializer.ParseFormBytes<SkillKillHP>(data);
-////		case "SkillRecoverHP":
-////			if(recoverHP.period == EPeriod.EP_RIGHT_NOW) {
-////				return ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
-////			} else {
-////				return ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
-////			}
-////		case "SkillReduceHurt" :
-////
-////			if(reduceHurt.baseInfo.skillCooling > 0){
-////				return ProtobufSerializer.ParseFormBytes<ActiveReduceHurt>(data);
-////			} else{
-////				return ProtobufSerializer.ParseFormBytes<SkillReduceHurt>(data);
-////			}
-////		case "SkillReduceDefence":
-////			SkillReduceDefence reduceDefense = ProtobufSerializer.ParseFormBytes<SkillReduceDefence>(data);
-////			return new ActiveReduceDefense(reduceDefense);
-////		case "SkillDeferAttackRound":
-////			SkillDeferAttackRound deferAttackRound = ProtobufSerializer.ParseFormBytes<SkillDeferAttackRound>(data);
-////			return new ActiveDeferAttackRound(deferAttackRound);
-////		case "SkillDelayTime":
-////			SkillDelayTime delayTime = ProtobufSerializer.ParseFormBytes<SkillDelayTime>(data);
-////			if(delayTime.baseInfo.skillCooling > 0){
-////				return new ActiveDelayTime(delayTime);
-////			}else{
-////				return new SkillDelayTime(delayTime);
-////			}
-////		case "SkillConvertUnitType":
-////			SkillConvertUnitType convertType = ProtobufSerializer.ParseFormBytes<SkillConvertUnitType>(data);
-////			if(convertType.baseInfo.skillCooling > 0) {
-////				return new ActiveChangeCardColor(convertType);
-////			} else{
-////				return new SkillConvertUnitType(convertType);
-////			}
-////		case "SkillAntiAttack":
-////			SkillAntiAttack antiAttack = ProtobufSerializer.ParseFormBytes<SkillAntiAttack>(data);
-////			return new TSkillAntiAttack(antiAttack);
-////		case "SkillExtraAttack":
-////			SkillExtraAttack extraAttack = ProtobufSerializer.ParseFormBytes<SkillExtraAttack>(data);
-////			return new SkillExtraAttack(extraAttack);
-////		case "SkillMultipleAttack":
-////			SkillMultipleAttack multiple = ProtobufSerializer.ParseFormBytes<SkillMultipleAttack>(data);
-////			return new LeaderSkillMultipleAttack(multiple);
-////		default:
-////			return null;
-//		}
+		switch (typeName) {
+		case "NormalSkill" :
+			return ProtobufSerializer.ParseFormBytes<NormalSkill>(data);
+		case "SkillSingleAttack":
+			SkillSingleAttack ssa = ProtobufSerializer.ParseFormBytes<SkillSingleAttack>(data);
+			if(ssa.type == EValueType.PERCENT) {
+				return ProtobufSerializer.ParseFormBytes<SkillSingleAttack>(data);
+			}
+			else{
+				return ProtobufSerializer.ParseFormBytes<SkillSingleAttack>(data);
+			}
+		case "SkillBoost" : 
+				return ProtobufSerializer.ParseFormBytes<SkillBoost>(data);
+		case "SkillRecoverSP" : 
+				return ProtobufSerializer.ParseFormBytes<SkillRecoverSP>(data);
+		case "SkillPoison" : 
+				return ProtobufSerializer.ParseFormBytes<SkillPoison>(data);
+		case "SkillDodgeTrap" : 
+				return ProtobufSerializer.ParseFormBytes<SkillDodgeTrap>(data);
+		case "SkillAttackRecoverHP" :
+				return ProtobufSerializer.ParseFormBytes<SkillAttackRecoverHP>(data);
+		case "SkillSuicideAttack" :
+				return ProtobufSerializer.ParseFormBytes<SkillSuicideAttack>(data);
+		case "SkillTargetTypeAttack":
+				return ProtobufSerializer.ParseFormBytes<SkillTargetTypeAttack>(data);
+		case "SkillStrengthenAttack":
+				return ProtobufSerializer.ParseFormBytes<SkillStrengthenAttack>(data);
+		case "SkillKillHP" :
+				return ProtobufSerializer.ParseFormBytes<SkillKillHP>(data);
+		case "SkillRecoverHP":
+			SkillRecoverHP recoverHP = ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
+			if(recoverHP.period == EPeriod.EP_RIGHT_NOW) {
+				return ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
+			} else {
+				return ProtobufSerializer.ParseFormBytes<SkillRecoverHP>(data);
+			}
+		case "SkillReduceHurt" :
+			SkillReduceHurt reduceHurt = ProtobufSerializer.ParseFormBytes<SkillReduceHurt>(data);
+			if(reduceHurt.baseInfo.skillCooling > 0){
+				return ProtobufSerializer.ParseFormBytes<SkillReduceHurt>(data);
+			} else{
+				return ProtobufSerializer.ParseFormBytes<SkillReduceHurt>(data);
+			}
+		case "SkillReduceDefence":
+			return ProtobufSerializer.ParseFormBytes<SkillReduceDefence>(data);
+		case "SkillDeferAttackRound":
+			return ProtobufSerializer.ParseFormBytes<SkillDeferAttackRound>(data);
+		case "SkillDelayTime":
+			SkillDelayTime delayTime = ProtobufSerializer.ParseFormBytes<SkillDelayTime>(data);
+			if(delayTime.baseInfo.skillCooling > 0){
+				return ProtobufSerializer.ParseFormBytes<SkillDelayTime>(data);
+			}else{
+				return ProtobufSerializer.ParseFormBytes<SkillDelayTime>(data);
+			}
+		case "SkillConvertUnitType":
+			SkillConvertUnitType convertType = ProtobufSerializer.ParseFormBytes<SkillConvertUnitType>(data);
+			if(convertType.baseInfo.skillCooling > 0) {
+				return ProtobufSerializer.ParseFormBytes<SkillConvertUnitType>(data);
+			} else{
+				return ProtobufSerializer.ParseFormBytes<SkillConvertUnitType>(data);
+			}
+		case "SkillAntiAttack":
+			return ProtobufSerializer.ParseFormBytes<SkillAntiAttack>(data);
+		case "SkillExtraAttack":
+			return ProtobufSerializer.ParseFormBytes<SkillExtraAttack>(data);
+		case "SkillMultipleAttack":
+			return ProtobufSerializer.ParseFormBytes<SkillMultipleAttack>(data);
+		default:
+			return null;
+		}
 	}
 
 	//============load unitinfo====================================================

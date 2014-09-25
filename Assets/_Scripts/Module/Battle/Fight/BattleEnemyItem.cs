@@ -107,12 +107,12 @@ public class BattleEnemyItem : MonoBehaviour {
     }
 	
     public void ReduceDefense(object data) {
-		AttackInfo reduceDefense = data as AttackInfo;
+		AttackInfoProto reduceDefense = data as AttackInfoProto;
 		if (reduceDefense == null) {
             return;
         }
 
-		if (reduceDefense.AttackRound == 0) {
+		if (reduceDefense.attackRound == 0) {
 			ShowStateException (StateEnum.ReduceDefense, true); 	// remove 
 		} else {
 			ShowStateException(StateEnum.ReduceDefense);
@@ -121,8 +121,8 @@ public class BattleEnemyItem : MonoBehaviour {
 
 //    Queue<AttackInfo> attackQueue = new Queue<AttackInfo>();
    	public void AttackEnemy(object data) {
-        AttackInfo ai = data as AttackInfo;
-        if (ai == null || ai.EnemyID != enemyInfo.EnemySymbol || ai.AttackValue == 0) {
+        AttackInfoProto ai = data as AttackInfoProto;
+        if (ai == null || ai.enemyID != enemyInfo.EnemySymbol || ai.attackValue == 0) {
             return;
         }
 //        attackQueue.Enqueue(ai);
@@ -131,20 +131,20 @@ public class BattleEnemyItem : MonoBehaviour {
 			if (!string.IsNullOrEmpty (stateSprite.text)) {
 				stateSprite.text = string.Empty;
 			}
-			if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType ())) {
+			if (DGTools.RestraintType (ai.attackType, enemyInfo.GetUnitType ())) {
 				stateLabel.text = weak; // DGTools.ShowSprite (stateSprite, "Weak"); // weak == attack count atlas sprite name.
-			} else if (DGTools.RestraintType (ai.AttackType, enemyInfo.GetUnitType (), true)) {
+			} else if (DGTools.RestraintType (ai.attackType, enemyInfo.GetUnitType (), true)) {
 				stateLabel.text = guard;// DGTools.ShowSprite (stateSprite, "Guard"); // weak == attack count atlas sprite name.
 			}
 			iTween.ScaleFrom (stateSprite.gameObject, iTween.Hash ("scale", new Vector3 (2f, 2f, 2f), "time", 0.4f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "HideStateSprite", "oncompletetarget", gameObject));
-			DGTools.PlayAttackSound (ai.AttackType);
+			DGTools.PlayAttackSound (ai.attackType);
 
 			GameObject hurtLabel = NGUITools.AddChild(gameObject, hurtValueLabel.gameObject);
 			hurtLabel.SetActive(true);
 			hurtLabel.transform.localPosition = initHurtLabelPosition;
 			hurtValueQueue.Enqueue(hurtLabel);
 			UILabel info = hurtLabel.GetComponent<UILabel>();
-			info.text = ai.InjuryValue.ToString();
+			info.text = ai.injuryValue.ToString();
 			iTween.MoveTo(hurtLabel, iTween.Hash("position", hurtLabelPosition, "time", 0.8f, "easetype", iTween.EaseType.easeInBack, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
 //			battleEnemy.EnemyItemPlayEffect (this, ai);
 		});
@@ -166,26 +166,26 @@ public class BattleEnemyItem : MonoBehaviour {
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
     }
 
-	AttackInfo posionAttack;
+	AttackInfoProto posionAttack;
 
     void BePosion(object data) {
-		posionAttack = data as AttackInfo;
+		posionAttack = data as AttackInfoProto;
 		if (posionAttack == null) {
             return;	
         }
 
         Debug.Log("play posion animation");
-		Debug.Log("posion round : " + posionAttack.AttackRound);
+		Debug.Log("posion round : " + posionAttack.attackRound);
 
 		ShowStateException (StateEnum.Poison);
     }
 
     void SkillPosion(object data) {
-        AttackInfo ai = data as AttackInfo;
+        AttackInfoProto ai = data as AttackInfoProto;
         if (ai == null) {
             return;	
         }
-		if (ai.AttackRound == 0) {
+		if (ai.attackRound == 0) {
 			ShowStateException (StateEnum.Poison,true);
 		} else {
 			ShowStateException (StateEnum.Poison);

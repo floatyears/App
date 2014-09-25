@@ -143,9 +143,9 @@ public partial class UserUnit : ProtoBuf.IExtensible {
         AddSkill(firstSkill, secondSkill);
     }
 
-    public List<AttackInfo> CaculateAttack(List<uint> card, List<int> ignorSkillID) {
+    public List<AttackInfoProto> CaculateAttack(List<uint> card, List<int> ignorSkillID) {
         List<uint> copyCard = new List<uint>(card);
-        List<AttackInfo> returnInfo = new List<AttackInfo>();
+        List<AttackInfoProto> returnInfo = new List<AttackInfoProto>();
         if (normalSkill[0] == null) {
             InitSkill();	
         }
@@ -160,10 +160,10 @@ public partial class UserUnit : ProtoBuf.IExtensible {
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
-				AttackInfo attack = AttackInfo.GetInstance(); //new AttackInfo();
-                attack.AttackValue = CaculateAttack(this, ui, tns);
-                attack.AttackType = tns.AttackType;
-                attack.UserUnitID = MakeUserUnitKey();
+				AttackInfoProto attack = new AttackInfoProto(); //new AttackInfo();
+                attack.attackValue = CaculateAttack(this, ui, tns);
+                attack.attackType = tns.AttackType;
+                attack.userUnitID = MakeUserUnitKey();
                 tns.GetSkillInfo(attack);
                 returnInfo.Add(attack);
             }
@@ -171,9 +171,9 @@ public partial class UserUnit : ProtoBuf.IExtensible {
         return returnInfo;
     }
 
-	public List<AttackInfo> CaculateAttack(CalculateSkillUtility csu) {
+	public List<AttackInfoProto> CaculateAttack(CalculateSkillUtility csu) {
 		List<uint> copyCard = new List<uint>(csu.haveCard);
-		List<AttackInfo> returnInfo = new List<AttackInfo>();
+		List<AttackInfoProto> returnInfo = new List<AttackInfoProto>();
 		if (normalSkill[0] == null) {
 			InitSkill();	
 		}
@@ -190,10 +190,10 @@ public partial class UserUnit : ProtoBuf.IExtensible {
 			for (int j = 0; j < count; j++) {
 				csu.alreadyUseSkill.Add(tns);
 				csu.ResidualCard();
-				AttackInfo attack = AttackInfo.GetInstance(); //new AttackInfo();
-				attack.AttackValue = CaculateAttack(this, ui, tns);
-				attack.AttackType = tns.AttackType;
-				attack.UserUnitID = MakeUserUnitKey();
+				AttackInfoProto attack = new AttackInfoProto(); //new AttackInfo();
+				attack.attackValue = CaculateAttack(this, ui, tns);
+				attack.attackType = tns.AttackType;
+				attack.userUnitID = MakeUserUnitKey();
 				tns.GetSkillInfo(attack);
 				returnInfo.Add(attack);
 			}
@@ -233,20 +233,20 @@ public partial class UserUnit : ProtoBuf.IExtensible {
 		return index;
 	}
 
-    AttackInfo strengthenInfo = null;
+    AttackInfoProto strengthenInfo = null;
     void StrengthenTargetType(object data) {
-        AttackInfo ai = data as AttackInfo;
+        AttackInfoProto ai = data as AttackInfoProto;
         if (ai == null) {
             return;	
         }
-		if (ai.AttackType >= 0 && ai.AttackType!=(int)EUnitType.UALL && ai.AttackType != UnitType) {
+		if (ai.attackType >= 0 && ai.attackType!=(int)EUnitType.UALL && ai.attackType != UnitType) {
             return;	
         }
-		if (ai.AttackRace >= 0 && ai.AttackRace!=(int)EUnitRace.ALL && ai.AttackRace != UnitRace) {
+		if (ai.attackRace >= 0 && ai.attackRace!=(int)EUnitRace.ALL && ai.attackRace != UnitRace) {
 			return;	
 		}
 
-        if (ai.AttackRound == 0) {
+        if (ai.attackRound == 0) {
             strengthenInfo = null;
             return;
         }
@@ -278,7 +278,7 @@ public partial class UserUnit : ProtoBuf.IExtensible {
 		float attack = tns.GetAttack(Attack) * attackMultiple;
 
         if (strengthenInfo != null) {
-            attack *= strengthenInfo.AttackValue;
+            attack *= strengthenInfo.attackValue;
         }
         int value = System.Convert.ToInt32(attack);
         return value;

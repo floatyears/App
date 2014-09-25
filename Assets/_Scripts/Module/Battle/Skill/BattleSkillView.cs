@@ -104,7 +104,7 @@ public class BattleSkillView : ViewBase {
 
 		bool notNull = sbi != null;
 		bool isCooling = notNull && (sbi.skillCooling == 0);
-		isRecoveSP = notNull && sbi.GetType () == typeof(TSkillRecoverSP);
+		isRecoveSP = notNull && sbi.GetType () == typeof(SkillRecoverSP);
 //		isBattle = battleQuest.battle.GetState == UIState.UIShow;
 		if (notNull && isCooling) {
 			if(!isRecoveSP && !isBattle) {

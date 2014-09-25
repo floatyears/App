@@ -44,6 +44,7 @@ public class ModuleBase{
 			}
 			moduleData = dic;	
 		}
+//		ModuleManager.Instance.AddModuleToDic (this);
 	}
 
 	protected void CreateUI<T>() where T : ViewBase{

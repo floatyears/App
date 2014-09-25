@@ -167,20 +167,21 @@ public class ReceptionScene : SceneBase{
 	}
 }
 
-public class BattleScene: SceneBase{
-	public BattleScene(SceneEnum sEnum) : base(sEnum){
-		group = ModuleGroup.BATTLE;
-	}
-	
-	protected override void InitSceneList(){
-		AddModuleToScene<BattleBottomModule>(ModuleEnum.BattleBottomModule);
-		AddModuleToScene<BattleTopModule>(ModuleEnum.BattleTopModule);
-		AddModuleToScene< BattleMapModule >(ModuleEnum.BattleMapModule);
-		AddModuleToScene<BattleManipulationModule>(ModuleEnum.BattleManipulationModule);
-		AddModuleToScene<BattleFullScreenTipsModule> (ModuleEnum.BattleFullScreenTipsModule);
-		AddModuleToScene<BattleAttackEffectModule> (ModuleEnum.BattleAttackEffectModule);
-		AddModuleToScene<BattleSkillModule> (ModuleEnum.BattleSkillModule);
-	}
-	
-}
+//public class BattleScene: SceneBase{
+//	public BattleScene(SceneEnum sEnum) : base(sEnum){
+//		group = ModuleGroup.BATTLE;
+//	}
+//	
+//	protected override void InitSceneList(){
+//		AddModuleToScene<BattleBottomModule>(ModuleEnum.BattleBottomModule);
+//		AddModuleToScene<BattleTopModule>(ModuleEnum.BattleTopModule);
+//
+////		AddModuleToScene<BattleManipulationModule>(ModuleEnum.BattleManipulationModule);
+//		AddModuleToScene<BattleFullScreenTipsModule> (ModuleEnum.BattleFullScreenTipsModule);
+//		AddModuleToScene<BattleAttackEffectModule> (ModuleEnum.BattleAttackEffectModule);
+//		AddModuleToScene< BattleMapModule >(ModuleEnum.BattleMapModule);
+////		AddModuleToScene<BattleSkillModule> (ModuleEnum.BattleSkillModule);
+//	}
+//	
+//}
 

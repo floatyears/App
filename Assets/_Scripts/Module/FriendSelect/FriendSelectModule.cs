@@ -48,11 +48,11 @@ public class FriendSelectModule : ModuleBase{
 	void QuestStart(object args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		if (DataCenter.gameState == GameState.Evolve) {
-//			evolveStart.EvolveStart.restartNew = 1;
-//			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
-		} 
-		else {
+//		if (DataCenter.gameState == GameState.Evolve) {
+////			evolveStart.EvolveStart.restartNew = 1;
+////			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+//		} 
+//		else {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
@@ -62,7 +62,7 @@ public class FriendSelectModule : ModuleBase{
 			sqp.startNew = 1;
 //			DataCenter.StartQuestInfo = sqp;
 			QuestController.Instance.StartQuest (sqp, RspStartQuest);
-		}
+//		}
 	}
 
 	void RspEvolveStartQuest (object data) {
@@ -85,7 +85,7 @@ public class FriendSelectModule : ModuleBase{
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		questDungeonData.assignData ();
 //		tqdd.assignData ();
-		DataCenter.Instance.SetData(ModelEnum.MapConfig, questDungeonData);
+//		DataCenter.Instance.SetData(ModelEnum.MapConfig, questDungeonData);
 
 		EnterBattle ();
 	}
@@ -106,7 +106,7 @@ public class FriendSelectModule : ModuleBase{
 			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 //			tqdd.assignData();
-			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
+//			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
 		} 
 		
 		if (data == null || tqdd == null) {

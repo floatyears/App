@@ -117,7 +117,8 @@ public class ConfigUnitBaseInfo {
 			infoList.Add(PowerTable.UserCostMax, tbi);
 		}
 
-		DataCenter.Instance.SetData (ModelEnum.UnitValue, infoList);
+//		DataCenter.Instance.SetData (ModelEnum.UnitValue, infoList);
+		DataCenter.Instance.UnitData.UnitValue = infoList;
     }
 
     void GenerateUserExp() {

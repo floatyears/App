@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace bbproto{
@@ -97,7 +97,7 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 			Store ();
 		}
 		
-		public virtual AttackInfo ExcuteByDisk (AttackInfo ai) {
+		public virtual AttackInfoProto ExcuteByDisk (AttackInfoProto ai) {
 			return null;
 		}
 		

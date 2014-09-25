@@ -2933,7 +2933,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"StoreBattleData")]
   public partial class StoreBattleData : global::ProtoBuf.IExtensible
   {
-    public StoreBattleData() {}
     
     private int _colorIndex;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"colorIndex", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -3074,7 +3073,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AttackInfoProto")]
   public partial class AttackInfoProto : global::ProtoBuf.IExtensible
   {
-    public AttackInfoProto() {}
     
     private int _attackID;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"attackID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -7845,7 +7843,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillSingleAttack")]
   public partial class SkillSingleAttack : global::ProtoBuf.IExtensible
   {
-    public SkillSingleAttack() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -7903,7 +7900,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillAttackRecoverHP")]
   public partial class SkillAttackRecoverHP : global::ProtoBuf.IExtensible
   {
-    public SkillAttackRecoverHP() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -7953,7 +7949,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillSuicideAttack")]
   public partial class SkillSuicideAttack : global::ProtoBuf.IExtensible
   {
-    public SkillSuicideAttack() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8053,7 +8048,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillStrengthenAttack")]
   public partial class SkillStrengthenAttack : global::ProtoBuf.IExtensible
   {
-    public SkillStrengthenAttack() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8111,7 +8105,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillKillHP")]
   public partial class SkillKillHP : global::ProtoBuf.IExtensible
   {
-    public SkillKillHP() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8186,7 +8179,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillRecoverSP")]
   public partial class SkillRecoverSP : global::ProtoBuf.IExtensible
   {
-    public SkillRecoverSP() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8220,7 +8212,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillReduceHurt")]
   public partial class SkillReduceHurt : global::ProtoBuf.IExtensible
   {
-    public SkillReduceHurt() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8278,7 +8269,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillReduceDefence")]
   public partial class SkillReduceDefence : global::ProtoBuf.IExtensible
   {
-    public SkillReduceDefence() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8320,7 +8310,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillDeferAttackRound")]
   public partial class SkillDeferAttackRound : global::ProtoBuf.IExtensible
   {
-    public SkillDeferAttackRound() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8354,7 +8343,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillPoison")]
   public partial class SkillPoison : global::ProtoBuf.IExtensible
   {
-    public SkillPoison() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8396,7 +8384,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillDelayTime")]
   public partial class SkillDelayTime : global::ProtoBuf.IExtensible
   {
-    public SkillDelayTime() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8438,7 +8425,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillConvertUnitType")]
   public partial class SkillConvertUnitType : global::ProtoBuf.IExtensible
   {
-    public SkillConvertUnitType() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8613,7 +8599,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillBoost")]
   public partial class SkillBoost : global::ProtoBuf.IExtensible
   {
-    public SkillBoost() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -8697,7 +8682,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SkillMultipleAttack")]
   public partial class SkillMultipleAttack : global::ProtoBuf.IExtensible
   {
-    public SkillMultipleAttack() {}
     
     private bbproto.SkillBase _baseInfo = null;
     [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"baseInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]

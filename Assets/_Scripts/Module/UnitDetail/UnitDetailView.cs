@@ -312,9 +312,9 @@ public class UnitDetailView : ViewBase{
 //	} 
 
 	void ScaleEnd(){
-		if (DataCenter.gameState != GameState.Evolve && !isEvolve) {
-			return;
-		}
+//		if (DataCenter.gameState != GameState.Evolve && !isEvolve) {
+//			return;
+//		}
 		
 		DataCenter.evolveInfo.ClearData ();
 		

@@ -202,11 +202,11 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		if (DataCenter.gameState == GameState.Evolve) {
-//			evolveStart.EvolveStart.restartNew = 1;
-//			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
-//			UnitController.Instance.EvolveStart(RspEvolveStartQuest);
-		} else {
+//		if (DataCenter.gameState == GameState.Evolve) {
+////			evolveStart.EvolveStart.restartNew = 1;
+////			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
+////			UnitController.Instance.EvolveStart(RspEvolveStartQuest);
+//		} else {
 //			StartQuest sq = new StartQuest ();
 			StartQuestParam sqp = new StartQuestParam ();
 			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
@@ -216,7 +216,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			sqp.stageId = questInfo.StageID;
 			sqp.startNew = 1;
 			QuestController.Instance.StartQuest (sqp, RspStartQuest);
-		}
+//		}
 	}
 
 	private UnitDataModel evolveStart;
@@ -239,7 +239,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			tqdd = rspStartQuest.dungeonData;
 			tqdd.assignData();
 //			ModelManager.Instance.(ModelEnum.MapConfig, tqdd);
-			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
+//			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
@@ -263,13 +263,14 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		questDungeonData.assignData ();
 //		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
+//		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (questDungeonData);
 	}
 	
 	private void EnterBattle (QuestDungeonData tqdd) {
 		pickedHelperInfo.friendPoint = 0;
 		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		BattleConfigData.Instance.StoreData (tqdd.questId);
 
 		BattleConfigData.Instance.gotFriendPoint = 0;
 		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;

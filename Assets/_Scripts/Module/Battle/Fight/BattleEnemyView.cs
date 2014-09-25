@@ -95,12 +95,15 @@ public class BattleEnemyView : ViewBase {
 		case "enemy_dead":
 			foreach (var item in enemyList.Values) {
 				item.EnemyDead(args[1]);
+
 			}
+			BattleConfigData.Instance.storeBattleData.EnemyInfo.Remove(args[1] as EnemyInfo);
+			BattleConfigData.Instance.StoreMapData();
 			break;
 		case "attack_enemy":
 			foreach (var item in enemyList.Values) {
 				item.AttackEnemy(args[1]);
-				EnemyItemPlayEffect (item, args[1] as AttackInfo);
+				EnemyItemPlayEffect (item, args[1] as AttackInfoProto);
 			}
 			break;
 		case "attack_enemy_end":
@@ -122,7 +125,7 @@ public class BattleEnemyView : ViewBase {
 	}
 
 	void PlayAllEffect(object data) {
-		AttackInfo ai = data as AttackInfo;
+		AttackInfoProto ai = data as AttackInfoProto;
 		if (ai == null) {
 			return;	
 		}
@@ -142,7 +145,7 @@ public class BattleEnemyView : ViewBase {
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
 	}
 	
-	List<AttackInfo> attackList= new List<AttackInfo>();
+	List<AttackInfoProto> attackList= new List<AttackInfoProto>();
 
 //	void AttackEnemy(object data) {
 ////		DestoryEffect ();
@@ -150,11 +153,11 @@ public class BattleEnemyView : ViewBase {
 
 //	List<EnemyItem> enemyList = new List<EnemyItem>();
 
-	AttackInfo prevAttackInfo = null;
+	AttackInfoProto prevAttackInfo = null;
 
-	public void EnemyItemPlayEffect(BattleEnemyItem ei, AttackInfo ai) {
+	public void EnemyItemPlayEffect(BattleEnemyItem ei, AttackInfoProto ai) {
 		// > 0. mean is all attack.
-		if (prevAttackInfo != null &&  prevAttackInfo.IsLink > 0 && prevAttackInfo.IsLink == ai.IsLink) {
+		if (prevAttackInfo != null &&  prevAttackInfo.isLink > 0 && prevAttackInfo.isLink == ai.isLink) {
 			return;
 		}
 //		Debug.LogError ("EnemyItemPlayEffect ");
@@ -195,6 +198,7 @@ public class BattleEnemyView : ViewBase {
 //		}
 
 		int sortCount = 0;
+		enemyList.Clear ();
 //		enemys.Clear ();
 //		List<BattleEnemyItem> enemys = new List<BattleEnemyItem> ();
 		if (enemy.Count == 0) {
@@ -243,7 +247,6 @@ public class BattleEnemyView : ViewBase {
 
 		if (enemyList.ContainsKey (posSymbol) && enemyList[posSymbol].enemyInfo.IsDead) {
 			bbproto.EnemyInfo ei = enemyList[posSymbol].enemyInfo;
-			BattleConfigData.Instance.storeBattleData.RemoveEnemyInfo(ei);
 //			enemyList.Remove (posSymbol);	
 			enemyList[posSymbol].DropItem();
 		}
@@ -293,8 +296,8 @@ public class BattleEnemyView : ViewBase {
 	GameObject prevEffect;
 	List<GameObject> extraEffect = new List<GameObject> ();
 
-	void PlayerEffect(BattleEnemyItem ei, AttackInfo ai) {
-		EffectManager.Instance.GetSkillEffectObject (ai.SkillID, ai.UserUnitID, returnValue => {
+	void PlayerEffect(BattleEnemyItem ei, AttackInfoProto ai) {
+		EffectManager.Instance.GetSkillEffectObject (ai.skillID, ai.userUnitID, returnValue => {
 			if(ei != null)
 				ei.InjuredShake();
 
@@ -304,7 +307,7 @@ public class BattleEnemyView : ViewBase {
 
 			GameObject prefab = returnValue as GameObject;
 
-			string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(ai.UserUnitID, ai.SkillID);
+			string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(ai.userUnitID, ai.skillID);
 
 			SkillBase pdb = DataCenter.Instance.BattleData.AllSkill[skillStoreID];
 
@@ -322,7 +325,7 @@ public class BattleEnemyView : ViewBase {
 				Vector3 pos = prefab.transform.localPosition;
 				prevEffect = EffectManager.InstantiateEffect(effectPanel, prefab);
 				prevEffect.transform.localPosition = pos;
-				if(ai.AttackRange == 0) {
+				if(ai.attackRange == 0) {
 					UITexture tex = ei.texture;
 					float x = ei.transform.localPosition.x;
 					float y = tex.transform.localPosition.y +  tex.height * 0.5f;

@@ -145,7 +145,7 @@ public class HttpRequestManager : MonoBehaviour{
 				msg = item.GetValue(returnVal,null);
 				
 				if(msg != null){
-					Debug.Log("Msg Recv: name-> [[[---" + item.Name  + "---]]]" + " value->" + msg ); 
+					Debug.Log("Proto Recv: name-> [[[---" + item.Name  + "---]]]" + " value->" + msg ); 
 					name = (ProtocolNameEnum)Enum.Parse(typeof(ProtocolNameEnum), msg.GetType().Name);
 					if(protoListeners.ContainsKey(name)){
 						protoListeners[name](msg);

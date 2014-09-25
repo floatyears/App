@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
+using bbproto;
 
 public class EffectConstValue {
 	private static  EffectConstValue instance;
@@ -45,11 +46,11 @@ public class EffectConstValue {
 	public const string FireAll			= "firerain";
 
 	//---------------------end-------------------------------
-	public List<GameObject> GetEffect(AttackInfo ai) {
-		if (ai.AttackRange == 0) {
-			return SingleAttackAsset (ai.AttackType);	
-		} else if (ai.AttackRange == 1) {
-			return AllAttackAsset (ai.AttackType);	
+	public List<GameObject> GetEffect(AttackInfoProto ai) {
+		if (ai.attackRange == 0) {
+			return SingleAttackAsset (ai.attackType);	
+		} else if (ai.attackRange == 1) {
+			return AllAttackAsset (ai.attackType);	
 		} else {
 			return null;
 		}

@@ -91,7 +91,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		UserUnit[DataCenter.friendPos] = null;
 	}
 
-    AttackInfo reduceHurt = null;
+    AttackInfoProto reduceHurt = null;
 
     private int totalHp = 0;
     private int totalCost = 0;
@@ -159,15 +159,15 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     /// key is area item. value is skill list. this area already use skill must record in this dic, avoidance redundant calculate.
     /// </summary>
     private Dictionary<int, CalculateSkillUtility> alreadyUse = new Dictionary<int, CalculateSkillUtility>();	 
-    private Dictionary<int, List<AttackInfo>> attack = new Dictionary<int, List<AttackInfo>>();
-    public Dictionary<int, List<AttackInfo>> Attack {
+    private Dictionary<int, List<AttackInfoProto>> attack = new Dictionary<int, List<AttackInfoProto>>();
+    public Dictionary<int, List<AttackInfoProto>> Attack {
         get { return attack;}
     }
 
     void ReduceHurt(object data) {
-        reduceHurt = data as AttackInfo;
+        reduceHurt = data as AttackInfoProto;
         if (reduceHurt != null) {
-            if (reduceHurt.AttackRound == 0) {
+            if (reduceHurt.attackRound == 0) {
                 reduceHurt = null;
             }
         }
@@ -186,7 +186,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		}
 
         if (reduceHurt != null) {
-            float value = hurtValue * reduceHurt.AttackValue;
+            float value = hurtValue * reduceHurt.attackValue;
             hurtValue -= value;
         }
 
@@ -220,24 +220,24 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		return false;
 	}
 	
-	public List<AttackInfo> CalculateSkill(int areaItemID, int cardID, int blood, float boostValue = 1f) {
+	public List<AttackInfoProto> CalculateSkill(int areaItemID, int cardID, int blood, float boostValue = 1f) {
         if (crh == null) {
             crh = new CalculateRecoverHP();
         }
 
         CalculateSkillUtility skillUtility = CheckSkillUtility(areaItemID, cardID);
-        List<AttackInfo> areaItemAttackInfo = CheckAttackInfo(areaItemID);
+        List<AttackInfoProto> areaItemAttackInfo = CheckAttackInfo(areaItemID);
         areaItemAttackInfo.Clear();
         UserUnit tempUnitInfo;
-        List<AttackInfo> tempAttack = new List<AttackInfo>();
-		List<AttackInfo> tempAttackType = new List<AttackInfo>();
+        List<AttackInfoProto> tempAttack = new List<AttackInfoProto>();
+		List<AttackInfoProto> tempAttackType = new List<AttackInfoProto>();
 
 		//===== calculate fix recover hp.
-		AttackInfo recoverHp = crh.RecoverHP(skillUtility, blood);
+		AttackInfoProto recoverHp = crh.RecoverHP(skillUtility, blood);
 		if (recoverHp != null) {
-			recoverHp.AttackValue *= boostValue;
-			recoverHp.UserUnitID = UserUnit[0].MakeUserUnitKey();
-			recoverHp.UserPos = 0; // 0 == self leder position
+			recoverHp.attackValue *= boostValue;
+			recoverHp.userUnitID = UserUnit[0].MakeUserUnitKey();
+			recoverHp.userPos = 0; // 0 == self leder position
 			tempAttack.Add(recoverHp);
 		}
 		int len = UserUnit.Count;
@@ -250,10 +250,10 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 			tempAttack.AddRange(item.CaculateAttack(skillUtility));
 			if (tempAttack.Count > 0) {
 				for (int j = 0; j < tempAttack.Count; j++) {
-					AttackInfo ai = tempAttack[j];
-					ai.UserPos = i;
+					AttackInfoProto ai = tempAttack[j];
+					ai.userPos = i;
 
-					ai.AttackValue *= boostValue;
+					ai.attackValue *= boostValue;
 
 					areaItemAttackInfo.Add(ai);
 					tempAttackType.Add(ai);
@@ -262,7 +262,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 			tempAttack.Clear();
 		}
 		CalculateAttackCount ();
-        return tempAttackType;
+		return tempAttackType;
     }
 	int prevAttackCount = 0;
 	void CalculateAttackCount() {
@@ -305,7 +305,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 	}
 
     public void ClearData() {
-        AttackInfo.ClearData();
+        AttackInfoProto.ClearData();
         alreadyUse.Clear();
         attack.Clear();
     }
@@ -444,10 +444,10 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
         return skillUtility;
     }
 	
-    List<AttackInfo> CheckAttackInfo(int areaItemID) {
-        List<AttackInfo> areaItemAttackInfo = null;										//-- find or creat attack data;
+    List<AttackInfoProto> CheckAttackInfo(int areaItemID) {
+        List<AttackInfoProto> areaItemAttackInfo = null;										//-- find or creat attack data;
         if (!attack.TryGetValue(areaItemID, out areaItemAttackInfo)) {
-            areaItemAttackInfo = new List<AttackInfo>();
+            areaItemAttackInfo = new List<AttackInfoProto>();
             attack.Add(areaItemID, areaItemAttackInfo);
         }
         return areaItemAttackInfo;

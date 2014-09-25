@@ -81,9 +81,9 @@ public class QuestItemView : MonoBehaviour {
 		/*Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
 		          + ", isClear = " + isClear);*/
 
-		if (DataCenter.gameState == GameState.Evolve) {
-			isClear = false;
-		}
+//		if (DataCenter.gameState == GameState.Evolve) {
+//			isClear = false;
+//		}
 
 		clearFlagLabel.text = isClear ? TextCenter.GetText("clearQuest") : "";
 
@@ -129,12 +129,12 @@ public class QuestItemView : MonoBehaviour {
 		BattleConfigData.Instance.currentStageInfo = stageInfo;
 		BattleConfigData.Instance.currentQuestInfo = data;
 
-		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
-			evolveCallback ();
-		} else {
+//		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
+//			evolveCallback ();
+//		} else {
 			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
 //			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
-		}
+//		}
 	}
 
 	private bool CheckStaminaEnough(){

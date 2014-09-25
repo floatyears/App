@@ -72,7 +72,7 @@ public class EvolveModule : ModuleBase {
 			tes.evolveParty.Add(null);
 		}
 
-		DataCenter.gameState = GameState.Evolve;
+//		DataCenter.gameState = GameState.Evolve;
 		ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"evolve",tes);
 
 	}
@@ -95,9 +95,9 @@ public class EvolveModule : ModuleBase {
 		ModuleEnum se = (ModuleEnum)data;
 		bool showDetail = se == ModuleEnum.UnitDetailModule;
 		bool enterEvolve = se == ModuleEnum.StageSelectModule;
-		if (!showDetail && !enterEvolve) {
-			DataCenter.gameState = GameState.Normal;
-		}
+//		if (!showDetail && !enterEvolve) {
+//			DataCenter.gameState = GameState.Normal;
+//		}
 	}
 
 	void selectUnitMaterial(object data) {
