@@ -22,26 +22,26 @@ namespace bbproto{
 	//	}
 
 
-		AttackInfo reduceHurtAttack = null;
+		AttackInfoProto reduceHurtAttack = null;
 		public override object Excute (string userUnitID, int atk = -1) {
 			if (!coolingDone) {
 				return null;
 			}
 			InitCooling ();
 	//		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
-			AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.AttackValue = value;
-			ai.AttackRound = periodValue;
-			ai.SkillID = id;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.attackValue = value;
+			ai.attackRound = periodValue;
+			ai.skillID = id;
 			return ExcuteByDisk(ai);
 		}
 
-		public override AttackInfo ExcuteByDisk(AttackInfo ai) {
+		public override AttackInfoProto ExcuteByDisk(AttackInfoProto ai) {
 			reduceHurtAttack = ai;
 			BattleConfigData.Instance.reduceHurtAttack = reduceHurtAttack;
 			MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,reduceHurtAttack);
-			reduceHurtAttack.AttackRound --;
+			reduceHurtAttack.attackRound --;
 			MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 			return reduceHurtAttack;
 		}
@@ -52,13 +52,13 @@ namespace bbproto{
 				return;
 			}
 			MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,reduceHurtAttack);
-			if (reduceHurtAttack.AttackRound <= 0) {
+			if (reduceHurtAttack.attackRound <= 0) {
 				BattleConfigData.Instance.reduceHurtAttack = null;
 				MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 				reduceHurtAttack = null;
 			} 
 			else {
-				reduceHurtAttack.AttackRound --;
+				reduceHurtAttack.attackRound --;
 			}
 		}
 

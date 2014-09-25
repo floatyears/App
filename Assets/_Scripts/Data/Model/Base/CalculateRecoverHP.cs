@@ -19,8 +19,8 @@ public class CalculateRecoverHP {
 		}
 	}
 
-	public AttackInfo RecoverHP (List<uint> card, List<int> ignorSkillID,int blood) {
-		AttackInfo ai = null;
+	public AttackInfoProto RecoverHP (List<uint> card, List<int> ignorSkillID,int blood) {
+		AttackInfoProto ai = null;
 		List<uint> copyCard = new List<uint> (card);
 		for (int i = 0; i < recoverHPSkill.Length; i++) {
 			NormalSkill tns = recoverHPSkill[i];
@@ -29,10 +29,10 @@ public class CalculateRecoverHP {
 			if(count > 0){
 //				bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
 //				ai = new AttackInfo (aip);
-				ai = AttackInfo.GetInstance();
+				ai = new AttackInfoProto();
 				tns.GetSkillInfo(ai);
-				ai.AttackValue = tns.GetRecoverHP(blood);
-				ai.FixRecoverHP = true;
+				ai.attackValue = tns.GetRecoverHP(blood);
+				ai.fixRecoverHP = true;
 				break;
 			}
 			else{
@@ -42,8 +42,8 @@ public class CalculateRecoverHP {
 		return ai;
 	}
 
-	public AttackInfo RecoverHP (CalculateSkillUtility csu, int blood) {
-		AttackInfo ai = null;
+	public AttackInfoProto RecoverHP (CalculateSkillUtility csu, int blood) {
+		AttackInfoProto ai = null;
 		List<uint> copyCard = new List<uint> (csu.haveCard);
 		for (int i = 0; i < recoverHPSkill.Length; i++) {
 			NormalSkill tns = recoverHPSkill[i];
@@ -54,10 +54,10 @@ public class CalculateRecoverHP {
 				csu.ResidualCard();
 //				bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
 //				ai = new AttackInfo (aip);
-				ai = AttackInfo.GetInstance();
+				ai = new AttackInfoProto();
 				tns.GetSkillInfo(ai);
-				ai.AttackValue = tns.GetRecoverHP(blood);
-				ai.FixRecoverHP = true;
+				ai.attackValue = tns.GetRecoverHP(blood);
+				ai.fixRecoverHP = true;
 				break;
 			}
 			else{

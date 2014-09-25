@@ -85,7 +85,7 @@ public class FriendSelectModule : ModuleBase{
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		questDungeonData.assignData ();
 //		tqdd.assignData ();
-		DataCenter.Instance.SetData(ModelEnum.MapConfig, questDungeonData);
+//		DataCenter.Instance.SetData(ModelEnum.MapConfig, questDungeonData);
 
 		EnterBattle ();
 	}
@@ -106,7 +106,7 @@ public class FriendSelectModule : ModuleBase{
 			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
 //			tqdd.assignData();
-			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
+//			DataCenter.Instance.SetData (ModelEnum.MapConfig, tqdd);
 		} 
 		
 		if (data == null || tqdd == null) {

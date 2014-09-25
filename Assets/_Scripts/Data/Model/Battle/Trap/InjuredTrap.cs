@@ -98,7 +98,7 @@ public class InjuredTrap : TrapBase {
 	}
 }
 
-public class TrapBase{
+public class TrapBase : ProtoBuf.IExtensible{
 
 	public const string poisonTrapSpriteName = "PoisonTrap";
 	public const string environmentSpriteName = "EnvirmentTrap";
@@ -112,6 +112,10 @@ public class TrapBase{
 		get {
 			return instance;
 		}
+	}
+
+	public ProtoBuf.IExtension GetExtensionObject(bool createIfMissing){
+		return null;
 	}
 
 	protected int Round {
@@ -141,8 +145,6 @@ public class TrapBase{
 			}
 		}
 	}
-
-
 
 	public string GetTrapSpriteName () {
 		string spriteName = BattleMapView.trapSpriteName;

@@ -12,27 +12,27 @@ namespace bbproto	{
 			}
 		}
 
-		AttackInfo posionInfo = null;
+		AttackInfoProto posionInfo = null;
 		public override object Excute (string userUnitID, int atk = -1) {
 			if (!coolingDone) {
 				return null;
 			}
 			InitCooling ();
-			AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.AttackValue = atk * value;
-			ai.AttackRound = roundValue;
-			ai.IgnoreDefense = true;
-			ai.AttackType = 0; //0 = ATK_SINGLE
-			ai.SkillID = id;
-			ai.AttackRange = 1;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.attackValue = atk * value;
+			ai.attackRound = roundValue;
+			ai.ignoreDefense = true;
+			ai.attackType = 0; //0 = ATK_SINGLE
+			ai.skillID = id;
+			ai.attackRange = 1;
 			BattleConfigData.Instance.posionAttack = ai;
 			MsgCenter.Instance.Invoke (CommandEnum.PlayAllEffect, ai);
 			ExcuteByDisk (ai);
 			return null;
 		}
 
-		public override AttackInfo ExcuteByDisk(AttackInfo ai) {
+		public override AttackInfoProto ExcuteByDisk(AttackInfoProto ai) {
 			posionInfo = ai;
 			MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);
 	//		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, BattleEnd);
@@ -45,10 +45,10 @@ namespace bbproto	{
 			if (posionInfo == null) {
 				return;	
 			}
-			posionInfo.AttackRound --;
-			Debug.LogError("TSkillPoison attack enemy end : " + posionInfo.AttackRound);
+			posionInfo.attackRound --;
+			Debug.LogError("TSkillPoison attack enemy end : " + posionInfo.attackRound);
 			MsgCenter.Instance.Invoke (CommandEnum.SkillPosion, posionInfo);
-			if (posionInfo.AttackRound == 0) {
+			if (posionInfo.attackRound == 0) {
 				posionInfo = null;
 				BattleConfigData.Instance.posionAttack = null;
 				MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnemyEnd);

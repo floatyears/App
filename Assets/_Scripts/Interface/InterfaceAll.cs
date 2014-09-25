@@ -12,11 +12,11 @@ public interface ILeadSkillReduceHurt {
 }
 
 public interface ILeaderSkillMultipleAttack {
-    float MultipleAttack(List<AttackInfo> attackInfo);
+    float MultipleAttack(List<AttackInfoProto> attackInfo);
 }
 
 public interface ILeaderSkillExtraAttack {
-	List<AttackInfo> ExtraAttack();
+	List<AttackInfoProto> ExtraAttack();
 }
 
 public interface ILeaderSkillSwitchCard {
@@ -45,7 +45,7 @@ public interface ILeaderSkillRecoverHP {
 //}
 
 public interface IEffectConcrete {
-    void Play(List<GameObject> effect, AttackInfo ai);
+    void Play(List<GameObject> effect, AttackInfoProto ai);
 }
 
 /// <summary>

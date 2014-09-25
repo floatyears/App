@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class BattleAttackInfo : MonoBehaviour {
 //	private UISprite firstSprite;
@@ -143,7 +144,7 @@ public class BattleAttackInfo : MonoBehaviour {
 		handsLabel.text = string.Empty;
 	}
 
-	AttackInfo prevAttack;
+	AttackInfoProto prevAttack;
 	public void RefreshRate (object data,bool end = false) {
 		if (hitLabel == null) {
 			return;	
@@ -152,13 +153,13 @@ public class BattleAttackInfo : MonoBehaviour {
 //			hitFirstSprite.spriteName = (prevAttack.ContinuAttackMultip / 10).ToString ();
 //			hitSecondSprite.spriteName = (prevAttack.ContinuAttackMultip % 10).ToString ();
 
-			hitFirstLabel.text = GetFormatAttackCount(prevAttack.ContinuAttackMultip); //prevAttack.ContinuAttackMultip.ToString(); //(prevAttack.ContinuAttackMultip / 10).ToString ();
+			hitFirstLabel.text = GetFormatAttackCount(prevAttack.continueAttackMultip); //prevAttack.ContinuAttackMultip.ToString(); //(prevAttack.ContinuAttackMultip / 10).ToString ();
 //			hitSecondLabel.text = (prevAttack.ContinuAttackMultip % 10).ToString ();
 
 			hitLabel.enabled = true;
-			rateLabel.text = "Rate x " + prevAttack.AttackRate;
+			rateLabel.text = "Rate x " + prevAttack.attackRate;
 		}
-		prevAttack = data as AttackInfo;
+		prevAttack = data as AttackInfoProto;
 	}
 
 	string GetFormatAttackCount (int count) {

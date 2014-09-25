@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -26,11 +26,11 @@ namespace bbproto{
 			}
 			InitCooling ();
 	//		SkillKillHP skh = DeserializeData<SkillKillHP> ();
-			AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.IgnoreDefense = true;
-			ai.AttackValue = value;
-			ai.SkillID = id;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.ignoreDefense = true;
+			ai.attackValue = value;
+			ai.skillID = id;
 	//		MsgCenter.Instance.Invoke(CommandEnum.SkillGravity, ai);
 			BattleAttackManager.Instance.SkillGravity (ai);
 			return ai;

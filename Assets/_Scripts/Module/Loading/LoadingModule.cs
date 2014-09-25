@@ -188,7 +188,7 @@ public class LoadingModule : ModuleBase {
 			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
-			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
+//			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }

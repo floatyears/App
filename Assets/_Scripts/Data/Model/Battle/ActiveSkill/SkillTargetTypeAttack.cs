@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -37,17 +37,17 @@ public partial class SkillTargetTypeAttack : ActiveSkill {
 		}
 		InitCooling ();
 		AttackTargetType att = new AttackTargetType ();
-		AttackInfo ai = AttackInfo.GetInstance ();
-		ai.UserUnitID = userUnitID;
-		ai.SkillID = id;
+		AttackInfoProto ai = new AttackInfoProto();
+		ai.userUnitID = userUnitID;
+		ai.skillID = id;
 		if (type == EValueType.MULTIPLE) {
-			ai.AttackValue = atk * value;	
+			ai.attackValue = atk * value;	
 		}
 		else if(type == EValueType.FIXED){
-			ai.AttackValue = value;
+			ai.attackValue = value;
 		}
 		att.targetType = (int)targetUnitType;
-		ai.AttackType = (int)hurtUnitType;
+		ai.attackType = (int)hurtUnitType;
 		att.attackInfo = ai;
 //		MsgCenter.Instance.Invoke(CommandEnum.AttackTargetType, att);
 		BattleAttackManager.Instance.AttackTargetTypeEnemy (att);
@@ -56,7 +56,7 @@ public partial class SkillTargetTypeAttack : ActiveSkill {
 }
 
 public class AttackTargetType {
-	public AttackInfo attackInfo = null;
+	public AttackInfoProto attackInfo = null;
 	public int targetType = -1;
 
 }

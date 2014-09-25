@@ -12,8 +12,6 @@ using bbproto;
 
 public class BattleConfigData {
 
-	public const byte startCardID = 0;
-	public const byte endCardID = 4;
 	public const byte cardPoolSingle = 5;
 	public const byte cardCollectionCount = 5;
 	public const byte cardSep = 13;
@@ -36,7 +34,7 @@ public class BattleConfigData {
 	
 	}
 	
-	public Coordinate roleInitCoordinate;
+//	public Coordinate roleInitCoordinate;
 
 	public QuestDungeonData questDungeonData;
 	
@@ -59,46 +57,41 @@ public class BattleConfigData {
 		get { return _party; }
 		set {
 			_party = value;
-			UnitParty up = _party == null ? null : _party;
-			WriteBuff<UnitParty>(unitPartyName, up);
+			WriteBuff<UnitParty>(unitPartyName, _party);
 		}
 	}
 
-	private AttackInfo _posionAttack = null;
-	public AttackInfo posionAttack {
+	private AttackInfoProto _posionAttack = null;
+	public AttackInfoProto posionAttack {
 		get { return _posionAttack; }
 		set { _posionAttack = value;
-			AttackInfoProto aip = _posionAttack == null ? null : _posionAttack.Instance;
-			WriteBuff<AttackInfoProto> (posionAttackName, aip);
+			WriteBuff<AttackInfoProto> (posionAttackName, _posionAttack);
 		}
 	}
 
-	private AttackInfo _reduceHurtAttack = null;
-	public AttackInfo reduceHurtAttack {
+	private AttackInfoProto _reduceHurtAttack = null;
+	public AttackInfoProto reduceHurtAttack {
 		get { return _reduceHurtAttack; }
 		set { _reduceHurtAttack = value; 
-			AttackInfoProto aip = _reduceHurtAttack == null ? null : _reduceHurtAttack.Instance;
-			WriteBuff<AttackInfoProto> (reduceHurtName, aip); 
+			WriteBuff<AttackInfoProto> (reduceHurtName, _reduceHurtAttack); 
 		}
 	}
 
-	private AttackInfo _reduceDefenseAttack = null;
-	public AttackInfo reduceDefenseAttack {
+	private AttackInfoProto _reduceDefenseAttack = null;
+	public AttackInfoProto reduceDefenseAttack {
 		get { return _reduceDefenseAttack; }
 		set { _reduceDefenseAttack = value;
-			AttackInfoProto aip = _reduceDefenseAttack == null ? null : _reduceDefenseAttack.Instance;
 //			Debug.LogError(aip.skillID);
-			WriteBuff<AttackInfoProto>(reduceDefenseName, aip); 
+			WriteBuff<AttackInfoProto>(reduceDefenseName, _reduceDefenseAttack); 
 		}
 	}
 
-	private AttackInfo _strengthenAttack = null;
-	public AttackInfo strengthenAttack {
+	private AttackInfoProto _strengthenAttack = null;
+	public AttackInfoProto strengthenAttack {
 		get { return _strengthenAttack; }
 		set { _strengthenAttack = value; 
-			AttackInfoProto aip = _strengthenAttack == null ? null : _strengthenAttack.Instance;
 //			Debug.LogError(aip.skillID);
-			WriteBuff<AttackInfoProto>(strengthenAttackName, aip); 
+			WriteBuff<AttackInfoProto>(strengthenAttackName, _strengthenAttack); 
 		}
 	}
 
@@ -106,8 +99,7 @@ public class BattleConfigData {
 	public TrapPosion trapPoison {
 		get { return _trapPoison; }
 		set { _trapPoison = value;
-			TrapInfo ti = _trapPoison == null ? null :  _trapPoison.GetTrap;
-			WriteBuff<TrapInfo>(trapPoisonName, ti);
+			WriteBuff<TrapPosion>(trapPoisonName, _trapPoison);
 		}
 	}
 
@@ -115,8 +107,7 @@ public class BattleConfigData {
 	public EnvironmentTrap trapEnvironment {
 		get { return _trapEnvironment; }
 		set { _trapEnvironment = value; 
-			TrapInfo ti = _trapEnvironment == null ? null :  _trapEnvironment.GetTrap;
-			WriteBuff<TrapInfo>(trapEnvironmentName, ti);
+			WriteBuff<EnvironmentTrap>(trapEnvironmentName, _trapEnvironment);
 		}
 	}
 
@@ -139,7 +130,7 @@ public class BattleConfigData {
 		_storeBattleData.xCoordinate = MapConfig.characterInitCoorX;
 		_storeBattleData.yCoordinate = MapConfig.characterInitCoorY;
 
-		_storeBattleData.roleCoordinate = roleInitCoordinate= new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
+		_storeBattleData.roleCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
 		_storeBattleData.colorIndex = 0;
 		questDungeonData = tdd;
 
@@ -155,7 +146,7 @@ public class BattleConfigData {
 	public void ResetFromDisk() {
 		BattleFriend = ReadFile<FriendInfo> (friendFileName);
 
-		questDungeonData= ReadFile<QuestDungeonData> (questDungeonDataName);
+		questDungeonData = ReadFile<QuestDungeonData> (questDungeonDataName);
 		questDungeonData.assignData ();
 
 		currentQuestInfo = ReadFile<QuestInfo>(questInfoName);
@@ -165,7 +156,6 @@ public class BattleConfigData {
 		_storeBattleData = ReadFile<StoreBattleData> (storeBattleName);
 
 		ReadAllBuff ();
-		roleInitCoordinate = _storeBattleData.roleCoordinate;
 		if (_storeBattleData.colorIndex > 5) {
 			_storeBattleData.colorIndex -= 5;	
 		} else {
@@ -178,13 +168,6 @@ public class BattleConfigData {
 //		StoreRuntimData ();
 		WriteToFile<StoreBattleData> (_storeBattleData,storeBattleName);
 	}
-
-//	public void StoreQuestDungeonData(QuestDungeonData tqdd) {
-//		questDungeonData = tqdd;
-//
-////		WriteQuestDungeonData ();
-//		WriteToFile<QuestDungeonData> (questDungeonData,questDungeonDataName);
-//	}
 
 	public void StoreData (uint questID) {
 		int id = (int)questID;
@@ -235,47 +218,28 @@ public class BattleConfigData {
 	}
 
 	void WriteAllBuff() {
-		AttackInfoProto attack = null;
 		if (posionAttack != null) {
-			attack = posionAttack.Instance;
+			WriteBuff<AttackInfoProto> (posionAttackName, posionAttack);
 		}
-		WriteBuff<AttackInfoProto> (posionAttackName, attack);
-		attack = null;
-
 		if (reduceHurtAttack != null) {
-			attack = reduceHurtAttack.Instance;
+			WriteBuff<AttackInfoProto> (reduceHurtName, reduceHurtAttack);
 		}
-		WriteBuff<AttackInfoProto> (reduceHurtName, attack);
-		attack = null;
-
 		if (reduceDefenseAttack != null) {
-			attack = reduceDefenseAttack.Instance;
+			WriteBuff<AttackInfoProto> (reduceDefenseName, reduceDefenseAttack);
 		}
-		WriteBuff<AttackInfoProto> (reduceDefenseName, attack);
-		attack = null;
-
 		if (strengthenAttack != null) {
-			attack = strengthenAttack.Instance;
+			WriteBuff<AttackInfoProto> (strengthenAttackName, strengthenAttack);
 		}
-		WriteBuff<AttackInfoProto> (strengthenAttackName, attack);
-		attack = null;
 	}
 
 	void ReadAllBuff() {
-		_posionAttack = ReadBuff<AttackInfo, AttackInfoProto> (posionAttackName);
-		_reduceHurtAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceHurtName);
-		_reduceDefenseAttack = ReadBuff<AttackInfo, AttackInfoProto> (reduceDefenseName);
-		_strengthenAttack = ReadBuff<AttackInfo, AttackInfoProto> (strengthenAttackName);
-//		_trapPoison = ReadBuff<TrapPosion, TrapInfo> (trapPoisonName);
-//		_trapEnvironment = ReadBuff<EnvironmentTrap, TrapInfo> (trapEnvironmentName);
-		_party = ReadBuff<UnitParty, UnitParty> (unitPartyName);
-
-		if (File.Exists (trapPoisonName)) {
-			_trapPoison = Activator.CreateInstance(typeof(TrapPosion), ReadFile<TrapInfo> (trapPoisonName)) as TrapPosion;
-		}
-		if (File.Exists (trapEnvironmentName)) {
-			_trapEnvironment = Activator.CreateInstance(typeof(EnvironmentTrap), ReadFile<TrapInfo> ( trapEnvironmentName)) as EnvironmentTrap;
-		}
+		_posionAttack = ReadFile<AttackInfoProto> (posionAttackName);
+		_reduceHurtAttack = ReadFile<AttackInfoProto> (reduceHurtName);
+		_reduceDefenseAttack = ReadFile<AttackInfoProto> (reduceDefenseName);
+		_strengthenAttack = ReadFile<AttackInfoProto> (strengthenAttackName);
+		_party = ReadFile<UnitParty> (unitPartyName);
+		_trapPoison = ReadFile<TrapPosion> (trapPoisonName);
+		_trapEnvironment = ReadFile<EnvironmentTrap> ( trapEnvironmentName);
 
 
 	}
@@ -298,29 +262,6 @@ public class BattleConfigData {
 //		byte[] attack = ProtobufSerializer.SerializeToBytes<T> (buff);
 		WriteToFile<T> (buff, name);
 	}
-
-	T ReadBuff<T,T1> (string name) where T : class where T1 : ProtoBuf.IExtensible {
-		if (string.IsNullOrEmpty (name)) {
-			return default(T);	
-		}
-		string path = GetPath (name);
-		if (!File.Exists (path)) {
-			return default(T);	
-		}
-
-		T1 aip = ReadFile<T1> (name);
-		T t = Activator.CreateInstance(typeof(T), aip) as T;
-//		Debug.LogError ("t : " + t);
-		return t;
-	}
-
-
-	
-	//stage
-	public void WriteStageInfo() {
-
-	}
-
 
 	//end 
 
@@ -350,7 +291,6 @@ public class BattleConfigData {
 
 	T ReadFile<T>(string fileName) {
 		string path = GetPath (fileName);
-
 
 		byte[] data = null;
 		try {
@@ -385,19 +325,17 @@ public class BattleConfigData {
 	}
 
 	public void ResetRoleCoordinate(){
-		_storeBattleData.roleCoordinate = roleInitCoordinate;
+		_storeBattleData.roleCoordinate = new Coordinate(2,0);
 	}
 
 	public void InitRoleCoordinate(Coordinate coor){
-		roleInitCoordinate = coor;
 		_storeBattleData.roleCoordinate = coor;
 
 	}
 
 	public void RefreshCurrentFloor(RspRedoQuest rrq){
 		storeBattleData.questData.RemoveAt (storeBattleData.questData.Count - 1);
-		ClearQuestParam cq = new ClearQuestParam ();
-		storeBattleData.questData.Add (cq);
+		storeBattleData.questData.Add (new ClearQuestParam ());
 		int floor = questDungeonData.currentFloor;
 		List<QuestGrid> reQuestGrid = rrq.dungeonData.Floors[floor];
 		questDungeonData.Floors [floor] = reQuestGrid;

@@ -36,7 +36,7 @@ public class ModuleManager {
 	public static void SendMessage(ModuleEnum module, params object[] args){
 
 		if(moduleDic.ContainsKey(module)){
-			Debug.Log ("msg send to: " + module + " args: " + args[0].ToString());
+			Debug.Log ("Msg Send to: [[[---" + module + "---]]] args: " + args[0].ToString());
 			moduleDic[module].OnReceiveMessages(args);
 
 		}else{
@@ -51,6 +51,7 @@ public class ModuleManager {
 	public void ShowModule(ModuleEnum name, params object[] args){
 		if (name == ModuleEnum.None)
 			return;
+//		Debug.Log("Show Module: [[[---" + name + "---]]]");
 		//hide the prev ui within same group
 		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
 //		Debug.Log ("name: " + name + " group: " + group);
@@ -156,6 +157,7 @@ public class ModuleManager {
 	/// </summary>
 	/// <param name="name">Name.</param>
 	public void HideModule(ModuleEnum name){
+//		Debug.Log("Hide Module: [[[---" + name + "---]]]");
 		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
 		if (group != (int)ModuleGroup.NONE) {
 			moduleGroup [group] = (int)ModuleEnum.None;
@@ -200,6 +202,10 @@ public class ModuleManager {
 			return module;
 		}
 	}
+
+//	public void AddModuleToDic(ModuleBase module){
+//		moduleDic.Add (module.UIConfig.moduleName, module);
+//	}
 
 	public T GetModule<T>(ModuleEnum name) where T : ModuleBase{
 		if (moduleDic.ContainsKey (name)) {
@@ -276,6 +282,7 @@ public class ModuleManager {
 	/// </summary>
 	public void ExitBattle(){
 		ClearModulesAndScenes ();
+		BattleConfigData.Instance.ClearData ();
 	}
 
 	/// <summary>
@@ -288,11 +295,23 @@ public class ModuleManager {
 
 		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
 
-		ShowScene (SceneEnum.BattleScene);
-		HideModule (ModuleEnum.BattleManipulationModule);
-		HideModule (ModuleEnum.BattleSkillModule);
+//		ShowScene (SceneEnum.BattleScene);
+
+		ShowModule(ModuleEnum.BattleFullScreenTipsModule);
+		ShowModule(ModuleEnum.BattleBottomModule);
+		ShowModule(ModuleEnum.BattleTopModule);
+		ShowModule(ModuleEnum.BattleMapModule);
+//
+//
+//		ShowModule(ModuleEnum.BattleManipulationModule);
+
+		ShowModule(ModuleEnum.BattleAttackEffectModule);
+//		ShowModule(ModuleEnum.BattleSkillModule);
+
+//		HideModule (ModuleEnum.BattleManipulationModule);
+//		HideModule (ModuleEnum.BattleSkillModule);
 		HideModule (ModuleEnum.BattleFullScreenTipsModule);
-		HideModule (ModuleEnum.BattleEnemyModule);
+//		HideModule (ModuleEnum.BattleEnemyModule);
 //		HideModule (ModuleEnum.BattleAttackEffectModule);
 	}
 

@@ -18,26 +18,31 @@ namespace bbproto{
 //		set { instance.isBattle = value; }
 //	}	
 
-		public List<ClearQuestParam> QuestData {
-			set { 
-				_questData.Clear();
-				_questData.AddRange(value);
-			}
+//		public List<ClearQuestParam> QuestData {
+//			set { 
+//				_questData.Clear();
+//				_questData.AddRange(value);
+//			}
+//		}
+
+		public StoreBattleData(){
+			roleCoordinate = new Coordinate (2, 0);
 		}
 		public List<EnemyInfo> EnemyInfo {
 			set { 
+				if(_enemyInfo == value)
+					return;
 				_enemyInfo.Clear();
 				_enemyInfo.AddRange(value);
+			}
+			get{
+				return _enemyInfo;
 			}
 		}
 
 		public Coordinate roleCoordinate {
 			get { return new Coordinate(xCoordinate,yCoordinate); }
 			set { xCoordinate = value.x; yCoordinate = value.y; }
-		}
-
-		public void RemoveEnemyInfo (EnemyInfo ei) {
-			enemyInfo.Remove (ei);
 		}
 
 		public ClearQuestParam GetLastQuestData(){

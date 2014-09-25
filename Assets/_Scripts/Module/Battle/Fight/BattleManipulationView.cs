@@ -213,7 +213,6 @@ public class BattleManipulationView : ViewBase {
 	//			StartBattle(false);
 				Debug.Log("area clear start: "+ battleCardAreaItem.Length);
 				foreach (var item in battleCardAreaItem) {
-					
 					item.ClearCard();
 				}
 				break;

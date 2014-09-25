@@ -205,33 +205,33 @@ public class GiveUp__FightReadyView : ViewBase {
 			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
-			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
+//			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
 		EnterBattle (tqdd);
 	} 
 	
-	private void RspEvolveStartQuest (object data) {
-		if (data == null){ return; }
-		evolveStart.StoreData ();
-		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
-		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
-			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
-			return;
-		}
-		
-		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
-		
-		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
-		QuestDungeonData tqdd = rsp.dungeonData;
-		tqdd.assignData ();
-		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
-//		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
-		EnterBattle (tqdd);
-	}
+//	private void RspEvolveStartQuest (object data) {
+//		if (data == null){ return; }
+//		evolveStart.StoreData ();
+//		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
+//		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+//			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+//			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+//			return;
+//		}
+//		
+//		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+//		
+//		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
+//		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
+//		QuestDungeonData tqdd = rsp.dungeonData;
+//		tqdd.assignData ();
+////		DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
+////		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
+//		EnterBattle (tqdd);
+//	}
 	
 	private void EnterBattle (QuestDungeonData tqdd) {
 		pickedHelperInfo.friendPoint = 0;

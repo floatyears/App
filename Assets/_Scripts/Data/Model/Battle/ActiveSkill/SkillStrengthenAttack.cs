@@ -11,27 +11,27 @@ namespace bbproto{
 	//		}
 		}
 		
-		AttackInfo strengthenAttack = null;
+		AttackInfoProto strengthenAttack = null;
 		public override object Excute (string userUnitID, int atk = -1) {
 			if (!coolingDone) {
 				return null;	
 			}
 			InitCooling ();
-			AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.AttackType = (int)targetType;
-			ai.AttackRace = (int)targetRace;
-			ai.AttackValue = value;
-			ai.AttackRound = periodValue;
+			AttackInfoProto ai = new AttackInfoProto();//new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.attackType = (int)targetType;
+			ai.attackRace = (int)targetRace;
+			ai.attackValue = value;
+			ai.attackRound = periodValue;
 			return ExcuteByDisk (ai);
 		}
 
-		public override AttackInfo ExcuteByDisk (AttackInfo ai) {
+		public override AttackInfoProto ExcuteByDisk (AttackInfoProto ai) {
 			strengthenAttack = ai;
 			BattleConfigData.Instance.strengthenAttack = strengthenAttack;
 			MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
 			MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
-			strengthenAttack.AttackRound --;
+			strengthenAttack.attackRound --;
 			return strengthenAttack;
 		}
 
@@ -39,14 +39,14 @@ namespace bbproto{
 			if (strengthenAttack == null) {
 				return;	
 			}
-			if (strengthenAttack.AttackRound <= 0) {
+			if (strengthenAttack.attackRound <= 0) {
 				BattleConfigData.Instance.strengthenAttack = null;
 				MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
 				MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 			}
 			else{
 				MsgCenter.Instance.Invoke(CommandEnum.StrengthenTargetType, strengthenAttack);
-				strengthenAttack.AttackRound--;
+				strengthenAttack.attackRound--;
 			}
 		}
 	}

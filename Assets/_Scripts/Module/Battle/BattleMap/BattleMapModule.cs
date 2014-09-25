@@ -18,7 +18,7 @@ public class BattleMapModule : ModuleBase {
 //			case "rolecoor":
 //				RoleCoordinate((Coordinate)data[1]);
 //				break;
-			case "playerdead":
+			case "player_dead":
 				BattleFail();
 				break;
 			default:
@@ -51,8 +51,7 @@ public class BattleMapModule : ModuleBase {
 	}
 
 	void BattleFail() {
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-
+//		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), BattleFailRecover, BattleFailExit);
 	}
 

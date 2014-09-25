@@ -435,13 +435,13 @@ public class DGTools {
 		}
 	}
 
-	public static string GetNormalSkillSpriteName (AttackInfo ai) {
+	public static string GetNormalSkillSpriteName (AttackInfoProto ai) {
 //		Debug.LogError ("ai.FixRecoverHP : " + ai.FixRecoverHP + " ai.AttackRange :" + ai.AttackRange);
-		if (ai.FixRecoverHP || ai.AttackRange == 2) {
+		if (ai.fixRecoverHP || ai.attackRange == 2) {
 			return "7_1";
 		}
-		string name1 = ai.AttackType.ToString ();
-		string name2 = ai.AttackRange.ToString ();
+		string name1 = ai.attackType.ToString ();
+		string name2 = ai.attackRange.ToString ();
 		return name1 + "_" + name2;
 	}
 

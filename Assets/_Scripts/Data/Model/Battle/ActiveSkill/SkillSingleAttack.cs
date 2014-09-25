@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -48,20 +48,20 @@ public partial class SkillSingleAttack : ActiveSkill {
 			}
 			InitCooling ();
 	//		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
-			AttackInfo ai = AttackInfo.GetInstance ();//new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.SkillID = id;
+			AttackInfoProto ai = new AttackInfoProto();//new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.skillID = id;
 			float value = DGTools.RandomToFloat ();
 	//		Debug.LogError ("random value : " + value);
 			if (value <= value) {
-				ai.AttackValue = int.MaxValue - 10000; //not minus 10000, number will be overflow.
+				ai.attackValue = int.MaxValue - 10000; //not minus 10000, number will be overflow.
 			} 
 			else {
-				ai.AttackValue = 1f;
+				ai.attackValue = 1f;
 			}
-			ai.IgnoreDefense = ignoreDefense;
-			ai.AttackRange = (int)attackRange;
-			ai.AttackType = 0;
+			ai.ignoreDefense = ignoreDefense;
+			ai.attackRange = (int)attackRange;
+			ai.attackType = 0;
 	//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 			BattleAttackManager.Instance.ActiveSkillAttack (ai);
 			return ai;
@@ -75,24 +75,24 @@ public partial class SkillSingleAttack : ActiveSkill {
 			BattleAttackManager.SetEffectTime(1f);
 			//		Debug.LogError ("activeskill excute : ");
 			InitCooling ();
-			AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.SkillID = id; 
-			ai.AttackType = (int)unitType;
-			ai.AttackRange = (int)attackRange;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.skillID = id; 
+			ai.attackType = (int)unitType;
+			ai.attackRange = (int)attackRange;
 			//		Debug.LogError ("instance attack range : " + instance.attackRange + " type : " + instance.type);
 			if (attackRange == EAttackType.RECOVER_HP) {
 				//			MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillRecoverHP, instance.value);
 				BattleAttackManager.Instance.RecoveHPByActiveSkill(value);
 			} else {
 				if (type == EValueType.FIXED) {
-					ai.AttackValue = value;	
+					ai.attackValue = value;	
 				} else if(type == EValueType.MULTIPLE) {
-					ai.AttackValue = value * atk;
+					ai.attackValue = value * atk;
 				}	
 			}
 			
-			ai.IgnoreDefense = ignoreDefense;
+			ai.ignoreDefense = ignoreDefense;
 			
 			//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 			BattleAttackManager.Instance.ActiveSkillAttack (ai);

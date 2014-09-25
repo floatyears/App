@@ -30,10 +30,10 @@ public partial class NormalSkill : SkillBase{
 //		}
 //	}
 	
-	public void GetSkillInfo(AttackInfo ai) {
-		ai.SkillID = baseInfo.id;
-		ai.AttackRange = (int)attackType;
-		ai.NeedCardNumber = activeBlocks.Count;
+	public void GetSkillInfo(AttackInfoProto ai) {
+		ai.skillID = baseInfo.id;
+		ai.attackRange = (int)attackType;
+		ai.needCardNumber = activeBlocks.Count;
 	}
 	
 	public int GetActiveBlocks() {

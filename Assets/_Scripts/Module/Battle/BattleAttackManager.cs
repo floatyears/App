@@ -15,7 +15,7 @@ public class BattleAttackManager {
 //			Debug.LogError("Blood : " + value);
 			if(value == 0) {
 				blood = value;
-//				PlayerDead();
+				PlayerDead();
 			} else if(value < 0) {
 				if(blood == 0) 
 					return;
@@ -41,9 +41,9 @@ public class BattleAttackManager {
     }
     private int recoverHP = 0;
     public static int maxEnergyPoint = 0;
-    private Dictionary<int,List<AttackInfo>> attackInfo = new Dictionary<int, List<AttackInfo>>();
-    private List<EnemyInfo> currentEnemy = new List<EnemyInfo>();
-    private List<EnemyInfo> showEnemy = new List<EnemyInfo>();
+    private Dictionary<int,List<AttackInfoProto>> attackInfo = new Dictionary<int, List<AttackInfoProto>>();
+//    private List<EnemyInfo> currentEnemy = new List<EnemyInfo>();
+//    private List<EnemyInfo> showEnemy = new List<EnemyInfo>();
     private static Coordinate currentCoor;
     public static Coordinate CurrentCoor {
         get { return currentCoor; }
@@ -140,20 +140,20 @@ public class BattleAttackManager {
 		} else {
 			maxBlood = upi.GetInitBlood ();
 			blood = sbd.hp;
-//			if(blood <= 0) {
-//				PlayerDead();
-//			}
+			if(blood <= 0) {
+				PlayerDead();
+			}
 			maxEnergyPoint = sbd.sp;
 		}
 
 
 	}
 
-//	public void CheckPlayerDead() {
-//		if(blood <= 0) {
-//			PlayerDead();
-//		}
-//	}
+	public void CheckPlayerDead() {
+		if(blood <= 0) {
+			PlayerDead();
+		}
+	}
 
     public void TrapMove(Coordinate cd) {
         if (!cd.Equals(default(Coordinate))) {
@@ -167,13 +167,12 @@ public class BattleAttackManager {
 		BattleConfigData.Instance.StoreMapData ();
     }
 
-//	public void PlayerDead() {
-//		if (blood <= 0) {
-////			MsgCenter.Instance.Invoke(CommandEnum.PlayerDead);
-//			ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"playerdead");
-//			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"playerdead");
-//		}
-//	}
+	public void PlayerDead() {
+		if (blood <= 0) {
+			ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"player_dead");
+			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"player_dead");
+		}
+	}
 
 	public void InjuredNotDead(float probability) {
         float residualBlood = blood - maxBlood * probability;
@@ -192,8 +191,8 @@ public class BattleAttackManager {
         else {
             add = value + blood;
         }
-		AttackInfo ai = AttackInfo.GetInstance ();
-		ai.AttackValue = add;
+		AttackInfoProto ai = new AttackInfoProto();
+		ai.attackValue = add;
 		RecoverHP(ai);
     }
 
@@ -206,17 +205,17 @@ public class BattleAttackManager {
         Blood = 1;
     }
 
-    List<AttackInfo> SortAttackSequence() {
-        List<AttackInfo> sortAttack = new List<AttackInfo>();
+    List<AttackInfoProto> SortAttackSequence() {
+        List<AttackInfoProto> sortAttack = new List<AttackInfoProto>();
         foreach (var item in attackInfo.Values) {
             sortAttack.AddRange(item);
         }
         attackInfo.Clear();
         int tempCount = 0;
         for (int i = DataCenter.posStart; i < DataCenter.posEnd; i++) {
-            List<AttackInfo> temp = sortAttack.FindAll(a => a.UserPos == i);
+            List<AttackInfoProto> temp = sortAttack.FindAll(a => a.userPos == i);
             if (temp == null) {
-                temp = new List<AttackInfo>();
+                temp = new List<AttackInfoProto>();
             }
             if (temp.Count > tempCount) {
                 tempCount = temp.Count;
@@ -228,7 +227,7 @@ public class BattleAttackManager {
         for (int i = 0; i < tempCount; i++) {
             for (int j = DataCenter.posStart; j < DataCenter.posEnd; j++) {
                 if (attackInfo[j].Count > 0) {
-                    AttackInfo ai = attackInfo[j][0];
+                    AttackInfoProto ai = attackInfo[j][0];
                     attackInfo[j].Remove(ai);
                     sortAttack.Add(ai);
                 }
@@ -239,43 +238,47 @@ public class BattleAttackManager {
 		int count = sortAttack.Count;
 		float rate =  (count -1) * 0.25f;
 		for (int i = 0; i < count; i++) {
-			sortAttack[i].AttackRate += rate;
-			sortAttack[i].ContinuAttackMultip += i;
-			sortAttack[i].AttackValue *= (1 + sortAttack[i].AttackRate);
+			sortAttack[i].attackRate += rate;
+			sortAttack[i].continueAttackMultip += i;
+			sortAttack[i].attackValue *= (1 + sortAttack[i].attackRate);
         }
         return sortAttack;
     }
 
-	void RecoverHP(AttackInfo ai) {
+	void RecoverHP(AttackInfoProto ai) {
 //		Blood += System.Convert.ToInt32 (ai.AttackValue);
-		AddBlood (System.Convert.ToInt32 (ai.AttackValue));
+		AddBlood (System.Convert.ToInt32 (ai.attackValue));
 		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refresh_item", ai, true);
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "attack_enemy",ai);
 //		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "recover_item",ai);
     }
 
     public void InitEnemyInfo(QuestGrid grid) {
-        Grid = grid;
+		this.grid = grid;
+		enemyInfo = grid.Enemy;
+//		foreach (var item in ) {
+//			enemyInfo.Add(item);
+//		}
     }
 
     public void InitBoss(List<EnemyInfo> boss,DropUnit bossDrop) {
-		enemyInfo.Clear ();
-		enemyInfo.AddRange (boss);
+		enemyInfo = boss;
+		BattleConfigData.Instance.questDungeonData.Boss = boss;
 		dropUnit = bossDrop;
     }
 
-    public List<AttackInfo> CaculateFight(int areaItem, int id, bool isBoost) {
+    public List<AttackInfoProto> CaculateFight(int areaItem, int id, bool isBoost) {
 		float value = isBoost ? 1.5f : 1f;
 		return upi.CalculateSkill(areaItem, id, maxBlood, value);
     }
 
     public void StartAttack(object data) {
         attackInfo = upi.Attack;
-		List<AttackInfo> attack = SortAttackSequence();
+		List<AttackInfoProto> attack = SortAttackSequence();
 //        StartAttack(temp);
 		MsgCenter.Instance.Invoke (CommandEnum.ShowHands, attack.Count);
 		if (attack.Count > 0) {
-			List<AttackInfo> extraAttack = ExtraAttack ();
+			List<AttackInfoProto> extraAttack = ExtraAttack ();
 			extraAttackCount = extraAttack.Count;
 			attack.AddRange (extraAttack);
 		}
@@ -283,7 +286,7 @@ public class BattleAttackManager {
 		float multipe = MultipleAttack (attack);
 		if (multipe > 1.0f) {
 			for (int i = 0; i < attack.Count; i++) {
-				attack[i].AttackValue *= multipe;
+				attack[i].attackValue *= multipe;
 			}
 		}
 
@@ -301,7 +304,7 @@ public class BattleAttackManager {
     }
 
     public void GetBaseData() {
-		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "initdata", Blood,maxBlood,maxEnergyPoint);
+		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "init_data", Blood,maxBlood,maxEnergyPoint);
     }
 
    public  void RecoverEnergePoint(object data) {
@@ -354,7 +357,7 @@ public class BattleAttackManager {
 				return;
 			}
 			blood = killBlood < 0 ? 0 : killBlood;
-//			PlayerDead();
+			PlayerDead();
 
 		} else {
 			blood = killBlood < 1 ? 1 : killBlood;
@@ -425,25 +428,14 @@ public class BattleAttackManager {
 	public const float deadAttackInterv = 0.5f;
 	//	private MsgCenter msgCenter;
 	//	private BattleUseData bud;
-	private Queue<AttackInfo> attackInfoQueue = new Queue<AttackInfo> ();
-	public List<EnemyInfo> enemyInfo = new List<EnemyInfo>();
+	private Queue<AttackInfoProto> attackInfoQueue = new Queue<AttackInfoProto> ();
+	public List<EnemyInfo> enemyInfo;
 	public DropUnit dropUnit = null;
 	private EnemyInfo targetEnemy;
 //	private TUnitParty upi;
 	private float countDownTime = 0f;
-	private QuestGrid grid;
-	public QuestGrid Grid {
-		get{return grid;}
-		set{
-			grid = value;
-			enemyInfo = new List<EnemyInfo>();
-			foreach (var item in value.Enemy) {
-				enemyInfo.Add(item);
-			}
-		}
-	}
 //	ActiveSkill passiveSkill;
-	public bool battleFail = false;
+//	public bool battleFail = false;
 	
 	//	private ConfigBattleUseData configBattleUseData;
 	
@@ -454,20 +446,22 @@ public class BattleAttackManager {
 	
 	public bool isBoss = false;
 
-	public void SkillGravity(AttackInfo ai) {
+	private QuestGrid grid;
+
+	public void SkillGravity(AttackInfoProto ai) {
 		if (ai == null) {
 			return;
 		}
 		
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			int initBlood = enemyInfo[i].currentHp;
-			int hurtValue = System.Convert.ToInt32(initBlood * ai.AttackValue); //eg: 15%*blood
+			int hurtValue = System.Convert.ToInt32(initBlood * ai.attackValue); //eg: 15%*blood
 			enemyInfo[i].KillHP(hurtValue);
 		}
 		CheckBattleSuccess ();
 	}
 	
-	public void ReduceDefense(AttackInfo reduceInfo) {
+	public void ReduceDefense(AttackInfoProto reduceInfo) {
 		if (reduceInfo == null) {
 			return;
 		}
@@ -475,7 +469,7 @@ public class BattleAttackManager {
 		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "reduce_defence", reduceInfo);
 
 		if (!BattleMapView.reduceDefense) {
-			reduceInfo.AttackRange = 1;
+			reduceInfo.attackRange = 1;
 			MsgCenter.Instance.Invoke (CommandEnum.PlayAllEffect, reduceInfo);
 		}
 		
@@ -483,12 +477,12 @@ public class BattleAttackManager {
 			BattleMapView.reduceDefense  = false;
 		}
 		
-		if (reduceInfo.AttackRound == 0) {
+		if (reduceInfo.attackRound == 0) {
 			reduceInfo = null;
 		}
 
 		for (int i = 0; i < enemyInfo.Count; i++) {
-			enemyInfo[i].ReduceDefense(reduceInfo == null ? 0 : reduceInfo.AttackValue, reduceInfo);
+			enemyInfo[i].ReduceDefense(reduceInfo == null ? 0 : reduceInfo.attackValue, reduceInfo);
 		}
 	}
 	
@@ -497,7 +491,7 @@ public class BattleAttackManager {
 		singleEffectTime = time;
 	}
 	
-	public void ActiveSkillAttack (AttackInfo ai) {
+	public void ActiveSkillAttack (AttackInfoProto ai) {
 		if (ai == null) {
 			return;	
 		}
@@ -518,13 +512,13 @@ public class BattleAttackManager {
 		for (int i = 0; i < enemyInfo.Count; i++) {
 			EnemyInfo te = enemyInfo[i];
 			if(te.GetUnitType() == att.targetType || att.targetType == (int)bbproto.EUnitType.UALL) {
-				AttackInfo ai = att.attackInfo;
-				int restraintType = DGTools.RestraintType(ai.AttackType);
+				AttackInfoProto ai = att.attackInfo;
+				int restraintType = DGTools.RestraintType(ai.attackType);
 				bool b = restraintType == te.GetUnitType();
 				int hurtValue = te.CalculateInjured(ai, b);
-				ai.InjuryValue = hurtValue;
+				ai.injuryValue = hurtValue;
 				tempPreHurtValue += hurtValue;
-				ai.EnemyID = te.EnemySymbol;
+				ai.enemyID = te.EnemySymbol;
 				AttackEnemyOnce (ai);
 			}
 		}
@@ -586,7 +580,7 @@ public class BattleAttackManager {
 				return;
 			}
 			
-			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [2]);
+			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, "state_info",stateInfo [2]);
 			
 			CheckEnemyDead();
 			if (attackInfoQueue.Count <= extraAttackCount) {
@@ -598,20 +592,20 @@ public class BattleAttackManager {
 	}
 	
 	int tempPreHurtValue = 0;
-	void BeginAttack(AttackInfo ai) {
-		switch (ai.AttackRange) {
+	void BeginAttack(AttackInfoProto ai) {
+		switch (ai.attackRange) {
 		case 0:
 			if (enemyInfo.Count == 0) {
 				return;	
 			}
 			
-			int restraintType = DGTools.RestraintType (ai.AttackType);
+			int restraintType = DGTools.RestraintType (ai.attackType);
 			prevAttackEnemyInfo = GetTargetEnemy (restraintType);
 			bool restraint = restraintType == prevAttackEnemyInfo.GetUnitType ();
 			int hurtValue = prevAttackEnemyInfo.CalculateInjured (ai, restraint);
-			ai.InjuryValue = hurtValue;
+			ai.injuryValue = hurtValue;
 			tempPreHurtValue = hurtValue;
-			ai.EnemyID = prevAttackEnemyInfo.EnemySymbol;
+			ai.enemyID = prevAttackEnemyInfo.EnemySymbol;
 			AttackEnemyOnce (ai);
 			break;
 		case 1:
@@ -621,16 +615,16 @@ public class BattleAttackManager {
 			//交替1和2的数值用以区分这个攻击是不是在一次全体攻击内
 			tempAllAttakSignal =  tempAllAttakSignal > 1 ? 1 : 2;
 			
-			int restraintType1 = DGTools.RestraintType (ai.AttackType);
+			int restraintType1 = DGTools.RestraintType (ai.attackType);
 			tempPreHurtValue = 0;
 			for (int i = 0; i < enemyInfo.Count; i++) {
 				EnemyInfo te = enemyInfo[i];
 				bool b = restraintType1 == te.GetUnitType();
 				int hurtValue1 = te.CalculateInjured (ai, b);
-				ai.InjuryValue = hurtValue1;
+				ai.injuryValue = hurtValue1;
 				tempPreHurtValue += hurtValue1;
-				ai.EnemyID = te.EnemySymbol;
-				ai.IsLink = tempAllAttakSignal;
+				ai.enemyID = te.EnemySymbol;
+				ai.isLink = tempAllAttakSignal;
 				AttackEnemyOnce (ai);
 			}
 			break;
@@ -706,7 +700,6 @@ public class BattleAttackManager {
 	void BattleEnd() {
 		BattleConfigData.Instance.ClearActiveSkill ();
 		MsgCenter.Instance.Invoke (CommandEnum.GridEnd, null);
-		//		MsgCenter.Instance.Invoke(CommandEnum.BattleEnd, battleFail);
 		ModuleManager.Instance.HideModule(ModuleEnum.BattleManipulationModule);
 		ModuleManager.Instance.HideModule (ModuleEnum.BattleEnemyModule);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleMapModule);
@@ -753,7 +746,7 @@ public class BattleAttackManager {
 	
 	int tempAllAttakSignal = 1;
 
-	void AttackEnemyOnce (AttackInfo ai){
+	void AttackEnemyOnce (AttackInfoProto ai){
 //		MsgCenter.Instance.Invoke (CommandEnum.AttackEnemy, ai);
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "attack_enemy",ai);
 		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "attack_enemy",ai);
@@ -776,7 +769,7 @@ public class BattleAttackManager {
 				}
 			}
 			if(enterEnemyPhase) {
-				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [1]);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, "state_info",stateInfo [1]);
 				LoopEnemyAttack ();	
 			}
 			else {
@@ -807,7 +800,7 @@ public class BattleAttackManager {
 		GameTimer.GetInstance ().AddCountDown (countDownTime, EnemyAttack);
 	}
 	
-	List<AttackInfo> antiInfo = new List<AttackInfo>();
+	List<AttackInfoProto> antiInfo = new List<AttackInfoProto>();
 	
 	void EnemyAttack () {
 		if (te.GetRound () <= 0) {
@@ -827,10 +820,10 @@ public class BattleAttackManager {
 			te.ResetAttakAround ();	
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",te);
 			//			Debug.LogError("EnemyAttack attackType : " + attackType);
-			List<AttackInfo> temp = Dispose(attackType, hurtValue);
+			List<AttackInfoProto> temp = Dispose(attackType, hurtValue);
 			
 			for (int i = 0; i < temp.Count; i++) {
-				temp[i].EnemyID = te.EnemySymbol;
+				temp[i].enemyID = te.EnemySymbol;
 				antiInfo.Add(temp[i]);
 			}
 			antiInfo.AddRange(temp);
@@ -853,23 +846,23 @@ public class BattleAttackManager {
 		if(BattleAttackManager.Instance.Blood > 0) {
 			//			Debug.LogError("antiInfo.Count : " + antiInfo.Count);
 			if (antiInfo.Count == 0) {
-				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [0]);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"state_info", stateInfo [0]);
 				GameTimer.GetInstance ().AddCountDown (0.5f, EnemyAttackEnd);
 				return;
 			}
-			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [3]); // stateInfo [3]="PassiveSkill"
+			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, "state_info", stateInfo [3]); // stateInfo [3]="PassiveSkill"
 			GameTimer.GetInstance ().AddCountDown (0.3f, LoopAntiAttack);
 		}
 		else{
 			EnemyAttackEnd();
 			//			bud.battleQuest.battle.ShieldInput(true);	
 			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [0]);
+			ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, "state_info",stateInfo [0]);
 		}
 	}
 	
 	void Fail () {
-		battleFail = true;
+//		battleFail = true;
 		BattleEnd();
 		return;
 	}
@@ -881,7 +874,6 @@ public class BattleAttackManager {
 		//		bud.battleQuest.battle.ShieldInput(true);	
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"enemy_attack_end");
 		BattleConfigData.Instance.storeBattleData.attackRound ++;
-		BattleConfigData.Instance.storeBattleData.EnemyInfo = enemyInfo;
 		MsgCenter.Instance.Invoke (CommandEnum.EnemyAttackEnd, null);
 		BattleConfigData.Instance.StoreMapData ();
 	}
@@ -891,21 +883,21 @@ public class BattleAttackManager {
 		GameTimer.GetInstance ().AddCountDown (intervTime, ()=>{
 			if (antiInfo.Count == 0) {
 				EnemyAttackEnd();
-				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [0]);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"state_info", stateInfo [0]);
 				return;
 			}
 			
-			AttackInfo ai = antiInfo [0];
+			AttackInfoProto ai = antiInfo [0];
 			antiInfo.RemoveAt (0);
-			EnemyInfo te = enemyInfo.Find(a=>a.EnemySymbol == ai.EnemyID);
+			EnemyInfo te = enemyInfo.Find(a=>a.EnemySymbol == ai.enemyID);
 			//		Debug.LogError ("AntiAttack te : " + te);
 			if (te == default(EnemyInfo)) {
 				return;	
 			}
-			int restraintType = DGTools.RestraintType (ai.AttackType);
+			int restraintType = DGTools.RestraintType (ai.attackType);
 			bool restaint = restraintType == te.GetUnitType ();
 			int hurtValue = te.CalculateInjured (ai, restaint);
-			ai.InjuryValue = hurtValue;
+			ai.injuryValue = hurtValue;
 			AttackEnemyOnce (ai);
 			LoopAntiAttack ();
 		});
@@ -944,21 +936,21 @@ public class BattleAttackManager {
 		activeSkill.TryGetValue (userUnitID, out iase);
 		return iase;
 	}
-	AttackInfo ai;
+	AttackInfoProto ai;
 	void ExcuteLeaderSkill(object data) {
 		userUnit = data as UserUnit;
 		if (userUnit != null) {
 			string id = userUnit.MakeUserUnitKey();
 			if(activeSkill.TryGetValue(id, out iase)) {
 				
-				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, stateInfo [4]);
+				ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule, "state_info",stateInfo [4]);
 				
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_active_skill);
 				
-				ai = AttackInfo.GetInstance();
-				ai.UserUnitID = userUnit.MakeUserUnitKey();
-				ai.SkillID = (iase as ActiveSkill).id;
-				ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"activeskill", ai);
+				ai = new AttackInfoProto();
+				ai.userUnitID = userUnit.MakeUserUnitKey();
+				ai.skillID = (iase as ActiveSkill).id;
+				ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"actives_kill", ai);
 				
 				
 				GameTimer.GetInstance().AddCountDown(BattleAttackEffectView.activeSkillEffectTime, ()=>{
@@ -981,8 +973,8 @@ public class BattleAttackManager {
 			return;	
 		}
 		
-		iase = activeSkill[ai.UserUnitID];
-		iase.Excute(ai.UserUnitID, userUnit.Attack);
+		iase = activeSkill[ai.userUnitID];
+		iase.Excute(ai.userUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
 		GameTimer.GetInstance ().AddCountDown (fixEffectTime + singleEffectTime, ()=>{
@@ -1055,11 +1047,11 @@ public class BattleAttackManager {
 						}
 						
 						if(unitItem.MakeUserUnitKey() == item.Key) {
-							AttackInfo ai = AttackInfo.GetInstance();
-							ai.UserUnitID = unitItem.MakeUserUnitKey();
-							ai.SkillID = item.Value.id;
+							AttackInfoProto ai = new AttackInfoProto();
+							ai.userUnitID = unitItem.MakeUserUnitKey();
+							ai.skillID = item.Value.id;
 							//							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, ai);
-							ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refreshitem", ai);
+							ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refresh_item", ai);
 							
 						}
 					}
@@ -1068,18 +1060,18 @@ public class BattleAttackManager {
 		}
 	}
 	
-	private List<AttackInfo> attackList = new List<AttackInfo> ();
+	private List<AttackInfoProto> attackList = new List<AttackInfoProto> ();
 	
-	List<AttackInfo> Dispose (int AttackType, int attack) {
+	List<AttackInfoProto> Dispose (int AttackType, int attack) {
 		attackList.Clear ();
 		foreach (var item in passiveSkills) {
 			if(item.Value is TSkillAntiAttack) {
 //				AttackInfo ai = item.Value.Excute(AttackType, this) as AttackInfo;
 				if(ai != null) {
-					ai.SkillID = item.Value.id;
-					ai.UserUnitID = item.Key;
-					ai.AttackValue *= attack;
-					ai.AttackValue *= multipe[item.Key];
+					ai.skillID = item.Value.id;
+					ai.userUnitID = item.Key;
+					ai.attackValue *= attack;
+					ai.attackValue *= multipe[item.Key];
 					attackList.Add(ai);
 				}
 			}
@@ -1137,8 +1129,8 @@ public class BattleAttackManager {
 	void DisposeBoostSkill (string userunit, SkillBase pdb) {
 		SkillBoost tbs = pdb as SkillBoost;
 		if (tbs != null) {
-			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
-			ai.UserUnitID = userunit;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo();
+			ai.userUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
@@ -1158,8 +1150,8 @@ public class BattleAttackManager {
 	void DisposeDelayOperateTime (string userunit, SkillBase pdb) {
 		SkillDelayTime tst = pdb as SkillDelayTime;
 		if (tst != null) {
-			AttackInfo ai = AttackInfo.GetInstance(); //new AttackInfo();
-			ai.UserUnitID = userunit;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo();
+			ai.userUnitID = userunit;
 			
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
 			
@@ -1205,8 +1197,8 @@ public class BattleAttackManager {
 		return hurt;
 	}
 	
-	public List<AttackInfo> ExtraAttack (){
-		List<AttackInfo> ai = new List<AttackInfo>();
+	public List<AttackInfoProto> ExtraAttack (){
+		List<AttackInfoProto> ai = new List<AttackInfoProto>();
 		
 		if (leaderSkill.LeadSkill.Count == 0) {
 			return ai;
@@ -1226,7 +1218,7 @@ public class BattleAttackManager {
 					continue;
 				}
 				if(item1.MakeUserUnitKey() == id) {
-					AttackInfo attack = tsea.AttackValue(item1.Attack, item1);
+					AttackInfoProto attack = tsea.AttackValue(item1.Attack, item1);
 					ai.Add(attack);
 					break;
 				}
@@ -1303,7 +1295,7 @@ public class BattleAttackManager {
 		return recoverHP;
 	}
 	
-	public float MultipleAttack (List<AttackInfo> attackInfo) {
+	public float MultipleAttack (List<AttackInfoProto> attackInfo) {
 		if (leaderSkill.LeadSkill.Count == 0) {
 			return 1f;
 		}

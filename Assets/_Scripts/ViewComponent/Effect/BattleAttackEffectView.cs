@@ -30,19 +30,19 @@ public class BattleAttackEffectView : ViewBase {
 	{
 		switch (args[0].ToString()) {
 		case "refresh_item":
-			RefreshItem(args[1] as AttackInfo, (bool)args[2]);
+			RefreshItem(args[1] as AttackInfoProto, (bool)args[2]);
 			break;
 		case "active_skill":
-			PlayActiveSkill(args[1] as AttackInfo);
+			PlayActiveSkill(args[1] as AttackInfoProto);
 			break;
 		default:
 				break;
 		}
 	}
 
-	void RefreshItem (AttackInfo ai, bool recoverHP = false) {
+	void RefreshItem (AttackInfoProto ai, bool recoverHP = false) {
 		AttackEffectItem aei = GetAttackEffectItem ();
-		aei.RefreshInfo(ai.UserUnitID, ai.SkillID, End, (int)ai.AttackValue, recoverHP);
+		aei.RefreshInfo(ai.userUnitID, ai.skillID, End, (int)ai.attackValue, recoverHP);
 	}
 
 	void End() {
@@ -57,12 +57,12 @@ public class BattleAttackEffectView : ViewBase {
 
 	string skillName = "";
 
-	void PlayActiveSkill(AttackInfo ai) {
+	void PlayActiveSkill(AttackInfoProto ai) {
 		activeEffect.SetActive (true);
 		activeEffect.transform.localPosition = BattleManipulationView.activeSkillStartPosition;
-		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(ai.UserUnitID);
+		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(ai.userUnitID);
 		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture);
-		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (ai.UserUnitID, ai.SkillID, SkillType.ActiveSkill);
+		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (ai.userUnitID, ai.skillID, SkillType.ActiveSkill);
 		skillName = sbi == null ? "" : TextCenter.GetText (SkillBase.SkillNamePrefix + sbi.id);//sbi.SkillName;
 		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleManipulationView.startPosition, "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutQuad));  
 //		Debug.LogError ("PlayActiveSkill MoveTo");

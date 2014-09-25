@@ -38,7 +38,7 @@ namespace bbproto{
 			for(int nFloor=0; nFloor < floors.Count; nFloor++){
 				List<QuestGrid> floor = new List<QuestGrid> ();
 							
-				LogHelper.Log ("===fill floor[{0}]", nFloor);
+//				LogHelper.Log ("===fill floor[{0}]", nFloor);
 				for(int f=0; f< floors[nFloor].gridInfo.Count; f++){
 					QuestGrid grid = floors[nFloor].gridInfo[f];
 
@@ -67,7 +67,7 @@ namespace bbproto{
 							}
 						}
 					}
-					Debug.Log ("===floor["+nFloor+"].Add grid" + floor.Count + " enemy count: " + grid.enemyId.Count + " coins: " + grid.coins);
+//					Debug.Log ("===floor["+nFloor+"].Add grid" + floor.Count + " enemy count: " + grid.enemyId.Count + " coins: " + grid.coins);
 					floor.Add (grid);
 
 				} //end of gridInfo...
@@ -143,6 +143,8 @@ namespace bbproto{
 				return boss;
 			} 
 			set { 
+				if(boss == value)
+					return;
 				boss.Clear();
 				boss.AddRange(value);
 			} 

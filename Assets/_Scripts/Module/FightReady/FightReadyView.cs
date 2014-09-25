@@ -239,7 +239,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			tqdd = rspStartQuest.dungeonData;
 			tqdd.assignData();
 //			ModelManager.Instance.(ModelEnum.MapConfig, tqdd);
-			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
+//			DataCenter.Instance.SetData(ModelEnum.MapConfig,tqdd);
 		}
 		
 		if (data == null || tqdd == null) { return; }
@@ -270,6 +270,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	private void EnterBattle (QuestDungeonData tqdd) {
 		pickedHelperInfo.friendPoint = 0;
 		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		BattleConfigData.Instance.StoreData (tqdd.questId);
 
 		BattleConfigData.Instance.gotFriendPoint = 0;
 		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;

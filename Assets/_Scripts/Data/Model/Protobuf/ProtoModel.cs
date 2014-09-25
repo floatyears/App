@@ -2933,7 +2933,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"StoreBattleData")]
   public partial class StoreBattleData : global::ProtoBuf.IExtensible
   {
-    public StoreBattleData() {}
     
     private int _colorIndex;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"colorIndex", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
@@ -3074,7 +3073,6 @@ namespace bbproto
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AttackInfoProto")]
   public partial class AttackInfoProto : global::ProtoBuf.IExtensible
   {
-    public AttackInfoProto() {}
     
     private int _attackID;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"attackID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]

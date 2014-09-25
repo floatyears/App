@@ -11,7 +11,7 @@ namespace bbproto{
 	//		}
 		}
 
-		AttackInfo reduceDefense = null;
+		AttackInfoProto reduceDefense = null;
 	//	bool b = false;
 		public override object Excute (string userUnitID, int atk = -1) {
 			if (!coolingDone) {
@@ -19,16 +19,16 @@ namespace bbproto{
 			}
 			InitCooling ();
 
-			AttackInfo ai = AttackInfo.GetInstance ();
-			ai.UserUnitID = userUnitID;
-			ai.AttackRound = period;
-			ai.AttackValue = value;
-			ai.SkillID = id;
+			AttackInfoProto ai = new AttackInfoProto();
+			ai.userUnitID = userUnitID;
+			ai.attackRound = period;
+			ai.attackValue = value;
+			ai.skillID = id;
 	//		b = true;
 			return ExcuteByDisk(ai);
 		}
 
-		public override AttackInfo ExcuteByDisk (AttackInfo ai) {
+		public override AttackInfoProto ExcuteByDisk (AttackInfoProto ai) {
 			reduceDefense = ai;
 	//		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
 			BattleAttackManager.Instance.ReduceDefense (reduceDefense);
@@ -38,10 +38,10 @@ namespace bbproto{
 		}
 
 		void EnemyAttackEnd(object data) {
-			reduceDefense.AttackRound --;
+			reduceDefense.attackRound --;
 	//		MsgCenter.Instance.Invoke (CommandEnum.ReduceDefense, reduceDefense);
 			BattleAttackManager.Instance.ReduceDefense (reduceDefense);
-			if (reduceDefense.AttackRound <= 0) {
+			if (reduceDefense.attackRound <= 0) {
 	//			Debug.LogWarning("remove EnemyAttackEnd");
 	//			b = false;
 				MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);

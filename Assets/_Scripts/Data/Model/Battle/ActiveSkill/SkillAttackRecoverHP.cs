@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -29,15 +29,15 @@ namespace bbproto{
 			}
 			InitCooling ();
 	//		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
-			AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
-			ai.AttackType = (int)unitType;
-			ai.AttackRange = (int)attackType;
-			ai.UserUnitID = userUnitID;
-			ai.SkillID = id;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			ai.attackType = (int)unitType;
+			ai.attackRange = (int)attackType;
+			ai.userUnitID = userUnitID;
+			ai.skillID = id;
 			if (type == EValueType.MULTIPLE) {
-				ai.AttackValue = atk * value;		
+				ai.attackValue = atk * value;		
 			} else if(type == EValueType.FIXED) {
-				ai.AttackValue = value;
+				ai.attackValue = value;
 			}
 	//		MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillAttack, ai);
 			BattleAttackManager.Instance.ActiveSkillAttack (ai);

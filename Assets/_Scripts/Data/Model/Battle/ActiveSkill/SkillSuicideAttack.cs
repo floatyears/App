@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using bbproto;
 
@@ -44,16 +44,16 @@ namespace bbproto{
 				return null;		
 			}
 			InitCooling ();
-			AttackInfo ai = AttackInfo.GetInstance (); //new AttackInfo ();
-			ai.UserUnitID = userUnitID;
-			ai.SkillID = id;
+			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			ai.userUnitID = userUnitID;
+			ai.skillID = id;
 			if (type == EValueType.FIXED) {
-				ai.AttackValue = value;
+				ai.attackValue = value;
 			}
 			else if (type == EValueType.MULTIPLE){
-				ai.AttackValue = value * atk;
+				ai.attackValue = value * atk;
 			}
-			ai.AttackRange = (int)attackType;
+			ai.attackRange = (int)attackType;
 	//		MsgCenter.Instance.Invoke (CommandEnum.ActiveSkillAttack, ai);
 			BattleAttackManager.Instance.ActiveSkillAttack (ai);
 	//		MsgCenter.Instance.Invoke (CommandEnum.SkillSucide, null);

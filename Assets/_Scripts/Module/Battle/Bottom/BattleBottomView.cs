@@ -93,7 +93,7 @@ public class BattleBottomView : ViewBase {
 		case "initdata":
 			InitData((int)args[1],(int)args[2],(int)args[3]);
 			break;
-		case "playerdead":
+		case "player_dead":
 //			PlayerDead();
 			MaskCard("",false);
 			break;
