@@ -44,10 +44,6 @@ public class BattleAttackManager {
     private Dictionary<int,List<AttackInfoProto>> attackInfo = new Dictionary<int, List<AttackInfoProto>>();
 //    private List<EnemyInfo> currentEnemy = new List<EnemyInfo>();
 //    private List<EnemyInfo> showEnemy = new List<EnemyInfo>();
-    private static Coordinate currentCoor;
-    public static Coordinate CurrentCoor {
-        get { return currentCoor; }
-    }
 
     private static float countDown = 5f;
     public static float CountDown {
@@ -264,7 +260,6 @@ public class BattleAttackManager {
     public void InitBoss(List<EnemyInfo> boss,DropUnit bossDrop) {
 		enemyInfo = boss;
 		BattleConfigData.Instance.questDungeonData.Boss = boss;
-		dropUnit = bossDrop;
     }
 
     public List<AttackInfoProto> CaculateFight(int areaItem, int id, bool isBoost) {
@@ -327,13 +322,13 @@ public class BattleAttackManager {
     }
 
 	public void TrapTargetPoint(Coordinate coordinate) {
-        currentCoor = coordinate;
+        BattleConfigData.Instance.storeBattleData.roleCoordinate = coordinate;
         ConsumeEnergyPoint();
     }
 
     bool temp = true;
-    public void MoveToMapItem(object coordinate) {
-        currentCoor = (Coordinate)coordinate;
+    public void MoveToMapItem(Coordinate coordinate) {
+		BattleConfigData.Instance.storeBattleData.roleCoordinate = coordinate;
         if (temp) {
             temp = false;
             return;
@@ -430,7 +425,7 @@ public class BattleAttackManager {
 	//	private BattleUseData bud;
 	private Queue<AttackInfoProto> attackInfoQueue = new Queue<AttackInfoProto> ();
 	public List<EnemyInfo> enemyInfo;
-	public DropUnit dropUnit = null;
+//	public DropUnit dropUnit = null;
 	private EnemyInfo targetEnemy;
 //	private TUnitParty upi;
 	private float countDownTime = 0f;
@@ -657,40 +652,36 @@ public class BattleAttackManager {
 			}
 //			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_dead",tei);
-			if(grid != null) {
-//				MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
-				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",grid.dropPos);
-			} else if(dropUnit != null){
-//				MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
-				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",dropUnit.dropPos);
-			}
 		}
 		deadEnemy.Clear ();
-		
+		bool isBoss = false;
 		for (int i = enemyInfo.Count - 1; i > -1; i--) {
 			int blood = enemyInfo[i].currentHp;
 			if(blood <= 0){
 				EnemyInfo te = enemyInfo[i];
 				enemyInfo.Remove(te);
 				te.IsDead = true;
+				isBoss = (te.enemeyType == EEnemyType.BOSS);
 				if(te.Equals(targetEnemy)) {
 					targetEnemy = null;
 				}
 //				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_dead",te);
-				if(grid != null) {
-//					MsgCenter.Instance.Invoke(CommandEnum.DropItem, grid.DropPos);
-					ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",grid.dropPos);
-				} else if(dropUnit != null){
-//					MsgCenter.Instance.Invoke(CommandEnum.DropItem, dropUnit.DropPos);
-					ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"drop_item",dropUnit.dropPos);
-				}
+
 			}
 		}
 		
 		if (enemyInfo.Count == 0) {
 //			BattleBottomView.notClick = false;
-			GameTimer.GetInstance().AddCountDown(1f, BattleEnd); //TODO: set time in const config
+			if(isBoss){
+				BattleConfigData.Instance.storeBattleData.isBattle = 1;
+				BattleConfigData.Instance.StoreMapData();
+			}
+			GameTimer.GetInstance().AddCountDown(1f, ()=>{
+				if(isBoss)
+					ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"boss_dead");
+				BattleEnd();
+			}); //TODO: set time in const config
 			return false;
 		}
 		
@@ -699,7 +690,6 @@ public class BattleAttackManager {
 	
 	void BattleEnd() {
 		BattleConfigData.Instance.ClearActiveSkill ();
-		MsgCenter.Instance.Invoke (CommandEnum.GridEnd, null);
 		ModuleManager.Instance.HideModule(ModuleEnum.BattleManipulationModule);
 		ModuleManager.Instance.HideModule (ModuleEnum.BattleEnemyModule);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleMapModule);

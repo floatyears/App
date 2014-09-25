@@ -6,7 +6,7 @@ using bbproto;
 
 public class BattleBottomView : ViewBase {
 //	private Camera bottomCamera;
-	private RaycastHit rch;
+//	private RaycastHit rch;
 //	private TUnitParty upi;
 //	private Dictionary<GameObject, UITexture> actorObject = new Dictionary<GameObject, UITexture>();
 	private Dictionary<GameObject, ActiveSkill> unitInfoPos = new Dictionary<GameObject,ActiveSkill> ();
@@ -47,7 +47,6 @@ public class BattleBottomView : ViewBase {
 				tex.enabled = false;
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
-
 				skillSpr.enabled = false;
 
 			} else {
@@ -77,7 +76,7 @@ public class BattleBottomView : ViewBase {
 
 		spSprite = new UISprite[20];
 
-		FindChild("Panel").layer = GameLayer.BottomInfo;
+//		FindChild("Panel").layer = GameLayer.BottomInfo;
 		for (int i = spSprite.Length; i > 0; i--) {
 			spSprite[spSprite.Length - i] = transform.Find("Panel/"+ i).GetComponent<UISprite>();
 		}

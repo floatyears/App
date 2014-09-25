@@ -69,7 +69,7 @@ public class InjuredTrap : TrapBase {
 //			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule
 		}
 		else {
-			Coordinate cd = BattleAttackManager.CurrentCoor;
+			Coordinate cd = BattleConfigData.Instance.storeBattleData.roleCoordinate;
 			int xRandom = DGTools.RandomToInt(0, randomRange.Length);
 			int yRandom = DGTools.RandomToInt(0, randomRange.Length);
 //			MapConfig mc = ModelManager.Instance.GetData(ModelEnum.MapConfig, new ErrorMsg()) as MapConfig;

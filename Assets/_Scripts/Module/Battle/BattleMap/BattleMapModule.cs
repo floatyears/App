@@ -21,6 +21,9 @@ public class BattleMapModule : ModuleBase {
 			case "player_dead":
 				BattleFail();
 				break;
+			case "boss_dead":
+			(view as BattleMapView).BossDead();
+				break;
 			default:
 					break;
 		}
