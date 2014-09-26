@@ -115,9 +115,9 @@ public class NoviceMsgWindowView : ViewBase{
 		clider = maskObj.GetComponent<BoxCollider> ();
 
 
-		UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
-		UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
-		UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
+		UIEventListenerCustom.Get(btnRight.gameObject).onClick = ClickRightButton;
+		UIEventListenerCustom.Get(btnLeft.gameObject).onClick = ClickLeftButton;
+		UIEventListenerCustom.Get(btnCenter.gameObject).onClick = ClickCenterButton;
 	}
 	
 	void ShowSelf(bool canShow){
@@ -128,7 +128,7 @@ public class NoviceMsgWindowView : ViewBase{
 //				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
 //				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
 			if(!isShow)
-				TouchEventBlocker.Instance.SetState(BlockerReason.NoviceGuide,true);
+//				InputManager.Instance.SetBlockWithinLayer(BlockerReason.NoviceGuide,true);
 //			}
 //			else {
 //				SetLayerToBlocker(false);
@@ -145,7 +145,7 @@ public class NoviceMsgWindowView : ViewBase{
 //				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
 			//there may be some conditions that the ShowSelf execute more than once with the same canShow, then the layer may be invalid.
 			if(isShow)
-				TouchEventBlocker.Instance.SetState(BlockerReason.NoviceGuide,false);
+//				InputManager.Instance.SetBlockWithinLayer(BlockerReason.NoviceGuide,false);
 //			}
 //			SetLayerToBlocker(true);
 			LogHelper.Log("open msgWindow showSelf false");
@@ -282,7 +282,7 @@ public class NoviceMsgWindowView : ViewBase{
 	
 	void UpdateBtnCenterCallback(BtnParam btnParam){
 
-		UIEventListener.Get (maskObj).onClick = ClickCenterButton;
+		UIEventListenerCustom.Get (maskObj).onClick = ClickCenterButton;
 
 		btnCenter.gameObject.SetActive(true);
 		btnCenterParam = btnParam;
@@ -290,7 +290,7 @@ public class NoviceMsgWindowView : ViewBase{
 	}
 	
 	void ResetBtnCallback(){
-		UIEventListener.Get (maskObj).onClick = null;
+		UIEventListenerCustom.Get (maskObj).onClick = null;
 
 		btnCenter.gameObject.SetActive(false);
 		btnLeft.gameObject.SetActive(false);

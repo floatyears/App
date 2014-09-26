@@ -29,7 +29,7 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		GameObject cityObj =  qv.GetCityItem (0);
 //		NoviceGuideUtil.ForceOneBtnClick (cityObj);
 //
-//		UIEventListener.Get (cityObj).onClick += TapCityItem;
+//		UIEventListenerCustom.Get (cityObj).onClick += TapCityItem;
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.OthersModule);

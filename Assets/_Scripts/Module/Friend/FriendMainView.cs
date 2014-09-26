@@ -48,7 +48,7 @@ public class FriendMainView : ViewBase {
 		btns.Add(go, ModuleEnum.ReceptionModule);
 
         foreach (var btn in btns.Keys) {
-            UIEventListener.Get(btn).onClick = ClickBtn;
+            UIEventListenerCustom.Get(btn).onClick = ClickBtn;
         }
 
 		bbproto.StatHelperCount data = DataCenter.Instance.FriendData.HelperInfo;

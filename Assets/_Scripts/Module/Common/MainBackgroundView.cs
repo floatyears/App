@@ -14,7 +14,7 @@ public class MainBackgroundView : ViewBase {
 
 	public override void ShowUI () {
 		base.ShowUI();
-//		UIEventListener.Get (gameObject).onClick = OnClickCallback;
+//		UIEventListenerCustom.Get (gameObject).onClick = OnClickCallback;
 //		NGUITools.AddWidgetCollider (gameObject);
 
 		MsgCenter.Instance.AddListener(CommandEnum.ShowHomeBgMask, ShowMask);

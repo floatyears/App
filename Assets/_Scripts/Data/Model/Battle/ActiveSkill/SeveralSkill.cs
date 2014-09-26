@@ -3,10 +3,6 @@ using System.Collections;
 
 
 namespace bbproto{
-	public partial class NormalSkill : SkillBase {
-
-		
-	}
 	public partial class SkillDodgeTrap : SkillBase {
 		
 		

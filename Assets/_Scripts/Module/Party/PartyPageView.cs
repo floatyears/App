@@ -128,8 +128,8 @@ public class PartyPageView : ViewBase {
 	}
 
 	void SetUIElement(){
-		UIEventListener.Get(leftButton.gameObject).onClick = PagePrev;
-		UIEventListener.Get(rightButton.gameObject).onClick = PageNext;
+		UIEventListenerCustom.Get(leftButton.gameObject).onClick = PagePrev;
+		UIEventListenerCustom.Get(rightButton.gameObject).onClick = PageNext;
 	}
 	
 	void EnableLabelLeft(object args){

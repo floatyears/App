@@ -74,8 +74,8 @@ public class ApplyMessageView : ViewBase{
 		sureButton = FindChild<UIButton>("Window/Button_Sure");
 		cancelButton = FindChild<UIButton>("Window/Button_Cancel");
 	
-		UIEventListener.Get(sureButton.gameObject).onClick = ClickSure;
-		UIEventListener.Get(cancelButton.gameObject).onClick = ClickCancel;  
+		UIEventListenerCustom.Get(sureButton.gameObject).onClick = ClickSure;
+		UIEventListenerCustom.Get(cancelButton.gameObject).onClick = ClickCancel;  
 
 		FindChild<UILabel> ("Window/Label_Text/Name").text = TextCenter.GetText ("Text_Name_Colon");
 		FindChild<UILabel> ("Window/Label_Text/Rank").text = TextCenter.GetText ("Text_Rank_Colon");

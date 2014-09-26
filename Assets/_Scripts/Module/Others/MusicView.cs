@@ -67,7 +67,8 @@ public class MusicView : ViewBase {
 	void ClickOk(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.OthersModule);
+//		ModuleManager.Instance.ShowModule (ModuleEnum.OthersModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.MusicModule);
 //		HideUI ();
 	}
 

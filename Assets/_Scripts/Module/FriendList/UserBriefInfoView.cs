@@ -55,11 +55,11 @@ public class UserBriefInfoView : ViewBase{
 		raceLabel = FindChild<UILabel>("Window/Label_Vaule/Race");
 		
 		buttonChoose = transform.FindChild("Window/btn_choose").gameObject;
-		UIEventListener.Get(buttonChoose).onClick = Choose;
+		UIEventListenerCustom.Get(buttonChoose).onClick = Choose;
 		buttonViewInfo = transform.FindChild("Window/btn_see_info").gameObject;
-		UIEventListener.Get(buttonViewInfo).onClick = ViewInfo;
+		UIEventListenerCustom.Get(buttonViewInfo).onClick = ViewInfo;
 		buttonExit = transform.FindChild("Window/btn_exit").gameObject;
-		UIEventListener.Get(buttonExit).onClick = Exit;
+		UIEventListenerCustom.Get(buttonExit).onClick = Exit;
 		buttonDelete = transform.FindChild("Window/Button_Delete").gameObject;
 		originLayer = Main.Instance.NguiCamera.eventReceiverMask;
 
@@ -160,7 +160,7 @@ public class UserBriefInfoView : ViewBase{
 	void EnableDeleteFriend(object args){
 //		Debug.LogError("Receive Enable Friend Delete From logic ....");
 		buttonDelete.gameObject.SetActive(true);
-		UIEventListener.Get(buttonDelete.gameObject).onClick = ClickDelete;
+		UIEventListenerCustom.Get(buttonDelete.gameObject).onClick = ClickDelete;
 	}
 	
 	void ClickDelete(GameObject btn){

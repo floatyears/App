@@ -63,7 +63,7 @@ public class ShopView : ViewBase {
 //		UIButton[] buttons = FindChild("btns").GetComponentsInChildren< UIButton >();
 //		for (int i = 0; i < buttons.Length; i++){
 //			buttonDic.Add( string.Format("Chip{0}", i), buttons[ i ] );
-//			UIEventListener.Get( buttons[ i ].gameObject ).onClick = ClickButton;
+//			UIEventListenerCustom.Get( buttons[ i ].gameObject ).onClick = ClickButton;
 //		}
 
         btnFriendsExpansion = FindChild<UIButton>("top/FriendsExpansion");
@@ -78,9 +78,9 @@ public class ShopView : ViewBase {
 		UILabel unitExpandLabel = FindChild<UILabel>("top/UnitExpansion/Label");
 		unitExpandLabel.text = TextCenter.GetText("Btn_Unit_Expand");
 
-        UIEventListener.Get(btnFriendsExpansion.gameObject).onClick = OnClickFriendExpansion;
-        UIEventListener.Get(btnStaminaRecover.gameObject).onClick = OnClickStaminaRecover;
-        UIEventListener.Get(btnUnitExpansion.gameObject).onClick = OnClickUnitExpansion;
+        UIEventListenerCustom.Get(btnFriendsExpansion.gameObject).onClick = OnClickFriendExpansion;
+        UIEventListenerCustom.Get(btnStaminaRecover.gameObject).onClick = OnClickStaminaRecover;
+        UIEventListenerCustom.Get(btnUnitExpansion.gameObject).onClick = OnClickUnitExpansion;
 
 		infoPanelRoot = transform.FindChild("top").gameObject;
 		windowRoot = transform.FindChild("Bottom").gameObject;

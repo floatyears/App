@@ -100,11 +100,11 @@ public class HttpRequestManager : MonoBehaviour{
 				ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
 				WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
 				yield return www;
+				ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
 				RequestDone (www, request);
 				StartCoroutine(SendMsg ());		
 			}
 		}
-		ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
 		yield return null;
     }
 

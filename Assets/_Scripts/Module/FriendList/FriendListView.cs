@@ -35,7 +35,7 @@ public class FriendListView : ViewBase{
 		
 	void EnableUpdateButton(object args){
 		updateBtn.gameObject.SetActive(true);
-		UIEventListener.Get(updateBtn.gameObject).onClick += ClickUpdateBtn;
+		UIEventListenerCustom.Get(updateBtn.gameObject).onClick += ClickUpdateBtn;
 	}
 
 	void ClickRefuseButton(GameObject args){
@@ -47,7 +47,7 @@ public class FriendListView : ViewBase{
 
 	void InitUIElement(){
 		updateBtn = FindChild<UIButton>("Button_Update");
-		UIEventListener.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
+		UIEventListenerCustom.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
 		curSortRule = SortUnitTool.GetSortRule(SortRuleByUI.FriendListView);
 	}
 

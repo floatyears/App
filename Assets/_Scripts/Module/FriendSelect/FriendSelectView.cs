@@ -62,7 +62,7 @@ public class FriendSelectView : ViewBase{
 		premiumBtnLabel.text = TextCenter.GetText("Btn_Premium");
 		int manualHeight = Main.Instance.root.manualHeight;
 		premiumBtn.transform.localPosition = new Vector3(255, manualHeight/2 - 150, 0);
-		UIEventListener.Get(premiumBtn.gameObject).onClick = ClickPremiumBtn;
+		UIEventListenerCustom.Get(premiumBtn.gameObject).onClick = ClickPremiumBtn;
 	}
 
 	List<FriendInfo> GetPremiumData(){

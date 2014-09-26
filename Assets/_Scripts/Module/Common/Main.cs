@@ -21,8 +21,12 @@ public class Main : MonoBehaviour {
         }
     }
 
-	public Camera bottomCamera;
+	[HideInInspector]
+	public bool[] DebugEnable;
 
+	private Camera bottomCamera;
+
+	[HideInInspector]
 	public Camera effectCamera;
 
     private GameInput gInput;
@@ -77,6 +81,7 @@ public class Main : MonoBehaviour {
     /// start game
     /// </summary>
     void OnEnable() {
+		DebugEnable = new bool[]{true,true,true,true,true,true};
 		SetResolution();
 
 		DataCenter.Instance.Init ();
@@ -106,12 +111,12 @@ public class Main : MonoBehaviour {
 		}
 	}
 
-	public UILabel test_screen_width;
-	public UILabel test_screen_height;
-	public UILabel test_screen_manual_height;
-	void TestScreenAdaption(int w, int h, int mh){
-		test_screen_width.text = "Screen_Width : " + w;
-		test_screen_height.text = "Screen_Height : " + h;
-		test_screen_manual_height.text = "Manual_Height : " + mh;
-	}
+//	public UILabel test_screen_width;
+//	public UILabel test_screen_height;
+//	public UILabel test_screen_manual_height;
+//	void TestScreenAdaption(int w, int h, int mh){
+//		test_screen_width.text = "Screen_Width : " + w;
+//		test_screen_height.text = "Screen_Height : " + h;
+//		test_screen_manual_height.text = "Manual_Height : " + mh;
+//	}
 }

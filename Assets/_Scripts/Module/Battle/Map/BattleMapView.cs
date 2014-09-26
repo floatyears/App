@@ -82,7 +82,7 @@ public class BattleMapView : ViewBase {
 		role = FindChild ("Role");
 		door = FindChild("Door");
 		door.SetActive (false);
-		UIEventListener.Get (door).onClick = ClickDoor;
+		UIEventListenerCustom.Get (door).onClick = ClickDoor;
 
 		StartMap ();
 
@@ -101,10 +101,10 @@ public class BattleMapView : ViewBase {
 
 		//init role pos
 
-		MapItem item = map [currentCoor.x, currentCoor.y];
-		if (!item.hasBeenReached) {
-			item.hasBeenReached = true;
-			item.HideGridNoAnim();
+		currentItem = map [currentCoor.x, currentCoor.y];
+		if (!currentItem.hasBeenReached) {
+			currentItem.hasBeenReached = true;
+			currentItem.HideGridNoAnim();
 
 			BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor));
 
@@ -176,7 +176,7 @@ public class BattleMapView : ViewBase {
 					temp.Coor = new Coordinate(i, j);
 					temp.Init(i+"|"+j);
 
-					UIEventListener.Get(tempObject).onClick = OnClickMapItem;
+					UIEventListenerCustom.Get(tempObject).onClick = OnClickMapItem;
 					map[i,j] = temp;
 					if(BattleConfigData.Instance.storeBattleData.isBattle == 1){
 						map[i,j].HideGridNoAnim();

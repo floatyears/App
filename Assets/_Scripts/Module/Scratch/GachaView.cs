@@ -88,7 +88,7 @@ public class GachaView : ViewBase {
 
 		if (gachaInfo.totalChances == 1) { //1 == user only can gacha ones
 			foreach (var item in gridDict) {
-				UIEventListener.Get (item.Key).onClick = ClickButton;
+				UIEventListenerCustom.Get (item.Key).onClick = ClickButton;
 			}
 		} else {
 			AutoShowOneCard();

@@ -28,7 +28,7 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
-		UIEventListener.Get (party).onClick += TapParty;
+		UIEventListenerCustom.Get (party).onClick += TapParty;
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.PARTY;
 	}
@@ -37,7 +37,7 @@ public class NoviceGuideStepG_StateOne:NoviceGuidState{
 	{
 
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= TapParty;
+		UIEventListenerCustom.Get (btn).onClick -= TapParty;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -92,7 +92,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 		
 		//LogHelper.Log (party.name);
 		NoviceGuideUtil.ForceOneBtnClick (party,true);
-		UIEventListener.Get (party).onClick += TapParty;
+		UIEventListenerCustom.Get (party).onClick += TapParty;
 
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
@@ -105,7 +105,7 @@ public class NoviceGuideStepG_StateTwo:NoviceGuidState{
 	private void TapParty(GameObject btn)
 	{
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= TapParty;
+		UIEventListenerCustom.Get (btn).onClick -= TapParty;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -146,7 +146,7 @@ public class NoviceGuideStepG_StateThree:NoviceGuidState{
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
-		UIEventListener.Get (party).onClick += TapParty;
+		UIEventListenerCustom.Get (party).onClick += TapParty;
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOLVE;
 		
@@ -155,7 +155,7 @@ public class NoviceGuideStepG_StateThree:NoviceGuidState{
 	private void TapParty(GameObject btn)
 	{
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= TapParty;
+		UIEventListenerCustom.Get (btn).onClick -= TapParty;
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)

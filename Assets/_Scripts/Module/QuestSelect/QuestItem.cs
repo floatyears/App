@@ -77,16 +77,16 @@ public class QuestItem : MonoBehaviour {
 				clearFlagLabel.color = Color.yellow;
 				erotemeSpr.enabled = false;
 				maskSpr.enabled = false;
-				//UIEventListener.Get(gameObject).onClick = null;
+				//UIEventListenerCustom.Get(gameObject).onClick = null;
 			}
 			else{
 				clearFlagLabel.text = "New";
 				clearFlagLabel.color = Color.green;
 				erotemeSpr.enabled = true;
 				maskSpr.enabled = true;
-				//UIEventListener.Get(gameObject).onClick = ClickItem;
+				//UIEventListenerCustom.Get(gameObject).onClick = ClickItem;
 			}
-			UIEventListener.Get(gameObject).onClick = ClickItem;
+			UIEventListenerCustom.Get(gameObject).onClick = ClickItem;
 		}
 	}
 

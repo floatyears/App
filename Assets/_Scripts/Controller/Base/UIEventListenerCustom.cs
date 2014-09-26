@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UIEventListenerCustom : MonoBehaviour {
+
+	private static List<ModuleEnum> FocusModules = new List<ModuleEnum>();
+
 	public delegate void VoidDelegate (GameObject go);
 	public delegate void BoolDelegate (GameObject go, bool state);
 	public delegate void FloatDelegate (GameObject go, float delta);
@@ -9,8 +13,6 @@ public class UIEventListenerCustom : MonoBehaviour {
 	public delegate void StringDelegate (GameObject go, string text);
 	public delegate void ObjectDelegate (GameObject go, GameObject draggedObject);
 	public delegate void KeyCodeDelegate (GameObject go, KeyCode key);
-	
-	public object parameter;
 	
 	public VoidDelegate onSubmit;
 	public VoidDelegate onClick;
@@ -24,21 +26,66 @@ public class UIEventListenerCustom : MonoBehaviour {
 	public StringDelegate onInput;
 	public KeyCodeDelegate onKey;
 
-	public bool ShieldInput = false;
-
 	public delegate void LongPressDelegate(GameObject go);
 	public LongPressDelegate  LongPress;
-	void OnSubmit ()				{ if (ShieldInput) return; if (onSubmit != null) onSubmit(gameObject); }
-	void OnDoubleClick ()			{ if (ShieldInput) return; if (onDoubleClick != null) onDoubleClick(gameObject); }
-	void OnHover (bool isOver)		{ if (ShieldInput) return; if (onHover != null) onHover(gameObject, isOver);}
-	void OnSelect (bool selected)	{ if (ShieldInput) return; if (onSelect != null) onSelect(gameObject, selected); }
-	void OnScroll (float delta)		{ if (ShieldInput) return; if (onScroll != null) onScroll(gameObject, delta); }
-	void OnDrag (Vector2 delta)		{ if (ShieldInput) return; GameTimer.GetInstance ().ExitCountDonw(CountDown); if (onDrag != null) onDrag(gameObject, delta); }
-	void OnDrop (GameObject go)		{ if (ShieldInput) return; if (onDrop != null) onDrop(gameObject, go); }
-	void OnInput (string text)		{ if (ShieldInput) return; if (onInput != null) onInput(gameObject, text); }
-	void OnKey (KeyCode key)		{ if (ShieldInput) return; if (onKey != null) onKey(gameObject, key); }
+
+
+	void OnSubmit (){ 
+		if (onSubmit != null && CheckFocus()) 
+			onSubmit(gameObject); 
+	}
+
+	void OnClick (){ 
+		if (onClick != null &&CheckFocus()) 
+			onClick(gameObject); 
+	}
+
+	void OnDoubleClick (){ 
+		if (onDoubleClick != null && CheckFocus()) 
+			onDoubleClick(gameObject); 
+	}
+
+	void OnHover (bool isOver){ 
+		if (onHover != null && CheckFocus()) 
+			onHover(gameObject, isOver);
+	}
+
+	void OnSelect (bool selected){ 
+		if (onSelect != null && CheckFocus()) 
+			onSelect(gameObject, selected); 
+	}
+
+	void OnScroll (float delta){ 
+		if (onScroll != null && CheckFocus()) 
+			onScroll(gameObject, delta); 
+	}
+
+	void OnDrag (Vector2 delta){ 
+
+		GameTimer.GetInstance ().ExitCountDonw(CountDown);
+		if (onDrag != null && CheckFocus())
+			onDrag(gameObject, delta); 
+	}
+
+	void OnDrop (GameObject go){ 
+		if (onDrop != null && CheckFocus()) 
+			onDrop(gameObject, go); 
+	}
+
+	void OnInput (string text){ 
+		if (onInput != null && CheckFocus()) 
+			onInput(gameObject, text); 
+	}
+
+	void OnKey (KeyCode key){ 
+		if (onKey != null && CheckFocus()) 
+			onKey(gameObject, key); 
+	}
 	
 	void OnPress (bool isPressed) { 
+
+		if (!CheckFocus ())
+			return;
 		if (onPress != null) {
 			onPress(gameObject, isPressed); 	
 		}
@@ -59,11 +106,36 @@ public class UIEventListenerCustom : MonoBehaviour {
 			LongPress(gameObject);
 		}
 	}
+
+	bool CheckFocus(){
+		if (FocusModules.Count == 0)
+			return true;
+		foreach (var item in gameObject.GetComponentsInParent<Transform>()) {
+			foreach (var module in FocusModules) {
+				if(item == ModuleManager.Instance.GetModule<ModuleBase>(module).View.transform){
+					return true;
+				}
+			}
+		}
+	   	return false;
+	}
 	
 	static public UIEventListenerCustom Get (GameObject go)
 	{
 		UIEventListenerCustom listener = go.GetComponent<UIEventListenerCustom>();
 		if (listener == null) listener = go.AddComponent<UIEventListenerCustom>();
 		return listener;
+	}
+
+	static public void SetFocusModule(ModuleEnum module, bool isFocus){
+		if (isFocus) {
+			if(!FocusModules.Contains(module)){
+				FocusModules.Add(module);
+			}	
+		}else{
+			if(FocusModules.Contains(module)){
+				FocusModules.Remove(module);
+			}
+		}
 	}
 }

@@ -45,7 +45,7 @@ public class SortPanelView : ViewBase {
 		sortBtnLabel = sortBtn.GetComponentInChildren<UILabel>();
 		sortBtnLabel.text = TextCenter.GetText("Btn_SORT");
 		sortBtnMask = FindChild<UISprite>("Button_Sort/Mask");
-		UIEventListener.Get(sortBtn.gameObject).onClick = ClickSortBtn;
+		UIEventListenerCustom.Get(sortBtn.gameObject).onClick = ClickSortBtn;
 
 		UIButton btn;
 		UILabel label;
@@ -165,7 +165,8 @@ public class SortPanelView : ViewBase {
 			isShow = true;
 			//Debug.Log("isShow : " + isShow);
 		}	
-		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.SortWindow, isShow));
+//		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.SortWindow, isShow));
+		InputManager.Instance.SetBlockWithinModule (ModuleEnum.SortModule, isShow);
 	}
 	
 	public void ActivateSortBtn(){
@@ -175,7 +176,7 @@ public class SortPanelView : ViewBase {
 
 	protected void AddEventListener(){
 		foreach (var item in sortRuleSelectDic){
-			UIEventListener.Get(item.Key.gameObject).onClick = SelectSortRule;
+			UIEventListenerCustom.Get(item.Key.gameObject).onClick = SelectSortRule;
 		}
 	}
 

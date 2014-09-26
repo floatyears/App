@@ -239,10 +239,10 @@ public class SellUnitView : ViewBase{
 
 		lastSureCancelBtn = FindChild<UIButton>("EnsureWindow/Button_Cancel");
 		lastSureOkBtn = FindChild<UIButton>("EnsureWindow/Button_Ok");
-		UIEventListener.Get(sellBtn.gameObject).onClick = ClickSellBtn;
-		UIEventListener.Get(clearBtn.gameObject).onClick = ClickClearBtn;
-		UIEventListener.Get(lastSureOkBtn.gameObject).onClick = ClickSellOk;
-		UIEventListener.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
+		UIEventListenerCustom.Get(sellBtn.gameObject).onClick = ClickSellBtn;
+		UIEventListenerCustom.Get(clearBtn.gameObject).onClick = ClickClearBtn;
+		UIEventListenerCustom.Get(lastSureOkBtn.gameObject).onClick = ClickSellOk;
+		UIEventListenerCustom.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 
 		InitCells();
 

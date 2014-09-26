@@ -15,7 +15,7 @@
         "x": 0,
         "y": -565,
         "z": 0, 
-        "group" : 0
+        "group" : -1
     },
     {
         "name":"MaskModule",
@@ -33,7 +33,7 @@
         "x": 0,
         "y": -150,
         "z": 0, 
-        "group" : 4
+        "group" : -1
     },
     {
         "name":"MainBackgroundModule",
@@ -42,7 +42,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 2
+        "group" : -1
     },
     {
         "name":"TipsBarModule",
@@ -114,7 +114,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 3
+        "group" : -1
     },
     {
         "name":"ShopModule",
@@ -213,7 +213,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 5
+        "group" : -1
     },
     {
         "name":"ApplyModule",
@@ -403,7 +403,7 @@
         "x": 0,
         "y": 460,
         "z": 0, 
-        "group" : 3
+        "group" : 2
     },
     {
     	"name":"RewardModule",
@@ -412,7 +412,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 3
+        "group" : 2
     },
     {
         "name":"GameRaiderModule",
@@ -430,7 +430,7 @@
         "x": 0,
         "y":0,
         "z": 0, 
-        "group" : 3
+        "group" : 2
     },
     {
         "name":"NicknameModule",
@@ -439,7 +439,7 @@
         "x": 0,
         "y":0,
         "z": 0, 
-        "group" : 3
+        "group" : 2
     },
     {
         "name":"VictoryModule",
@@ -466,7 +466,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 3
+        "group" : 2
     },
     {
         "name":"BattleBottomModule",

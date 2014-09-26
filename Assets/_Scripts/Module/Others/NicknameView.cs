@@ -32,7 +32,7 @@ public class NicknameView : ViewBase {
 	}
 	
 	public override void DestoryUI(){
-		UIEventListener.Get( okButton.gameObject ).onClick = null;
+		UIEventListenerCustom.Get( okButton.gameObject ).onClick = null;
 		base.DestoryUI ();
 	}
 
@@ -54,8 +54,8 @@ public class NicknameView : ViewBase {
 	}
 
 	void SetNickNamePanel(){
-		UIEventListener.Get( okButton.gameObject ).onClick = ClickOkButton;
-		UIEventListener.Get( CancelButton.gameObject ).onClick = ClickCancelButton;
+		UIEventListenerCustom.Get( okButton.gameObject ).onClick = ClickOkButton;
+		UIEventListenerCustom.Get( CancelButton.gameObject ).onClick = ClickCancelButton;
 	}
 	
 	void ClickOkButton( GameObject go ){

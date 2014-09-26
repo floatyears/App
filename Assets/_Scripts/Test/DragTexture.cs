@@ -59,9 +59,9 @@ public class DragTexture : MonoBehaviour {
 	///Users/leiliang/Work/Profile
 
 	void Awake() {
-//		UIEventListener.Get (uiTexture.gameObject).onKey = OnKey;
-		UIEventListener.Get (uiTexture.gameObject).onDrag = OnDragTexture;
-		UIEventListener.Get (uiTexture.gameObject).onScroll = OnScrollTexture;
+//		UIEventListenerCustom.Get (uiTexture.gameObject).onKey = OnKey;
+		UIEventListenerCustom.Get (uiTexture.gameObject).onDrag = OnDragTexture;
+		UIEventListenerCustom.Get (uiTexture.gameObject).onScroll = OnScrollTexture;
 		prevRect = new Rect (0f, 0f, 1f, 1f);
 
 		probabilityUITexture = (float)uiTexture.width / (float)uiTexture.height;

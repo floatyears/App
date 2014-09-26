@@ -142,7 +142,7 @@ public class DragPanel : ModuleBase{
 		GameObject.Destroy (target);
 		dragPanelView.grid.enabled = true;
 		dragPanelView.grid.Reposition ();
-		UIEventListener.Get (target).onClick = null;
+		UIEventListenerCustom.Get (target).onClick = null;
 	}
 	
 	public void SetPosition(Vector4 position) {
@@ -166,14 +166,14 @@ public class DragPanel : ModuleBase{
 
 	void AddEvent() {
 		for (int i = 0; i < scrollItem.Count; i++) {
-			UIEventListener.Get(scrollItem[i]).onClick += ItemCallback;
+			UIEventListenerCustom.Get(scrollItem[i]).onClick += ItemCallback;
 		}
 	}
 	
 	void RemoveEvent()
 	{
 		for (int i = 0; i < scrollItem.Count; i++) {
-			UIEventListener ui = UIEventListener.Get(scrollItem[i]);
+			UIEventListenerCustom ui = UIEventListenerCustom.Get(scrollItem[i]);
 			if(ui.onClick != null)
 				ui.onClick -= ItemCallback;
 		}

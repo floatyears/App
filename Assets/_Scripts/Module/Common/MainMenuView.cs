@@ -64,7 +64,7 @@ public class MainMenuView : ViewBase{
 		buttonInfo.Add (go, ModuleEnum.UnitsMainModule);
 
 		foreach (var item in buttonInfo.Keys) {
-			UIEventListener.Get(item).onClick = ClickMenuBtn;
+			UIEventListenerCustom.Get(item).onClick = ClickMenuBtn;
 		}
 
 		leaderAvatarTex = transform.FindChild("Btn_Units/Texture_Avatar_Leader").GetComponent<UITexture>();
@@ -87,8 +87,8 @@ public class MainMenuView : ViewBase{
 			if(btnScale == null)
 				continue;
             btnScale.enabled = valid;
-            if(valid)  UIEventListener.Get(item).onClick += ClickMenuBtn; 
-            else UIEventListener.Get(item).onClick -= ClickMenuBtn;
+            if(valid)  UIEventListenerCustom.Get(item).onClick += ClickMenuBtn; 
+            else UIEventListenerCustom.Get(item).onClick -= ClickMenuBtn;
         }
     }
 

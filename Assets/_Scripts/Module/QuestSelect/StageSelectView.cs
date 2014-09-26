@@ -371,7 +371,7 @@ public class StageSelectView : ViewBase{
 			}
 			else{
 				item.ShowIconByState(StageState.LOCKED);
-//				UIEventListener listener = item.GetComponent<UIEventListener>();
+//				UIEventListenerCustom listener = item.GetComponent<UIEventListenerCustom>();
 //				listener.onClick = null;
 //				Destroy(listener);
 			}
@@ -403,7 +403,7 @@ public class StageSelectView : ViewBase{
 			}
 //			else{
 //				item.ShowIconByState(StageState.LOCKED);
-//				//				UIEventListener listener = item.GetComponent<UIEventListener>();
+//				//				UIEventListenerCustom listener = item.GetComponent<UIEventListenerCustom>();
 //				//				listener.onClick = null;
 //				//				Destroy(listener);
 //			}

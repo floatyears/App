@@ -46,7 +46,7 @@ public class ReceptionView : ViewBase {
 		refuseAllBtn = FindChild<UIButton>("Button_Refuse");
 		UILabel refuseBtnLabel = FindChild<UILabel>("Button_Refuse/Label_Text");
 		refuseBtnLabel.text = TextCenter.GetText("Btn_Reception_RefuseAll");
-		UIEventListener.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
+		UIEventListenerCustom.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
 
 		curSortRule = SortUnitTool.GetSortRule(SortRuleByUI.ReceptionView);
 	}

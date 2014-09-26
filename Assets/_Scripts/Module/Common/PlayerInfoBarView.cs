@@ -82,8 +82,8 @@ public class PlayerInfoBarView : ViewBase{
 		leftPosition = new Vector3(-UIConfig.playerInfoBox_X, 0, 0);
 		rightPosition = new Vector3(UIConfig.playerInfoBox_X, 0, 0);
 
-		UIEventListener.Get(leftCollider.gameObject).onPress = ShowInfoBox;
-		UIEventListener.Get(rightCollider.gameObject).onPress = ShowInfoBox;
+		UIEventListenerCustom.Get(leftCollider.gameObject).onPress = ShowInfoBox;
+		UIEventListenerCustom.Get(rightCollider.gameObject).onPress = ShowInfoBox;
 
 		infoBox.SetActive(false);
 

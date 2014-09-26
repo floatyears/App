@@ -207,13 +207,13 @@ public class NoviceGuideStepF_StateThree:NoviceGuidState{
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(0,0,3)});
 
-		UIEventListener.Get (sbb).onClick += TapBackBtn;
+		UIEventListenerCustom.Get (sbb).onClick += TapBackBtn;
 	}
 	
 	private void TapBackBtn(GameObject btn)
 	{
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= TapBackBtn;
+		UIEventListenerCustom.Get (btn).onClick -= TapBackBtn;
 		JumpToNextState = true;
 
 
@@ -253,7 +253,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 		NoviceGuideUtil.ForceOneBtnClick (btn0);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{btn0},new Vector3[]{new Vector3(0,0,1)});
 
-		UIEventListener.Get (btn0).onClick += Btn0Click;
+		UIEventListenerCustom.Get (btn0).onClick += Btn0Click;
 
 
 	}
@@ -262,7 +262,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 	{
 
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= Btn0Click;
+		UIEventListenerCustom.Get (btn).onClick -= Btn0Click;
 
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_6"), new Vector2 (0, 0));
 
@@ -274,14 +274,14 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 //		
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(-282,-135,3)});
 //		
-//		UIEventListener.Get (sbb).onClick += TapBackBtn;
+//		UIEventListenerCustom.Get (sbb).onClick += TapBackBtn;
 
 //		GameObject btn1 = GameObject.FindWithTag ("unit_detail_btn2");
 //		//NoviceGuideUtil.ForceOneBtnClick(empty);
 //		NoviceGuideUtil.ForceOneBtnClick (btn1);
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{btn1},new Vector3[]{new Vector3(0,0,1)});
 //		
-//		UIEventListener.Get (btn1).onClick += TapBackBtn;
+//		UIEventListenerCustom.Get (btn1).onClick += TapBackBtn;
 	
 	}
 
@@ -293,28 +293,28 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 //	private void Btn1Click(GameObject btn)
 //	{
 //		NoviceGuideUtil.RemoveArrow (btn);
-//		UIEventListener.Get (btn).onClick -= Btn1Click;
+//		UIEventListenerCustom.Get (btn).onClick -= Btn1Click;
 //		
 //		GameObject btn2 = GameObject.FindWithTag ("unit_detail_btn2");
 //		//NoviceGuideUtil.ForceOneBtnClick(empty);
 //		NoviceGuideUtil.ForceOneBtnClick (btn2);
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{btn2},new Vector3[]{new Vector3(0,0,1)});
 //		
-//		UIEventListener.Get (btn2).onClick += TapBackBtn;
+//		UIEventListenerCustom.Get (btn2).onClick += TapBackBtn;
 //		
 //	}
 //
 //	private void Btn2Click(GameObject btn)
 //	{
 //		NoviceGuideUtil.RemoveArrow (btn);
-//		UIEventListener.Get (btn).onClick -= Btn2Click;
+//		UIEventListenerCustom.Get (btn).onClick -= Btn2Click;
 //		
 //		GameObject btn3 = GameObject.FindWithTag ("unit_detail_btn3");
 //		//NoviceGuideUtil.ForceOneBtnClick(empty);
 //		NoviceGuideUtil.ForceOneBtnClick (btn3);
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{btn3},new Vector3[]{new Vector3(0,0,1)});
 //		
-//		UIEventListener.Get (btn3).onClick += Btn3Click;
+//		UIEventListenerCustom.Get (btn3).onClick += Btn3Click;
 //
 //
 //	}
@@ -322,14 +322,14 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 //	private void Btn3Click(GameObject btn)
 //	{
 //		NoviceGuideUtil.RemoveArrow (btn);
-//		UIEventListener.Get (btn).onClick -= Btn3Click;
+//		UIEventListenerCustom.Get (btn).onClick -= Btn3Click;
 //
 //		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 //		NoviceGuideUtil.ForceOneBtnClick (sbb);
 //		
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(0,0,3)});
 //		
-//		UIEventListener.Get (sbb).onClick += TapBackBtn;
+//		UIEventListenerCustom.Get (sbb).onClick += TapBackBtn;
 //
 //
 //	}
@@ -337,7 +337,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 //	private void TapBackBtn(GameObject btn)
 //	{
 //		NoviceGuideUtil.RemoveArrow (btn);
-//		UIEventListener.Get (btn).onClick -= TapBackBtn;
+//		UIEventListenerCustom.Get (btn).onClick -= TapBackBtn;
 //		JumpToNextState = true;
 //
 //	}

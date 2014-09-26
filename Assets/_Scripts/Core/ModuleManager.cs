@@ -10,9 +10,9 @@ public class ModuleManager {
 
 	private static Dictionary<SceneEnum, SceneBase> sceneDic = new Dictionary<SceneEnum, SceneBase>();
 
-	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0,0};
+	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0};
 
-	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
+	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None};
 
 	private static ModuleManager instance;
 
@@ -265,9 +265,9 @@ public class ModuleManager {
 		moduleDic.Clear ();
 		sceneDic.Clear ();
 
-		moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0,0,0,0,0};
+		moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0};
 		
-		typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None,GroupType.None};
+		typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None};
 
 	}
 
@@ -319,6 +319,11 @@ public class ModuleManager {
 //		HideModule (ModuleEnum.BattleAttackEffectModule);
 	}
 
+	public static bool CheckIsModuleFocusUIEvent(UIConfigItem config){
+		if (config.group == ModuleGroup.POPUP || config.moduleName == ModuleEnum.MsgWindowModule || config.moduleName == ModuleEnum.MaskModule) 
+			return true;
+		return false;
+	}
 }
 
 

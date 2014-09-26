@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public enum BlockerReason{
 	MessageWindow,
-	BriefInfoWindow,
+	PopUpWindow,
 	SortWindow,
 	Connecting,
 	NoviceGuide
@@ -16,7 +16,7 @@ public struct CameraLayerObj{
 	public bool isBlocked;
 }
 
-public class TouchEventBlocker{
+public class InputManager{
 	public const int blockerLayer = 15;
 	public const string blockerLayerName = "Blocker";
     public const int defaultLayer = 0;
@@ -26,7 +26,7 @@ public class TouchEventBlocker{
 
 	private int blockEvent = 0;
 
-	private TouchEventBlocker(){
+	private InputManager(){
 		nguiCamera = Camera.main.GetComponent<UICamera>();
 		blockEvent = GameLayer.LayerToInt (GameLayer.blocker) | GameLayer.LayerToInt (GameLayer.BottomInfo);
 	}
@@ -41,35 +41,25 @@ public class TouchEventBlocker{
 	private List<CameraLayerObj> remainChanges = new List<CameraLayerObj> ();
 //	private Dictionary<BlockerReason, bool> stateDic = new Dictionary<BlockerReason, bool>();
 
-	private static TouchEventBlocker instance;
+	private static InputManager instance;
 
-	public static TouchEventBlocker Instance{
+	public static InputManager Instance{
 		get{ 
 			if(instance == null){
-				instance = new TouchEventBlocker();
+				instance = new InputManager();
 			}
 			return instance;
 		}
 	}
 
 
-public void SetState(BlockerReason reason, bool isBlocked){
-//		if(stateDic.ContainsKey(reason)){
-//			stateDic[reason] = isBlocked;
-//		}
-//		else{
-//			stateDic.Add(reason, isBlocked);
-//		}
+	public void SetBlockWithinLayer(BlockerReason reason, bool isBlocked){
 
 		Debug.Log ("blocker reason: " +reason +" block: " + isBlocked);
 
 		CameraLayerObj camLayerObj = new CameraLayerObj ();
 		camLayerObj.reason = reason;
-//		if (reason == BlockerReason.Connecting) {
-//			camLayerObj.originLayer = nguiCamera.eventReceiverMask;
-//		} else {
-			camLayerObj.originLayer = nguiCamera.eventReceiverMask;
-//		}
+		camLayerObj.originLayer = nguiCamera.eventReceiverMask;
 
 		camLayerObj.isBlocked = isBlocked;
 
@@ -105,33 +95,8 @@ public void SetState(BlockerReason reason, bool isBlocked){
 			}
 		} 
 	}
-
-//	private bool GetFinalState(BlockerReason reason, bool isBlocked){
-//		RecordState(reason, isBlocked);
-//		return CalculateFinalState(isBlocked);
-//	}
-
-//	private bool CalculateFinalState(bool isBlocked){
-//		bool result = isBlocked;
-//		
-//		if(isBlocked){
-//			result = true;
-//		}
-//		else{
-//			foreach (var item in stateDic) {
-//				if(item.Value){
-//					result = true;
-//					break;
-//				}
-//			}
-//		}
-//
-//		return result;
-//	}
 	
 	private void SetBlocked(CameraLayerObj camObj){
-		//Debug.LogError("TouchEventBlocker.SetBlocked(), isBlocked " + isBlocked);
-//		Debug.Log ("ui camera: " + nguiCamera.eventReceiverMask.value + " origin: " + camObj.originLayer.value + " isblocked: " + camObj.isBlocked.ToString() + " reason: " + camObj.reason);
 		if (camObj.isBlocked){
 
 			if(camObj.reason != BlockerReason.NoviceGuide){
@@ -139,34 +104,21 @@ public void SetState(BlockerReason reason, bool isBlocked){
 			}else{
 				nguiCamera.eventReceiverMask = 1 << LayerMask.NameToLayer(guideLayerName);
 
-//				BattleBottom.notClick = true;
 				MsgCenter.Instance.Invoke(CommandEnum.ShiledInput,true);
-//				BaseUnitItem.canShowUnitDetail = false;
 			}
 		}
 		else{
-//			foreach (var item in remainChanges) {
-//				if(item.reason == camObj.reason)
-//					return;
-//			}
 			nguiCamera.eventReceiverMask = camObj.originLayer;
 
 			if(camObj.reason == BlockerReason.NoviceGuide){
 				MsgCenter.Instance.Invoke(CommandEnum.ShiledInput,false);
-//				BaseUnitItem.canShowUnitDetail = true;
 			}
-//			Debug.LogError("TouchEventBlocker.SetBlocked(), when false, eventReceiverMask " + (int)nguiCamera.eventReceiverMask);
-
 		}
-
 	}
 
-//	private void Test(bool result){
-//		//Test
-//		Debug.LogError("CalculateFinalState.Test(), result is : " + result);
-//		foreach (var item in stateDic){
-//			Debug.LogError(string.Format("Test, Key is {0}, Value is {1}", item.Key, item.Value));
-//		}
-//	}
+	public void SetBlockWithinModule(ModuleEnum module, bool isFocus){
+		UIEventListenerCustom.SetFocusModule (module, isFocus);
+	}
+
 
 }

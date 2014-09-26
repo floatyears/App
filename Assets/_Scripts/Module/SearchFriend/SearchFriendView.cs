@@ -17,7 +17,7 @@ public class SearchFriendView : ViewBase{
 
 	void InitWindow(){
 		buttonSearch = FindChild< UIButton >("Button_Search");
-		UIEventListener.Get(buttonSearch.gameObject).onClick = ClickButton;
+		UIEventListenerCustom.Get(buttonSearch.gameObject).onClick = ClickButton;
 		input = FindChild< UIInput >("Input");
 		input.value = string.Empty;
 		input.validation = UIInput.Validation.Integer;

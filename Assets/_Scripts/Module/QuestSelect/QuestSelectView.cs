@@ -144,7 +144,7 @@ public class QuestSelectView : ViewBase {
 				item.evolveCallback = EvolveCallback;
 				continue;
 			} else {
-				UIEventListener listener = item.GetComponent<UIEventListener>();
+				UIEventListenerCustom listener = item.GetComponent<UIEventListenerCustom>();
 				listener.onClick = null;
 				Destroy(listener);
 			}

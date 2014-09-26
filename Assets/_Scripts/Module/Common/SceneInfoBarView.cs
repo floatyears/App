@@ -23,7 +23,7 @@ public class SceneInfoBarView : ViewBase{
 		backBtn =  FindChild("Button_Back");
 		backBtnLabel = FindChild<UILabel> ("Button_Back/Label");
 		backBtnLabel.text = TextCenter.GetText("Btn_SceneBack");
-		UIEventListener.Get(backBtn).onClick = BackPreScene;
+		UIEventListenerCustom.Get(backBtn).onClick = BackPreScene;
 	}
 	
 	public void CallbackView(params object[] args) {

@@ -513,7 +513,7 @@ public class EvolveView : ViewBase {
 		FindChild<UILabel> ("Window/title/5/Text").text = TextCenter.GetText ("Text_Friend");
 
 
-		UIEventListener.Get (evolveButton.gameObject).onClick = Evolve;
+		UIEventListenerCustom.Get (evolveButton.gameObject).onClick = Evolve;
 	}
 	
 	void Evolve(GameObject go) {

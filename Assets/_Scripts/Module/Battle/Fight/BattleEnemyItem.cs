@@ -37,7 +37,7 @@ public class BattleEnemyItem : MonoBehaviour {
 		stateLabel = transform.FindChild("SateLabel").GetComponent<UILabel>();
 		
 		texture = transform.FindChild("Texture").GetComponent<UITexture>();
-		UIEventListener.Get (texture.gameObject).onClick = TargetEnemy;
+		UIEventListenerCustom.Get (texture.gameObject).onClick = TargetEnemy;
 		dropTexture = transform.FindChild("Drop").GetComponent<UISprite>();
 		dropTexture.enabled = false;
 		localPosition = texture.transform.localPosition;
@@ -75,7 +75,7 @@ public class BattleEnemyItem : MonoBehaviour {
 				SetBloodSpriteWidth ();
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 			}
-			Debug.Log ("texture enable: " + texture.enabled);
+//			Debug.Log ("texture enable: " + texture.enabled);
 			initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
 			hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y - hurtValueLabel.height * 2, initHurtLabelPosition.z);
 			callBack();

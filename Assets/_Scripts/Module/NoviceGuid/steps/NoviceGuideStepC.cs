@@ -37,13 +37,13 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 		GameObject btn = GameObject.FindWithTag("rare_scratch");
 		NoviceGuideUtil.ForceOneBtnClick (btn);
 		
-		UIEventListener.Get (btn).onClick += TapRareCard;
+		UIEventListenerCustom.Get (btn).onClick += TapRareCard;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{btn}, new Vector3[]{new Vector3(0,0,1)});
 	}
 	
 	private void TapRareCard(GameObject btn)
 	{
-		UIEventListener.Get (btn).onClick -= TapRareCard;
+		UIEventListenerCustom.Get (btn).onClick -= TapRareCard;
 		NoviceGuideUtil.RemoveArrow (btn);
 
 		JumpToNextState = true;

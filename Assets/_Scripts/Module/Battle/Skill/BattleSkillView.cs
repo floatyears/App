@@ -9,7 +9,9 @@ public class BattleSkillView : ViewBase {
 	private const string pathDescribe = "/DescribeLabel";
 	private UILabel roundLabel;
 	private UIButton boostButton;
-	
+
+	private bool isShow = false;
+
 	private Dictionary<string, SkillItem> skillDic = new Dictionary<string, SkillItem> ();
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
@@ -63,17 +65,31 @@ public class BattleSkillView : ViewBase {
 		roundLabel = FindChild<UILabel>("RoundLabel");
 		boostButton = FindChild<UIButton>("BoostButton");
 		FindChild<UILabel> ("BoostButton/Label").text = TextCenter.GetText ("Btn_TriggerSkill");
-		UIEventListener.Get (boostButton.gameObject).onClick = Boost;
+		UIEventListenerCustom.Get (boostButton.gameObject).onClick = Boost;
 		Transform trans = FindChild<Transform>("Title/Button_Close");
-		UIEventListener.Get (trans.gameObject).onClick = Close;
+		UIEventListenerCustom.Get (trans.gameObject).onClick = Close;
 	}
 
 	public override void ShowUI ()
 	{
-		base.ShowUI ();
-		if (viewData != null && viewData.ContainsKey("show_skill_window")) {
-			Refresh(viewData ["show_skill_window"] as UserUnit);
+
+		if (!isShow) {
+			base.ShowUI ();
+			if (viewData != null && viewData.ContainsKey("show_skill_window")) {
+				Refresh(viewData ["show_skill_window"] as UserUnit);
+			}	
+			isShow = true;
+		}else{
+			ModuleManager.Instance.HideModule(ModuleEnum.BattleSkillModule);
 		}
+
+	}
+
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		isShow = false;
+		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "close_skill_window");
 	}
 
 	void Boost(GameObject go) {
@@ -84,7 +100,6 @@ public class BattleSkillView : ViewBase {
 
 	void Close(GameObject go) {
 		ModuleManager.Instance.HideModule (ModuleEnum.BattleSkillModule);
-		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "close_skill_window");
 	}
 
 	bool boost = false;
@@ -155,7 +170,7 @@ public class SkillItem {
 			return;
 		}
 		skillTypeLabel.enabled = true;
-		string id = sbi.id.ToString ();
+		string id = sbi.ToString ();
 
 		skillName.text = TextCenter.GetText (SkillBase.SkillNamePrefix + id);
 		skillDescribeLabel.text = TextCenter.GetText (SkillBase.SkillDescribeFix + id);

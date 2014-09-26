@@ -37,7 +37,7 @@ public class DragPanelNew : ModuleBase,IDragPanel {
         for (int i = 0; i < count; i++) {
             GameObject go = drag.AddObject(this.sourceObject);
             item.Add(go);
-            UIEventListener.Get(go).onClick = ClickObject;
+            UIEventListenerCustom.Get(go).onClick = ClickObject;
         }
     }
 
@@ -49,7 +49,7 @@ public class DragPanelNew : ModuleBase,IDragPanel {
         item.Remove(target);
         GameObject.Destroy(target);
         drag.grid.Reposition();
-        UIEventListener.Get(target).onClick = null;
+        UIEventListenerCustom.Get(target).onClick = null;
     }
 
     public void SetPosition(Vector4 position) {

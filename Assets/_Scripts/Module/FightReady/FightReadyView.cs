@@ -110,9 +110,9 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
 //		partyNoLabel = transform.FindChild ("Label_Party_No").GetComponent<UILabel> ();
 
-		UIEventListener.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
-		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
-		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
+		UIEventListenerCustom.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
+		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
+		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
 
 		dragSlider = GetComponent<DragSliderBase>();
 		dragSlider.SetDataInterface (this);

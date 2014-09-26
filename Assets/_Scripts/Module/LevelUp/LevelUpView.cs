@@ -247,7 +247,7 @@ public class LevelUpView : ViewBase {
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
 		FindChild ("Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
 
-		UIEventListener.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
+		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
 		levelUpButton.isEnabled = false;
 		InitDragPanel ();
 	}
@@ -266,7 +266,7 @@ public class LevelUpView : ViewBase {
 			GameObject rejectItem = o as GameObject;
 			GameObject rejectItemIns = dragPanel.AddRejectItem (rejectItem);
 			rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
-			UIEventListener.Get(rejectItemIns).onClick = RejectCallback;
+			UIEventListenerCustom.Get(rejectItemIns).onClick = RejectCallback;
 		});
 	}
 

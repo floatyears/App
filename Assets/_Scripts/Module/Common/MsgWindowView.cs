@@ -48,28 +48,33 @@ public class MsgWindowView : ViewBase{
     
 	public override void ShowUI ()
 	{
-		base.ShowUI ();
 
-		if (!msgWindowParams.inputEnable){
-			LogHelper.Log("open msgWindow and block input");
-			ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.MessageWindow, true));
+		if (viewData != null && viewData.ContainsKey("data")){
+			base.ShowUI ();
+			msgWindowParams = viewData["data"] as MsgWindowParams;
+			if (msgWindowParams.fullScreenClick) {
+				clider.enabled = true;
+			} else {
+				clider.enabled = false;
+			}
+			LogHelper.Log("UpdateNotePanel() start");
+			titleLabel.text = msgWindowParams.titleText;
+			
+			UpdateTitleLabel();
+			UpdateLabels();
+			UpdateBtnParams();
+		}else{
+			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
 		}
-		else {
-			SetLayerToBlocker(false);
-		}
+		
+
+
 	}
 
     public override void HideUI(){
 
 		base.HideUI ();
 		Reset ();
-
-		if (!msgWindowParams.inputEnable){
-			LogHelper.Log("close msgWindow and resume input");
-			ModuleManager.SendMessage(ModuleEnum.MaskModule, "block",  
-			                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
-		}
-		SetLayerToBlocker(true);
     }
 
 	protected override void ToggleAnimation (bool isShow)
@@ -104,16 +109,15 @@ public class MsgWindowView : ViewBase{
         msgLabelBottom = FindChild<UILabel>("Window/Label_Msg_Bottom");
 		clider = GetComponent<BoxCollider> ();
 
-        UIEventListener.Get(btnRight.gameObject).onClick = ClickRightButton;
-        UIEventListener.Get(btnLeft.gameObject).onClick = ClickLeftButton;
-        UIEventListener.Get(btnCenter.gameObject).onClick = ClickCenterButton;
+        UIEventListenerCustom.Get(btnRight.gameObject).onClick = ClickRightButton;
+        UIEventListenerCustom.Get(btnLeft.gameObject).onClick = ClickLeftButton;
+        UIEventListenerCustom.Get(btnCenter.gameObject).onClick = ClickCenterButton;
 
     }
 
 
     protected virtual void Reset(){
 		titleLabel.text = string.Empty;
-		SetLayerToBlocker(true);
 
         btnCenterParam = null;
         btnLeftParam = null;
@@ -132,45 +136,16 @@ public class MsgWindowView : ViewBase{
         msgLabelBottom.text = string.Empty;
     }
     
-    public override void CallbackView(params object[] args){
-//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (args[0].ToString()){
-        case "show": 
-            ShowMsgWindow(args[1]);
-            break;
-        case "hide": 
-			HideUI ();
-            break;
-        default:
-            break;
-        }
-    }
-
-    void SetLayerToBlocker(bool toBlocker){
-        LogHelper.Log("SetLayerToBlocker(), {0}", toBlocker);
-        if (toBlocker){
-            btnLeft.gameObject.layer = TouchEventBlocker.blockerLayer;
-            btnRight.gameObject.layer = TouchEventBlocker.blockerLayer;
-            btnCenter.gameObject.layer = TouchEventBlocker.blockerLayer;
-        }
-        else {
-            btnLeft.gameObject.layer = TouchEventBlocker.defaultLayer;
-            btnRight.gameObject.layer = TouchEventBlocker.defaultLayer;
-            btnCenter.gameObject.layer = TouchEventBlocker.defaultLayer;
-        }
-    }
-    
     void ClickRightButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnRightParam != null){
-			BtnParam bp = btnRightParam;
-//			ShowSelf(false);
-			HideUI();
-			DataListener callback = bp.callback;
+
+			DataListener callback = btnRightParam.callback;
 
             if (callback != null){
-				callback(bp.args);
+				callback(btnRightParam.args);
             }
+			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
         }
         
     }
@@ -178,13 +153,13 @@ public class MsgWindowView : ViewBase{
     void ClickLeftButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnLeftParam != null){
-			BtnParam bp = btnLeftParam;
-			HideUI();
-			DataListener callback = bp.callback;
+
+			DataListener callback = btnLeftParam.callback;
 
             if (callback != null){
-				callback(bp.args);
-            }
+				callback(btnLeftParam.args);
+			}
+			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
         }
        
     }
@@ -192,14 +167,13 @@ public class MsgWindowView : ViewBase{
     void ClickCenterButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
         if (btnCenterParam != null){
-			BtnParam bp = btnCenterParam;
-			HideUI();
-			DataListener callback = bp.callback;
+
+			DataListener callback = btnCenterParam.callback;
             if (callback != null){
-				callback(bp.args);
+				callback(btnCenterParam.args);
             }
+			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
         }
-       
     }
 
     void UpdateCenterLabel(string text){
@@ -223,7 +197,7 @@ public class MsgWindowView : ViewBase{
     }
 
     void UpdateBtnCenterCallback(BtnParam btnParam){
-		UIEventListener.Get (gameObject).onClick = ClickCenterButton;
+		UIEventListenerCustom.Get (gameObject).onClick = ClickCenterButton;
 
         btnCenter.gameObject.SetActive(true);
         btnCenterParam = btnParam;
@@ -231,7 +205,7 @@ public class MsgWindowView : ViewBase{
     }
     
     void ResetBtnCallback(){
-		UIEventListener.Get (gameObject).onClick = null;
+		UIEventListenerCustom.Get (gameObject).onClick = null;
 
         btnCenter.gameObject.SetActive(false);
         btnLeft.gameObject.SetActive(false);
@@ -243,7 +217,7 @@ public class MsgWindowView : ViewBase{
 
 
     void UpdateBtnLeftRightCallback(BtnParam[] btnParam){
-		UIEventListener.Get (gameObject).onClick = ClickLeftButton;
+		UIEventListenerCustom.Get (gameObject).onClick = ClickLeftButton;
 
         btnLeft.gameObject.SetActive(true);
         btnRight.gameObject.SetActive(true);
@@ -285,28 +259,6 @@ public class MsgWindowView : ViewBase{
     void UpdateTitleLabel(){
         titleLabel.text = msgWindowParams.titleText;
     }
-
-    public void ShowMsgWindow(object args){
-        MsgWindowParams nextMsgWindowParams = args as MsgWindowParams;
-        if (nextMsgWindowParams == null){
-            return;
-        }
-        msgWindowParams = nextMsgWindowParams;
-		if (msgWindowParams.fullScreenClick) {
-			clider.enabled = true;
-		} else {
-			clider.enabled = false;
-		}
-        LogHelper.Log("UpdateNotePanel() start");
-        titleLabel.text = msgWindowParams.titleText;
-
-        UpdateTitleLabel();
-        UpdateLabels();
-        UpdateBtnParams();
-
-		ShowUI ();
-    }
-
 	public UIButton BtnLeft
 	{
 		get{return btnLeft;}

@@ -62,7 +62,7 @@ public class LevelUpMaterialWindow : ViewBase {
 	}
 
 	private void AddEventListener( GameObject item){
-		UIEventListener.Get( item ).onClick = ClickMaterialItem;
+		UIEventListenerCustom.Get( item ).onClick = ClickMaterialItem;
 		UIEventListenerCustom.Get( item ).LongPress = PressItem;
 
 	}

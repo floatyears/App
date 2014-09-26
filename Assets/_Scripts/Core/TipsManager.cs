@@ -52,7 +52,7 @@ public class TipsManager {
 
 		param.btnParams = new BtnParam[2]{left,right};
 
-		ModuleManager.SendMessage (ModuleEnum.MsgWindowModule,"show", param);
+		ModuleManager.Instance.ShowModule (ModuleEnum.MsgWindowModule,"data", param);
 	}
 
 	public void ShowMsgWindow(string title, string[] content, string leftBtn, string rightBtn, DataListener leftCallback = null,DataListener rightCallback = null, object leftData = null, object rightData = null){
@@ -73,7 +73,7 @@ public class TipsManager {
 		
 		param.btnParams = new BtnParam[2]{left,right};
 		
-		ModuleManager.SendMessage (ModuleEnum.MsgWindowModule,"show", param);
+		ModuleManager.Instance.ShowModule (ModuleEnum.MsgWindowModule,"data", param);
 	}
 
 	public void ShowMsgWindow(string title, string content, string centerBtn, DataListener centerCallback = null, object centerData = null){
@@ -91,7 +91,7 @@ public class TipsManager {
 		
 		param.btnParam = center;
 
-		ModuleManager.SendMessage (ModuleEnum.MsgWindowModule,"show", param);
+		ModuleManager.Instance.ShowModule (ModuleEnum.MsgWindowModule,"data", param);
 	}
 	public void ShowMsgWindow(string title, string[] content, string centerBtn, DataListener centerCallback = null, object centerData = null){
 		MsgWindowParams param = new MsgWindowParams ();
@@ -106,6 +106,6 @@ public class TipsManager {
 		
 		param.btnParam = center;
 		
-		ModuleManager.SendMessage (ModuleEnum.MsgWindowModule,"show", param);
+		ModuleManager.Instance.ShowModule (ModuleEnum.MsgWindowModule,"data", param);
 	}
 }
