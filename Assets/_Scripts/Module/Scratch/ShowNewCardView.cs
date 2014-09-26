@@ -77,8 +77,8 @@ public class ShowNewCardView : ViewBase {
 		detailButtonLabel.text = TextCenter.GetText ("Btn_ToDetail");
 		returnButtonLabel.text = TextCenter.GetText ("Btn_SceneBack");
 
-		UIEventListener.Get (detailButton.gameObject).onClick = DetailButtonCallback;
-		UIEventListener.Get (returnButton.gameObject).onClick = ReturnButtonCallback;
+		UIEventListenerCustom.Get (detailButton.gameObject).onClick = DetailButtonCallback;
+		UIEventListenerCustom.Get (returnButton.gameObject).onClick = ReturnButtonCallback;
 	}
 
 	void ShowProfile(UserUnit userUnit) {

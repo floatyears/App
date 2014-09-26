@@ -6,9 +6,9 @@ public class UITest : MonoBehaviour {
 	public UIButton button;
 	// Use this for initialization
 	void Start () {
-		UIEventListener.Get(button.gameObject).onClick = ClickButton;
-		UIEventListener.Get(button.gameObject).onPress = PressButton;
-//		UIEventListener.Get(button.gameObject)
+		UIEventListenerCustom.Get(button.gameObject).onClick = ClickButton;
+		UIEventListenerCustom.Get(button.gameObject).onPress = PressButton;
+//		UIEventListenerCustom.Get(button.gameObject)
 	}
 	
 	// Update is called once per frame

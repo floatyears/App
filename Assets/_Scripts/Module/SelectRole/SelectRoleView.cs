@@ -63,7 +63,7 @@ public class SelectRoleView : ViewBase {
 //		Debug.Log("UnitSelect.FindItem......Content Item count is : " + contentList.Count);
 
 		selectBtn = transform.FindChild("Button_Select").GetComponent<UIButton>();
-		UIEventListener.Get(selectBtn.gameObject).onClick = ClickButton;
+		UIEventListenerCustom.Get(selectBtn.gameObject).onClick = ClickButton;
 	}
 
 	void ShowInitialView(object args){
@@ -78,7 +78,7 @@ public class SelectRoleView : ViewBase {
 			label = tabList[ i ].transform.FindChild("Label_Name").GetComponent<UILabel>();
 			label.text = unitInfoList[ i ].name;
 
-			UIEventListener.Get(tabList[ i ]).onClick = ClickTab;
+			UIEventListenerCustom.Get(tabList[ i ]).onClick = ClickTab;
 		}
 
 

@@ -46,7 +46,7 @@ public class UserIDView : ViewBase{
 		idLabel = FindChild<UILabel>("Label_ID_Vaule");
 
 		UIButton buttonOK = FindChild< UIButton >("Button_OK");
-		UIEventListener.Get(buttonOK.gameObject).onClick = ClickButton;
+		UIEventListenerCustom.Get(buttonOK.gameObject).onClick = ClickButton;
 	}
 
 	void ClickButton(GameObject go){

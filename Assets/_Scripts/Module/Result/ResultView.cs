@@ -56,9 +56,9 @@ public class ResultView : ViewBase {
 		rootTop.transform.FindChild ("TextLabels/Label_LatestPlay").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_LastLogin_Colon");
 		rootTop.transform.FindChild ("Label_Title").GetComponent<UILabel> ().text = TextCenter.GetText ("Support_Friend");
 
-		UIEventListener.Get(checkBtn.gameObject).onClick = ClickCheck;
-		UIEventListener.Get(okBtn.gameObject).onClick = ClickOk;
-		UIEventListener.Get(cancelBtn.gameObject).onClick = ClickCancel;
+		UIEventListenerCustom.Get(checkBtn.gameObject).onClick = ClickCheck;
+		UIEventListenerCustom.Get(okBtn.gameObject).onClick = ClickOk;
+		UIEventListenerCustom.Get(cancelBtn.gameObject).onClick = ClickCancel;
 	}
 	public override void ShowUI(){
 		MsgCenter.Instance.Invoke (CommandEnum.EnableMenuBtns, false);

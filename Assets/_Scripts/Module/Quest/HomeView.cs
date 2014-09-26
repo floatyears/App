@@ -123,7 +123,7 @@ public class HomeView : ViewBase{
 		UpdateInfo (panel, cityList);
 
 		foreach (var item in panel.ScrollItem)
-			UIEventListener.Get(item).onClick = ClickStoryItem;
+			UIEventListenerCustom.Get(item).onClick = ClickStoryItem;
 	}
 
 	void UpdateInfo (DragPanel panel, List<CityInfo> cityList) {
@@ -184,13 +184,13 @@ public class HomeView : ViewBase{
 //				Debug.LogError(string.Format("Resoures ERROR :: InitWorldMap(), Index[ {0} ] Not Found....!!!", i));
 				continue;
 			}
-			UIEventListener.Get(cityItem).onClick = PressStoryDoor;
+			UIEventListenerCustom.Get(cityItem).onClick = PressStoryDoor;
 			cityViewInfo.Add(cityItem, data[ i ]);
 		}
 
 		eventRoot = transform.FindChild("EventDoor").gameObject;
 //		eventRoot.SetActive (false);
-		UIEventListener.Get(eventRoot).onPress = PressEventDoor;
+		UIEventListenerCustom.Get(eventRoot).onPress = PressEventDoor;
 	}
 
 

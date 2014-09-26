@@ -407,9 +407,9 @@
 //	}
 //	
 //	private void AddEventListener( UnitItemInfo item){
-//		UIEventListenerCustom uiEventListener = UIEventListenerCustom.Get (item.scrollItem);
-//		uiEventListener.LongPress = PressItem;
-//		uiEventListener.onClick = ClickBaseItem;
+//		UIEventListenerCustom UIEventListenerCustom = UIEventListenerCustom.Get (item.scrollItem);
+//		UIEventListenerCustom.LongPress = PressItem;
+//		UIEventListenerCustom.onClick = ClickBaseItem;
 //	}
 //
 //	bool exchange = false;

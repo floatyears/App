@@ -144,21 +144,21 @@ public class UnitDetailView : ViewBase{
 		parent = FindChild<UIGrid> ("Center/UIGrid").gameObject;
 		
 		GameObject go = FindChild<Transform>("Bottom/Bg").gameObject;
-		UIEventListener.Get (go).onClick = ClickTexture;
+		UIEventListenerCustom.Get (go).onClick = ClickTexture;
 
 		unitLock = FindChild("Top/Button_Lock");
-		UIEventListener.Get(unitLock).onClick = ClickLock;
+		UIEventListenerCustom.Get(unitLock).onClick = ClickLock;
 
 		unitInfoTabs = transform.Find("Bottom/UnitInfoTabs").gameObject;
 
 		tabSkill2 = transform.Find("Bottom/UnitInfoTabs/Tab_Skill2").gameObject;
-		UIEventListener.Get(tabSkill2).onClick = ClickTab;
+		UIEventListenerCustom.Get(tabSkill2).onClick = ClickTab;
 
 		tabProfile = transform.Find("Bottom/UnitInfoTabs/Tab_Profile").gameObject;
-		UIEventListener.Get(tabProfile).onClick = ClickTab;
+		UIEventListenerCustom.Get(tabProfile).onClick = ClickTab;
 
 		tabStatus = transform.Find("Bottom/UnitInfoTabs/Tab_Status").gameObject;
-		UIEventListener.Get(tabStatus).onClick = ClickTab;
+		UIEventListenerCustom.Get(tabStatus).onClick = ClickTab;
 
 		//top
 		cost = transform.FindChild("Top/Cost").GetComponent<UILabel>();

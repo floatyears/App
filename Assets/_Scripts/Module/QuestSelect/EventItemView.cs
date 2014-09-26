@@ -135,7 +135,7 @@ public class EventItemView : MonoBehaviour{
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 //		StageState clearState = StageState.CLEAR; //DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(data.ID);
 //		ShowIconByState(clearState);
-		UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+		UIEventListenerCustom.Get(this.gameObject).onClick = StepIntoNextScene;
 	}
 
 	private void StepIntoNextScene(GameObject item){
@@ -217,14 +217,14 @@ public class EventItemView : MonoBehaviour{
 				ro1.enabled = true;
 				ro1.ResetToBeginning();
 
-				UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+				UIEventListenerCustom.Get(this.gameObject).onClick = StepIntoNextScene;
 			}else if(state == StageState.EVENT_CLOSE){
 				icon.spriteName = "icon_event_b";
 				icon.width = 78;
 				icon.height = 78;
 				ro.enabled = false;
 				ro1.enabled = false;
-				UIEventListener.Get(this.gameObject).onClick = ShowTip;
+				UIEventListenerCustom.Get(this.gameObject).onClick = ShowTip;
 			}
 		});
 

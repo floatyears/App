@@ -65,7 +65,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		for (int i = 0; i < PARTY_LIGHT_COUNT; i++){
 			GameObject curPageLight = pageLightRoot.transform.FindChild(i.ToString()).gameObject;
 			pageLightList.Add(curPageLight);
-			UIEventListener.Get(curPageLight).onClick = ClickPageLight;
+			UIEventListenerCustom.Get(curPageLight).onClick = ClickPageLight;
 		}
 		
 		FindChild<UILabel>("Button_Fight/Label").text = TextCenter.GetText ("Btn_Fight");
@@ -89,9 +89,9 @@ public class GiveUp__FightReadyView : ViewBase {
 		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
 		partyNoLabel = transform.FindChild ("Label_Party_No").GetComponent<UILabel> ();
 		
-		UIEventListener.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
-		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
-		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
+		UIEventListenerCustom.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
+		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
+		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
 		
 		for (int i = 0; i < 4; i++){
 			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());

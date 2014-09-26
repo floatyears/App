@@ -223,7 +223,7 @@ public class BattleResultView : ViewBase {
 		frontCircle = FindChild<UISprite>("FrontCircle");
 		backCircle = FindChild<UISprite>("BackCircle");
 		sureButton = FindChild<UIButton>("Button");
-		UIEventListener.Get (sureButton.gameObject).onClick = Sure;
+		UIEventListenerCustom.Get (sureButton.gameObject).onClick = Sure;
 		sureButton.transform.Find ("Label").GetComponent<UILabel> ().text = TextCenter.GetText ("OK");
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);

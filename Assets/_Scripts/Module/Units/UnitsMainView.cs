@@ -85,7 +85,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 //		dragChangeView.Init ();
 
 		foreach (var item in buttonInfo.Keys)
-			UIEventListener.Get(item).onClick = OnClickCallback;
+			UIEventListenerCustom.Get(item).onClick = OnClickCallback;
 	}
 
 	void OnClickCallback(GameObject caller){
@@ -119,9 +119,9 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		bottomRoot = transform.FindChild("Bottom").gameObject;
 		pageIndexSpr = transform.FindChild("Top/Sprite_Page_Index").GetComponent<UISprite>();
 		prePageBtn = FindChild<UIButton>("Top/Button_Left");
-		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
+		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
-		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
+		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
 
 //		for (int i = 0; i < PartyView.PARTY_MEMBER_COUNT; i++){
 //			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;

@@ -266,7 +266,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		BattleBottomView bbs = GameObject.Find ("BattleBottom").GetComponent<BattleBottomView>();
 		bbs.SetLeaderToNoviceGuide (false);
 //		bbs.IsUseLeaderSkill = false;
-		//UIEventListener.Get (leader).onClick += ClickLeader;
+		//UIEventListenerCustom.Get (leader).onClick += ClickLeader;
 	}
 	
 	private void ClickOk1(object btn){
@@ -279,7 +279,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		
 		NoviceGuideUtil.ForceOneBtnClick (bs);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{bs}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListener.Get (bs).onClick += ClickSkill;
+		UIEventListenerCustom.Get (bs).onClick += ClickSkill;
 		
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillAttack, SkillAttack);
 	}
@@ -289,7 +289,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 //		BattleBottomView.notClick = false;
 
 		NoviceGuideUtil.RemoveArrow (btn);
-		UIEventListener.Get (btn).onClick -= ClickSkill;
+		UIEventListenerCustom.Get (btn).onClick -= ClickSkill;
 		
 	}
 	

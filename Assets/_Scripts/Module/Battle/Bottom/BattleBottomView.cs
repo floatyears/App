@@ -70,7 +70,7 @@ public class BattleBottomView : ViewBase {
 				bgSpr.spriteName = "avatar_bg_" + (i == 0 ? "l" : "f") + "_"  + ((int)tui.type).ToString();
 				skillSpr.spriteName = "icon_skill_" + ((int)tui.type).ToString();
 			}
-			UIEventListener.Get(temp).onClick += ClickItem;
+			UIEventListenerCustom.Get(temp).onClick += ClickItem;
 		}
 		
 
@@ -147,8 +147,9 @@ public class BattleBottomView : ViewBase {
 	void ClickItem (GameObject obj) {
 		UITexture tex = actor [int.Parse (obj.name)];
 		if (tex != null && tex.color == Color.white) {
-			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"show_skill_window",DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [int.Parse(obj.name)]);
 			MaskCard (obj.name, true);
+			ModuleManager.Instance.ShowModule(ModuleEnum.BattleSkillModule,"show_skill_window",DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [int.Parse(obj.name)]);
+
 		}
 
 	}

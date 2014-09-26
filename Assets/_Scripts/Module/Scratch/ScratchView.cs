@@ -43,9 +43,9 @@ public class ScratchView : ViewBase {
 		btnEventGacha = FindChild<UIButton>("Gacha_Entrance/3");
 		FindChild ("Gacha_Entrance/3/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("EventScratch");
 
-        UIEventListener.Get(btnFriendGacha.gameObject).onClick = OnClickFriendGacha;
-        UIEventListener.Get(btnRareGacha.gameObject).onClick = OnClickRareGacha;
-        UIEventListener.Get(btnEventGacha.gameObject).onClick = OnClickEventGacha;
+        UIEventListenerCustom.Get(btnFriendGacha.gameObject).onClick = OnClickFriendGacha;
+        UIEventListenerCustom.Get(btnRareGacha.gameObject).onClick = OnClickRareGacha;
+        UIEventListenerCustom.Get(btnEventGacha.gameObject).onClick = OnClickEventGacha;
 
 		friendGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/1/TimesParent");
 		rareGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/2/TimesParent");

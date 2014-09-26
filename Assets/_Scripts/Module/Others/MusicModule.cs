@@ -3,7 +3,9 @@ using System.Collections;
 
 public class MusicModule : ModuleBase {
 
-	public MusicModule(UIConfigItem config):base(  config){}
+	public MusicModule(UIConfigItem config):base(  config){
+		CreateUI<MusicView> ();
+	}
 	
 	public override void InitUI(){
 		base.InitUI(); 

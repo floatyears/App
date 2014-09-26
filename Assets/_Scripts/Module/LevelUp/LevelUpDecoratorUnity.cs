@@ -116,9 +116,9 @@
 //            materialTabList.Add(go);
 //            materialTexture.Add(go.GetComponentInChildren<UITexture>());
 //        }
-//        UIEventListener.Get(baseTab).onClick = FocusOnPanel;
-//        UIEventListener.Get(friendTab).onClick = FocusOnPanel;
-//        UIEventListener.Get(materialTab).onClick = FocusOnPanel;
+//        UIEventListenerCustom.Get(baseTab).onClick = FocusOnPanel;
+//        UIEventListenerCustom.Get(friendTab).onClick = FocusOnPanel;
+//        UIEventListenerCustom.Get(materialTab).onClick = FocusOnPanel;
 //    }
 //
 //    private void InitPanels() {
@@ -131,11 +131,11 @@
 //        friendSortBar = FindChild("Focus_Panels/Friend_Panel/SortButton");
 //		
 //        //btnLevelUp = FindChild("Focus_Panels/Friend_Panel/Button_LevelUp");
-//        //UIEventListener.Get(btnLevelUp).onClick = LevelUp;
+//        //UIEventListenerCustom.Get(btnLevelUp).onClick = LevelUp;
 //
-//        UIEventListener.Get(baseSortBar).onClick = SortBase;
-//        UIEventListener.Get(materialSortBar).onClick = SortMaterial;
-//        UIEventListener.Get(friendSortBar).onClick = SortFriend;
+//        UIEventListenerCustom.Get(baseSortBar).onClick = SortBase;
+//        UIEventListenerCustom.Get(materialSortBar).onClick = SortMaterial;
+//        UIEventListenerCustom.Get(friendSortBar).onClick = SortFriend;
 //        CreateScrollerFriend();
 //        CreateScrollerBase();
 //        CreateScrollerMaterial();

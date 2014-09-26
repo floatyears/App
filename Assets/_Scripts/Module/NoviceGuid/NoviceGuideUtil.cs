@@ -196,7 +196,7 @@ public class NoviceGuideUtil {
 //		mainCam.eventReceiverMask = mask;
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
 
-		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, true);
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, true);
 
 		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
 	}
@@ -205,13 +205,13 @@ public class NoviceGuideUtil {
 
 	private static void BtnClick(GameObject btn)
 	{
-		UIEventListener.Get (btn).onClick -= BtnClick;
+		UIEventListenerCustom.Get (btn).onClick -= BtnClick;
 		UIEventListenerCustom.Get (btn).LongPress = longPressDelegate;
 		longPressDelegate = null;
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 //		mainCam.eventReceiverMask = camLastLayer;
 
-		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, false);
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
 
 		btn.layer = oneBtnClickLayer;
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
@@ -223,7 +223,7 @@ public class NoviceGuideUtil {
 		camLastLayer = mainCam.eventReceiverMask;
 //		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
 //		mainCam.eventReceiverMask = mask;
-		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, true);
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, true);
 
 		multiBtns = objs;
 		
@@ -248,7 +248,7 @@ public class NoviceGuideUtil {
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 //		mainCam.eventReceiverMask = camLastLayer;
 
-		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, false);
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
 
 		foreach (GameObject item in multiBtns) {
 			UIEventListenerCustom.Get (item).onClick -= MultiBtnClick;
@@ -277,7 +277,7 @@ public class NoviceGuideUtil {
 		oneBtnClickLayer = obj.layer;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
 //		mainCam.eventReceiverMask = mask;
-		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, true);
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, true);
 
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
 		LogHelper.Log ("main cam layer(force click): " + mainCam.eventReceiverMask.value);
@@ -289,7 +289,7 @@ public class NoviceGuideUtil {
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 //		mainCam.eventReceiverMask = camLastLayer;
 
-		TouchEventBlocker.Instance.SetState (BlockerReason.NoviceGuide, false);
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
 
 		btn.layer = oneBtnClickLayer;
 		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);

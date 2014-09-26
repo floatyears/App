@@ -22,10 +22,10 @@ using bbproto;public class BattleTopView : ViewBase {
 		dropLabel = FindChild<UILabel> ("Top/DropLabel");
 		floorLabel = FindChild<UILabel> ("Top/FloorLabel");
 		retryButton = FindChild<UIButton>("Top/RetryButton");
-		UIEventListener.Get (retryButton.gameObject).onClick = Retry;
+		UIEventListenerCustom.Get (retryButton.gameObject).onClick = Retry;
 
 		menuButton = FindChild<UIButton>("Top/MenuButton");
-		UIEventListener.Get (menuButton.gameObject).onClick = ShowMenu;
+		UIEventListenerCustom.Get (menuButton.gameObject).onClick = ShowMenu;
 	}
 
 	public override void CallbackView (params object[] args)
@@ -94,12 +94,6 @@ using bbproto;public class BattleTopView : ViewBase {
 	public void Reset() {
 		coinLabel.text = "";
 		dropLabel.text = "";
-		SheildInput (true);
-	}
-
-	public void SheildInput(bool b) {
-		retryButton.isEnabled = b;
-		menuButton.isEnabled = b;
 	}
 
 	void Retry(GameObject go) {
@@ -108,7 +102,9 @@ using bbproto;public class BattleTopView : ViewBase {
 			return;	
 		}
 #endif
-
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
+		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.UserData.AccountInfo.stone),
+		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
 //		battleQuest.Retry ();
 
 	}
@@ -119,7 +115,7 @@ using bbproto;public class BattleTopView : ViewBase {
 			return;	
 		}
 #endif
-
+		ModuleManager.Instance.ShowModule (ModuleEnum.MusicModule);
 //		if (battleMenu == null) {
 //			CreatBattleMenu ();
 //			return;
@@ -130,30 +126,6 @@ using bbproto;public class BattleTopView : ViewBase {
 //		} else {
 //			battleMenu.HideUI ();
 //		}
-	}
-
-	void CreatBattleMenu () {
-		 ResourceManager.Instance.LoadLocalAsset ("Prefabs/BattleMenu", o => {
-			GameObject go = o as GameObject;
-			go = NGUITools.AddChild (ViewManager.Instance.CenterPanel, go);
-			go.transform.localPosition = new Vector3 (0f, 0f, 0f);
-			go.layer = GameLayer.BottomInfo;
-//			battleMenu = go.GetComponent<BattleMenu> ();
-//			battleMenu.battleQuest = battleQuest;
-////			battleMenu.Init ("BattleMenu");
-//			battleMenu.ShowUI();
-		});
-
-	}
-
-	
-	public void Retry () {
-//		Main.Instance.GInput.IsCheckInput = false;
-//		BattleBottomView.notClick = true;
-		
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RedoQuestTitle"),
-		                                    TextCenter.GetText ("RedoQuestContent", DataCenter.redoQuestStone, DataCenter.Instance.UserData.AccountInfo.stone),
-		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), SureInitiativeRetry, CancelInitiativeRetry);
 	}
 
 	void SureInitiativeRetry(object data) {

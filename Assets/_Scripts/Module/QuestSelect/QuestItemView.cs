@@ -111,9 +111,9 @@ public class QuestItemView : MonoBehaviour {
 
 	private void AddEventListener(){
 		if(data == null)
-			UIEventListener.Get(this.gameObject).onClick = null;
+			UIEventListenerCustom.Get(this.gameObject).onClick = null;
 		else
-			UIEventListener.Get(this.gameObject).onClick = ClickItem;
+			UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
 	}
 
 	private void ClickItem(GameObject item){

@@ -79,9 +79,9 @@ public class PartyView : ViewBase, IDragChangeView{
 		bottomRoot = transform.FindChild("Bottom").gameObject;
 		pageIndexSpr = transform.FindChild("Top/Sprite_Page_Index").GetComponent<UISprite>();
 		prePageBtn = FindChild<UIButton>("Top/Button_Left");
-		UIEventListener.Get(prePageBtn.gameObject).onClick = PrevPage;
+		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
 		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
-		UIEventListener.Get(nextPageBtn.gameObject).onClick = NextPage;
+		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
 
 		dragChangeView = FindChild<PartyDragView>("Top/DragPartyLevelUp");
 		dragChangeView.SetDataInterface (this);
@@ -417,7 +417,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 		GameObject rejectItemIns = dragPanel.ScrollItem[ 0 ];
 		rejectItemIns.transform.FindChild ("Label_Text").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Reject");
-		UIEventListener.Get(rejectItemIns).onClick = RejectPartyMember;
+		UIEventListenerCustom.Get(rejectItemIns).onClick = RejectPartyMember;
 	}
 
 	private void InitUnitListView(){

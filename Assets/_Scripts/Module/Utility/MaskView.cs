@@ -17,30 +17,12 @@ public class MaskView : ViewBase {
 //		CallBackDispatcherArgs call = data as CallBackDispatcherArgs;
 
 		switch (args[0].ToString()){
-
-			case "block":
-				ShowMask(args[1]);
-				break;
 			case "connect":
 				SetConnectActive((bool)args[1]);
 				break;
 			default:
 				break;
 		}
-	}
-	
-	void ShowMask(object msg){
-		//LogHelper.LogError("MaskController.ShowMask(), start...");
-//		Debug.Log ("show mask");
-		BlockerMaskParams bmArgs = msg as BlockerMaskParams;
-		
-		TouchEventBlocker.Instance.SetState(bmArgs.reason, bmArgs.isBlocked);
-		if (background == null) {
-			return;	
-		}
-		
-		background.enabled = bmArgs.isBlocked;
-		gameObject.SetActive(bmArgs.isBlocked);
 	}
 
 	void InitUI(){

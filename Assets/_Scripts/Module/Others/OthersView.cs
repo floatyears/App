@@ -160,7 +160,7 @@ public class OthersView : ViewBase {
 //		othersScroller.DragPanelView.SetScrollView(ConfigDragPanel.OthersDragPanelArgs, parentTrans);
 //		
 //		for(int i = 0; i < othersScroller.ScrollItem.Count; i++)
-//			UIEventListener.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
+//			UIEventListenerCustom.Get( othersScroller.ScrollItem[ i ].gameObject ).onClick = ClickOption;
 //	}
 
 

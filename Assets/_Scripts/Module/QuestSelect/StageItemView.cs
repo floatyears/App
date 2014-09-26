@@ -106,7 +106,7 @@ public class StageItemView : MonoBehaviour{
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 //		StageState clearState = StageState.CLEAR; //DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(data.ID);
 //		ShowIconByState(clearState);
-		UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+		UIEventListenerCustom.Get(this.gameObject).onClick = StepIntoNextScene;
 	}
 
 	private void StepIntoNextScene(GameObject item){
@@ -167,7 +167,7 @@ public class StageItemView : MonoBehaviour{
 
 		if(state == StageState.LOCKED){
 			icon.spriteName = "icon_stage_lock";
-			UIEventListener.Get(this.gameObject).onClick = ShowTip;
+			UIEventListenerCustom.Get(this.gameObject).onClick = ShowTip;
 		}
 		else if(state == StageState.NEW){
 			ShowIconAccessState(icon);
@@ -177,11 +177,11 @@ public class StageItemView : MonoBehaviour{
 				insPrefab = NGUITools.AddChild(gameObject, prefab);
 			}
 
-			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+			UIEventListenerCustom.Get(this.gameObject).onClick = StepIntoNextScene;
 		}
 		else if(state == StageState.CLEAR){
 			ShowIconAccessState(icon);
-			UIEventListener.Get(this.gameObject).onClick = StepIntoNextScene;
+			UIEventListenerCustom.Get(this.gameObject).onClick = StepIntoNextScene;
 		}
 	}
 

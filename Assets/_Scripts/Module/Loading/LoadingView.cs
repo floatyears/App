@@ -60,7 +60,7 @@ public class LoadingView : ViewBase {
 				initComplete = true;
 				//				Debug.Log("init complete: " + initComplete);
 
-				UIEventListener.Get(this.gameObject).onClick = ClickToLogin;
+				UIEventListenerCustom.Get(this.gameObject).onClick = ClickToLogin;
 				tapLogin.enabled = true;
 			});
 		});

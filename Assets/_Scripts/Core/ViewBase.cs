@@ -24,10 +24,17 @@ public class ViewBase : MonoBehaviour {
 	}
 
 	public virtual void ShowUI() {
+		if (ModuleManager.CheckIsModuleFocusUIEvent (config)) {
+			gameObject.layer = GameLayer.blocker;
+			InputManager.Instance.SetBlockWithinModule(config.moduleName,true);
+		}
 		ToggleAnimation (true);
 	}
 
 	public virtual void HideUI() {
+		if (ModuleManager.CheckIsModuleFocusUIEvent (config)) {
+			InputManager.Instance.SetBlockWithinModule(config.moduleName,false);
+		}
 		ToggleAnimation (false);
 	}
 	
@@ -77,12 +84,12 @@ public class ViewBase : MonoBehaviour {
 
 	protected virtual void ToggleAnimation(bool isShow){
 		if (isShow) {
-			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
 			gameObject.SetActive(true);
 			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
 //			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 		}else{
-			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
 			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
 			gameObject.SetActive(false);
 //			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
@@ -97,5 +104,6 @@ public class ViewBase : MonoBehaviour {
 	public void SetViewData(Dictionary<string, object> data){
 		viewData = data;
 	}
+
 
 }

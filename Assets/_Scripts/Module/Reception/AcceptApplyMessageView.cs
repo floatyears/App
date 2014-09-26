@@ -24,7 +24,7 @@ public class AcceptApplyMessageView : ApplyMessageView{
 
 	void InitUIElement(){
 		deleteButton = FindChild<UIButton>("Window/Button_Delete");
-		UIEventListener.Get(deleteButton.gameObject).onClick = ClickDeleteButton;
+		UIEventListenerCustom.Get(deleteButton.gameObject).onClick = ClickDeleteButton;
 	}
 
 	void ClickDeleteButton(GameObject btn){
