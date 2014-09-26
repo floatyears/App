@@ -315,8 +315,8 @@ public class UnitDetailView : ViewBase{
 //		if (DataCenter.gameState != GameState.Evolve && !isEvolve) {
 //			return;
 //		}
-		
-		DataCenter.evolveInfo.ClearData ();
+		if( DataCenter.evolveInfo != null )
+			DataCenter.evolveInfo.ClearData ();
 		
 		isEvolve = false;
 		

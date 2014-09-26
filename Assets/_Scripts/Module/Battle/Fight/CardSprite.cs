@@ -28,7 +28,9 @@ public class CardSprite : MonoBehaviour
 	private float xOffset = 0f;
 	
 	private float defaultMoveTime = 0.1f;
-	
+
+	private Vector3 scale1 = new Vector3 (1f, 1f, 1f);
+
 	[HideInInspector]
 	public int itemID = -1;	
 	[HideInInspector]
@@ -123,11 +125,15 @@ public class CardSprite : MonoBehaviour
 	}
 	
 	public void Scale(Vector3 to, float time) {
+//		Debug.LogWarning("scale from:"+transform.localScale.x+" :"+transform.localScale.y);
+
+		gameObject.transform.localScale = scale1;
 		Scale(transform.localScale,to,time);
 	}
 	
 	public void Scale(Vector3 from, Vector3 to, float time) {
-		iTween.ScaleTo (gameObject, iTween.Hash("x", to.x,"y",to.y,"time", 0.3f,"easetype","easeoutquad"));
+		iTween.ScaleTo (gameObject, iTween.Hash("x", to.x,"y",to.y,"time", 0.15f,"easetype","easeoutback"));
+//		                                        ,"oncompletetarget",gameObject,"oncomplete","scale2","oncompleteparams", to));
 	}
 	
 	void TweenPositionCallback() {

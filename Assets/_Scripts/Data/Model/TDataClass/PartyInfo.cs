@@ -85,8 +85,14 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 	
     public	int	 CurrentPartyId { 
         get { return currentParty; } 
-        set { currentParty = value; 
-				currParty = partyList[CurrentPartyId];
+        set {
+				currentParty = value; 
+				if (currentParty > partyList.Count - 1)
+					currentParty = 0;
+				if (CurrentPartyId < 0)
+					CurrentPartyId = partyList.Count - 1;
+
+				currParty = partyList[currentParty];
 			}
     }
 
@@ -111,8 +117,6 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 
             CurrentPartyId += 1;
 
-            if (CurrentPartyId > MAX_PARTY_GROUP_NUM - 1)
-                CurrentPartyId = 0;
             if (CurrentPartyId > this.partyList.Count - 1)
                 return null;
 
@@ -162,8 +166,6 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
                 return null;
 
             CurrentPartyId -= 1;
-            if (CurrentPartyId < 0)
-                CurrentPartyId = MAX_PARTY_GROUP_NUM - 1;
 
             if (CurrentPartyId > this.partyList.Count - 1) {
                 return null;

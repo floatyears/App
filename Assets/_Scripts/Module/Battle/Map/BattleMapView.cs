@@ -34,7 +34,7 @@ public class BattleMapView : ViewBase {
 	private UILabel categoryTitleLabel;
 
 	private const string categoryTitle = "Category: ";
-	private const string coinTitle = "Number: ";
+	private const string coinTitle = "Coins: ";
 	private GameObject cellInfo;
 
 	private GameObject role;
@@ -375,7 +375,7 @@ public class BattleMapView : ViewBase {
 			case EQuestGridType.Q_TREATURE:
 				//				BattleMapView.waitMove = true;
 				ShowCoin(currentMapData.coins);
-				GameTimer.GetInstance().AddCountDown(showTime + scaleTime, ()=>{
+				GameTimer.GetInstance().AddCountDown(0f, ()=>{
 					RotateAnim (()=>{
 						AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
 								BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.coins;
