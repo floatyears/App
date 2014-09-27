@@ -13,8 +13,9 @@ public class BattleEnemyView : ViewBase {
 
 	private UILabel attackInfoLabel;
 //	private string[] attackInfo = new string[4] {"Nice!", "BEAUTY!", "great-!", "Excellent-!"};
-	private string[] attackInfo = new string[4] {"Nice !", "BEAUTY !", "great !", "Excellent !"};
+	private string[] attackInfo = new string[4] {"Nice !", "Beauty !", "Great !", "Excellent !"};
 	private BattleAttackInfo battleAttackInfo;
+	private Vector3 defaultAtkInfoRotation = new Vector3 (0f, 0f, 10f);
 	private UITexture bgTexture;
 
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
@@ -128,7 +129,25 @@ public class BattleEnemyView : ViewBase {
 		}
 		int index = DGTools.RandomToInt (0, 4);
 		attackInfoLabel.text = attackInfo [index];
-		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "End", "oncompletetarget", gameObject));
+		attackInfoLabel.transform.eulerAngles = defaultAtkInfoRotation;
+		attackInfoLabel.gameObject.SetActive(true);
+		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.4f, "easetype", iTween.EaseType.easeOutQuart));
+		iTween.RotateBy (attackInfoLabel.gameObject, iTween.Hash ("amount", new Vector3 (0f, 0f, 2f), "time", 0.4f, "easetype", iTween.EaseType.easeOutQuart, "oncomplete", "DisapperAttackInfo", "oncompletetarget", gameObject));
+
+	}
+
+	void DisapperAttackInfo() {
+		//		GameTimer.GetInstance ().AddCountDown (0.3f, HideAttackInfo);
+		iTween.RotateTo(attackInfoLabel.gameObject, iTween.Hash ("x", 90f, "y", -80f, "z",10f, "time", 0.3f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "HideAttackInfo", "oncompletetarget", gameObject));
+		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1.8f, 1.2f, 1f), "time", 0.2f, "easetype", iTween.EaseType.easeInQuart));
+
+	}
+	
+	void HideAttackInfo() {
+		attackInfoLabel.text = "";
+		attackInfoLabel.transform.localScale = new Vector3 (4f, 4f, 4f);
+		attackInfoLabel.transform.eulerAngles = defaultAtkInfoRotation;
+		//		attackInfoLabel.transform.rotation = new Vector3 (0f, 0f, 0f);
 	}
 	
 	List<AttackInfoProto> attackList= new List<AttackInfoProto>();
@@ -166,14 +185,9 @@ public class BattleEnemyView : ViewBase {
 	}
 
 	void End() {
-		GameTimer.GetInstance ().AddCountDown (0.2f, HideAttackInfo);
+//		GameTimer.GetInstance ().AddCountDown (0.2f, HideAttackInfo);
 	}
 
-	void HideAttackInfo() {
-		attackInfoLabel.text = "";
-		attackInfoLabel.transform.localScale = new Vector3 (2f, 2f, 2f);
-		attackInfoLabel.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
-	}
 
 //	private List<BattleEnemyItem> enemys = new List<BattleEnemyItem> ();	 
 

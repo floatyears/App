@@ -350,7 +350,7 @@ public class BattleManipulationView : ViewBase {
 		countDownUI.SetActive(true);
 		while (time > 0) {
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_count_down);
-			iTween.ScaleFrom (countDownUI, new Vector3 (1.25f, 1.25f, 1.25f), 0.3f);
+			iTween.ScaleFrom (countDownUI,  iTween.Hash("islocal", true, "time",0.3f, "easetype",iTween.EaseType.easeOutBack,"scale",new Vector3 (1.4f, 1.4f, 1.4f)) );
 			countDownValue = 1f;
 			numberLabel.text = time.ToString ();
 			yield return new WaitForSeconds(1);
@@ -549,7 +549,9 @@ public class BattleManipulationView : ViewBase {
 		
 		Color32[] colors;
 		
-		if (info == BattleAttackManager.stateInfo [0] || info == BattleAttackManager.stateInfo [1]) { // "Player Phase" or "Enemy Phase"
+		if (info == BattleAttackManager.stateInfo [0]){ // "Player Phase"
+			colors = BattleFullScreenTipsView.firstGroupColor;
+		} else if( info == BattleAttackManager.stateInfo [1]) { // "Enemy Phase"
 			colors = BattleFullScreenTipsView.thirdGroupColor;		
 		} else {
 			colors = BattleFullScreenTipsView.secondGroupColor;
@@ -557,15 +559,16 @@ public class BattleManipulationView : ViewBase {
 		
 		BattleFullScreenTipsView.SetLabelGradient (stateLabel, colors);
 		ModuleManager.SendMessage (ModuleEnum.BattleFullScreenTipsModule, "label_gradient", stateLabel);
-		
-		if (stateLabel.text == string.Empty) {
+
+		string preText = stateLabel.text;
+		stateLabel.text = info;
+
+		if (preText == string.Empty) {
 			stateLabel.transform.localPosition = HidePosition;	
 			ShowStateLabel ();
 		} else {
 			HideStateLabel("ShowStateLabel");
-		}
-		
-		stateLabel.text = info;
+		}		
 	}
 	
 	void RecoverStateInfo(object data) {
@@ -578,7 +581,9 @@ public class BattleManipulationView : ViewBase {
 	
 	void HideStateLabel (string nextFunction) {
 		float x = showPosition.x - stateLabel.width;
-		iTween.MoveTo(stateLabel.gameObject, iTween.Hash("x", x, "islocal", true,"time",0.15f,"easetype",iTween.EaseType.easeOutCubic,"oncompletetarget",gameObject,"oncomplete","ClearTexture"));
+		if ( nextFunction == "")
+			nextFunction = "ClearTexture";
+		iTween.MoveTo(stateLabel.gameObject, iTween.Hash("x", x, "islocal", true,"time",0.25f,"easetype",iTween.EaseType.easeInCubic,"oncompletetarget",gameObject,"oncomplete", nextFunction));
 	}
 	
 	void ClearTexture () {
@@ -589,8 +594,8 @@ public class BattleManipulationView : ViewBase {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_text_appear);
 		stateLabel.gameObject.transform.localScale = new Vector3(0.5f, 1.0f, 1.0f);
 //		Debug.LogWarning("ShowStateLabel()  >>> from:"+stateLabel.gameObject.transform.localPosition.x+","+stateLabel.gameObject.transform.localPosition.y+" to: "+showPosition.x+","+showPosition.y );
-		iTween.ScaleTo(stateLabel.gameObject, iTween.Hash ("x", 1.0f, "islocal", true,"delay", 0.05f, "time", 0.1f, "easetype",iTween.EaseType.easeOutBack));
-		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.1f,"easetype",iTween.EaseType.easeOutBack));
+		iTween.ScaleTo(stateLabel.gameObject, iTween.Hash ("x", 1.0f, "islocal", true,"delay", 0.05f, "time", 0.3f, "easetype",iTween.EaseType.easeOutBack));
+		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.3f,"easetype",iTween.EaseType.easeOutBack));
 	}
 	
 	void CreatArea() {
