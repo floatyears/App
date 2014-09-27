@@ -535,7 +535,7 @@ public class BattleManipulationView : ViewBase {
 			return;
 		}			
 		
-		if (info == BattleAttackManager.stateInfo [0]) {
+		if (info == BattleAttackManager.stateInfo [0]) { //"Player Phase"
 			SetBoost();
 		}
 		
@@ -543,13 +543,13 @@ public class BattleManipulationView : ViewBase {
 			return;	
 		}
 		
-		if (info == BattleAttackManager.stateInfo [4]) {
+		if (info == BattleAttackManager.stateInfo [4]) { //"Active Skill"
 			prevInfo = stateLabel.text;
 		}
 		
 		Color32[] colors;
 		
-		if (info == BattleAttackManager.stateInfo [0] || info == BattleAttackManager.stateInfo [1]) {
+		if (info == BattleAttackManager.stateInfo [0] || info == BattleAttackManager.stateInfo [1]) { // "Player Phase" or "Enemy Phase"
 			colors = BattleFullScreenTipsView.thirdGroupColor;		
 		} else {
 			colors = BattleFullScreenTipsView.secondGroupColor;
@@ -587,9 +587,11 @@ public class BattleManipulationView : ViewBase {
 	
 	void ShowStateLabel () {
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_text_appear);
-		
-		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.15f));
-	}	       
+		stateLabel.gameObject.transform.localScale = new Vector3(0.5f, 1.0f, 1.0f);
+//		Debug.LogWarning("ShowStateLabel()  >>> from:"+stateLabel.gameObject.transform.localPosition.x+","+stateLabel.gameObject.transform.localPosition.y+" to: "+showPosition.x+","+showPosition.y );
+		iTween.ScaleTo(stateLabel.gameObject, iTween.Hash ("x", 1.0f, "islocal", true,"delay", 0.05f, "time", 0.1f, "easetype",iTween.EaseType.easeOutBack));
+		iTween.MoveTo (stateLabel.gameObject, iTween.Hash ("position", showPosition, "islocal", true, "time", 0.1f,"easetype",iTween.EaseType.easeOutBack));
+	}
 	
 	void CreatArea() {
 		battleCardAreaItem = new BattleCardAreaItem[cardPosition.Length];
