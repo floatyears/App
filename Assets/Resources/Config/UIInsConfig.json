@@ -6,7 +6,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
+        "group" : -1
     },
      {
         "name":"MsgWindowModule",
@@ -69,7 +69,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
+        "group" : -1
     },
     {
         "name":"LoadingModule",
@@ -309,11 +309,11 @@
      {
         "name":"ItemCounterModule",
         "path": "Prefabs/UI/Common/ItemCounterUI",
-        "parent": 1,
+        "parent": 0,
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
+        "group" : -1
     },
     {
         "name":"SelectRoleModule",
@@ -343,22 +343,13 @@
         "group" : 0
     },
     {
-        "name":"UserUnitSortModule",
-        "path": "Prefabs/UI/Common/UserUnitSortUI",
-        "parent": 1,
+        "name":"UnitSortModule",
+        "path": "Prefabs/UI/Common/UnitSortUI",
+        "parent": 4,
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
-    },
-    {
-        "name":"FriendUnitSortPanel",
-        "path": "Prefabs/UI/Common/",
-        "parent": 1,
-        "x": 0,
-        "y": 0,
-        "z": 0, 
-        "group" : 0
+        "group" : -1
     },
     {
         "name":"HomeModule",

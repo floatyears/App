@@ -46,8 +46,8 @@ public class FriendSelectView : ViewBase{
 				}else if(viewData["type"].ToString() == "levelup"){
 					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"levelup");
 					CheckFriend();
-
 				}else if(viewData["type"].ToString() == "quest"){
+					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"quest");
 					RecordPickedInfoForFight(viewData["data"]);	
 				}
 			}

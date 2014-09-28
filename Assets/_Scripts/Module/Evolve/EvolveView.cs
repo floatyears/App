@@ -10,25 +10,11 @@ public class EvolveView : ViewBase {
 	}
 	
 	public override void ShowUI () {
-//		bool b = friendWindow != null && friendWindow.isShow;
-//		if (b) {
-//			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
-//			friendWindow.gameObject.SetActive (true);
-//		} else {
-			SetObjectActive(true);
-//		}
-
 		base.ShowUI ();
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","evolve");
+		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","evolve");
 
-		MsgCenter.Instance.AddListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
-//		MsgCenter.Instance.AddListener (CommandEnum.FriendBack, FriendBack);
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
-
-		topObject.transform.localPosition = new Vector3 (0, 1000, 0);
-		iTween.MoveTo(topObject, iTween.Hash("y", 0, "time", 0.4f, "islocal", true));
-
-		transform.localPosition = new Vector3 (-1000, transform.localPosition.y, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 
 		if (viewData != null && viewData.ContainsKey ("friendinfo")) {
 			SelectFriend(viewData["friendinfo"] as FriendInfo);	
@@ -36,20 +22,18 @@ public class EvolveView : ViewBase {
 			ClearAllItems();
 		}
 
-		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayState, UnitDisplayState);
-		MsgCenter.Instance.AddListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
-		MsgCenter.Instance.AddListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 		MsgCenter.Instance.AddListener (CommandEnum.SortByRule, ReceiveSortInfo);
+
+		ReadData ();
 	}
-	
+
+
 	public override void HideUI () {
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.selectUnitMaterial, selectUnitMaterial);
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
 //		MsgCenter.Instance.RemoveListener (CommandEnum.FriendBack, FriendBack);
 
-		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayState, UnitDisplayState);
-		MsgCenter.Instance.RemoveListener (CommandEnum.UnitDisplayBaseData, UnitDisplayBaseData);
-		MsgCenter.Instance.RemoveListener (CommandEnum.UnitMaterialList, UnitMaterialList);
 		MsgCenter.Instance.RemoveListener (CommandEnum.SortByRule, ReceiveSortInfo);
 		
 		for (int i = 0; i < allData.Count; i++) {
@@ -60,6 +44,16 @@ public class EvolveView : ViewBase {
 			viewData.Remove("friendinfo");
 		}
 
+	}
+
+	void ReadData() {
+		List<UserUnit> tuuList = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
+		allData.Clear();
+		if (tuuList != null) {
+			allData.AddRange(tuuList);
+			RefreshView();
+		}
+		RefreshCounter ();
 	}
 
 	private void ClearAllItems() {
@@ -73,28 +67,9 @@ public class EvolveView : ViewBase {
 
 		unitItemDragPanel.DestoryDragPanel ();
 	}
-
-	public override void CallbackView(params object[] args) {
-		Dictionary<string, object> dataDic = args[0] as Dictionary<string, object>;
-		List<KeyValuePair<string,object>> datalist = new List<KeyValuePair<string, object>> ();
-
-		foreach (var item in dataDic) {
-			datalist.Add(new KeyValuePair< string, object >( item.Key, item.Value));
-		}
-		for (int i = datalist.Count - 1; i > -1; i--) {
-			DisposeCallback(datalist[i]);
-		}
-	}
-	
-	public void SetUnitDisplay(GameObject go) {
-		unitDisplay = go;
-	}
-
 	//==========================================interface end ==========================
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public const string BaseData = "SelectData";
-	public const string MaterialData = "MaterialData";
+	
 	private const string hp = "HP";
 	private const string type = "Type";
 	private const string atk = "ATK";
@@ -117,7 +92,6 @@ public class EvolveView : ViewBase {
 	private int ClickIndex = 0;
 //	private FriendSelectLevelUpView friendWindow;
 	private bool fromUnitDetail = false;
-	private GameObject unitDisplay;
 
 	private GameObject topObject;
 	
@@ -136,7 +110,6 @@ public class EvolveView : ViewBase {
 	//	private GameObject bottomObject;
 	
 	List<UserUnit> materialInfo = new List<UserUnit> ();
-	Dictionary<string, object> TranferData = new Dictionary<string, object> ();
 
 	public const string SetDragPanel = "setDragPanel";
 	public const string RefreshData = "refreshData";
@@ -187,54 +160,12 @@ public class EvolveView : ViewBase {
 			for (int i = 2; i < 5; i++) {
 				materialList.Add(materialItem[i].userUnit);
 			}
-			MsgCenter.Instance.Invoke(CommandEnum.UnitMaterialList, materialList);
+			UnitMaterialList(materialList);
 			return;
 		}
 
 		DisposeMaterial (hasMaterial);
 	}
-
-	void DisposeCallback (KeyValuePair<string, object> keyValue) {
-		switch (keyValue.Key) {
-		case BaseData:
-			UserUnit tuu = keyValue.Value as UserUnit;
-			DisposeSelectData(tuu);
-			break;
-		case MaterialData:
-			List<UserUnit> itemInfo = keyValue.Value as List<UserUnit>;
-			if(itemInfo != null) {
-				DisposeMaterial(itemInfo);
-			}
-			else{
-				UserUnit userUnit = keyValue.Value as UserUnit;
-				materialItem[state].Refresh(userUnit);
-				List<UserUnit> temp = new List<UserUnit>();
-				for (int i = 2; i < 5; i++) {
-					temp.Add(materialItem[i].userUnit);
-				}
-				MsgCenter.Instance.Invoke(CommandEnum.UnitMaterialList, temp);
-			}
-			break;
-
-		case RefreshData:
-			List<UserUnit> tuuList = keyValue.Value as List<UserUnit>;
-			allData.Clear();
-			if (tuuList != null) {
-				allData.AddRange(tuuList);
-				RefreshView();
-			}
-			RefreshCounter ();
-			break;
-
-		case SelectBase:
-			MsgCenter.Instance.Invoke(CommandEnum.SelectUnitBase, keyValue.Value);
-			break;
-
-		default:
-				break;
-		}
-	}
-	
 
 	void DisposeMaterial (List<UserUnit> itemInfo) {
 		if (itemInfo == null || baseItem == null) {
@@ -280,7 +211,7 @@ public class EvolveView : ViewBase {
 			ClearMaterial();
 			baseItem.Refresh(tuu);
 			ShowEvolveInfo(tuu);
-			MsgCenter.Instance.Invoke(CommandEnum.UnitDisplayBaseData, tuu);
+			UnitDisplayBaseData(tuu);
 			CheckCanEvolve();
 		}
 	}
@@ -371,7 +302,7 @@ public class EvolveView : ViewBase {
 
 		HighLight (go);
 
-		MsgCenter.Instance.Invoke (CommandEnum.UnitDisplayState, state);
+		UnitDisplayState (state);
 
 		if (state == 5) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
@@ -414,20 +345,7 @@ public class EvolveView : ViewBase {
 		unitItemDragPanel.SetScrollView(dragConfig, transform);
 	}
 
-	void SetObjectActive(bool active) {
-		MsgCenter.Instance.Invoke (CommandEnum.HideSortView, active);
-
-		if (gameObject.activeSelf != active) {
-			gameObject.SetActive (active);
-		}
-
-		if (unitDisplay != null && unitDisplay.activeSelf != active) {
-			unitDisplay.SetActive(active);
-		}
-	}
-
 	void SelectFriend(FriendInfo friendInfo) {
-		SetObjectActive (true);
 //		state = 1;
 		foreach (var item in evolveItem) {
 			ClickItem(item.Key);
@@ -583,7 +501,7 @@ public class EvolveView : ViewBase {
 		}
 		
 		List<UserUnit> temp = new List<UserUnit> (materialInfo);
-		MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, temp);
+		selectUnitMaterial( temp);
 	}
 
 	void UnitDisplayState (object data) {
@@ -749,9 +667,7 @@ public class EvolveView : ViewBase {
 		
 		if (evolveItem.CanEvolve && state == 1) {
 			selectBase = evolveItem.UserUnit;
-			TranferData.Clear();
-			TranferData.Add(SelectBase, selectBase);
-			CallbackView(TranferData);
+			DisposeSelectData( selectBase);
 			
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 			
@@ -763,7 +679,7 @@ public class EvolveView : ViewBase {
 		
 		if (normalItem && b) {
 			if (CheckBaseNeedMaterial (evolveItem.UserUnit, state)) {
-				MsgCenter.Instance.Invoke (CommandEnum.selectUnitMaterial, evolveItem.UserUnit);
+				selectUnitMaterial(evolveItem.UserUnit);
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
 				return;
 			}
@@ -777,8 +693,7 @@ public class EvolveView : ViewBase {
 		List<uint> temp = baseData.UnitInfo.evolveInfo.materialUnitId; 
 		if (tempIndex < temp.Count) {
 			
-			uint materialNeed = temp [tempIndex];
-			if (materialNeed == tuu.unitId) {
+			if (temp [tempIndex] == tuu.unitId) {
 				return true;	
 			} else {
 				return false;	

@@ -337,10 +337,17 @@ public class BattleConfigData {
 	public void RefreshCurrentFloor(RspRedoQuest rrq){
 		storeBattleData.questData.RemoveAt (storeBattleData.questData.Count - 1);
 		storeBattleData.questData.Add (new ClearQuestParam ());
+		storeBattleData.EnemyInfo.Clear ();
+		storeBattleData.roleCoordinate = new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY);
 		int floor = questDungeonData.currentFloor;
-		List<QuestGrid> reQuestGrid = rrq.dungeonData.Floors[floor];
-		questDungeonData.Floors [floor] = reQuestGrid;
+		questDungeonData.Floors [floor] = rrq.dungeonData.floors[floor].gridInfo;
+		questDungeonData.assignData ();
 		questDungeonData.Boss = rrq.dungeonData.Boss;
+		StoreMapData ();
+		ModuleManager.Instance.HideModule (ModuleEnum.BattleManipulationModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.BattleEnemyModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.BattleMapModule);
+		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "reload");
 	}
 
 	

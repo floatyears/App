@@ -81,14 +81,14 @@ public class MsgWindowView : ViewBase{
 	{
 
 		if (isShow) {
-			Debug.Log("Show Module: " + config.moduleName);
+//			Debug.Log("Show Module: " + config.moduleName);
 			gameObject.SetActive(true);
 			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
 			window.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
 			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 		}else{
-			Debug.Log("Hide Module: " + config.moduleName);
+//			Debug.Log("Hide Module: " + config.moduleName);
 			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
 			gameObject.SetActive(false);
 			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));

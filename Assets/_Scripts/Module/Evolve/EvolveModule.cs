@@ -14,17 +14,10 @@ public class EvolveModule : ModuleBase {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		MsgCenter.Instance.AddListener (CommandEnum.SelectUnitBase, SelectUnit);
-		MsgCenter.Instance.AddListener (CommandEnum.ReturnPreScene, ReturnPreScene);
-
-		ReadData();
 	}
 	
 	public override void HideUI () {
 		base.HideUI ();
-		MsgCenter.Instance.RemoveListener (CommandEnum.SelectUnitBase, SelectUnit);
-		MsgCenter.Instance.RemoveListener (CommandEnum.ReturnPreScene, ReturnPreScene);
-
 //		if (UIManager.Instance.nextScene != ModuleEnum.UnitDetailModule) {
 //			base.DestoryUI();
 //		}
@@ -100,25 +93,6 @@ public class EvolveModule : ModuleBase {
 //		}
 	}
 
-	void selectUnitMaterial(object data) {
-		if (data == null) {
-			return;	
-		}
-		TransferData.Clear ();
-		TransferData.Add(EvolveView.MaterialData, data);
-		view.CallbackView (TransferData);
-	}
-
-	void SelectUnit (object data) {
-		if (data == null) {
-			return;
-		}
-		TransferData.Clear ();
-		TransferData.Add(EvolveView.BaseData, data);
-		view.CallbackView (TransferData);
-	}
-
-
 	public static uint GetEvolveQuestID(EUnitType unitType, int  unitRare) {
 		return GetEvolveQuestID(unitRare, GetEvolveStageID(unitType, unitRare));
 	}
@@ -187,14 +161,7 @@ public class EvolveModule : ModuleBase {
 		questID = stageID*10 + questID;
 		return questID;
 	}
-
-	void ReadData() {
-		unitItemData.Clear ();
-		unitItemData.AddRange (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ());
-		TransferData.Clear ();
-		TransferData.Add (EvolveView.RefreshData, unitItemData);
-		view.CallbackView (TransferData);
-	}
+	
 }
 
 public class DragPanelSetInfo {

@@ -22,16 +22,14 @@ public class BattleMapModule : ModuleBase {
 				BattleFail();
 				break;
 			case "boss_dead":
-			(view as BattleMapView).BossDead();
+				(view as BattleMapView).BossDead();
+				break;
+			case "reload":
+				(view as BattleMapView).RefreshMap();
 				break;
 			default:
 					break;
 		}
-	}
-
-	public override void ShowUI () {
-		base.ShowUI ();
-		BattleAttackManager.Instance.GetBaseData ();
 	}
 
 	public override void HideUI () {

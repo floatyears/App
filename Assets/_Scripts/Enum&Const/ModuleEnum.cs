@@ -95,7 +95,7 @@ public enum ModuleEnum
 	
 	ResourceDownloadModule,
 
-	SortModule,
+	UnitSortModule,
 
 	ItemCounterModule,
 
@@ -148,4 +148,14 @@ public enum SceneEnum {
 	None,
 	MainScene,
 	BattleScene,
+	CatalogScene,
+	PartyScene,
+	LevelUpScene,
+	SellScene,
+	EvolveScene,
+	UnitListScene,
+	FriendListScene,
+	FriendSearchScene,
+	ApplyScene,
+	ReceptionScene
 }

@@ -10,10 +10,8 @@ public class ModuleManager {
 
 	private static Dictionary<SceneEnum, SceneBase> sceneDic = new Dictionary<SceneEnum, SceneBase>();
 
-	private static int[] moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0};
-
-	private static GroupType[] typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None};
-
+	private static ModuleEnum[] moduleGroup = new ModuleEnum[(int)ModuleGroup.GROUP_NUM  + 1]{ModuleEnum.None,ModuleEnum.None,ModuleEnum.None,ModuleEnum.None};
+	
 	private static ModuleManager instance;
 
 	public static ModuleManager Instance{
@@ -51,31 +49,23 @@ public class ModuleManager {
 	public void ShowModule(ModuleEnum name, params object[] args){
 		if (name == ModuleEnum.None)
 			return;
-//		Debug.Log("Show Module: [[[---" + name + "---]]]");
+		Debug.Log("Show Module: [[[---" + name + "---]]]");
 		//hide the prev ui within same group
-		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
+		ModuleGroup group = DataCenter.Instance.GetConfigUIItem (name).group;
 //		Debug.Log ("name: " + name + " group: " + group);
 
-		if (group != (int)ModuleGroup.NONE) {
-			if (typeGroup [group] == GroupType.Module) {
-				ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
+		if (group != ModuleGroup.NONE) {
+				ModuleEnum prevName = moduleGroup [(int)group];
 				if(prevName == name)
 					return;
 				if (prevName != ModuleEnum.None) {
 					HideModule (prevName);
 				}	
-			}else if(typeGroup[group] == GroupType.Scene){
-				SceneEnum prevName = (SceneEnum)moduleGroup [group];
-				if (prevName != SceneEnum.None) {
-					HideScene (prevName);
-				}
-			}
 
-			moduleGroup [group] = (int)name;
-			typeGroup [group] = GroupType.Module;
+			moduleGroup [(int)group] = name;
 		}
 
-		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Module);	
+		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name);	
 
 		if (moduleDic.ContainsKey (name)) {
 			if(args.Length > 0){
@@ -88,89 +78,21 @@ public class ModuleManager {
 
 
 	}
-
-	/// <summary>
-	/// Shows the scene.
-	/// </summary>
-	/// <param name="name">Name.</param>
-	public void ShowScene(SceneEnum name){
-//		moduleGroup [(int)DataCenter.Instance.GetConfigUIItem (name).group] = ModuleEnum.None;
-
-		SceneBase scene = null;
-
-		if (sceneDic.ContainsKey (name)) {
-			scene = sceneDic[name];
-		}else{
-			System.Type sceneType = System.Type.GetType(name.ToString());
-			scene = Activator.CreateInstance(sceneType, name) as SceneBase;
-			if(scene == null){
-				Debug.Log ("Scene Create Err: there is no [[[---" + scene + "---]]]");
-				return;
-			}
-			sceneDic.Add(name,scene);
-		}
-
-		int group = (int)scene.Group;
-		if (group != (int)ModuleGroup.NONE) {
-			if (typeGroup [group] == GroupType.Module) {
-				ModuleEnum prevName = (ModuleEnum)moduleGroup [group];
-				if (prevName != ModuleEnum.None) {
-					HideModule (prevName);
-				}	
-			}else if(typeGroup[group] == GroupType.Scene){
-				SceneEnum prevName = (SceneEnum)moduleGroup [group];
-				if(prevName == name)
-					return;
-				if (prevName != SceneEnum.None) {
-					HideScene (prevName);
-				}
-			}	
-
-			moduleGroup [(int)scene.Group] = (int)name;
-			typeGroup [(int)scene.Group] = GroupType.Scene;
-		}
-
-		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name,ModuleOrScene.Scene);
-		scene.ShowScene();
-
-
-	}
-
-	/// <summary>
-	/// Hides the scene.
-	/// </summary>
-	/// <param name="name">Name.</param>
-	public void HideScene(SceneEnum name){
-
-		if (sceneDic.ContainsKey (name)) {
-			SceneBase scene = sceneDic[name];
-			scene.HideScene();
-			if(scene.Group != ModuleGroup.NONE){
-				moduleGroup [(int)scene.Group] = (int)ModuleEnum.None;
-				typeGroup[(int)scene.Group] = GroupType.None;
-			}
-
-		}
-	}
+	
 	/// <summary>
 	/// Hides the module.
 	/// </summary>
 	/// <param name="name">Name.</param>
 	public void HideModule(ModuleEnum name){
-//		Debug.Log("Hide Module: [[[---" + name + "---]]]");
-		int group = (int)DataCenter.Instance.GetConfigUIItem (name).group;
-		if (group != (int)ModuleGroup.NONE) {
-			moduleGroup [group] = (int)ModuleEnum.None;
-			typeGroup [group] = (int)GroupType.None;	
+		Debug.Log("Hide Module: [[[---" + name + "---]]]");
+		ModuleGroup group = DataCenter.Instance.GetConfigUIItem (name).group;
+		if (group != ModuleGroup.NONE) {
+			moduleGroup [(int)group] = ModuleEnum.None;
 		}
 
 		if (moduleDic.ContainsKey (name)) {
 			moduleDic[name].HideUI();
 		}
-	}
-
-	private void HideModuleOrScene(int group){
-
 	}
 
 	/// <summary>
@@ -223,29 +145,13 @@ public class ModuleManager {
 		if (moduleDic.ContainsKey (name)) {
 			ModuleBase temp = moduleDic[name];
 
-			int group = (int)temp.UIConfig.group;
-			if(group != (int)ModuleGroup.NONE){
-				moduleGroup [group] = (int)ModuleEnum.None;
-				typeGroup [group] = GroupType.None;
+			ModuleGroup group = temp.UIConfig.group;
+			if(group != ModuleGroup.NONE){
+				moduleGroup [(int)group] = ModuleEnum.None;
 			}
 
 			temp.DestoryUI ();
 			moduleDic.Remove(name);
-		}
-	}
-
-	public void DestroyScene(SceneEnum name){
-		if (sceneDic.ContainsKey (name)) {
-			SceneBase temp = sceneDic[name];
-
-			int group = (int)temp.Group;
-			if(temp.Group != ModuleGroup.NONE){
-				moduleGroup [group] = (int)ModuleEnum.None;
-				typeGroup [group] = GroupType.None;
-			}
-
-			temp.DestoryScene ();
-			sceneDic.Remove(name);
 		}
 	}
 
@@ -265,16 +171,16 @@ public class ModuleManager {
 		moduleDic.Clear ();
 		sceneDic.Clear ();
 
-		moduleGroup = new int[(int)ModuleGroup.GROUP_NUM  + 1]{0,0,0,0};
-		
-		typeGroup = new GroupType[(int)ModuleGroup.GROUP_NUM  + 1]{GroupType.None,GroupType.None,GroupType.None,GroupType.None};
+		moduleGroup = new ModuleEnum[(int)ModuleGroup.GROUP_NUM  + 1]{ModuleEnum.None,ModuleEnum.None,ModuleEnum.None,ModuleEnum.None};
 
 	}
 
 	public void EnterMainScene(){
 		ModuleManager.Instance.ShowModule(ModuleEnum.MainBackgroundModule);
-		ModuleManager.Instance.ShowScene(SceneEnum.MainScene);
-		ModuleManager.Instance.ShowModule(ModuleEnum.SceneInfoBarModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.MainMenuModule);
+		ModuleManager.instance.ShowModule (ModuleEnum.PlayerInfoBarModule);
+		ModuleManager.instance.ShowModule (ModuleEnum.SceneInfoBarModule);
+
 		ModuleManager.Instance.ShowModule(ModuleEnum.HomeModule);
 		ModuleManager.instance.GetOrCreateModule (ModuleEnum.MsgWindowModule);
 		ModuleManager.instance.GetOrCreateModule (ModuleEnum.MaskModule);
@@ -301,7 +207,7 @@ public class ModuleManager {
 //		ShowScene (SceneEnum.BattleScene);
 
 		ShowModule(ModuleEnum.BattleFullScreenTipsModule);
-		GetOrCreateModule(ModuleEnum.BattleAttackEffectModule);
+		ShowModule(ModuleEnum.BattleAttackEffectModule);
 		GetOrCreateModule (ModuleEnum.MsgWindowModule);
 		ShowModule(ModuleEnum.BattleBottomModule);
 		ShowModule(ModuleEnum.BattleTopModule);
@@ -324,11 +230,4 @@ public class ModuleManager {
 			return true;
 		return false;
 	}
-}
-
-
-internal enum GroupType{
-	None,
-	Module,
-	Scene,
 }

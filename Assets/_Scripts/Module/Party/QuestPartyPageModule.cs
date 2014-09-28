@@ -38,7 +38,7 @@ public class QuestPartyPageModule : PartyPageModule{
 		ResourceManager.Instance.GetAvatar(UnitAssetType.Avatar, tfi.UserUnit.unitId, o=>{
 //			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ShowItemLeft", o as Texture2D);
 //			tfi.UserUnit.UnitInfo
-			MsgCenter.Instance.Invoke (CommandEnum.RefreshFriendHelper, null);
+			ModuleManager.SendMessage(ModuleEnum.FriendSelectModule,"refresh");
 //			view.CallbackView(cbdArgs);
 		});
 

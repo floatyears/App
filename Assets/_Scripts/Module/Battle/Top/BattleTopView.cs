@@ -34,9 +34,6 @@ using bbproto;public class BattleTopView : ViewBase {
 		case "refresh":
 			RefreshTopUI();
 			break;
-		case "setfloor":
-			SetFloor();
-			break;
 		case "clear_quest":
 			RequestData(null);
 			break;
@@ -46,32 +43,12 @@ using bbproto;public class BattleTopView : ViewBase {
 	}
 
 	public override void ShowUI () {
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive (true);	
-			Coin= 0;
-			Drop = 0;
-		}
+		base.ShowUI ();
+		RefreshTopUI ();
 			
 	}
-	
-	int GetCoin() {
-		int coin = 0;
-		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
-			coin += item.getMoney;
-		}
-		return coin;
-	}
 
-
-	public int Coin {
-		set { if(coinLabel != null) coinLabel.text = value.ToString(); }
-	}
-
-	public int Drop {
-		set { if(dropLabel != null) dropLabel.text = value.ToString(); }
-	}
-
-	public void SetFloor () {
+	void SetFloor () {
 		int currentFloor = BattleConfigData.Instance.questDungeonData.currentFloor + 1;
 		int maxFloor = BattleConfigData.Instance.questDungeonData.Floors.Count;
 //		Debug.LogError ("top ui set floor : " + currentFloor);
@@ -79,21 +56,21 @@ using bbproto;public class BattleTopView : ViewBase {
 			floorLabel.text = currentFloor + "/" + maxFloor + "F";
 	}
 
-	public void RefreshTopUI() {
+	void RefreshTopUI() {
 		int coin = 0;
 		int drop = 0;
 		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			coin += item.getMoney;
 			drop += item.getUnit.Count;
 		}
-		Coin = coin;
-		Drop = drop;
+		coinLabel.text = coin.ToString();
+		dropLabel.text = drop.ToString();
 		SetFloor ();
 	}
 
-	public void Reset() {
-		coinLabel.text = "";
-		dropLabel.text = "";
+	void Reset() {
+		coinLabel.text = "0";
+		dropLabel.text = "0";
 	}
 
 	void Retry(GameObject go) {
@@ -135,7 +112,6 @@ using bbproto;public class BattleTopView : ViewBase {
 		}
 		
 		//		battle.ShieldInput (false);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",false);
 		//		if (battle.isShowEnemy) {
 		//			MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
 		//		}
@@ -168,9 +144,7 @@ using bbproto;public class BattleTopView : ViewBase {
 		}
 		
 		DataCenter.Instance.UserData.AccountInfo.stone = rrq.stone;
-		BattleConfigData.Instance.RefreshCurrentFloor(rrq);;
-		BattleConfigData.Instance.InitRoleCoordinate (new Coordinate (MapConfig.characterInitCoorX, MapConfig.characterInitCoorY));
-		BattleConfigData.Instance.StoreMapData ();
+		BattleConfigData.Instance.RefreshCurrentFloor(rrq);
 	}
 	
 	void SureRetryPress() {
@@ -181,7 +155,6 @@ using bbproto;public class BattleTopView : ViewBase {
 	
 	void RetryRefreshUI() {
 		//		battle.ShieldInput (true);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
 		//		if (battle.isShowEnemy) {
 		//			ExitFight (true);
 		//			configBattleUseData.storeBattleData.attackRound = 0;

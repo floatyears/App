@@ -166,7 +166,7 @@ namespace bbproto{
 			return index;
 		}
 
-		public QuestGrid GetFloorDataByCoor(Coordinate coor) {
+		public QuestGrid GetCellDataByCoor(Coordinate coor) {
 			if (coor.y == 0 && coor.x == 2) {
 				QuestGrid item = new QuestGrid();
 				item.type = EQuestGridType.Q_NONE;
