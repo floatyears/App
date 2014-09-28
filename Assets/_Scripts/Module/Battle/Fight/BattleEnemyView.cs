@@ -144,12 +144,13 @@ public class BattleEnemyView : ViewBase {
 		iTween.MoveTo (attackInfoLabel.gameObject, iTween.Hash ("position", moveAtkInfoPosition, "time", 0.3f, "islocal", true, "easetype", iTween.EaseType.easeInQuad));
 		
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (1f, 1f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuad));
-		iTween.RotateBy (attackInfoLabel.gameObject, iTween.Hash ("amount", new Vector3 (0f, 0f, 1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "DisapperAttackInfo", "oncompletetarget", gameObject));
+		//旋转360度
+		iTween.RotateBy (attackInfoLabel.gameObject, iTween.Hash ("amount", new Vector3 (0f, 0f, -1f), "time", 0.3f, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "DisapperAttackInfo", "oncompletetarget", gameObject));
 	}
 
 	void DisapperAttackInfo() {
 		//		GameTimer.GetInstance ().AddCountDown (0.3f, HideAttackInfo);
-		iTween.RotateTo(attackInfoLabel.gameObject, iTween.Hash ("x", 90f, "y", -80f, "z",10f, "delay",0.1f, "time", 0.25f, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "HideAttackInfo", "oncompletetarget", gameObject));
+		iTween.RotateTo(attackInfoLabel.gameObject, iTween.Hash ("x", -90f, "y", -80f, "z",10f, "delay",0.1f, "time", 0.25f, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "HideAttackInfo", "oncompletetarget", gameObject));
 		iTween.ScaleTo (attackInfoLabel.gameObject, iTween.Hash ("scale", new Vector3 (2.8f, 1.4f, 1f),"delay",0.1f, "time", 0.2f, "easetype", iTween.EaseType.easeInQuad));
 
 	}
