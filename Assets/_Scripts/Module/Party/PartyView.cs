@@ -46,6 +46,9 @@ public class PartyView : ViewBase, IDragChangeView{
 
 	public override void ShowUI(){
 		base.ShowUI();
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitsMainModule,"from","party");
+		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","party");
+
 		AddCmdListener();
 		UnitParty curParty = DataCenter.Instance.UnitData.PartyInfo.CurrentParty;
 
@@ -66,6 +69,8 @@ public class PartyView : ViewBase, IDragChangeView{
 		base.HideUI();
 //		if(UIManager.Instance.baseScene.CurrentScene != ModuleEnum.UnitDetail)
 //			DataCenter.Instance.UnitData.PartyInfo.ExitParty();
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitsMainModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
 		RmvCmdListener();
 	}
 

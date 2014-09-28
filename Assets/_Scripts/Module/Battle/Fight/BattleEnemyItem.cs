@@ -203,6 +203,7 @@ public class BattleEnemyItem : MonoBehaviour {
 		bloodBgSprite.enabled = false;
 
 		UnitInfo tui = enemyInfo.dropUnit.UnitInfo;
+		BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getUnit.Add (enemyInfo.dropUnit.unitId);
 		dropTexture.enabled = true;
 		dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
 	    iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject
@@ -221,8 +222,10 @@ public class BattleEnemyItem : MonoBehaviour {
 		bloodSprite.enabled = true;
 		nextLabel.enabled = true;
 		bloodBgSprite.enabled = true;
+		dropTexture.enabled = false;
 
 		gameObject.SetActive (false);
+		ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
     }
 
     public void EnemyDead() {

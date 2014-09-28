@@ -15,23 +15,8 @@ public class FriendSelectModule : ModuleBase{
 		CreateUI<FriendSelectView> ();
 
 	}
-	public override void InitUI () { base.InitUI (); }
-	public override void ShowUI () {
-		base.ShowUI ();
-//		CreateFriendHelperViewList();
-//		AddCommandListener();
-	}
-	
-	public override void HideUI () {
-		base.HideUI ();
-//		DestoryFriendHelperList();
-//		ClearSelectedHelper();
-//		RemoveCommandListener();
-	}
 
 	public override void OnReceiveMessages(params object[] data){
-//		base.OnReceiveMessages(data);
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 
 		switch (data[0].ToString()){
 			case "ClickItem" :
@@ -39,6 +24,9 @@ public class FriendSelectModule : ModuleBase{
 				break;
 			case "ClickBottomButton" :
 				QuestStart(data[1]);
+				break;
+			case "refresh":
+				CanEnterBattle ();
 				break;
 			default:
 				break;
@@ -129,32 +117,6 @@ public class FriendSelectModule : ModuleBase{
 		return mwp;
 	}
 
-
-//	List<TUserUnit> GetSupportFriendList(){
-//		if (DataCenter.Instance.SupportFriends == null){
-//			LogHelper.LogError("GetFriendUnitItemList(), DataCenter.Instance.SupportFriends == null!!!");
-//			return null;
-//		}
-//		
-//		List<TUserUnit> tuuList = new List<TUserUnit>();
-//
-//		for (int i = 0; i < DataCenter.Instance.SupportFriends.Count; i++){
-//			tuuList.Add(DataCenter.Instance.SupportFriends[ i ].UserUnit);
-//		}
-//		
-//		return tuuList;
-//	}
-
-//	void GetSupportFriendInfoList(){
-//		supportFriendViewList.Clear();
-//		List<TFriendInfo> helperList = DataCenter.Instance.SupportFriends;
-//				
-//		for (int i = 0; i < helperList.Count; i++){
-//			UnitItemViewInfo viewItem = UnitItemViewInfo.Create(helperList[ i ]);
-//			supportFriendViewList.Add(viewItem);
-//		}
-//	}
-
 	void CreateFriendHelperViewList(){
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", null);
 		view.CallbackView("CreateDragView");
@@ -182,16 +144,12 @@ public class FriendSelectModule : ModuleBase{
 
 	void AddCommandListener(){
 //		MsgCenter.Instance.AddListener(CommandEnum.ChooseHelper, ChooseHelper);
-		MsgCenter.Instance.AddListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 		MsgCenter.Instance.AddListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
-		MsgCenter.Instance.AddListener (CommandEnum.RefreshFriendHelper, RefreshFriendHelper);
 	}
 
 	void RemoveCommandListener(){
 //		MsgCenter.Instance.RemoveListener(CommandEnum.ChooseHelper, ChooseHelper);
-		MsgCenter.Instance.RemoveListener(CommandEnum.GetSelectedQuest, RecordSelectedQuest);
 		MsgCenter.Instance.RemoveListener(CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
-		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshFriendHelper, RefreshFriendHelper);
 	}
 
 	void ChooseHelper(object msg){
@@ -204,10 +162,6 @@ public class FriendSelectModule : ModuleBase{
 		MsgCenter.Instance.Invoke(CommandEnum.AddHelperItem, selectedHelper);
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("UpdateViewAfterChooseHelper", null);
 		view.CallbackView("UpdateViewAfterChooseHelper");
-	}
-	
-	void RefreshFriendHelper(object data) {
-		CanEnterBattle ();
 	}
 
 	void CanEnterBattle () {

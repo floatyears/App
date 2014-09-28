@@ -45,15 +45,11 @@ public class LevelUpView : ViewBase {
 	}
 
 	public override void ShowUI () {
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive(true);
-			MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
-		}
-		if(fromUnitDetail) {
-			fromUnitDetail = false;
-		}
-
 		base.ShowUI ();
+
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","level_up");
+		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","level_up");
+
 		ClearFocus ();
 		myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
 		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
@@ -82,6 +78,10 @@ public class LevelUpView : ViewBase {
 	}
 
 	public override void HideUI () {
+
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
+
 		if(selectedItem[baseItemIndex].UserUnit != null) {
 			selectedItem[baseItemIndex].UserUnit.isEnable = true;
 			selectedItem[baseItemIndex].UserUnit.isFocus = false;
@@ -286,7 +286,6 @@ public class LevelUpView : ViewBase {
 	void SelectedFriendCallback(LevelUpItem piv) {
 		doNotClearData = true;
 
-		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, false);
 		gameObject.SetActive (false);
 //		friendWindow.evolveItem = null;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
@@ -298,7 +297,6 @@ public class LevelUpView : ViewBase {
 	FriendInfo levelUpUerFriend;
 	void SelectFriend(FriendInfo friendInfo) {
 		gameObject.SetActive (true);
-		MsgCenter.Instance.Invoke(CommandEnum.HideSortView, true);
 
 		if (friendInfo == null) {
 			return;	

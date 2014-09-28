@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SortPanelView : ViewBase {
+public class UnitSortView : ViewBase {
 	private UIButton sortBtn;
 	private UILabel sortBtnLabel;
 	private UISprite sortBtnMask;
@@ -18,20 +18,12 @@ public class SortPanelView : ViewBase {
 
 	public override void ShowUI(){
 		base.ShowUI();
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive(true);	
-		}
-		MsgCenter.Instance.AddListener (CommandEnum.HideSortView, HideSortView);
-		ShowUIAnimation();
-	}
-
-	public override void HideUI(){
-		MsgCenter.Instance.RemoveListener (CommandEnum.HideSortView, HideSortView);
-		base.HideUI();
 	}
 
 	public override void DestoryUI () {
+		AddEventListener (false);
 		base.DestoryUI ();
+
 	}
 
 	void HideSortView(object data) {
@@ -42,7 +34,7 @@ public class SortPanelView : ViewBase {
 	protected virtual void InitBtns(){
 		sortRuleSelectPanel = transform.FindChild("RulePanel").gameObject;
 		sortBtn = FindChild<UIButton>("Button_Sort");
-		sortBtnLabel = sortBtn.GetComponentInChildren<UILabel>();
+		sortBtnLabel = FindChild<UILabel>("Button_Sort/Label");
 		sortBtnLabel.text = TextCenter.GetText("Btn_SORT");
 		sortBtnMask = FindChild<UISprite>("Button_Sort/Mask");
 		UIEventListenerCustom.Get(sortBtn.gameObject).onClick = ClickSortBtn;
@@ -50,32 +42,32 @@ public class SortPanelView : ViewBase {
 		UIButton btn;
 		UILabel label;
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_HP");
-		label = btn.GetComponentInChildren<UILabel>();
+		label = FindChild<UILabel>("RulePanel/Button_Sort_HP/Label");
 		label.text = TextCenter.GetText("Btn_SortRule_HP");
 		sortRuleSelectDic.Add(btn, SortRule.HP);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Atk");
-		label = btn.GetComponentInChildren<UILabel>();
+		label = FindChild<UILabel>("RulePanel/Button_Sort_Atk/Label");
 		label.text = TextCenter.GetText("Btn_SortRule_Atk");
 		sortRuleSelectDic.Add(btn, SortRule.Attack);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Race");
-		label = btn.GetComponentInChildren<UILabel>();
+		label = FindChild<UILabel>("RulePanel/Button_Sort_Race/Label");
 		label.text = TextCenter.GetText("Btn_SortRule_Race");
 		sortRuleSelectDic.Add(btn, SortRule.Race);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Attribute");
-		label = btn.GetComponentInChildren<UILabel>();
+		label = FindChild<UILabel>("RulePanel/Button_Sort_Attribute/Label");
 		label.text = TextCenter.GetText("Btn_SortRule_Attribute");
 		sortRuleSelectDic.Add(btn, SortRule.Attribute);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_ID");
-		label = btn.GetComponentInChildren<UILabel>();
+		label = FindChild<UILabel>("RulePanel/Button_Sort_ID/Label");
 		label.text = TextCenter.GetText("Btn_SortRule_ID");
 		sortRuleSelectDic.Add(btn, SortRule.ID);
 
 		btn = FindChild<UIButton>("RulePanel/Button_Sort_Fav");
-		label = btn.GetComponentInChildren<UILabel>();
+		label = FindChild<UILabel>("RulePanel/Button_Sort_Fav/Label");
 		label.text = TextCenter.GetText("Btn_SortRule_Fav");
 		sortRuleSelectDic.Add(btn, SortRule.Fav);
 
@@ -83,6 +75,7 @@ public class SortPanelView : ViewBase {
 //		label = btn.GetComponentInChildren<UILabel>();
 //		label.text = TextCenter.GetText("Btn_SortRule_AddPoint");
 //		sortRuleSelectDic.Add(btn, SortRule.AddPoint);
+		AddEventListener (true);
 	}
 
 	private void ClickSortBtn(GameObject btn){
@@ -108,34 +101,6 @@ public class SortPanelView : ViewBase {
 		}
 			
 		SortRuleByUI srui = 0;
-
-//		switch(UIManager.Instance) {
-//			case ModuleEnum.Apply:
-//				srui = SortRuleByUI.ApplyView;
-//				break;
-//			case ModuleEnum.Sell:
-//				srui = SortRuleByUI.SellView;
-//				break;
-//			case ModuleEnum.FriendList:
-//				srui = SortRuleByUI.FriendListView;
-//				break;
-//			case ModuleEnum.Party:
-//				srui = SortRuleByUI.PartyView;
-//				break;
-//			case ModuleEnum.LevelUp:
-//				srui = SortRuleByUI.LevelUp;
-//				break;
-//			case ModuleEnum.Evolve:
-//				srui = SortRuleByUI.Evolve;
-//				break;
-//			case ModuleEnum.UnitList:
-//				srui = SortRuleByUI.MyUnitListView;
-//			break;
-////		case ModuleEnum.Evolve:
-////			srui = SortRuleByUI.
-//			default:
-//				break;
-//		}
 
 		SortRule sr = SortUnitTool.GetSortRule (srui);
 		foreach (var item in sortRuleSelectDic) {
@@ -166,7 +131,7 @@ public class SortPanelView : ViewBase {
 			//Debug.Log("isShow : " + isShow);
 		}	
 //		ModuleManager.SendMessage(ModuleEnum.MaskModule, "block", new BlockerMaskParams(BlockerReason.SortWindow, isShow));
-		InputManager.Instance.SetBlockWithinModule (ModuleEnum.SortModule, isShow);
+		InputManager.Instance.SetBlockWithinModule (ModuleEnum.UnitSortModule, isShow);
 	}
 	
 	public void ActivateSortBtn(){
@@ -174,14 +139,24 @@ public class SortPanelView : ViewBase {
 		sortBtn.isEnabled = true;
 	}
 
-	protected void AddEventListener(){
+	protected void AddEventListener(bool isAdd){
 		foreach (var item in sortRuleSelectDic){
-			UIEventListenerCustom.Get(item.Key.gameObject).onClick = SelectSortRule;
+			if(isAdd)
+				UIEventListenerCustom.Get(item.Key.gameObject).onClick += SelectSortRule;
+			else
+				UIEventListenerCustom.Get(item.Key.gameObject).onClick -= SelectSortRule;
 		}
 	}
 
-	private void ShowUIAnimation(){
-		transform.localPosition = new Vector3(1000, -567, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(1000, -567, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+		}else{
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+		}
 	}
 }

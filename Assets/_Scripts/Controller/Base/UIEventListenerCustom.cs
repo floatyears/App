@@ -35,11 +35,6 @@ public class UIEventListenerCustom : MonoBehaviour {
 			onSubmit(gameObject); 
 	}
 
-	void OnClick (){ 
-		if (onClick != null &&CheckFocus()) 
-			onClick(gameObject); 
-	}
-
 	void OnDoubleClick (){ 
 		if (onDoubleClick != null && CheckFocus()) 
 			onDoubleClick(gameObject); 
@@ -108,6 +103,7 @@ public class UIEventListenerCustom : MonoBehaviour {
 	}
 
 	bool CheckFocus(){
+		Debug.Log ("check ui focus");
 		if (FocusModules.Count == 0)
 			return true;
 		foreach (var item in gameObject.GetComponentsInParent<Transform>()) {

@@ -14,7 +14,6 @@ public class ItemCounterView : ViewBase{
 
 	public override void ShowUI(){
 		base.ShowUI();
-		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
@@ -57,8 +56,4 @@ public class ItemCounterView : ViewBase{
 		}
 	}
 
-	private void ShowUIAnimation(){
-		transform.localPosition = new Vector3(1000, -792, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 190, "time", 0.4f, "islocal", true));
-	}
 }

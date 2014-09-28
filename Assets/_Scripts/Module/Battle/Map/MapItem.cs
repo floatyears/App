@@ -52,6 +52,7 @@ public class MapItem : MonoBehaviour {
 
 	private bool isRotate = false;
 	private UITexture alreayQuestTexture;
+	private UILabel coinLabel;
 
 	public void Init (string name)
 	{
@@ -62,39 +63,41 @@ public class MapItem : MonoBehaviour {
 		initRotation = transform.rotation.eulerAngles;
 		gridItemSprite = transform.FindChild("GridBackground").GetComponent<UISprite>();
 		footTips = transform.FindChild("FootTips").GetComponent<UISprite>();
-		footTips.gameObject.SetActive (false);
+		footTips.enabled = false;
 		mapBackSprite = transform.FindChild("Shadow").GetComponent<UISprite>();
 		mapBack = mapBackSprite.gameObject;
 		mapItemSprite = transform.FindChild("Sprite").GetComponent<UISprite>();
 		effectPanel = transform.FindChild("Effect").gameObject;
+		coinLabel = transform.FindChild("CoinLabel").GetComponent<UILabel>();
+		flyCoin = coinLabel.gameObject;
 
 		if (name == "SingleMap") {
 			mapBackSprite.spriteName = string.Empty;
 			mapItemSprite.spriteName = string.Empty;
 			return;
 		}
+		mapBack.SetActive(false);
+	}
 
-		string[] info = name.Split('|');
-		int x = System.Int32.Parse (info[0]);
-		int y = System.Int32.Parse (info [1]);
-		gridItem = BattleConfigData.Instance.questDungeonData.GetFloorDataByCoor (new Coordinate (x, y));
+	public void RefreshData(){
+		gridItem = BattleConfigData.Instance.questDungeonData.GetCellDataByCoor (coor);
 		InitStar ();
 		if (gridItem != null) {
 			switch (gridItem.star) {
-				case bbproto.EGridStar.GS_KEY:
-					spriteName = "key";
-					break;
-				case bbproto.EGridStar.GS_QUESTION:
-					spriteName = "key";
-					break;
-				case bbproto.EGridStar.GS_EXCLAMATION:
-					spriteName = "gantanhao";
-					break;
-				default:
-					spriteName = "";
-					break;
+			case bbproto.EGridStar.GS_KEY:
+				spriteName = "key";
+				break;
+			case bbproto.EGridStar.GS_QUESTION:
+				spriteName = "key";
+				break;
+			case bbproto.EGridStar.GS_EXCLAMATION:
+				spriteName = "gantanhao";
+				break;
+			default:
+				spriteName = "";
+				break;
 			}
-
+			
 			DGTools.ShowSprite(mapItemSprite, spriteName);
 			backSpriteName = "";
 			switch (gridItem.type) {
@@ -123,13 +126,13 @@ public class MapItem : MonoBehaviour {
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TRAP:
-//				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
+				//				backSpriteName = gridItem.TrapInfo.GetTrapSpriteName();
 				if(mapBackSprite != null) {
 					mapBackSprite.spriteName = gridItem.TrapInfo.GetTrapSpriteName();
 				}
 				break;
 			case bbproto.EQuestGridType.Q_TREATURE:
-//				backSpriteName = BattleMap.chestSpriteName; //"S";
+				//				backSpriteName = BattleMap.chestSpriteName; //"S";
 				if(mapBackSprite != null) {
 					mapBackSprite.spriteName = BattleMapView.chestSpriteName;
 				}
@@ -140,13 +143,8 @@ public class MapItem : MonoBehaviour {
 				}
 				break;
 			}
-
-			mapBack.SetActive(false);
 		}
-	}
 
-	void OnDestory() {
-		showStarSprite.Clear ();
 	}
 
 	void HideStarSprite (bool show) {
@@ -197,22 +195,6 @@ public class MapItem : MonoBehaviour {
 	}
 
 	GameObject floorObject = null;
-
-	public void ShowObject(GameObject go) { }
-
-	void OnDisable () { }
-
-	void OnEnable () {
-		if (gridItemSprite == null) {
-			return;		
-		}
-
-		if (_hasBeenReached) {
-			return;	
-		}
-
-		ShowFootTips ();
-	}
 
 	public void HideEnvirment(bool hide) {
 		if (!_hasBeenReached) {
@@ -268,11 +250,12 @@ public class MapItem : MonoBehaviour {
 		}
 	}
 
-	public void HideGridNoAnim() {
+	public void ToggleGrid(bool isShow = false) {
 //		Debug.Log ("hide no anim");
-		hasBeenReached = true;
-		HideShowSprite (false);
-		mapBackSprite.enabled = gridItemSprite.enabled = mapItemSprite.enabled = false;
+		hasBeenReached = !isShow;
+		if(!isShow)
+			HideShowSprite (isShow);
+		mapBackSprite.enabled = gridItemSprite.enabled = mapItemSprite.enabled = isShow;
 	}
 
 	void ShowBattleEnd(string funciton) {
@@ -339,7 +322,7 @@ public class MapItem : MonoBehaviour {
 			gridAnim.Add(temp);
 		}
 
-		go.SetActive (false);
+		gridItemSprite.enabled = false;
 		TweenScale tws = gridAnim [2].GetComponent<TweenScale> ();
 		TweenAlpha twa = mapBack.GetComponent<TweenAlpha> ();
 		twa.enabled = true;
@@ -363,11 +346,10 @@ public class MapItem : MonoBehaviour {
 		tws.eventReceiver = gameObject;
 
 		if (gridItem != null &&  gridItem.star != bbproto.EGridStar.GS_KEY && gridItem.type == bbproto.EQuestGridType.Q_TREATURE && function != rotateAllEnd) {
-			UILabel coinLabel = transform.FindChild("CoinLabel").GetComponent<UILabel>();//FindChild<UILabel>("CoinLabel");
+			//FindChild<UILabel>("CoinLabel");
 			coinLabel.text = gridItem.coins.ToString();
-			flyCoin = coinLabel.gameObject;
+
 			flyCoin.SetActive(true);
-			flyCoin.SetActive (true);
 			Destroy (flyCoin.GetComponent<TweenScale> ());
 			Destroy (flyCoin.GetComponent<TweenAlpha> ());
 			Vector3 endPosition = ModuleManager.Instance.GetModule<BattleTopModule>(ModuleEnum.BattleTopModule).GetCoinPos();//battleMap.bQuest.GetTopUITarget ().position;
@@ -383,7 +365,8 @@ public class MapItem : MonoBehaviour {
 	GameObject flyCoin = null;
 
 	void FlyEnd() {
-		Destroy (flyCoin);
+		flyCoin.SetActive (false);
+		flyCoin.transform.localPosition = Vector3.zero;
 		Invoke (callBack, 0f);
 	}
 
@@ -398,8 +381,13 @@ public class MapItem : MonoBehaviour {
 		}
 		gridAnim.Clear ();
 		mapItemSprite.enabled = false;
+		mapItemSprite.transform.localScale = Vector3.one;
+		mapItemSprite.alpha = 1f;
 		HideStarSprite (false);
-		gridItemSprite.gameObject.SetActive (false);
+		gridItemSprite.enabled = false;
+		gridItemSprite.transform.localScale = Vector3.one;
+		gridItemSprite.GetComponent<TweenScale> ().to = Vector3.one;
+
 
 		if (animEnd != null) {
 			animEnd ();	
@@ -438,12 +426,6 @@ public class MapItem : MonoBehaviour {
 	}
 
 	int countShow = -1;
-	void ShowFootTips () {
-		if (!footTips.gameObject.activeSelf) {
-			return;		
-		}
-
-	}
 
 	public bool GetChainLinke() {
 		if (_hasBeenReached) {
@@ -466,8 +448,7 @@ public class MapItem : MonoBehaviour {
 	}
 
 	public void Around(bool isAround) {
-		footTips.gameObject.SetActive (isAround);
-		ShowFootTips ();
+		footTips.enabled = isAround;
 		if(_hasBeenReached)
 			return;
 		if (isAround) {

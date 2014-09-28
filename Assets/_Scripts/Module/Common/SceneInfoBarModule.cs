@@ -16,14 +16,7 @@ public class SceneInfoBarModule : ModuleBase {
 		SceneInfoBarView v = view as SceneInfoBarView;
 		switch (data.Length) {
 		case 1:
-			if(data[0].ToString() == "levelup"){
-				v.SetBackBtnActive(true,ModuleEnum.LevelUpModule);
-			}else if(data[0].ToString() == "evolve"){
-				v.SetBackBtnActive(true,ModuleEnum.EvolveModule);
-			}
-			break;
-		case 2:
-			if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Module)){
+			if(data[0] is ModuleEnum){
 				ModuleEnum name = (ModuleEnum)data[0];
 				switch (name) {
 				case ModuleEnum.HomeModule:
@@ -34,6 +27,8 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.OperationNoticeModule:
 				case ModuleEnum.NicknameModule:
 				case ModuleEnum.UnitDetailModule:
+				case ModuleEnum.MsgWindowModule:
+				case ModuleEnum.MaskModule:
 					break;
 				case ModuleEnum.FriendMainModule:
 				case ModuleEnum.ScratchModule:
@@ -50,9 +45,18 @@ public class SceneInfoBarModule : ModuleBase {
 					v.SetSceneName(data[0].ToString());
 					break;
 				}
-			}else if(data[1] is ModuleOrScene && ((ModuleOrScene)data[1] == ModuleOrScene.Scene)){
-				v.SetSceneName(data[0].ToString());
-			}else if(data[0].ToString() == "stage"){
+			}else if(data[0] is string){
+				if(data[0].ToString() == "levelup"){
+					v.SetBackBtnActive(true,ModuleEnum.LevelUpModule);
+				}else if(data[0].ToString() == "evolve"){
+					v.SetBackBtnActive(true,ModuleEnum.EvolveModule);
+				}else if(data[0].ToString() == "quest"){
+					v.SetBackBtnActive(true,ModuleEnum.QuestSelectModule);
+				}
+			}
+			break;
+		case 2:
+		 	if(data[0].ToString() == "stage"){
 				v.SetSceneName(data[1].ToString());
 			}
 			break;
@@ -91,9 +95,6 @@ public class SceneInfoBarModule : ModuleBase {
 				break;
 			case ModuleEnum.QuestSelectModule:
 				backName = ModuleEnum.StageSelectModule;
-				break;
-			case ModuleEnum.FriendSelectModule:
-				backName = ModuleEnum.QuestSelectModule;
 				break;
 			case ModuleEnum.FightReadyModule:
 				backName = ModuleEnum.FriendSelectModule;
