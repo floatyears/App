@@ -5,58 +5,21 @@ using bbproto;
 public class ApplyMessageModule : ModuleBase{
 
 
-	public ApplyMessageModule(UIConfigItem config) : base( config ){}
-
-	public override void ShowUI(){
-		base.ShowUI();
-
-		AddCommandListener();
-
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null);
-		view.CallbackView("HidePanel");
+	public ApplyMessageModule(UIConfigItem config, params object[] data) : base( config, data ){
+		CreateUI<ApplyMessageView> ();
 	}
 
-	public override void HideUI(){
-		base.HideUI();
-		RmvCommandListener();
-	}
-
-	public override void OnReceiveMessages(params object[] data){
-//		base.CallbackView(data);
-
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-//		switch (cbdArgs.funcName){
-//			case "ClickCancel": 
-//				CallBackDispatcherHelper.DispatchCallBack(ApplyCancel, cbdArgs);
-//				break;
-//			default:
-//				break;
-//		}
-	}
-
-	void ShowApplyInfo(object msg){
-		FriendInfo tfi = msg as FriendInfo;
-		RefreshApplyFriendInfo(tfi);
-	}
-
-	void ApplyCancel(object args){
-//		Debug.LogError("ApplyCancel(), call view to close the window ...");
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs();
-		view.CallbackView("Cancel", null);
-	}
-
-	void AddCommandListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.ViewApplyInfo, ShowApplyInfo);
-	}
-
-	void RmvCommandListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.ViewApplyInfo, ShowApplyInfo);
-	}
-
-	void RefreshApplyFriendInfo(FriendInfo tfi){
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs();
-		view.CallbackView("RefreshContent", tfi);
-	}
-
+//	void InitUIElement(){
+//		deleteButton = FindChild<UIButton>("Window/Button_Delete");
+//		UIEventListenerCustom.Get(deleteButton.gameObject).onClick = ClickDeleteButton;
+//	}
+//	
+//	void ClickDeleteButton(GameObject btn){
+//		//Debug.LogError("Click the delete button, call controller to response...");
+//		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
+//		//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickDelete", null);
+//		//		ExcuteCallback(cbdArgs);
+//		ModuleManager.SendMessage (ModuleEnum.AcceptApplyMessageModule, "ClickDelete");
+//	}
 }
 
