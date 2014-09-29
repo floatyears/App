@@ -135,7 +135,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		RefreshParty(false);
 	}
 
-	void RefreshParty (bool isRight){
+	public void RefreshParty (bool isRight){
 		UnitParty tup = null;
 		if (isRight) {
 			tup = DataCenter.Instance.UnitData.PartyInfo.PrevParty;
@@ -156,4 +156,5 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	}
 	
 	public void RefreshView (List<PageUnitItem> view) { 	}
+
 }
