@@ -113,12 +113,6 @@ public class UnitSortView : ViewBase {
 
 		sortBtnMask.enabled = true;
 //		sortBtn.isEnabled = false;
-		if(sortBtn.gameObject.layer ==  0){
-			sortBtn.gameObject.layer =  GameLayer.blocker;
-		}
-		else if(sortBtn.gameObject.layer == GameLayer.blocker){
-			sortBtn.gameObject.layer = 0;
-		}
 
 		if(isShow){
 			iTween.MoveTo(sortRuleSelectPanel, iTween.Hash("x", 0, "time", 0.4f, "islocal", true, "oncomplete",  "ActivateSortBtn", "oncompletetarget", gameObject));
@@ -152,10 +146,11 @@ public class UnitSortView : ViewBase {
 	{
 		if (isShow) {
 			gameObject.SetActive(true);
-			transform.localPosition = new Vector3(1000, -567, 0);
-			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+			Debug.Log("sort ui pos: " + transform.localPosition);
+//			transform.localPosition = new Vector3(1000, -567, 0);
+//			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 		}else{
-			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+//			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
 			gameObject.SetActive(false);
 		}
 	}

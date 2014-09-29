@@ -15,10 +15,7 @@ public class DragPanelView : ViewBase {
 
 	[HideInInspector]
 	public UIScrollView scrollView;
-
-	[HideInInspector]
-	public DragPanelDynamic dragPanelDynamic;
-
+	
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
 		base.Init (config, data);

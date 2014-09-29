@@ -15,6 +15,10 @@ public class MyUnitsListView : ViewBase {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","unit_list");
+		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","unit_list");
+
 		AddCmdListener();
 		CreateDragPanel();
 		SortUnitByCurRule();
@@ -24,6 +28,10 @@ public class MyUnitsListView : ViewBase {
 	
 	public override void HideUI (){
 		base.HideUI ();
+
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
+
 		dragPanel.DestoryUI();
 		RmvCmdListener();
 	}

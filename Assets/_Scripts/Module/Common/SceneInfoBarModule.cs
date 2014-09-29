@@ -29,6 +29,8 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.UnitDetailModule:
 				case ModuleEnum.MsgWindowModule:
 				case ModuleEnum.MaskModule:
+				case ModuleEnum.UnitSortModule:
+				case ModuleEnum.ItemCounterModule:
 					break;
 				case ModuleEnum.FriendMainModule:
 				case ModuleEnum.ScratchModule:

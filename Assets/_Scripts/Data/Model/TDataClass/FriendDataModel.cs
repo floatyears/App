@@ -27,10 +27,6 @@ public class FriendDataModel : ProtobufDataBase {
 	public FriendDataModel()  { 
 		gameTime = GameTimer.GetInstance ();
 	}
-	//    //constructor
-	//    public TFriendList() : base () { 
-	//        RefreshFriendList(inst);
-	//    }
 	
 	public void RefreshFriendList(FriendList inst) {
 		LogHelper.Log("TFriendList () inst is " + inst);
@@ -88,13 +84,6 @@ public class FriendDataModel : ProtobufDataBase {
 	}
 	
 	private void assignFriendList() {
-		assignFriend();
-		assignHelper();
-		assignFriendIn();
-		assignFriendOut();
-	}
-	
-	private void assignFriend() {
 		if (friend != null) {
 			friend.Clear();
 		}
@@ -104,13 +93,12 @@ public class FriendDataModel : ProtobufDataBase {
 		//        Debug.LogError("friend count " + instance.friend.Count);
 		DataCenter.Instance.FriendData.FriendCount = instance.friend.Count;
 		foreach (FriendInfo fi in instance.friend) {
-//			FriendInfo tfi = new FriendInfo(fi);
+			//			FriendInfo tfi = new FriendInfo(fi);
 			//            Debug.Log("friend: NickName " + tfi.NickName);
 			friend.Add(fi);
 		}
-	}
-	
-	private void assignHelper() {
+
+
 		if (helper != null) {
 			helper.Clear();
 		}
@@ -119,15 +107,14 @@ public class FriendDataModel : ProtobufDataBase {
 		}
 		helper = new List<FriendInfo>();
 		foreach (FriendInfo fi in instance.helper) {
-//			FriendInfo tfi = new FriendInfo(fi);
-//			Debug.Log("helper: NickName " + tfi.nickName);
-//			Debug.Log("helper: userId " + tfi.userId);
-//			Debug.Log("helper: userUnit: id" + tfi.UserUnit);
+			//			FriendInfo tfi = new FriendInfo(fi);
+			//			Debug.Log("helper: NickName " + tfi.nickName);
+			//			Debug.Log("helper: userId " + tfi.userId);
+			//			Debug.Log("helper: userUnit: id" + tfi.UserUnit);
 			helper.Add(fi);
 		}
-	}
-	
-	private void assignFriendIn() {
+
+
 		if (friendIn != null) {
 			friendIn.Clear();
 		}
@@ -135,14 +122,11 @@ public class FriendDataModel : ProtobufDataBase {
 			friendIn = new List<FriendInfo>();
 		}
 		foreach (FriendInfo fi in instance.friendIn) {
-//			FriendInfo tfi = new FriendInfo(fi);
+			//			FriendInfo tfi = new FriendInfo(fi);
 			//            Debug.Log("helper: NickName " + tfi.NickName);
 			friendIn.Add(fi);
 		}
-	}
-	
-	
-	private void assignFriendOut() {
+
 		if (friendOut != null) {
 			friendOut.Clear();
 		}
@@ -150,15 +134,14 @@ public class FriendDataModel : ProtobufDataBase {
 			friendOut = new List<FriendInfo>();
 		}
 		foreach (FriendInfo fi in instance.friendIn) {
-//			FriendInfo tfi = new FriendInfo(fi);
+			//			FriendInfo tfi = new FriendInfo(fi);
 			friendOut.Add(fi);
 		}
 		foreach (FriendInfo fi in instance.friendOut) {
-//			FriendInfo tfi = new FriendInfo(fi);
+			//			FriendInfo tfi = new FriendInfo(fi);
 			friendOut.Add(fi);
 		}
 	}
-
 
 
 	private List<FriendInfo> supportFriend = new List<FriendInfo> ();
@@ -234,20 +217,15 @@ public class FriendDataModel : ProtobufDataBase {
 	}
 	
 	public bool CheckIsMyFriend(FriendInfo tfi) {
-		FriendDataModel tfl = DataCenter.Instance.FriendData;
 		
-		if (tfl == null) {
-			return false;
-		}
-		
-		for (int i = 0; i < tfl.Friend.Count; i++) {
-			if(tfl.Friend[i].userId == tfi.userId) {
+		for (int i = 0; i < Friend.Count; i++) {
+			if(Friend[i].userId == tfi.userId) {
 				return true;
 			}
 		}
 		
-		for (int i = 0; i < tfl.FriendOut.Count; i++) {
-			if(tfl.FriendOut[i].userId == tfi.userId) {
+		for (int i = 0; i < FriendOut.Count; i++) {
+			if(FriendOut[i].userId == tfi.userId) {
 				return true;
 			}
 		}
