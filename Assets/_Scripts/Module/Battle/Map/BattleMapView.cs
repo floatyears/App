@@ -23,8 +23,8 @@ public class BattleMapView : ViewBase {
 	private Queue<MapItem> chainLikeMapItem = new Queue<MapItem> ();
 
 	////--------------cell info
-	public static float scaleTime = 0.5f;
-	public static float showTime = 0.5f;
+	public static float scaleTime = 0.4f;
+	public static float showTime = 0.4f;
 	private UILabel typeLabel;
 	private UILabel nameLabel;
 	private UILabel cateGoryLabel;
@@ -841,7 +841,7 @@ public class BattleMapView : ViewBase {
 	
 	void ShowCoin(int number) {
 		nameLabel.text = "";
-		typeLabel.text = "Coin";
+		typeLabel.text = "";
 		itemSprite.spriteName = BattleMapView.chestSpriteName; // S  is coin sprite name in atlas.
 		cateGoryLabel.text = number.ToString ();
 		categoryTitleLabel.text = coinTitle;

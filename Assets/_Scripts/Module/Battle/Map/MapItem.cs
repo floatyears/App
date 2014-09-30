@@ -354,8 +354,8 @@ public class MapItem : MonoBehaviour {
 			Destroy (flyCoin.GetComponent<TweenAlpha> ());
 			Vector3 endPosition = ModuleManager.Instance.GetModule<BattleTopModule>(ModuleEnum.BattleTopModule).GetCoinPos();//battleMap.bQuest.GetTopUITarget ().position;
 			callBack = function;
-			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 1.5f; // 1f = fly speed.
-			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd", "time", flyTime, "easetype", iTween.EaseType.easeInQuad));
+			float flyTime = Vector3.Distance(flyCoin.transform.position, endPosition) / 2f; // 1f = fly speed.
+			iTween.MoveTo (flyCoin, iTween.Hash ("position", endPosition, "oncompletetarget", gameObject, "oncomplete", "FlyEnd", "time", flyTime, "easetype", iTween.EaseType.easeInQuart));
 		} else {
 			tws.callWhenFinished = function;
 		}
