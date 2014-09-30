@@ -46,7 +46,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 	public override void ShowUI(){
 		base.ShowUI();
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitsMainModule,"from","party");
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","party");
 		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","party");
 
 		AddCmdListener();

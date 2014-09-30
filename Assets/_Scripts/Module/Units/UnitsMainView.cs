@@ -16,39 +16,10 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
-		InitChildScenes();
-//		iuiCallback = origin as IUICallback;
-		InitPagePanel();
-	}
-	
-	public override void ShowUI(){
-		base.ShowUI();
-//		RefreshParty();
-
-		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
-		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
-		dragChangeView.RefreshData ();
-
-
-		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
-		ShowUIAnimation();
-	}
-	
-	public override void HideUI(){
-		base.HideUI();
-		DataCenter.Instance.UnitData.PartyInfo.ExitParty();
-	}
-
-	public override void DestoryUI(){
-		base.DestoryUI();
-	}
-
-	void InitChildScenes(){
-//		Debug.LogError ("InitChildScenes");
 
 		GameObject go;
 		UILabel btnLabel;
-
+		
 		go = FindChild("Bottom/Catalog");
 		btnLabel = FindChild<UILabel>("Bottom/Catalog/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Catalog");
@@ -63,7 +34,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		btnLabel = FindChild<UILabel>("Bottom/LevelUp/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
 		buttonInfo.Add(go, ModuleEnum.LevelUpModule);
-
+		
 		go = FindChild("Bottom/Party");
 		btnLabel = FindChild<UILabel>("Bottom/Party/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Party");
@@ -78,14 +49,43 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		btnLabel = FindChild<UILabel>("Bottom/UnitList/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
 		buttonInfo.Add(go, ModuleEnum.MyUnitsListModule);
-
+		
 		dragChangeView = FindChild<DragSliderBase> ("Top/DragPartyUnits");
 		dragChangeView.SetDataInterface (this);
-//		Debug.LogError ("InitChildScenes dragChangeView.Init ");
-//		dragChangeView.Init ();
-
+		//		Debug.LogError ("InitChildScenes dragChangeView.Init ");
+		//		dragChangeView.Init ();
+		
 		foreach (var item in buttonInfo.Keys)
 			UIEventListenerCustom.Get(item).onClick = OnClickCallback;
+
+		topRoot = transform.FindChild("Top").gameObject;
+		bottomRoot = transform.FindChild("Bottom").gameObject;
+		pageIndexSpr = transform.FindChild("Top/Sprite_Page_Index").GetComponent<UISprite>();
+		prePageBtn = FindChild<UIButton>("Top/Button_Left");
+		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
+		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
+		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
+	}
+	
+	public override void ShowUI(){
+		base.ShowUI();
+//		RefreshParty();
+
+		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
+		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
+		dragChangeView.RefreshData ();
+
+
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
+	}
+	
+	public override void HideUI(){
+		base.HideUI();
+		DataCenter.Instance.UnitData.PartyInfo.ExitParty();
+	}
+
+	public override void DestoryUI(){
+		base.DestoryUI();
 	}
 
 	void OnClickCallback(GameObject caller){
@@ -93,7 +93,6 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 //		if (iuiCallback == null)
 //			return;
 
-//		ViewManager.Instance.ShowTipsLabel ("Click", caller);
 		ModuleEnum se = buttonInfo [caller];
 		if (se == ModuleEnum.CatalogModule) {
 			Umeng.GA.Event("Catalog");	
@@ -102,44 +101,30 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 
 		ModuleManager.Instance.ShowModule (buttonInfo [caller]);
 	}
-	
-	void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(0, -510, 0);
-		topRoot.transform.localPosition = 1000 * Vector3.up;
-		bottomRoot.transform.localPosition = new Vector3(-1000, -50, 0);
-		iTween.MoveTo(topRoot, iTween.Hash("y", 220, "time", 0.4f, "islocal", true));
-		iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 
-		//start units step
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+	protected override void ToggleAnimation (bool isShow)
+	{
+		base.ToggleAnimation (isShow);
+
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
+//			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+			gameObject.transform.localPosition = new Vector3(0, -510, 0);
+			topRoot.transform.localPosition = 1000 * Vector3.up;
+			bottomRoot.transform.localPosition = new Vector3(-1000, -50, 0);
+			iTween.MoveTo(topRoot, iTween.Hash("y", 220, "time", 0.4f, "islocal", true));
+			iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
 	}
 
-	private void InitPagePanel(){
-		topRoot = transform.FindChild("Top").gameObject;
-		bottomRoot = transform.FindChild("Bottom").gameObject;
-		pageIndexSpr = transform.FindChild("Top/Sprite_Page_Index").GetComponent<UISprite>();
-		prePageBtn = FindChild<UIButton>("Top/Button_Left");
-		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
-		nextPageBtn = FindChild<UIButton>("Top/Button_Right");
-		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
-
-//		for (int i = 0; i < PartyView.PARTY_MEMBER_COUNT; i++){
-//			GameObject item = topRoot.transform.FindChild(i.ToString()).gameObject;
-//			PageUnitItem puv = item.GetComponent<PageUnitItem>();
-//			partyItems.Add(i, puv);
-//		}
-	}
-
-//	void RefreshParty(TUnitParty party){
-//		List<TUserUnit> partyMemberList = party.GetUserUnit();
-//		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
-//		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
-//
-//		for (int i = 0; i < partyMemberList.Count; i++){
-//			partyItems[i].UserUnit = partyMemberList[i];
-//		}
-//	}
-	
 	void PrevPage(GameObject go){
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 		RefreshParty(true);  
@@ -171,4 +156,5 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	}
 	
 	public void RefreshView (List<PageUnitItem> view) { 	}
+
 }

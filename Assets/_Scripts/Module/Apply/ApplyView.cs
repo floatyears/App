@@ -67,7 +67,8 @@ public class ApplyView : ViewBase{
 	private void ClickItem(FriendUnitItem item){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
-		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
+//		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend);
 	}
 
 	private void DeleteMyApply(object msg){

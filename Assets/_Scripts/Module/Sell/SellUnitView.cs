@@ -28,6 +28,9 @@ public class SellUnitView : ViewBase{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","sell_unit");
+		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","sell_unit");
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 
 //		ResetUIState();
@@ -46,6 +49,9 @@ public class SellUnitView : ViewBase{
 		if( dragPanel != null ) {
 			dragPanel.DestoryUI();
 		}
+
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
 
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}

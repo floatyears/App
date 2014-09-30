@@ -4,6 +4,44 @@ using System.Collections;
 using bbproto;
 
 public class EvolveView : ViewBase {
+
+	private const string hp = "HP";
+	private const string type = "Type";
+	private const string atk = "ATK";
+	private const string race = "Race";
+	private const string lv = "Lv";
+	private const string coins = "Coins";
+	private string rootPath = "Window";
+	private Dictionary<string,UILabel> showInfoLabel = new Dictionary<string, UILabel>();
+	/// <summary>
+	/// 1: base. 2, 3, 4: material. 5: friend
+	/// </summary>
+	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
+	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
+	private UIButton evolveButton;
+	private EvolveItem baseItem;
+	private EvolveItem friendItem;
+	private FriendInfo friendInfo;
+	private EvolveItem prevItem = null;
+	private List<UserUnit> materialUnit = new List<UserUnit>();
+	private int ClickIndex = 0;
+	//	private FriendSelectLevelUpView friendWindow;
+	private bool fromUnitDetail = false;
+	
+	private GameObject topObject;
+	
+	private GameObject unitItem;	
+	private List<UserUnit> allData = new List<UserUnit>();
+	private DragPanelDynamic unitItemDragPanel;
+	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
+	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
+	
+	private UserUnit selectBase = null;
+	private UserUnit baseData = null;
+	private SortRule _sortRule;
+	
+	private DragPanelConfigItem dragConfig;
+
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI ();
@@ -70,42 +108,7 @@ public class EvolveView : ViewBase {
 	//==========================================interface end ==========================
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private const string hp = "HP";
-	private const string type = "Type";
-	private const string atk = "ATK";
-	private const string race = "Race";
-	private const string lv = "Lv";
-	private const string coins = "Coins";
-	private string rootPath = "Window";
-	private Dictionary<string,UILabel> showInfoLabel = new Dictionary<string, UILabel>();
-	/// <summary>
-	/// 1: base. 2, 3, 4: material. 5: friend
-	/// </summary>
-	private Dictionary<GameObject,EvolveItem> evolveItem = new Dictionary<GameObject, EvolveItem> ();
-	private Dictionary<int,EvolveItem> materialItem = new Dictionary<int, EvolveItem> ();
-	private UIButton evolveButton;
-	private EvolveItem baseItem;
-	private EvolveItem friendItem;
-	private FriendInfo friendInfo;
-	private EvolveItem prevItem = null;
-	private List<UserUnit> materialUnit = new List<UserUnit>();
-	private int ClickIndex = 0;
-//	private FriendSelectLevelUpView friendWindow;
-	private bool fromUnitDetail = false;
 
-	private GameObject topObject;
-	
-	private GameObject unitItem;	
-	private List<UserUnit> allData = new List<UserUnit>();
-	private DragPanelDynamic unitItemDragPanel;
-	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
-	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
-	
-	private UserUnit selectBase = null;
-	private UserUnit baseData = null;
-	private SortRule _sortRule;
-
-	private DragPanelConfigItem dragConfig;
 
 	//	private GameObject bottomObject;
 	
@@ -115,15 +118,6 @@ public class EvolveView : ViewBase {
 	public const string RefreshData = "refreshData";
 	public const string SelectBase = "selectBase";
 	public const string SelectMaterial = "selectMaterial";
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void PickFriendUnitInfo(object data) {
-		FriendInfo tuu = data as FriendInfo;
-		friendInfo = tuu;
-		friendItem.Refresh (tuu.UserUnit);
-		CheckCanEvolve ();
-	}
 
 	void CheckCanEvolve () {
 		bool haveBase = baseItem.userUnit != null; 
@@ -328,8 +322,72 @@ public class EvolveView : ViewBase {
 	}
 
 	void InitUI () {
-		InitItem ();
-		InitLabel ();
+		string path = rootPath + "/title/";
+		
+		topObject = FindChild (rootPath);
+		
+		for (int i = 1; i < 6; i++) {
+			GameObject go = FindChild(path + i);
+			UIEventListenerCustom ui = UIEventListenerCustom.Get(go);
+			ui.LongPress = LongPress;
+			ui.onClick = ClickItem;
+			
+			EvolveItem ei = new EvolveItem(i, go);
+			evolveItem.Add(ei.itemObject, ei);
+			if(i == 1 ) {
+				baseItem = ei;
+				ei.highLight.enabled = true;
+				state = 1;
+				prevItem = ei;
+				continue;
+			}
+			else if (i == 5) {
+				friendItem = ei;
+				continue;
+			}
+			else{
+				materialItem.Add(i,ei);
+			}
+			
+			//			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
+			//			ei.maskSprite = go.transform.Find("Mask").GetComponent<UISprite>();
+		}
+		string path1 = rootPath + "/info_panel/";
+		string suffixPath = "/Info";
+		UILabel temp = transform.Find(path1 + hp + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (hp, temp);
+		
+		temp = transform.Find(path1 + atk + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (atk, temp);
+		
+		temp = transform.Find(path1 + lv + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (lv, temp);
+		
+		temp = transform.Find(path1 + type + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (type, temp);
+		
+		temp = transform.Find(path1 + race + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (race, temp);
+		
+		temp = transform.Find(path1 + coins + suffixPath).GetComponent<UILabel>();
+		showInfoLabel.Add (coins, temp);
+		
+		evolveButton = FindChild<UIButton> ("Evolve");
+		FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Evolve");
+		ShieldEvolveButton (false);
+		
+		FindChild<UILabel> ("Window/info_panel/HP/label").text = TextCenter.GetText ("Text_HP");
+		FindChild<UILabel> ("Window/info_panel/ATK/label").text = TextCenter.GetText ("Text_ATK");
+		FindChild<UILabel> ("Window/info_panel/Lv/label").text = TextCenter.GetText ("Text_Level");
+		FindChild<UILabel> ("Window/info_panel/Type/label").text = TextCenter.GetText ("Text_TYPE");
+		FindChild<UILabel> ("Window/info_panel/Race/label").text = TextCenter.GetText ("Text_RACE");
+		FindChild<UILabel> ("Window/info_panel/Coins/label").text = TextCenter.GetText ("Text_Coins");
+		FindChild<UILabel> ("Window/title/1/Sprite_Base").text = TextCenter.GetText ("Text_BASE");
+		FindChild<UILabel> ("Window/title/4/Text").text = TextCenter.GetText ("Text_Material");
+		FindChild<UILabel> ("Window/title/5/Text").text = TextCenter.GetText ("Text_Friend");
+		
+		
+		UIEventListenerCustom.Get (evolveButton.gameObject).onClick = Evolve;
 
 		CreatPanel ();
 		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
@@ -359,79 +417,6 @@ public class EvolveView : ViewBase {
 		this.friendInfo = friendInfo;
 		friendItem.Refresh (friendInfo.UserUnit);
 		CheckCanEvolve ();
-	}
-	
-	void InitItem () {
-		string path = rootPath + "/title/";
-
-		topObject = FindChild (rootPath);
-
-		for (int i = 1; i < 6; i++) {
-			GameObject go = FindChild(path + i);
-			UIEventListenerCustom ui = UIEventListenerCustom.Get(go);
-			ui.LongPress = LongPress;
-			ui.onClick = ClickItem;
-
-			EvolveItem ei = new EvolveItem(i, go);
-			evolveItem.Add(ei.itemObject, ei);
-			if(i == 1 ) {
-				baseItem = ei;
-				ei.highLight.enabled = true;
-				state = 1;
-				prevItem = ei;
-				continue;
-			}
-			else if (i == 5) {
-				friendItem = ei;
-				continue;
-			}
-			else{
-				materialItem.Add(i,ei);
-			}
-			
-//			ei.haveLabel = go.transform.Find("HaveLabel").GetComponent<UILabel>();
-//			ei.maskSprite = go.transform.Find("Mask").GetComponent<UISprite>();
-		}
-	}
-
-	void InitLabel () {
-//		Debug.LogError("initlabel 1 ");
-		string path = rootPath + "/info_panel/";
-		string suffixPath = "/Info";
-		UILabel temp = transform.Find(path + hp + suffixPath).GetComponent<UILabel>();
-		showInfoLabel.Add (hp, temp);
-
-		temp = transform.Find(path + atk + suffixPath).GetComponent<UILabel>();
-		showInfoLabel.Add (atk, temp);
-
-		temp = transform.Find(path + lv + suffixPath).GetComponent<UILabel>();
-		showInfoLabel.Add (lv, temp);
-
-		temp = transform.Find(path + type + suffixPath).GetComponent<UILabel>();
-		showInfoLabel.Add (type, temp);
-
-		temp = transform.Find(path + race + suffixPath).GetComponent<UILabel>();
-		showInfoLabel.Add (race, temp);
-
-		temp = transform.Find(path + coins + suffixPath).GetComponent<UILabel>();
-		showInfoLabel.Add (coins, temp);
-
-		evolveButton = FindChild<UIButton> ("Evolve");
-		FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Evolve");
-		ShieldEvolveButton (false);
-
-		FindChild<UILabel> ("Window/info_panel/HP/label").text = TextCenter.GetText ("Text_HP");
-		FindChild<UILabel> ("Window/info_panel/ATK/label").text = TextCenter.GetText ("Text_ATK");
-		FindChild<UILabel> ("Window/info_panel/Lv/label").text = TextCenter.GetText ("Text_Level");
-		FindChild<UILabel> ("Window/info_panel/Type/label").text = TextCenter.GetText ("Text_TYPE");
-		FindChild<UILabel> ("Window/info_panel/Race/label").text = TextCenter.GetText ("Text_RACE");
-		FindChild<UILabel> ("Window/info_panel/Coins/label").text = TextCenter.GetText ("Text_Coins");
-		FindChild<UILabel> ("Window/title/1/Sprite_Base").text = TextCenter.GetText ("Text_BASE");
-		FindChild<UILabel> ("Window/title/4/Text").text = TextCenter.GetText ("Text_Material");
-		FindChild<UILabel> ("Window/title/5/Text").text = TextCenter.GetText ("Text_Friend");
-
-
-		UIEventListenerCustom.Get (evolveButton.gameObject).onClick = Evolve;
 	}
 	
 	void Evolve(GameObject go) {

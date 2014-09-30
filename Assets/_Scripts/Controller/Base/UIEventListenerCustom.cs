@@ -103,9 +103,10 @@ public class UIEventListenerCustom : MonoBehaviour {
 	}
 
 	bool CheckFocus(){
-		Debug.Log ("check ui focus");
+
 		if (FocusModules.Count == 0)
 			return true;
+		Debug.Log ("Check Focus on UI: (count)" + FocusModules.Count);
 		foreach (var item in gameObject.GetComponentsInParent<Transform>()) {
 			foreach (var module in FocusModules) {
 				if(item == ModuleManager.Instance.GetModule<ModuleBase>(module).View.transform){

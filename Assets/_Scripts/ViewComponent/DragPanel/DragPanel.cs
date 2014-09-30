@@ -5,11 +5,6 @@ public class DragPanel : ModuleBase{
 	public event UICallback DragCallback;
 
 	protected DragPanelView dragPanelView;
-//	public DragPanelView DragPanelView{
-//		get{
-//			return dragPanelView;
-//		}
-//	}
 
 	protected List<GameObject> scrollItem = new List<GameObject> ();
 	public List<GameObject> ScrollItem {

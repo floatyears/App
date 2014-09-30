@@ -72,7 +72,7 @@ public class FriendListView : ViewBase{
 
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
-		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("DeleteApply"),"content",TextCenter.GetText ("ConfirmDelete"));
 	}
 
 
@@ -82,10 +82,7 @@ public class FriendListView : ViewBase{
 	}
 
 	void CallBackRefreshFriend(object args){
-		MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend);
-	}
-
-	void UpdateFriendList(object args){
+//		MsgCenter.Instance.Invoke(CommandEnum.EnsureUpdateFriend);
 		FriendController.Instance.GetFriendList(OnGetFriendList,true,false);
 	}
 
@@ -102,23 +99,11 @@ public class FriendListView : ViewBase{
 		
 		bbproto.FriendList inst = rsp.friends;
 		DataCenter.Instance.FriendData.RefreshFriendList(inst);
-		HideUI();
-		ShowUI();
 	}
 
 	void DeleteFriendPicked(object msg){
-//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("DeleteNoteTitle"), TextCenter.GetText ("DeleteNoteContent"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallBackDeleteFriend);
 	}
-
-//	MsgWindowParams GetDeleteMsgParams(){
-//		MsgWindowParams msgParams = new MsgWindowParams();
-//		msgParams.titleText = ;
-//		msgParams.contentText = ;
-//		msgParams.btnParams = new BtnParam[2]{ new BtnParam(), new BtnParam()};
-//		msgParams.btnParams[ 0 ].callback = ;
-//		return msgParams;
-//	}
 
 	void CallBackDeleteFriend(object args){
 		FriendController.Instance.DelFriend(OnDelFriend, curPickedFriend.userId);
@@ -142,7 +127,6 @@ public class FriendListView : ViewBase{
 		
 		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 		
-		HideUI();
 		ShowUI();
 	}
 
@@ -178,13 +162,11 @@ public class FriendListView : ViewBase{
 
 	private void AddCmdListener(){
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);     
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 	
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureUpdateFriend, UpdateFriendList);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 }

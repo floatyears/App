@@ -20,63 +20,23 @@ public class ApplyMessageView : ViewBase{
 	
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config,data);
-		InitUIElement();
-	}
 
-	public override void ShowUI(){
-		base.ShowUI();
-//		ShowSelf(false);
 
-//		HideUI ();
-	}
-
-	public override void HideUI(){
-		base.HideUI();
-//		ShowSelf(false);  
-	}
-
-	public override void CallbackView(params object[] args){
-//		base.CallbackView(data);
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (args[0].ToString()){
-			case "StylizeTitle": 
-				ShowTitle(args[1]);
-				break;
-			case "StylizeNote":
-				ShowNote(args[1]);
-				break;
-			case "RefreshContent":
-				ShowCenterContent(args[1]);
-				ShowSelf(true);
-				break;
-			case "HidePanel":
-				HidePanel(args[1]);
-				break;
-			default:
-				break;
-		}
-	}
-
-	void HidePanel(object args){
-		ShowSelf(false);
-	}
-
-	void InitUIElement(){
 		rootPanel = FindChild("Window");
-
+		
 		titleLabel = FindChild<UILabel>("Window/Label_Title");
 		noteLabel = FindChild<UILabel>("Window/Label_Note");
 		nameLabel = FindChild<UILabel>("Window/Label_Vaule/Name");
 		rankLabel = FindChild<UILabel>("Window/Label_Vaule/Rank");
 		timeLabel = FindChild<UILabel>("Window/Label_Vaule/LastLogin");
 		idLabel = FindChild<UILabel>("Window/Label_Vaule/ID");
-//		avatarTexture = FindChild<UITexture>("Window/Avatar/Texture");
+		//		avatarTexture = FindChild<UITexture>("Window/Avatar/Texture");
 		sureButton = FindChild<UIButton>("Window/Button_Sure");
 		cancelButton = FindChild<UIButton>("Window/Button_Cancel");
-	
+		
 		UIEventListenerCustom.Get(sureButton.gameObject).onClick = ClickSure;
 		UIEventListenerCustom.Get(cancelButton.gameObject).onClick = ClickCancel;  
-
+		
 		FindChild<UILabel> ("Window/Label_Text/Name").text = TextCenter.GetText ("Text_Name_Colon");
 		FindChild<UILabel> ("Window/Label_Text/Rank").text = TextCenter.GetText ("Text_Rank_Colon");
 		FindChild<UILabel> ("Window/Label_Text/LastLogin").text = TextCenter.GetText ("Text_LastLogin_Colon");
@@ -85,35 +45,58 @@ public class ApplyMessageView : ViewBase{
 		FindChild<UILabel> ("Window/Label_Note").text = TextCenter.GetText ("ApplyFriendNote");
 	}
 
+	public override void ShowUI ()
+	{
+		base.ShowUI ();
+
+		if(viewData != null){
+			if(viewData.ContainsKey("data")){
+				ShowCenterContent(viewData["data"]);
+			}
+			if(viewData.ContainsKey("title")){
+				ShowTitle(viewData["title"] as string);
+			}
+			if(viewData.ContainsKey("content")){
+				ShowNote(viewData["content"] as string);
+			} 
+		}
+	}
+
+	public override void CallbackView(params object[] args){
+		switch (args[0].ToString()){
+			case "StylizeTitle": 
+				ShowTitle(args[1]);
+				break;
+			case "StylizeNote":
+				ShowNote(args[1]);
+				break;
+			default:
+				break;
+		}
+	}
 
 	void ClickSure(GameObject btn){
-//		Debug.LogError("ApplyMessageView.ClickSure(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSure", null);
-//		ExcuteCallback(cbdArgs);
-		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickSure");
+//		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickSure");
 	}
 
 	
 	void ClickCancel(GameObject btn){
-//		Debug.LogError("ApplyMessageView.ClickCancel(),  click...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickCancel", null);
-//		ExcuteCallback(cbdArgs);
-		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickCancel");
+//		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickCancel");
 	}
 
-	void ShowSelf(bool canShow){
-//		this.gameObject.SetActive(canShow);
-		if (canShow){
-			ShowUI();
-//			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, true));
+	protected override void ToggleAnimation (bool isShow)
+	{
+		base.ToggleAnimation (isShow);
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
 			rootPanel.transform.localScale = new Vector3(1f, 0f, 1f);
 			iTween.ScaleTo(rootPanel, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-		}
-		else{
-//			MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, new BlockerMaskParams(BlockerReason.BriefInfoWindow, false));     
-			HideUI();
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			gameObject.SetActive(false);
 		}
 	}
 
@@ -128,9 +111,6 @@ public class ApplyMessageView : ViewBase{
 	void ShowCenterContent(object args){
 		FriendInfo tfi = args as FriendInfo;
 
-//		tfi.UserUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-//			avatarTexture.mainTexture = o as Texture2D;
-//		});
 		if(tfi.nickName == string.Empty)
 			nameLabel.text = "NoName";
 		else
@@ -144,11 +124,6 @@ public class ApplyMessageView : ViewBase{
 		fuv.Init(tfi);
 
 		UIEventListenerCustom.Get (FindChild("Window/Avatar")).LongPress = null;
-//		fuv.callback = ClickItem;
 	}
-      
-//	private void ClickItem(FriendUnitItem item){
-//		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, item.FriendInfo);
-//	}
+
 }

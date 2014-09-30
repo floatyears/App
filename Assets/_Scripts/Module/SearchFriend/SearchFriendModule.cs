@@ -109,7 +109,8 @@ public class SearchFriendModule : ModuleBase{
 
 	public void ShowSearchFriendResult(FriendInfo resultInfo){
 		currentSearchFriend = resultInfo;
-		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, resultInfo);
+//		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, resultInfo);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", resultInfo,"title",TextCenter.GetText ("FriendApply"),"content",TextCenter.GetText ("ConfirmApply"));
 	}
 
 	public void ShowFriendNotExist(){

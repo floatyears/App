@@ -10,20 +10,6 @@ public class FriendMainView : ViewBase {
         InitUI();
     }
 
-    public override void CallbackView(params object[] args) {
-//        base.CallbackView(data);
-//        
-//        CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-        
-        switch (args[0].ToString()){
-        	case "TurnRequiredFriendListScene": 
-            	TurnToNextScene();
-           		break;
-        	default:
-            	break;
-        }
-    }
-	
     private void InitUI() {
         GameObject go;
 		UILabel btnLabel;
@@ -63,25 +49,50 @@ public class FriendMainView : ViewBase {
         nextScene = btns[btn];
         switch (nextScene) {
 		case ModuleEnum.ApplyModule:
-				SyncFriendListFromServer();
-            	break;
-        	case ModuleEnum.FriendListModule:
-            	SyncFriendListFromServer();
-            	break;
-			case ModuleEnum.ReceptionModule:
-            	SyncFriendListFromServer();
-            	break;
-        	default:
-				ModuleManager.Instance.ShowModule(nextScene);
-            	break;
+		case ModuleEnum.FriendListModule:
+		case ModuleEnum.ReceptionModule:
+			SyncFriendList();
+	    	break;
+		default:
+			ModuleManager.Instance.ShowModule(nextScene);
+	    	break;
         }
     }
 
-    void SyncFriendListFromServer() {
-//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("SyncFriendList", nextScene);
-//        ExcuteCallback(cbdArgs);
-		ModuleManager.SendMessage (ModuleEnum.FriendMainModule, "SyncFriendList", nextScene);
-    }
+	void SyncFriendList(){
+		if (DataCenter.Instance.FriendData.Friend != null){
+			TurnToNextScene ();
+			return;
+		}
+		FriendController.Instance.GetFriendList(OnSyncFriendList,true,false);
+	}
+	
+	void OnSyncFriendList(object data){
+		Debug.Log("OnSyncFriendList, data = " + data);
+		if (data == null)
+			return;
+		
+		LogHelper.Log("TFriendList.Refresh() begin");
+		LogHelper.Log(data);
+		bbproto.RspGetFriend rsp = data as bbproto.RspGetFriend;
+		
+		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			return;
+		}
+		
+		bbproto.FriendList inst = rsp.friends;
+		
+		if (rsp.friends == null){
+			LogHelper.Log("RspGetFriend getFriend null");
+			return;
+		}
+		
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
+		TurnToNextScene ();
+	}
+
 
     void TurnToNextScene() {
         ModuleManager.Instance.ShowModule(nextScene);

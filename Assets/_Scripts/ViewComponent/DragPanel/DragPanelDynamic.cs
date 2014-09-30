@@ -272,54 +272,15 @@ public class DragPanelDynamic {
 		}
 	}
 
-//	void RefreshScrollItem(MyUnitItem myUItem, TUserUnit tuu, SortRule sortRule = SortRule.None) {
-//		myUItem.UserUnit = tuu;
-//		myUItem.CurrentSortRule = sortRule;
-//	}
 
 	void CreatPanel(GameObject parent) {
 		dragPanelView = NGUITools.AddChild( parent, DragPanelPrefab ).GetComponent<DragPanelView>(); 
 //		dragPanelView.Init ( "DragPanelDynamic" );
 		dragPanelView.grid.maxPerLine = this.maxPerLine;
-		dragPanelView.dragPanelDynamic = this;
+//		dragPanelView.dragPanelDynamic = this;
 	}
 
-//	public void SetDragPanel(DragPanelSetInfo dpsi) {
-//		dragPanelView.scrollView.movement = dpsi.scrollMovement;
-//
-//		dragPanelView.scrollView.GetComponent<UIPanel> ().depth = dpsi.depth;
-//		dragPanelView.transform.parent = dpsi.parentTrans;
-////		dragPanelView.transform.localPosition = dpsi.scrollerLocalPos;
-//		dragPanelView.transform.localScale = dpsi.scrollerScale;
-//		dragPanelView.transform.localPosition = dpsi.position;
-//		dragPanelView.clip.clipRange = dpsi.clipRange;
-//		dragPanelView.scrollBar.transform.localPosition = dpsi.scrollBarPosition;
-//
-//		UIGrid grid = dragPanelView.grid;
-//		grid.arrangement = dpsi.gridArrange;
-//		grid.maxPerLine = dpsi.maxPerLine;
-//		grid.cellWidth = dpsi.cellWidth;
-//		grid.cellHeight = dpsi.cellHeight;
-//		grid.enabled = true;
-//		grid.Reposition ();
-//
-//		Transform fg = dragPanelView.scrollBar.transform.FindChild ("Foreground");
-//		if (dpsi.scrollMovement == UIScrollView.Movement.Vertical) {
-//			dragPanelView.scrollView.horizontalScrollBar = null;	
-//			dragPanelView.scrollView.verticalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;
-//			fg.Rotate (0, 0, 0);
-//			fg.GetComponent<UISprite> ().alpha = 1;
-//			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.w;
-//		} else {
-//			dragPanelView.scrollView.horizontalScrollBar = dragPanelView.scrollBar;//dragPanelView.gameObject.transform.FindChild("Scroll Bar").gameObject;	
-//			dragPanelView.scrollView.verticalScrollBar = null;
-//			fg.Rotate (0, 0, -90);
-//			fg.GetComponent<UISprite> ().alpha = 1;
-//			fg.GetComponent<UISprite> ().width = (int)dpsi.clipRange.z;
-//		}
-//
-//		OffsetPos = new Vector4 (dpsi.cellWidth, -dpsi.cellHeight, 0f, 0f);
-//	}
+
 
 	public void SetScrollView(DragPanelConfigItem config, Transform parent){
 		dragPanelView.SetScrollView(config, parent);

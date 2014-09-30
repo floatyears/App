@@ -26,6 +26,9 @@ public class CatalogView : ViewBase {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
+//		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","catalog");
+//		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","catalog");
+
 		RefreshItemCounter();
 		StartCoroutine("InitDragPanel");
 
@@ -35,6 +38,10 @@ public class CatalogView : ViewBase {
 	
 	public override void HideUI () {
 		base.HideUI ();
+
+//		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
+//		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
+
 		DestoryDragPanel();
 	}
 
