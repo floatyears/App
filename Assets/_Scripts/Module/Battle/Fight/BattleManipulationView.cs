@@ -622,7 +622,7 @@ public class BattleManipulationView : ViewBase {
 		//normal skill is from right top to left bottom.
 		Vector3 pos = bcai.transform.localPosition;		// get last area item position.
 		
-		startPosition = new Vector3 (pos.x + cardHeight, pos.y - cardHeight * 0.5f, pos.z); //normal skill start position.
+		startPosition = new Vector3 (pos.x + cardHeight, pos.y + cardHeight * 0.0f, pos.z); //normal skill start position.
 		
 		middlePosition = battleCardAreaItem [2].transform.localPosition;
 		
