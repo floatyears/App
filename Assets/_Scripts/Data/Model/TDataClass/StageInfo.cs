@@ -27,6 +27,7 @@ public partial class StageInfo : ProtoBuf.IExtensible {
 		get { 
 			uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
 			uint lastTime = 0;
+			//前提要求：服务器返回的validTime列表是按时间先后排序的。
 			foreach (var item in validTime) {
 				if(currentTime >= item.startTime){
 					if(currentTime <= item.endTime){
@@ -49,6 +50,7 @@ public partial class StageInfo : ProtoBuf.IExtensible {
 		get { 
 			uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
 			uint lastTime = 0;
+			//前提要求：服务器返回的validTime列表是按时间先后排序的。
 			foreach (var item in validTime) {
 				if(currentTime >= item.startTime){
 					if(currentTime <= item.endTime){

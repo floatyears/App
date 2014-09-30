@@ -238,13 +238,13 @@ public class GameTimer : MonoBehaviour {
 	}
 
 	public static string GetFormatRemainTime(uint seconds){
-		uint hr = seconds / 3600;
-		uint min = seconds % 3600 / 60;
-		uint sec = seconds % 60;
+		uint hr = (uint)Math.Ceiling((double)seconds / 3600);
+		uint min = (uint)Math.Ceiling((double)seconds % 3600 / 60);
+        uint sec = (uint)Math.Ceiling((double)seconds % 60);
 
 		if (hr > 23) {
 			return (uint)hr / 24 + TextCenter.GetText ("Time_Day");// + (uint)hr % 24 + TextCenter.GetText ("Time_Hour");
-		} else if (hr > 0) {
+		} else if (seconds > 3600) {
 			return hr + TextCenter.GetText ("Time_Hour");// + min + TextCenter.GetText ("Time_Min");
 		} else {
 			return min + TextCenter.GetText ("Time_Min");
