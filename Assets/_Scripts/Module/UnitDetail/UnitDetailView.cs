@@ -315,15 +315,17 @@ public class UnitDetailView : ViewBase{
 //		if (DataCenter.gameState != GameState.Evolve && !isEvolve) {
 //			return;
 //		}
-		if( DataCenter.evolveInfo != null )
-			DataCenter.evolveInfo.ClearData ();
-		
-		isEvolve = false;
-		
-		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
-		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
-		evolveEffectIns.transform.localPosition = pos;
-		evolveEffectIns.layer = GameLayer.EffectLayer;
+		if (isEvolve) {
+			if( DataCenter.evolveInfo != null )
+				DataCenter.evolveInfo.ClearData ();
+			
+			isEvolve = false;
+			
+			evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
+			Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
+			evolveEffectIns.transform.localPosition = pos;
+			evolveEffectIns.layer = GameLayer.EffectLayer;
+		}
 
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}

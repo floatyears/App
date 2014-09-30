@@ -107,12 +107,21 @@ public class QuestSelectView : ViewBase {
 	
 	private List<QuestInfo> GetAccessQuest(List<QuestInfo> questInfoList){
 		List<QuestInfo> accessQuestList = new List<QuestInfo>();
+		bool isLocked = false;
 		for (int i = 0; i < questInfoList.Count; i++){
 			accessQuestList.Add(questInfoList[ i ]);
 
-			if(!CheckQuestIsClear(pickedStage, questInfoList[ i ].id)) 
-				break;
+			bool isClear = CheckQuestIsClear(pickedStage, questInfoList[ i ].id);
+			if( isClear )
+				questInfoList[ i ].state = EQuestState.QS_CLEARED;
+			else if (!isLocked) {
+				questInfoList[ i ].state = EQuestState.QS_QUESTING;
+				isLocked = true;
+			}else{
+				questInfoList[ i ].state = EQuestState.QS_NEW;
+			}
 		}
+
 		Debug.Log("GetAccessStageList(), accessStageList count is : " + accessQuestList.Count);
 		return accessQuestList;
 	}
