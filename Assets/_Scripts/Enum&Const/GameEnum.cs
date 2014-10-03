@@ -237,6 +237,8 @@ public enum CommandEnum{
 	ReqChangeParty				= 5301,
 	RspChangeParty				= 5302,
 
+
+	FriendDataUpdate,
 	//-----------------Server Protocol-----------------------//
 }
 

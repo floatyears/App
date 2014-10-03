@@ -62,18 +62,18 @@ public class RewardView : ViewBase {
 		if(bonusIDs.Count > 0)
 			BonusController.Instance.AcceptBonus(OnAcceptBonus,bonusIDs);
 
-		int count = dragPanel.ScrollItem.Count;
-		for (int i = 0; i < count; i++) {
-			GameObject go = dragPanel.ScrollItem[i];
-			GameObject.Destroy(go);
-		}
-		dragPanel.ScrollItem.Clear();
-		
+//		int count = dragPanel.ScrollItem.Count;
+//		for (int i = 0; i < count; i++) {
+//			GameObject go = dragPanel.ScrollItem[i];
+//			GameObject.Destroy(go);
+//		}
+//		dragPanel.ScrollItem.Clear();
+
+		dragPanel.Clear ();
 //		iTween.Stop (gameObject);
 
 		aList.Clear ();
 
-//		base.DestoryUI ();
 	}
 
 	private void OnAcceptBonus(object data){
@@ -159,9 +159,8 @@ public class RewardView : ViewBase {
 
 
 	private void CreateDragView(){
-		dragPanel = new DragPanel("RewardDragPanel", RewardItemView.Prefab,transform);
+		dragPanel = new DragPanel("RewardDragPanel", "Prefabs/UI/Reward/RewardItem",typeof(RewardItemView), transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem (0);
 	}
 
 	private void FindUIElement(){
@@ -189,7 +188,7 @@ public class RewardView : ViewBase {
 	}
 
 	private void RefreshView(){
-
+		Debug.Log ("reward view refresh");
 		for (int i = 1; i < 6; i++) {
 			int count = 0;
 			if(aList.ContainsKey(i)){
@@ -207,50 +206,13 @@ public class RewardView : ViewBase {
 			}else{
 				Nums[i].SetActive(false);
 			}
-		}
-
-		if (!aList.ContainsKey (currentContentIndex)) {
-			//Debug.Log("item:" + dragPanel.ScrollItem);
-			int count = dragPanel.ScrollItem.Count;
-			for (int i = 0; i < count; i++) {
-				GameObject go = dragPanel.ScrollItem[i];
-				GameObject.Destroy(go);
-			}
-			dragPanel.ScrollItem.Clear();
-			return;
-		}
-
-		//dragPanel.AddItem (aList [currentContentIndex].Count, null, true);
-		//Debug.Log ("current count: " + aList [currentContentIndex].Count);
-
-		for (int i = 0; i < aList[currentContentIndex].Count; i++){
-			//Debug.Log ("scroll item count:" + dragPanel.ScrollItem.Count+ " i: "+ i);
-			if(dragPanel.ScrollItem.Count <= i){
-				GameObject go = dragPanel.GetDragViewObject().GetComponent<DragPanelView>().AddObject(dragPanel.SetResourceObject);
-				//Debug.Log("go: " + go);
-				if(go != null){
-					dragPanel.ScrollItem.Add(go);
-				}
-			}
-			//Debug.Log("index: " + i);
-			RewardItemView rewardItemView = RewardItemView.Inject(dragPanel.ScrollItem[ i ]);
-			
-			rewardItemView.Data = aList[currentContentIndex][i];
-		}
-
-		//Debug.Log ("count: " + dragPanel.ScrollItem.Count + " ,"+ aList [currentContentIndex].Count);
-		if (dragPanel.ScrollItem.Count > aList [currentContentIndex].Count) {
-			for (int i = dragPanel.ScrollItem.Count-1; i >= aList [currentContentIndex].Count; i--) {
-				GameObject go = dragPanel.ScrollItem[i];
-				GameObject.Destroy(go);
-				dragPanel.ScrollItem.RemoveAt(i);
+			if (!aList.ContainsKey (currentContentIndex)) {
+				dragPanel.Clear();
+			}else{
+				dragPanel.SetData<BonusInfo> (aList[currentContentIndex],OnTakeAward as DataListener);
 			}
 		}
 
-
-
-		dragPanel.Refresh ();
-		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.value = 0;
 	}
 
 

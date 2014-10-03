@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using bbproto;
 
-public class RewardItemView : MonoBehaviour {
+public class RewardItemView : DragPanelItemBase {
 
 //	private GameObject mask;
 	private GameObject btn;
@@ -13,18 +13,7 @@ public class RewardItemView : MonoBehaviour {
 
 	private List<GameObject> itemList;
 
-	private static GameObject prefab;
-
 	private UIAtlas atlas;
-	public static GameObject Prefab{
-		get{
-			if(prefab == null){
-				string sourcePath = "Prefabs/UI/Reward/RewardItem";
-				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject;
-			}
-			return prefab;
-		}
-	}
 	
 	public static RewardItemView Inject(GameObject view){
 		RewardItemView stageItemView = view.GetComponent<RewardItemView>();
@@ -36,76 +25,7 @@ public class RewardItemView : MonoBehaviour {
 	public BonusInfo Data{
 		get{return data;}
 		set{
-			data = value;
 
-			if(!inited){
-				itemList = new List<GameObject> ();
-				itemList.Add (transform.FindChild ("Item1").gameObject);
-				itemList.Add (transform.FindChild ("Item2").gameObject);
-				itemList.Add (transform.FindChild ("Item3").gameObject);
-
-				atlas = transform.FindChild ("Item3/Img").gameObject.GetComponent<UISprite>().atlas;
-
-				btn = transform.FindChild("OkBtn").gameObject;
-//				mask = transform.FindChild("Mask").gameObject;
-				text = transform.FindChild("Label").GetComponent<UILabel>();
-
-
-
-				transform.FindChild("OkBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
-				//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
-				btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
-
-//				atlas = ResourceManager.Instance.LoadLocalAsset("Atlas/Atlas_Login",
-				inited = true;
-			}
-
-//			Debug.Log("id: " +data.id);
-			if(data.enabled == 1){
-//				mask.SetActive(false);
-//				btn.GetComponent<BoxCollider>().enabled = true;
-				btn.GetComponent<UIButton>().isEnabled = true;
-			}else{
-//				mask.SetActive(true);
-//				btn.GetComponent<BoxCollider>().enabled = false;
-				btn.GetComponent<UIButton>().isEnabled = false;
-			}
-
-
-			int index = 0;
-			foreach (var item in data.giftItem) {
-				if(item.count > 0){
-//					GiftItem gd = item//data.giftItem[index];
-					itemList[index].SetActive(true);
-					SetItemData(itemList[index], item);
-					index++;
-//					Debug.Log("foreach item: " + item);
-				}
-					
-			}
-			for (int i = index; i < 3; i++) {
-				itemList[i].SetActive(false);
-			}
-
-			switch (data.type) {
-			case 2://EBonusType.CHAIN_LOGIN:
-				text.text = string.Format(TextCenter.GetText("ChainLogin"),data.matchValue);
-				break;
-			case 1://EBonusType.TOTAL_LOGIN:
-				text.text = string.Format(TextCenter.GetText("TotalLogin"),data.matchValue);
-				break;
-			case 3://EBonusType.RANK_REACH:
-				text.text = string.Format(TextCenter.GetText("RankReach"),data.matchValue);
-				break;
-			case 6://EBonusType.COMPENSATION:
-			case 5:
-				text.text = string.Format(TextCenter.GetText("RewardMonthCard"),data.matchValue);
-				break;
-			default:
-				text.text = string.Format(TextCenter.GetText("OtherRewards"),data.matchValue);
-				break;
-			break;
-			}
 
 //			Debug.Log("reward item: " + data.id + " gift: " + data.giftItem.Count);
 		}
@@ -211,4 +131,72 @@ public class RewardItemView : MonoBehaviour {
 		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
 	}
 
+	public override void SetData<T>(T data, params object[] args){
+		this.data = data as BonusInfo;
+		
+		if(!inited){
+			itemList = new List<GameObject> ();
+			itemList.Add (transform.FindChild ("Item1").gameObject);
+			itemList.Add (transform.FindChild ("Item2").gameObject);
+			itemList.Add (transform.FindChild ("Item3").gameObject);
+			
+			atlas = transform.FindChild ("Item3/Img").gameObject.GetComponent<UISprite>().atlas;
+			
+			btn = transform.FindChild("OkBtn").gameObject;
+			//				mask = transform.FindChild("Mask").gameObject;
+			text = transform.FindChild("Label").GetComponent<UILabel>();
+			
+			
+			
+			transform.FindChild("OkBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
+			//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
+			btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
+			
+			//				atlas = ResourceManager.Instance.LoadLocalAsset("Atlas/Atlas_Login",
+			inited = true;
+		}
+
+		//			Debug.Log("id: " +edata.id);
+		if(this.data.enabled == 1){
+			btn.GetComponent<UIButton>().isEnabled = true;
+		}else{
+			btn.GetComponent<UIButton>().isEnabled = false;
+		}
+		
+		
+		int index = 0;
+		foreach (var item in this.data.giftItem) {
+			if(item.count > 0){
+				//					GiftItem gd = item//data.giftItem[index];
+				itemList[index].SetActive(true);
+				SetItemData(itemList[index], item);
+				index++;
+				//					Debug.Log("foreach item: " + item);
+			}
+			
+		}
+		for (int i = index; i < 3; i++) {
+			itemList[i].SetActive(false);
+		}
+		
+		switch (this.data.type) {
+		case 2://EBonusType.CHAIN_LOGIN:
+			text.text = string.Format(TextCenter.GetText("ChainLogin"),this.data.matchValue);
+			break;
+		case 1://EBonusType.TOTAL_LOGIN:
+			text.text = string.Format(TextCenter.GetText("TotalLogin"),this.data.matchValue);
+			break;
+		case 3://EBonusType.RANK_REACH:
+			text.text = string.Format(TextCenter.GetText("RankReach"),this.data.matchValue);
+			break;
+		case 6://EBonusType.COMPENSATION:
+		case 5:
+			text.text = string.Format(TextCenter.GetText("RewardMonthCard"),this.data.matchValue);
+			break;
+		default:
+			text.text = string.Format(TextCenter.GetText("OtherRewards"),this.data.matchValue);
+			break;
+			break;
+		}
+	}
 }

@@ -10,7 +10,8 @@ public class ApplyView : ViewBase{
 	private List<FriendInfo> friendOutDataList = new List<FriendInfo>();
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
-		InitUIElement();
+
+		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.ApplyView);//DEFAULT_SORT_RULE;
 	}
 	
 	public override void ShowUI(){
@@ -30,26 +31,14 @@ public class ApplyView : ViewBase{
 
 		RmvCmdListener();
 	}
-	
-	private void InitUIElement(){
-
-		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.ApplyView);//DEFAULT_SORT_RULE;
-	}
 
 	private void CreateDragView(){
 		friendOutDataList = DataCenter.Instance.FriendData.FriendOut;
 		if( dragPanel != null ) {
 			dragPanel.DestoryUI();
 		}
-		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
-//		dragPanel.CreatUI();
-		dragPanel.AddItem(friendOutDataList.Count);
-		
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			fuv.Init(friendOutDataList[ i ]);
-			fuv.callback = ClickItem;
-		}
+		dragPanel = new DragPanel("ApplyDragPanel","Prefabs/UI/UnitItem/FriendUnitPrefab",typeof(FriendUnitItem),transform);
+		dragPanel.SetData<FriendInfo> (friendOutDataList, ClickItem as DataListener);
 	}
 
 	private void RefreshCounter(){
@@ -64,50 +53,19 @@ public class ApplyView : ViewBase{
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	private void ClickItem(FriendUnitItem item){
+	private void ClickItem(object data){
+		FriendUnitItem item = data as FriendUnitItem;
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
 //		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
-		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("DeleteApply"),"content",TextCenter.GetText ("ConfirmDelete"));
 	}
 
-	private void DeleteMyApply(object msg){
-		CancelFriendRequest(curPickedFriend.userId);
-	}
-
-	private void CancelFriendRequest(uint friendUid){
-		FriendController.Instance.DelFriend(OnDelFriend,friendUid);
-	}
-
-	private void OnDelFriend(object data){
-		if (data == null)
-			return;
-		Debug.Log("TFriendList.OnDelFriend() begin");
-		LogHelper.Log(data);
-		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
-
-		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
-			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);	
-			return;
-		}
-
-		bbproto.FriendList inst = rsp.friends;
-		LogHelper.LogError("OnRspDelFriend friends {0}", rsp.friends);
-		DataCenter.Instance.FriendData.RefreshFriendList(inst);
-		HideUI();
-		ShowUI();
-	}
-	
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(curSortRule, friendOutDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.ApplyView);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
-			fuv.UserUnit = friendOutDataList[ i ].UserUnit;
-			fuv.CurrentSortRule = curSortRule;
-		}
+		dragPanel.SetData<FriendInfo> (friendOutDataList,curSortRule);
 	}
 
 	private void ReceiveSortInfo(object msg){
@@ -116,12 +74,10 @@ public class ApplyView : ViewBase{
 	}
 
 	private void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 	
 	private void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteApply, DeleteMyApply);
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 

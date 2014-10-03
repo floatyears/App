@@ -7,8 +7,7 @@ public class FriendSelectView : ViewBase{
 	public System.Action<FriendInfo> selectFriend;
 	public EvolveItem evolveItem;
 
-	protected DragPanel generalDragPanel = null;
-	protected DragPanel premiumDragPanel = null;
+	protected DragPanel dragPanel = null;
 
 	protected UILabel sortRuleLabel;
 	protected SortRule curSortRule;
@@ -25,12 +24,14 @@ public class FriendSelectView : ViewBase{
 		InitUI();
 		transform.localPosition -= transform.parent.localPosition;
 		premiumBtn.gameObject.SetActive (false);
+
+		dragPanel = new DragPanel("FriendSelectDragPanel", "Prefabs/UI/UnitItem/HelperUnitPrefab" ,typeof(HelperUnitItem), transform);
 	}
 
 	public override void ShowUI() {
 		base.ShowUI();
 		CreateGeneralListView();
-		ShowUIAnimation(generalDragPanel);
+		ShowUIAnimation(dragPanel);
 		isShowPremium = false;
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 
@@ -75,11 +76,12 @@ public class FriendSelectView : ViewBase{
 
 		if(premiumFriendList == null){
 			premiumFriendList = newest;
-			premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
+			dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
 		} else {
 			if(!premiumFriendList.Equals(newest)){
 				premiumFriendList = newest;
-				premiumDragPanel = RefreshDragView(FriendInfoType.Premium);
+				dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
+				
 			} else {
 //				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
 			}
@@ -90,20 +92,17 @@ public class FriendSelectView : ViewBase{
 		List<FriendInfo> newest = DataCenter.Instance.FriendData.GetSupportFriend ();//SupportFriends;
 		if(generalFriendList == null){
 			generalFriendList = newest;
-			generalDragPanel = RefreshDragView(FriendInfoType.General);
+			dragPanel.SetData<FriendInfo> (generalFriendList, ClickHelperItem as DataListener);
 		} else {
 
-			if(!generalFriendList.Equals(newest)){
-				generalDragPanel = RefreshDragView(FriendInfoType.General);
-			} else {
+			if(generalFriendList.Equals(newest)){
 				generalFriendList = newest;
-				RefreshData(generalDragPanel);
 			}
+			dragPanel.SetData<FriendInfo> (generalFriendList, ClickHelperItem as DataListener);
 		}
 	}
 
 	DragPanel RefreshDragView(FriendInfoType fType){
-		DragPanel dragPanel = null;
 		friendInfoTyp = fType;
 		string dragPanelName;
 		List<FriendInfo> dataList;
@@ -117,45 +116,9 @@ public class FriendSelectView : ViewBase{
 			dataList = premiumFriendList;
 		}
 
-		if(dragPanel != null){
-//			Debug.Log("dragPanel named as " + dragPanel.DragPanelView.gameObject.name + " != NULL, destory->create->refresh...");
-			dragPanel.DestoryUI();
-		}
-		else{
-//			Debug.Log("dragPanel == NULL, create->refresh...");
-		}
-
-		dragPanel = new DragPanel("FriendSelectDragPanel", HelperUnitItem.ItemPrefab,transform);
-//		dragPanel.CreatUI();
-		dragPanel.AddItem(dataList.Count);
-		CustomDragPanel(dragPanel);
-
-		RefreshData (dragPanel);
+		dragPanel.SetData<FriendInfo> (generalFriendList, ClickHelperItem as DataListener);
 
 		return dragPanel;
-	}
-
-	void RefreshData (DragPanel dragP) {
-		for (int i = 0; i < dragP.ScrollItem.Count; i++){
-			if(dragP.ScrollItem[i] == null) {
-				continue;
-			}
-
-			HelperUnitItem huv = HelperUnitItem.Inject(dragP.ScrollItem[ i ]);
-			if(i < generalFriendList.Count) {
-				huv.Init(generalFriendList[ i ]);
-				huv.callback = ClickHelperItem;
-			}
-			else{
-				GameObject.Destroy (huv.gameObject);
-			}
-		}
-
-		for (int i = dragP.ScrollItem.Count - 1; i >= 0; i--) {
-			if(dragP.ScrollItem[i] == null) {
-				dragP.ScrollItem.RemoveAt(i);
-			}
-		}
 	}
 
 	private QuestItemView pickedQuestInfo;
@@ -163,8 +126,9 @@ public class FriendSelectView : ViewBase{
 		pickedQuestInfo = msg as QuestItemView;
 	}
 
-	protected virtual void ClickHelperItem(HelperUnitItem item){
+	protected virtual void ClickHelperItem(object data){
 //		if(viewData["sele"]
+		HelperUnitItem item = data as HelperUnitItem;
 		foreach (var i in viewData) {
 			Debug.Log("key: " + i.Key);
 		}
@@ -230,21 +194,6 @@ public class FriendSelectView : ViewBase{
 		iTween.MoveTo (targetPanel, iTween.Hash ("x", 0, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));      
 	}
 
-	/// <summary>
-	/// Customs the drag panel.
-	/// Custom this drag panel as vertical drag.
-	/// </summary>
-	private void CustomDragPanel(DragPanel dragPanel){
-		GameObject scrollView = dragPanel.GetDragViewObject().transform.FindChild("Scroll View").gameObject;
-		GameObject scrollBar = dragPanel.GetDragViewObject().transform.FindChild("Scroll Bar").gameObject;
-		GameObject itemRoot = scrollView.transform.FindChild("UIGrid").gameObject;
-		UIScrollView uiScrollView = scrollView.GetComponent<UIScrollView>();
-		UIScrollBar uiScrollBar = scrollBar.GetComponent<UIScrollBar>();
-
-		uiScrollView.verticalScrollBar = uiScrollBar;
-		uiScrollView.horizontalScrollBar = null;
-	}
-
 	bool isShowPremium = false;
 	protected void ClickPremiumBtn(GameObject btn){
 		UserUnit leader = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
@@ -277,21 +226,19 @@ public class FriendSelectView : ViewBase{
 		premiumFriendList = rspPremiumList;
 
 		if(isShowPremium){
-			premiumDragPanel.DestoryUI();
 			CreateGeneralListView();
-			ShowUIAnimation(generalDragPanel);
+			ShowUIAnimation(dragPanel);
 		}
 		else{
-			generalDragPanel.DestoryUI();
 			CreatePremiumListView();
-			ShowUIAnimation(premiumDragPanel);
+			ShowUIAnimation(dragPanel);
 		}
 		isShowPremium = !isShowPremium;
 	}
 	
 	public GameObject GetFriendItem(int i){
-		if(generalDragPanel != null)
-			return generalDragPanel.ScrollItem[i];
+		if(dragPanel != null)
+			return dragPanel.ScrollItem[i];
 		return null;
 	}
 	
@@ -300,11 +247,7 @@ public class FriendSelectView : ViewBase{
 			return;	
 		}
 		
-		DragPanel dragPanel = null;
-		
 		HelperRequire hr = evolveItem.userUnit.UnitInfo.evolveInfo.helperRequire;
-		
-		dragPanel = (friendInfoTyp == FriendInfoType.General ? generalDragPanel : premiumDragPanel);
 		
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++) {
 			HelperUnitItem hui = dragPanel.ScrollItem[i].GetComponent<HelperUnitItem>();

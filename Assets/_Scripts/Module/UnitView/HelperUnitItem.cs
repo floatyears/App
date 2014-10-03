@@ -28,23 +28,23 @@ public class HelperUnitItem : FriendUnitItem {
 		SetFriendRank();
 	}
 	
-	private static GameObject itemPrefab;
-	public static GameObject ItemPrefab {
-		get { 
-			if(itemPrefab == null) {
-				string sourcePath = "Prefabs/UI/UnitItem/HelperUnitPrefab";
-				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath,null) as GameObject;
-			}
-			return itemPrefab;
-		}
-	}
+//	private static GameObject itemPrefab;
+//	public static GameObject ItemPrefab {
+//		get { 
+//			if(itemPrefab == null) {
+//				string sourcePath = "Prefabs/UI/UnitItem/HelperUnitPrefab";
+//				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath,null) as GameObject;
+//			}
+//			return itemPrefab;
+//		}
+//	}
 
-	public static HelperUnitItem Inject(GameObject item){
-		HelperUnitItem view = item.GetComponent<HelperUnitItem>();
-		if (view == null)
-			view = item.AddComponent<HelperUnitItem>();
-		return view;
-	}
+//	public static HelperUnitItem Inject(GameObject item){
+//		HelperUnitItem view = item.GetComponent<HelperUnitItem>();
+//		if (view == null)
+//			view = item.AddComponent<HelperUnitItem>();
+//		return view;
+//	}
 
 	private int friendPoint;
 	public int FriendPoint{

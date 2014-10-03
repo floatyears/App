@@ -42,13 +42,9 @@ public class MyUnitsListView : ViewBase {
 
 	private void CreateDragPanel(){
 		myUnitDataList = GetUnitList();
-		dragPanel = new DragPanel("MyUnitsListDragPanel", MyUnitItem.ItemPrefab,transform);
+		dragPanel = new DragPanel("MyUnitsListDragPanel","Prefabs/UI/UnitItem/MyUnitPrefab",typeof(MyUnitItem), transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem(myUnitDataList.Count);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			MyUnitItem.Inject(dragPanel.ScrollItem[ i ]).Init(myUnitDataList[ i ]);
-		}
 	}
 
 	private void ShowUIAnimation(){
@@ -73,11 +69,7 @@ public class MyUnitsListView : ViewBase {
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.MyUnitListView);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			MyUnitItem muv = dragPanel.ScrollItem[ i ].GetComponent<MyUnitItem>();
-			muv.UserUnit = myUnitDataList[ i ];
-			muv.CurrentSortRule = curSortRule;
-		}
+		dragPanel.SetData<UserUnit> (myUnitDataList, curSortRule);
 	}
 
 	private void RefreshItemCounter(){

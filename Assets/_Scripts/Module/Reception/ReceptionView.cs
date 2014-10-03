@@ -54,15 +54,10 @@ public class ReceptionView : ViewBase {
 	private void CreateDragView(){
 //		Debug.LogError("CreateDragView(), Reception...");
 		friendInDataList = DataCenter.Instance.FriendData.FriendIn;
-		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
+		dragPanel = new DragPanel("ApplyDragPanel", "Prefabs/UI/UnitItem/FriendUnitPrefab" ,typeof(FriendUnitItem), transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem(friendInDataList.Count);
-		
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			fuv.Init(friendInDataList[ i ]);
-			fuv.callback = ClickItem;
-		}
+
+		dragPanel.SetData<FriendInfo> (friendInDataList, ClickItem as DataListener);
 	}
 
 	private void ClickRefuseBtn(GameObject args){
@@ -73,9 +68,10 @@ public class ReceptionView : ViewBase {
 
 	void CallbackRefuseAll(object args){
 		MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseAll);
+		RefuseAllApplyFromOthers ();
 	}
 
-	void RefuseAllApplyFromOthers(object msg){
+	void RefuseAllApplyFromOthers(){
 		List <uint> refuseList = new List<uint>();
 		for (int i = 0; i < DataCenter.Instance.FriendData.FriendIn.Count; i++)
 			refuseList.Add(DataCenter.Instance.FriendData.FriendIn [i].userId);
@@ -110,7 +106,8 @@ public class ReceptionView : ViewBase {
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 
-	void ClickItem(FriendUnitItem item){
+	void ClickItem(object data){
+		FriendUnitItem item = data as FriendUnitItem;
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
 //		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
@@ -190,7 +187,7 @@ public class ReceptionView : ViewBase {
 
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
-			fuv.UserUnit = friendInDataList[ i ].UserUnit;
+			fuv.SetData(friendInDataList[ i ].UserUnit);
 			fuv.CurrentSortRule = curSortRule;
 		}
 	}
@@ -201,7 +198,6 @@ public class ReceptionView : ViewBase {
 	}
 
 	private void AddCmdListener(){
-		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked);   
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther); 
 		MsgCenter.Instance.AddListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);
@@ -209,7 +205,6 @@ public class ReceptionView : ViewBase {
 	}
 	
 	private void RmvCmdListener(){
-		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseAll, RefuseAllApplyFromOthers);  
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureDeleteFriend, DeleteFriendPicked); 
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureRefuseSingleApply, DeleteApplyFromOther); 
 		MsgCenter.Instance.RemoveListener(CommandEnum.EnsureAcceptApply, AcceptApplyFromOther);

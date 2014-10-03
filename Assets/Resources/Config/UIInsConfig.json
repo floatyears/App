@@ -286,7 +286,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : 0
+        "group" : -1
     },
     {
         "name":"AcceptApplyMessageModule",

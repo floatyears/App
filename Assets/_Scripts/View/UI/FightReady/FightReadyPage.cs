@@ -64,7 +64,7 @@ public class FightReadyPage : ViewBase {
 
 	private void RefreshView(List<UserUnit> partyData) {
 		for (int i = 0; i < partyData.Count; i++) {
-			partyView[i].UserUnit = partyData[i];
+			partyView[i].SetData<UserUnit>(partyData[i]);
 		}
 	}
 
@@ -84,7 +84,7 @@ public class FightReadyPage : ViewBase {
 	}
 
 	void ShowHelper(FriendInfo friendInfo) {
-		helper.Init(friendInfo);
+		helper.Init(friendInfo.UserUnit);
 	} 
 	
 

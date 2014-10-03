@@ -6,9 +6,8 @@ public class DragPanel : ModuleBase{
 
 	protected DragPanelView dragPanelView;
 
-	protected List<GameObject> scrollItem = new List<GameObject> ();
 	public List<GameObject> ScrollItem {
-		get{ return scrollItem; }
+		get{ return null;}//dragPanelView.scrollItem; }
 	}
 
 	protected GameObject sourceObject;
@@ -17,131 +16,29 @@ public class DragPanel : ModuleBase{
 		get{ return sourceObject; }
 	}
 
-	public static GameObject dragObject;
-
-	private DragPanelConfigItem dragConfig;
-
-	private Transform parent;
-
-	public DragPanel(string name, GameObject obj,Transform parentTransform):base(null){
-		dragConfig = DataCenter.Instance.GetConfigDragPanelItem (name);
-		sourceObject = obj;
-		parent = parentTransform;
-		Debug.Log("panel create: " + name + " config: " + dragConfig.configName);
-		if(dragObject == null){
-			ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView", o => {
-				dragObject = o as GameObject;
-				dragPanelView = (GameObject.Instantiate(dragObject) as GameObject).GetComponent<DragPanelView>();
-				dragPanelView.name = name;
-				dragPanelView.Init(null);
-				dragPanelView.SetScrollView (dragConfig, parent);
-			});
-		}else{
-			dragPanelView = (GameObject.Instantiate(dragObject) as GameObject).GetComponent<DragPanelView>();
-			dragPanelView.name = name;
-			dragPanelView.Init(null);
-			dragPanelView.SetScrollView (dragConfig, parent);
-		}
+	public DragPanel(string name, string sourceObjUrl,System.Type type, Transform parentTransform):base(null){
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView", o => {
+			dragPanelView = (GameObject.Instantiate(o as GameObject) as GameObject).AddComponent<DragPanelView>();
+			dragPanelView.Init(name,parentTransform,sourceObjUrl,type);
+		});
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
-		AddEvent ();
 		dragPanelView.ShowUI ();
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
-		RemoveEvent ();
 		dragPanelView.HideUI ();
 	}
 
-	public override void DestoryUI () {
-		base.DestoryUI ();
-		RemoveEvent ();
-		int count = scrollItem.Count;
-		for (int i = 0; i < count; i++) {
-			GameObject go = scrollItem[i];
-			GameObject.Destroy(go);
-		}
-		scrollItem.Clear();
-		if (dragPanelView != null) {
-			GameObject.Destroy (dragPanelView.gameObject);	
-		}
-	}
-	
-	public void AddItem(int count,GameObject obj = null ,bool isClean = false) {
-		if (obj != null) {
-			sourceObject = obj;	
-		}				
-		if (isClean) {
-			for (int i = 0; i < scrollItem.Count; i++) {
-				GameObject.Destroy(scrollItem[i]);
-				scrollItem.RemoveAt(i);
-			}
-		}
-		if (sourceObject == null) {
-			LogHelper.LogError (dragPanelView.name + " scroll view item is null. don't creat drag panel ");
-			return ;
-		}
-		if (dragPanelView == null) {
-			dragPanelView = NGUITools.AddChild(ViewManager.Instance.TopPanel.transform.parent.gameObject, dragObject).GetComponent<DragPanelView>(); 		
-		}
-		for (int i = 0; i < count; i++) {
-			//Debug.Log("source Object: " +sourceObject);
-			GameObject go = dragPanelView.AddObject(sourceObject);
-			if(go != null){
-				scrollItem.Add(go);
-			}
-		}
-//		dragPanelView.grid.sorted = true;
-		dragPanelView.grid.repositionNow = true;
-		dragPanelView.scrollView.Press (false);
+	public void SetData<T>(List<T> data, params object[] args){
+		dragPanelView.SetData<T>(data, args);
 	}
 
-	public GameObject AddScrollerItem( GameObject obj ,bool isClean = false) {
-		if (obj != null) {
-			sourceObject = obj;	
-		}
-
-		if (isClean) {
-			for (int i = 0; i < scrollItem.Count; i++) {
-				GameObject.Destroy(scrollItem[i]);
-				scrollItem.RemoveAt(i);
-			}
-		}
-		
-		if (sourceObject == null)
-			return obj;
-
-		GameObject go = dragPanelView.AddObject(sourceObject);
-		if(go != null)
-			scrollItem.Add(go);
-
-		return go;
-	}
-
-	public void Refresh() {
-		for (int i = 0; i < scrollItem.Count; i++) {
-			scrollItem[i].name = i.ToString();
-		}
-		dragPanelView.grid.Reposition ();
-	}
-	
-	public void RemoveItem (GameObject target){
-		bool b = scrollItem.Contains (target);
-		if (!b) {
-			return;		
-		}
-		scrollItem.Remove (target);
-		GameObject.Destroy (target);
-		dragPanelView.grid.enabled = true;
-		dragPanelView.grid.Reposition ();
-		UIEventListenerCustom.Get (target).onClick = null;
-	}
-	
-	public void SetPosition(Vector4 position) {
-		dragPanelView.SetViewPosition (position);
+	public void Clear(){
+		dragPanelView.ClearPool ();
 	}
 
 	public GameObject GetDragViewObject(){
@@ -152,25 +49,5 @@ public class DragPanel : ModuleBase{
 			return null;
 		}
 	}
-
-	void ItemCallback(GameObject target) {
-		if (DragCallback != null) {
-			DragCallback (target);
-		}
-	}
-
-	void AddEvent() {
-		for (int i = 0; i < scrollItem.Count; i++) {
-			UIEventListenerCustom.Get(scrollItem[i]).onClick += ItemCallback;
-		}
-	}
 	
-	void RemoveEvent()
-	{
-		for (int i = 0; i < scrollItem.Count; i++) {
-			UIEventListenerCustom ui = UIEventListenerCustom.Get(scrollItem[i]);
-			if(ui.onClick != null)
-				ui.onClick -= ItemCallback;
-		}
-	}
 }

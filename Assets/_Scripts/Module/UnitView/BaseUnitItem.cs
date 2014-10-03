@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class BaseUnitItem : MonoBehaviour {
+public class BaseUnitItem : DragPanelItemBase {
 	protected const string emptyBorder = "unit_empty_bg";
 //	protected const string normalBorder = "avatar_border_none";
 
@@ -36,14 +36,16 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	protected UserUnit userUnit;
-	public UserUnit UserUnit {
+
+	public UserUnit UserUnit{
 		get{
 			return userUnit;
 		}
-		set{
-			userUnit = value;
-			RefreshState();
-		}
+	}
+
+	public override void SetData<T>(T data, params object[] args){
+		userUnit = data as UserUnit;
+		RefreshState();
 	}
 
 	private int index;
@@ -223,12 +225,12 @@ public class BaseUnitItem : MonoBehaviour {
 	}
 
 	private void CrossFadeHpFirst(){
-		crossFadeBeforeText = UserUnit.Hp.ToString();
+		crossFadeBeforeText = userUnit.Hp.ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 
 	private void CrossFadeAttackFirst(){
-		crossFadeBeforeText = UserUnit.Attack.ToString();
+		crossFadeBeforeText = userUnit.Attack.ToString();
 		crossFadeAfterText = "+" + userUnit.AddNumber;
 	}
 

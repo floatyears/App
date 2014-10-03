@@ -8,8 +8,6 @@ public class ModuleManager {
 
 	private static Dictionary<ModuleEnum,ModuleBase> moduleDic = new Dictionary<ModuleEnum, ModuleBase>();
 
-	private static Dictionary<SceneEnum, SceneBase> sceneDic = new Dictionary<SceneEnum, SceneBase>();
-
 	private static ModuleEnum[] moduleGroup = new ModuleEnum[(int)ModuleGroup.GROUP_NUM  + 1]{ModuleEnum.None,ModuleEnum.None,ModuleEnum.None,ModuleEnum.None};
 	
 	private static ModuleManager instance;
@@ -159,17 +157,12 @@ public class ModuleManager {
 	/// Clears the modules.
 	/// </summary>
 	public void ClearModulesAndScenes () {
-
-		foreach (var item in sceneDic.Values) {
-			item.DestoryScene();
-		}
-
+	
 		foreach (var item in moduleDic.Values) {
 			item.DestoryUI();
 		}
 			//			Debug.LogError("CleartComponent : " + cclist[i]);
 		moduleDic.Clear ();
-		sceneDic.Clear ();
 
 		moduleGroup = new ModuleEnum[(int)ModuleGroup.GROUP_NUM  + 1]{ModuleEnum.None,ModuleEnum.None,ModuleEnum.None,ModuleEnum.None};
 

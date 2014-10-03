@@ -160,7 +160,7 @@ public class GiveUp__FightReadyView : ViewBase {
 	void ShowHelper(FriendInfo friendInfo) {
 		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
-		helperUnitItem.Init(friendInfo);
+		helperUnitItem.SetData<FriendInfo>(friendInfo);
 		ShowHelperView();
 	} 
 	
@@ -273,7 +273,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		}
 		
 		helper.FriendInfo = pickedHelperInfo;
-		helper.UserUnit = pickedHelperInfo.UserUnit;
+		helper.SetData<UserUnit>(pickedHelperInfo.UserUnit);
 	}
 	
 	private void UpdateOwnLeaderSkillInfo(UnitParty curParty){

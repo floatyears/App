@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Soomla;
 
-public class ShopItem : MonoBehaviour {
+public class ShopItem : DragPanelItemBase {
 
 	private UISprite bg;
 	private UILabel btnText;
@@ -33,56 +33,56 @@ public class ShopItem : MonoBehaviour {
 	private ShopItemData data;
 	public ShopItemData Data{
 		get{return data;}
-		set{
-			data = value;
-			if(bg == null){
-				bg = transform.FindChild("Sprite").GetComponent<UISprite>();
-				btnText = transform.FindChild("BuyBtn/Label").GetComponent<UILabel>();
-				desc = transform.FindChild("Desc").GetComponent<UILabel>();
-				count = transform.FindChild("Count").GetComponent<UILabel>();
-				textName = transform.FindChild("TextName").GetComponent<UILabel>();
+	}
 
-				UIEventListenerCustom.Get(transform.FindChild("BuyBtn").gameObject).onClick = OnBuy;
-			}
-			btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
-
-			switch (data.type) {
-			case ShopItemEnum.MonthCard:
-				textName.text = TextCenter.GetText("MonthCard");
-				count.text = "";
-				desc.text = TextCenter.GetText("MonthCardDesc");
-				bg.enabled = false;
-//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
-				break;
-			case ShopItemEnum.WeekCard:
-				textName.text = TextCenter.GetText("WeekCard");
-				count.text = "";
-				desc.text = TextCenter.GetText("WeekCardDesc");
-				bg.enabled = false;
-				//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
-				break;
-			case ShopItemEnum.Stone:
-				textName.text = "";
-				count.text = TextCenter.GetText("StoneCount") + data.count;//TextCenter.GetText("");
-				bg.enabled = true;
-				if(DataCenter.Instance.UserData.AccountInfo.payTotal == 0){
-//					btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
-					desc.text = string.Format(TextCenter.GetText("StoneDescFirst"),data.sale);
-				}else{
-//					btnText.text = TextCenter.GetText("StonePriceAfterFirst");
-					desc.text = string.Format(TextCenter.GetText("StoneDescAfterFirst"),data.sale);
-				}
-
-				break;
-			default:
-				count.text = TextCenter.GetText("");
-				desc.text = TextCenter.GetText("");
-				bg.enabled = false;
-				btnText.text = TextCenter.GetText("");
-				break;
+	public override void SetData<T> (T d, params object[] args)
+	{
+		data = d as ShopItemData;
+		if(bg == null){
+			bg = transform.FindChild("Sprite").GetComponent<UISprite>();
+			btnText = transform.FindChild("BuyBtn/Label").GetComponent<UILabel>();
+			desc = transform.FindChild("Desc").GetComponent<UILabel>();
+			count = transform.FindChild("Count").GetComponent<UILabel>();
+			textName = transform.FindChild("TextName").GetComponent<UILabel>();
+			
+			UIEventListenerCustom.Get(transform.FindChild("BuyBtn").gameObject).onClick = OnBuy;
+		}
+		btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
+		
+		switch (data.type) {
+		case ShopItemEnum.MonthCard:
+			textName.text = TextCenter.GetText("MonthCard");
+			count.text = "";
+			desc.text = TextCenter.GetText("MonthCardDesc");
+			bg.enabled = false;
+			//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
+			break;
+		case ShopItemEnum.WeekCard:
+			textName.text = TextCenter.GetText("WeekCard");
+			count.text = "";
+			desc.text = TextCenter.GetText("WeekCardDesc");
+			bg.enabled = false;
+			//				btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
+			break;
+		case ShopItemEnum.Stone:
+			textName.text = "";
+			count.text = TextCenter.GetText("StoneCount") + data.count;//TextCenter.GetText("");
+			bg.enabled = true;
+			if(DataCenter.Instance.UserData.AccountInfo.payTotal == 0){
+				//					btnText.text = TextCenter.GetText("MoneyUnit") + data.money;
+				desc.text = string.Format(TextCenter.GetText("StoneDescFirst"),data.sale);
+			}else{
+				//					btnText.text = TextCenter.GetText("StonePriceAfterFirst");
+				desc.text = string.Format(TextCenter.GetText("StoneDescAfterFirst"),data.sale);
 			}
 			
-			//			Debug.Log("reward item: " + data.id + " gift: " + data.giftItem.Count);
+			break;
+		default:
+			count.text = TextCenter.GetText("");
+			desc.text = TextCenter.GetText("");
+			bg.enabled = false;
+			btnText.text = TextCenter.GetText("");
+			break;
 		}
 	}
 

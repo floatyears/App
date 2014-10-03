@@ -5,7 +5,7 @@ using bbproto;
 
 public class CatalogView : ViewBase {
 	private int TOTAL_CATALOG_COUNT;
-	private DragPanel dragPanel;
+//	private DragPanel dragPanel;
 	private List<CatalogUnitItem> catalogUnitItemList = new List<CatalogUnitItem>();
 	private List<UIWidget> catalogWidgetList = new List<UIWidget>();
     private List<Transform> catalogItemTrans	= new List<Transform>();
@@ -97,7 +97,7 @@ public class CatalogView : ViewBase {
 	}
 
 	private void DestoryDragPanel(){
-		dynamicDragPanel.DestoryDragPanel();
+		dynamicDragPanel.DestoryUI();
 	}
 
 	GameObject catalogNode;
@@ -291,15 +291,13 @@ public class CatalogView : ViewBase {
 
 
 	//--------------------------------NEW---------------------------------
-	DragPanelDynamic dynamicDragPanel;
+	DragPanel dynamicDragPanel;
 
 	IEnumerator InitDragPanel() {
 		GameObject go = Instantiate(CatalogUnitItem.ItemPrefab) as GameObject;
 		CatalogUnitItem.Inject(go);
 
-		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("CatalogDragPanel");
-		dynamicDragPanel = new DragPanelDynamic(gameObject, go, 12, 5);
-		dynamicDragPanel.SetScrollView(dragConfig, transform);
+		dynamicDragPanel = new DragPanel("CatalogDragPanel","Prefabs/UI/UnitItem/CatalogUnitPrefab",typeof(CatalogUnitItem), transform);
 
 //		DragPanelSetInfo setter = new DragPanelSetInfo();
 //		setter.parentTrans = transform;
@@ -318,7 +316,8 @@ public class CatalogView : ViewBase {
 			userUnit.unitId = (uint)(i + 1);
 			catalogDataList.Add(userUnit);
 		}
-		dynamicDragPanel.RefreshItem(catalogDataList);
+		dynamicDragPanel.SetData<UserUnit>(catalogDataList);
+
 		yield return null;
 		ShowUIAnimation();
 	}

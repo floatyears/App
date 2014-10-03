@@ -16,7 +16,6 @@ public class SellUnitView : ViewBase{
 	private UILabel coinLabel;
 	private UILabel readyCoinLabel;
 
-	private List<SellUnitItem> saleUnitViewList = new List<SellUnitItem>();
 	private List<SellUnitItem> pickUnitViewList = new List<SellUnitItem>();
 	private List<GameObject> pickItemList = new List<GameObject>();
 	private List<GameObject> readyItemList = new List<GameObject>();
@@ -285,16 +284,8 @@ public class SellUnitView : ViewBase{
 	void ClickClearBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ResetUIElement();
-		for (int i = 0; i < saleUnitViewList.Count; i++){
-			SellUnitItem sui =  saleUnitViewList[ i ];
-			for (int j = 0; j < pickUnitViewList.Count; j++) {
-				if(sui.Equals(pickUnitViewList[ j ])){
-					CancelMarkDragItem( i );
-				}
-			}
-		}
+		dragPanel.Clear ();
 		//clear data
-		pickUnitViewList.Clear();
 	}
 
 	void InitCells(){
@@ -315,20 +306,13 @@ public class SellUnitView : ViewBase{
 
 	void CreateDragView(object args){
 //		Debug.LogError("xxxxxxx");
-		saleUnitViewList.Clear();
 		List<UserUnit> dataList = args as List<UserUnit>;
 		if (dragPanel!=null) {
 			dragPanel.DestoryUI();
 		}
-		dragPanel = new DragPanel("SellUnitDragPanel", SellUnitItem.ItemPrefab, mainRoot.transform);
+		dragPanel = new DragPanel("SellUnitDragPanel", "Prefabs/UI/UnitItem/SellUnitPrefab",typeof(SellUnitItem), mainRoot.transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem(dataList.Count);
-		for(int i = 0; i< dragPanel.ScrollItem.Count; i++) {
-			SellUnitItem suv = SellUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			suv.Init(dataList[ i ]);
-			suv.callback = ClickItem;
-			saleUnitViewList.Add(suv);
-		}
+		dragPanel.SetData<UserUnit> (dataList, ClickItem as DataListener);
 	}
 
 	int CheckHaveBeenPicked(SellUnitItem item){
@@ -349,10 +333,11 @@ public class SellUnitView : ViewBase{
 		return -1;
 	}
 
-	void ClickItem(SellUnitItem item){
+	void ClickItem(object data){
+		SellUnitItem item = data as SellUnitItem;
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		int clickPos = saleUnitViewList.IndexOf(item);
+		int clickPos = 0;//dataList.IndexOf(item);
 		int poolPos = 0;
 		int index = CheckHaveBeenPicked(item);
 		if(index == -1) {
@@ -490,14 +475,14 @@ public class SellUnitView : ViewBase{
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.SellView);
 
 		List<UserUnit> unitList = new List<UserUnit>();
-		for (int i = 0; i < saleUnitViewList.Count; i++){
-			unitList.Add(saleUnitViewList[ i ].UserUnit);
-		}
+//		for (int i = 0; i < saleUnitViewList.Count; i++){
+//			unitList.Add(saleUnitViewList[ i ].UserUnit);
+//		}
 		
 		SortUnitTool.SortByTargetRule(curSortRule, unitList);	
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			SellUnitItem suv = dragPanel.ScrollItem[ i ].GetComponent<SellUnitItem>();
-			suv.UserUnit = unitList[ i ];
+			suv.SetData<UserUnit>(unitList[ i ]);
 			suv.CurrentSortRule = curSortRule;
 		}
 	}

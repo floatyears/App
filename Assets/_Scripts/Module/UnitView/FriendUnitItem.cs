@@ -20,9 +20,9 @@ public class FriendUnitItem : BaseUnitItem {
 		set{ friendInfo = value; }
 	}
 		
-	public void Init(FriendInfo friendInfo){
-		this.friendInfo = friendInfo;
-		base.Init(friendInfo.UserUnit);
+	public void SetData<T>(T friendInfo, params object[] args){
+		this.friendInfo = friendInfo as FriendInfo;
+		base.Init((friendInfo as FriendInfo).UserUnit);
 	}
 
 	protected override void InitUI(){
@@ -38,17 +38,6 @@ public class FriendUnitItem : BaseUnitItem {
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
 			callback(this);
-		}
-	}
-
-	private static GameObject itemPrefab;
-	public static GameObject ItemPrefab {
-		get { 
-			if(itemPrefab == null) {
-				string sourcePath = "Prefabs/UI/UnitItem/FriendUnitPrefab";
-				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject ;
-			}
-			return itemPrefab;
 		}
 	}
 

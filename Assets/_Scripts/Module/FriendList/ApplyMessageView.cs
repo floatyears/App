@@ -51,7 +51,7 @@ public class ApplyMessageView : ViewBase{
 
 		if(viewData != null){
 			if(viewData.ContainsKey("data")){
-				ShowCenterContent(viewData["data"]);
+				ShowCenterContent(viewData["data"] as FriendInfo);
 			}
 			if(viewData.ContainsKey("title")){
 				ShowTitle(viewData["title"] as string);
@@ -62,28 +62,42 @@ public class ApplyMessageView : ViewBase{
 		}
 	}
 
-	public override void CallbackView(params object[] args){
-		switch (args[0].ToString()){
-			case "StylizeTitle": 
-				ShowTitle(args[1]);
-				break;
-			case "StylizeNote":
-				ShowNote(args[1]);
-				break;
-			default:
-				break;
-		}
+	public override void HideUI ()
+	{
+		base.HideUI ();
+		viewData.Clear ();
+		viewData = null;
 	}
 
 	void ClickSure(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickSure");
+		if (viewData != null && viewData.ContainsKey("title")) {
+			if((string)viewData["title"] == TextCenter.GetText ("FriendApply")){
+					//		Debug.LogError("Receive view click, to ensure delete friend apply of player....");
+//					MsgCenter.Instance.Invoke(CommandEnum.SubmitFriendApply, null);
+				FriendController.Instance.AddFriend(OnAddFriend, (viewData["data"] as FriendInfo).userId);
+					//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("HidePanel", null); 
+			}
+			else if((string)viewData["title"] == TextCenter.GetText ("AcceptApply")){
+				MsgCenter.Instance.Invoke(CommandEnum.EnsureAcceptApply, null);
+				MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseSingleApply, null);
+			}
+			else if((string)viewData["title"] == TextCenter.GetText ("DeleteApply")){
+//				MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteFriend, null);
+				FriendController.Instance.DelFriend(OnDelFriend,(viewData["data"] as FriendInfo).userId);
+			}else if((string)viewData["title"] == TextCenter.GetText ("DeleteNoteTitle")){
+				MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteFriend, null);
+			}
+		}
+		ModuleManager.Instance.HideModule (ModuleEnum.ApplyMessageModule);
 	}
 
 	
 	void ClickCancel(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		ModuleManager.SendMessage (ModuleEnum.ApplyMessageModule, "ClickCancel");
+		ModuleManager.Instance.HideModule (ModuleEnum.ApplyMessageModule);
 	}
 
 	protected override void ToggleAnimation (bool isShow)
@@ -108,8 +122,7 @@ public class ApplyMessageView : ViewBase{
 		noteLabel.text = args as string;
 	}
 
-	void ShowCenterContent(object args){
-		FriendInfo tfi = args as FriendInfo;
+	void ShowCenterContent(FriendInfo tfi){
 
 		if(tfi.nickName == string.Empty)
 			nameLabel.text = "NoName";
@@ -121,9 +134,41 @@ public class ApplyMessageView : ViewBase{
 		idLabel.text = tfi.userId.ToString();
 
 		FriendUnitItem fuv = FriendUnitItem.Inject(FindChild("Window/Avatar"));
-		fuv.Init(tfi);
+		fuv.SetData<FriendInfo>(tfi);
 
 		UIEventListenerCustom.Get (FindChild("Window/Avatar")).LongPress = null;
+	}
+	
+	void OnAddFriend(object data){
+		if (data == null)
+			return;
+		bbproto.RspAddFriend rsp = data as bbproto.RspAddFriend;
+		if (rsp.header.code != (int)ErrorCode.SUCCESS){
+			if (rsp.header.code == ErrorCode.EF_IS_ALREADY_FRIEND){
+				TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("SearchError"), TextCenter.GetText ("UserAlreadyFriend", (viewData["data"] as FriendInfo).userId), TextCenter.GetText ("OK"));
+			}else {
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			}
+			return;
+		}
+		
+		DataCenter.Instance.FriendData.RefreshFriendList(rsp.friends);
+		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyModule);
+	}
+
+	
+	private void OnDelFriend(object data){
+		if (data == null)
+			return;
+		bbproto.RspDelFriend rsp = data as bbproto.RspDelFriend;
+		
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);	
+			return;
+		}
+		
+		bbproto.FriendList inst = rsp.friends;
+		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 	}
 
 }

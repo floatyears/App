@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class HomeView : ViewBase{
 	private GameObject storyRoot;
 	private GameObject eventRoot;
-	private GameObject dragItemPrefab;
-	private DragPanel storyDragPanel;
-	private DragPanel eventDragPanel;
+//	private GameObject dragItemPrefab;
+//	private DragPanel storyDragPanel;
+//	private DragPanel eventDragPanel;
 	private Dictionary< GameObject, VStageItemInfo> stageInfo = new Dictionary<GameObject, VStageItemInfo>();
 	private Dictionary<GameObject, CityInfo> cityViewInfo = new Dictionary<GameObject, CityInfo>();
 
@@ -76,18 +76,6 @@ public class HomeView : ViewBase{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
 	}
 	
-	public override void CallbackView(params object[] args){
-//		base.CallbackView(data);
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-		switch (args[0].ToString()){
-			case "CreateStoryView": 
-				CreateStoryView(args[1]);
-				break;
-			default:
-				break;
-		}
-	}
-	
 	void InitUI(){
 		InitWorldMap();
 
@@ -110,55 +98,41 @@ public class HomeView : ViewBase{
 	void ClickPurchase(GameObject obj){
 		ModuleManager.Instance.ShowModule (ModuleEnum.ShopModule);
 	}
-
-	void CreateStoryView(object args){
-		List<CityInfo> tciList = args as List<CityInfo>;
-		storyDragPanel = new DragPanel("StageDragPanel", dragItemPrefab,transform);
-		CreateScrollView(storyDragPanel, tciList);
-	}
-
-	void CreateScrollView(DragPanel panel, List<CityInfo> cityList){
-//		panel.CreatUI();
-		panel.AddItem(GetDragPanelCellCount(cityList));               
-		UpdateInfo (panel, cityList);
-
-		foreach (var item in panel.ScrollItem)
-			UIEventListenerCustom.Get(item).onClick = ClickStoryItem;
-	}
-
-	void UpdateInfo (DragPanel panel, List<CityInfo> cityList) {
-		List<StageInfo> temp = new List<StageInfo>();
-		for (int i = 0; i < cityList.Count; i++) {
-			CityInfo tci = cityList[ i ];
-			for (int j = 0; j < tci.stages.Count; j++) {
-				StageInfo tsi = tci.stages[ j ];
-				tsi.InitStageId(tci.id);
-				temp.Add(tsi);
-			}
-		}
-
-		for (int i = 0; i < temp.Count; i++) {
-			VStageItemInfo vsii = new VStageItemInfo();
-			vsii.Refresh(panel.ScrollItem[ i ], temp[ i ]);
-			stageInfo.Add(panel.ScrollItem[ i ], vsii);
-		}
-	}
 	
-	int GetDragPanelCellCount(List<CityInfo> cityList){
-		int count = 0;
-		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
-			count += cityList[ cityIndex ].stages.Count;
-		}
-		return count;
-	}
-
-	void UpdateTexture(DragPanel panel, List<Texture2D> tex2dList){
-		for (int i = 0; i < panel.ScrollItem.Count; i++){
-			GameObject item = panel.ScrollItem [i];
-			UITexture texture = item.transform.FindChild("Texture").GetComponent<UITexture>();
-			texture.mainTexture = tex2dList[ i ];
-		}
-	}
+//
+//	void UpdateInfo (DragPanel panel, List<CityInfo> cityList) {
+//		List<StageInfo> temp = new List<StageInfo>();
+//		for (int i = 0; i < cityList.Count; i++) {
+//			CityInfo tci = cityList[ i ];
+//			for (int j = 0; j < tci.stages.Count; j++) {
+//				StageInfo tsi = tci.stages[ j ];
+//				tsi.InitStageId(tci.id);
+//				temp.Add(tsi);
+//			}
+//		}
+//
+//		for (int i = 0; i < temp.Count; i++) {
+//			VStageItemInfo vsii = new VStageItemInfo();
+//			vsii.Refresh(panel.ScrollItem[ i ], temp[ i ]);
+//			stageInfo.Add(panel.ScrollItem[ i ], vsii);
+//		}
+//	}
+//	
+//	int GetDragPanelCellCount(List<CityInfo> cityList){
+//		int count = 0;
+//		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
+//			count += cityList[ cityIndex ].stages.Count;
+//		}
+//		return count;
+//	}
+//
+//	void UpdateTexture(DragPanel panel, List<Texture2D> tex2dList){
+//		for (int i = 0; i < panel.ScrollItem.Count; i++){
+//			GameObject item = panel.ScrollItem [i];
+//			UITexture texture = item.transform.FindChild("Texture").GetComponent<UITexture>();
+//			texture.mainTexture = tex2dList[ i ];
+//		}
+//	}
 
 	void ClickStoryItem(GameObject item){
 		Debug.LogError("ClickStoryItem ");

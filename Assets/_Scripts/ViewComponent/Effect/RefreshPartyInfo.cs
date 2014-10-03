@@ -14,7 +14,7 @@ public class RefreshPartyInfo : MonoBehaviour {
 		}
 		List<UserUnit> partyMemberList = unitParty.GetUserUnit();
 		for (int i = 0; i < partyMemberList.Count; i++){
-			partyView[i].UserUnit = partyMemberList[i];
+			partyView[i].SetData<UserUnit>(partyMemberList[i]);
 		}
 	}
 
@@ -32,6 +32,6 @@ public class RefreshPartyInfo : MonoBehaviour {
 	}
 
 	public void SetFriend(UserUnit tuu) {
-		friendItem.UserUnit = tuu;
+		friendItem.SetData<UserUnit>(tuu);
 	} 
 }

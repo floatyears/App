@@ -191,12 +191,12 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //		ShowPartyInfo();
 	}
 
-	void ShowHelper(FriendInfo friendInfo) {
-		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
-		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
-		helperUnitItem.Init(friendInfo);
-		ShowHelperView();
-	} 
+//	void ShowHelper(FriendInfo friendInfo) {
+//		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+//		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
+//		helperUnitItem.Init(friendInfo);
+//		ShowHelperView();
+//	} 
 
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");

@@ -11,7 +11,7 @@ public class LevelUpView : ViewBase {
 	private UIButton levelUpButton;
 	private UIButton sortButton;
 	
-	private DragPanelDynamic dragPanel;
+	private DragPanel dragPanel;
 	
 	private List<LevelUpUnitItem> unitItems = new List<LevelUpUnitItem> ();
 	private List<UserUnit> myUnit = new List<UserUnit> ();
@@ -103,7 +103,7 @@ public class LevelUpView : ViewBase {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		sortRule = SortRule.None;
-		dragPanel.DestoryDragPanel ();
+		dragPanel.DestoryUI ();
 	}
 
 	public override void CallbackView(params object[] args) {
@@ -174,16 +174,16 @@ public class LevelUpView : ViewBase {
 			InitDragPanel();
 		}
 
-		dragPanel.RefreshItem (myUnit);
-		unitItems.Clear ();
+		dragPanel.SetData<UserUnit> (myUnit,MyUnitClickCallback as DataListener);
+//		unitItems.Clear ();
 //		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count + " item : " + myUnitDragPanel.scrollItem [0]);
-		foreach (var item in dragPanel.scrollItem) {
-			LevelUpUnitItem pui = item as LevelUpUnitItem;
-			pui.callback = MyUnitClickCallback;
-			pui.IsParty = dataCenter.UnitData.PartyInfo.UnitIsInParty(pui.UserUnit);
-
-			unitItems.Add(pui);
-		}
+//		foreach (var item in dragPanel.scrollItem) {
+//			LevelUpUnitItem pui = item as LevelUpUnitItem;
+//			pui.callback = MyUnitClickCallback;
+//			pui.IsParty = dataCenter.UnitData.PartyInfo.UnitIsInParty(pui.UserUnit);
+//
+////			unitItems.Add(pui);
+//		}
 
 		RefreshSortInfo ();
 		RefreshCounter ();
@@ -258,27 +258,27 @@ public class LevelUpView : ViewBase {
 		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
 
 		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("LevelUpDragPanel");
-		dragPanel = new DragPanelDynamic (parent, LevelUpUnitItem.Inject().gameObject, 12, 3);
-		dragPanel.SetScrollView(dragConfig, transform);
+		dragPanel = new DragPanel ("LevelUpDragPanel", "Prefabs/UI/UnitItem/MyUnitPrefab",typeof(LevelUpUnitItem), transform);//LevelUpUnitItem.Inject().gameObject, 12, 3);
+//		dragPanel.SetScrollView(dragConfig, transform);
 
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
 			GameObject rejectItem = o as GameObject;
-			GameObject rejectItemIns = dragPanel.AddRejectItem (rejectItem);
-			rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
-			UIEventListenerCustom.Get(rejectItemIns).onClick = RejectCallback;
+//			GameObject rejectItemIns = dragPanel.AddRejectItem (rejectItem);
+//			rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
+//			UIEventListenerCustom.Get(rejectItemIns).onClick = RejectCallback;
 		});
 	}
 
 	public void ResetUIAfterLevelUp(uint blendID) {
 		ClearData (false);
 		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit (blendID);
-		selectedItem [baseItemIndex].UserUnit = tuu;
+		selectedItem [baseItemIndex].SetData<UserUnit>(tuu);
 //		clear = true;
 		myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
 		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
-		dragPanel.RefreshItem (tuu);
+//		dragPanel.SetData<UserUnit> (tuu);
 		ShieldPartyAndFavorite (false, null);
 		CheckLevelUp ();
 	}
@@ -302,7 +302,7 @@ public class LevelUpView : ViewBase {
 			return;	
 		}
 		levelUpUerFriend = friendInfo;
-		selectedItem [friendItemIndex].UserUnit = friendInfo.UserUnit;
+		selectedItem [friendItemIndex].SetData<UserUnit>(friendInfo.UserUnit);
 		selectedItem [friendItemIndex].IsEnable = true;
 		RefreshFriend ();
 		CheckLevelUp ();
@@ -341,7 +341,7 @@ public class LevelUpView : ViewBase {
 			return;	
 		}
 		EnabledItem (lui.UserUnit);
-		lui.UserUnit = prevMaterialItem.UserUnit;
+		lui.SetData<UserUnit>(prevMaterialItem.UserUnit);
 		lui.enabled = true;
 		prevMaterialItem.IsEnable = false;
 
@@ -373,7 +373,8 @@ public class LevelUpView : ViewBase {
 	/// <summary>
 	/// drag panel item click.
 	/// </summary>
-	void MyUnitClickCallback(LevelUpUnitItem pui) {
+	void MyUnitClickCallback(object data) {
+		LevelUpUnitItem pui = data as LevelUpUnitItem;
 //		Debug.LogError()
 		if (prevSelectedItem == null) {
 			if (SetBaseItemPreSelectItemNull (pui)) {
@@ -408,7 +409,7 @@ public class LevelUpView : ViewBase {
 
 			EnabledItem(prevSelectedItem.UserUnit);
 			prevSelectedItem.IsFocus = false;
-			prevSelectedItem.UserUnit = pui.UserUnit;
+			prevSelectedItem.SetData<UserUnit>(pui.UserUnit);
 			pui.IsEnable = false;
 			RefreshMaterial();
 			CheckLevelUp ();
@@ -426,7 +427,7 @@ public class LevelUpView : ViewBase {
 
 			bool isBase = prevSelectedItem.Equals(selectedItem[baseItemIndex]);
 			EnabledItem (prevSelectedItem.UserUnit);
-			prevSelectedItem.UserUnit = null;
+			prevSelectedItem.SetData<UserUnit>(null);
 			prevSelectedItem.IsEnable = true;
 			if(isBase) {
 				UpdateBaseInfoView ();
@@ -443,7 +444,7 @@ public class LevelUpView : ViewBase {
 				}
 				success = true;
 				EnabledItem(lui.UserUnit);
-				lui.UserUnit = null;
+				lui.SetData<UserUnit>(null);
 				lui.IsEnable = true;
 				if(i == baseItemIndex) {
 					ShieldPartyAndFavorite(true,null);
@@ -475,7 +476,7 @@ public class LevelUpView : ViewBase {
 				continue;
 			}
 
-			selectedItem[i].UserUnit = null;
+			selectedItem[i].SetData<UserUnit>(null);
 			selectedItem[i].IsEnable = true;
 		}
 		ClearInfoPanelData ();
@@ -517,7 +518,7 @@ public class LevelUpView : ViewBase {
 		}
 		
 		EnabledItem (selectedItem [baseItemIndex].UserUnit);
-		selectedItem [baseItemIndex].UserUnit = pui.UserUnit;
+		selectedItem [baseItemIndex].SetData<UserUnit>(pui.UserUnit);
 		UpdateBaseInfoView ();
 		if (CheckIsParty (pui)) {
 			selectedItem [baseItemIndex].IsEnable = true;
@@ -538,7 +539,7 @@ public class LevelUpView : ViewBase {
 		}
 
 		EnabledItem (selectedItem [baseItemIndex].UserUnit);
-		selectedItem [baseItemIndex].UserUnit = pui.UserUnit;
+		selectedItem [baseItemIndex].SetData<UserUnit>(pui.UserUnit);
 		UpdateBaseInfoView ();
 		if (CheckIsParty (pui)) {
 			selectedItem [baseItemIndex].IsEnable = true;
@@ -603,7 +604,7 @@ public class LevelUpView : ViewBase {
 			if(selectedItem[i].UserUnit != null) {
 				continue;
 			}
-			selectedItem[i].UserUnit = pui.UserUnit;
+			selectedItem[i].SetData<UserUnit>(pui.UserUnit);
 			pui.IsEnable = false;
 			ClearFocus ();
 
@@ -656,7 +657,7 @@ public class LevelUpView : ViewBase {
 		}
 
 		UserUnit tuu = selectedItem.UserUnit;
-		selectedItem.UserUnit = materialItem.UserUnit;
+		selectedItem.SetData<UserUnit>(materialItem.UserUnit);
 		materialItem.IsEnable = false;
 		EnabledItem (tuu);
 		return true;
@@ -691,8 +692,8 @@ public class LevelUpView : ViewBase {
 	private void ReceiveSortInfo(object msg){
 		sortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		dragPanel.RefreshItem (myUnit);
-		dragPanel.RefreshSortInfo (sortRule);
+//		dragPanel.RefreshItem (myUnit);
+//		dragPanel.RefreshSortInfo (sortRule);
 //		RefreshSortInfo ();
 	}
 
@@ -844,7 +845,7 @@ public class LevelUpView : ViewBase {
 			}
 		}
 
-		dragPanel.RefreshItem (myUnit);
+//		dragPanel.RefreshItem (myUnit);
 
 	}
 
@@ -856,7 +857,7 @@ public class LevelUpView : ViewBase {
 			}
 		}
 
-		dragPanel.RefreshItem(myUnit);
+//		dragPanel.RefreshItem(myUnit);
 		ShieldPartyAndFavorite (false, null);
 	}
 }

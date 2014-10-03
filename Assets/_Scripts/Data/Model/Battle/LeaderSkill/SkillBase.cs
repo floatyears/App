@@ -104,5 +104,10 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		public virtual object Excute (string userUnitID, int atk = -1) {
 			return null;
 		}
+
+		public override string ToString ()
+		{
+			return _id.ToString ();
+		}
 }
 }

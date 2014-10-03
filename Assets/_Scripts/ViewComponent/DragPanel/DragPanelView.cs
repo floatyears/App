@@ -2,27 +2,46 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class DragPanelView : ViewBase {
-	public const string DragPanelPath = "Prefabs/UI/Common/DragPanelView";
+	private const string DragPanelPath = "Prefabs/UI/Common/DragPanelView";
 
-	[HideInInspector]
-	public UIGrid grid;
+	private UIGrid grid;
 
-	[HideInInspector]
-	public UIPanel clip;
+	private UIPanel clip;
 
-	[HideInInspector]
-	public UIScrollBar scrollBar;
+	private UIScrollBar scrollBar;
 
-	[HideInInspector]
-	public UIScrollView scrollView;
-	
-	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
+	private UIScrollView scrollView;
+
+	private GameObject pool;
+
+	private List<DragPanelItemBase> scrollItem = new List<DragPanelItemBase> ();
+
+	private Queue<DragPanelItemBase> itemPool = new Queue<DragPanelItemBase>(); 
+
+	private DragPanelConfigItem dragConfig;
+
+	private Transform parentObj;
+
+	private GameObject sourceObj;
+
+	private System.Type itemType;
+
+	public void Init(string name, Transform parent, string url, System.Type type)
 	{
-		base.Init (config, data);
+		base.Init (config);
 		clip = FindChild<UIPanel>("Scroll View");
 		scrollView = FindChild<UIScrollView>("Scroll View");
 		scrollBar = FindChild<UIScrollBar>("Scroll Bar");
 		grid = FindChild<UIGrid>("Scroll View/UIGrid");
+		pool = FindChild ("Pool");
+		pool.SetActive (false);
+		gameObject.name = name;
+		dragConfig = DataCenter.Instance.GetConfigDragPanelItem (name);
+		parentObj = parent;
+		sourceObj = ResourceManager.Instance.LoadLocalAsset(url, null) as GameObject;
+		itemType = type;
+		SetScrollView ();
+
 	}
 
 
@@ -34,105 +53,69 @@ public class DragPanelView : ViewBase {
 		base.HideUI ();
 	}
 
-	public override void DestoryUI (){
+	public override void DestoryUI () {
 		base.DestoryUI ();
-	}
-	int a = 0;
-	public GameObject AddObject(GameObject obj) {
-		GameObject tempObject = null;
-
-		tempObject = NGUITools.AddChild (grid.gameObject, obj);
-//		Debug.LogError ("tempObject : " + tempObject.name + " a.ToString() : " + a.ToString ());
-		tempObject.name = a.ToString();
-		a++;
-		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
-
-
-		if (uidrag == null) {
-			Debug.LogError("drag item is illegal");
-			Destroy(tempObject);
-			return null;
+		int count = scrollItem.Count;
+		for (int i = 0; i < count; i++) {
+			GameObject.Destroy(scrollItem[i].gameObject);
+		}
+		scrollItem.Clear();
+		while (itemPool.Count > 0) {
+			GameObject.Destroy(itemPool.Dequeue().gameObject);
 		}
 
-		if(uidrag.scrollView  == null) {
-			uidrag.scrollView = scrollView;
-		}
-
-		return tempObject;
 	}
 
-	public GameObject AddObject(GameObject obj, int name) {
-		GameObject tempObject = null;
+	public void SetData<T>(List<T> data, params object[] args){
+		int i = 0;
+		int len = scrollItem.Count;
+		GameObject obj = null;
+		foreach (var item in data) {
+			if(len <= i){
+				GetDragItem().SetData<T>(item,args);
+			}else{
+				scrollItem[i].SetData<T>(item,args);
+			}
+			i++;
+		}
+		Debug.Log ("len: " + len + " i: " + i);
+		for (int j = len - 1; j >= i ;j-- ) {
+			itemPool.Enqueue(scrollItem[j]);
+			scrollItem[j].transform.parent = pool.transform;
+			scrollItem.RemoveAt(j);
 
-		tempObject = NGUITools.AddChild (grid.gameObject, obj);
-		
-		tempObject.name = name.ToString();
-		UIDragScrollView uidrag = tempObject.GetComponent<UIDragScrollView> ();
-		if (uidrag == null) {
-			Debug.LogError("drag item is illegal");
-			Destroy(tempObject);
-			return null;
 		}
-		if(uidrag.scrollView  == null) {
-			uidrag.scrollView = scrollView;
-		}
-		
-//		grid.enabled = true;
-//		grid.Reposition ();
-		//Debug.LogError("tempObject : " + tempObject);
-		return tempObject;
+		grid.Reposition ();
 	}
 
-//	public void RemoveObject (GameObject obj) {
-//
-//	}
 	
-	public void SetViewPosition(Vector4 position){
-		Vector4 range = clip.clipRange;
+	void SetScrollView(){
 
-		range.x = position.x;
-		range.y = position.y;		
+		scrollView.GetComponent<UIPanel>().depth = dragConfig.depth;
+		scrollBar.GetComponent<UIPanel>().depth = dragConfig.depth + 1;
 
-		if (position.z > 0) {
-			range.z = position.z;		
-		}
-
-		if (position.w > 0) {
-			range.w = position.w;		
-		}
-
-		clip.clipRange = range;
-	}
-	
-	public const string ScrollViewDepth = "ScrollViewDepth";
-
-	public void SetScrollView(DragPanelConfigItem config, Transform parent){
-
-		scrollBar.GetComponent<UIPanel>().depth = scrollView.GetComponent<UIPanel>().depth = config.depth;
-
-		scrollView.movement = config.scrollMovement;
-		gameObject.transform.parent = parent;
+		scrollView.movement = dragConfig.scrollMovement;
+		transform.parent = parentObj;
 		transform.localScale = Vector3.one;
-		gameObject.transform.localPosition = config.scrollerLocalPos;
-		scrollView.transform.localPosition = config.position;
-		clip.clipRange = config.clipRange;
-		scrollBar.transform.localPosition = config.scrollBarPosition;
+		gameObject.transform.localPosition = dragConfig.scrollerLocalPos;
+		scrollView.transform.localPosition = dragConfig.position;
+		clip.clipRange = dragConfig.clipRange;
+		scrollBar.transform.localPosition = dragConfig.scrollBarPosition;
 
-
-		grid.arrangement = config.gridArrage;
-		grid.maxPerLine = config.maxPerLine;
-		grid.cellWidth = config.cellWidth;
-		grid.cellHeight = config.cellHeight;
+		grid.arrangement = dragConfig.gridArrage;
+		grid.maxPerLine = dragConfig.maxPerLine;
+		grid.cellWidth = dragConfig.cellWidth;
+		grid.cellHeight = dragConfig.cellHeight;
 
 		Transform fg = scrollBar.transform.FindChild ("Foreground");
-		if (config.scrollMovement == UIScrollView.Movement.Vertical ) {
+		if (dragConfig.scrollMovement == UIScrollView.Movement.Vertical ) {
 			scrollView.horizontalScrollBar = null;	
 			scrollView.verticalScrollBar = scrollBar;
 //			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
 
 			fg.Rotate (0, 0, 0);
 			fg.GetComponent<UISprite> ().alpha = 1;
-			fg.GetComponent<UISprite> ().width = (int)config.clipRange.w;
+			fg.GetComponent<UISprite> ().width = (int)dragConfig.clipRange.w;
 
 		}else {
 			scrollView.horizontalScrollBar = scrollBar;	
@@ -140,13 +123,44 @@ public class DragPanelView : ViewBase {
 
 			fg.Rotate (0, 0, -90);
 			fg.GetComponent<UISprite> ().alpha = 1;
-			fg.GetComponent<UISprite> ().width = (int)config.clipRange.z;
+			fg.GetComponent<UISprite> ().width = (int)dragConfig.clipRange.z;
 
 			scrollBar.fillDirection = UIProgressBar.FillDirection.RightToLeft;
 		}
 
 		scrollView.ResetPosition ();
 //		scrollBar.alpha = 1;
+	}
+
+	private DragPanelItemBase GetDragItem(){
+		DragPanelItemBase item = null;
+		if(itemPool.Count > 0){
+			item = itemPool.Dequeue();
+		}else {
+			GameObject obj = NGUITools.AddChild(grid.gameObject,sourceObj);
+			if(obj.GetComponent(itemType) == null){
+				obj.AddComponent(itemType);
+			}
+			item = obj.GetComponent<DragPanelItemBase>();
+		}
+		item.transform.parent = grid.transform;
+		scrollItem.Add(item);
+		return item;
+	}
+
+	
+	void ItemCallback(GameObject target) {
+//		if (DragCallback != null) {
+//			DragCallback (target);
+//		}
+	}
+
+	public void ClearPool(){
+		foreach (var item in scrollItem) {
+			item.transform.parent = pool.transform;
+			itemPool.Enqueue(item);
+		}
+		scrollItem.Clear ();
 	}
 	
 }

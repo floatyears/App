@@ -188,7 +188,7 @@ public class PartyView : ViewBase, IDragChangeView{
 				}
 
 				OutNoParty(pickedFromParty.UserUnit);
-				pickedFromParty.UserUnit = pickedFromUnitList.UserUnit;
+				pickedFromParty.SetData<UserUnit>(pickedFromUnitList.UserUnit);
 				pickedFromUnitList.IsFocus = false;
 				pickedFromUnitList.IsParty = true;
 				pickedFromUnitList = null;
@@ -234,9 +234,9 @@ public class PartyView : ViewBase, IDragChangeView{
 			DataCenter.Instance.UnitData.PartyInfo.ChangeParty(beforePos, afterId);
 
 			UserUnit tuu = pickedFromParty.UserUnit; 
-			pickedFromParty.UserUnit = focusedOnParty.UserUnit;
+			pickedFromParty.SetData<UserUnit>(focusedOnParty.UserUnit);
 //			Debug.LogError("focusedOnParty : " + focusedOnParty.UserUnit.ID + " tuu : " + tuu.ID);
-			focusedOnParty.UserUnit = tuu;
+			focusedOnParty.SetData<UserUnit>(tuu);
 			ClearPartyFocusState();
 		}	
 
@@ -258,7 +258,8 @@ public class PartyView : ViewBase, IDragChangeView{
 	/// Click the item in unit list
 	/// </summary>
 	/// <param name="puv">Puv.</param>
-	void OutPartyItemClick(MyUnitItem puv){
+	void OutPartyItemClick(object data){
+		MyUnitItem puv = data as MyUnitItem;
 		//store picked info
 		if(pickedFromUnitList != null){
 			pickedFromUnitList.IsFocus = false;
@@ -301,7 +302,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		}
 
 		pickedFromUnitList.IsParty = true;
-		partyItems[ focusPos ].UserUnit = pickedFromUnitList.UserUnit;
+		partyItems[ focusPos ].SetData<UserUnit>(pickedFromUnitList.UserUnit);
 		ClearPartyFocusState();
 		ClearUnitListFocusState();
 	}
@@ -316,7 +317,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		}
 
 		OutNoParty(pickedFromParty.UserUnit);
-		pickedFromParty.UserUnit = pickedFromUnitList.UserUnit;
+		pickedFromParty.SetData<UserUnit>(pickedFromUnitList.UserUnit);
 		pickedFromUnitList.IsFocus = false;
 		pickedFromUnitList.IsParty = true;
 		pickedFromUnitList = null;
@@ -341,7 +342,7 @@ public class PartyView : ViewBase, IDragChangeView{
 				return false;
 			}
 
-			partyItems[ pos ].UserUnit = target.UserUnit;
+			partyItems[ pos ].SetData<UserUnit>(target.UserUnit);
 			target.IsParty = true;
 			target.IsFocus = false;
 			ClearUnitListFocusState();
@@ -411,24 +412,17 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
 
 	private void InitDragPanel(){
-		dragPanel = new DragPanel("PartyDragPanel", PartyUnitItem.ItemPrefab,bottomRoot.transform);
+		dragPanel = new DragPanel("PartyDragPanel", "Prefabs/UI/UnitItem/MyUnitPrefab",typeof(PartyUnitItem), bottomRoot.transform);
 //		dragPanel.SetDragPanel();
-		InitRejectBtn();
-		InitUnitListView();
-	}
 
-	private void InitRejectBtn(){
-		dragPanel.AddItem(1, rejectItem);
-
+		//		dragPanel.AddItem(1, rejectItem);
+		
 		GameObject rejectItemIns = dragPanel.ScrollItem[ 0 ];
 		rejectItemIns.transform.FindChild ("Label_Text").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Reject");
 		UIEventListenerCustom.Get(rejectItemIns).onClick = RejectPartyMember;
-	}
 
-	private void InitUnitListView(){
 		myUnitDataList = GetUnitList();
-		dragPanel.AddItem(myUnitDataList.Count, MyUnitItem.ItemPrefab);
-
+		
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.PartyView);//DEFAULT_SORT_RULE;
 	}
 
@@ -487,7 +481,7 @@ public class PartyView : ViewBase, IDragChangeView{
 			if(partyUnitView.UserUnit.Equals(partyItems[ pos ].UserUnit)){
 				partyUnitView.IsParty = false;
 				partyUnitView.IsEnable = true;
-				partyItems[ pos ].UserUnit = null;
+				partyItems[ pos ].SetData<UserUnit>(null);
 				break;
 			}
 		}
@@ -509,7 +503,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 		for (int i = UNIT_ITEM_START_POS; i < dragPanel.ScrollItem.Count; i++){
 			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-			puv.UserUnit = myUnitDataList[ i - 1 ];
+			puv.SetData<UserUnit>(myUnitDataList[ i - 1 ]);
 			puv.CurrentSortRule = curSortRule;
 		}
 	}
@@ -517,40 +511,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	void RefreshDragPanel(){
 		myUnitDataList = GetUnitList();
 		SortUnitByCurRule();
-//		Debug.LogError("")
-		int memCount = myUnitDataList.Count;
-		int dragCount = dragPanel.ScrollItem.Count - 1;
-		if( memCount >  dragCount){
-			int addItemCount = myUnitDataList.Count - dragCount;//the first one is reject item
-			dragPanel.AddItem(addItemCount, MyUnitItem.ItemPrefab);
-			dragCount = dragPanel.ScrollItem.Count;
-			for (int i = 1; i < dragCount; i++) {
-				//RefreshData
-				PartyUnitItem puv =  PartyUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-				puv.callback = OutPartyItemClick;
-
-				if(puv == null){
-					puv.Init(myUnitDataList[ i - 1 ]);
-				}
-				else
-					puv.UserUnit = myUnitDataList[ i - 1 ];//before
-				puv.CurrentSortRule = curSortRule;//after	
-			}
-		}
-		else{
-			for (int i = 0; i < memCount; i++) {
-				PartyUnitItem puv =PartyUnitItem.Inject(dragPanel.ScrollItem[ i + 1 ]);
-				puv.callback = OutPartyItemClick;
-				puv.UserUnit = myUnitDataList[ i ];//before
-				puv.CurrentSortRule = curSortRule;//after
-			}
-			//Remove
-			for (int i = memCount + 1; i < dragPanel.ScrollItem.Count; i++) {
-				//Debug.LogError("i : " + i + " dragPanel.ScrollItem[ i ] : " + dragPanel.ScrollItem[ i ]);
-				dragPanel.RemoveItem(dragPanel.ScrollItem[ i ]);
-			}
-			dragPanel.Refresh();
-		}
+		dragPanel.SetData<UserUnit> (myUnitDataList, OutPartyItemClick as DataListener, curSortRule);
 	}
 
 	private void SortUnitByCurRule(){
@@ -571,8 +532,8 @@ public class PartyView : ViewBase, IDragChangeView{
 	}
 
 	void BottomRootMoveEnd() {
-		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (false);
-		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (true);
+//		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (false);
+//		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (true);
 	}
 
 	private void RefreshItemCounter(){
