@@ -6,9 +6,6 @@ public class HelperUnitItem : FriendUnitItem {
 	private UILabel friendPointLabel;
 	private UILabel rankLabel;
 	private UISprite baseBoardSpr;
-
-	public delegate void UnitItemCallback(HelperUnitItem huv);
-	public UnitItemCallback callback;
 	
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {

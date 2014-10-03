@@ -16,11 +16,11 @@ public class BaseUnitItem : DragPanelItemBase {
 
 //	public static bool canShowUnitDetail = true;
 
-	public static BaseUnitItem Inject(GameObject item){
-		BaseUnitItem view = item.GetComponent<BaseUnitItem>();
-		if (view == null) view = item.AddComponent<BaseUnitItem>();
-		return view;
-	}
+//	public static BaseUnitItem Inject(GameObject item){
+//		BaseUnitItem view = item.GetComponent<BaseUnitItem>();
+//		if (view == null) view = item.AddComponent<BaseUnitItem>();
+//		return view;
+//	}
 
 	protected virtual void Awake() {
 		if(maskSpr == null){ InitUI(); }

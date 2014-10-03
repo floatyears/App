@@ -18,7 +18,7 @@ public class DragPanel : ModuleBase{
 
 	public DragPanel(string name, string sourceObjUrl,System.Type type, Transform parentTransform):base(null){
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView", o => {
-			dragPanelView = (GameObject.Instantiate(o as GameObject) as GameObject).AddComponent<DragPanelView>();
+			dragPanelView = (GameObject.Instantiate(o as GameObject) as GameObject).GetComponent<DragPanelView>();
 			dragPanelView.Init(name,parentTransform,sourceObjUrl,type);
 		});
 	}

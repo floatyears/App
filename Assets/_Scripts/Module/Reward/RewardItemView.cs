@@ -15,11 +15,11 @@ public class RewardItemView : DragPanelItemBase {
 
 	private UIAtlas atlas;
 	
-	public static RewardItemView Inject(GameObject view){
-		RewardItemView stageItemView = view.GetComponent<RewardItemView>();
-		if(stageItemView == null) stageItemView = view.AddComponent<RewardItemView>();
-		return stageItemView;
-	}
+//	public static RewardItemView Inject(GameObject view){
+//		RewardItemView stageItemView = view.GetComponent<RewardItemView>();
+//		if(stageItemView == null) stageItemView = view.AddComponent<RewardItemView>();
+//		return stageItemView;
+//	}
 
 	private BonusInfo data;
 	public BonusInfo Data{

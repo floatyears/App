@@ -4,8 +4,8 @@ using bbproto;
 
 public class FriendUnitItem : BaseUnitItem {
 	protected UILabel nameLabel;
-	public delegate void UnitItemCallback(FriendUnitItem huv);
-	public UnitItemCallback callback;
+//	public delegate void UnitItemCallback(FriendUnitItem huv);
+	protected DataListener callback;
 
 	public static FriendUnitItem Inject(GameObject item){
 		FriendUnitItem view = item.AddComponent<FriendUnitItem>();
@@ -16,13 +16,18 @@ public class FriendUnitItem : BaseUnitItem {
 
 	protected FriendInfo friendInfo;
 	public FriendInfo FriendInfo{
-		get{ return friendInfo; }
-		set{ friendInfo = value; }
+		get{ 
+			return friendInfo; 
+		}
+		set{ 
+			friendInfo = value; 
+		}
 	}
 		
-	public void SetData<T>(T friendInfo, params object[] args){
+	public override void SetData<T>(T friendInfo, params object[] args){
 		this.friendInfo = friendInfo as FriendInfo;
-		base.Init((friendInfo as FriendInfo).UserUnit);
+		base.Init(this.friendInfo.UserUnit);
+		callback += (DataListener)args [0];
 	}
 
 	protected override void InitUI(){
