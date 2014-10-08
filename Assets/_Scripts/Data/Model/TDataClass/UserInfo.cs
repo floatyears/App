@@ -4,7 +4,7 @@ using System.Collections;
 namespace bbproto{
 	public partial class UserInfo : ProtoBuf.IExtensible
 	{
-		public UserInfo(){ 
+		public UserInfo(int dummy=0){ 
 
 		}
 

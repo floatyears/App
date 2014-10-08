@@ -37,7 +37,7 @@ public partial class SkillTargetTypeAttack : ActiveSkill {
 		}
 		InitCooling ();
 		AttackTargetType att = new AttackTargetType ();
-		AttackInfoProto ai = new AttackInfoProto();
+		AttackInfoProto ai = new AttackInfoProto(0);
 		ai.userUnitID = userUnitID;
 		ai.skillID = id;
 		if (type == EValueType.MULTIPLE) {

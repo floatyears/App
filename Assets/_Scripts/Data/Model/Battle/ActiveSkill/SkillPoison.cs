@@ -5,7 +5,7 @@ using bbproto;
 namespace bbproto	{
 	public partial class SkillPoison : ActiveSkill {
 
-		public SkillPoison() { 
+		public SkillPoison(int dummy=0) { 
 	//		skillBase = this.instance.baseInfo;	
 			if (skillCooling == 0) {
 				coolingDone = true;
@@ -18,7 +18,7 @@ namespace bbproto	{
 				return null;
 			}
 			InitCooling ();
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.attackValue = atk * value;
 			ai.attackRound = roundValue;

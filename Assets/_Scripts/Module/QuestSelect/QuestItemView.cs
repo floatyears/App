@@ -100,6 +100,9 @@ public class QuestItemView : DragPanelItemBase {
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
 //		Debug.Log("bossAvatarSpr.spriteName : " + bossAvatarSpr.spriteName);
 
+//		enabled = (data.state != EQuestState.QS_NEW);
+		GetComponent<UIButton>().isEnabled = (data.state != EQuestState.QS_NEW);
+
 	}
 
 	private void FindUIElement(){

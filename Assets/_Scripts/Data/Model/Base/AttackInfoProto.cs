@@ -10,7 +10,7 @@ namespace bbproto{
 		}
 
 
-		public AttackInfoProto (){
+		public AttackInfoProto (int dummy=0){
 			Init ();
 		}
 

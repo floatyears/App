@@ -7,7 +7,7 @@ namespace bbproto{
 public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     private List<PartyItem> partyItem = new List<PartyItem>();		
  
-	public UnitParty() { 
+	public UnitParty(int dummy=0) { 
 		
     }
 

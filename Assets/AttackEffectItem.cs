@@ -74,7 +74,7 @@ public class AttackEffectItem : MonoBehaviour {
 	
 	private void Tween () {
 		transform.localPosition = BattleManipulationView.startPosition;
-		iTween.MoveTo(gameObject,iTween.Hash("position",moveEndPosition,"time",0.35f,"easetype",iTween.EaseType.easeInQuart,"islocal",true,"oncomplete","MoveComplete","oncompletetarget",gameObject));
+		iTween.MoveTo(gameObject,iTween.Hash("position",moveEndPosition,"time",0.3f,"easetype",iTween.EaseType.easeInQuart,"islocal",true,"oncomplete","MoveComplete","oncompletetarget",gameObject));
 	}
 	
 	void MoveComplete() {
@@ -82,7 +82,7 @@ public class AttackEffectItem : MonoBehaviour {
 	}
 	
 	void RotateComplete() {
-		iTween.MoveTo(gameObject,iTween.Hash("position",dropEndPosition,"time", 0.15f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","DropComplete","oncompletetarget",gameObject));
+		iTween.MoveTo(gameObject,iTween.Hash("position",dropEndPosition,"time", 0.2f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","DropComplete","oncompletetarget",gameObject));
 	}
 	
 	void DropComplete() {

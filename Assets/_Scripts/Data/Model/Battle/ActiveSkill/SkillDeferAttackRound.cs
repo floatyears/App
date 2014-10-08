@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillDeferAttackRound : ActiveSkill {
-		public SkillDeferAttackRound () {
+		public SkillDeferAttackRound (int dummy=0) {
 	//		skillBase = this.instance.baseInfo;
 	////		Debug.LogError ("ActiveDeferAttackRound.skillCooling : " + skillBase.skillCooling);
 			if (skillCooling == 0) {

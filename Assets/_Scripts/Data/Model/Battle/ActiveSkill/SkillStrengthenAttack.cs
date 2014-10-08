@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillStrengthenAttack : ActiveSkill {
-		public SkillStrengthenAttack ( ) {
+		public SkillStrengthenAttack (int dummy=0) {
 	//		skillBase = this.instance.baseInfo;
 	//		if (skillBase.skillCooling == 0) {
 	//			coolingDone = true;	
@@ -17,7 +17,7 @@ namespace bbproto{
 				return null;	
 			}
 			InitCooling ();
-			AttackInfoProto ai = new AttackInfoProto();//new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0);//new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.attackType = (int)targetType;
 			ai.attackRace = (int)targetRace;

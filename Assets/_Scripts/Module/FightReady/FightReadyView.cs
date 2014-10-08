@@ -124,7 +124,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		prePageBtn.isEnabled = false;
 		nextPageBtn.isEnabled = false;
 //		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
-		UnitParty up = new UnitParty ();
+		UnitParty up = new UnitParty (0);
 		up.id = 5;
 		for (int i = 0; i < evolveStart.evolveParty.Count; i++) {
 			PartyItem pi = new PartyItem();

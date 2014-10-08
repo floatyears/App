@@ -29,6 +29,13 @@ public class HomeView : ViewBase{
 		GameTimer.GetInstance ().CheckRefreshServer ();
 
 		ShowRewardInfo ();
+
+		List<CityInfo> cityList = DataCenter.Instance.QuestData.GetCityListInfo();
+		for (int i = 0; i < cityList.Count; i++) {
+			UISprite cityBg = FindChild("StoryDoor/"+i+"/Background").GetComponent<UISprite>();
+			bool isNewCity = (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityList[i].id) == StageState.NEW); 
+			cityBg.GetComponent<TweenAlpha> ().enabled = isNewCity;
+		}
 	}
 
 	private void OnRefreshRewardList(object data){
@@ -282,6 +289,7 @@ public class HomeView : ViewBase{
 	}
 
 	public void FogFly(){
+		fog.alpha = 1f;
 		fog.GetComponent<TweenPosition> ().enabled = true;
 		fog.GetComponent<TweenPosition> ().ResetToBeginning ();
 		int dir = 0;

@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillKillHP : ActiveSkill {
-		public SkillKillHP ( ) {
+		public SkillKillHP (int dummy=0) {
 	//		skillBase = this.instance.baseInfo;	
 	//		if (skillBase.skillCooling == 0) {
 	//			coolingDone = true;
@@ -26,7 +26,7 @@ namespace bbproto{
 			}
 			InitCooling ();
 	//		SkillKillHP skh = DeserializeData<SkillKillHP> ();
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.ignoreDefense = true;
 			ai.attackValue = value;

@@ -29,7 +29,7 @@ public class CalculateRecoverHP {
 			if(count > 0){
 //				bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
 //				ai = new AttackInfo (aip);
-				ai = new AttackInfoProto();
+				ai = new AttackInfoProto(0);
 				tns.GetSkillInfo(ai);
 				ai.attackValue = tns.GetRecoverHP(blood);
 				ai.fixRecoverHP = true;
@@ -54,7 +54,7 @@ public class CalculateRecoverHP {
 				csu.ResidualCard();
 //				bbproto.AttackInfoProto aip = new bbproto.AttackInfoProto();
 //				ai = new AttackInfo (aip);
-				ai = new AttackInfoProto();
+				ai = new AttackInfoProto(0);
 				tns.GetSkillInfo(ai);
 				ai.attackValue = tns.GetRecoverHP(blood);
 				ai.fixRecoverHP = true;

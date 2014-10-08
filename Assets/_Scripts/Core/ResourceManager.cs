@@ -202,7 +202,7 @@ public class ResourceManager : MonoBehaviour{
 
 
 		}else{
-			Debug.LogError("load err: " + www.error);
+			Debug.LogError("load err: " + www.error+" url:"+www.url);
 
 			//-------------
 //			MsgWindowParams mwp = new MsgWindowParams ();

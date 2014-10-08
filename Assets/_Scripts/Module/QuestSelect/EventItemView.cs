@@ -110,12 +110,12 @@ public class EventItemView : MonoBehaviour{
 //		}
 
 		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
-		Debug.Log ("id: " + data.id + " current time: " + currentTime + " start time: " + data.StartTime + " end time: " + data.endTime);
+		Debug.Log ("id: " + data.id + " current time: " + currentTime + " start time: " + data.StartTime + " end time: " + data.EndTime);
 		if (data.StartTime < currentTime) {
-			if(currentTime < data.endTime){
+			if(currentTime < data.EndTime){
 //				time.enabled = false;
 				ShowIconByState (StageState.EVENT_OPEN);
-				time.text = string.Format(TextCenter.GetText("Stage_Event_Remain") , GameTimer.GetFormatRemainTime(data.endTime - currentTime));
+				time.text = string.Format(TextCenter.GetText("Stage_Event_Remain") , GameTimer.GetFormatRemainTime(data.EndTime - currentTime));
 				timeBg.spriteName = "remain_bg";
 			}
 			else{

@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 public partial class SkillBoost : SkillBase {
-	public SkillBoost () {
+	public SkillBoost (int dummy=0) {
 //		skillBase = this.instance.baseInfo;
 	}
 	

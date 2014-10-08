@@ -10,7 +10,7 @@ namespace bbproto{
 	//		}
 	//	}
 
-		public SkillAttackRecoverHP( ) {
+		public SkillAttackRecoverHP(int dummy=0) {
 	//		skillBase = DeserializeData<SkillSingleAtkRecoverHP> ().baseInfo;	
 	//		skillBase = this.instance.baseInfo;
 	////		initSkillCooling = skillBase.skillCooling;
@@ -29,7 +29,7 @@ namespace bbproto{
 			}
 			InitCooling ();
 	//		SkillSingleAtkRecoverHP ssarh = DeserializeData<SkillSingleAtkRecoverHP> ();
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo ();
 			ai.attackType = (int)unitType;
 			ai.attackRange = (int)attackType;
 			ai.userUnitID = userUnitID;

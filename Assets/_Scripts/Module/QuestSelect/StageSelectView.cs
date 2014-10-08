@@ -71,6 +71,11 @@ public class StageSelectView : ViewBase{
 			Destroy(stageItem);
 		}
 
+		foreach (var item in stageDotList) {
+			GameObject.Destroy(item);
+		}
+		stageDotList.Clear ();
+
 		storyStageRoot.gameObject.SetActive(false);
 		eventStageRoot.gameObject.SetActive(true);
 
@@ -83,6 +88,8 @@ public class StageSelectView : ViewBase{
 			cell.name = i.ToString();
 			EventItemView stageItemView = EventItemView.Inject(cell);
 			stageItemView.Data = eventStageList[i];
+
+//			Debug.LogError("ICON id:"+eventStageList[i].id+"start:"+eventStageList[i].StartTime+" endTime:"+eventStageList[i].EndTime);
 		}
 
 		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVENTSTAGE"));
@@ -93,19 +100,25 @@ public class StageSelectView : ViewBase{
 		uint now = GameTimer.GetInstance ().GetCurrentSeonds ();
 		foreach (var item in eventCityData) {
 			if(cityData.ContainsKey(item.cityId)) {
-				if(cityData[item.cityId].endTime > item.endTime){
-					if(now < item.endTime){
+//				Debug.LogWarning(item.cityId+"|"+item.id+") EndTime:"+cityData[item.cityId].EndTime+" | item.End="+item.EndTime);
+				if(cityData[item.cityId].EndTime > item.EndTime){
+					if(now < item.EndTime){
 						cityData[item.cityId] = item;
 					}
 				}else{
-					if(now > cityData[item.cityId].endTime){
+					if(now > cityData[item.cityId].EndTime){
+//						Debug.LogWarning(item.cityId+"|"+item.id+") Now > cityData[cityId].EndTime, UPDATE | item.End="+item.EndTime);
 						cityData[item.cityId] = item;
 					}
 				}
 			} else {
-				cityData[item.cityId] = item;
+				if(now < item.EndTime) {
+//					Debug.LogWarning(item.cityId+"|"+item.id+") Now<item.EndTime, Insert | item.End="+item.EndTime);
+					cityData[item.cityId] = item;
+				}
 			}
 		}
+
 		return new List<StageInfo> (cityData.Values);
 	}
 

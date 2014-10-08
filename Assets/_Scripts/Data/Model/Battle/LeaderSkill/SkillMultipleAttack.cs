@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillMultipleAttack : SkillBase {
-		public SkillMultipleAttack( ) {
+		public SkillMultipleAttack(int dummy=0) {
 	//		skillBase = this.instance.baseInfo;
 		}
 
