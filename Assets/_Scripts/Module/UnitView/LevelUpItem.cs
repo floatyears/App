@@ -11,7 +11,6 @@ public class LevelUpItem : MyUnitItem {
 	public LevelUpItemCallback callback;
 	
 	protected override void ClickItem(GameObject item){
-//		Debug.LogError ("ClickItem :  " + callback);
 		if(callback != null) {
 			callback(this);
 		}
@@ -21,21 +20,6 @@ public class LevelUpItem : MyUnitItem {
 		base.InitUI();
 		partyLabel.enabled = true;
 		partyLabel.text = "";
-	}
-	
-	protected override void InitState(){
-		base.InitState();
-		IsFocus = false;
-		
-		if(userUnit != null){
-			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
-//			IsEnable = !IsParty;
-		}
-	}
-	
-	protected override void UpdatePartyState(){
-//		partyLabel.enabled = IsParty;
-//		IsEnable = !IsParty;
 	}
 	
 	protected override void UpdateFocus(){

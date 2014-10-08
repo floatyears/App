@@ -38,13 +38,13 @@ public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 	private void ClickOK(object data){
 		EvolveView evoView = GameObject.Find ("UnitDisplay(Clone)").GetComponent<EvolveView>();
 
-		uint id = evoView.GetMaxLvUnitID();
-		evoView.SetItemVisible (id);
+//		uint id = evoView.GetMaxLvUnitID();
+//		evoView.SetItemVisible (id);
 
-		GameObject first = evoView.GetMaxLvUnitItem();
-		NoviceGuideUtil.ForceOneBtnClick (first);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,2)});
-		UIEventListenerCustom.Get (first).onClick += OnClickItem;
+//		GameObject first = evoView.GetMaxLvUnitItem();
+//		NoviceGuideUtil.ForceOneBtnClick (first);
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,2)});
+//		UIEventListenerCustom.Get (first).onClick += OnClickItem;
 	}
 
 	private void OnClickItem(GameObject gm){

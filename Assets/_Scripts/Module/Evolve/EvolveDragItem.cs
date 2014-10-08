@@ -2,18 +2,7 @@
 using System.Collections;
 
 public class EvolveDragItem : MyUnitItem {
-	public static EvolveDragItem Inject(GameObject go) {
-		EvolveDragItem edi = go.GetComponent<EvolveDragItem> ();
-		if (edi == null) {
-			edi = go.AddComponent<EvolveDragItem>();	
-		}
-		return edi;
-	}
 
-	public delegate void EvolveItemCallback(EvolveDragItem puv);
-	public EvolveItemCallback callback;
-
-	[HideInInspector]
 	public bool CanEvolve = false;
 	
 	protected override void ClickItem(GameObject item){
@@ -24,16 +13,8 @@ public class EvolveDragItem : MyUnitItem {
 	
 	protected override void InitUI(){
 		base.InitUI();
-	}
-	
-	protected override void InitState(){
-		base.InitState();
+
 		IsFocus = false;
-		
-		if(userUnit != null){
-			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
-//			IsEnable = !IsParty;
-		}
 	}
 
 	protected override void SetCommonState () {
@@ -61,6 +42,22 @@ public class EvolveDragItem : MyUnitItem {
 			//IsEnable is FALSE as long as IsParty is TRUE
 //			IsEnable = !IsParty;
 		}
+	}
+
+	public override void SetData<T> (T data, params object[] args)
+	{
+		base.SetData (data, args);
+
+		bool evolveInfoNull = userUnit.UnitInfo.evolveInfo != null;
+		bool rareIsMax = userUnit.UnitInfo.maxStar > 0 && userUnit.UnitInfo.rare < userUnit.UnitInfo.maxStar;
+		if(evolveInfoNull && rareIsMax) {
+			CanEvolve = true;
+		} else {
+			IsEnable = false;
+		}
+//		if(!isParty && !isFavorite) {
+//			normalDragItem.Add(edi);
+//		}
 	}
 
 }

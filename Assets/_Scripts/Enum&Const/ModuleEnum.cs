@@ -144,18 +144,4 @@ public enum ModuleEnum
 
 }
 
-public enum SceneEnum {
-	None,
-	MainScene,
-	BattleScene,
-	CatalogScene,
-	PartyScene,
-	LevelUpScene,
-	SellScene,
-	EvolveScene,
-	UnitListScene,
-	FriendListScene,
-	FriendSearchScene,
-	ApplyScene,
-	ReceptionScene
-}
+

@@ -60,6 +60,8 @@ public class FriendDataModel : ProtobufDataBase {
 		if (inst == null)
 			return;
 		friendList = inst;
+
+		MsgCenter.Instance.Invoke (CommandEnum.FriendDataUpdate);
 	}
 	
 	public List<FriendInfo> GetCanUseFriend () {

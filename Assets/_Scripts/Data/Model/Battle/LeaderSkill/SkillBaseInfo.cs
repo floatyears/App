@@ -2,16 +2,18 @@ using UnityEngine;
 using System.Collections;
 
 namespace bbproto{
-public partial class SkillBase : ProtoBuf.IExtensible {
-	public const string SkillNamePrefix = "SkillName_";
-	public const string SkillDescribeFix = "SkillDesc_";
+	public partial class SkillBase {
+		public const string SkillNamePrefix = "SkillName_";
+		public const string SkillDescribeFix = "SkillDesc_";
 
-	private int _initSkillCooling = 0;
+		private int _initSkillCooling = 0;
 
-	public int initSkillCooling {
-		set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
-		get { return _initSkillCooling; }
-	}
+		public SkillBase baseInfo;
+
+		public int initSkillCooling {
+			set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
+			get { return _initSkillCooling; }
+		}
 
 //	public SkillBase BaseInfo {
 //		get {
@@ -57,7 +59,7 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		//	}
 		
 		void Store() {
-			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, skillCooling);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, baseInfo.skillCooling);
 		}
 		
 		void ReadSkillCooling () {
@@ -67,7 +69,7 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		
 		protected void DisposeCooling () {
 			bool temp = coolingDone;
-			coolingDone = CheckCooling (this);
+			coolingDone = CheckCooling (baseInfo);
 			if (!temp && coolingDone) {
 				//			Excute();
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
@@ -89,8 +91,8 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		}
 		
 		public void InitCooling() {
-			skillCooling = initSkillCooling;
-			if (skillCooling > 0) {
+			baseInfo.skillCooling = initSkillCooling;
+			if (baseInfo.skillCooling > 0) {
 				coolingDone = false;
 			}
 			
@@ -104,5 +106,10 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		public virtual object Excute (string userUnitID, int atk = -1) {
 			return null;
 		}
-}
+
+		public override string ToString ()
+		{
+			return baseInfo.id.ToString ();
+		}
+	}
 }

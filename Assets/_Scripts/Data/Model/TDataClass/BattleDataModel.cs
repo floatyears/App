@@ -38,6 +38,13 @@ public class BattleDataModel : ProtobufDataBase {
 				Debug.LogError("load skill faile. not have this skill config ! " + userUnitID + " skillID : " + skillID) ;
 				return null;
 			}
+//			Debug.Log("log: " + typeof(SkillBase).GetProperty("baseInfo",typeof(SkillBase)));
+//			SkillBase sl = typeof(SkillBase).GetProperty("baseInfo",typeof(SkillBase)).GetValue(skill,null) as SkillBase;
+			SkillBase sl = skill.GetType().GetProperty("baseInfo",typeof(SkillBase)).GetValue(skill,null) as SkillBase;
+			skill.id = sl.id;
+			skill.name = sl.name;
+			skill.skillCooling = sl.skillCooling;
+			skill.description = sl.description;
 			allSkill.Add(skillUserID, skill);
 		}
 		

@@ -51,12 +51,12 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 //			break;
 //		}
 
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView>().GetPartyUnitItem(leaderId).gameObject;
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
-
-		UIEventListenerCustom.Get (gm).onClick += OnClickItem;
-		//Debug.LogError ("gm : " + gm);
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+//		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView>().GetPartyUnitItem(leaderId).gameObject;
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,2)});
+//
+//		UIEventListenerCustom.Get (gm).onClick += OnClickItem;
+//		//Debug.LogError ("gm : " + gm);
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
 	}
 
 	private void OnClickItem(GameObject gm){
@@ -70,7 +70,7 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 		mwp.contentText = TextCenter.GetText("guide43_content");
 		
 		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK1;
+//		sure.callback = ClickOK1;
 		sure.text = TextCenter.GetText("NEXT");
 		mwp.btnParam = sure;
 		
@@ -78,25 +78,25 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 
 	}
 
-	private void ClickOK1(object data){
-
-		GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView>().SetItemVisible(67);
-//		GameTimer.GetInstance ().AddCountDown (1f, Callback);
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView> ().GetPartyUnitItem (67).gameObject;
-		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3 (0, 0, 2)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-		
-	}
-
-	private void Callback(){
-		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView> ().GetPartyUnitItem (67).gameObject;
-		
-		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3 (0, 0, 2)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
-	}
+//	private void ClickOK1(object data){
+//
+//		GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView>().SetItemVisible(67);
+////		GameTimer.GetInstance ().AddCountDown (1f, Callback);
+//		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView> ().GetPartyUnitItem (67).gameObject;
+//		
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3 (0, 0, 2)});
+//		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//		
+//	}
+//
+//	private void Callback(){
+//		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpView> ().GetPartyUnitItem (67).gameObject;
+//		
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3 (0, 0, 2)});
+//		UIEventListenerCustom.Get (gm).onClick += OnClickItem1;
+//		NoviceGuideUtil.ForceOneBtnClick (gm);
+//	}
 	//
 //	private IEnumerator LateExe(){
 //

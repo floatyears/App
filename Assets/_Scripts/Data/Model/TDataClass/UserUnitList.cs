@@ -10,31 +10,31 @@ public class UserUnitList {
         userUnitInfo = new Dictionary<string, UserUnit>(); //key: "{userid}_{unitUniqueId}"
     }
 
-    public  string MakeUserUnitKey(uint userId, uint uniqueId) {
+    string MakeUserUnitKey(uint userId, uint uniqueId) {
         return userId.ToString() + "_" + uniqueId.ToString();
     }
 
-    public  Dictionary<string, UserUnit> GetAll() {
-        return userUnitInfo;
-    }
+//    public  Dictionary<string, UserUnit> GetAll() {
+//        return userUnitInfo;
+//    }
+//
+//	public List<UserUnit> GetAllList () {
+//		List<UserUnit> temp = new List<UserUnit> ();
+//		foreach (var item in userUnitInfo.Values) {
+//			temp.Add(item);
+//		}
+//		return temp;
+//	}
+//
+//    public  void Clear() {
+//        userUnitInfo.Clear();
+//    }
 
-	public List<UserUnit> GetAllList () {
-		List<UserUnit> temp = new List<UserUnit> ();
-		foreach (var item in userUnitInfo.Values) {
-			temp.Add(item);
-		}
-		return temp;
-	}
+//    public int Count{
+//        get { return userUnitInfo.Count;}
+//    }
 
-    public  void Clear() {
-        userUnitInfo.Clear();
-    }
-
-    public int Count{
-        get { return userUnitInfo.Count;}
-    }
-
-    public  UserUnit Get(uint userId, uint uniqueId) {
+   	UserUnit Get(uint userId, uint uniqueId) {
         string key = MakeUserUnitKey(userId, uniqueId);
 //		Debug.LogError (" key : " + key);
 //		foreach (var item in userUnitInfo.Keys) {

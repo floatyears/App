@@ -87,8 +87,10 @@ public class MainMenuView : ViewBase{
 			if(btnScale == null)
 				continue;
             btnScale.enabled = valid;
-            if(valid)  UIEventListenerCustom.Get(item).onClick += ClickMenuBtn; 
-            else UIEventListenerCustom.Get(item).onClick -= ClickMenuBtn;
+            if(valid)  
+				UIEventListenerCustom.Get(item).onClick += ClickMenuBtn; 
+            else 
+				UIEventListenerCustom.Get(item).onClick -= ClickMenuBtn;
         }
     }
 

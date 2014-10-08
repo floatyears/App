@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class QuestItemView : MonoBehaviour {
+public class QuestItemView : DragPanelItemBase {
 	private UISprite bossAvatarSpr;
 	private UISprite borderSpr;
 	private UISprite avatarBgSpr;	
@@ -13,22 +13,22 @@ public class QuestItemView : MonoBehaviour {
 	private UILabel coinLabel;
 	private UILabel clearFlagLabel;
 	
-	private static GameObject prefab;
-	public static GameObject Prefab{
-		get{
-			if(prefab == null){
-				string sourcePath = "Prefabs/UI/Quest/QuestItemPrefab";
-				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject;
-			}
-			return prefab;
-		}
-	}
+//	private static GameObject prefab;
+//	public static GameObject Prefab{
+//		get{
+//			if(prefab == null){
+//				string sourcePath = "Prefabs/UI/Quest/QuestItemPrefab";
+//				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject;
+//			}
+//			return prefab;
+//		}
+//	}
 
-	public static QuestItemView Inject(GameObject view){
-		QuestItemView stageItemView = view.GetComponent<QuestItemView>();
-		if(stageItemView == null) stageItemView = view.AddComponent<QuestItemView>();
-		return stageItemView;
-	}
+//	public static QuestItemView Inject(GameObject view){
+//		QuestItemView stageItemView = view.GetComponent<QuestItemView>();
+//		if(stageItemView == null) stageItemView = view.AddComponent<QuestItemView>();
+//		return stageItemView;
+//	}
 
 	private uint stageID;
 	public uint StageID{
@@ -45,16 +45,23 @@ public class QuestItemView : MonoBehaviour {
 		get{
 			return data;
 		}
-		set{
-			data = value;
-			if(data == null){
-				Debug.LogError("QuestItemView, Data is NULL!");
-				return;
-			}
-			FindUIElement();
-			ShowQuestInfo();
-			AddEventListener();
+	}
+
+	public override void SetData<T> (T data, params object[] args)
+	{
+		this.data = data as QuestInfo;
+		if(data == null){
+			Debug.LogError("QuestItemView, Data is NULL!");
+			return;
 		}
+		FindUIElement();
+		ShowQuestInfo();
+		AddEventListener();
+	}
+
+	public override void ItemCallback (params object[] args)
+	{
+//		throw new System.NotImplementedException ();
 	}
 
 	private StageInfo _stageInfo;

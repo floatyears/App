@@ -2,9 +2,8 @@ using UnityEngine;
 using System.Collections;
 using bbproto;
 
-public class BaseUnitItem : MonoBehaviour {
+public class BaseUnitItem : DragPanelItemBase {
 	protected const string emptyBorder = "unit_empty_bg";
-//	protected const string normalBorder = "avatar_border_none";
 
 	protected bool canCrossed = true;
 	protected bool isCrossed;
@@ -14,46 +13,25 @@ public class BaseUnitItem : MonoBehaviour {
 	protected UISprite maskSpr;
 	protected UILabel crossFadeLabel;
 
-//	public static bool canShowUnitDetail = true;
-
-	public static BaseUnitItem Inject(GameObject item){
-		BaseUnitItem view = item.GetComponent<BaseUnitItem>();
-		if (view == null) view = item.AddComponent<BaseUnitItem>();
-		return view;
-	}
-
-	protected virtual void Awake() {
-		if(maskSpr == null){ InitUI(); }
-	}
-	
-	private void FindUIElement() {
-		avatar = transform.FindChild("Avatar").GetComponent<UISprite>();
-		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
-		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		avatarBorderSpr = transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
-		avatarBg = transform.FindChild("Background").GetComponent<UISprite>();
-//		Debug.LogError ("gameobject : " + gameObject + "FindUIElement : " + maskSpr);
-	}
-
 	protected UserUnit userUnit;
-	public UserUnit UserUnit {
+
+	public UserUnit UserUnit{
 		get{
 			return userUnit;
 		}
-		set{
-			userUnit = value;
-			RefreshState();
-		}
 	}
 
-	private int index;
-	public int Index{
-		get{
-			return index;
+	public override void SetData<T>(T data, params object[] args){
+		if (maskSpr == null) {
+			InitUI();	
 		}
-		set{
-			index = value;
-		}
+		userUnit = data as UserUnit;
+		RefreshState();
+	}
+
+	public override void ItemCallback (params object[] args)
+	{
+//		throw new System.NotImplementedException ();
 	}
 
 	private bool isEnable;
@@ -62,10 +40,11 @@ public class BaseUnitItem : MonoBehaviour {
 			return isEnable;
 		}
 		set{
-			if(isEnable != value) {
+			if(value != isEnable){
 				isEnable = value;
 				UpdatEnableState();
 			}
+
 		}
 	}
 	
@@ -75,71 +54,41 @@ public class BaseUnitItem : MonoBehaviour {
 			return currentSortRule;
 		}
 		set{
-			currentSortRule = value;
-			UpdateCrossFadeText();
+			if(currentSortRule !=  value){
+				currentSortRule = value;
+				UpdateCrossFadeText();
+			}
+
 		}
-	}
-	
-	public void Init(UserUnit userUnit){
-		Awake();
-		this.userUnit = userUnit;
-		InitState();
-		ExecuteCrossFade();
 	}
 
 	protected virtual void InitUI(){
-		FindUIElement();
-	}
+		avatar = transform.FindChild("Avatar").GetComponent<UISprite>();
+		crossFadeLabel = transform.FindChild("Label_Cross_Fade").GetComponent<UILabel>();
+		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		avatarBorderSpr = transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+		avatarBg = transform.FindChild("Background").GetComponent<UISprite>();
 
 
-	protected virtual void InitState(){
-		if(userUnit == null){
-			SetEmptyState();
-			return;
-		}
-		SetCommonState();
+		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
+		//		Debug.LogError ("GameObject : " + gameObject + "parent : " + transform.parent + " parent 2 : " + transform.parent.parent +" -- UpdatEnableState : maskSpr -- " + maskSpr + " -- listener : -- " + listener);
+
+		listener.LongPress = PressItem;
+		listener.onClick = ClickObjItem;
+
 	}
 
 	protected virtual void RefreshState() {
 		if(userUnit == null){
 			SetEmptyState();
-			return;
+		}else{
+			SetCommonState();
 		}
-		SetCommonState();
-	}
-	private void ExecuteCrossFade() {
-		if (! IsInvoking("UpdateCrossFadeState"))
-			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
-	}
 
-	void CheckCross() {
-		if(userUnit.AddNumber == 0) { 
-			canCrossed = false;
-		}
-		else {
-			canCrossed = true;
-		}
 	}
 
 	protected virtual void UpdatEnableState() {
-		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
-//		Debug.LogError ("GameObject : " + gameObject + "parent : " + transform.parent + " parent 2 : " + transform.parent.parent +" -- UpdatEnableState : maskSpr -- " + maskSpr + " -- listener : -- " + listener);
-
-		if (maskSpr == null) {
-			InitUI();	
-		}
-
-		maskSpr.enabled = !IsEnable;
-		listener.LongPress = PressItem;
-		if (IsEnable) {
-			listener.onClick = ClickItem;
-		} else {
-			listener.onClick = PlayClickAudio;
-		}
-	}
-
-	void PlayClickAudio(GameObject go) {
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
+		maskSpr.enabled = !isEnable;
 	}
 
 	private void UpdateCrossFadeState(){
@@ -165,7 +114,16 @@ public class BaseUnitItem : MonoBehaviour {
 		}
 	}
 
-	protected virtual void ClickItem(GameObject item){}
+	private void ClickObjItem(GameObject item){
+		AudioManager.Instance.PlayAudio (AudioEnum.sound_click_invalid);
+		if(isEnable)
+			ClickItem (item);
+	}
+
+	protected virtual void ClickItem(GameObject item){
+
+	}
+
 	protected virtual void PressItem(GameObject item){
 //		Debug.LogError ("userUnit == null : " + (userUnit == null));
 		if (userUnit == null) {
@@ -181,56 +139,35 @@ public class BaseUnitItem : MonoBehaviour {
 	private void UpdateCrossFadeText(){
 		switch (currentSortRule){
 			case SortRule.ID : 
-				CrossFadeLevelFirst();
+			case SortRule.Attribute : 
+			case SortRule.Race :
+			case SortRule.GetTime :
+			case SortRule.AddPoint :
+			case SortRule.Fav : 
+				crossFadeBeforeText = "Lv" + userUnit.level;
+				if(userUnit.AddNumber == 0){ 
+					canCrossed = false;
+					crossFadeLabel.text = crossFadeBeforeText;
+					crossFadeLabel.color = Color.yellow;
+				}
+				else {
+					canCrossed = true;
+					crossFadeAfterText = "+" + userUnit.AddNumber;
+				}
 				break;
 			case SortRule.Attack : 
-				CrossFadeAttackFirst();
-				break;
-			case SortRule.Attribute : 
-				CrossFadeLevelFirst();
+				crossFadeBeforeText = userUnit.Attack.ToString();
+				crossFadeAfterText = "+" + userUnit.AddNumber;
 				break;
 			case SortRule.HP : 
-				CrossFadeHpFirst();
-				break;
-			case SortRule.Race :
-				CrossFadeLevelFirst();
-				break;
-			case SortRule.GetTime : 
-				CrossFadeLevelFirst();
-				break;
-			case SortRule.AddPoint :
-				CrossFadeLevelFirst();
-				break;
-			case SortRule.Fav : 
-				CrossFadeLevelFirst();
+				crossFadeBeforeText = userUnit.Hp.ToString();
+				crossFadeAfterText = "+" + userUnit.AddNumber;
 				break;
 			default:
 				break;
 		}
 	}
-	
-	private void CrossFadeLevelFirst(){
-		crossFadeBeforeText = "Lv" + userUnit.level;
-		if(userUnit.AddNumber == 0){ 
-			canCrossed = false;
-			crossFadeLabel.text = crossFadeBeforeText;
-			crossFadeLabel.color = Color.yellow;
-		}
-		else {
-			canCrossed = true;
-			crossFadeAfterText = "+" + userUnit.AddNumber;
-		}
-	}
 
-	private void CrossFadeHpFirst(){
-		crossFadeBeforeText = UserUnit.Hp.ToString();
-		crossFadeAfterText = "+" + userUnit.AddNumber;
-	}
-
-	private void CrossFadeAttackFirst(){
-		crossFadeBeforeText = UserUnit.Attack.ToString();
-		crossFadeAfterText = "+" + userUnit.AddNumber;
-	}
 
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
@@ -244,7 +181,10 @@ public class BaseUnitItem : MonoBehaviour {
 //		if (IsEnable) Debug.LogWarning(">>>>> userUnit.ID:"+userUnit.ID+" SetCommonState to!");
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
-		ExecuteCrossFade ();
+
+		if (! IsInvoking("UpdateCrossFadeState"))
+			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
+
 //		Debug.LogError ("gameobject : " + gameObject + "set common state : " + avatar.spriteName + " userUnit.UnitID : " + userUnit.UnitID);
 		ResourceManager.Instance.GetAvatarAtlas(userUnit.unitId, avatar);
 	}
@@ -289,88 +229,6 @@ public class BaseUnitItem : MonoBehaviour {
 		}
 	}
 
-	public static void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
-//		UIAtlas atlas = asset as UIAtlas;
-//		if (ID == 216) {
-//			Debug.LogError("atlas : " + asset);	
-//		}
 
-		if (asset == null) {
-			return;	
-		}
-		sprite.atlas = asset;
-		sprite.spriteName = ID.ToString();
-	
-	}
 
-	private void ShowUnitType(){
-		switch (userUnit.UnitInfo.type){
-			case EUnitType.UFIRE :
-				avatarBg.spriteName = "avatar_bg_fire";
-				avatarBorderSpr.spriteName = "avatar_border_fire";
-				break;
-			case EUnitType.UWATER :
-				avatarBg.spriteName = "avatar_bg_water";
-				avatarBorderSpr.spriteName = "avatar_border_water";
-
-				break;
-			case EUnitType.UWIND :
-				avatarBg.spriteName = "avatar_bg_wind";
-				avatarBorderSpr.spriteName = "avatar_border_wind";
-
-				break;
-			case EUnitType.ULIGHT :
-				avatarBg.spriteName = "avatar_bg_light";
-				avatarBorderSpr.spriteName = "avatar_border_light";
-
-				break;
-			case EUnitType.UDARK :
-				avatarBg.spriteName = "avatar_bg_dark";
-				avatarBorderSpr.spriteName = "avatar_border_dark";
-
-				break;
-			case EUnitType.UNONE :
-				avatarBg.spriteName = "avatar_bg_none";
-				avatarBorderSpr.spriteName = "avatar_border_none";
-
-				break;
-			default:
-				break;
-		}
-	}
-
-//	public static string GetUserUnitBorderName(EUnitType unitType) {
-//		switch (userUnit.UnitInfo.Type){
-//		case EUnitType.UFIRE :
-//			avatarBg.spriteName = "avatar_bg_1";
-//			avatarBorderSpr.spriteName = "avatar_border_1";
-//			break;
-//		case EUnitType.UWATER :
-//			avatarBg.spriteName = "avatar_bg_2";
-//			avatarBorderSpr.spriteName = "avatar_border_2";
-//			
-//			break;
-//		case EUnitType.UWIND :
-//			avatarBg.spriteName = "avatar_bg_3";
-//			avatarBorderSpr.spriteName = "avatar_border_3";
-//			
-//			break;
-//		case EUnitType.ULIGHT :
-//			avatarBg.spriteName = "avatar_bg_4";
-//			avatarBorderSpr.spriteName = "avatar_border_4";
-//			
-//			break;
-//		case EUnitType.UDARK :
-//			avatarBg.spriteName = "avatar_bg_5";
-//			avatarBorderSpr.spriteName = "avatar_border_5";
-//			
-//			break;
-//		case EUnitType.UNONE :
-//			avatarBg.spriteName = "avatar_bg_6";
-//			avatarBorderSpr.spriteName = "avatar_border_6";
-//			
-//			break;
-//		default:
-//			break;
-//	}
 }

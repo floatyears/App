@@ -11,29 +11,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	private UIButton prePageBtn;
 	private UIButton nextPageBtn;
 
-//	private UILabel totalHPLabel;
-//	private UILabel totalAtkLabel;
-//	private UILabel lightAtkLabel;
-//	private UILabel darkAtkLabel;
-//	private UILabel fireAtkLabel;
-//	private UILabel waterAtkLabel;
-//	private UILabel windAtkLabel;
-//	private UILabel wuAtkLabel;
-//
-//	private UILabel helperSkillNameLabel;
-//	private UILabel helperSkillDcspLabel;
-//	private UILabel ownSkillNameLabel;
-//	private UILabel ownSkillDscpLabel;
-
-
 	private UIButton startFightBtn;
-//	private HelperUnitItem helper;
-//	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
-
-//	public override void Init(UIInsConfig config, IUICallback origin){
-//		base.Init(config, origin);
-//		InitUI();
-//	}
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -95,32 +73,12 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		nextPageBtn = FindChild<UIButton>("Others/Button_Right");
 		startFightBtn = transform.FindChild("Button_Fight").GetComponent<UIButton>();
 
-//		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
-//		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
-//		fireAtkLabel = transform.FindChild("Label_ATK_Fire").GetComponent<UILabel>();
-//		waterAtkLabel = transform.FindChild("Label_ATK_Water").GetComponent<UILabel>();
-//		lightAtkLabel = transform.FindChild("Label_ATK_Light").GetComponent<UILabel>();
-//		darkAtkLabel = transform.FindChild("Label_ATK_Dark").GetComponent<UILabel>();
-//		windAtkLabel = transform.FindChild("Label_ATK_Wind").GetComponent<UILabel>();
-//		wuAtkLabel = transform.FindChild("Label_ATK_Wu").GetComponent<UILabel>();
-//
-//		helperSkillNameLabel = transform.FindChild("Label_Helper_Leader_Skill_Name").GetComponent<UILabel>();
-//		helperSkillDcspLabel = transform.FindChild("Label_Helper_Skill_Dscp").GetComponent<UILabel>();
-//		ownSkillNameLabel = transform.FindChild("Label_Own_Leader_Skill_Name").GetComponent<UILabel>();
-//		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
-//		partyNoLabel = transform.FindChild ("Label_Party_No").GetComponent<UILabel> ();
-
 		UIEventListenerCustom.Get(startFightBtn.gameObject).onClick = ClickFightBtn;
 		UIEventListenerCustom.Get(prePageBtn.gameObject).onClick = PrevPage;
 		UIEventListenerCustom.Get(nextPageBtn.gameObject).onClick = NextPage;
 
 		dragSlider = GetComponent<DragSliderBase>();
 		dragSlider.SetDataInterface (this);
-//		for (int i = 0; i < 4; i++){
-//			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
-//			partyView.Add(i, puv);
-//		}
-//		helper = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 	}
 	
 	private void PrevPage(GameObject go){
@@ -178,45 +136,21 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		dragSlider.StopOperate = true;
 		dragSlider.RefreshData (up);
 	}
+	
 
-	void RefreshParty(List<UserUnit> evolveParty) {
-//		for (int i = 0; i < evolveParty.Count; i++){
-//			partyView[ i ].Init(evolveParty [ i ]);
-//		}
-//
-//		for (int i = evolveParty.Count; i < partyView.Count; i++) {
-//			partyView[ i ].Init(null);
-//		}
-//		
-//		ShowPartyInfo();
-	}
-
-	void ShowHelper(FriendInfo friendInfo) {
-		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
-		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
-		helperUnitItem.Init(friendInfo);
-		ShowHelperView();
-	} 
 
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-//		if (DataCenter.gameState == GameState.Evolve) {
-////			evolveStart.EvolveStart.restartNew = 1;
-////			evolveStart.EvolveStart.OnRequest(null, RspEvolveStartQuest);
-////			UnitController.Instance.EvolveStart(RspEvolveStartQuest);
-//		} else {
-//			StartQuest sq = new StartQuest ();
-			StartQuestParam sqp = new StartQuestParam ();
-			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
-			sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
-			QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
-			sqp.questId = questInfo.Data.id;
-			sqp.stageId = questInfo.StageID;
-			sqp.startNew = 1;
-			QuestController.Instance.StartQuest (sqp, RspStartQuest);
-//		}
+		StartQuestParam sqp = new StartQuestParam ();
+		sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
+		sqp.helperUserUnit = pickedInfoForFight[ "HelperInfo" ] as FriendInfo;
+		QuestItemView questInfo = pickedInfoForFight[ "QuestInfo"] as QuestItemView;
+		sqp.questId = questInfo.Data.id;
+		sqp.stageId = questInfo.StageID;
+		sqp.startNew = 1;
+		QuestController.Instance.StartQuest (sqp, RspStartQuest);
 	}
 
 	private UnitDataModel evolveStart;
@@ -262,8 +196,6 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
 		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
 		questDungeonData.assignData ();
-//		ModelManager.Instance.SetData(ModelEnum.MapConfig, tqdd);
-//		BattleConfigData.Instance.gameState = (byte)DataCenter.gameState;
 		EnterBattle (questDungeonData);
 	}
 	
@@ -276,19 +208,10 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		BattleConfigData.Instance.ResetFromServer(tqdd);
 		ModuleManager.Instance.EnterBattle ();
-//		UIManager.Instance.EnterBattle();
 
 		Umeng.GA.StartLevel ("Quest" + tqdd.questId);
 	}
 
-//	private void ShowPartyInfo(){
-//		if(pickedHelperInfo == null) return;
-//		TUnitParty curParty = DataCenter.Instance.UnitData.PartyInfo.CurrentParty;
-////		partyNoLabel.text = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1 + "/5";
-////		UpdateOwnLeaderSkillInfo(curParty);
-////		UpdateHelperLeaderSkillInfo();
-////		UpdatePartyAtkInfo(curParty);
-//	}
 
 	private void AddCmdLisenter(){
 		MsgCenter.Instance.AddListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
@@ -299,75 +222,5 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		MsgCenter.Instance.RemoveListener(CommandEnum.OnPickHelper, RecordPickedInfoForFight);
 		MsgCenter.Instance.RemoveListener (CommandEnum.EvolveSelectQuest, EvolveSelectQuest);
 	}
-
-	private void ShowHelperView(){
-//		Debug.Log("ShowHelperView(), Start...");
-//		if(pickedHelperInfo == null){
-//			Debug.LogError("ShowHelperView(), pickedHelperInfo is NULL,return!");
-//			return;
-//		}
-
-//		helper.FriendInfo = pickedHelperInfo;
-//		helper.UserUnit = pickedHelperInfo.UserUnit;
-	}
-
-//	private void UpdateOwnLeaderSkillInfo(TUnitParty curParty){
-//		SkillBase skill = curParty.GetLeaderSkillInfo();
-//		UpdateLeaderSkillView(skill, ownSkillNameLabel, ownSkillDscpLabel);
-//	}
-
-//	private void UpdateHelperLeaderSkillInfo(){
-//		if(pickedHelperInfo == null){
-//			return;
-//		}
-//
-//		TUnitInfo unitInfo = pickedHelperInfo.UserUnit.UnitInfo;
-//		int skillId = unitInfo.LeaderSkill;
-//		if(skillId == 0){
-//			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
-//		} else {
-//			string userUnitKey = pickedHelperInfo.UserUnit.MakeUserUnitKey();
-//			SkillBaseInfo baseInfo = DataCenter.Instance.BattleData.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
-//			SkillBase leaderSkill = baseInfo.GetSkillInfo();	
-//			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
-//		}
-//	}
-
-//	private void UpdateLeaderSkillView(SkillBase skill, UILabel name, UILabel dscp){
-//		if(skill == null){
-//			name.text = TextCenter.GetText("LeaderSkillText") +  TextCenter.GetText("Text_None");
-//			dscp.text = "";
-//		}
-//		else{
-//			name.text = TextCenter.GetText("LeaderSkillText") + TextCenter.GetText("SkillName_" + skill.id);//skill.name;
-//			dscp.text = TextCenter.GetText("SkillDesc_" + skill.id);//skill.description;
-//		}
-//	}
 	
-//	private void UpdatePartyAtkInfo(TUnitParty curParty){
-//		int totalHp = curParty.TotalHp + pickedHelperInfo.UserUnit.Hp;
-//		totalHPLabel.text = totalHp.ToString();
-//		
-//		int totalAtk = curParty.GetTotalAtk() + pickedHelperInfo.UserUnit.Attack;
-//		totalAtkLabel.text = totalAtk.ToString();
-//
-//		int value = 0;
-//		curParty.TypeAttack.TryGetValue (EUnitType.UFIRE, out value);
-//		fireAtkLabel.text = value.ToString();
-//		
-//		curParty.TypeAttack.TryGetValue (EUnitType.UWATER, out value);
-//		waterAtkLabel.text = value.ToString();
-//		
-//		curParty.TypeAttack.TryGetValue (EUnitType.UWIND, out value);
-//		windAtkLabel.text = value.ToString();
-//		
-//		curParty.TypeAttack.TryGetValue (EUnitType.UNONE, out value);
-//		wuAtkLabel.text = value.ToString();
-//		
-//		curParty.TypeAttack.TryGetValue (EUnitType.ULIGHT, out value);
-//		lightAtkLabel.text = value.ToString();
-//		
-//		curParty.TypeAttack.TryGetValue (EUnitType.UDARK, out value);
-//		darkAtkLabel.text = value.ToString();
-//	}
 }

@@ -41,7 +41,7 @@ public class UnitDetailView : ViewBase{
 
 	UIToggle statusToggle;
 	
-	Material unitMaterial;
+//	Material unitMaterial;
 
 	List<UISprite> blockLsit1 = new List<UISprite>();
 	List<UISprite> blockLsit2 = new List<UISprite>();
@@ -49,12 +49,6 @@ public class UnitDetailView : ViewBase{
 	int currMaxExp, curExp, gotExp, expRiseStep;
 
 	int _curLevel = 0; 
-	int curLevel {
-		get {return _curLevel;}
-		set {
-			_curLevel = value;
-		}
-	}
 	
 	//top
 	UISprite type;
@@ -82,21 +76,26 @@ public class UnitDetailView : ViewBase{
 		base.Init (config, data);
 		InitUI();
 
-		ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial", o=>{
-			unitMaterial = o as Material;
-			if( unitMaterial == null )
-				Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
-		});
+//		ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial", o=>{
+//			unitMaterial = o as Material;
+//			if( unitMaterial == null )
+//				Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
+//		});
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
 
-		if (!gameObject.activeSelf) {
-			gameObject.SetActive(true);	
+		statusToggle.value = true;
+		
+		foreach (var item in blockLsit1){
+			item.enabled = false;
+			item.spriteName = string.Empty;
 		}
-
-		Reset(); //restore Color Block & show default Tab(status).
+		foreach (var item in blockLsit2){
+			item.enabled = false;
+			item.spriteName = string.Empty;
+		}
 
 		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
 
@@ -122,10 +121,6 @@ public class UnitDetailView : ViewBase{
 		base.HideUI ();
 		ClearEffectCache();
 		iTween.Stop ();
-
-		if (friendEffect.gameObject.activeSelf) {
-			friendEffect.gameObject.SetActive(false);
-		}
 
 		if( swallowEffectIns!=null) {
 			Destroy(swallowEffectIns);
@@ -188,16 +183,13 @@ public class UnitDetailView : ViewBase{
 		normalSkill2NameLabel 	= FindChild<UILabel>("Bottom/UnitInfoTabs/Content_Skill2/Label_Vaule/Normal_Skill2");
 		normalSkill2DscpLabel	= FindChild<UILabel>("Bottom/UnitInfoTabs/Content_Skill2/Label_Vaule/Normal_Skill2_Dscp");
 
-		UISprite spr;
 		int count;
 		for( count =0; count <=4; count++ ){
-			spr				= FindChild<UISprite>("Bottom/UnitInfoTabs/Content_Skill2/Block/Block1/" + count.ToString());
-			blockLsit1.Add( spr );
+			blockLsit1.Add( FindChild<UISprite>("Bottom/UnitInfoTabs/Content_Skill2/Block/Block1/" + count.ToString()) );
 		}
 
 		for( count =0; count <=4; count++ ){
-			spr				= FindChild<UISprite>("Bottom/UnitInfoTabs/Content_Skill2/Block/Block2/" + count.ToString());
-			blockLsit2.Add( spr );
+			blockLsit2.Add( FindChild<UISprite>("Bottom/UnitInfoTabs/Content_Skill2/Block/Block2/" + count.ToString()) );
 		}
 
 		FindChild<UILabel> ("Bottom/UnitInfoTabs/Content_Skill2/Label_Text/Normal_Skill_1").text = TextCenter.GetText ("Text_Normal_Skill_1");
@@ -255,19 +247,6 @@ public class UnitDetailView : ViewBase{
 		}
 	}
 
-	private void Reset(){
-		statusToggle.value = true;
-
-		foreach (var item in blockLsit1){
-			item.enabled = false;
-			item.spriteName = string.Empty;
-		}
-		foreach (var item in blockLsit2){
-			item.enabled = false;
-			item.spriteName = string.Empty;
-		}
-	}
-
 	bool ShowTexture = false;
 
 	bool isNoviceGUide = true;
@@ -312,20 +291,18 @@ public class UnitDetailView : ViewBase{
 //	} 
 
 	void ScaleEnd(){
-//		if (DataCenter.gameState != GameState.Evolve && !isEvolve) {
-//			return;
-//		}
-		if (isEvolve) {
-			if( DataCenter.evolveInfo != null )
-				DataCenter.evolveInfo.ClearData ();
-			
-			isEvolve = false;
-			
-			evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
-			Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
-			evolveEffectIns.transform.localPosition = pos;
-			evolveEffectIns.layer = GameLayer.EffectLayer;
+		if (!isEvolve) {
+			return;
 		}
+		if( DataCenter.evolveInfo != null )
+			DataCenter.evolveInfo.ClearData ();
+		
+		isEvolve = false;
+		
+		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
+		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
+		evolveEffectIns.transform.localPosition = pos;
+		evolveEffectIns.layer = GameLayer.EffectLayer;
 
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
@@ -416,13 +393,13 @@ public class UnitDetailView : ViewBase{
 
 	void ShowLevelupInfo(object data) {
 		ShowInfo (newBlendUnit, true);
-		curLevel = oldBlendUnit.level;
+		_curLevel = oldBlendUnit.level;
 		gotExp = levelUpData.blendExp;
 		
 		levelDone = gotExp > 0;
 		
 		curExp = oldBlendUnit.CurExp;
-		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
+		levelLabel.text = _curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
 		Calculate ();
 	}
 
@@ -448,6 +425,7 @@ public class UnitDetailView : ViewBase{
 	
 	//------------------end-----------------------------------------
 	void ShowInfo(UserUnit userUnit, bool isLevelUp = false) {
+
 
 		if (!isLevelUp) {
 			ShowBodyTexture( userUnit ); 
@@ -627,9 +605,9 @@ public class UnitDetailView : ViewBase{
 			return;
 		}
 
-		levelLabel.text = curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.maxLevel;
+		levelLabel.text = _curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.maxLevel;
 
-		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(curLevel); 
+		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(_curLevel); 
 
 		expRiseStep = (int)(currMaxExp * 0.01f);
 		if ( expRiseStep < 1 )
@@ -655,7 +633,7 @@ public class UnitDetailView : ViewBase{
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 
 		if (oldBlendUnit != null) {
-			if(curLevel >= oldBlendUnit.UnitInfo.maxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+			if(_curLevel >= oldBlendUnit.UnitInfo.maxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
 				UnitController.Instance.UserguideEvoUnit(o=>{
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
@@ -705,8 +683,8 @@ public class UnitDetailView : ViewBase{
 		if(curExp >= currMaxExp) {
 			gotExp += curExp - currMaxExp;
 			curExp = 0;
-			if ( curLevel < oldBlendUnit.UnitInfo.maxLevel ){
-				curLevel ++;
+			if ( _curLevel < oldBlendUnit.UnitInfo.maxLevel ){
+				_curLevel ++;
 				PlayLevelupEffect();
 			} else { // reach MaxLevel
 				//TODO: show MAX on the progress bar
@@ -721,8 +699,8 @@ public class UnitDetailView : ViewBase{
 
 		int needExp = currMaxExp - curExp;
 
-		if ((curLevel > oldBlendUnit.UnitInfo.maxLevel) 
-		    || (curLevel == oldBlendUnit.UnitInfo.maxLevel && needExp <= 0) ) {
+		if ((_curLevel > oldBlendUnit.UnitInfo.maxLevel) 
+		    || (_curLevel == oldBlendUnit.UnitInfo.maxLevel && needExp <= 0) ) {
 			levelLabel.text = oldBlendUnit.UnitInfo.maxLevel.ToString() + "/" + oldBlendUnit.UnitInfo.maxLevel.ToString();
 			needExpLabel.text = "Max";
 			expSlider.value = 1.0f;
@@ -836,8 +814,8 @@ public class UnitDetailView : ViewBase{
 
 	void LevelUpAnim() {
 
-		curLevel = oldBlendUnit.level;
-		levelLabel.text = curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
+		_curLevel = oldBlendUnit.level;
+		levelLabel.text = _curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
 		gotExp = levelUpData.blendExp;
 		
 		levelDone = gotExp > 0;

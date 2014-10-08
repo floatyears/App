@@ -114,7 +114,7 @@ public class GiveUp__FightReadyView : ViewBase {
 	private void RefreshParty(UnitParty party){
 		List<UserUnit> partyMemberList = party.GetUserUnit();
 		for (int i = 0; i < partyMemberList.Count; i++) {
-			partyView[ i ].Init(partyMemberList [ i ]);	
+			partyView[ i ].SetData<UserUnit>(partyMemberList [ i ]);	
 		}
 		
 		ShowPartyInfo();
@@ -147,11 +147,11 @@ public class GiveUp__FightReadyView : ViewBase {
 	
 	void RefreshParty(List<UserUnit> evolveParty) {
 		for (int i = 0; i < evolveParty.Count; i++){
-			partyView[ i ].Init(evolveParty [ i ]);
+			partyView[ i ].SetData<UserUnit>(evolveParty [ i ]);
 		}
 		
 		for (int i = evolveParty.Count; i < partyView.Count; i++) {
-			partyView[ i ].Init(null);
+			partyView[ i ].SetData<UserUnit>(null);
 		}
 		
 		ShowPartyInfo();
@@ -160,7 +160,7 @@ public class GiveUp__FightReadyView : ViewBase {
 	void ShowHelper(FriendInfo friendInfo) {
 		HelperUnitItem helperUnitItem = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
 		//Debug.LogError (friendInfo.UserUnit.UnitInfo.GetAsset (UnitAssetType.Avatar));
-		helperUnitItem.Init(friendInfo);
+		helperUnitItem.SetData<FriendInfo>(friendInfo);
 		ShowHelperView();
 	} 
 	
@@ -273,7 +273,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		}
 		
 		helper.FriendInfo = pickedHelperInfo;
-		helper.UserUnit = pickedHelperInfo.UserUnit;
+		helper.SetData<UserUnit>(pickedHelperInfo.UserUnit);
 	}
 	
 	private void UpdateOwnLeaderSkillInfo(UnitParty curParty){

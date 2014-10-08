@@ -26,9 +26,6 @@ public class SellUnitModule : ModuleBase {
 			case "ClickSellOk" : 
 				UnitController.Instance.SellUnit(OnRspSellUnit,GetOnSaleUnitIDList());
 				break;
-			case "ClickSellCancel" : 
-				view.CallbackView("BackToMainWindow");
-				break;
 			default:
 				break;
 		}
@@ -68,7 +65,7 @@ public class SellUnitModule : ModuleBase {
 
 		ResetUI();
 
-		view.CallbackView("BackToMainWindow");
+		view.CallbackView("BackToMainWindow",true);
 		base.ShowUI ();
 	}
 
@@ -122,17 +119,13 @@ public class SellUnitModule : ModuleBase {
 
 	private List<UserUnit> curUseUnitList;
 	void GetUnitCellViewList(){
-//		Debug.LogError("GetUnitCellViewList()...");
 		List<UserUnit> userUnitList = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(); //new List<TUserUnit>();	
-		//userUnitList.AddRange(DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit());
 		if(curUseUnitList == null){
 			curUseUnitList = userUnitList;
-//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
 			view.CallbackView("CreateDragView", curUseUnitList);
 		}
 		else if(!curUseUnitList.Equals(userUnitList)){
 			curUseUnitList = userUnitList;
-//			CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("CreateDragView", curUseUnitList);
 			view.CallbackView("CreateDragView", curUseUnitList);
 		}
 		else{

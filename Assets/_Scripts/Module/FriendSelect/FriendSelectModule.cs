@@ -131,7 +131,7 @@ public class FriendSelectModule : ModuleBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		FriendInfo helper = DataCenter.Instance.FriendData.GetSupportFriend()[ (int)args ];
 		RecordSelectedHelper(helper);
-		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, helper);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UserBriefInfoModule, "friend", helper);
 	}
 
 	void RecordSelectedHelper(FriendInfo tfi){

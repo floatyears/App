@@ -528,7 +528,7 @@ public class ResourceManager : MonoBehaviour{
 			ResourceManager.Instance.LoadLocalAsset (sourcePath, o=> {
 				GameObject source = o as GameObject;
 				atlas = source.GetComponent<UIAtlas> ();
-				BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+				SetAvatarSprite (sprite, atlas, unitID);
 				
 				if (!avatarAtalsDic.ContainsKey (index))
 					avatarAtalsDic.Add (index, atlas);
@@ -537,7 +537,7 @@ public class ResourceManager : MonoBehaviour{
 					resouceCB (atlas);
 			} );
 		} else {
-			BaseUnitItem.SetAvatarSprite (sprite, atlas, unitID);
+			SetAvatarSprite (sprite, atlas, unitID);
 			if (resouceCB != null)
 				resouceCB (atlas);
 		}
@@ -576,6 +576,20 @@ public class ResourceManager : MonoBehaviour{
 				}
 			}
 		}
+	}
+
+	void SetAvatarSprite(UISprite sprite, UIAtlas asset, uint ID) {
+		//		UIAtlas atlas = asset as UIAtlas;
+		//		if (ID == 216) {
+		//			Debug.LogError("atlas : " + asset);	
+		//		}
+		
+		if (asset == null) {
+			return;	
+		}
+		sprite.atlas = asset;
+		sprite.spriteName = ID.ToString();
+		
 	}
 }
 

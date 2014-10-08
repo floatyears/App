@@ -32,9 +32,7 @@ public class EvolveView : ViewBase {
 	
 	private GameObject unitItem;	
 	private List<UserUnit> allData = new List<UserUnit>();
-	private DragPanelDynamic unitItemDragPanel;
-	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
-	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
+	private DragPanel unitItemDragPanel;
 	
 	private UserUnit selectBase = null;
 	private UserUnit baseData = null;
@@ -103,7 +101,7 @@ public class EvolveView : ViewBase {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 
-		unitItemDragPanel.DestoryDragPanel ();
+		unitItemDragPanel.DestoryUI ();
 	}
 	//==========================================interface end ==========================
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -389,18 +387,9 @@ public class EvolveView : ViewBase {
 		
 		UIEventListenerCustom.Get (evolveButton.gameObject).onClick = Evolve;
 
-		CreatPanel ();
+		unitItemDragPanel = new DragPanel ("EvolveDragPanel","Prefabs/UI/UnitItem/MyUnitPrefab",typeof(EvolveDragItem), transform);
 		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
 
-	}
-
-	void CreatPanel () {
-		GameObject go = Instantiate (EvolveDragItem.ItemPrefab) as GameObject;
-		EvolveDragItem.Inject (go);
-
-		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("EvolveDragPanel");
-		unitItemDragPanel = new DragPanelDynamic (gameObject, go, 12, 3);
-		unitItemDragPanel.SetScrollView(dragConfig, transform);
 	}
 
 	void SelectFriend(FriendInfo friendInfo) {
@@ -462,14 +451,14 @@ public class EvolveView : ViewBase {
 		if (baseData != null) {
 			baseData.isFocus = false;	
 			baseData.isEnable = true;
-			unitItemDragPanel.RefreshItem(baseData);
+//			unitItemDragPanel.RefreshItem(baseData);
 		}
 		
 		baseData = allData.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ());
 		
 		baseData.isFocus = true;
 		baseData.isEnable = false;
-		unitItemDragPanel.RefreshItem(baseData);
+//		unitItemDragPanel.RefreshItem(baseData);
 		
 		materialInfo.Clear ();
 		int count = tuu.UnitInfo.evolveInfo.materialUnitId.Count;
@@ -525,15 +514,8 @@ public class EvolveView : ViewBase {
 	private void ReceiveSortInfo(object msg){
 		_sortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		unitItemDragPanel.RefreshItem (allData);
-		
-		RefreshSortInfo ();
-	}
-	
-	void RefreshSortInfo() {
-		foreach (var item in unitItemDragPanel.scrollItem) {
-			item.CurrentSortRule = _sortRule;
-		}
+		unitItemDragPanel.SetData<UserUnit> (allData,null,_sortRule);
+
 	}
 	
 	private void SortUnitByCurRule(){
@@ -554,7 +536,7 @@ public class EvolveView : ViewBase {
 		
 		baseData.isFocus = true;
 		
-		unitItemDragPanel.RefreshItem (baseData);
+//		unitItemDragPanel.RefreshItem (baseData);
 		if (uiima != null) {
 			uiima.isFocus = false;
 			uiima.isEnable = true;
@@ -578,7 +560,7 @@ public class EvolveView : ViewBase {
 		if ( CheckMaterialInfoNull () ) {
 			if(uiima != null) {
 				uiima.isFocus = false;
-				unitItemDragPanel.RefreshItem(uiima);
+//				unitItemDragPanel.RefreshItem(uiima);
 			}
 			
 			for (int i = 0; i < allData.Count; i++) {
@@ -620,31 +602,13 @@ public class EvolveView : ViewBase {
 
 	void RefreshView() {
 		SortUnitByCurRule ();
-		List<MyUnitItem> myUnitItem = unitItemDragPanel.RefreshItem(allData);
-		for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
-			evolveDragItem.RemoveAt(i);
-		}
-		foreach (var item in myUnitItem) {
-			EvolveDragItem edi = item as EvolveDragItem;
-			evolveDragItem.Add(edi);
-			edi.callback = ClickDragItem;
-			UnitInfo tui = edi.UserUnit.UnitInfo;
-			bool evolveInfoNull = tui.evolveInfo != null;
-			bool rareIsMax = tui.maxStar > 0 && tui.rare < tui.maxStar;
-			if(evolveInfoNull && rareIsMax) {
-				edi.CanEvolve = true;
-			} else {
-				edi.IsEnable = false;
-			}
-			if(!edi.IsParty && !edi.IsFavorite) {
-				normalDragItem.Add(edi);
-			}
-		}
-		
-		RefreshSortInfo ();
+
+		unitItemDragPanel.SetData<UserUnit>(allData,ClickDragItem as DataListener,_sortRule);
+
 	}
 
-	void ClickDragItem (EvolveDragItem evolveItem) {
+	void ClickDragItem (object data) {
+		EvolveDragItem evolveItem = data as EvolveDragItem;
 		if (evolveItem == null) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			return;	
@@ -688,33 +652,33 @@ public class EvolveView : ViewBase {
 			return false;	
 		}
 	}
-
-
-	public GameObject GetUnitItem(int i){
-		List<MyUnitItem> a = unitItemDragPanel.scrollItem;
-		if (i == -1) {
-			return a[a.Count - 1].gameObject;
-		} else {
-			return a[i].gameObject;
-		}
-	}
-	
-	public uint GetMaxLvUnitID(){
-		foreach (var item in unitItemDragPanel.scrollItem) {
-			if(item.UserUnit.level >= item.UserUnit.UnitInfo.maxLevel){
-				return item.UserUnit.unitId;
-			}
-		}
-		return 0;
-	}
-	public GameObject GetMaxLvUnitItem(){
-		foreach (var item in unitItemDragPanel.scrollItem) {
-			if(item.UserUnit.level >= item.UserUnit.UnitInfo.maxLevel){
-				return item.gameObject;
-			}
-		}
-		return null;
-	}
+//
+//
+//	public GameObject GetUnitItem(int i){
+//		List<MyUnitItem> a = unitItemDragPanel.scrollItem;
+//		if (i == -1) {
+//			return a[a.Count - 1].gameObject;
+//		} else {
+//			return a[i].gameObject;
+//		}
+//	}
+//	
+//	public uint GetMaxLvUnitID(){
+//		foreach (var item in unitItemDragPanel.scrollItem) {
+//			if(item.UserUnit.level >= item.UserUnit.UnitInfo.maxLevel){
+//				return item.UserUnit.unitId;
+//			}
+//		}
+//		return 0;
+//	}
+//	public GameObject GetMaxLvUnitItem(){
+//		foreach (var item in unitItemDragPanel.scrollItem) {
+//			if(item.UserUnit.level >= item.UserUnit.UnitInfo.maxLevel){
+//				return item.gameObject;
+//			}
+//		}
+//		return null;
+//	}
 	
 	public void SetItemVisible(uint unitId){
 		foreach (var item in allData) {
@@ -726,7 +690,7 @@ public class EvolveView : ViewBase {
 				break;
 			}
 		}
-		unitItemDragPanel.RefreshItem (allData);
+		unitItemDragPanel.SetData<UserUnit> (allData);
 	}
 }
 

@@ -154,15 +154,9 @@ public class ShopView : ViewBase {
 		} 
 #endif
 
-		dragPanel = new DragPanel("ShopDragPanel", ShopItem.Prefab,windowRoot.transform);
+		dragPanel = new DragPanel("ShopDragPanel", "Prefabs/UI/Shop/ShopItem",typeof(ShopItem), windowRoot.transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem (shopItems.Count);
-
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			ShopItem fuv = ShopItem.Inject(dragPanel.ScrollItem[ i ]);
-			fuv.Data = shopItems[ i ];
-//			fuv.callback = ClickItem;
-		}
+		dragPanel.SetData<ShopItemData> (shopItems);
 	}
 
 	private void ClickButton( GameObject button) {

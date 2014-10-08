@@ -54,25 +54,21 @@ public class FriendListView : ViewBase{
 	void CreateDragView(){
 		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
 		friendDataList = DataCenter.Instance.FriendData.Friend;
-		dragPanel = new DragPanel("ApplyDragPanel", FriendUnitItem.ItemPrefab,transform);
+		dragPanel = new DragPanel("ApplyDragPanel","Prefabs/UI/UnitItem/FriendUnitPrefab",typeof(FriendUnitItem), transform);
 //		dragPanel.CreatUI();
-		dragPanel.AddItem(friendDataList.Count);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitItem fuv = FriendUnitItem.Inject(dragPanel.ScrollItem[ i ]);
-			fuv.Init(friendDataList[ i ]);
-			fuv.callback = ClickItem;
-		}
+		dragPanel.SetData<FriendInfo> (friendDataList, ClickItem  as DataListener);
 	}
 
-	void ClickItem(FriendUnitItem item){
+	void ClickItem(object data){
+		FriendUnitItem item = data as FriendUnitItem;
 //		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 //		curPickedFriend = item.FriendInfo;
 //		MsgCenter.Instance.Invoke(CommandEnum.FriendBriefInfoShow, curPickedFriend);
 
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
-		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("DeleteApply"),"content",TextCenter.GetText ("ConfirmDelete"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("DeleteNoteTitle"),"content",TextCenter.GetText ("DeleteNoteContent"));
 	}
 
 
@@ -152,12 +148,8 @@ public class FriendListView : ViewBase{
 
 		SortUnitTool.SortByTargetRule(curSortRule, friendDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.FriendListView);
-		
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
-			fuv.UserUnit = friendDataList[ i ].UserUnit;
-			fuv.CurrentSortRule = curSortRule;
-		}
+
+		dragPanel.SetData<FriendInfo> (friendDataList, curSortRule);
 	}
 
 	private void AddCmdListener(){
