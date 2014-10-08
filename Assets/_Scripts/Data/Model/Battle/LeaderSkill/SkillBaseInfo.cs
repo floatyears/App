@@ -2,18 +2,18 @@ using UnityEngine;
 using System.Collections;
 
 namespace bbproto{
-public class SkillBaseInfo {
-	public const string SkillNamePrefix = "SkillName_";
-	public const string SkillDescribeFix = "SkillDesc_";
+	public partial class SkillBase {
+		public const string SkillNamePrefix = "SkillName_";
+		public const string SkillDescribeFix = "SkillDesc_";
 
-	private int _initSkillCooling = 0;
+		private int _initSkillCooling = 0;
 
-	public SkillBase baseInfo;
+		public SkillBase baseInfo;
 
-	public int initSkillCooling {
-		set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
-		get { return _initSkillCooling; }
-	}
+		public int initSkillCooling {
+			set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
+			get { return _initSkillCooling; }
+		}
 
 //	public SkillBase BaseInfo {
 //		get {
@@ -111,5 +111,5 @@ public class SkillBaseInfo {
 		{
 			return baseInfo.id.ToString ();
 		}
-}
+	}
 }
