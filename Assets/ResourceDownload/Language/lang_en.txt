@@ -316,6 +316,15 @@ Time_Day=days
 Time_Hour=hr
 Time_Min=min
 
+#task & achieve
+Task_Title=Every Day Task
+
+Achieve_Title=Achievement
+Achieve_Tab1=未完成
+Achieve_Tab2=已完成
+Achieve_Complete=已完成
+
+
 # shop
 BillingNotSupported_Title=Billing Not Supported
 BillingNotSupported_Content=Error: purchase is not available now. Please check that and try again later.
