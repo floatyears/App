@@ -76,7 +76,7 @@ namespace bbproto{
 
 				} //end of gridInfo...
 				if(floors[nFloor].gridInfo.Count == 24){
-					floor.Insert(2,new QuestGrid());
+					floor.Insert(2,new QuestGrid(0));
 				}
 
 				Floors.Add (floor);
@@ -168,7 +168,7 @@ namespace bbproto{
 
 		public QuestGrid GetCellDataByCoor(Coordinate coor) {
 			if (coor.y == 0 && coor.x == 2) {
-				QuestGrid item = new QuestGrid();
+				QuestGrid item = new QuestGrid(0);
 				item.type = EQuestGridType.Q_NONE;
 				return item;
 			}
@@ -197,7 +197,7 @@ namespace bbproto{
 
 	public partial class QuestGrid : ProtoBuf.IExtensible {
 
-		public QuestGrid() { 
+		public QuestGrid(int dummy=0) { 
 	//		LogHelper.LogError ("TQuestGrid :: instance.trap id : " + instance.trapId);
 			Enemy = new List<EnemyInfo> ();
 		}

@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillDelayTime : ActiveSkill {
-		public SkillDelayTime(){
+		public SkillDelayTime(int dummy=0){
 	//		skillBase = this.instance.baseInfo;
 			if (skillCooling == 0) {
 				coolingDone = true;

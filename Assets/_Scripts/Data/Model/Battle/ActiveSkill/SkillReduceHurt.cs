@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillReduceHurt : ActiveSkill {
-		public SkillReduceHurt ( ) {
+		public SkillReduceHurt (int dummy=0) {
 	//		skillBase = this.instance.baseInfo;
 	//		if (skillBase.skillCooling == 0) {
 	//			coolingDone = true;		
@@ -29,7 +29,7 @@ namespace bbproto{
 			}
 			InitCooling ();
 	//		SkillReduceHurt srh = DeserializeData<SkillReduceHurt> ();
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.attackValue = value;
 			ai.attackRound = periodValue;

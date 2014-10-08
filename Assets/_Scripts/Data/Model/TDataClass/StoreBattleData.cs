@@ -25,7 +25,7 @@ namespace bbproto{
 //			}
 //		}
 
-		public StoreBattleData(){
+		public StoreBattleData(int dummy=0){
 			roleCoordinate = new Coordinate (2, 0);
 		}
 		public List<EnemyInfo> EnemyInfo {

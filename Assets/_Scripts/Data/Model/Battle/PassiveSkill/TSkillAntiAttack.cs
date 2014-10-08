@@ -25,7 +25,7 @@ public class TSkillAntiAttack : SkillBase {
 			float value = DGTools.RandomToFloat ();
 //			Debug.LogError ("random ratio : " + value + " instance.antiAtkRatio : " + instance.antiAtkRatio);
 			if (value <= instance.antiAtkRatio) {
-				AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo();
+				AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo();
 				ai.attackValue = instance.probability;
 				ai.attackType = (int)instance.antiAttack;
 				return ai;

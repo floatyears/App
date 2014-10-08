@@ -160,7 +160,7 @@ public partial class UserUnit : ProtoBuf.IExtensible {
             tns.DisposeUseSkillID(ignorSkillID);
             int count = tns.CalculateCard(copyCard);
             for (int j = 0; j < count; j++) {
-				AttackInfoProto attack = new AttackInfoProto(); //new AttackInfo();
+				AttackInfoProto attack = new AttackInfoProto(0); //new AttackInfo();
                 attack.attackValue = CaculateAttack(this, ui, tns);
                 attack.attackType = tns.AttackType;
                 attack.userUnitID = MakeUserUnitKey();
@@ -190,7 +190,7 @@ public partial class UserUnit : ProtoBuf.IExtensible {
 			for (int j = 0; j < count; j++) {
 				csu.alreadyUseSkill.Add(tns);
 				csu.ResidualCard();
-				AttackInfoProto attack = new AttackInfoProto(); //new AttackInfo();
+				AttackInfoProto attack = new AttackInfoProto(0); //new AttackInfo();
 				attack.attackValue = CaculateAttack(this, ui, tns);
 				attack.attackType = tns.AttackType;
 				attack.userUnitID = MakeUserUnitKey();

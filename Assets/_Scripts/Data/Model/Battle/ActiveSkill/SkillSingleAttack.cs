@@ -19,7 +19,7 @@ public partial class SkillSingleAttack : ActiveSkill {
 //		DisposeCooling ();
 //	}
 
-		public SkillSingleAttack() {
+		public SkillSingleAttack(int dummy=0) {
 			//		skillBase = this.instance.baseInfo;	
 			//		initSkillCooling = skillBase.skillCooling;
 			
@@ -48,7 +48,7 @@ public partial class SkillSingleAttack : ActiveSkill {
 			}
 			InitCooling ();
 	//		SkillSingleAttack ssa = DeserializeData<SkillSingleAttack>();
-			AttackInfoProto ai = new AttackInfoProto();//new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0);//new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.skillID = id;
 			float value = DGTools.RandomToFloat ();
@@ -75,7 +75,7 @@ public partial class SkillSingleAttack : ActiveSkill {
 			BattleAttackManager.SetEffectTime(1f);
 			//		Debug.LogError ("activeskill excute : ");
 			InitCooling ();
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.skillID = id; 
 			ai.attackType = (int)unitType;

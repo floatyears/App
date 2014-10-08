@@ -4,7 +4,7 @@ using bbproto;
 
 namespace bbproto{
 	public partial class SkillRecoverSP : ActiveSkill {
-		public SkillRecoverSP ( ) { 
+		public SkillRecoverSP (int dummy=0) { 
 	//		skillBase = this.instance.baseInfo;	
 	////		initSkillCooling = skillBase.skillCooling;
 	//		if (skillBase.skillCooling == 0) {

@@ -46,7 +46,7 @@ public class QuestPartyPageModule : PartyPageModule{
 	
 	void EvolveSelectQuest(object data) {
 		evolveStart = data as UnitDataModel;
-		bbproto.UnitParty up = new bbproto.UnitParty ();
+		bbproto.UnitParty up = new bbproto.UnitParty (0);
 		up.id = 10000;
 		bbproto.PartyItem pi = new bbproto.PartyItem ();
 		pi.unitPos = 0;

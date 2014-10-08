@@ -147,7 +147,7 @@ public class BattleAttackManager {
         else {
             add = value + Blood;
         }
-		AttackInfoProto ai = new AttackInfoProto();
+		AttackInfoProto ai = new AttackInfoProto(0);
 		ai.attackValue = add;
 		RecoverHP(ai);
     }
@@ -889,7 +889,7 @@ public class BattleAttackManager {
 				
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_active_skill);
 				
-				ai = new AttackInfoProto();
+				ai = new AttackInfoProto(0);
 				ai.userUnitID = userUnit.MakeUserUnitKey();
 				ai.skillID = (iase as ActiveSkill).id;
 				ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"actives_kill", ai);
@@ -989,7 +989,7 @@ public class BattleAttackManager {
 						}
 						
 						if(unitItem.MakeUserUnitKey() == item.Key) {
-							AttackInfoProto ai = new AttackInfoProto();
+							AttackInfoProto ai = new AttackInfoProto(0);
 							ai.userUnitID = unitItem.MakeUserUnitKey();
 							ai.skillID = item.Value.id;
 							//							MsgCenter.Instance.Invoke(CommandEnum.ShowPassiveSkill, ai);
@@ -1071,7 +1071,7 @@ public class BattleAttackManager {
 	void DisposeBoostSkill (string userunit, SkillBase pdb) {
 		SkillBoost tbs = pdb as SkillBoost;
 		if (tbs != null) {
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo();
 			ai.userUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			
@@ -1092,7 +1092,7 @@ public class BattleAttackManager {
 	void DisposeDelayOperateTime (string userunit, SkillBase pdb) {
 		SkillDelayTime tst = pdb as SkillDelayTime;
 		if (tst != null) {
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo();
 			ai.userUnitID = userunit;
 			
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);

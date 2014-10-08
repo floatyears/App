@@ -21,7 +21,7 @@ public class UnitDataModel : ProtobufDataBase {
 
 	public void StoreData () {
 		DataCenter.evolveInfo = this;
-		UnitParty up = new UnitParty ();
+		UnitParty up = new UnitParty (0);
 		
 		for (int i = 0; i < evolveParty.Count; i++) {
 			PartyItem pi = new PartyItem();

@@ -6,7 +6,7 @@ namespace bbproto{
 	public partial class SkillSuicideAttack : ActiveSkill {
 
 
-		public SkillSuicideAttack () {
+		public SkillSuicideAttack (int dummy=0) {
 	//		skillBase = this.instance.baseInfo;	
 	////		initSkillCooling = skillBase.skillCooling;
 	//		if (skillBase.skillCooling == 0) {
@@ -44,7 +44,7 @@ namespace bbproto{
 				return null;		
 			}
 			InitCooling ();
-			AttackInfoProto ai = new AttackInfoProto(); //new AttackInfo ();
+			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo ();
 			ai.userUnitID = userUnitID;
 			ai.skillID = id;
 			if (type == EValueType.FIXED) {
