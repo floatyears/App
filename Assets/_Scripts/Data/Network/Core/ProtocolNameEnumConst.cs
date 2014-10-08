@@ -34,5 +34,6 @@ public enum ProtocolNameEnum  {
 	RspShopBuy,
 	RspBuyMoney,
 	RspTaskList,
-	RspAcceptTaskBonus
+	RspAcceptTaskBonus,
+	RspQuestStarList
 }

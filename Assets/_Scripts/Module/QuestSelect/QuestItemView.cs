@@ -12,23 +12,7 @@ public class QuestItemView : DragPanelItemBase {
 	private UILabel expLabel;
 	private UILabel coinLabel;
 	private UILabel clearFlagLabel;
-	
-//	private static GameObject prefab;
-//	public static GameObject Prefab{
-//		get{
-//			if(prefab == null){
-//				string sourcePath = "Prefabs/UI/Quest/QuestItemPrefab";
-//				prefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject;
-//			}
-//			return prefab;
-//		}
-//	}
-
-//	public static QuestItemView Inject(GameObject view){
-//		QuestItemView stageItemView = view.GetComponent<QuestItemView>();
-//		if(stageItemView == null) stageItemView = view.AddComponent<QuestItemView>();
-//		return stageItemView;
-//	}
+	private UISprite mask;
 
 	private uint stageID;
 	public uint StageID{
@@ -54,7 +38,10 @@ public class QuestItemView : DragPanelItemBase {
 			Debug.LogError("QuestItemView, Data is NULL!");
 			return;
 		}
-		FindUIElement();
+		if (bossAvatarSpr == null) {
+			FindUIElement();	
+		}
+
 		ShowQuestInfo();
 		AddEventListener();
 	}
@@ -96,12 +83,10 @@ public class QuestItemView : DragPanelItemBase {
 
 		UnitInfo bossUnitInfo = DataCenter.Instance.UnitData.GetUnitInfo(data.bossId[ 0 ]);
 		avatarBgSpr.spriteName = bossUnitInfo.GetUnitBackgroundName();
-//		Debug.Log("avatarBgSpr.spriteName : " + avatarBgSpr.spriteName);
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
-//		Debug.Log("bossAvatarSpr.spriteName : " + bossAvatarSpr.spriteName);
 
 //		enabled = (data.state != EQuestState.QS_NEW);
-		GetComponent<UIButton>().isEnabled = (data.state != EQuestState.QS_NEW);
+		mask.enabled = (data.state != EQuestState.QS_NEW);
 
 	}
 
@@ -117,6 +102,7 @@ public class QuestItemView : DragPanelItemBase {
 		clearFlagLabel.text = TextCenter.GetText ("StageStateClear");
 		borderSpr = transform.FindChild("Sprite_Boss_Avatar_Border").GetComponent<UISprite>();
 		avatarBgSpr = transform.FindChild("Sprite_Boss_Avatar_Bg").GetComponent<UISprite>();
+		mask = transform.FindChild ("Mask").GetComponent<UISprite> ();
 	}
 
 	private void AddEventListener(){
@@ -127,10 +113,11 @@ public class QuestItemView : DragPanelItemBase {
 	}
 
 	private void ClickItem(GameObject item){
+		if (mask.enabled)
+			return;
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 		if(CheckStaminaEnough()){
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
-//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
 			return;
 		}
@@ -139,12 +126,8 @@ public class QuestItemView : DragPanelItemBase {
 		BattleConfigData.Instance.currentStageInfo = stageInfo;
 		BattleConfigData.Instance.currentQuestInfo = data;
 
-//		if (DataCenter.gameState == GameState.Evolve && evolveCallback != null) {
-//			evolveCallback ();
-//		} else {
-			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
-//			MsgCenter.Instance.Invoke(CommandEnum.OnPickQuest, thisQuestItemView);//after
-//		}
+		ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
+
 	}
 
 	private bool CheckStaminaEnough(){

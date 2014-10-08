@@ -127,10 +127,10 @@ public class NoviceGuideStepM_StateThree:NoviceGuidState{
 	{
 		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_three");
 		
-		GameObject first = GameObject.Find ("QuestSelectWindow(Clone)").GetComponent<QuestSelectView>().GetDragItem(0);
-		NoviceGuideUtil.ForceOneBtnClick (first);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,3)});
-		UIEventListenerCustom.Get (first).onClick += OnClickItem;
+//		GameObject first = GameObject.Find ("QuestSelectWindow(Clone)").GetComponent<QuestSelectView>().GetDragItem(0);
+//		NoviceGuideUtil.ForceOneBtnClick (first);
+//		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,3)});
+//		UIEventListenerCustom.Get (first).onClick += OnClickItem;
 	}
 	
 	private void OnClickItem(GameObject gm){
