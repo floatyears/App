@@ -84,7 +84,7 @@ public class FightReadyPage : ViewBase {
 	}
 
 	void ShowHelper(FriendInfo friendInfo) {
-		helper.Init(friendInfo.UserUnit);
+		helper.SetData(friendInfo);
 	} 
 	
 

@@ -131,6 +131,11 @@ public class RewardItemView : DragPanelItemBase {
 		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
 	}
 
+	public override void ItemCallback (params object[] args)
+	{
+//		throw new System.NotImplementedException ();
+	}
+
 	public override void SetData<T>(T data, params object[] args){
 		this.data = data as BonusInfo;
 		

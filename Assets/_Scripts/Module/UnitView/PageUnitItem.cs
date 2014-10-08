@@ -7,8 +7,8 @@ public class PageUnitItem : MyUnitItem {
 		if (view == null) view = item.AddComponent<PageUnitItem>();
 		return view;
 	}
-	public delegate void UnitItemCallback(PageUnitItem puv);
-	public UnitItemCallback callback;
+
+	public DataListener callback;
 
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
@@ -20,22 +20,18 @@ public class PageUnitItem : MyUnitItem {
 		base.InitUI();
 		lightSpr = transform.FindChild("Sprite_Light").GetComponent<UISprite>();
 //		maskSpr.enabled = false;
-	}
-	
-	protected override void InitState(){
-		base.InitState();
 		IsFocus = false;
 		IsParty = true;
 	}
 
-	protected override void UpdatePartyState(){	}
+	protected override void UpdatePartyState(){
+	}
 
 	protected override void UpdateFocus(){
 		lightSpr.enabled = IsFocus;
 	}
 
 	protected override void UpdatEnableState(){
-		UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
 		if(IsEnable){
 			UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
 		}
@@ -44,9 +40,5 @@ public class PageUnitItem : MyUnitItem {
 		}
 	}
 
-	protected override void PressItem(GameObject item){
-		base.PressItem(item);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
-	}
 	
 }

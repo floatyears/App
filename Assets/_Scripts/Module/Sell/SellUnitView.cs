@@ -35,7 +35,6 @@ public class SellUnitView : ViewBase{
 //		ResetUIState();
 		totalSaleValue = 0;
 		pickUnitViewList.Clear();
-//		SortUnitByCurRule();
 		RefreshOwnedUnitCount();
 
 		ResetUIElement();
@@ -45,9 +44,6 @@ public class SellUnitView : ViewBase{
 	
 	public override void HideUI(){
 		base.HideUI();
-		if( dragPanel != null ) {
-			dragPanel.DestoryUI();
-		}
 
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
 		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
@@ -56,8 +52,6 @@ public class SellUnitView : ViewBase{
 	}
 
 	public override void CallbackView(params object[] args){
-//		base.CallbackView(data);
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
 		switch (args[0].ToString()){
 			case "CreateDragView" : 
 				CreateDragView(args[1]);
@@ -69,33 +63,23 @@ public class SellUnitView : ViewBase{
 				ShowLastSureWindow(args[1]);
 				break;
 			case "BackToMainWindow" : 
-				BackToMainWindow();
+				BackToMainWindow((bool)args[1]);
 				break;
 			default:
 				break;
 		}
 	}
-
-//    public override void ResetUIState() {
-//		ResetUIElement();
-//        SellController controller = origin as SellController;
-//		mainRoot.transform.localPosition = pos;
-//        if (controller != null){
-//            controller.ResetUI();
-//        }
-//		else{
-//			Debug.LogError("controller == null");
-//		}
-//
-//    }
+	
     Vector3 pos = Vector3.zero;
-    void BackToMainWindow() {
+    void BackToMainWindow(bool IsRefresh) {
 		mainRoot.transform.localPosition = pos;
-//		Debug.LogError ("pos : " + mainRoot.transform.localPosition);
-//		mainRoot.SetActive(true);
+
 		submitRoot.SetActive(false);
 		ResetReadyPool();
 		ShowUIAnimation();
+		if (IsRefresh) {
+			ResetUIElement();		
+		}
 	}
 
 	void ResetReadyPool() {
@@ -115,111 +99,40 @@ public class SellUnitView : ViewBase{
 
 	void ChangeTotalSaleValue(int value){
 		totalSaleValue += value;
-		UpdateCoinLabel(totalSaleValue);
+		coinLabel.text = totalSaleValue.ToString();
+		readyCoinLabel.text = TextCenter.GetText ("Sell_GetCoin") + ":" + totalSaleValue.ToString();
 	}
 
 	void ShowLastSureWindow(object args){
-//		mainRoot.SetActive(false);
 		mainRoot.transform.localPosition = new Vector3(0f,10000f,0f);
 		submitRoot.SetActive(true);
 		submitRoot.transform.localPosition = new Vector3(-1000, -215, 0);
 		iTween.MoveTo(submitRoot, iTween.Hash("x", 0, "time", 0.4f));
 
 		List<UserUnit> readySaleList = args as List<UserUnit>;
-		FillLastSureWindow(readySaleList);
-	}
-
-	void FillLastSureWindow(List<UserUnit> dataInfoList){
-		for (int i = 0; i < dataInfoList.Count; i++){
-			ResourceManager.Instance.GetAvatarAtlas( dataInfoList[ i ].UnitInfo.id, FindTextureWithPosition( i, readyItemList) );
-
-			string level = dataInfoList[ i ].level.ToString();
-//			FindLabelWithPosition(i, readyItemList).text = "Lv" + level;
+		for (int i = 0; i < readySaleList.Count; i++){
+			ResourceManager.Instance.GetAvatarAtlas( readySaleList[ i ].UnitInfo.id, readyItemList[i].transform.FindChild("Texture").GetComponent<UISprite>() );
+			
+			string level = readySaleList[ i ].level.ToString();
 			UISprite bgSpr = readyItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
 			UISprite borderSor = readyItemList[ i ].transform.FindChild("Sprite_Frame_Out").GetComponent<UISprite>();
-			ShowUnitType(dataInfoList[ i ], bgSpr, borderSor);
+			ShowUnitType(readySaleList[ i ], bgSpr, borderSor);
 		}
 	}
-
+	
 	void ClickSellOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellOk", null);
-//		ExcuteCallback(cbdArgs);
 		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSellOk");
 	}
 
 	void ClickSellCancel(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSellCancel", null);
-//		ExcuteCallback(cbdArgs);
-		BackToMainWindow ();
-	}
-
-	void UpdateCoinLabel(int coin){
-		coinLabel.text = coin.ToString();
-		readyCoinLabel.text = TextCenter.GetText ("Sell_GetCoin") + ":" + coin.ToString();
-	}
-
-	void MarkDragItem(int clickPos ,int poolPos){
-		GameObject targetScrollItem = dragPanel.ScrollItem[ clickPos ];
-		targetScrollItem.transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = true;
-		targetScrollItem.transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = true;
-		targetScrollItem.transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = (poolPos + 1).ToString();
-	}
-
-	void CancelMarkDragItem(int clickPos){
-		GameObject targetScrollItem = dragPanel.ScrollItem[ clickPos ];
-		targetScrollItem.transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = false;
-		targetScrollItem.transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = false;
-		targetScrollItem.transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = string.Empty;
-	}
-
-	
-	void AddViewItem(object args){
-		Dictionary<string, object> info = args as Dictionary<string,object>;
-		int poolPos = (int)info["poolPos"];
-		int clickPos = (int)info["clickPos"];
-		GameObject targetItem = pickItemList[ poolPos ];
-
-//		UISprite targetItemTex = targetItem.transform.Find ("Texture").GetComponent<UISprite> ();
-//		targetItemTex.mainTexture = info["texture"] as Texture2D;
-
-		UISprite targetItemBg = targetItem.transform.FindChild("Background").GetComponent<UISprite>();
-		targetItemBg.spriteName = info["background"] as string;
-
-		UISprite targetItemBorder = targetItem.transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
-		targetItemBorder.spriteName = info["border"] as string;
-
-		UILabel levelLabel = targetItem.transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
-		levelLabel.text = "Lv" + info["label"] as string;
-
-		MarkDragItem(clickPos, poolPos);
+		BackToMainWindow (false);
 	}
 
 	void RmvViewItem(object args){
-		Dictionary<string, int> info = args as Dictionary<string, int>;
-		int poolPos = (int)info["poolPos"];
-		int clickPos = (int)info["clickPos"];
-		FindTextureWithPosition(poolPos, pickItemList).spriteName = "";
-		FindLabelWithPosition(poolPos, pickItemList).text = string.Empty;
+		Dictionary<string, object> info = args as Dictionary<string, object>;
 
-		UISprite border = pickItemList[ poolPos ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
-		border.spriteName = "avatar_border_6";
-		
-		UISprite bg = pickItemList[ poolPos ].transform.FindChild("Background").GetComponent<UISprite>();
-		bg.spriteName = "unit_empty_bg";
-
-		CancelMarkDragItem(clickPos);
-	}
-	
-	UISprite FindTextureWithPosition(int position, List<GameObject> target){
-		UISprite sprite = target[ position ].transform.FindChild("Texture").GetComponent<UISprite>();
-//		Debug.LogError (target [position] + " sprite : " + sprite + " target : " + target);
-		return sprite;
-	}
-
-	UILabel FindLabelWithPosition(int position, List<GameObject> target){
-		return target[ position ].transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>();
 	}
 	
 	void ShowUIAnimation(){
@@ -249,7 +162,18 @@ public class SellUnitView : ViewBase{
 		UIEventListenerCustom.Get(lastSureOkBtn.gameObject).onClick = ClickSellOk;
 		UIEventListenerCustom.Get(lastSureCancelBtn.gameObject).onClick = ClickSellCancel;
 
-		InitCells();
+		for (int i = 0; i < maxItemCount; i++){
+			string path;
+			GameObject go;
+			
+			path = "MainWindow/Cells/" + i.ToString();
+			go = transform.FindChild(path).gameObject;
+			pickItemList.Add(go);
+			
+			path = "EnsureWindow/Cells/" + i.ToString();
+			go = transform.FindChild(path).gameObject;
+			readyItemList.Add(go);
+		}
 
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.SellView);//DEFAULT_SORT_RULE;
 
@@ -276,43 +200,21 @@ public class SellUnitView : ViewBase{
 
 			picked.Add(sellUnitItem.UserUnit);
 		}
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("ClickSell", picked);
-//		ExcuteCallback(cbdArgs);
 		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSell", picked);
 	}
 
 	void ClickClearBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ResetUIElement();
-		dragPanel.Clear ();
+//		dragPanel.Clear ();
+		dragPanel.ItemCallback ("cancel_all");
 		//clear data
 	}
 
-	void InitCells(){
-		for (int i = 0; i < maxItemCount; i++){
-			string path;
-			GameObject go;
-
-			path = "MainWindow/Cells/" + i.ToString();
-			go = transform.FindChild(path).gameObject;
-			pickItemList.Add(go);
-
-			path = "EnsureWindow/Cells/" + i.ToString();
-			go = transform.FindChild(path).gameObject;
-			readyItemList.Add(go);
-//			Debug.LogError("readyItemList : " + readyItemList.Count);
-		}
-	}
-
 	void CreateDragView(object args){
-//		Debug.LogError("xxxxxxx");
-		List<UserUnit> dataList = args as List<UserUnit>;
-		if (dragPanel!=null) {
-			dragPanel.DestoryUI();
-		}
-		dragPanel = new DragPanel("SellUnitDragPanel", "Prefabs/UI/UnitItem/SellUnitPrefab",typeof(SellUnitItem), mainRoot.transform);
-//		dragPanel.CreatUI();
-		dragPanel.SetData<UserUnit> (dataList, ClickItem as DataListener);
+		if(dragPanel == null)
+			dragPanel = new DragPanel("SellUnitDragPanel", "Prefabs/UI/UnitItem/SellUnitPrefab",typeof(SellUnitItem), mainRoot.transform);
+		dragPanel.SetData<UserUnit> (args as List<UserUnit>, ClickItem as DataListener);
 	}
 
 	int CheckHaveBeenPicked(SellUnitItem item){
@@ -337,7 +239,7 @@ public class SellUnitView : ViewBase{
 		SellUnitItem item = data as SellUnitItem;
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 
-		int clickPos = 0;//dataList.IndexOf(item);
+//		int clickPos = 0;//dataList.IndexOf(item);
 		int poolPos = 0;
 		int index = CheckHaveBeenPicked(item);
 		if(index == -1) {
@@ -356,20 +258,18 @@ public class SellUnitView : ViewBase{
 			}
 
 			ChangeTotalSaleValue(item.UserUnit.UnitInfo.saleValue);
-			Dictionary<string,object> temp = new Dictionary<string, object>();
-			temp.Add("poolPos", poolPos);
-			temp.Add("clickPos", clickPos);
 
-
-			GameObject targetItem = pickItemList[ poolPos ];
-			UISprite sprite = targetItem.transform.Find("Texture").GetComponent<UISprite>();
+			UISprite sprite = pickItemList[ poolPos ].transform.Find("Texture").GetComponent<UISprite>();
 			ResourceManager.Instance.GetAvatarAtlas(item.UserUnit.UnitInfo.id, sprite, returnValue => {
-				string sprName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
-				temp.Add("background", sprName);
-				sprName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
-				temp.Add("border", sprName);
-				temp.Add("label", item.UserUnit.level.ToString());
-				AddViewItem(temp);
+				GameObject targetItem = pickItemList[ poolPos ];
+				
+				targetItem.transform.FindChild("Background").GetComponent<UISprite>().spriteName = item.UserUnit.UnitInfo.GetUnitBackgroundName();
+				
+				targetItem.transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = item.UserUnit.UnitInfo.GetUnitBorderSprName();
+				
+				targetItem.transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>().text = item.UserUnit.level.ToString();
+				
+				dragPanel.ItemCallback ("mark_item", item, poolPos);
 				
 				ActivateButton();
 			});
@@ -379,12 +279,20 @@ public class SellUnitView : ViewBase{
 			poolPos = index;
 			if(poolPos > 11)
 				return;
-			SellUnitItem suv = pickUnitViewList[ index ];
 			pickUnitViewList[ index ] = null;
-			Dictionary<string, int> temp = new Dictionary<string, int>();
-			temp.Add("poolPos", poolPos);
-			temp.Add("clickPos", clickPos);
-			RmvViewItem(temp);
+
+			GameObject obj =  pickItemList[poolPos];
+			
+			obj.transform.FindChild("Texture").GetComponent<UISprite>().spriteName = "";
+			
+			obj.transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>().text = string.Empty;
+			
+			obj.transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = "avatar_border_6";
+			
+			obj.transform.FindChild("Background").GetComponent<UISprite>().spriteName = "unit_empty_bg";
+			
+			dragPanel.ItemCallback ("cancel_mark", item);
+
 			ChangeTotalSaleValue(-item.UserUnit.UnitInfo.saleValue);
 		}
 		ActivateButton();
@@ -401,83 +309,45 @@ public class SellUnitView : ViewBase{
 		clearBtn.isEnabled = false;
 		sellBtn.isEnabled = false;
 
+		mainRoot.SetActive(true);
+		submitRoot.SetActive(false);
+
 		totalSaleValue = 0;
 		coinLabel.text = "0";
 
 		for (int i = 0; i < maxItemCount; i++){
-			FindTextureWithPosition(i, pickItemList).spriteName = "";
-			FindLabelWithPosition(i, pickItemList).text = string.Empty;
+			pickItemList[i].transform.FindChild("Texture").GetComponent<UISprite>().spriteName = "";
+			pickItemList[ i ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = "avatar_border_6";
+			pickItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>().spriteName = "unit_empty_bg";
 
-			FindTextureWithPosition(i, readyItemList).spriteName = "";
-			FindLabelWithPosition(i, readyItemList).text = string.Empty;
-
+			readyItemList[i].transform.FindChild("Texture").GetComponent<UISprite>().spriteName = "";
+			readyItemList[i].transform.FindChild("Label_Right_Bottom").GetComponent<UILabel>().text = string.Empty;
 		}
 
-		for (int i = 0; i < pickItemList.Count; i++){
-			UISprite border = pickItemList[ i ].transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
-			border.spriteName = "avatar_border_6";
-
-			UISprite bg = pickItemList[ i ].transform.FindChild("Background").GetComponent<UISprite>();
-			bg.spriteName = "unit_empty_bg";
-		}
+		pickUnitViewList.Clear ();
 
 		ResetReadyPool();
-
-		mainRoot.SetActive(true);
-
-		submitRoot.SetActive(false);
 
 	}
 
 	private void ActivateButton(){
-		bool canActivate = CanActivateSellBtn();
-		sellBtn.isEnabled = canActivate;
-		clearBtn.isEnabled = canActivate;
-	}
-
-	/// <summary>
-	/// Determines whether this instance can activate sell button.
-	/// pickedUnitCount == 0 -> disabled sell btn and clear btn
-	/// </summary>
-	/// <returns><c>true</c> if this instance can activate sell button; otherwise, <c>false</c>.</returns>
-	private bool CanActivateSellBtn(){
-		bool canActivate = false;
-		if(GetCurPickedUnitCount() > 0){
-			//Debug.LogError("sell, pick count == " + GetCurPickedUnitCount() + ", enable sell btn...");
-			return true;
-		}
-		else{
-			//Debug.LogError("sell, pick count == 0, disable sell btn...");
-			return false;
-		}
-	}
-
-	/// <summary>
-	/// Gets the current picked unit count.
-	/// </summary>
-	/// <returns>The current picked unit count.</returns>
-	private int GetCurPickedUnitCount(){
 		int pickedCount = 0;
 		for (int i = 0; i < pickUnitViewList.Count; i++){
 			if(pickUnitViewList[ i ] !=null) 
 				pickedCount++;
 		}
-		return pickedCount;
+		clearBtn.isEnabled = sellBtn.isEnabled = pickedCount > 0 ? true : false;
 	}
 
 	private void ReceiveSortInfo(object msg){
 		//curSortRule = SortUnitTool.GetNextRule(curSortRule);
 		curSortRule = (SortRule)msg;
-		SortUnitByCurRule();
-	}
-
-	private void SortUnitByCurRule(){
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.SellView);
-
+		
 		List<UserUnit> unitList = new List<UserUnit>();
-//		for (int i = 0; i < saleUnitViewList.Count; i++){
-//			unitList.Add(saleUnitViewList[ i ].UserUnit);
-//		}
+		//		for (int i = 0; i < saleUnitViewList.Count; i++){
+		//			unitList.Add(saleUnitViewList[ i ].UserUnit);
+		//		}
 		
 		SortUnitTool.SortByTargetRule(curSortRule, unitList);	
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){

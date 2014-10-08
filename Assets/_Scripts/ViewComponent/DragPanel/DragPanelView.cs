@@ -44,15 +44,6 @@ public class DragPanelView : ViewBase {
 
 	}
 
-
-	public override void ShowUI (){
-		base.ShowUI ();
-	}
-
-	public override void HideUI (){
-		base.HideUI ();
-	}
-
 	public override void DestoryUI () {
 		base.DestoryUI ();
 		int count = scrollItem.Count;
@@ -71,14 +62,17 @@ public class DragPanelView : ViewBase {
 		int len = scrollItem.Count;
 		GameObject obj = null;
 		foreach (var item in data) {
+			DragPanelItemBase di;
 			if(len <= i){
-				GetDragItem().SetData<T>(item,args);
+				di = GetDragItem();
 			}else{
-				scrollItem[i].SetData<T>(item,args);
+				di = scrollItem[i];//.SetData<T>(item,args);
 			}
+			di.name = i.ToString();
+			di.SetData<T>(item,args);
 			i++;
 		}
-		Debug.Log ("len: " + len + " i: " + i);
+//		Debug.Log ("len: " + len + " i: " + i);
 		for (int j = len - 1; j >= i ;j-- ) {
 			itemPool.Enqueue(scrollItem[j]);
 			scrollItem[j].transform.parent = pool.transform;
@@ -86,6 +80,7 @@ public class DragPanelView : ViewBase {
 
 		}
 		grid.Reposition ();
+		scrollView.ResetPosition ();
 	}
 
 	
@@ -147,13 +142,7 @@ public class DragPanelView : ViewBase {
 		scrollItem.Add(item);
 		return item;
 	}
-
 	
-	void ItemCallback(GameObject target) {
-//		if (DragCallback != null) {
-//			DragCallback (target);
-//		}
-	}
 
 	public void ClearPool(){
 		foreach (var item in scrollItem) {
@@ -161,6 +150,22 @@ public class DragPanelView : ViewBase {
 			itemPool.Enqueue(item);
 		}
 		scrollItem.Clear ();
+	}
+
+	public void AddItemToGrid(GameObject obj, int index){
+		obj.transform.parent = grid.transform;
+//		obj.transform.SetSiblingIndex (index);
+		obj.name = index.ToString ();
+		obj.transform.localScale = Vector3.one;
+//		NGUITools.AddChild(
+		grid.Reposition ();
+		scrollView.ResetPosition ();
+	}
+
+	public void ItemCallback(params object[] data){
+		foreach (var item in scrollItem) {
+			item.ItemCallback(data);
+		}
 	}
 	
 }

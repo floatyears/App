@@ -7,15 +7,15 @@ public class LevelUpView : ViewBase {
 	private bool fromLevelUpBack = false;
 
 	private bool fromUnitDetail = false;
-	private DataCenter dataCenter;
+//	private DataCenter dataCenter;
 	private UIButton levelUpButton;
 	private UIButton sortButton;
 	
 	private DragPanel dragPanel;
 	
-	private List<LevelUpUnitItem> unitItems = new List<LevelUpUnitItem> ();
-	private List<UserUnit> myUnit = new List<UserUnit> ();
-	
+//	private List<LevelUpUnitItem> unitItems = new List<LevelUpUnitItem> ();
+//	private List<UserUnit> myUnit = new List<UserUnit> ();
+
 	private MyUnitItem prevSelectedItem;
 	private MyUnitItem prevMaterialItem;
 	
@@ -37,8 +37,6 @@ public class LevelUpView : ViewBase {
 	private UILabel[] infoLabel = new UILabel[6];
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI ();
@@ -51,8 +49,8 @@ public class LevelUpView : ViewBase {
 		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","level_up");
 
 		ClearFocus ();
-		myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
-		sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
+//		myUnit = ;
+		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.LevelUp);
 		SortUnitByCurRule();
 		ShowData ();
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
@@ -68,10 +66,6 @@ public class LevelUpView : ViewBase {
 		if( doNotClearData && viewData != null && viewData.ContainsKey("friendinfo")){
 			SelectFriend(viewData["friendinfo"] as FriendInfo);
 		}
-
-//		if( fromLevelUpBack ) {
-//			ClearData(true);
-//		}
 
 		doNotClearData = false;
 		fromLevelUpBack = false;
@@ -102,21 +96,12 @@ public class LevelUpView : ViewBase {
 
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		sortRule = SortRule.None;
+		_sortRule = SortRule.None;
 		dragPanel.DestoryUI ();
 	}
 
-	public override void CallbackView(params object[] args) {
-		base.CallbackView (args);
-	}
 
-	private static SortRule _sortRule = SortRule.None;
-	public static SortRule sortRule {
-		get { return _sortRule; }
-		set {
-			_sortRule = value;
-		}
-	}
+	private SortRule _sortRule = SortRule.None;
 	
 	private string hp = "0";
 	public string Hp{ 
@@ -169,21 +154,9 @@ public class LevelUpView : ViewBase {
 	}
 
 	void ShowData () {
+		
 
-		if (dragPanel == null) {
-			InitDragPanel();
-		}
-
-		dragPanel.SetData<UserUnit> (myUnit,MyUnitClickCallback as DataListener);
-//		unitItems.Clear ();
-//		Debug.LogError (" ShowData : " + myUnitDragPanel.scrollItem.Count + " item : " + myUnitDragPanel.scrollItem [0]);
-//		foreach (var item in dragPanel.scrollItem) {
-//			LevelUpUnitItem pui = item as LevelUpUnitItem;
-//			pui.callback = MyUnitClickCallback;
-//			pui.IsParty = dataCenter.UnitData.PartyInfo.UnitIsInParty(pui.UserUnit);
-//
-////			unitItems.Add(pui);
-//		}
+		dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit (),MyUnitClickCallback as DataListener);
 
 		RefreshSortInfo ();
 		RefreshCounter ();
@@ -201,7 +174,7 @@ public class LevelUpView : ViewBase {
 	}
 
 	void InitUI() {
-		dataCenter = DataCenter.Instance;
+//		dataCenter = DataCenter.Instance;
 //		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
 //		iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject)); 
 
@@ -211,7 +184,7 @@ public class LevelUpView : ViewBase {
 		for (int i = 1; i <= 6; i++) {	//gameobject name is 1 ~ 6.
 			LevelUpItem pui = FindChild<LevelUpItem>("Top/" + i.ToString());
 			selectedItem[i -1] = pui;
-			pui.Init(null);
+			pui.SetData<UserUnit>(null);
 			pui.IsEnable = true;
 			pui.IsFavorite = false;
 			if(i == 1) {	//base item ui.
@@ -253,20 +226,16 @@ public class LevelUpView : ViewBase {
 	}
 
 	void InitDragPanel() {
-//		GameObject go = Instantiate (LevelUpUnitItem.ItemPrefab) as GameObject;
-//		LevelUpUnitItem.Inject (go);
-		GameObject parent = FindChild<Transform>("Middle/LevelUpBasePanel").gameObject;
 
 		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("LevelUpDragPanel");
 		dragPanel = new DragPanel ("LevelUpDragPanel", "Prefabs/UI/UnitItem/MyUnitPrefab",typeof(LevelUpUnitItem), transform);//LevelUpUnitItem.Inject().gameObject, 12, 3);
-//		dragPanel.SetScrollView(dragConfig, transform);
 
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
-			GameObject rejectItem = o as GameObject;
-//			GameObject rejectItemIns = dragPanel.AddRejectItem (rejectItem);
-//			rejectItemIns.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
-//			UIEventListenerCustom.Get(rejectItemIns).onClick = RejectCallback;
+			GameObject rejectItem = Instantiate( o) as GameObject;
+			dragPanel.AddItemToGrid (rejectItem,0);
+			rejectItem.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
+			UIEventListenerCustom.Get(rejectItem).onClick = RejectCallback;
 		});
 	}
 
@@ -274,9 +243,7 @@ public class LevelUpView : ViewBase {
 		ClearData (false);
 		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit (blendID);
 		selectedItem [baseItemIndex].SetData<UserUnit>(tuu);
-//		clear = true;
-		myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
-		myUnit.Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
+		DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Find (a => a.MakeUserUnitKey () == tuu.MakeUserUnitKey ()).isEnable = false;
 		ShowData ();
 //		dragPanel.SetData<UserUnit> (tuu);
 		ShieldPartyAndFavorite (false, null);
@@ -285,12 +252,9 @@ public class LevelUpView : ViewBase {
 
 	void SelectedFriendCallback(LevelUpItem piv) {
 		doNotClearData = true;
-
-		gameObject.SetActive (false);
-//		friendWindow.evolveItem = null;
+			
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
-//		friendWindow.selectFriend = SelectFriend;
-//		friendWindow.ShowUI ();
+
 		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"type","levelup");
 	}
 
@@ -492,7 +456,7 @@ public class LevelUpView : ViewBase {
 
 	//LevelUp Button ClickCallback
 	void LevelUpCallback(GameObject go) {
-		if (dataCenter. UserData.AccountInfo.money < coinNeed) {
+		if (DataCenter.Instance. UserData.AccountInfo.money < coinNeed) {
 			TipsManager.Instance.ShowTipsLabel("not enough money");
 			return;
 		}
@@ -566,37 +530,7 @@ public class LevelUpView : ViewBase {
 	}
 	
 	void ShieldPartyAndFavorite(bool shield, MyUnitItem baseItem) {
-		for (int i = 0; i < unitItems.Count; i++) {
-//			if(levelUpItems[i].gameObject == null) {
-//				levelUpItems.RemoveAt(i);
-//				continue;
-//			}
-
-			LevelUpUnitItem pui = unitItems [i];
-			pui.IsEnable = true;
-			if(pui.IsParty || pui.IsFavorite) {
-
-				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.uniqueId == baseItem.UserUnit.uniqueId) {
-					continue;
-				}
-				pui.IsEnable = shield;
-			}
-		}
-
-//		for (int i = 0; i < myUnitList.Count; i++) {
-//			if(myUnitList[i].gameObject == null) {
-//				continue;
-//			}
-//
-//			LevelUpUnitItem pui = myUnitList [i];
-//			if(pui.IsParty || pui.IsFavorite) {
-//
-//				if(baseItem != null && baseItem.UserUnit != null && pui.UserUnit.ID == baseItem.UserUnit.ID) {
-//					continue;
-//				}
-//				pui.IsEnable = shield;
-//			}
-//		}
+		dragPanel.ItemCallback ("shield_item", baseItem != null ? baseItem.UserUnit : null,shield);
 	}
 
 	int SetMaterialItem(MyUnitItem pui) {
@@ -667,18 +601,8 @@ public class LevelUpView : ViewBase {
 		if (tuu == null) {
 			return;	
 		}
-		for (int i = 0; i < unitItems.Count; i++) {
-			LevelUpUnitItem pui = unitItems [i];
-			if (pui.UserUnit.TUserUnitID == tuu.TUserUnitID) {
-				if(pui.IsParty) {
-					pui.PartyLabel.text = TextCenter.GetText("Text_Party");
-				}
-				else{
-					pui.PartyLabel.text = "";
-				}
-				pui.IsEnable = true;
-			}
-		}
+//		dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(),);
+		dragPanel.ItemCallback ("enable_item", tuu);
 	}
 //
 //	void FriendBack(object data) {
@@ -690,7 +614,7 @@ public class LevelUpView : ViewBase {
 //	}
 
 	private void ReceiveSortInfo(object msg){
-		sortRule = (SortRule)msg;
+		_sortRule = (SortRule)msg;
 		SortUnitByCurRule();
 //		dragPanel.RefreshItem (myUnit);
 //		dragPanel.RefreshSortInfo (sortRule);
@@ -707,7 +631,7 @@ public class LevelUpView : ViewBase {
 		if (_sortRule == SortRule.None) {
 			return;	
 		}
-		SortUnitTool.SortByTargetRule(_sortRule, myUnit);
+		SortUnitTool.SortByTargetRule(_sortRule, DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ());
 		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.LevelUp);
 
 	}
@@ -824,32 +748,33 @@ public class LevelUpView : ViewBase {
 		return devorExp;
 	}
 
-	public LevelUpUnitItem GetPartyUnitItem(uint id){
-
-		foreach (var item in unitItems) {
-			if(item.UserUnit.unitId == id){
-				return item;
-			}
-		}
-		return null;
-	}
-
-	public void SetItemVisible(uint unitId){
-		foreach (var item in myUnit) {
-			if(item.unitId == unitId)
-			{
-				myUnit.Remove(item);
-				myUnit.Add(item);
-				myUnit.Reverse();
-				break;
-			}
-		}
-
-//		dragPanel.RefreshItem (myUnit);
-
-	}
+//	public LevelUpUnitItem GetPartyUnitItem(uint id){
+//
+//		foreach (var item in unitItems) {
+//			if(item.UserUnit.unitId == id){
+//				return item;
+//			}
+//		}
+//		return null;
+//	}
+//
+//	public void SetItemVisible(uint unitId){
+//		foreach (var item in myUnit) {
+//			if(item.unitId == unitId)
+//			{
+//				myUnit.Remove(item);
+//				myUnit.Add(item);
+//				myUnit.Reverse();
+//				break;
+//			}
+//		}
+//
+////		dragPanel.RefreshItem (myUnit);
+//
+//	}
 
 	public void RefreshUnitItem(UserUnit unit) {
+		List<UserUnit> myUnit = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ();
 		for (int i=0; i<myUnit.Count; i++) {
 			if (myUnit[i]!=null && myUnit[i].uniqueId == unit.uniqueId ) {
 				myUnit[i] = unit;

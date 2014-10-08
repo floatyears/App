@@ -86,6 +86,11 @@ public class ShopItem : DragPanelItemBase {
 		}
 	}
 
+	public override void ItemCallback (params object[] args)
+	{
+//		throw new System.NotImplementedException ();
+	}
+
 	private void OnBuy(GameObject obj){
 		StoreInventory.BuyItem (data.itemId);
 		Debug.Log("item id: " + data.itemId);

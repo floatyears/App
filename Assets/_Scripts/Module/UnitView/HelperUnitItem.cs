@@ -18,35 +18,19 @@ public class HelperUnitItem : FriendUnitItem {
 		friendTypeLabel.text = string.Empty;
 		friendPointLabel.text = string.Empty;
 	}
+
 	protected override void SetCommonState(){
 		base.SetCommonState();
 		SetFriendType();
-		SetFriendPoint();
-		SetFriendRank();
-	}
-	
-//	private static GameObject itemPrefab;
-//	public static GameObject ItemPrefab {
-//		get { 
-//			if(itemPrefab == null) {
-//				string sourcePath = "Prefabs/UI/UnitItem/HelperUnitPrefab";
-//				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath,null) as GameObject;
-//			}
-//			return itemPrefab;
-//		}
-//	}
 
-//	public static HelperUnitItem Inject(GameObject item){
-//		HelperUnitItem view = item.GetComponent<HelperUnitItem>();
-//		if (view == null)
-//			view = item.AddComponent<HelperUnitItem>();
-//		return view;
-//	}
+		if(friendInfo.friendPoint != 0){
+			friendPointLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.friendPoint.ToString());
+		}
+		else{
+			friendPointLabel.text = string.Empty;
+		}
 
-	private int friendPoint;
-	public int FriendPoint{
-		get{ return friendPoint; }
-		set{ friendPoint = value;}
+		rankLabel.text = TextCenter.GetText("Text_Rank")+": " + friendInfo.rank;
 	}
 
 	protected override void InitUI(){
@@ -55,13 +39,6 @@ public class HelperUnitItem : FriendUnitItem {
 		friendPointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
 		rankLabel = transform.FindChild("Label_Rank").GetComponent<UILabel>();
 		baseBoardSpr = transform.FindChild("Sprite_Base_Board").GetComponent<UISprite>();
-	}
-
-	protected override void InitState(){
-		base.InitState();
-		SetFriendType();
-		SetFriendPoint();
-		SetFriendRank();
 	}
 
 	private void SetFriendType(){
@@ -88,17 +65,5 @@ public class HelperUnitItem : FriendUnitItem {
 		}
 	}
 
-	private void SetFriendPoint(){
-		if(friendInfo.friendPoint != 0){
-			friendPointLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.friendPoint.ToString());
-		}
-		else{
-			friendPointLabel.text = string.Empty;
-		}
-	}
-
-	private void SetFriendRank(){
-		rankLabel.text = TextCenter.GetText("Text_Rank")+": " + friendInfo.rank;
-	}
 
 }

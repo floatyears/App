@@ -33,8 +33,6 @@ public class EvolveView : ViewBase {
 	private GameObject unitItem;	
 	private List<UserUnit> allData = new List<UserUnit>();
 	private DragPanel unitItemDragPanel;
-	private List<EvolveDragItem> evolveDragItem = new List<EvolveDragItem> ();
-	private List<EvolveDragItem> normalDragItem = new List<EvolveDragItem> ();
 	
 	private UserUnit selectBase = null;
 	private UserUnit baseData = null;
@@ -389,16 +387,9 @@ public class EvolveView : ViewBase {
 		
 		UIEventListenerCustom.Get (evolveButton.gameObject).onClick = Evolve;
 
-		CreatPanel ();
+		unitItemDragPanel = new DragPanel ("EvolveDragPanel","Prefabs/UI/UnitItem/MyUnitPrefab",typeof(EvolveDragItem), transform);
 		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
 
-	}
-
-	void CreatPanel () {
-		GameObject go = Instantiate (EvolveDragItem.ItemPrefab) as GameObject;
-		EvolveDragItem.Inject (go);
-
-		unitItemDragPanel = new DragPanel ("EvolveDragPanel","Prefabs/UI/UnitItem/MyUnitPrefab",typeof(MyUnitItem), transform);
 	}
 
 	void SelectFriend(FriendInfo friendInfo) {
@@ -523,7 +514,7 @@ public class EvolveView : ViewBase {
 	private void ReceiveSortInfo(object msg){
 		_sortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		unitItemDragPanel.SetData<UserUnit> (allData,_sortRule);
+		unitItemDragPanel.SetData<UserUnit> (allData,null,_sortRule);
 
 	}
 	
@@ -611,30 +602,13 @@ public class EvolveView : ViewBase {
 
 	void RefreshView() {
 		SortUnitByCurRule ();
-		unitItemDragPanel.SetData<UserUnit>(allData,_sortRule);
-		for (int i = evolveDragItem.Count - 1; i >= 0; i--) {
-			evolveDragItem.RemoveAt(i);
-		}
-//		foreach (var item in myUnitItem) {
-//			EvolveDragItem edi = item as EvolveDragItem;
-//			evolveDragItem.Add(edi);
-//			edi.callback = ClickDragItem;
-//			UnitInfo tui = edi.UserUnit.UnitInfo;
-//			bool evolveInfoNull = tui.evolveInfo != null;
-//			bool rareIsMax = tui.maxStar > 0 && tui.rare < tui.maxStar;
-//			if(evolveInfoNull && rareIsMax) {
-//				edi.CanEvolve = true;
-//			} else {
-//				edi.IsEnable = false;
-//			}
-//			if(!edi.IsParty && !edi.IsFavorite) {
-//				normalDragItem.Add(edi);
-//			}
-//		}
-		
+
+		unitItemDragPanel.SetData<UserUnit>(allData,ClickDragItem as DataListener,_sortRule);
+
 	}
 
-	void ClickDragItem (EvolveDragItem evolveItem) {
+	void ClickDragItem (object data) {
+		EvolveDragItem evolveItem = data as EvolveDragItem;
 		if (evolveItem == null) {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 			return;	

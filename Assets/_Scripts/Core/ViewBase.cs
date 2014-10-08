@@ -39,11 +39,12 @@ public class ViewBase : MonoBehaviour {
 	}
 	
 	public virtual void DestoryUI() {
-		Destroy (gameObject);
+
 		if (viewData != null) {
 			viewData.Clear();
 			viewData = null;
 		}
+		Destroy (gameObject);
 	}
 
 	protected T FindChild<T> (string path) where T : Component {

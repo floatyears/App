@@ -11,58 +11,41 @@ public class ReceptionView : ViewBase {
 	private List<FriendInfo> friendInDataList = new List<FriendInfo>();
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
-//		Debug.LogError("ReceptionView Init 1");
 		base.Init(config, data);
-//		Debug.LogError("ReceptionView Init 2");
-		InitUIElement();
-//		Debug.LogError("ReceptionView Init 3");
-	}
-
-	public override void ShowUI(){
-//		Debug.LogError("ReceptionView 1");
-		base.ShowUI();
-//		Debug.LogError("ReceptionView 2");
-		AddCmdListener();
-//		Debug.LogError("ReceptionView 3");
-//		Debug.LogError("ReceptionView.ShowUI()...");
-		CreateDragView();
-//		Debug.LogError("ReceptionView 4");
-		SortUnitByCurRule();
-//		Debug.LogError("ReceptionView 5");
-		RefreshCounter();
-//		Debug.LogError("ReceptionView 6");
-		ShowUIAnimation();
-//		Debug.LogError("ReceptionView 7");
-	}
-
-	public override void HideUI(){
-		base.HideUI();
-		if(dragPanel != null)
-			dragPanel.DestoryUI();
-		RmvCmdListener();
-	}
-
-	private void InitUIElement(){
 		refuseAllBtn = FindChild<UIButton>("Button_Refuse");
 		UILabel refuseBtnLabel = FindChild<UILabel>("Button_Refuse/Label_Text");
 		refuseBtnLabel.text = TextCenter.GetText("Btn_Reception_RefuseAll");
 		UIEventListenerCustom.Get(refuseAllBtn.gameObject).onClick = ClickRefuseBtn;
-
+		
 		curSortRule = SortUnitTool.GetSortRule(SortRuleByUI.ReceptionView);
-	}
 
-	private void CreateDragView(){
-//		Debug.LogError("CreateDragView(), Reception...");
 		friendInDataList = DataCenter.Instance.FriendData.FriendIn;
 		dragPanel = new DragPanel("ApplyDragPanel", "Prefabs/UI/UnitItem/FriendUnitPrefab" ,typeof(FriendUnitItem), transform);
-//		dragPanel.CreatUI();
-
+		
 		dragPanel.SetData<FriendInfo> (friendInDataList, ClickItem as DataListener);
+	}
+
+	public override void ShowUI(){
+		base.ShowUI();
+		AddCmdListener();
+		SortUnitByCurRule();
+		RefreshCounter();
+		ShowUIAnimation();
+	}
+
+	public override void HideUI(){
+		base.HideUI();
+		RmvCmdListener();
+	}
+
+	public override void DestoryUI ()
+	{
+		base.DestoryUI ();
+		dragPanel.DestoryUI();
 	}
 
 	private void ClickRefuseBtn(GameObject args){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetMsgWindowParams());
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("RefuseAll"), TextCenter.GetText ("ConfirmRefuseAll"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallbackRefuseAll);
 	}
 
@@ -110,12 +93,10 @@ public class ReceptionView : ViewBase {
 		FriendUnitItem item = data as FriendUnitItem;
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
-//		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
 		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("AcceptApply"),"content",TextCenter.GetText ("ConfirmAccept"));
 	}
 
 	void DeleteFriendPicked(object msg){
-//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetDeleteMsgParams());
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("DeleteNoteTitle"), TextCenter.GetText ("DeleteNoteContent"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), CallBackDeleteFriend);
 	}
 
@@ -135,7 +116,6 @@ public class ReceptionView : ViewBase {
 	void AcceptApplyFromOther(object msg){
 		if(CheckFriendCountLimit()){
 			Debug.LogError(string.Format("Friend Count limited. Current Friend count is :" + DataCenter.Instance.FriendData.FriendCount));
-//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgParams());
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FirendOverflow"),
 			                                   TextCenter.GetText("FriendOverflowText",DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count,DataCenter.Instance.UserData.UserInfo.unitMax),
 			                                   TextCenter.GetText("DoFriendExpand"),TextCenter.GetText("CANCEL"),CallBackScratchScene);
@@ -185,11 +165,7 @@ public class ReceptionView : ViewBase {
 		SortUnitTool.SortByTargetRule(curSortRule, friendInDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.ReceptionView);
 
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
-			FriendUnitItem fuv = dragPanel.ScrollItem[ i ].GetComponent<FriendUnitItem>();
-			fuv.SetData(friendInDataList[ i ].UserUnit);
-			fuv.CurrentSortRule = curSortRule;
-		}
+		dragPanel.SetData<FriendInfo> (friendInDataList,null,curSortRule);
 	}
 
 	private void ReceiveSortInfo(object msg){

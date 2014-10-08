@@ -18,20 +18,8 @@ public class CatalogUnitItem : MyUnitItem {
 
 	private UISprite type;
 	private UISprite bg;
-	
-	/// <summary>
-	/// The earliest execute
-	/// </summary>
-	/// <param name="item">Item.</param>
-	public static CatalogUnitItem Inject(GameObject item){
-		CatalogUnitItem view = item.GetComponent<CatalogUnitItem>();
-		if (view == null) view = item.AddComponent<CatalogUnitItem>();
-		return view;
-	}
 
-	protected override void Awake(){
-		widget = GetComponent<UIWidget>();
-		mWidget = widget;
+	protected override void InitUI(){
 
 		avatarSprite = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
@@ -44,120 +32,54 @@ public class CatalogUnitItem : MyUnitItem {
 	}
 
 	protected override void RefreshState(){
-		CatalogUserUnit = userUnit;
-	}
-
-	/// <summary>
-	/// public interface for the scene of catalog
-	/// </summary>
-	/// <param name="unitID">Unit I.</param>
-	public void Refresh(int unitID){
-//		UserUnit userUnit = new UserUnit();
-//		userUnit.level = 1;
-//		userUnit.exp = 0;
-//		userUnit.unitId = (uint)unitID;
-//		CatalogUserUnit = new TUserUnit(userUnit);
-	}
-	
-	private UserUnit catalogUserUnit;
-	public UserUnit CatalogUserUnit{
-		get{
-			return catalogUserUnit;
+		if(userUnit == null){
+			Debug.LogError(string.Format("gameObject named {0} , TUserUnit is NULL...", gameObject.name));
+			avatarSprite.atlas = null;
+			avatarSprite.spriteName = string.Empty;
+			erotemeSpr.enabled = true;
+			maskSprite.enabled = false;
+			//translucentMaskSpr.enabled = false;
+			type.spriteName = "avatar_border_none";
+			bg.spriteName = "avatar_bg_none";
 		}
-		set{
-			catalogUserUnit = value;
-			if(catalogUserUnit == null){
-				Debug.LogError(string.Format("gameObject named {0} , TUserUnit is NULL...", gameObject.name));
-				State = CatalogState.UnKnown;
-			}
-			else{
-				//Debug.LogError("gameObject is : " + gameObject.name + "    unitId is : " + catalogUserUnit.UnitID);
-				if(DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit(catalogUserUnit.unitId)){
-					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isHave.");
-					State = CatalogState.Got;
-				}
-				else if(DataCenter.Instance.UnitData.CatalogInfo.IsMeetNotHaveUnit(catalogUserUnit.unitId)){
-					//Debug.LogError("unitID : " + catalogUserUnit.UnitID+" isMeet.");
-					State = CatalogState.Meet;
-				}
-				else{
-					//Debug.LogError("unitid : " + catalogUserUnit.UnitID+" isUnknown.");
-					State = CatalogState.UnKnown;
-				}
-			}
-		}
-	}
-
-	private CatalogState state;
-	public CatalogState State{
-		get{
-			return state;
-		}
-		set{
+		else{
 			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 			UIEventListenerCustom.Get(this.gameObject).onClick = null;
-			state = value;
-
-			switch (state) {
-				case CatalogState.Got : 
-//				Debug.LogError("catalogUserUnit.UnitID : " + catalogUserUnit.UnitID + " state: " + state);
-//				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.unitId, avatarSprite);
-//					avatarSprite.atlas = ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-//					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
-					erotemeSpr.enabled = false;
-					maskSprite.enabled = false;
-					//translucentMaskSpr.enabled = false;
-					UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
-					UIEventListenerCustom.Get(this.gameObject).onClick = PressItem;
-					type.spriteName = GetBorderSpriteName();
-					bg.spriteName = GetAvatarBgSpriteName();
-					break;
-				case CatalogState.Meet : 
-//					avatarSprite.atlas = ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.UnitID);
-//					avatarSprite.spriteName = catalogUserUnit.UnitID.ToString();
-				ResourceManager.Instance.GetAvatarAtlas(catalogUserUnit.unitId, avatarSprite);
-					maskSprite.enabled = true;
-					erotemeSpr.enabled = false;
-					//translucentMaskSpr.enabled = true;
-					type.spriteName = "avatar_border_none";
-					bg.spriteName = "avatar_bg_none";
-					break;
-				case CatalogState.UnKnown : 
-					avatarSprite.atlas = null;
-					avatarSprite.spriteName = string.Empty;
-					erotemeSpr.enabled = true;
-					maskSprite.enabled = false;
-					//translucentMaskSpr.enabled = false;
-					type.spriteName = "avatar_border_none";
-					bg.spriteName = "avatar_bg_none";
-					break;
-				default:
-					avatarSprite.atlas = null;
-					avatarSprite.spriteName = string.Empty;
-					erotemeSpr.enabled = true;
-					maskSprite.enabled = true;
-					//translucentMaskSpr.enabled = false;
-					break;
+			if(DataCenter.Instance.UnitData.CatalogInfo.IsHaveUnit(userUnit.unitId)){
+				ResourceManager.Instance.GetAvatarAtlas(userUnit.unitId, avatarSprite);
+				erotemeSpr.enabled = false;
+				maskSprite.enabled = false;
+				UIEventListenerCustom.Get(this.gameObject).LongPress = PressItem;
+				UIEventListenerCustom.Get(this.gameObject).onClick = PressItem;
+				type.spriteName = GetBorderSpriteName();
+				bg.spriteName = GetAvatarBgSpriteName();
 			}
-			idLabel.text = "No. " + catalogUserUnit.unitId.ToString();
-//			idLabel.color = Color.green;
+			else if(DataCenter.Instance.UnitData.CatalogInfo.IsMeetNotHaveUnit(userUnit.unitId)){
+				ResourceManager.Instance.GetAvatarAtlas(userUnit.unitId, avatarSprite);
+				maskSprite.enabled = true;
+				erotemeSpr.enabled = false;
+				type.spriteName = "avatar_border_none";
+				bg.spriteName = "avatar_bg_none";
+			}
+			else{
+				avatarSprite.atlas = null;
+				avatarSprite.spriteName = string.Empty;
+				erotemeSpr.enabled = true;
+				maskSprite.enabled = false;
+				//translucentMaskSpr.enabled = false;
+				type.spriteName = "avatar_border_none";
+				bg.spriteName = "avatar_bg_none";
+			}
+			idLabel.text = "No. " + userUnit.unitId.ToString();
 		}
 	}
 
-    private static GameObject itemPrefab;
-	public static GameObject ItemPrefab {
-		get {
-			if(itemPrefab == null) {
-				string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject ;
-			}
-			return itemPrefab;
-		}
+	protected override void UpdateFavoriteState(){
+
 	}
 
 	string GetBorderSpriteName () {
-		switch (catalogUserUnit.UnitType) {
+		switch (userUnit.UnitType) {
 		case 1:
 			return "avatar_border_fire";
 		case 2:
@@ -177,7 +99,7 @@ public class CatalogUnitItem : MyUnitItem {
 	}
 	
 	string GetAvatarBgSpriteName() {
-		switch (catalogUserUnit.UnitType) {
+		switch (userUnit.UnitType) {
 		case 1:
 			return "avatar_bg_fire";
 		case 2:
@@ -194,10 +116,6 @@ public class CatalogUnitItem : MyUnitItem {
 			return "avatar_bg_none";
 			break;
 		}
-	}
-
-	private void PressItem(GameObject item){
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",catalogUserUnit);
 	}
 
 }

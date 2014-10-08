@@ -26,17 +26,14 @@ public class FriendUnitItem : BaseUnitItem {
 		
 	public override void SetData<T>(T friendInfo, params object[] args){
 		this.friendInfo = friendInfo as FriendInfo;
-		base.Init(this.friendInfo.UserUnit);
-		callback += (DataListener)args [0];
+		base.SetData(this.friendInfo.UserUnit);
+		if(args.Length > 0)
+			callback += (DataListener)args [0];
 	}
 
 	protected override void InitUI(){
 		base.InitUI();
 		nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
-	}
-	
-	protected override void InitState(){
-		base.InitState();
 		SetName();
 	}
 

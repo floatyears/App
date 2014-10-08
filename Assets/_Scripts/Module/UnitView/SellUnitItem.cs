@@ -2,40 +2,11 @@
 using System.Collections;
 
 public class SellUnitItem : MyUnitItem {
-	public static SellUnitItem Inject(GameObject item){
-		SellUnitItem view = item.GetComponent<SellUnitItem>();
-		if (view == null) view = item.AddComponent<SellUnitItem>();
-		return view;
-	}
 
-	public delegate void UnitItemCallback(SellUnitItem puv);
-	public UnitItemCallback callback;
-
-	private static GameObject itemPrefab;
-	public static GameObject ItemPrefab {
-		get {
-			if(itemPrefab == null) {
-				string sourcePath = "Prefabs/UI/UnitItem/SaleUnitPrefab";
-				itemPrefab = ResourceManager.Instance.LoadLocalAsset(sourcePath, null) as GameObject ;
-			}
-			return itemPrefab;
-		}
-	}
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
 			callback(this);
 		}
-	}
-
-	protected override void InitUI(){
-		base.InitUI();
-	}
-
-	protected override void InitState(){
-		base.InitState();
-		IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(userUnit.uniqueId);
-//		Debug.LogError("uid:"+userUnit.ID + " => "+DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(userUnit.ID));
-		RefreshEnable();
 	}
 
 	protected override void UpdatePartyState(){
@@ -57,13 +28,37 @@ public class SellUnitItem : MyUnitItem {
 			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
 			//IsEnable is FALSE as long as one state(IsParty or IsFavorite or other...) is TRUE
 			RefreshEnable();
-//			if (IsFavorite) Debug.LogWarning(">>>>> userUnit.ID:"+userUnit.ID+" isFavor!");
 		}
 	}
 
-	protected override void PressItem(GameObject item){
-		base.PressItem(item);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
+	public override void ItemCallback (params object[] args)
+	{
+		switch(args[0].ToString()){
+		case "mark_item":
+			if(args[1] as SellUnitItem == this){
+				transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = true;
+				transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = true;
+				transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = ((int)args[2] + 1).ToString();
+			}
+
+			break;
+		case "cancel_mark":
+			if(args[1] as SellUnitItem == this){
+				transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = false;
+				transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = false;
+				transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = string.Empty;
+			}
+			break;
+		case "cancel_all":
+			if(!isParty){
+				transform.FindChild("Sprite_Clycle").GetComponent<UISprite>().enabled = false;
+				transform.FindChild("Sprite_Mask").GetComponent<UISprite>().enabled = false;
+			}
+
+			transform.FindChild("Label_TopRight").GetComponent<UILabel>().text = string.Empty;
+			break;
+		}
 	}
+
 
 }

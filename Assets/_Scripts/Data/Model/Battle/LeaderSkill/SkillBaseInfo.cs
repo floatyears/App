@@ -2,11 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 namespace bbproto{
-public partial class SkillBase : ProtoBuf.IExtensible {
+public class SkillBaseInfo {
 	public const string SkillNamePrefix = "SkillName_";
 	public const string SkillDescribeFix = "SkillDesc_";
 
 	private int _initSkillCooling = 0;
+
+	public SkillBase baseInfo;
 
 	public int initSkillCooling {
 		set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
@@ -57,7 +59,7 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		//	}
 		
 		void Store() {
-			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, skillCooling);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, baseInfo.skillCooling);
 		}
 		
 		void ReadSkillCooling () {
@@ -67,7 +69,7 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		
 		protected void DisposeCooling () {
 			bool temp = coolingDone;
-			coolingDone = CheckCooling (this);
+			coolingDone = CheckCooling (baseInfo);
 			if (!temp && coolingDone) {
 				//			Excute();
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
@@ -89,8 +91,8 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 		}
 		
 		public void InitCooling() {
-			skillCooling = initSkillCooling;
-			if (skillCooling > 0) {
+			baseInfo.skillCooling = initSkillCooling;
+			if (baseInfo.skillCooling > 0) {
 				coolingDone = false;
 			}
 			
@@ -107,7 +109,7 @@ public partial class SkillBase : ProtoBuf.IExtensible {
 
 		public override string ToString ()
 		{
-			return _id.ToString ();
+			return baseInfo.id.ToString ();
 		}
 }
 }

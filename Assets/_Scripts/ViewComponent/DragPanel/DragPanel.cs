@@ -10,12 +10,6 @@ public class DragPanel : ModuleBase{
 		get{ return null;}//dragPanelView.scrollItem; }
 	}
 
-	protected GameObject sourceObject;
-	public GameObject SetResourceObject {
-		set{ sourceObject = value; }
-		get{ return sourceObject; }
-	}
-
 	public DragPanel(string name, string sourceObjUrl,System.Type type, Transform parentTransform):base(null){
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Common/DragPanelView", o => {
 			dragPanelView = (GameObject.Instantiate(o as GameObject) as GameObject).GetComponent<DragPanelView>();
@@ -33,6 +27,12 @@ public class DragPanel : ModuleBase{
 		dragPanelView.HideUI ();
 	}
 
+	public override void DestoryUI ()
+	{
+		base.DestoryUI ();
+		dragPanelView.DestoryUI ();
+	}
+
 	public void SetData<T>(List<T> data, params object[] args){
 		dragPanelView.SetData<T>(data, args);
 	}
@@ -48,6 +48,14 @@ public class DragPanel : ModuleBase{
 		else{
 			return null;
 		}
+	}
+
+	public void AddItemToGrid(GameObject obj, int index){
+		dragPanelView.AddItemToGrid (obj, index);
+	}
+
+	public void ItemCallback(params object[] data){
+		dragPanelView.ItemCallback (data);
 	}
 	
 }

@@ -35,10 +35,6 @@ public class DGTools {
 		return go;
 	}
 
-	public static bool CheckFavorate(UserUnit tuu) {
-		return tuu.isFavorite == 1 ? true : false;
-	}
-
 
 //	public static bool IsNoviceGuide () {
 //		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.NONE) {

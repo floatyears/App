@@ -12,12 +12,13 @@ public class ApplyView : ViewBase{
 		base.Init(config, data);
 
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.ApplyView);//DEFAULT_SORT_RULE;
+		CreateDragView();
 	}
 	
 	public override void ShowUI(){
 		base.ShowUI();
 		AddCmdListener();
-		CreateDragView();
+
 		SortUnitByCurRule();
 		RefreshCounter();
 		ShowUIAnimation();
@@ -26,17 +27,12 @@ public class ApplyView : ViewBase{
 	public override void HideUI(){
 		base.HideUI();
 //		dragPanel.DestoryUI();
-		if(dragPanel != null)
-			dragPanel.DestoryUI();
 
 		RmvCmdListener();
 	}
 
 	private void CreateDragView(){
 		friendOutDataList = DataCenter.Instance.FriendData.FriendOut;
-		if( dragPanel != null ) {
-			dragPanel.DestoryUI();
-		}
 		dragPanel = new DragPanel("ApplyDragPanel","Prefabs/UI/UnitItem/FriendUnitPrefab",typeof(FriendUnitItem),transform);
 		dragPanel.SetData<FriendInfo> (friendOutDataList, ClickItem as DataListener);
 	}

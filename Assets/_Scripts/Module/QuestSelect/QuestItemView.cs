@@ -59,6 +59,11 @@ public class QuestItemView : DragPanelItemBase {
 		AddEventListener();
 	}
 
+	public override void ItemCallback (params object[] args)
+	{
+//		throw new System.NotImplementedException ();
+	}
+
 	private StageInfo _stageInfo;
 	public StageInfo stageInfo{
 		set { _stageInfo = value; stageID = _stageInfo.id; }

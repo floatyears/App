@@ -1,14 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class PartyUnitItem : MyUnitItem {
-	public static PartyUnitItem Inject(GameObject item){
-		PartyUnitItem view = item.GetComponent<PartyUnitItem>();
-		if (view == null) view = item.AddComponent<PartyUnitItem>();
-		return view;
-	}
-	public delegate void UnitItemCallback(PartyUnitItem puv);
-	public UnitItemCallback callback;
 
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
@@ -18,18 +12,8 @@ public class PartyUnitItem : MyUnitItem {
 
 	protected override void InitUI(){
 		base.InitUI();
-
-		gameObject.transform.FindChild ("Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party");
-	}
-	
-	protected override void InitState(){
-		base.InitState();
 		IsFocus = false;
-
-		if(userUnit != null){
-			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
-			IsEnable = !IsParty;
-		}
+		gameObject.transform.FindChild ("Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party");
 	}
 
 	protected override void UpdatePartyState(){
@@ -50,29 +34,29 @@ public class PartyUnitItem : MyUnitItem {
 		}
 	}
 
+	public override void ItemCallback(params object[] args){
+		switch (args [0].ToString ()) {
+		case "out_party":
+			if(userUnit.Equals(args[1] as UserUnit)) {
+				IsParty = false;
+			}
+			break;
+		case "reject_item":
+			if(userUnit.Equals(args[1] as UserUnit)){
+				IsParty = false;
+				IsEnable = true;
+			}
+			break;
+		}
+	}
+	
 }
 
 
 
 public class LevelUpUnitItem : MyUnitItem {
 
-	public static LevelUpUnitItem Inject(GameObject target = null){
-		LevelUpUnitItem view;
-		if (target == null) {
-			target = GameObject.Instantiate (MyUnitItem.ItemPrefab) as GameObject;	
-			view = target.AddComponent<LevelUpUnitItem>();
-		} else {
-			view = target.GetComponent<LevelUpUnitItem>();	
-			if (view == null)
-				view = target.AddComponent<LevelUpUnitItem>();
-		}
 
-		return view;
-	}
-
-	public delegate void UnitItemCallback(LevelUpUnitItem puv);
-	public UnitItemCallback callback;
-	
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
 			callback(this);
@@ -82,17 +66,8 @@ public class LevelUpUnitItem : MyUnitItem {
 	protected override void InitUI(){
 		base.InitUI();
 
-		gameObject.transform.FindChild ("Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party");
-	}
-	
-	protected override void InitState(){
-		base.InitState();
 		IsFocus = false;
-		
-		if(userUnit != null){
-			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
-			IsEnable = !IsParty;
-		}
+		gameObject.transform.FindChild ("Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party");
 	}
 	
 	protected override void UpdatePartyState(){
@@ -108,14 +83,37 @@ public class LevelUpUnitItem : MyUnitItem {
 	protected override void RefreshState(){
 		base.RefreshState();
 		if(userUnit != null){
-//			Debug.LogError("---   1 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
 			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(userUnit.uniqueId);
-//			Debug.LogError("---   2 ------ RefreshState userUnit.ID : " + userUnit.ID + "isparty : " + isParty);
 		}
 	}
 
-	protected override void PressItem(GameObject item){
-		base.PressItem(item);
-		MsgCenter.Instance.Invoke(CommandEnum.ShowFavState);
+	public override void ItemCallback (params object[] args)
+	{
+		switch (args [0].ToString ()) {
+		case "enable_item":
+			if (userUnit.TUserUnitID == (args[1]	as UserUnit).TUserUnitID) {
+				if(isParty) {
+					PartyLabel.text = TextCenter.GetText("Text_Party");
+				}
+				else{
+					PartyLabel.text = "";
+				}
+				IsEnable = true;
+			}
+			break;
+		case "shield_item":
+			IsParty = true;
+			if(isParty || IsFavorite) {
+				
+				if(args[1] != null && userUnit.uniqueId == (args[1] as UserUnit).uniqueId) {
+					return;
+				}
+				IsEnable = (bool)args[2];
+			}
+			break;
+		}
 	}
+
+
+
 }

@@ -26,8 +26,6 @@ public class CatalogView : ViewBase {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-//		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","catalog");
-//		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","catalog");
 
 		RefreshItemCounter();
 		StartCoroutine("InitDragPanel");
@@ -39,31 +37,10 @@ public class CatalogView : ViewBase {
 	public override void HideUI () {
 		base.HideUI ();
 
-//		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
-//		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
-
 		DestoryDragPanel();
 	}
 
 	private GameObject emptyItem;
-//	private void CreateDragPanel(){
-//		string sourcePath = "Prefabs/UI/UnitItem/CatalogUnitPrefab";
-//		ResourceManager.Instance.LoadLocalAsset(sourcePath, o =>{
-//			emptyItem = o  as GameObject;
-//			dragPanel = new DragPanel("CatalogDragPanel", emptyItem,transform);
-////			dragPanel.CreatUI();
-//			dragPanel.AddItem(TOTAL_CATALOG_COUNT);
-//			
-////			uiPanel = dragPanel.DragPanelView.gameObject.transform.FindChild("Scroll View").GetComponent<UIPanel>();
-//			
-//			for(int i = 0; i < TOTAL_CATALOG_COUNT; i++){
-//				GameObject dragItem = dragPanel.ScrollItem[ i ];
-//				catalogItemTrans.Add(dragItem.transform);
-//			}
-//			InitCatalogTrans(0, 40);
-//		});
-//
-//	}
 
 	private void RefreshItemCounter(){
 		Dictionary<string, object> countArgs = new Dictionary<string, object>();
@@ -88,12 +65,6 @@ public class CatalogView : ViewBase {
 			}
 		}
 		return gotCount;
-	}
-
-	private void RefreshCatalogView(){
-		for (int i = 1; i <= TOTAL_CATALOG_COUNT; i++){
-			catalogUnitItemList[ i - 1 ].Refresh( i );
-		}
 	}
 
 	private void DestoryDragPanel(){
@@ -294,8 +265,6 @@ public class CatalogView : ViewBase {
 	DragPanel dynamicDragPanel;
 
 	IEnumerator InitDragPanel() {
-		GameObject go = Instantiate(CatalogUnitItem.ItemPrefab) as GameObject;
-		CatalogUnitItem.Inject(go);
 
 		dynamicDragPanel = new DragPanel("CatalogDragPanel","Prefabs/UI/UnitItem/CatalogUnitPrefab",typeof(CatalogUnitItem), transform);
 
