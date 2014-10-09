@@ -97,7 +97,7 @@ public class UnitDetailView : ViewBase{
 			item.spriteName = string.Empty;
 		}
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance .StartStep (NoviceGuideStartType.UNITS);
 
 		if (viewData.ContainsKey ("levelup")) {
 			RspLevelUp rlu = viewData["levelup"] as RspLevelUp;
@@ -256,7 +256,7 @@ public class UnitDetailView : ViewBase{
 			return;	
 		}
 
-		if (isNoviceGUide && NoviceGuideStepEntityManager.isInNoviceGuide ()) {
+		if (isNoviceGUide && NoviceGuideStepManager.isInNoviceGuide ()) {
 			return;	
 		}
 
@@ -271,8 +271,8 @@ public class UnitDetailView : ViewBase{
 
 		unitBodyTex.mainTexture = null;
 
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOLVE) {
-			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		if (NoviceGuideStepManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOLVE) {
+			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
 		}
 
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitDetailModule);
@@ -633,13 +633,13 @@ public class UnitDetailView : ViewBase{
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 
 		if (oldBlendUnit != null) {
-			if(_curLevel >= oldBlendUnit.UnitInfo.maxLevel && NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+			if(_curLevel >= oldBlendUnit.UnitInfo.maxLevel && NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
 				UnitController.Instance.UserguideEvoUnit(o=>{
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
 						if (rsp != null ) {
 							DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(rsp.addUnit);
-							NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
+							NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
 						}
 					}else {
 						Debug.LogError("UserGuideEvolveUnit ret err:"+rsp.header.code);

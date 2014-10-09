@@ -33,7 +33,7 @@ public class FriendSelectView : ViewBase{
 		CreateGeneralListView();
 		ShowUIAnimation(dragPanel);
 		isShowPremium = false;
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 
 		if (premiumBtn.gameObject.activeSelf) {
 			premiumBtn.gameObject.SetActive(false);	

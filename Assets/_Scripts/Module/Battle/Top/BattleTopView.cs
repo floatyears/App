@@ -75,7 +75,7 @@ using bbproto;public class BattleTopView : ViewBase {
 
 	void Retry(GameObject go) {
 #if !UNITY_EDITOR
-		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+		if (NoviceGuideStepManager.isInNoviceGuide()) {
 			return;	
 		}
 #endif
@@ -88,7 +88,7 @@ using bbproto;public class BattleTopView : ViewBase {
 
 	void ShowMenu (GameObject go) {
 #if !UNITY_EDITOR
-		if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+		if (NoviceGuideStepManager.isInNoviceGuide()) {
 			return;	
 		}
 #endif

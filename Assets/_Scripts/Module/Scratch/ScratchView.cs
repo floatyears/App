@@ -32,7 +32,7 @@ public class ScratchView : ViewBase {
         UpdateGachaTimes();
 		ShowUIAnimation();
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.SCRATCH);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.SCRATCH);
 	}
 
 	private void InitUI() {
@@ -71,7 +71,7 @@ public class ScratchView : ViewBase {
 	}
 
 	private void onTweenFinished(){
-		NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.UNITS);
 	}
 
     private void OnClickButton(GameObject btn){

@@ -313,7 +313,7 @@ public class BattleConfigData {
 	}
 
 	public int GetMapID () {
-		if (currentStageInfo == null || NoviceGuideStepEntityManager.isInNoviceGuide()) {
+		if (currentStageInfo == null || NoviceGuideStepManager.isInNoviceGuide()) {
 			return 3;
 		} else {
 			int stageID = ((int)currentStageInfo.id) % 10;

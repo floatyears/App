@@ -54,7 +54,7 @@ public class LevelUpView : ViewBase {
 		SortUnitByCurRule();
 		ShowData ();
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
 
 		topObject.transform.localPosition = new Vector3 (0, 1000, 0);
 		bottomObject.transform.localPosition = new Vector3(-1000, 0, 0);

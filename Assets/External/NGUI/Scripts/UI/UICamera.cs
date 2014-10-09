@@ -595,7 +595,7 @@ public class UICamera : MonoBehaviour
 			int mask = currentCamera.cullingMask & (int)cam.eventReceiverMask;
 
 			//--------add begin--------- if in novice guide, add novice event mask .
-			if(NoviceGuideStepEntityManager.isInNoviceGuide()) {
+			if(NoviceGuideStepManager.isInNoviceGuide()) {
 				mask = mask | GameLayer.LayerToInt( GameLayer.NoviceGuide);
 			}
 

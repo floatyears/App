@@ -3,20 +3,10 @@ using System.Collections;
 
 
 
-public class NoviceGuideStepD_StateOne:NoviceGuidState
+public class NoviceGuideStepD_1:NoviceGuidStep
 {
-	private static NoviceGuideStepD_StateOne instance;
 	
-	public static NoviceGuideStepD_StateOne Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepD_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepD_StateOne ():base(){}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide16_title"),TextCenter.GetText ("guide16_content"),TextCenter.GetText ("NEXT"),ClickOk2,null,GuidePicPath.ColorStarMove);
@@ -40,41 +30,22 @@ public class NoviceGuideStepD_StateOne:NoviceGuidState
 	
 	private void ClickOk4(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, ClickOk3);
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_ONE;
-		JumpToNextState = true;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_ONE;
+		GoToNextState();
 	}
 	
 	private void OnceAgain(object data){
 		MsgCenter.Instance.Invoke (CommandEnum.UserGuideAnim,true);
 	}
-
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepD_StateTwo.Instance());
-		}
-		else{
-			
-		}
-	}
+	
 }
 
 
 //attack once
-public class NoviceGuideStepD_StateTwo:NoviceGuidState
+public class NoviceGuideStepD_2:NoviceGuidStep
 {
-	private static NoviceGuideStepD_StateTwo instance;
 	
-	public static NoviceGuideStepD_StateTwo Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepD_StateTwo ();
-		return instance;
-	}
-	
-	private NoviceGuideStepD_StateTwo ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide19_title"),TextCenter.GetText ("guide19_content"),TextCenter.GetText ("NEXT"),ClickOk3);
@@ -86,35 +57,15 @@ public class NoviceGuideStepD_StateTwo:NoviceGuidState
 	}
 	
 	private void ClickOk2(object data){
-		JumpToNextState = true;
+		GoToNextState();
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepD_StateThree.Instance());
-		}
-		else{
-			
-		}
-	}
+
 }
-public class NoviceGuideStepD_StateThree:NoviceGuidState
+public class NoviceGuideStepD_3:NoviceGuidStep
 {
-	private static NoviceGuideStepD_StateThree instance;
 	
-	public static NoviceGuideStepD_StateThree Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepD_StateThree ();
-		return instance;
-	}
-	
-	private NoviceGuideStepD_StateThree ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepH state_Seven");
 		
 		BattleManipulationView bca = GameObject.FindWithTag ("battle_card").GetComponent<BattleManipulationView> ();
 		
@@ -127,17 +78,7 @@ public class NoviceGuideStepD_StateThree:NoviceGuidState
 		MsgCenter.Instance.AddListener (CommandEnum.AttackEnemyEnd, OnEnemyAttackEnd);
 	}
 	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepD_StateFour.Instance());
-		}
-		else{
-			
-		}
-	}
-	
-	public override void Exit (NoviceGuideStepEntity stepEntity)
+	public override void Exit ()
 	{
 		LogHelper.Log("hide tip text");
 		NoviceGuideUtil.HideTipText ();
@@ -147,28 +88,18 @@ public class NoviceGuideStepD_StateThree:NoviceGuidState
 	
 	private void OnEnemyAttackEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, OnEnemyAttackEnd);
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_TWO;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_TWO;
 		LogHelper.Log ("attack the enemy end!");
-		JumpToNextState = true;
+		GoToNextState();
 	}
 }
 
 
 //attack twice
-public class NoviceGuideStepD_StateFour:NoviceGuidState
+public class NoviceGuideStepD_4:NoviceGuidStep
 {
-	private static NoviceGuideStepD_StateFour instance;
 	
-	public static NoviceGuideStepD_StateFour Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepD_StateFour ();
-		return instance;
-	}
-	
-	private NoviceGuideStepD_StateFour ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide21_title"),TextCenter.GetText ("guide21_content"),TextCenter.GetText ("NEXT"),ClickOk3);
 		
@@ -189,51 +120,32 @@ public class NoviceGuideStepD_StateFour:NoviceGuidState
 		
 		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, OnBattleEnd);
 	}
+
 	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepD_StateSix.Instance());
-		}
-		else{
-			
-		}
-	}
-	
-	public override void Exit (NoviceGuideStepEntity stepEntity)
+	public override void Exit ()
 	{
 		NoviceGuideUtil.HideTipText ();
 	}
 	
 	private void OnBattleEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GET_KEY;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.GET_KEY;
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide23_title"),TextCenter.GetText ("guide23_content"),TextCenter.GetText ("NEXT"),ClickOk4);
-		JumpToNextState = true;
+		GoToNextState();
 	}
 
 	private void ClickOk4(object data){
-		JumpToNextState = true;
+		GoToNextState();
 	}
 }
 
 
 //key
-public class NoviceGuideStepD_StateSix:NoviceGuidState
+public class NoviceGuideStepD_6:NoviceGuidStep
 {
-	private static NoviceGuideStepD_StateSix instance;
 	
-	public static NoviceGuideStepD_StateSix Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepD_StateSix ();
-		return instance;
-	}
-	
-	private NoviceGuideStepD_StateSix ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 //		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 //		MapItem item = null;
@@ -256,44 +168,25 @@ public class NoviceGuideStepD_StateSix:NoviceGuidState
 		
 		
 	}
+
 	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepD_StateSeven.Instance());
-		}
-		else{
-			
-		}
-	}
-	
-	public override void Exit (NoviceGuideStepEntity stepEntity)
+	public override void Exit ()
 	{
 		NoviceGuideUtil.RemoveAllArrows ();
 	}
 	
 	private void FindKey(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.OpenDoor, FindKey);
-		JumpToNextState = true;
+		GoToNextState();
 	}
 	
 }
 
 
-public class NoviceGuideStepD_StateSeven:NoviceGuidState
+public class NoviceGuideStepD_7:NoviceGuidStep
 {
-	private static NoviceGuideStepD_StateSeven instance;
 	
-	public static NoviceGuideStepD_StateSeven Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepD_StateSeven ();
-		return instance;
-	}
-	
-	private NoviceGuideStepD_StateSeven ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide24_title"),TextCenter.GetText ("guide24_content"),TextCenter.GetText ("NEXT"),ClickOk3,null, GuidePicPath.FindKey);
@@ -303,24 +196,15 @@ public class NoviceGuideStepD_StateSeven:NoviceGuidState
 		
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, OnQuestEnd);
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_ONE;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_ONE;
 	}
 	
 	
 	private void ClickOk3(object data){
 		
 	}
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
 	
-	public override void Exit (NoviceGuideStepEntity stepEntity)
+	public override void Exit ()
 	{
 		NoviceGuideUtil.RemoveAllArrows ();
 	}

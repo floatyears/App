@@ -74,7 +74,7 @@ public partial class EnemyInfo : global::ProtoBuf.IExtensible{
 
 			bool one = BattleConfigData.Instance.NotDeadEnemy;
 
-			if (NoviceGuideStepEntityManager.isInNoviceGuide()) {
+			if (NoviceGuideStepManager.isInNoviceGuide()) {
 				if(one || !CheckNoviceDeadable()) {
 					if (currentHp <= 0) {
 						currentHp = 10;
@@ -97,7 +97,7 @@ public partial class EnemyInfo : global::ProtoBuf.IExtensible{
 
 		
 		public bool CheckNoviceDeadable(){
-			int stage = (int)NoviceGuideStepEntityManager.CurrentNoviceGuideStage;
+			int stage = (int)NoviceGuideStepManager.CurrentNoviceGuideStage;
 			if (stage >= (int)NoviceGuideStage.ANIMATION && stage <= (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
 				if (stage == (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
 					return true;

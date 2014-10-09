@@ -2,22 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 //level up
-public class NoviceGuideStepI_StateOne:NoviceGuidState{
+public class NoviceGuideStepI_1:NoviceGuidStep{
+
 	
-	private static NoviceGuideStepI_StateOne instance;
-	
-	public static NoviceGuideStepI_StateOne Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepI_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepI_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_one");
+
+		nextState = typeof(NoviceGuideStepI_2);
 
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("guide42_title"),TextCenter.GetText("guide42_content"),TextCenter.GetText("NEXT"),ClickOK);
 		
@@ -105,35 +96,15 @@ public class NoviceGuideStepI_StateOne:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
 		NoviceGuideUtil.RemoveAllArrows ();
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepI_StateTwo.Instance());
-		}
-		else{
-			
-		}
-	}
+
 	
 }
 
-public class NoviceGuideStepI_StateTwo:NoviceGuidState{
+public class NoviceGuideStepI_2:NoviceGuidStep{
 	
-	private static NoviceGuideStepI_StateTwo instance;
-	
-	public static NoviceGuideStepI_StateTwo Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepI_StateTwo ();
-		return instance;
-	}
-	
-	private NoviceGuideStepI_StateTwo ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
+		nextState = typeof(NoviceGuideStepI_3);
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("guide45_title"),TextCenter.GetText("guide45_content"),TextCenter.GetText("NEXT"),ClickOK);
 	}
 
@@ -148,38 +119,16 @@ public class NoviceGuideStepI_StateTwo:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickFriend;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		JumpToNextState = true;
-	}
-
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{	
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepI_StateThree.Instance());
-		}
-		else{
-			
-		}
+		GoToNextState();
 	}
 
 }
 
-public class NoviceGuideStepI_StateThree:NoviceGuidState{
-	
-	private static NoviceGuideStepI_StateThree instance;
-	
-	public static NoviceGuideStepI_StateThree Instance()
+public class NoviceGuideStepI_3:NoviceGuidStep{
+
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepI_StateThree ();
-		return instance;
-	}
-	
-	private NoviceGuideStepI_StateThree ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_three");
-		
+		nextState = typeof(NoviceGuideStepI_4);
 		GameObject gm = GameObject.FindWithTag ("level_up_btn");
 		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
@@ -192,39 +141,18 @@ public class NoviceGuideStepI_StateThree:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepI_StateFour.Instance());
-		}
-		else{
-			
-		}
-	}
+
 	
 }
 
-public class NoviceGuideStepI_StateFour:NoviceGuidState{
-	
-	private static NoviceGuideStepI_StateFour instance;
-	
-	public static NoviceGuideStepI_StateFour Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepI_StateFour ();
-		return instance;
-	}
-	
-	private NoviceGuideStepI_StateFour ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepI state_four");
+public class NoviceGuideStepI_4:NoviceGuidStep{
 
+	
+	public override void Enter()
+	{
+		nextState = null;
 //		ModuleManger.Instance.forbidChangeScene = true;
 
 		MsgCenter.Instance.AddListener (CommandEnum.levelDone, OnLevelDone);
@@ -259,20 +187,9 @@ public class NoviceGuideStepI_StateFour:NoviceGuidState{
 	private void OnClickBack1(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickBack1;
 		NoviceGuideUtil.RemoveAllArrows ();
-		JumpToNextState = true;
+		GoToNextState();
 
 //		NoviceGuideStepEntityManager.CurrentNoviceGuideStage++;
-	}
-
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
 	}
 
 }

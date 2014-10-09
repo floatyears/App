@@ -170,7 +170,7 @@ public class BattleManipulationView : ViewBase {
 	public override void ShowUI() {
 		base.ShowUI();
 		//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
+		if (NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
 //			AddGuideCard ();
 			BattleConfigData.Instance.storeBattleData.colorIndex = 0;
 		}
@@ -517,7 +517,7 @@ public class BattleManipulationView : ViewBase {
 	int maxBoostRandom = 0;
 	
 	void SetBoost () {
-		maxBoostRandom = NoviceGuideStepEntityManager.isInNoviceGuide() ? 5 : 10;
+		maxBoostRandom = NoviceGuideStepManager.isInNoviceGuide() ? 5 : 10;
 		
 		if (boostIndex > -1 && boostIndex < 5) {
 			battleCardAreaItem[boostIndex].isBoost = false;

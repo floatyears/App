@@ -136,7 +136,7 @@ public class BattleFullScreenTipsView : ViewBase {
 
 	void ReadyMoveFunc() {
 		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-		NoviceGuideStepEntityManager.Instance ().StartStep ( NoviceGuideStartType.BATTLE );
+		NoviceGuideStepManager.Instance.StartStep ( NoviceGuideStartType.BATTLE );
 	}
 
 	void PlayAnimation (string name) {

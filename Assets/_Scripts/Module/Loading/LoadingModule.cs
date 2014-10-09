@@ -139,19 +139,19 @@ public class LoadingModule : ModuleBase {
 				DataCenter.Instance.UserData.LoginInfo = rspAuthUser.login;
 			}
 
-			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepManager.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#if !NOVICE_ENABLE
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 //#endif
 #if UNITY_EDITOR 
-//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//			NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
+			NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 #endif
 
 			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
-				if(NoviceGuideStepEntityManager.isInNoviceGuide()){
+				if(NoviceGuideStepManager.isInNoviceGuide()){
 					SureRetry(null);
 				} else {
 					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
@@ -209,12 +209,12 @@ public class LoadingModule : ModuleBase {
 
 	void EnterGame () {
 		ModuleManager.Instance.HideModule (ModuleEnum.LoadingModule);
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
+		if (NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
 			StartFight();
 		} else {
 			ModuleManager.Instance.EnterMainScene();
 
-			if (!NoviceGuideStepEntityManager.isInNoviceGuide()) {
+			if (!NoviceGuideStepManager.isInNoviceGuide()) {
 				if (DataCenter.Instance.CommonData.NoticeInfo != null && DataCenter.Instance.CommonData.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.CommonData.NoticeInfo.NoticeList.Count > 0 ) {
 					ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	

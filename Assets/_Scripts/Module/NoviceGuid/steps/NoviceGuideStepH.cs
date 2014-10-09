@@ -1,23 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class NoviceGuideStepH_StateOne:NoviceGuidState
+public class NoviceGuideStepH_1:NoviceGuidStep
 {
-	private static NoviceGuideStepH_StateOne instance;
 	
-	public static NoviceGuideStepH_StateOne Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepH_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepH_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepH state_one");
-
 		BattleMapView bm = GameObject.Find ("Map").GetComponent<BattleMapView> ();
 		MapItem item = null;
 		for(int i = 0; i < MapConfig.MapWidth; i++){
@@ -64,44 +52,34 @@ public class NoviceGuideStepH_StateOne:NoviceGuidState
 //		});
 	}
 
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepH_StateTwo.Instance());
-		}
-		else{
-			
-		}
-	}
-
 	private void OnBattleEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
-		JumpToNextState = true;
+		GoToNextState();
 	}
 
 }
 
-public class NoviceGuideStepH_StateTwo:NoviceGuidState
+public class NoviceGuideStepH_2:NoviceGuidStep
 {
-	private static NoviceGuideStepH_StateTwo instance;
+	private static NoviceGuideStepH_2 instance;
 	
-	public static NoviceGuideStepH_StateTwo Instance()
+	public static NoviceGuideStepH_2 Instance()
 	{
 		if (instance == null)
-			instance = new NoviceGuideStepH_StateTwo ();
+			instance = new NoviceGuideStepH_2 ();
 		return instance;
 	}
 	
-	private NoviceGuideStepH_StateTwo ():base()	{}
+	private NoviceGuideStepH_2 ():base()	{}
 	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide14_title"),TextCenter.GetText ("guide14_content"),TextCenter.GetText ("NEXT"),ClickOK,GuidePicPath.GoldBox);
 		
 
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
 	}
 
 	private void ClickOK(object data)
@@ -133,19 +111,9 @@ public class NoviceGuideStepH_StateTwo:NoviceGuidState
 			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)},false);	
 		}
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
 
 	
-	public override void Exit(NoviceGuideStepEntity stepEntity)
+	public override void Exit()
 	{
 		NoviceGuideUtil.RemoveAllArrows ();
 		//CommandEnum.BattleStart;

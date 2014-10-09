@@ -2,27 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 //Evolve battle
-public class NoviceGuideStepL_StateOne:NoviceGuidState
+public class NoviceGuideStepL_1:NoviceGuidStep
 {
-	private static NoviceGuideStepL_StateOne instance;
-	
-	public static NoviceGuideStepL_StateOne Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepL_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepL_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide14_title"),TextCenter.GetText ("guide14_content"),TextCenter.GetText ("NEXT"),ClickOK,null,GuidePicPath.GoldBox);
 		
 		
 		
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
 	}
 	
 	private void ClickOK(object data)
@@ -57,19 +46,10 @@ public class NoviceGuideStepL_StateOne:NoviceGuidState
 			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)});	
 		}
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
+
 	
 	
-	public override void Exit(NoviceGuideStepEntity stepEntity)
+	public override void Exit()
 	{
 		NoviceGuideUtil.RemoveAllArrows ();
 		//CommandEnum.BattleStart;

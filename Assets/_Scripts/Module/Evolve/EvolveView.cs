@@ -50,7 +50,7 @@ public class EvolveView : ViewBase {
 		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","evolve");
 		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","evolve");
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
 
 		if (viewData != null && viewData.ContainsKey ("friendinfo")) {
 			SelectFriend(viewData["friendinfo"] as FriendInfo);	

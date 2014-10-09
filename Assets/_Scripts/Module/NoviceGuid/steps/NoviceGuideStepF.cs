@@ -1,21 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //party
-public class NoviceGuideStepF_StateOne:NoviceGuidState{
+public class NoviceGuideStepF_1:NoviceGuidStep{
 
-	private static NoviceGuideStepF_StateOne instance;
-	
-	public static NoviceGuideStepF_StateOne Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepF_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepF_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+
+	public override void Enter()
 	{
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide10_title"),TextCenter.GetText ("guide10_content"),TextCenter.GetText ("NEXT"),SureCall);
 	}
@@ -101,40 +91,18 @@ public class NoviceGuideStepF_StateOne:NoviceGuidState{
 
 		NoviceGuideUtil.HideTipText ();
 
-		JumpToNextState = true;
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepF_StateTwo.Instance());
-		}
-		else{
-			
-		}
+		GoToNextState();
 	}
 
 }
 
 //stationary guide(to the detail panel)
-public class NoviceGuideStepF_StateTwo:NoviceGuidState{
+public class NoviceGuideStepF_2:NoviceGuidStep{
 
 	private UIEventListenerCustom.VoidDelegate click;
+	
 
-	private static NoviceGuideStepF_StateTwo instance;
-	
-	public static NoviceGuideStepF_StateTwo Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepF_StateTwo ();
-		return instance;
-	}
-	
-	private NoviceGuideStepF_StateTwo ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86);
@@ -157,38 +125,19 @@ public class NoviceGuideStepF_StateTwo:NoviceGuidState{
 		UIEventListenerCustom.Get (btn).LongPress -= OnUnitPress;
 		UIEventListenerCustom.Get (btn).onClick = click;
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepF_StateFour.Instance());
-		}
-		else{
-			
-		}
-	}
+
 }
 
-public class NoviceGuideStepF_StateThree:NoviceGuidState{
+public class NoviceGuideStepF_3:NoviceGuidStep{
 	
-	private static NoviceGuideStepF_StateThree instance;
+
 	
-	public static NoviceGuideStepF_StateThree Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepF_StateThree ();
-		return instance;
-	}
-	
-	private NoviceGuideStepF_StateThree ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 		if (sbb == null) {
 			Debug.LogError("NoviceGuideStepF_StateThree scene btn is null");
-			stepEntity.GetStateMachine ().ChangeState (null);
+
 			return;
 		}
 		NoviceGuideUtil.ForceOneBtnClick (sbb);
@@ -202,40 +151,18 @@ public class NoviceGuideStepF_StateThree:NoviceGuidState{
 	{
 		NoviceGuideUtil.RemoveArrow (btn);
 		UIEventListenerCustom.Get (btn).onClick -= TapBackBtn;
-		JumpToNextState = true;
+		GoToNextState();
 
 
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
 	}
 }
 
 //units detail
-public class NoviceGuideStepF_StateFour:NoviceGuidState{
+public class NoviceGuideStepF_4:NoviceGuidStep{
 	
-	private static NoviceGuideStepF_StateFour instance;
-	
-	public static NoviceGuideStepF_StateFour Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepF_StateFour ();
-		return instance;
-	}
-	
-	private NoviceGuideStepF_StateFour ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-
+		nextState = null;
 		GameObject btn0 = GameObject.FindWithTag ("unit_detail_btn2");
 		//NoviceGuideUtil.ForceOneBtnClick(empty);
 		NoviceGuideUtil.ForceOneBtnClick (btn0);
@@ -254,7 +181,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_6"), new Vector2 (0, 0));
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
 
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, onChangeScene);
 //		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
@@ -275,7 +202,7 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 
 	void onChangeScene(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, onChangeScene);
-		JumpToNextState = true;
+		GoToNextState();
 	}
 
 //	private void Btn1Click(GameObject btn)
@@ -329,19 +256,9 @@ public class NoviceGuideStepF_StateFour:NoviceGuidState{
 //		JumpToNextState = true;
 //
 //	}
+	
 
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);//NoviceGuideStepF_StateThree.Instance());
-		}
-		else{
-			
-		}
-	}
-
-	public override void Exit (NoviceGuideStepEntity stepEntity)
+	public override void Exit ()
 	{
 		NoviceGuideUtil.HideTipText ();
 

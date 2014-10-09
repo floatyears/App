@@ -2,20 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 //boss attack
-public class NoviceGuideStepK_StateOne:NoviceGuidState
+public class NoviceGuideStepK_1:NoviceGuidStep
 {
-	private static NoviceGuideStepK_StateOne instance;
 	
-	public static NoviceGuideStepK_StateOne Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepK_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepK_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide26_title"),TextCenter.GetText ("guide26_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.ChangeBlockOrder);
@@ -23,48 +13,27 @@ public class NoviceGuideStepK_StateOne:NoviceGuidState
 		
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 	}
-	
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepK_StateTwo.Instance());
-		}
-		else{
-			
-		}
-	}
-	
+
 	private void ClickOk(object data){
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_7"));
 	}
 	
 	private void EnemyAttackEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_HEAL;
-		JumpToNextState = true;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_HEAL;
+		GoToNextState();
 	}
 	
-	public override void Exit (NoviceGuideStepEntity stepEntity)
+	public override void Exit ()
 	{
 		NoviceGuideUtil.HideTipText ();
 	}
 }
 
-public class NoviceGuideStepK_StateTwo:NoviceGuidState
+public class NoviceGuideStepK_2:NoviceGuidStep
 {
-	private static NoviceGuideStepK_StateTwo instance;
 	
-	public static NoviceGuideStepK_StateTwo Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepK_StateTwo ();
-		return instance;
-	}
-	
-	private NoviceGuideStepK_StateTwo ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide27_title"),TextCenter.GetText ("guide27_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.HealBlock);
 		
@@ -72,50 +41,20 @@ public class NoviceGuideStepK_StateTwo:NoviceGuidState
 	
 	
 	private void ClickOk(object data){
-		JumpToNextState = true;
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepK_StateThree.Instance());
-		}
-		else{
-			
-		}
+		GoToNextState();
 	}
 }
 
 
 //heal
-public class NoviceGuideStepK_StateThree:NoviceGuidState
+public class NoviceGuideStepK_3:NoviceGuidStep
 {
-	private static NoviceGuideStepK_StateThree instance;
 	
-	public static NoviceGuideStepK_StateThree Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepK_StateThree ();
-		return instance;
-	}
-	
-	private NoviceGuideStepK_StateThree ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide28_title"),TextCenter.GetText ("guide28_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.HealSkill);
 		
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepK_StateFour.Instance());
-		}
-		else{
-			
-		}
 	}
 	
 	private void ClickOk(object data){
@@ -137,12 +76,12 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide29_title"),TextCenter.GetText ("guide29_content"),TextCenter.GetText ("NEXT"),ClickOk1);
 		
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_SKILL;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_SKILL;
 		
 	}
 	
 	private void ClickOk1(object data){
-		JumpToNextState = true;
+		GoToNextState();
 	}
 	
 	
@@ -150,22 +89,10 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 
 
 //skill
-public class NoviceGuideStepK_StateFour:NoviceGuidState
+public class NoviceGuideStepK_4:NoviceGuidStep
 {
-//	private GameObject nmw;
 	
-	private static NoviceGuideStepK_StateFour instance;
-	
-	public static NoviceGuideStepK_StateFour Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepK_StateFour ();
-		return instance;
-	}
-	
-	private NoviceGuideStepK_StateFour ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide30_title"),TextCenter.GetText ("guide30_content"),TextCenter.GetText ("NEXT"));
 		
@@ -182,16 +109,6 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, true);
 //		BattleBottomView.SetClickItem (0);
 //		ExcuteActiveSkill.CoolingDoneLeaderActiveSkill ();
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepK_StateFive.Instance());
-		}
-		else{
-			
-		}
 	}
 	
 	private void OnUseLeaderSkill(object btn){
@@ -239,7 +156,7 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	}
 	
 	private void SkillAttack(object data){
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_BOOST;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_BOOST;
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillAttack, SkillAttack);
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide32_title"),TextCenter.GetText ("guide32_content"),TextCenter.GetText ("NEXT"),ClickOk2);
@@ -247,34 +164,20 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	}
 	
 	private void ClickOk2(object data){
-		JumpToNextState = true;
+		GoToNextState();
 	}
 	
 }
 
 //boost
-public class NoviceGuideStepK_StateFive:NoviceGuidState
+public class NoviceGuideStepK_5:NoviceGuidStep
 {
-	private static NoviceGuideStepK_StateFive instance;
 	
-	public static NoviceGuideStepK_StateFive Instance()
-	{
-		if (instance == null)
-			instance = new NoviceGuideStepK_StateFive ();
-		return instance;
-	}
-	
-	private NoviceGuideStepK_StateFive ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide33_title"),TextCenter.GetText ("guide33_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.Boost);
 		
-		
-		
-		//GameObject.Find ();
-//		NoviceGuideUtil.ShowArrow (new GameObject[]{BattleCardAreaItem.boostObject}, new Vector3[]{new Vector3(0,0,4)},false);
 	}
 	
 	private void ClickOk(object data){
@@ -287,7 +190,7 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 	private void OnBattleEnd (object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
+		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide34_title"),TextCenter.GetText ("guide34_content"),TextCenter.GetText ("NEXT"));
 		
@@ -298,14 +201,5 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 //		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.GOLD_BOX;
 	}
 
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
-	
+
 }

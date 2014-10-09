@@ -47,7 +47,7 @@ public class GiveUp__FightReadyView : ViewBase {
 		AddCmdLisenter(); 
 		ShowUIAnimation();
 		
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST); 
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST); 
 	}
 	
 	public override void HideUI(){
