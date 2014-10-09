@@ -32,11 +32,10 @@ public class TaskAndAchieveModel : ProtobufDataBase {
 			ins.goalCnt = (int)jsonData[i]["goalCnt"];
 
 			JsonData jd = jsonData[i]["giftItem"];
-			ins.giftItem = new List<GiftItem>();
 			for (int j = 0; j < jd.Count; j++ ) {
 				GiftItem gi = new GiftItem();
-				gi.content = jd[j]["content"];
-				gi.count = jd[j]["count"];
+				gi.content = (int)jd[j]["content"];
+				gi.count = (int)jd[j]["count"];
 				ins.giftItem.Add(gi);
 			}
 

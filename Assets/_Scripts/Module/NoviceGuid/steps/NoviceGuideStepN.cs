@@ -17,20 +17,9 @@ public class NoviceGuideStepN_StateOne:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		Debug.Log (stepEntity.GetType () + " is execute stepM state_one");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide61_title"),TextCenter.GetText ("guide61_content"),TextCenter.GetText ("NEXT"),ClickOK);
 		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide61_title");
-		mwp.contentText = TextCenter.GetText("guide61_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 	}
 	

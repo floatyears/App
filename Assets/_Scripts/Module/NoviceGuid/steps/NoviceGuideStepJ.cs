@@ -18,20 +18,9 @@ public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepJ state_one");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide51_title"),TextCenter.GetText ("guide51_content"),TextCenter.GetText ("NEXT"),ClickOK);
 		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide51_title");
-		mwp.contentText = TextCenter.GetText("guide51_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 	}
 	
@@ -51,18 +40,8 @@ public class NoviceGuideStepJ_StateOne:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide52_title");
-		mwp.contentText = TextCenter.GetText("guide52_content");
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide52_title"),TextCenter.GetText ("guide52_content"),TextCenter.GetText ("NEXT"),OnClickItem1);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = OnClickItem1;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 
 //	private void ClickOK1(object data){
@@ -121,20 +100,7 @@ public class NoviceGuideStepJ_StateTwo:NoviceGuidState{
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepJ state_two");
-		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide53_title");
-		mwp.contentText = TextCenter.GetText("guide53_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide53_title"),TextCenter.GetText ("guide53_content"),TextCenter.GetText ("NEXT"),ClickOK);
 		
 	}
 	

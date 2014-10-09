@@ -109,6 +109,8 @@ public enum ModuleEnum
 
 	MsgWindowModule,
 
+	NoviceMsgWindowModule,
+
 	MaskModule,
 
 	ShowNewCardModule,

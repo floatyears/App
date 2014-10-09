@@ -16,7 +16,9 @@
 
 	public virtual void Execute(NoviceGuideStepEntity stepEntity)
 	{
-
+		if (jumpToNextState) {
+				
+		}
 	}
 
 	public virtual void Exit(NoviceGuideStepEntity stepEntity)

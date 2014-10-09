@@ -20,7 +20,7 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 
 //		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
-		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide5_title"),TextCenter.GetText ("guide5_content"),TextCenter.GetText ("OK"),ClickOk);
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide5_title"),TextCenter.GetText ("guide5_content"),TextCenter.GetText ("OK"),ClickOk);
 
 	}
 
@@ -28,7 +28,7 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 		
 //		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
-		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide6_title"),TextCenter.GetText ("guide6_content"),TextCenter.GetText ("OK"),forceClick);
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide6_title"),TextCenter.GetText ("guide6_content"),TextCenter.GetText ("OK"),forceClick);
 	}
 
 	private void forceClick(object data)
@@ -126,19 +126,8 @@ public class NoviceGuideStepC_StateThree:NoviceGuidState
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
 		LogHelper.Log (stepEntity.GetType () + " get into stepC state_three");
-		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide8_title");
-		mwp.contentText = TextCenter.GetText("guide8_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+
+		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText("guide8_title"),TextCenter.GetText("guide8_content"),TextCenter.GetText("NEXT"));
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FRIEND_SELECT;
 	}

@@ -17,7 +17,6 @@ public class NoviceGuideStepEntityManager {
 		stepEntityDic = new Dictionary<NoviceGuideStepEntityID, NoviceGuideStepEntity> ();
 		GameInput.OnUpdate += Update;
 
-		//MsgCenter.Instance.AddListener(CommandEnum.ChangeScene,OnChangeScene);
 	}
 
 
@@ -72,175 +71,99 @@ public class NoviceGuideStepEntityManager {
 		//currentNoviceGuideStage++;
 	}
 
-
-//	private void OnChangeScene(object msg)
-//	{
-//		
-//		ModuleEnum se = (ModuleEnum)msg;
-//		Debug.Log ("change scene to: " + se.ToString ());
-//		switch (se) {
-//		case ModuleEnum.SelectRole:
-//			CreateStepEntityByID(NoviceGuideStepEntityID.StepA);
-//			break;
-//		}
-//	}
-	
 	public void StartStep(NoviceGuideStartType startType)
 	{
-//		return;
-//		if (currentNoviceGuideStage <= 0) {
-//			return;	
-//		}
-//
-//		Debug.Log("//////////current scene: " + UIManager.Instance.baseScene.CurrentScene);
-//		switch (UIManager.Instance.baseScene.CurrentScene) {
-//			case ModuleEnum.Loading:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
-//				break;
-//			case ModuleEnum.SelectRole:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
-//				break;
-//			case ModuleEnum.Scratch:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.SCRATCH,NoviceGuideStepC_StateOne.Instance());
-//				break;
-//			case ModuleEnum.RareScratch:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.RARE_SCRATCH,NoviceGuideStepD_StateOne.Instance());
-//				break;
-//			case ModuleEnum.Quest:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.QUEST,NoviceGuideStepE_StateOne.Instance());
-//				break;
-//			case ModuleEnum.Party:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.PARTY,NoviceGuideStepF_StateOne.Instance());
-//				break;
-//			case ModuleEnum.Units:
-//				if(currentNoviceGuideStage == 16){
-//					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateThree.Instance());
-//				}else if(currentNoviceGuideStage == 15){
-//					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateTwo.Instance());
-//				}else if(currentNoviceGuideStage == 14){
-//					CreateStepEntityByID(NoviceGuideStepEntityID.UNITS,NoviceGuideStepG_StateOne.Instance());	
-//				}
-//				break;
-//			case ModuleEnum.Fight:
-//				
-//				CreateStepEntityByID(NoviceGuideStepEntityID.FIGHT,NoviceGuideStepH_StateOne.Instance());
-//				break;
-//			case ModuleEnum.LevelUp:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.LEVEL_UP,NoviceGuideStepI_StateOne.Instance());
-//				break;
-//			case ModuleEnum.Evolve:
-//				CreateStepEntityByID(NoviceGuideStepEntityID.EVOLVE,NoviceGuideStepJ_StateOne.Instance());
-//				break;
-//		}
-//		Debug.Log ("current stage: " + currentNoviceGuideStage);
 		NoviceGuideStage ngs = (NoviceGuideStage) currentNoviceGuideStage;
 		if (ngs == NoviceGuideStage.NONE) {
 			return;		
 		}
 		if (startType == NoviceGuideStartType.BATTLE) {
-						switch (ngs) {
-						case NoviceGuideStage.GOLD_BOX://goldBox
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepH_StateOne.Instance ());
-								break;
-						case NoviceGuideStage.GET_KEY://GetKey
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateSix.Instance ());
-								break;
-						case NoviceGuideStage.EVOVLE_BATTLE:
-								CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepL_StateOne.Instance ());
-								break;
+			switch (ngs) {
+			case NoviceGuideStage.GOLD_BOX://goldBox
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepH_StateOne.Instance ());
+					break;
+			case NoviceGuideStage.GET_KEY://GetKey
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateSix.Instance ());
+					break;
+			case NoviceGuideStage.EVOVLE_BATTLE:
+					CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepL_StateOne.Instance ());
+					break;
 
-						}
-				} else if (startType == NoviceGuideStartType.FIGHT) {
-						switch (ngs) {
-						//Fist Enemy
-						case NoviceGuideStage.ANIMATION://Animation
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateOne.Instance ());
-								break;
-						case NoviceGuideStage.FIRST_ATTACK_ONE://AttackOnce
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateTwo.Instance ());
-								break;
-						case NoviceGuideStage.FIRST_ATTACK_TWO://AttackTwice
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateFour.Instance ());
-								break;
-						//Boss Enemy
-						case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateOne.Instance ());
-								break;
-						case NoviceGuideStage.BOSS_ATTACK_HEAL://Heal
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateThree.Instance ());
-								break;
-						case NoviceGuideStage.BOSS_ATTACK_SKILL://Skill
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFour.Instance ());
-								break;
-						case NoviceGuideStage.BOSS_ATTACK_BOOST://Booost
-								CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFive.Instance ());
-								break;
-						}
-				} else if (startType == NoviceGuideStartType.UNITS) {
-						switch (ngs) {
-						case NoviceGuideStage.UNIT_PARTY:
-								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateOne.Instance ());
-								break;
-						case NoviceGuideStage.UNIT_LEVEL_UP:
-								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateTwo.Instance ());
-								break;
-						case NoviceGuideStage.UNIT_EVOLVE_EXE:
-								CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateThree.Instance ());
-								break;
-						case NoviceGuideStage.PARTY://Party
-								CreateStepEntityByID (NoviceGuideStepEntityID.PARTY, NoviceGuideStepF_StateOne.Instance ());
-								break;
-						case NoviceGuideStage.LEVEL_UP://LevelUp
-								CreateStepEntityByID (NoviceGuideStepEntityID.LEVEL_UP, NoviceGuideStepI_StateOne.Instance ());
-								break;
-						case NoviceGuideStage.EVOLVE://Evolve
-								CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepJ_StateOne.Instance ());
-								break;
-						}
-				} else if (startType == NoviceGuideStartType.QUEST) {
-				
-						switch (ngs) {
-						case NoviceGuideStage.EVOVLE_QUEST:
-						CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE_QUEST, NoviceGuideStepM_StateTwo.Instance ());
-								break;
-						case NoviceGuideStage.FRIEND_SELECT:
-							CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepN_StateOne.Instance ());
-							break;
-						}
-				} else if (startType == NoviceGuideStartType.SCRATCH && ngs == NoviceGuideStage.SCRATCH) {
-					CreateStepEntityByID (NoviceGuideStepEntityID.SCRATCH, NoviceGuideStepC_StateOne.Instance ());
+			}
+		} else if (startType == NoviceGuideStartType.FIGHT) {
+			switch (ngs) {
+			//Fist Enemy
+			case NoviceGuideStage.ANIMATION://Animation
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateOne.Instance ());
+					break;
+			case NoviceGuideStage.FIRST_ATTACK_ONE://AttackOnce
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateTwo.Instance ());
+					break;
+			case NoviceGuideStage.FIRST_ATTACK_TWO://AttackTwice
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT, NoviceGuideStepD_StateFour.Instance ());
+					break;
+			//Boss Enemy
+			case NoviceGuideStage.BOSS_ATTACK_ONE://AttackOnce
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateOne.Instance ());
+					break;
+			case NoviceGuideStage.BOSS_ATTACK_HEAL://Heal
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateThree.Instance ());
+					break;
+			case NoviceGuideStage.BOSS_ATTACK_SKILL://Skill
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFour.Instance ());
+					break;
+			case NoviceGuideStage.BOSS_ATTACK_BOOST://Booost
+					CreateStepEntityByID (NoviceGuideStepEntityID.FIGHT_BOSS, NoviceGuideStepK_StateFive.Instance ());
+					break;
+			}
+		} else if (startType == NoviceGuideStartType.UNITS) {
+			switch (ngs) {
+			case NoviceGuideStage.UNIT_PARTY:
+					CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateOne.Instance ());
+					break;
+			case NoviceGuideStage.UNIT_LEVEL_UP:
+					CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateTwo.Instance ());
+					break;
+			case NoviceGuideStage.UNIT_EVOLVE_EXE:
+					CreateStepEntityByID (NoviceGuideStepEntityID.UNITS, NoviceGuideStepG_StateThree.Instance ());
+					break;
+			case NoviceGuideStage.PARTY://Party
+					CreateStepEntityByID (NoviceGuideStepEntityID.PARTY, NoviceGuideStepF_StateOne.Instance ());
+					break;
+			case NoviceGuideStage.LEVEL_UP://LevelUp
+					CreateStepEntityByID (NoviceGuideStepEntityID.LEVEL_UP, NoviceGuideStepI_StateOne.Instance ());
+					break;
+			case NoviceGuideStage.EVOLVE://Evolve
+					CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE, NoviceGuideStepJ_StateOne.Instance ());
+					break;
+			}
+		} else if (startType == NoviceGuideStartType.QUEST) {
+		
+			switch (ngs) {
+				case NoviceGuideStage.EVOVLE_QUEST:
+					CreateStepEntityByID (NoviceGuideStepEntityID.EVOLVE_QUEST, NoviceGuideStepM_StateTwo.Instance ());
+					break;
+				case NoviceGuideStage.FRIEND_SELECT:
+					CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepN_StateOne.Instance ());
+					break;
+			}
+		} else if (startType == NoviceGuideStartType.SCRATCH && ngs == NoviceGuideStage.SCRATCH) {
+			CreateStepEntityByID (NoviceGuideStepEntityID.SCRATCH, NoviceGuideStepC_StateOne.Instance ());
 					
-			}else if (startType == NoviceGuideStartType.OTHERS) {
-					switch (ngs) {
-//		case NoviceGuideStage.Preface://preface
-//				CreateStepEntityByID(NoviceGuideStepEntityID.Loading,NoviceGuideStepA_StateOne.Instance());
-//				break;
-//		case NoviceGuideStage.SELECT_ROLE://selectRole
-//			CreateStepEntityByID(NoviceGuideStepEntityID.SElECT_ROLE,NoviceGuideStepB_StateOne.Instance());
-//			break;
+		}else if (startType == NoviceGuideStartType.OTHERS) {
+			switch (ngs) {
+
 				case NoviceGuideStage.INPUT_NAME://InputName
 						CreateStepEntityByID (NoviceGuideStepEntityID.INPUT_NAME, NoviceGuideStepE_StateOne.Instance ());
 						break;
-//				case NoviceGuideStage.QUEST_SELECT://QuestSelect
-//						CreateStepEntityByID (NoviceGuideStepEntityID.QUEST, NoviceGuideStepE_StateOne.Instance ());
-//						break;
-//
-//				case NoviceGuideStage.EVOVLE_BATTLE://EvovlveBattle
-//						break;
-//			case novi
-//		case 19://selectRole
-//			break;
-//		case 20://selectRole
-//			break;
 				default:
 						break;
-				}
+			}
 		}
 	}
 
 	private void NextState()
 	{
-		//return;
 		if (currentStep != null ) {
 			if(currentStep.GetStateMachine ().CurrentState != null){
 				currentStep.GetStateMachine ().CurrentState.JumpToNextState = true;

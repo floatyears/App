@@ -17,18 +17,9 @@ public class NoviceGuideStepK_StateOne:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide26_title");
-		mwp.contentText = TextCenter.GetText("guide26_content");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide26_title"),TextCenter.GetText ("guide26_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.ChangeBlockOrder);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		mwp.guidePic = GuidePicPath.ChangeBlockOrder;
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 	}
@@ -75,18 +66,8 @@ public class NoviceGuideStepK_StateTwo:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide27_title");
-		mwp.contentText = TextCenter.GetText("guide27_content");
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide27_title"),TextCenter.GetText ("guide27_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.HealBlock);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		mwp.guidePic = GuidePicPath.HealBlock;
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 	
 	
@@ -122,18 +103,9 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide28_title");
-		mwp.contentText = TextCenter.GetText("guide28_content");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide28_title"),TextCenter.GetText ("guide28_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.HealSkill);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		mwp.guidePic = GuidePicPath.HealSkill;
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 	
 	public override void Execute(NoviceGuideStepEntity stepEntity)
@@ -161,18 +133,9 @@ public class NoviceGuideStepK_StateThree:NoviceGuidState
 		MsgCenter.Instance.Invoke (CommandEnum.UserGuideCard, -1);
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, AttackEnd);
 		NoviceGuideUtil.HideTipText ();
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide29_title"),TextCenter.GetText ("guide29_content"),TextCenter.GetText ("NEXT"),ClickOk1);
 		
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide29_title");
-		mwp.contentText = TextCenter.GetText("guide29_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk1;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_SKILL;
 		
@@ -204,17 +167,8 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide30_title");
-		mwp.contentText = TextCenter.GetText("guide30_content");
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide30_title"),TextCenter.GetText ("guide30_content"),TextCenter.GetText ("NEXT"));
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 		GameObject leader = GameObject.FindWithTag ("battle_leader");
 		NoviceGuideUtil.ShowArrow (new GameObject[]{leader}, new Vector3[]{new Vector3 (0, 80, 1)});
@@ -244,18 +198,9 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 
 		MsgCenter.Instance.Invoke (CommandEnum.ShiledInput, false);
 		NoviceGuideUtil.RemoveAllArrows ();
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide31_title"),TextCenter.GetText ("guide31_content"),TextCenter.GetText ("NEXT"),ClickOk1);
 		
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide31_title");
-		mwp.contentText = TextCenter.GetText("guide31_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk1;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 
 //		BattleBottomView.SetClickItem (-1);
 //		nmw = GameObject.Find ("NoviceGuideWindow(Clone)");
@@ -296,18 +241,9 @@ public class NoviceGuideStepK_StateFour:NoviceGuidState
 	private void SkillAttack(object data){
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_BOOST;
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillAttack, SkillAttack);
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide32_title"),TextCenter.GetText ("guide32_content"),TextCenter.GetText ("NEXT"),ClickOk2);
 		
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide32_title");
-		mwp.contentText = TextCenter.GetText("guide32_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk2;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 	}
 	
 	private void ClickOk2(object data){
@@ -332,19 +268,10 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 	
 	public override void Enter(NoviceGuideStepEntity stepEntity)
 	{
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide33_title");
-		mwp.contentText = TextCenter.GetText("guide33_content");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide33_title"),TextCenter.GetText ("guide33_content"),TextCenter.GetText ("NEXT"),ClickOk,null,GuidePicPath.Boost);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
 		
-		mwp.guidePic = GuidePicPath.Boost;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 		//GameObject.Find ();
 //		NoviceGuideUtil.ShowArrow (new GameObject[]{BattleCardAreaItem.boostObject}, new Vector3[]{new Vector3(0,0,4)},false);
@@ -359,24 +286,11 @@ public class NoviceGuideStepK_StateFive:NoviceGuidState
 	
 	private void OnBattleEnd (object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
-		
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam();
-		mwp.titleText = TextCenter.GetText("guide34_title");
-		mwp.contentText = TextCenter.GetText("guide34_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-
-//		sure = new BtnParam ();
-//		sure.callback = Again;
-//		sure.text = TextCenter.GetText("Again");
-//		mwp.btnParams[1] = sure;
 
 		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide34_title"),TextCenter.GetText ("guide34_content"),TextCenter.GetText ("NEXT"));
+		
 
 	}
 
