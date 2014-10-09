@@ -8,8 +8,6 @@ namespace bbproto{
 
 		private int _initSkillCooling = 0;
 
-		public SkillBase baseInfo;
-
 		public int initSkillCooling {
 			set { _initSkillCooling = value; } //Debug.LogError("initSkillCooling : " + value + " class : " + this); }
 			get { return _initSkillCooling; }
@@ -59,7 +57,7 @@ namespace bbproto{
 		//	}
 		
 		void Store() {
-			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, baseInfo.skillCooling);
+			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, skillCooling);
 		}
 		
 		void ReadSkillCooling () {
@@ -69,7 +67,7 @@ namespace bbproto{
 		
 		protected void DisposeCooling () {
 			bool temp = coolingDone;
-			coolingDone = CheckCooling (baseInfo);
+			coolingDone = CheckCooling ();
 			if (!temp && coolingDone) {
 				//			Excute();
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
@@ -77,12 +75,12 @@ namespace bbproto{
 			Store ();
 		}
 		
-		private bool CheckCooling(SkillBase sb) {
-			if (sb.skillCooling == 0) {
+		private bool CheckCooling() {
+			if (skillCooling == 0) {
 				return true;
 			}
-			sb.skillCooling --;
-			if (sb.skillCooling == 0) {
+			skillCooling --;
+			if (skillCooling == 0) {
 				return true;
 			} 
 			else {
@@ -91,8 +89,8 @@ namespace bbproto{
 		}
 		
 		public void InitCooling() {
-			baseInfo.skillCooling = initSkillCooling;
-			if (baseInfo.skillCooling > 0) {
+			skillCooling = initSkillCooling;
+			if (skillCooling > 0) {
 				coolingDone = false;
 			}
 			
@@ -109,7 +107,7 @@ namespace bbproto{
 
 		public override string ToString ()
 		{
-			return baseInfo.id.ToString ();
+			return id.ToString ();
 		}
 	}
 }
