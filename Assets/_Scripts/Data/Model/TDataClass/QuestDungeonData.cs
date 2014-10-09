@@ -198,8 +198,6 @@ namespace bbproto{
 	public partial class QuestGrid : ProtoBuf.IExtensible {
 
 		public QuestGrid(int dummy=0) { 
-	//		LogHelper.LogError ("TQuestGrid :: instance.trap id : " + instance.trapId);
-			Enemy = new List<EnemyInfo> ();
 		}
 
 		private DropUnit drop;
@@ -210,6 +208,9 @@ namespace bbproto{
 		private List<EnemyInfo> enemy;
 		public List<EnemyInfo> Enemy{
 			get{
+				if( enemy == null ) {
+					enemy = new List<EnemyInfo> ();
+				}
 				return enemy;
 			}
 			set{

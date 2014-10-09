@@ -42,6 +42,10 @@ public class QuestItemView : DragPanelItemBase {
 			FindUIElement();	
 		}
 
+		if(args.Length>0) {
+			stageInfo = (args[0] as StageInfo);
+		}
+
 		ShowQuestInfo();
 		AddEventListener();
 	}
@@ -86,7 +90,7 @@ public class QuestItemView : DragPanelItemBase {
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
 
 //		enabled = (data.state != EQuestState.QS_NEW);
-		mask.enabled = (data.state != EQuestState.QS_NEW);
+		mask.enabled = (data.state == EQuestState.QS_NEW);
 
 	}
 
