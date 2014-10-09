@@ -42,6 +42,10 @@ public class QuestItemView : DragPanelItemBase {
 			FindUIElement();	
 		}
 
+		if (args.Length > 1) {
+			stageInfo = args[1] as StageInfo;	
+		}
+
 		ShowQuestInfo();
 		AddEventListener();
 	}

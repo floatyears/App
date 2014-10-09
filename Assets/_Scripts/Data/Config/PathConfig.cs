@@ -15,4 +15,6 @@ public class PathConfig{
 	public const string UIInsConfigPath = "Config/UIInsConfig";
 	public const string DragPanelConfigPath = "Config/DragPanelConfig";
 
+	public const string TaskConfigPath = "Config/taskConf";
+
 }
