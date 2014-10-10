@@ -89,4 +89,9 @@ public class BattleMapModule : ModuleBase {
 			BattleConfigData.Instance.ClearData ();
 		}, BattleConfigData.Instance.questDungeonData.questId, true);
 	}
+
+	
+	public GameObject GetMapItem(int x, int y){
+		return (view as BattleMapView).GetMapItem (x, y);
+	}
 }

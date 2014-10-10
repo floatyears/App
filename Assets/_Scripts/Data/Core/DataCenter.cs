@@ -82,6 +82,12 @@ public class DataCenter {
 		ResourceManager.Instance.LoadLocalAsset(PathConfig.DragPanelConfigPath,o=>{
 			new DragPanelData((o as TextAsset).text);
 		});
+
+		ResourceManager.Instance.LoadLocalAsset (PathConfig.TaskConfigPath, o => {
+			taskAndAchieveData = new TaskAndAchieveModel();
+			taskAndAchieveData.Init((o as TextAsset).text);
+		});
+
 		new ConfigSkill();
 		//      ConfigEnermy ce = new ConfigEnermy();
 		new ConfigUnitBaseInfo();
@@ -212,6 +218,16 @@ public class DataCenter {
 			battleData = value;
 		}
 	}
+
+	private TaskAndAchieveModel taskAndAchieveData;
+	public TaskAndAchieveModel TaskAndAchieveData{
+		get{
+			return taskAndAchieveData;
+		}set{
+			taskAndAchieveData = value;
+		}
+	}
+
 	/// <summary>
 	/// store operate befoure account info
 	/// </summary>

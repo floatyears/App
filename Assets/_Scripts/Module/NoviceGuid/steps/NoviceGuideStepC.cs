@@ -1,26 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class NoviceGuideStepC_StateOne:NoviceGuidState
+public class NoviceGuideStepC_1:NoviceGuidStep
 {
-	private static NoviceGuideStepC_StateOne instance;
 	
-	public static NoviceGuideStepC_StateOne Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepC_StateOne ();
-		return instance;
-	}
+		nextState = typeof(NoviceGuideStepC_2);
 
-	private NoviceGuideStepC_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepC state_one");
-
-//		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
-
-		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide5_title"),TextCenter.GetText ("guide5_content"),TextCenter.GetText ("OK"),ClickOk);
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide5_title"),TextCenter.GetText ("guide5_content"),TextCenter.GetText ("OK"),ClickOk);
 
 	}
 
@@ -28,7 +16,7 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 		
 //		MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 
-		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText ("guide6_title"),TextCenter.GetText ("guide6_content"),TextCenter.GetText ("OK"),forceClick);
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide6_title"),TextCenter.GetText ("guide6_content"),TextCenter.GetText ("OK"),forceClick);
 	}
 
 	private void forceClick(object data)
@@ -46,36 +34,28 @@ public class NoviceGuideStepC_StateOne:NoviceGuidState
 		UIEventListenerCustom.Get (btn).onClick -= TapRareCard;
 		NoviceGuideUtil.RemoveArrow (btn);
 
-		JumpToNextState = true;
+		GoToNextState();
 	}
 
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateTwo.Instance());
-		else{
-			
-		}
-	}
 }
 
-public class NoviceGuideStepC_StateTwo:NoviceGuidState
+public class NoviceGuideStepC_2:NoviceGuidStep
 {
-	private static NoviceGuideStepC_StateTwo instance;
+	private static NoviceGuideStepC_2 instance;
 	
-	public static NoviceGuideStepC_StateTwo Instance()
+	public static NoviceGuideStepC_2 Instance()
 	{
 		if (instance == null)
-			instance = new NoviceGuideStepC_StateTwo ();
+			instance = new NoviceGuideStepC_2 ();
 		return instance;
 	}
 	
-	private NoviceGuideStepC_StateTwo ():base()	{}
+	private NoviceGuideStepC_2 ():base()	{}
 	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
+	public override void Enter()
 	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepC novistate_one");
-		
+		nextState = typeof(NoviceGuideStepC_3);
+
 		MsgWindowView mwv = GameObject.Find ("CommonNoteWindow(Clone)").GetComponent<MsgWindowView> ();
 		
 		UIButton cwLBtn = mwv.BtnLeft;
@@ -98,58 +78,17 @@ public class NoviceGuideStepC_StateTwo:NoviceGuidState
 		
 		mwv.BtnRight.isEnabled = true;
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepC_StateThree.Instance());
-		else{
-			
-		}
-	}
-	
+
 }
 
-public class NoviceGuideStepC_StateThree:NoviceGuidState
+public class NoviceGuideStepC_3:NoviceGuidStep
 {
-	private static NoviceGuideStepC_StateThree instance;
 	
-	public static NoviceGuideStepC_StateThree Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepC_StateThree ();
-		return instance;
-	}
-	
-	private NoviceGuideStepC_StateThree ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " get into stepC state_three");
-		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide8_title");
-		mwp.contentText = TextCenter.GetText("guide8_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = null;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
+		nextState = null;
+		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText("guide8_title"),TextCenter.GetText("guide8_content"),TextCenter.GetText("NEXT"));
 
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.FRIEND_SELECT;
-	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if(JumpToNextState)
-			stepEntity.GetStateMachine ().ChangeState (null);
-		else{
-			
-		}
 	}
 	
 }

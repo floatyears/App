@@ -200,7 +200,7 @@ public class ScratchModule : ModuleBase {
 				TextCenter.GetText ("ConfirmMaxRareGacha", maxGachaTimes), 
 				CallbackRareGacha, CallbackRareGacha, 1, maxGachaTimes);
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
     }
 
     private void OpenEventGachaWindow(){

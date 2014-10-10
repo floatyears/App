@@ -379,8 +379,8 @@
         "group" : 0
     },
     {
-        "name":"NoviceGuideModule",
-        "path": "Prefabs/UI/Common/",
+        "name":"NoviceMsgWindowModule",
+        "path": "Prefabs/UI/Common/NoviceMsgWindowUI",
         "parent": 1,
         "x": 0,
         "y": -565,
@@ -535,6 +535,15 @@
         "name":"BattleAttackEffectModule",
         "path":"Prefabs/UI/Battle/BattleAttackEffectUI",
         "parent": 2,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : -1
+    },
+    {
+        "name":"NoviceGuideTipsModule",
+        "path":"Prefabs/UI/NoviceGuide/NoviceGuideTipsUI",
+        "parent": 4,
         "x": 0,
         "y": 0,
         "z": 0, 

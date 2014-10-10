@@ -61,15 +61,7 @@ public class HomeView : ViewBase{
 
 	private void OnChangeSceneComplete(object data ){
 		if((ModuleEnum)data == ModuleEnum.HomeModule){
-			if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_PARTY || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_LEVEL_UP || NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE_EXE) {
-				ModuleManager.Instance.ShowModule (ModuleEnum.UnitsMainModule);	
-			} else if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.SCRATCH) {
-				ModuleManager.Instance.ShowModule(ModuleEnum.ScratchModule);
-			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT){
-				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.QUEST);
-			}else if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.INPUT_NAME){
-				NoviceGuideStepEntityManager.Instance().StartStep(NoviceGuideStartType.OTHERS);
-			}
+
 		}
 	}
 

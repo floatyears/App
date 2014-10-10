@@ -46,7 +46,6 @@ public class BattleManipulationView : ViewBase {
 	private Vector3 sourcePosition;
 	private const int oneWordSize = 42;
 
-	private Dictionary<int,List<CardItem>> battleAttack = new Dictionary<int, List<CardItem>>();
 	private static List<GameObject> battleCardIns = new List<GameObject>();
 	private GameObject cardItem;
 	public static Vector3 startPosition;
@@ -170,10 +169,10 @@ public class BattleManipulationView : ViewBase {
 	public override void ShowUI() {
 		base.ShowUI();
 		//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
-//			AddGuideCard ();
-			BattleConfigData.Instance.storeBattleData.colorIndex = 0;
-		}
+//		if (NoviceGuideStepManager.Instance.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
+////			AddGuideCard ();
+//			BattleConfigData.Instance.storeBattleData.colorIndex = 0;
+//		}
 		//		Debug.LogError ("isShow");
 		GenerateShowCard();
 
@@ -230,6 +229,22 @@ public class BattleManipulationView : ViewBase {
 			case "state_info":
 				StateInfo(args[1]);
 				break;
+			case "limit_input":
+			if((bool)args[1]){
+				foreach (var i in (int[])args[2]) {
+					moveItem[i].GetComponent<BoxCollider>().enabled = false;
+				}
+
+				foreach (var j in (int[])args[3]) {
+					battleCardAreaItem[j].GetComponent<BoxCollider>().enabled = false;
+				}
+			}else{
+				for (int i = 0; i < 5; i++) {
+					moveItem[i].GetComponent<BoxCollider>().enabled = false;
+					battleCardAreaItem[i].GetComponent<BoxCollider>().enabled = false;
+				}
+			}
+			break;
 			default:
 					break;
 		}
@@ -518,7 +533,7 @@ public class BattleManipulationView : ViewBase {
 	int maxBoostRandom = 0;
 	
 	void SetBoost () {
-		maxBoostRandom = NoviceGuideStepEntityManager.isInNoviceGuide() ? 5 : 10;
+		maxBoostRandom = NoviceGuideStepManager.Instance.isInNoviceGuide() ? 5 : 10;
 		
 		if (boostIndex > -1 && boostIndex < 5) {
 			battleCardAreaItem[boostIndex].isBoost = false;

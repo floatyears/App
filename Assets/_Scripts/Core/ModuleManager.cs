@@ -221,6 +221,13 @@ public class ModuleManager {
 //		HideModule (ModuleEnum.BattleAttackEffectModule);
 	}
 
+	public bool IsModuleShow(ModuleEnum name){
+		if(moduleDic.ContainsKey(name)){
+			return moduleDic[name].View.gameObject.activeSelf;
+		}
+		return false;
+	}
+
 	public static bool CheckIsModuleFocusUIEvent(UIConfigItem config){
 		if (config.group == ModuleGroup.POPUP || config.moduleName == ModuleEnum.MsgWindowModule || config.moduleName == ModuleEnum.MaskModule) 
 			return true;

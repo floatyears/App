@@ -49,8 +49,6 @@ public class StageSelectView : ViewBase{
 		}else if(viewData.ContainsKey("evolve")){
 			EvolveStartQuest(viewData["evolve"]);
 		}
-		if(NoviceGuideStepEntityManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOVLE_QUEST)
-			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
 
 		if (currentCityName != "") {
 			SetSceneName(currentCityName);
@@ -366,7 +364,7 @@ public class StageSelectView : ViewBase{
 		GetData(evolveStageInfo.StageInfo.cityId);
 		FillViewEvolve();
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVOLVETAGE"));
 	}
 

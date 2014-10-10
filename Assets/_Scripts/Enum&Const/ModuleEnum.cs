@@ -109,6 +109,8 @@ public enum ModuleEnum
 
 	MsgWindowModule,
 
+	NoviceMsgWindowModule,
+
 	MaskModule,
 
 	ShowNewCardModule,
@@ -124,6 +126,8 @@ public enum ModuleEnum
 	ApplyMessageModule,
 
 	PartyPageModule,
+
+	NoviceGuideTipsModule,
 
 	///--------battle
 	BattleMapModule,

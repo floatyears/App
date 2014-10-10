@@ -115,7 +115,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 			bottomRoot.transform.localPosition = new Vector3(-1000, -50, 0);
 			iTween.MoveTo(topRoot, iTween.Hash("y", 220, "time", 0.4f, "islocal", true));
 			iTween.MoveTo(bottomRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
-			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
 			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 		}else{
 			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");

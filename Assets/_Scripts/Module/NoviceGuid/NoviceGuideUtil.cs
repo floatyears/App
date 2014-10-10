@@ -25,7 +25,7 @@ public class NoviceGuideUtil {
 
 		Vector3 dir;
 		int i = 0,len = posAndDir.Length;
-		ResourceManager.Instance.LoadLocalAsset("Prefabs/NoviceGuideArrow", o => {
+		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/NoviceGuide/NoviceGuideArrow", o => {
 			GameObject obj = o as GameObject;
 			foreach (GameObject parent in parents) {
 				//			GameObject arrow = GameObject.Instantiate(obj,new Vector3(pos.x,pos.y,0),dir) as GameObject;

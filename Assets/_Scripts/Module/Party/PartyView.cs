@@ -60,7 +60,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		RefreshItemCounter();
 		ShowUIAnimation();
 	
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
 	}
 
 	public override void HideUI(){

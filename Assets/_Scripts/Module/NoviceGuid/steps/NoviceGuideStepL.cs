@@ -2,53 +2,20 @@ using UnityEngine;
 using System.Collections;
 
 //Evolve battle
-public class NoviceGuideStepL_StateOne:NoviceGuidState
+public class NoviceGuideStepL_1:NoviceGuidStep
 {
-	private static NoviceGuideStepL_StateOne instance;
-	
-	public static NoviceGuideStepL_StateOne Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepL_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepL_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide14_title");
-		mwp.contentText = TextCenter.GetText("guide14_content");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide14_title"),TextCenter.GetText ("guide14_content"),TextCenter.GetText ("NEXT"),ClickOK,null,GuidePicPath.GoldBox);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		mwp.guidePic = GuidePicPath.GoldBox;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
-		
-		
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
 	}
 	
 	private void ClickOK(object data)
 	{
-		GuideWindowParams mwp = new GuideWindowParams();
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide15_title");
-		mwp.contentText = TextCenter.GetText("guide15_content");
+
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide15_title"),TextCenter.GetText ("guide15_content"),TextCenter.GetText ("NEXT"),ClickOk2);
 		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOk2;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 		GameObject sp1 = GameObject.FindWithTag ("battle_sp1");
 		NoviceGuideUtil.ShowArrow (new GameObject[]{sp1}, new Vector3[]{new Vector3 (0, 0, 1)});
@@ -76,19 +43,10 @@ public class NoviceGuideStepL_StateOne:NoviceGuidState
 			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)});	
 		}
 	}
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
+
 	
 	
-	public override void Exit(NoviceGuideStepEntity stepEntity)
+	public override void Exit()
 	{
 		NoviceGuideUtil.RemoveAllArrows ();
 		//CommandEnum.BattleStart;

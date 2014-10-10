@@ -2,29 +2,17 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed class GuidePicPath{
-
-	private readonly string path;
-
-	public static readonly GuidePicPath GoldBox = new GuidePicPath ("GoldBox");
-	public static readonly GuidePicPath StarMove= new GuidePicPath ("StarMove");
-	public static readonly GuidePicPath ColorStarMove= new GuidePicPath ("ColorStarMove");
-	public static readonly GuidePicPath FullBlock= new GuidePicPath ("FullBlock");
-	public static readonly GuidePicPath FindKey= new GuidePicPath ("FindKey");
-	public static readonly GuidePicPath ChangeBlockOrder= new GuidePicPath ("ChangeBlockOrder");
-	public static readonly GuidePicPath HealBlock= new GuidePicPath ("HealBlock");
-	public static readonly GuidePicPath HealSkill= new GuidePicPath ("HealSkill");
-	public static readonly GuidePicPath Boost= new GuidePicPath ("Boost");
-
-
-	private GuidePicPath(string p){
-		path = p;
-	}
-
-	public override string ToString ()
-	{
-		return path;
-	}
+public enum GuidePicPath{
+	None,
+	GoldBox,
+	StarMove,
+	ColorStarMove,
+	FullBlock,
+	FindKey,
+	ChangeBlockOrder,
+	HealBlock,
+	HealSkill,
+	Boost,
 }
 
 public class GuideWindowParams{
@@ -73,35 +61,14 @@ public class NoviceMsgWindowView : ViewBase{
 
 	
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
-		FindUIElement();
 		base.Init(config, data);
-	}
-	
-	public override void ShowUI(){
-		base.ShowUI();
-		SetUIElement();
-	}
-	
-	public override void HideUI(){
-		//        base.HideUI();
-		//		base.ShowUI ();
-		ResetUIElement();
-		ShowSelf(false);
-	}
 
-	public override void DestoryUI () {
-//		Debug.LogError ("DestoryUI : " + guideAtlas);
-//		DestroyImmediate (guideAtlas);
-//		Resources.UnloadAsset (guideAtlas);
-	}
-	
-	void FindUIElement(){
 		window = FindChild("Window");
 		mask = FindChild<UISprite>("Mask");
-
+		
 		guidePicTex = FindChild<UISprite> ("Window/TipPic");
 		guideAtlas = guidePicTex.atlas.gameObject;
-
+		
 		btnLeft = FindChild<UIButton>("Window/Button_Left");
 		btnRight = FindChild<UIButton>("Window/Button_Right");
 		btnCenter = FindChild<UIButton>("Window/Button_Center");
@@ -110,48 +77,55 @@ public class NoviceMsgWindowView : ViewBase{
 		
 		msgLabelTop = FindChild<UILabel>("Window/Label_Msg_Top");
 		msgLabelBottom = FindChild<UILabel>("Window/Label_Msg_Bottom");
-
+		
 		maskObj = FindChild ("Mask").gameObject;
 		clider = maskObj.GetComponent<BoxCollider> ();
-
-
+		
+		
 		UIEventListenerCustom.Get(btnRight.gameObject).onClick = ClickRightButton;
 		UIEventListenerCustom.Get(btnLeft.gameObject).onClick = ClickLeftButton;
 		UIEventListenerCustom.Get(btnCenter.gameObject).onClick = ClickCenterButton;
 	}
 	
-	void ShowSelf(bool canShow){
-		this.gameObject.SetActive(canShow);
-		if (canShow){
-//			if (!msgWindowParams.inputEnable){
-//				LogHelper.Log("open msgWindow and block input");
-//				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker,
-//				                          new BlockerMaskParams(BlockerReason.MessageWindow, true));
-			if(!isShow)
-//				InputManager.Instance.SetBlockWithinLayer(BlockerReason.NoviceGuide,true);
-//			}
-//			else {
-//				SetLayerToBlocker(false);
-//			}
-			LogHelper.Log("open msgWindow showSelf true");
-			window.transform.localScale = new Vector3(1f, 0f, 1f);
-			iTween.ScaleTo(window, iTween.Hash("y", 1, "time", 0.4f, "easetype", iTween.EaseType.easeOutBounce));
-		} 
-		else{
-			Reset();
-//			if (!msgWindowParams.inputEnable){
-//				LogHelper.Log("close msgWindow and resume input");
-//				MsgCenter.Instance.Invoke(CommandEnum.SetBlocker, 
-//				                          new BlockerMaskParams(BlockerReason.MessageWindow, false));
-			//there may be some conditions that the ShowSelf execute more than once with the same canShow, then the layer may be invalid.
-			if(isShow)
-//				InputManager.Instance.SetBlockWithinLayer(BlockerReason.NoviceGuide,false);
-//			}
-//			SetLayerToBlocker(true);
-			LogHelper.Log("open msgWindow showSelf false");
+	public override void ShowUI(){
+
+		if (viewData != null && viewData.ContainsKey ("data")) {
+			base.ShowUI();
+			
+			msgWindowParams = viewData["data"] as GuideWindowParams;;
+			if (msgWindowParams.fullScreenClick) {
+				clider.enabled = true;
+			} else {
+				clider.enabled = false;
+			}
+			
+			titleLabel.text = msgWindowParams.titleText;
+			
+			UpdateGuidePic ();
+			
+			UpdateTitleLabel();
+			UpdateLabels();
+			UpdateBtnParams();	
+		}else{
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceMsgWindowModule);
 		}
-		isShow = canShow;
+
 	}
+	
+	public override void HideUI(){
+		base.HideUI ();
+		titleLabel.text = string.Empty;
+
+		Reset();
+	}
+
+	public override void DestoryUI () {
+		UIEventListenerCustom.Get(btnRight.gameObject).onClick = null;
+		UIEventListenerCustom.Get(btnLeft.gameObject).onClick = null;
+		UIEventListenerCustom.Get(btnCenter.gameObject).onClick = null;
+		msgWindowParams = null;
+	}
+
 	
 	void Reset(){
 		btnCenterParam = null;
@@ -166,7 +140,7 @@ public class NoviceMsgWindowView : ViewBase{
 		
 		SetButtonLabelText(btnLeft, TextCenter.GetText("OK"));
 		SetButtonLabelText(btnRight, TextCenter.GetText("Cancel"));
-		SetButtonLabelText(btnCenter, TextCenter.GetText("OK"));
+		SetButtonLabelText(btnCenter, TextCenter.GetText("NEXT"));
 		
 		msgLabelCenter.text = string.Empty;
 		msgLabelTop.text = string.Empty;
@@ -175,60 +149,18 @@ public class NoviceMsgWindowView : ViewBase{
 		msgLabelTop.width = msgLabelCenter.width = msgLabelBottom.width =  originWidth;
 	}
 	
-	void SetUIElement(){
-		this.gameObject.SetActive(false);
-		Reset();
-	}
-	
-	void ResetUIElement(){
-		titleLabel.text = string.Empty;
-		SetLayerToBlocker(true);
-	}
-	
-	public override void CallbackView(params object[] args){
-
-		//LogHelper.Log ("novice msg window callback");
-//		CallBackDispatcherArgs cbdArgs = data as CallBackDispatcherArgs;
-
-		switch (args[0].ToString()){
-		case "ShowMsg": 
-			ShowMsgWindow(args[1]);
-			break;
-		case "CloseMsg": 
-			CloseMsgWindow(args[1]);
-			break;
-		default:
-			break;
-		}
-	}
-	
-	void SetLayerToBlocker(bool toBlocker){
-		LogHelper.Log("SetLayerToBlocker() before, {0}", Main.Instance.NguiCamera.eventReceiverMask.ToString());
-		LogHelper.Log("SetLayerToBlocker(), {0}", toBlocker);
-		if (toBlocker){
-			mask.gameObject.SetActive(true);
-//			btnLeft.gameObject.layer = TouchEventBlocker.blockerLayer;
-//			btnRight.gameObject.layer = TouchEventBlocker.blockerLayer;
-//			btnCenter.gameObject.layer = TouchEventBlocker.blockerLayer;
-		}
-		else {
-			mask.gameObject.SetActive(false);
-//			btnLeft.gameObject.layer = TouchEventBlocker.defaultLayer;
-//			btnRight.gameObject.layer = TouchEventBlocker.defaultLayer;
-//			btnCenter.gameObject.layer = TouchEventBlocker.defaultLayer;
-		}
-	}
-	
 	void ClickRightButton(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		if (btnRightParam != null){
 			BtnParam bp = btnRightParam;
-			ShowSelf(false);
+			
 			DataListener callback = bp.callback;
 			
 			if (callback != null){
 				callback(bp.args);
 			}
+
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceMsgWindowModule);
 		}
 		
 	}
@@ -237,12 +169,13 @@ public class NoviceMsgWindowView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		if (btnLeftParam != null){
 			BtnParam bp = btnLeftParam;
-			ShowSelf(false);
 			DataListener callback = bp.callback;
 			
 			if (callback != null){
 				callback(bp.args);
 			}
+
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceMsgWindowModule);
 		}
 		
 	}
@@ -251,25 +184,14 @@ public class NoviceMsgWindowView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		if (btnCenterParam != null){
 			BtnParam bp = btnCenterParam;
-			ShowSelf(false);
 			DataListener callback = bp.callback;
 			if (callback != null){
 				callback(bp.args);
 			}
+
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceMsgWindowModule);
 		}
 		
-	}
-	
-	void UpdateCenterLabel(string text){
-		msgLabelCenter.text = text;
-	}
-	
-	void UpdateTopBottomLabel(string[] texts){
-		if (texts.Length != 2){
-			return;
-		}
-		msgLabelTop.text = texts[0];
-		msgLabelBottom.text = texts[1];
 	}
 	
 	void SetButtonLabelText(UIButton button, string text){
@@ -319,10 +241,14 @@ public class NoviceMsgWindowView : ViewBase{
 		string text = msgWindowParams.contentText as string;
 		string[] texts = msgWindowParams.contentTexts as string[];
 		if (text != null) {
-			UpdateCenterLabel(text);
+			msgLabelCenter.text = text;
 		}
 		else if (texts != null) {
-			UpdateTopBottomLabel(texts);
+			if (texts.Length != 2){
+				return;
+			}
+			msgLabelTop.text = texts[0];
+			msgLabelBottom.text = texts[1];
 		}
 	}
 	
@@ -344,7 +270,7 @@ public class NoviceMsgWindowView : ViewBase{
 	}
 
 	void UpdateGuidePic(){
-		if (msgWindowParams.guidePic != null) {
+		if (msgWindowParams.guidePic != GuidePicPath.None) {
 //			Debug.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
 			guidePicTex.gameObject.SetActive(true);
 
@@ -376,52 +302,5 @@ public class NoviceMsgWindowView : ViewBase{
 	void ModifyThePos(Transform trans,float x){
 		trans.localPosition = new Vector3 (x, trans.localPosition.y, trans.localPosition.z);
 	}
-	
-	void ShowMsgWindow(object args){
 
-
-
-		GuideWindowParams nextMsgWindowParams = args as GuideWindowParams;
-		if (nextMsgWindowParams == null){
-			return;
-		}
-
-
-//		LogHelper.Log ("show novice msg window"+args);
-		msgWindowParams = nextMsgWindowParams;
-		if (msgWindowParams.fullScreenClick) {
-			clider.enabled = true;
-		} else {
-			clider.enabled = false;
-		}
-
-		ShowSelf(true);  
-		LogHelper.Log("UpdateNotePanel() start");
-		titleLabel.text = msgWindowParams.titleText;
-
-		UpdateGuidePic ();
-
-		UpdateTitleLabel();
-		UpdateLabels();
-		UpdateBtnParams();
-
-		//LogHelper.Log("show novice guide msg window!" );
-	}
-	
-	void CloseMsgWindow(object args){
-		ShowSelf(false);
-	}
-	
-	public UIButton BtnLeft
-	{
-		get{return btnLeft;}
-		private set{ btnLeft = value;}
-	}
-	
-	public UIButton BtnRight
-	{
-		get{return btnRight;}
-		private set{ btnRight = value;}
-	}
-	
 }

@@ -2,35 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 //city select
-public class NoviceGuideStepN_StateOne:NoviceGuidState{
+public class NoviceGuideStepN_1:NoviceGuidStep{
 	
-	private static NoviceGuideStepN_StateOne instance;
-	
-	public static NoviceGuideStepN_StateOne Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepN_StateOne ();
-		return instance;
-	}
-	
-	private NoviceGuideStepN_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		Debug.Log (stepEntity.GetType () + " is execute stepM state_one");
+		nextState = typeof(NoviceGuideStepN_2);
+		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide61_title"),TextCenter.GetText ("guide61_content"),TextCenter.GetText ("NEXT"),ClickOK);
 		
-		GuideWindowParams mwp = new GuideWindowParams ();
-		//mwp.btnParams = new BtnParam[1];
-		mwp.btnParam = new BtnParam ();
-		mwp.titleText = TextCenter.GetText("guide61_title");
-		mwp.contentText = TextCenter.GetText("guide61_content");
-		
-		BtnParam sure = new BtnParam ();
-		sure.callback = ClickOK;
-		sure.text = TextCenter.GetText("NEXT");
-		mwp.btnParam = sure;
-		
-		MsgCenter.Instance.Invoke(CommandEnum.OpenGuideMsgWindow, mwp);
 		
 	}
 	
@@ -48,38 +26,17 @@ public class NoviceGuideStepN_StateOne:NoviceGuidState{
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 	}
-	
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepN_StateTwo.Instance());
-		}
-		else{
-			
-		}
-	}
+
 	
 }
 
 //stage select
-public class NoviceGuideStepN_StateTwo:NoviceGuidState{
+public class NoviceGuideStepN_2:NoviceGuidStep{
+
 	
-	private static NoviceGuideStepN_StateTwo instance;
-	
-	public static NoviceGuideStepN_StateTwo Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepN_StateTwo ();
-		return instance;
-	}
-	
-	private NoviceGuideStepN_StateTwo ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_two");
+		nextState = typeof(NoviceGuideStepN_3);
 		
 		GameObject first = GameObject.Find ("StageSelectWindow(Clone)").GetComponent<StageSelectView>().GetStageNewItem();
 		//		if(first == null)
@@ -96,36 +53,15 @@ public class NoviceGuideStepN_StateTwo:NoviceGuidState{
 	}
 	
 	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepN_StateThree.Instance());
-		}
-		else{
-			
-		}
-	}
-	
 }
 
 //quest select
-public class NoviceGuideStepN_StateThree:NoviceGuidState{
+public class NoviceGuideStepN_3:NoviceGuidStep{
 	
-	private static NoviceGuideStepN_StateThree instance;
 	
-	public static NoviceGuideStepN_StateThree Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepN_StateThree ();
-		return instance;
-	}
-	
-	private NoviceGuideStepN_StateThree ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_three");
+		nextState = typeof(NoviceGuideStepN_4);
 		
 //		GameObject first = GameObject.Find ("QuestSelectWindow(Clone)").GetComponent<QuestSelectView>().GetDragItem(0);
 //		NoviceGuideUtil.ForceOneBtnClick (first);
@@ -138,39 +74,16 @@ public class NoviceGuideStepN_StateThree:NoviceGuidState{
 		NoviceGuideUtil.RemoveAllArrows ();
 		
 	}
-	
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepN_StateFour.Instance());
-		}
-		else{
-			
-		}
-	}
-	
 }
 
 
 //quest select
-public class NoviceGuideStepN_StateFour:NoviceGuidState{
+public class NoviceGuideStepN_4:NoviceGuidStep{
+
 	
-	private static NoviceGuideStepN_StateFour instance;
-	
-	public static NoviceGuideStepN_StateFour Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepN_StateFour ();
-		return instance;
-	}
-	
-	private NoviceGuideStepN_StateFour ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_three");
+		nextState = typeof(NoviceGuideStepN_5);
 		
 		GameObject first = GameObject.Find ("FriendSelectWindow(Clone)").GetComponent<FriendSelectView>().GetFriendItem(0);
 		NoviceGuideUtil.ForceOneBtnClick (first);
@@ -185,37 +98,15 @@ public class NoviceGuideStepN_StateFour:NoviceGuidState{
 	}
 	
 	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (NoviceGuideStepN_StateFive.Instance());
-		}
-		else{
-			
-		}
-	}
-	
 }
 
 //fight ready
-public class NoviceGuideStepN_StateFive:NoviceGuidState{
+public class NoviceGuideStepN_5:NoviceGuidStep{
+
 	
-	private static NoviceGuideStepN_StateFive instance;
-	
-	public static NoviceGuideStepN_StateFive Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepN_StateFive ();
-		return instance;
-	}
-	
-	private NoviceGuideStepN_StateFive ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepM state_five");
-		
+		nextState = null;
 		GameObject first = GameObject.FindWithTag ("fight_btn");
 		NoviceGuideUtil.ForceOneBtnClick (first,true);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{first}, new Vector3[]{new Vector3(0,0,1)});
@@ -226,18 +117,6 @@ public class NoviceGuideStepN_StateFive:NoviceGuidState{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
 		NoviceGuideUtil.RemoveAllArrows ();
 		
-		NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.INPUT_NAME;
 	}
-	
-	
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
-	
+
 }

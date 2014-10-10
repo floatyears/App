@@ -30,7 +30,7 @@ public class QuestSelectView : ViewBase {
 			} 
 		}
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 
 		if (pickedStage != null) {
 			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage",pickedStage.stageName);
@@ -45,7 +45,7 @@ public class QuestSelectView : ViewBase {
 			transform.localPosition = new Vector3(-1000, 0, 0);
 			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
 			
-			NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 		}else{
 			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
 			gameObject.SetActive(false);

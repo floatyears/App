@@ -194,7 +194,7 @@ public class GameTimer : MonoBehaviour {
 			if( rspAuthUser.login != null){
 				DataCenter.Instance.UserData.LoginInfo = rspAuthUser.login;
 			}
-			NoviceGuideStepEntityManager.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 			
 			
 		}

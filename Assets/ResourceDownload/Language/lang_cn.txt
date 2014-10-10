@@ -1297,11 +1297,11 @@ SkillDesc_4070=回复35%的血量
 ###new user guide
 
 guide1_title=欢迎进入游戏!
-guide1_content=你确定立刻进入令人期待的探索之旅吗?
-guide2_title=选择伙伴
-guide2_content=选择和你一起冒险的伙伴。\n未选择的伙伴会在之后的旅程中相遇！
-#guide3_title=determine your partner
-#guide3_content=角色介绍。\n确定和xxx冒险么？
+guide1_content=嗨，魔法森林中的冒险者！等等我，我和你一样，前不久不小心踏进了这个地牢。这里的怪物好可怕，让我做你的向导，带你去探索吧！
+guide2_title=战斗胜利
+guide2_content=哇！好厉害！怪物被我们打败了。我们继续前进吧。
+guide3_title=获得金币
+guide3_content=恭喜，你得到金币了！在魔法森林，金币是强化卡牌的必须品，多多收集吧。
 guide4_title=开始探险
 guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
 guide5_title=关于召唤
@@ -1424,6 +1424,11 @@ guide62_content=我的指引就到这了哦。\n\n独自前进吧！少年！
 
 notmaxleveltips=基础卡牌等级未达到满级。\n提示：只有Lv满级的卡牌才能进化。
 clearQuest=已通关
+
+## pure string description with no title.
+guide_string_1=你周围有不同的骷髅标记，其中隐藏着各种怪物。\n勇敢朝前迈出第一步吧!
+guide_string_2=要战斗了！看到下方的彩色方块了吗，那是怪物们惧怕的魔法色块。色块需要组合后才具有战斗力。试着将2个X色（主角颜色）方块拖动到上方的格子里吧。
+guide_string_3=我们拿到打开地牢大门的钥匙了，现在就去大门口，准备出去吧。
 
 #novice guide tips
 guide_tips_1=请把同一颜色的色块拖到同一个格子里

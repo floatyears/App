@@ -94,7 +94,7 @@ public class GachaView : ViewBase {
 			AutoShowOneCard();
 		}
 
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.SCRATCH);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.SCRATCH);
     }
 
 	int autoShowIndex = 0;
@@ -423,12 +423,8 @@ public class GachaView : ViewBase {
     IEnumerator LastOperation(){
         yield return new WaitForSeconds(1f);
 		showIndex = 0;
-		if (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
-			Debug.Log("goto home view==================");
-			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);	
-		} else {
-			ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);	
-		}
+
+		ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);	
         
         yield return null;
     }

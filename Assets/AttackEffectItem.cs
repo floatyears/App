@@ -82,7 +82,7 @@ public class AttackEffectItem : MonoBehaviour {
 	}
 	
 	void RotateComplete() {
-		iTween.MoveTo(gameObject,iTween.Hash("position",dropEndPosition,"time", 0.2f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","DropComplete","oncompletetarget",gameObject));
+		iTween.MoveTo(gameObject,iTween.Hash("position",dropEndPosition,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","DropComplete","oncompletetarget",gameObject));
 	}
 	
 	void DropComplete() {

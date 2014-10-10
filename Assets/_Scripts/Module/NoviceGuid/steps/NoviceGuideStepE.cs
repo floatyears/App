@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class NoviceGuideStepE_StateOne:NoviceGuidState
+public class NoviceGuideStepE_1:NoviceGuidStep
 {
 	private LayerMask camLastLayer;
 
@@ -9,22 +9,10 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 
 	private bool changeEnd = false;
 
-	private static NoviceGuideStepE_StateOne instance;
-	
-	public static NoviceGuideStepE_StateOne Instance()
+	public override void Enter()
 	{
-		if (instance == null)
-			instance = new NoviceGuideStepE_StateOne ();
-		return instance;
-	}
 	
-	private NoviceGuideStepE_StateOne ():base()	{}
-	
-	public override void Enter(NoviceGuideStepEntity stepEntity)
-	{
-		LogHelper.Log (stepEntity.GetType () + " is execute stepE state_one");
-	
-
+		nextState = null;
 //		QuestView qv = GameObject.Find ("HomeWorldMap(Clone)").GetComponent<QuestView>();
 //		GameObject cityObj =  qv.GetCityItem (0);
 //		NoviceGuideUtil.ForceOneBtnClick (cityObj);
@@ -53,19 +41,5 @@ public class NoviceGuideStepE_StateOne:NoviceGuidState
 //		}
 
 	}
-
-	public override void Execute(NoviceGuideStepEntity stepEntity)
-	{
-
-		if (JumpToNextState) {
-			stepEntity.GetStateMachine ().ChangeState (null);
-		}
-		else{
-			
-		}
-	}
-	
-
-	
 
 }

@@ -24,7 +24,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		AddCmdLisenter();
 		ShowUIAnimation();
 		RecordPickedInfoForFight (viewData["data"]);
-		NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.QUEST);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 	}
 
 	public override void HideUI(){
