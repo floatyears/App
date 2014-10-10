@@ -45,6 +45,8 @@ public class BattleDataModel : ProtobufDataBase {
 			skill.name = sl.name;
 			skill.skillCooling = sl.skillCooling;
 			skill.description = sl.description;
+			skill.initSkillCooling = skill.skillCooling;
+
 			allSkill.Add(skillUserID, skill);
 		}
 		

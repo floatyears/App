@@ -18,6 +18,9 @@ namespace bbproto{
 //			return skillBase;
 //		}
 //	}
+		public bool IsActiveSkill() {
+			return initSkillCooling > 0;
+		}
 
 		protected bool coolingDone = false;
 		
@@ -40,7 +43,7 @@ namespace bbproto{
 			if (BattleConfigData.Instance.hasBattleData() > 0) {
 				ReadSkillCooling ();
 			} else {
-				Store();
+				StoreSkillCooling();
 			}
 		}
 		
@@ -56,8 +59,10 @@ namespace bbproto{
 		//		}
 		//	}
 		
-		void Store() {
-			GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, skillCooling);
+		void StoreSkillCooling() {
+			if( skillStoreID != null ) {
+				GameDataPersistence.Instance.StoreIntDatNoEncypt(skillStoreID, skillCooling);
+			}
 		}
 		
 		void ReadSkillCooling () {
@@ -72,7 +77,7 @@ namespace bbproto{
 				//			Excute();
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
 			}
-			Store ();
+			StoreSkillCooling ();
 		}
 		
 		private bool CheckCooling() {
@@ -94,7 +99,7 @@ namespace bbproto{
 				coolingDone = false;
 			}
 			
-			Store ();
+			StoreSkillCooling ();
 		}
 		
 		public virtual AttackInfoProto ExcuteByDisk (AttackInfoProto ai) {

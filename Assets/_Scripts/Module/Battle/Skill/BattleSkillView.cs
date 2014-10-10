@@ -10,6 +10,7 @@ public class BattleSkillView : ViewBase {
 	private UILabel roundLabel;
 	private UIButton boostButton;
 
+	private UserUnit userUnit;
 	private bool isShow = false;
 
 	private Dictionary<string, SkillItem> skillDic = new Dictionary<string, SkillItem> ();
@@ -76,7 +77,8 @@ public class BattleSkillView : ViewBase {
 		if (!isShow) {
 			base.ShowUI ();
 			if (viewData != null && viewData.ContainsKey("show_skill_window")) {
-				Refresh(viewData ["show_skill_window"] as UserUnit);
+				userUnit = viewData ["show_skill_window"] as UserUnit;
+				Refresh(userUnit);
 			}	
 			isShow = true;
 		}else{
@@ -94,8 +96,7 @@ public class BattleSkillView : ViewBase {
 
 	void Boost(GameObject go) {
 		Close (null);
-		BattleAttackManager.Instance.ExcuteActiveSkill ();
-
+		BattleAttackManager.Instance.ExcuteActiveSkill (userUnit);
 	}
 
 	void Close(GameObject go) {

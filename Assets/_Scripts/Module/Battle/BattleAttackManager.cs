@@ -61,13 +61,13 @@ public class BattleAttackManager {
 		SetEffectTime (2f);
 	
 
-		// active skill
-		leaderSkill = upi;
+		// passive skill
+		unitParty = upi;
 		excuteTrap = new ExcuteTrap ();
 		InitPassiveSkill ();
 
-		//passive skill
-		foreach (var item in leaderSkill.UserUnit) {
+		//active skill
+		foreach (var item in unitParty.UserUnit) {
 			if (item==null ){
 				continue;
 			}
@@ -847,7 +847,7 @@ public class BattleAttackManager {
 
 	//
 	private Dictionary<string,ActiveSkill> activeSkill = new Dictionary<string, ActiveSkill> ();
-	private UnitParty leaderSkill;
+	private UnitParty unitParty;
 	
 	private ActiveSkill iase;
 	private UserUnit userUnit;
@@ -879,7 +879,7 @@ public class BattleAttackManager {
 		return iase;
 	}
 	AttackInfoProto ai;
-	void ExcuteLeaderSkill(object data) {
+	public void ExcuteActiveSkill(object data) {
 		userUnit = data as UserUnit;
 		if (userUnit != null) {
 			string id = userUnit.MakeUserUnitKey();
@@ -892,7 +892,7 @@ public class BattleAttackManager {
 				ai = new AttackInfoProto(0);
 				ai.userUnitID = userUnit.MakeUserUnitKey();
 				ai.skillID = (iase as ActiveSkill).id;
-				ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"actives_kill", ai);
+				ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"active_skill", ai);
 				
 				
 				GameTimer.GetInstance().AddCountDown(BattleAttackEffectView.activeSkillEffectTime, ()=>{
@@ -909,7 +909,7 @@ public class BattleAttackManager {
 		}
 	}
 
-	void ExcuteLeaderSkill() {
+	void ExcuteActiveSkill() {
 		//		Debug.LogError ("Excute active skill iase: " + iase + " userUnit : " + userUnit);
 		if (iase == null || userUnit == null) {
 			return;	
@@ -948,7 +948,7 @@ public class BattleAttackManager {
 
 
 	void InitPassiveSkill() {
-		foreach (var item in leaderSkill.UserUnit) {
+		foreach (var item in unitParty.UserUnit) {
 			if (item==null) {
 				continue;
 			}
@@ -983,7 +983,7 @@ public class BattleAttackManager {
 			foreach (var item in passiveSkills) {
 //				bool b = (bool)item.Value.Excute(tb, this);
 //				if(b) {
-					foreach (var unitItem in leaderSkill.UserUnit) {
+					foreach (var unitItem in unitParty.UserUnit) {
 						if(unitItem == null) {
 							continue;
 						}
@@ -1041,9 +1041,9 @@ public class BattleAttackManager {
 	const float time = 0.5f;
 	Queue<string> leaderSkillQueue = new Queue<string> ();
 	
-	public void ExcuteActiveSkill() {
+	public void ExcuteLeaderSkill() {
 		int temp = 0;
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			temp++;
 			if(item.Value is SkillBoost) {
 				leaderSkillQueue.Enqueue(item.Key);
@@ -1055,8 +1055,8 @@ public class BattleAttackManager {
 	void ExcuteStartLeaderSkill() {
 		string key = leaderSkillQueue.Dequeue ();
 		//		Debug.LogError ("ExcuteStartLeaderSkill : " + key);
-		DisposeBoostSkill (key, leaderSkill.LeadSkill [key]);
-		leaderSkill.LeadSkill.Remove (key);
+		DisposeBoostSkill (key, unitParty.LeadSkill [key]);
+		unitParty.LeadSkill.Remove (key);
 		if (leaderSkillQueue.Count == 0) {
 			MsgCenter.Instance.Invoke (CommandEnum.LeaderSkillEnd, null);
 		}
@@ -1064,20 +1064,21 @@ public class BattleAttackManager {
 	
 	void RemoveLeaderSkill () {
 		for (int i = 0; i < RemoveSkill.Count; i++) {
-			leaderSkill.LeadSkill.Remove(RemoveSkill[i]);
+			unitParty.LeadSkill.Remove(RemoveSkill[i]);
 		}
 	}
 	
 	void DisposeBoostSkill (string userunit, SkillBase pdb) {
 		SkillBoost tbs = pdb as SkillBoost;
 		if (tbs != null) {
+			//队长技能加BUFF (HP/ATK)
 			AttackInfoProto ai = new AttackInfoProto(0); //new AttackInfo();
 			ai.userUnitID = userunit;
 			MsgCenter.Instance.Invoke(CommandEnum.AttackEnemy, ai);
 			
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_activate);
 			
-			foreach (var item in leaderSkill.UserUnit) {
+			foreach (var item in unitParty.UserUnit) {
 				if( item == null) {
 					continue;
 				}
@@ -1117,10 +1118,10 @@ public class BattleAttackManager {
 	bool isPlay = false;
 	
 	public float ReduceHurtValue (float hurt,int type) {
-		if (leaderSkill.LeadSkill.Count == 0) {
+		if (unitParty.LeadSkill.Count == 0) {
 			return hurt;	
 		}
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			SkillReduceHurt trh = item.Value as SkillReduceHurt;
 			if(trh != null) {
 				
@@ -1142,10 +1143,10 @@ public class BattleAttackManager {
 	public List<AttackInfoProto> ExtraAttack (){
 		List<AttackInfoProto> ai = new List<AttackInfoProto>();
 		
-		if (leaderSkill.LeadSkill.Count == 0) {
+		if (unitParty.LeadSkill.Count == 0) {
 			return ai;
 		}
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			SkillExtraAttack tsea = item.Value as SkillExtraAttack;
 			//			Debug.LogError("tsea : " + tsea + " value : " + item.Value);
 			if(tsea == null) {
@@ -1155,7 +1156,7 @@ public class BattleAttackManager {
 			PlayLeaderSkillAudio();
 			
 			string id = item.Key;
-			foreach (var item1 in leaderSkill.UserUnit) {
+			foreach (var item1 in unitParty.UserUnit) {
 				if(item1 == null) {
 					continue;
 				}
@@ -1173,11 +1174,11 @@ public class BattleAttackManager {
 	}
 	
 	public List<int> SwitchCard (List<int> cardQuene) {
-		if (leaderSkill.LeadSkill.Count == 0) {
+		if (unitParty.LeadSkill.Count == 0) {
 			return null;
 		}
 		
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			SkillConvertUnitType tcut = item.Value as SkillConvertUnitType;
 			
 			if(tcut == null) {
@@ -1195,11 +1196,11 @@ public class BattleAttackManager {
 	}
 	
 	public int SwitchCard (int card) {
-		if (leaderSkill.LeadSkill.Count == 0) {
+		if (unitParty.LeadSkill.Count == 0) {
 			return card;
 		}
 		
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			SkillConvertUnitType tcut = item.Value as SkillConvertUnitType;	
 			if(tcut == null) {
 				continue;
@@ -1220,11 +1221,11 @@ public class BattleAttackManager {
 	/// <param name="blood">Blood.</param>
 	/// <param name="type">Type. 0 = right now. 1 = every round. 2 = every step.</param>
 	public int RecoverHP (int blood, int type) {
-		if (leaderSkill.LeadSkill.Count == 0) {
+		if (unitParty.LeadSkill.Count == 0) {
 			return 0;	//recover zero hp
 		}
 		int recoverHP = 0;
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			SkillRecoverHP trhp = item.Value as SkillRecoverHP;
 			if(trhp == null) {
 				continue;
@@ -1238,11 +1239,11 @@ public class BattleAttackManager {
 	}
 	
 	public float MultipleAttack (List<AttackInfoProto> attackInfo) {
-		if (leaderSkill.LeadSkill.Count == 0) {
+		if (unitParty.LeadSkill.Count == 0) {
 			return 1f;
 		}
 		float multipe = 0f;
-		foreach (var item in leaderSkill.LeadSkill) {
+		foreach (var item in unitParty.LeadSkill) {
 			SkillMultipleAttack trhp = item.Value as SkillMultipleAttack;
 			if(trhp == null) {
 				continue;
@@ -1263,7 +1264,7 @@ public class BattleAttackManager {
 	/// </summary>
 	int tempLeaderSkillCount = 0;
 	public int CheckLeaderSkillCount () {
-		foreach (var item in leaderSkill.LeadSkill.Values) {
+		foreach (var item in unitParty.LeadSkill.Values) {
 			if(item is SkillBoost) {
 				tempLeaderSkillCount ++;
 			}else if(item is SkillDelayTime){

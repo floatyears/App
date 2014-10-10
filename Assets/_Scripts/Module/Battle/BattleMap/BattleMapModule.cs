@@ -33,7 +33,6 @@ public class BattleMapModule : ModuleBase {
 	}
 
 	public override void HideUI () {
-		BattleAttackManager.Instance.ResetSkill();
 //		BattleAttackManager.Instance.RemoveListen ();
 		base.HideUI ();
 	}
@@ -53,7 +52,10 @@ public class BattleMapModule : ModuleBase {
 
 	void BattleFail() {
 //		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), BattleFailRecover, BattleFailExit);
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), 
+		                                    TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone),
+		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), 
+		                                    BattleFailRecover, BattleFailExit);
 	}
 
 	void BattleFailRecover(object data) {
@@ -78,11 +80,12 @@ public class BattleMapModule : ModuleBase {
 	void BattleFailExit(object data) {
 		QuestController.Instance.RetireQuest (o=>{
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
-			
+			ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
 			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
 
 				ModuleManager.Instance.ExitBattle ();
-			}));
+				ModuleManager.Instance.EnterMainScene();
+			}) );
 			BattleConfigData.Instance.ClearData ();
 		}, BattleConfigData.Instance.questDungeonData.questId, true);
 	}
