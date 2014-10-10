@@ -20,7 +20,6 @@ public class NoviceGuideStepK_1:NoviceGuidStep
 	
 	private void EnemyAttackEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_HEAL;
 		GoToNextState();
 	}
 	
@@ -76,8 +75,6 @@ public class NoviceGuideStepK_3:NoviceGuidStep
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide29_title"),TextCenter.GetText ("guide29_content"),TextCenter.GetText ("NEXT"),ClickOk1);
 		
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_SKILL;
-		
 	}
 	
 	private void ClickOk1(object data){
@@ -156,7 +153,6 @@ public class NoviceGuideStepK_4:NoviceGuidStep
 	}
 	
 	private void SkillAttack(object data){
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_BOOST;
 		MsgCenter.Instance.RemoveListener (CommandEnum.ActiveSkillAttack, SkillAttack);
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide32_title"),TextCenter.GetText ("guide32_content"),TextCenter.GetText ("NEXT"),ClickOk2);
@@ -190,7 +186,6 @@ public class NoviceGuideStepK_5:NoviceGuidStep
 	private void OnBattleEnd (object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_PARTY;
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide34_title"),TextCenter.GetText ("guide34_content"),TextCenter.GetText ("NEXT"));
 		

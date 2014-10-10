@@ -181,8 +181,6 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_6"), new Vector2 (0, 0));
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_LEVEL_UP;
-
 		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, onChangeScene);
 //		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 //		NoviceGuideUtil.ForceOneBtnClick (sbb);

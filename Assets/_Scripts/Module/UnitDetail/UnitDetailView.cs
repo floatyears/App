@@ -256,7 +256,7 @@ public class UnitDetailView : ViewBase{
 			return;	
 		}
 
-		if (isNoviceGUide && NoviceGuideStepManager.isInNoviceGuide ()) {
+		if (isNoviceGUide && NoviceGuideStepManager.Instance.isInNoviceGuide ()) {
 			return;	
 		}
 
@@ -271,9 +271,6 @@ public class UnitDetailView : ViewBase{
 
 		unitBodyTex.mainTexture = null;
 
-		if (NoviceGuideStepManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOLVE) {
-			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
-		}
 
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitDetailModule);
 	}
@@ -389,18 +386,6 @@ public class UnitDetailView : ViewBase{
 			SetEffectCamera();
 			StartCoroutine(SwallowUserUnit());
 		});
-	}
-
-	void ShowLevelupInfo(object data) {
-		ShowInfo (newBlendUnit, true);
-		_curLevel = oldBlendUnit.level;
-		gotExp = levelUpData.blendExp;
-		
-		levelDone = gotExp > 0;
-		
-		curExp = oldBlendUnit.CurExp;
-		levelLabel.text = _curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
-		Calculate ();
 	}
 
 	UserUnit oldBlendUnit = null;
@@ -633,13 +618,12 @@ public class UnitDetailView : ViewBase{
 		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
 
 		if (oldBlendUnit != null) {
-			if(_curLevel >= oldBlendUnit.UnitInfo.maxLevel && NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.UNIT_EVOLVE) {
+			if(_curLevel >= oldBlendUnit.UnitInfo.maxLevel) {
 				UnitController.Instance.UserguideEvoUnit(o=>{
 					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
 					if (rsp.header.code == ErrorCode.SUCCESS) {
 						if (rsp != null ) {
 							DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(rsp.addUnit);
-							NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE_EXE;
 						}
 					}else {
 						Debug.LogError("UserGuideEvolveUnit ret err:"+rsp.header.code);
@@ -757,14 +741,11 @@ public class UnitDetailView : ViewBase{
 			background.enabled = true;
 		}
 
-		Debug.Log("Name is : " + curUserUnit.UnitInfo.name + "  UpdateFavView(), isFav : " + (isFav == 1));
 		if(isFav == 1){
 			background.spriteName = "Lock_close";
-			Debug.Log("UpdateFavView(), isFav == 1, background.spriteName is Fav_Lock_Close");
 		}
 		else{
 			background.spriteName = "Lock_open";
-			Debug.Log("UpdateFavView(), isFav != 1, background.spriteName is Fav_Lock_Open");
 		}
 	}
 
@@ -808,11 +789,6 @@ public class UnitDetailView : ViewBase{
 			yield return new WaitForSeconds(0.4f);
 			Destroy(swallowEffectIns);
 		}
-
-		LevelUpAnim ();
-	}
-
-	void LevelUpAnim() {
 
 		_curLevel = oldBlendUnit.level;
 		levelLabel.text = _curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;

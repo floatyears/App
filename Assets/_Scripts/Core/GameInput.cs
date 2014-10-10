@@ -91,10 +91,6 @@ public class GameInput : MonoBehaviour  {
 		if(OnUpdate != null)
 			OnUpdate();
 //		Debug.LogError ("noviceGuideShileInput : " + noviceGuideShileInput + "NoviceGuideStepEntityManager.isInNoviceGuide() : " + NoviceGuideStepEntityManager.isInNoviceGuide ());
-		if (NoviceGuideStepManager.isInNoviceGuide()) {
-//			Debug.LogError("!noviceGuideShileInput && DGTools.IsNoviceGuide () ");
-			return;	
-		}
 
 		if (!isCheckInput) {
 //			Debug.LogError ("game input update : " + noviceGuideShileInput + " isCheckInput : " + isCheckInput);

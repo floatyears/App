@@ -113,7 +113,7 @@ public class NoviceGuideStepM_5:NoviceGuidStep{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickItem;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+		NoviceGuideStepManager.Instance.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 	}
 	
 }

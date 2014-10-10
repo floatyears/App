@@ -89,7 +89,6 @@ public class NoviceGuideStepC_3:NoviceGuidStep
 		nextState = null;
 		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText("guide8_title"),TextCenter.GetText("guide8_content"),TextCenter.GetText("NEXT"));
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.FRIEND_SELECT;
 	}
 	
 }

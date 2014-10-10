@@ -57,7 +57,8 @@ public class BattleMapView : ViewBase {
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
 		base.Init (config, data);
-		NoviceGuideStepManager.Instance.StartStep ( NoviceGuideStartType.BATTLE );
+
+//		NoviceGuideStepManager.Instance.StartStep ( NoviceGuideStartType.BATTLE );
 
 		mapBGTexture = FindChild<UITexture>("BG");
 		mapBGTexture.mainTexture = ResourceManager.Instance.LoadLocalAsset ("Texture/Map/battlemap_" + BattleConfigData.Instance.GetMapID().ToString (), null) as Texture2D;
@@ -467,15 +468,6 @@ public class BattleMapView : ViewBase {
 
 		GameTimer.GetInstance ().AddCountDown ( 0.3f, StartBattleEnemyAttack );
 		//		Debug.Log ("battle guide----------");
-		if (NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.BOSS_ATTACK_ONE) {
-//			if(IsBoss){
-//				Debug.Log("is boss -------------");
-//				NoviceGuideStepEntityManager.Instance ().StartStep (NoviceGuideStartType.FIGHT);
-//			}
-			
-		} else {
-			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT);
-		}
 		
 	}
 	
@@ -866,5 +858,9 @@ public class BattleMapView : ViewBase {
 		string[] info = currentShowInfo.Split('|');
 		door.transform.Find("Top").GetComponent<UILabel>().text = info [0];
 		door.transform.Find("Bottom").GetComponent<UILabel>().text = info [1];
+	}
+
+	public GameObject GetMapItem(int x, int y){
+		return map [x, y].gameObject;
 	}
 }

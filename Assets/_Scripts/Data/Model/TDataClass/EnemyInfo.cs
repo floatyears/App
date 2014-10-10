@@ -72,20 +72,6 @@ public partial class EnemyInfo : global::ProtoBuf.IExtensible{
 		public void KillHP(int hurtValue) {
 			currentHp -= hurtValue;
 
-			bool one = BattleConfigData.Instance.NotDeadEnemy;
-
-			if (NoviceGuideStepManager.isInNoviceGuide()) {
-				if(one || !CheckNoviceDeadable()) {
-					if (currentHp <= 0) {
-						currentHp = 10;
-						IsDead = false;
-					}
-				}
-	//			MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
-				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
-				return;
-			}
-
 			if (currentHp <= 0) {
 				currentHp = 0;	
 				IsDead = true;
@@ -93,25 +79,6 @@ public partial class EnemyInfo : global::ProtoBuf.IExtensible{
 
 	//		MsgCenter.Instance.Invoke (CommandEnum.EnemyRefresh, this);
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"refresh_enemy",this);
-		}
-
-		
-		public bool CheckNoviceDeadable(){
-			int stage = (int)NoviceGuideStepManager.CurrentNoviceGuideStage;
-			if (stage >= (int)NoviceGuideStage.ANIMATION && stage <= (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
-				if (stage == (int)NoviceGuideStage.FIRST_ATTACK_TWO) {
-					return true;
-				}
-				return false;
-			} else if (stage >= (int)NoviceGuideStage.BOSS_ATTACK_ONE && stage <= (int)NoviceGuideStage.BOSS_ATTACK_BOOST) {
-				if(UnitID != 86)
-					return true;
-				if (stage == (int)NoviceGuideStage.BOSS_ATTACK_BOOST) {
-					return true;
-				}
-				return false;
-			}
-			return true;
 		}
 
 		public void Reset() {

@@ -139,19 +139,19 @@ public class LoadingModule : ModuleBase {
 				DataCenter.Instance.UserData.LoginInfo = rspAuthUser.login;
 			}
 
-			NoviceGuideStepManager.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#if !NOVICE_ENABLE
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 //#endif
 #if UNITY_EDITOR 
-//			NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-			NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+//			NoviceGuideStepManager.Instance.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
+//			NoviceGuideStepManager.Instance.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 #endif
 
 			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
-				if(NoviceGuideStepManager.isInNoviceGuide()){
+				if(NoviceGuideStepManager.Instance.isInNoviceGuide()){
 					SureRetry(null);
 				} else {
 					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
@@ -188,6 +188,7 @@ public class LoadingModule : ModuleBase {
 			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
 			DataCenter.Instance.UserData.UserInfo.staminaRecover = rspStartQuest.staminaRecover;
 			tqdd = rspStartQuest.dungeonData;
+			tqdd.assignData();
 //			DataCenter.Instance.SetData(ModelEnum.MapConfig, tqdd);
 		}
 		
@@ -209,12 +210,12 @@ public class LoadingModule : ModuleBase {
 
 	void EnterGame () {
 		ModuleManager.Instance.HideModule (ModuleEnum.LoadingModule);
-		if (NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.GOLD_BOX) {
+		if (NoviceGuideStepManager.Instance.CurrentNoviceGuideStage == NoviceGuideStage.NoviceGuideStepA_1) {
 			StartFight();
 		} else {
 			ModuleManager.Instance.EnterMainScene();
 
-			if (!NoviceGuideStepManager.isInNoviceGuide()) {
+			if (!NoviceGuideStepManager.Instance.isInNoviceGuide()) {
 				if (DataCenter.Instance.CommonData.NoticeInfo != null && DataCenter.Instance.CommonData.NoticeInfo.NoticeList != null
 				    && DataCenter.Instance.CommonData.NoticeInfo.NoticeList.Count > 0 ) {
 					ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	

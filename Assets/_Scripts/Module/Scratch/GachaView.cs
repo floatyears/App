@@ -423,12 +423,8 @@ public class GachaView : ViewBase {
     IEnumerator LastOperation(){
         yield return new WaitForSeconds(1f);
 		showIndex = 0;
-		if (NoviceGuideStepManager.CurrentNoviceGuideStage == NoviceGuideStage.FRIEND_SELECT) {
-			Debug.Log("goto home view==================");
-			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);	
-		} else {
-			ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);	
-		}
+
+		ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);	
         
         yield return null;
     }

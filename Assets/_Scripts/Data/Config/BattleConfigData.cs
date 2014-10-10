@@ -50,7 +50,7 @@ public class BattleConfigData {
 
 	public int gotFriendPoint;  //After ClearQuest response from server, gotFriendPoint will be assigned.
 
-	public bool NotDeadEnemy = false;
+//	public bool NotDeadEnemy = false;
 
 	private UnitParty _party;
 	public UnitParty party {
@@ -313,7 +313,7 @@ public class BattleConfigData {
 	}
 
 	public int GetMapID () {
-		if (currentStageInfo == null || NoviceGuideStepManager.isInNoviceGuide()) {
+		if (currentStageInfo == null || NoviceGuideStepManager.Instance.isInNoviceGuide()) {
 			return 3;
 		} else {
 			int stageID = ((int)currentStageInfo.id) % 10;

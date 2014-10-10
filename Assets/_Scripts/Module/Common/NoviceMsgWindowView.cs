@@ -113,6 +113,7 @@ public class NoviceMsgWindowView : ViewBase{
 	}
 	
 	public override void HideUI(){
+		base.HideUI ();
 		titleLabel.text = string.Empty;
 
 		Reset();
@@ -269,7 +270,7 @@ public class NoviceMsgWindowView : ViewBase{
 	}
 
 	void UpdateGuidePic(){
-		if (msgWindowParams.guidePic != null) {
+		if (msgWindowParams.guidePic != GuidePicPath.None) {
 //			Debug.Log("show novice guide msg window with the turexture:"+msgWindowParams.guidePic.ToString ());
 			guidePicTex.gameObject.SetActive(true);
 

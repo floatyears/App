@@ -109,7 +109,6 @@ public class NoviceGuideStepJ_3:NoviceGuidStep{
 		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
 		NoviceGuideUtil.ForceOneBtnClick (gm);
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOVLE_QUEST;
 	}
 	
 	

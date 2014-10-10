@@ -49,8 +49,6 @@ public class StageSelectView : ViewBase{
 		}else if(viewData.ContainsKey("evolve")){
 			EvolveStartQuest(viewData["evolve"]);
 		}
-		if(NoviceGuideStepManager.CurrentNoviceGuideStage != NoviceGuideStage.EVOVLE_QUEST)
-			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 
 		if (currentCityName != "") {
 			SetSceneName(currentCityName);

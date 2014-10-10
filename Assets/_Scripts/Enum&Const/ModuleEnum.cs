@@ -127,6 +127,8 @@ public enum ModuleEnum
 
 	PartyPageModule,
 
+	NoviceGuideTipsModule,
+
 	///--------battle
 	BattleMapModule,
 

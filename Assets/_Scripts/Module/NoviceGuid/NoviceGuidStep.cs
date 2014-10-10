@@ -1,8 +1,5 @@
 ﻿public class NoviceGuidStep {
 
-	//no need to hold the stepEntity instance. the stepEntity argument of funcs can do the same thing.
-	//public T target;
-
 	protected System.Type nextState;
 
 	public NoviceGuidStep()
@@ -24,5 +21,11 @@
 	protected void GoToNextState()
 	{
 		NoviceGuideStepManager.Instance.ChangeState (nextState);
+	}
+
+	public System.Type NextState{
+		get{
+			return nextState;
+		}
 	}
 }

@@ -27,7 +27,7 @@ public class NoviceGuideStepB_2:NoviceGuidStep
 	{
 		uint unitID = DataCenter.Instance.UnitData.GetUnitInfo(9).id;
 		ModuleManager.SendMessage (ModuleEnum.LoadingModule, "func", "FirstLogin", "data", unitID);
-		NoviceGuideStepManager.FinishCurrentStep ();
+		NoviceGuideStepManager.Instance.FinishCurrentStep ();
 	}
 
 }

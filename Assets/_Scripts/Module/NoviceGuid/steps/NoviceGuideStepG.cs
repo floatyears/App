@@ -19,7 +19,6 @@ public class NoviceGuideStepG_1:NoviceGuidStep{
 		
 		UIEventListenerCustom.Get (party).onClick += TapParty;
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.PARTY;
 	}
 	
 	private void TapParty(GameObject btn)
@@ -56,7 +55,6 @@ public class NoviceGuideStepG_2:NoviceGuidStep{
 		
 
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.LEVEL_UP;
 	}
 	
 	private void TapParty(GameObject btn)
@@ -84,8 +82,6 @@ public class NoviceGuideStepG_3:NoviceGuidStep{
 		
 		UIEventListenerCustom.Get (party).onClick += TapParty;
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.EVOLVE;
-		
 	}
 	
 	private void TapParty(GameObject btn)

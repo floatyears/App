@@ -9,9 +9,6 @@ public class NoviceGuideStepL_1:NoviceGuidStep
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide14_title"),TextCenter.GetText ("guide14_content"),TextCenter.GetText ("NEXT"),ClickOK,null,GuidePicPath.GoldBox);
 		
-		
-		
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.ANIMATION;
 	}
 	
 	private void ClickOK(object data)

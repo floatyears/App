@@ -66,6 +66,8 @@ public class BattleEnemyView : ViewBase {
 	public override void ShowUI () {
 		base.ShowUI ();
 
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT);
+
 		if(viewData != null && viewData.ContainsKey("enemy")){
 			Refresh(viewData["enemy"] as List<EnemyInfo>);
 		}

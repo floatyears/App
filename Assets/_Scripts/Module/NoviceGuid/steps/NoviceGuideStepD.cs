@@ -30,7 +30,6 @@ public class NoviceGuideStepD_1:NoviceGuidStep
 	
 	private void ClickOk4(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, ClickOk3);
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_ONE;
 		GoToNextState();
 	}
 	
@@ -88,7 +87,6 @@ public class NoviceGuideStepD_3:NoviceGuidStep
 	
 	private void OnEnemyAttackEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd, OnEnemyAttackEnd);
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.FIRST_ATTACK_TWO;
 		LogHelper.Log ("attack the enemy end!");
 		GoToNextState();
 	}
@@ -129,7 +127,6 @@ public class NoviceGuideStepD_4:NoviceGuidStep
 	
 	private void OnBattleEnd(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.GET_KEY;
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide23_title"),TextCenter.GetText ("guide23_content"),TextCenter.GetText ("NEXT"),ClickOk4);
 		GoToNextState();
@@ -196,7 +193,6 @@ public class NoviceGuideStepD_7:NoviceGuidStep
 		
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, OnQuestEnd);
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.BOSS_ATTACK_ONE;
 	}
 	
 	

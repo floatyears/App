@@ -141,7 +141,6 @@ public class NoviceGuideStepI_3:NoviceGuidStep{
 		UIEventListenerCustom.Get (gm).onClick -= OnClickLevelUp;
 		NoviceGuideUtil.RemoveAllArrows ();
 
-		NoviceGuideStepManager.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
 	}
 
 	
