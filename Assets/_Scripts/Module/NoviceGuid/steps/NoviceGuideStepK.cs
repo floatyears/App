@@ -180,11 +180,11 @@ public class NoviceGuideStepK_5:NoviceGuidStep
 		
 		NoviceGuideUtil.RemoveAllArrows ();
 		
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, OnBattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.FightEnd, OnBattleEnd);
 	}
 	
 	private void OnBattleEnd (object data){
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnBattleEnd);
 
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide34_title"),TextCenter.GetText ("guide34_content"),TextCenter.GetText ("NEXT"));

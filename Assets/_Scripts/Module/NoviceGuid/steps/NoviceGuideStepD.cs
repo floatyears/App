@@ -116,7 +116,7 @@ public class NoviceGuideStepD_4:NoviceGuidStep
 	private void ClickOk2(object data){
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_2"));
 		
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, OnBattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.FightEnd, OnBattleEnd);
 	}
 
 	
@@ -126,7 +126,7 @@ public class NoviceGuideStepD_4:NoviceGuidStep
 	}
 	
 	private void OnBattleEnd(object data){
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnBattleEnd);
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide23_title"),TextCenter.GetText ("guide23_content"),TextCenter.GetText ("NEXT"),ClickOk4);
 		GoToNextState();

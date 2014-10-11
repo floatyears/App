@@ -46,11 +46,13 @@ public class BattleMapView : ViewBase {
 	private string currentShowInfo;
 
 	private bool isMoving = false;
+	private bool isInTips = false;
 	private Vector3 targetPoint;
 	private List<Coordinate> movePath = new List<Coordinate>();
 	private Vector3 distance = Vector3.zero;
 
-	
+	private int guideType = 0;
+
 	private Coordinate currentCoor;
 	private Coordinate prevCoor;
 
@@ -114,7 +116,8 @@ public class BattleMapView : ViewBase {
 			
 			if(currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY){
 				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
+					isInTips = true;
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
 				});
 			}
 		}
@@ -209,7 +212,7 @@ public class BattleMapView : ViewBase {
 	
 	void OnClickMapItem(GameObject go) {
 //		Debug.Log ("item name: " + go.name);
-		if (isMoving)
+		if (isMoving || isInTips)
 			return;
 		Coordinate endCoord = go.GetComponent<MapItem>().Coor;
 
@@ -305,9 +308,9 @@ public class BattleMapView : ViewBase {
 		} else {
 			moveY = 0;
 		}
-		bouncePath[0] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + moveY);
-		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + bounceOffset);
-		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, secondPath [3].y);
+		bouncePath[0] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, 0);
+		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, 0);
+		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, 0);
 		iTween.MoveTo (role, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 	}
 	
@@ -347,7 +350,8 @@ public class BattleMapView : ViewBase {
 				RotateAnim (()=>{
 					SetName (BattleFullScreenTipsView.BossBattle);
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate");
+					isInTips = true;
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate",OpenGateFunc as Callback);
 					ArriveAtCell ();
 				});
 				return;
@@ -427,6 +431,19 @@ public class BattleMapView : ViewBase {
 		} else {
 			ArriveAtCell();
 		}
+	}
+
+	void OpenGateFunc() {
+		//		battle.ShieldInput (true);
+		//key step
+		isInTips = false;
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.GET_KEY);
+	}
+
+	
+	void ReadyMoveFunc() {
+		isInTips = false;
+		NoviceGuideStepManager.Instance.StartStep ( NoviceGuideStartType.START_BATTLE );
 	}
 
 	void MeetBoss () {
@@ -862,5 +879,32 @@ public class BattleMapView : ViewBase {
 
 	public GameObject GetMapItem(int x, int y){
 		return map [x, y].gameObject;
+	}
+
+	void ToggleTips(bool isShow, int type){
+		if (isShow) {
+			guideType = type;
+			switch (type) {
+			case 1: //key
+				NoviceGuideUtil.ShowArrow(new GameObject[]{GameObject.FindWithTag("map_key")},new Vector3[]{new Vector3(0,0,1)},false);
+				break;
+			case 2: // door
+				break;
+			default:
+				break;
+			}
+		}else{
+			guideType = 0;
+			switch (type) {
+			case 1: //key
+				NoviceGuideUtil.RemoveAllArrows();
+				break;
+			case 2: // door
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 }

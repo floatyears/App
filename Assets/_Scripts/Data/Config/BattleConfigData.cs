@@ -294,16 +294,14 @@ public class BattleConfigData {
 		string path = GetPath (fileName);
 
 		byte[] data = null;
-		try {
+		if(File.Exists(path)){
 			FileStream fs = new FileStream (path, FileMode.Open, FileAccess.Read);
 			byte[] readData = new byte[fs.Length];
 			fs.Read (readData, 0, (int)fs.Length);
 			fs.Close ();
 			fs.Dispose ();
 			data = readData;
-		} catch (System.Exception ex) {
-			Debug.LogError ("ReadFile exception : " + ex.Message);
-		}
+		} 
 
 		if (data == null) {
 			return default(T);	

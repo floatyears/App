@@ -203,6 +203,7 @@ public class LoadingModule : ModuleBase {
 		BattleConfigData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 //		Debug.LogError(tqdd.)
 		BattleConfigData.Instance.ResetFromServer(tqdd);
+		BattleConfigData.Instance.StoreData (tqdd.questId);
 		ModuleManager.Instance.EnterBattle();
 	}
 
@@ -210,7 +211,7 @@ public class LoadingModule : ModuleBase {
 
 	void EnterGame () {
 		ModuleManager.Instance.HideModule (ModuleEnum.LoadingModule);
-		if (NoviceGuideStepManager.Instance.CurrentNoviceGuideStage == NoviceGuideStage.NoviceGuideStepA_1) {
+		if (NoviceGuideStepManager.Instance.CurrentGuideStep == NoviceGuideStage.NoviceGuideStepA_1) {
 			StartFight();
 		} else {
 			ModuleManager.Instance.EnterMainScene();

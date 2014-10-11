@@ -40,6 +40,7 @@ public class NoviceGuideStepManager {
 	
 	public void ChangeState(Type nextState)
 	{
+		Debug.Log ("Goto Guide Step: [[[---" + nextState + "---]]]");
 		prevState = currentState;
 
 		if (prevState != null && stepInsDic.ContainsKey(prevState)) {
@@ -57,13 +58,15 @@ public class NoviceGuideStepManager {
 			Activator.CreateInstance(currentState);
 		}
 		stepInsDic[currentState].Enter();
+
+		CurrentGuideStep = (NoviceGuideStage)Enum.Parse(typeof(NoviceGuideStage),currentState.ToString());
 	}
 
 	void ServerCallback(object data){
 		Debug.LogWarning ("Novice ServerCallback..");
 	}
 
-	public NoviceGuideStage CurrentNoviceGuideStage
+	public NoviceGuideStage CurrentGuideStep
 	{
 		get{
 			return currentNoviceGuideStage;
@@ -106,6 +109,7 @@ public class NoviceGuideStepManager {
 			switch(startType){
 			case NoviceGuideStartType.START_BATTLE:
 			case NoviceGuideStartType.FIGHT:
+			case NoviceGuideStartType.GET_KEY:
 				if(stepInsDic.ContainsKey (nextType)) {
 					nextType = stepInsDic[nextType].NextState;
 				}
@@ -146,7 +150,7 @@ public enum NoviceGuideStartType{
 	START_BATTLE,
 //	GOLD_BOX,
 	FIGHT,
-//	GET_KEY,
+	GET_KEY,
 	UNITS,
 //	SCRATCH,
 //	INPUT_NAME,

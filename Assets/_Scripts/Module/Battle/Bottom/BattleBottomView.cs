@@ -76,14 +76,14 @@ public class BattleBottomView : ViewBase {
 
 		spSprite = new UISprite[20];
 
-//		FindChild("Panel").layer = GameLayer.BottomInfo;
+		//		FindChild("Board").layer = GameLayer.BottomInfo;
 		for (int i = spSprite.Length; i > 0; i--) {
-			spSprite[spSprite.Length - i] = transform.Find("Panel/"+ i).GetComponent<UISprite>();
+			spSprite[spSprite.Length - i] = transform.Find("Board/"+ i).GetComponent<UISprite>();
 		}
 		
-		spriteAnimation = FindChild<UISpriteAnimationCustom> ("Panel/HP");
-		bloodBar = FindChild<UISlider>("Panel/Slider");
-		label = FindChild<UILabel>("Panel/HPLabel");
+		spriteAnimation = FindChild<UISpriteAnimationCustom> ("Board/HP");
+		bloodBar = FindChild<UISlider>("Board/Slider");
+		label = FindChild<UILabel>("Board/HPLabel");
 	}
 
 	public override void CallbackView (params object[] args)

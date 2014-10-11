@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+//
 public class NoviceGuideStepA_1:NoviceGuidStep
 {
 	public override void Enter(){
@@ -11,6 +12,7 @@ public class NoviceGuideStepA_1:NoviceGuidStep
 	}
 }
 
+//step in the first cell
 public class NoviceGuideStepA_2:NoviceGuidStep
 {
 	
@@ -36,35 +38,39 @@ public class NoviceGuideStepA_2:NoviceGuidStep
 
 }
 
+//fight
 public class NoviceGuideStepA_3:NoviceGuidStep
 {
 	
 	public override void Enter()
 	{
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_2"));
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, true);
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule,"guide", 1);
 //		UIEventListenerCustom.
+		MsgCenter.Instance.AddListener (CommandEnum.FightEnd, OnFightEnd);
 	}
 	
-	private void ClickOK(object data)
+	private void OnFightEnd(object data)
 	{
-		
-		GameObject sp1 = GameObject.FindWithTag ("battle_sp1");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{sp1}, new Vector3[]{new Vector3 (0, 0, 1)},false);
-	}
-	
-	
-	public override void Exit()
-	{
-		NoviceGuideUtil.RemoveAllArrows ();
-		//CommandEnum.BattleStart;
+		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide2_title"), TextCenter.GetText ("guide2_content"), TextCenter.GetText ("NEXT"),o=>{
+			GoToNextState();
+		});
 	}
 }
 
+//key
 public class NoviceGuideStepA_4:NoviceGuidStep
 {
 	public override void Enter ()
 	{
-		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide2_title"), TextCenter.GetText ("guide2_content"), TextCenter.GetText ("NEXT"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_3"));
+		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide", 1);
+	}
+}
+
+public class NoviceGuideStepA_5:NoviceGuidStep{
+	public override void Enter ()
+	{
+
 	}
 }

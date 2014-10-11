@@ -1428,7 +1428,8 @@ clearQuest=已通关
 ## pure string description with no title.
 guide_string_1=你周围有不同的骷髅标记，其中隐藏着各种怪物。\n勇敢朝前迈出第一步吧!
 guide_string_2=要战斗了！看到下方的彩色方块了吗，那是怪物们惧怕的魔法色块。色块需要组合后才具有战斗力。试着将2个X色（主角颜色）方块拖动到上方的格子里吧。
-guide_string_3=我们拿到打开地牢大门的钥匙了，现在就去大门口，准备出去吧。
+guide_string_3=我们的目标是拿到钥匙，打开前面的大门走出这里。
+guide_string_4=我们拿到打开地牢大门的钥匙了，现在就去大门口，准备出去吧。
 
 #novice guide tips
 guide_tips_1=请把同一颜色的色块拖到同一个格子里

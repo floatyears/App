@@ -40,10 +40,10 @@ public class BattleFullScreenTipsView : ViewBase {
 		Debug.Log ("full screen tips: " + args[0].ToString());
 		switch (args[0].ToString()) {
 		case "boss":
-			ShowTexture(BossAppears,args[1] as Callback);
+			ShowTexture(BossAppears,(Callback)args[1] );
 			break;
 		case "gate":
-			ShowTexture(OpenGate,OpenGateFunc);
+			ShowTexture(OpenGate,(Callback)args[1]);
 			break;
 		case "first":
 			ShowTexture(FirstAttack,AttackBackFunc);
@@ -52,7 +52,7 @@ public class BattleFullScreenTipsView : ViewBase {
 			ShowTexture(BackAttack,AttackBack);
 			break;
 		case "readymove":
-			ShowTexture(ReadyMove,ReadyMoveFunc,(float)args[1]);
+			ShowTexture(ReadyMove,(Callback)args[1],(float)args[2]);
 			break;
 		case "clear":
 			ShowTexture(QuestClear,(Callback)args[1]);
@@ -131,46 +131,26 @@ public class BattleFullScreenTipsView : ViewBase {
 		}
 
 		callBack = cb;
-		PlayAnimation (name);
-	}
-
-	void ReadyMoveFunc() {
-		NoviceGuideStepManager.Instance.StartStep ( NoviceGuideStartType.START_BATTLE );
-	}
-
-	void PlayAnimation (string name) {
 		if (name == BossAppears) {
 			PlayAppear ();
 		} else if (name == ReadyMove) {
-			PlayReadyMove ();
+			ActiveTweenAlpha ();
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_ready);
+			iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 		} else {
 			if(name == BackAttack || name == FirstAttack) {
 				tempTime = 0.2f;
 				transform.localPosition += new Vector3(0f, 100f, 0f);
 			}
 			else{
-//				transform.localPosition = initLocalPosition;
+				//				transform.localPosition = initLocalPosition;
 			}
-			PlayAll ();
+			ActiveTweenAlpha ();
+			iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
 		}
 	}
 
-	void PlayReadyMove() {
-//		transform.localPosition = initLocalPosition;
-		ActiveTweenAlpha ();
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_quest_ready);
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
-	}
 
-	void PlayAll () {
-		ActiveTweenAlpha ();
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3(3f,3f,3f), "time", tempTime == 0f ? 0.4f : tempTime, "easetype", iTween.EaseType.easeOutCubic, "oncomplete", "PlayEnd", "oncompletetarget", gameObject));
-	}
-
-	void OpenGateFunc() {
-		//		battle.ShieldInput (true);
-		ModuleManager.SendMessage(ModuleEnum.BattleManipulationModule,"banclick",true);
-	}
 
 	void ActiveTweenAlpha() {
 		foreach (var item in tweenAlpha) {

@@ -12,6 +12,13 @@ public class BattleMapModule : ModuleBase {
 		string tempName = "Map";
 	}
 
+	
+	public override void HideUI () {
+		BattleAttackManager.Instance.ResetSkill();
+		//		BattleAttackManager.Instance.RemoveListen ();
+		base.HideUI ();
+	}
+
 	public override void OnReceiveMessages (params object[] data)
 	{
 		switch (data[0].ToString()) {
@@ -32,11 +39,6 @@ public class BattleMapModule : ModuleBase {
 		}
 	}
 
-	public override void HideUI () {
-		BattleAttackManager.Instance.ResetSkill();
-//		BattleAttackManager.Instance.RemoveListen ();
-		base.HideUI ();
-	}
 
 	public void HaveFriendExit() {
 		ModuleManager.Instance.ExitBattle ();
