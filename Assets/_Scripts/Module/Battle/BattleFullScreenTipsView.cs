@@ -57,6 +57,9 @@ public class BattleFullScreenTipsView : ViewBase {
 		case "clear":
 			ShowTexture(QuestClear,(Callback)args[1]);
 			break;
+		case "over":
+			ShowTexture(GameOver,(Callback)args[1]);
+			break;
 		default:
 			break;
 		}

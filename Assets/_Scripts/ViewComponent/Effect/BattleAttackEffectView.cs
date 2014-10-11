@@ -72,7 +72,7 @@ public class BattleAttackEffectView : ViewBase {
 	void ActiveSkillEnd() {
 		AttackEffectItem aei = GetAttackEffectItem ();
 //		Debug.LogError ("ActiveSkillEnd");
-//		aei.ShowActiveSkill (avatarTexture, skillName, End);
+		aei.ShowActiveSkill (skillName, End);
 //		avatarTexture.mainTexture = null;
 		activeEffect.SetActive (false);
 	}

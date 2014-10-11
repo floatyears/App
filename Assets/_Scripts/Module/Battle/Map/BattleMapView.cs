@@ -290,6 +290,12 @@ public class BattleMapView : ViewBase {
 		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_walk);
 		iTween.MoveTo (role, iTween.Hash ("path", path, "movetopath", false, "islocal", true, "time", 0.13f+adjustTime, "easetype", iTween.EaseType.easeOutSine, "oncomplete", "MoveRoleSecond", "oncompletetarget", gameObject));
+
+		//每移动1步，技能CD计数减1
+		foreach(SkillBase skill in DataCenter.Instance.BattleData.AllSkill.Values) {
+			if( skill.IsActiveSkill() ) //It is ActiveSkill
+				skill.RefreashCooling();
+		}
 	}
 	
 	void MoveRoleSecond() {

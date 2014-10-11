@@ -197,6 +197,7 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	public override void DestoryUI () {
+		GameInput.OnUpdate -= HandleOnUpdate;
 		GameInput.OnPressEvent -= HandleOnPressEvent;
 		GameInput.OnReleaseEvent -= HandleOnReleaseEvent;
 		GameInput.OnStationaryEvent -= HandleOnStationaryEvent;

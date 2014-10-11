@@ -184,6 +184,9 @@ public class ModuleManager {
 	/// </summary>
 	public void ExitBattle(){
 		ClearModulesAndScenes ();
+
+		BattleAttackManager.Instance.ResetSkill();
+
 		BattleConfigData.Instance.ClearData ();
 	}
 

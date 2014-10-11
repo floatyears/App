@@ -49,12 +49,12 @@ public class AttackEffectItem : MonoBehaviour {
 		});
 	}
 
-	public void ShowActiveSkill(Texture tex, string skillName, Callback cb) {
+	public void ShowActiveSkill(string skillName, Callback cb) {
 		callback = cb;
 		CheckComponentInit ();
 		skillNameLabel.text = skillName;
 		ATKLabel.text = "";
-		avatarTexture.mainTexture = tex;
+//		avatarTexture.mainTexture = tex;
 		transform.localPosition = middlePosition;
 		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", new Vector3 (3f, 3f, 3f), "time", 0.5f, "easetype", iTween.EaseType.easeInOutQuart, "oncomplete", "DropComplete", "oncompletetarget", gameObject));
 	}
