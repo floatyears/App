@@ -897,7 +897,7 @@ public class BattleAttackManager {
 				
 				GameTimer.GetInstance().AddCountDown(BattleAttackEffectView.activeSkillEffectTime, ()=>{
 					MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
-					GameTimer.GetInstance().AddCountDown(1f,ExcuteLeaderSkill);
+					GameTimer.GetInstance().AddCountDown(1f,ExcuteActiveSkill);
 					ModuleManager.SendMessage (ModuleEnum.BattleFullScreenTipsModule, "ready",userUnit);
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_active_skill);
 					

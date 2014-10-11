@@ -66,8 +66,8 @@ namespace bbproto{
 		}
 		
 		void ReadSkillCooling () {
-			int skillCooling = GameDataPersistence.Instance.GetIntDataNoEncypt (skillStoreID);
-			skillCooling = skillCooling;
+			int CD = GameDataPersistence.Instance.GetIntDataNoEncypt (skillStoreID);
+			skillCooling = CD;
 		}
 		
 		protected void DisposeCooling () {

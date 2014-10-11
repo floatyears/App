@@ -100,6 +100,10 @@ public class NoviceGuideStepManager {
 
 	public void StartStep(NoviceGuideStartType startType)
 	{
+		if( currentState == null ) {
+			return;
+		}
+
 		Type nextType = currentState;
 
 		if(currentState.Name.IndexOf("NoviceGuideStepA") >= 0){

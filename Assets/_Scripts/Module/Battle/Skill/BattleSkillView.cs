@@ -119,10 +119,10 @@ public class BattleSkillView : ViewBase {
 		UpdateSkillInfo (3, sbi);
 
 		bool notNull = sbi != null;
-		bool isCooling = notNull && (sbi.skillCooling == 0);
+		bool isCooling = notNull && (sbi.CoolingDone);
 		isRecoveSP = notNull && sbi.GetType () == typeof(SkillRecoverSP);
-//		isBattle = battleQuest.battle.GetState == UIState.UIShow;
-		if (notNull && isCooling) {
+		isBattle = ModuleManager.Instance.IsModuleShow(ModuleEnum.BattleEnemyModule);
+		if ( isCooling ) {
 			if(!isRecoveSP && !isBattle) {
 				boostButton.isEnabled = false;
 			} else{
@@ -185,7 +185,7 @@ public class SkillItem {
 	}
 
 	void Clear() {
-		skillName.text = "";
+		skillName.text = TextCenter.GetText ("Text_None");
 		skillDescribeLabel.text = "";
 		ShowSprite (null);
 	}
