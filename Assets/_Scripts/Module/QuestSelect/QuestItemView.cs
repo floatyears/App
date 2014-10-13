@@ -34,6 +34,10 @@ public class QuestItemView : DragPanelItemBase {
 	public override void SetData<T> (T data, params object[] args)
 	{
 		this.data = data as QuestInfo;
+		tag = "";
+		if (this.data.state == EQuestState.QS_QUESTING) {
+			tag = "quest_new";	
+		}
 		if(data == null){
 			Debug.LogError("QuestItemView, Data is NULL!");
 			return;
@@ -130,7 +134,13 @@ public class QuestItemView : DragPanelItemBase {
 		BattleConfigData.Instance.currentStageInfo = stageInfo;
 		BattleConfigData.Instance.currentQuestInfo = data;
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
+		if (NoviceGuideStepManager.Instance.CurrentGuideStep == NoviceGuideStage.NoviceGuideStepB_3) {
+			
+			ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", this,"HelperInfo", null);//before
+		} else {
+			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
+		}
+
 
 	}
 

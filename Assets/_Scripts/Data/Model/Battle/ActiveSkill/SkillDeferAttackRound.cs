@@ -34,5 +34,10 @@ namespace bbproto{
 			MsgCenter.Instance.Invoke(CommandEnum.DeferAttackRound, roundValue);
 			return null;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }

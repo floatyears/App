@@ -177,7 +177,7 @@ public class StageSelectView : ViewBase{
 		storyStageRoot.gameObject.SetActive(true);
 		eventStageRoot.gameObject.SetActive(false);
 		GetData((uint)msg);
-
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
 		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.id));
 	}
 

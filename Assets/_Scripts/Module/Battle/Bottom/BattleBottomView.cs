@@ -9,6 +9,10 @@ public class BattleBottomView : ViewBase {
 //	private RaycastHit rch;
 //	private TUnitParty upi;
 //	private Dictionary<GameObject, UITexture> actorObject = new Dictionary<GameObject, UITexture>();
+	private Dictionary<int, GameObject> enableSKillPos = new Dictionary<int, GameObject> ();
+	private List<int> enablePos = new List<int> ();
+
+	private GameObject activeEnableEffect;
 	private Dictionary<GameObject, ActiveSkill> unitInfoPos = new Dictionary<GameObject,ActiveSkill> ();
 
 	private UITexture[] actor;
@@ -27,7 +31,7 @@ public class BattleBottomView : ViewBase {
 
 		List<UserUnit> userUnitInfo = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit;
 
-//		EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
+		EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
 
 		Transform actorTrans = transform.Find ("Actor");
 		actor = new UITexture[5];
@@ -51,6 +55,13 @@ public class BattleBottomView : ViewBase {
 
 			} else {
 				UnitInfo tui = userUnitInfo[i].UnitInfo;
+
+				SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (userUnitInfo[i].MakeUserUnitKey (), tui.activeSkill, SkillType.ActiveSkill);
+				if(sbi != null){
+					ActiveSkill activeSkill =  sbi as ActiveSkill;
+					unitInfoPos.Add(temp, activeSkill);
+					activeSkill.AddListener(ActiveSkillCallback);
+				}
 
 				ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,tui.id, o=>{
 					if(o != null) {
@@ -130,19 +141,36 @@ public class BattleBottomView : ViewBase {
 		}
 	}
 
-//	void ActiveSkillCallback(object data) {
-//		ActiveSkill activeSKill = data as ActiveSkill;
-//		foreach (var item in unitInfoPos) {
-//			if(item.Value.skillBase.id == activeSKill.skillBase.id && item.Value.CoolingDone) {
-////				if (enableSKillPos.ContainsKey (item.Key)) {
-////					return;	
-////				}
-////				
-////				enableSKillPos.Add (item.Key, null);
-////				enablePos.Add (item.Key);
-//			}
-//		}
-//	}
+	void ActiveSkillCallback(object data) {
+		ActiveSkill activeSKill = data as ActiveSkill;
+		foreach (var item in unitInfoPos) {
+			if(item.Value.GetBaseInfo().id == activeSKill.GetBaseInfo().id && item.Value.CoolingDone) {
+				if (activeEnableEffect == null) {
+					EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
+				}
+				if (enableSKillPos.ContainsKey (item.Key)) {
+					return;	
+				}
+				
+				enableSKillPos.Add (item.Key, null);
+				enablePos.Add (item.Key);
+
+			}
+		}
+	}	
+
+	public void Boost() {
+//		RemoveSkillEffect (prevID);
+		//		Debug.LogError("Boost Active Skill : " + tuu);
+		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
+	}
+
+	void RemoveSkillEffect (int pos) {
+		if(enableSKillPos.ContainsKey(pos))
+			enableSKillPos.Remove (pos);
+		if(enablePos.Contains(pos))
+			enablePos.Remove (pos);
+	}
 
 	void ClickItem (GameObject obj) {
 		UITexture tex = actor [int.Parse (obj.name)];
@@ -152,10 +180,6 @@ public class BattleBottomView : ViewBase {
 
 		}
 
-	}
-
-	public void Close () {
-		CloseSkillWindow ();
 	}
 
 	void MaskCard(string name,bool mask) {
@@ -192,10 +216,6 @@ public class BattleBottomView : ViewBase {
 		}
 	}
 
-	void CloseSkillWindow () {
-		MaskCard ("", false);
-	}
-
 	public void SetLeaderToNoviceGuide(bool isInNoviceGuide){
 		if (isInNoviceGuide) {
 			GameObject temp = transform.Find ("Actor/0").gameObject;
@@ -205,18 +225,11 @@ public class BattleBottomView : ViewBase {
 			temp.layer = LayerMask.NameToLayer ("Bottom");	
 		}
 	}
-	
-
-//	public void SetBattleQuest (BattleMapModule bq) {
-//		battleQuest = bq;
-//		//		_battleBottomScript.battleQuest = bq;
-//	}
 
 
 
 	
 	public override void DestoryUI () {
 		base.DestoryUI ();
-		//		_battleBottomScript = null;
 	}
 }

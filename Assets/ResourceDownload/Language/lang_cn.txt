@@ -1302,10 +1302,10 @@ guide2_title=战斗胜利
 guide2_content=哇！好厉害！怪物被我们打败了。我们继续前进吧。
 guide3_title=获得金币
 guide3_content=恭喜，你得到金币了！在魔法森林，金币是强化卡牌的必须品，多多收集吧。
-guide4_title=开始探险
-guide4_content=我的名字叫xxx。\n那么就立马开始冒险吧！
-guide5_title=关于召唤
-guide5_content=接下来就是重中之重的召唤！\n召唤能得到各种各样的强大卡牌哦！
+guide4_title=取得钥匙
+guide4_content=我们的目标是拿到钥匙，打开前面的大门走出这里。
+guide5_title=释放成功
+guide5_content=太棒了！继续使用你华丽的手法和强大的技能战斗吧。
 guide6_title=关于稀有召唤
 guide6_content=这次就来一次稀有召唤吧。\n\n稀有召唤有几率能获得最好的卡牌哦
 #guide7_title=a rare card need something
@@ -1430,6 +1430,11 @@ guide_string_1=你周围有不同的骷髅标记，其中隐藏着各种怪物�
 guide_string_2=要战斗了！看到下方的彩色方块了吗，那是怪物们惧怕的魔法色块。色块需要组合后才具有战斗力。试着将2个X色（主角颜色）方块拖动到上方的格子里吧。
 guide_string_3=我们的目标是拿到钥匙，打开前面的大门走出这里。
 guide_string_4=我们拿到打开地牢大门的钥匙了，现在就去大门口，准备出去吧。
+guide_string_5=这么容易就闯出来了哈！用我刚才教你的战斗方法，自己战斗一遍吧。
+guide_string_6=做的很不错！不过，只了解基础战斗技巧，是无法战胜更强大对手的哦。现在点击进入雾隐山脉，尝试使用威力巨大的主动技能吧。
+guide_string_7=以后进入地牢前，你都可以邀请一个好友来一起冒险。现在选择一个好友加入队伍吧。
+guide_string_8=看到卡牌上的发光点了吗？当光点闪烁，代表卡牌的怒气已满，可以释放大技能了。
+guide_string_9=现在就点击【释放技能】按钮试试吧。
 
 #novice guide tips
 guide_tips_1=请把同一颜色的色块拖到同一个格子里

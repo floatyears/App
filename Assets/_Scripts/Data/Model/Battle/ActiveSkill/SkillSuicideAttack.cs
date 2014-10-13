@@ -60,5 +60,10 @@ namespace bbproto{
 			BattleAttackManager.Instance.Sucide (null);
 			return ai;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }

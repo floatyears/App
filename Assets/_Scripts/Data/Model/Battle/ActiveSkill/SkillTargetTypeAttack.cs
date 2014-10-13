@@ -53,6 +53,11 @@ public partial class SkillTargetTypeAttack : ActiveSkill {
 		BattleAttackManager.Instance.AttackTargetTypeEnemy (att);
 		return att;
 	}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 }
 
 public class AttackTargetType {

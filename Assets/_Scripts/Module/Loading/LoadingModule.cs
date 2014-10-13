@@ -139,41 +139,68 @@ public class LoadingModule : ModuleBase {
 				DataCenter.Instance.UserData.LoginInfo = rspAuthUser.login;
 			}
 
-			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
+//			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#if !NOVICE_ENABLE
 //			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 //#endif
 #if UNITY_EDITOR 
 //			NoviceGuideStepManager.Instance.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-//			NoviceGuideStepManager.Instance.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
+			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepC_1;
 #endif
 
-			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
-			if(recoverQuestID > 0) {
-				if(NoviceGuideStepManager.Instance.isInNoviceGuide()){
-					SureRetry(null);
-				} else {
-					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
-				}
-			}
-			else{
-				EnterGame();
-			}
+			EnterGame();
+
+//			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
+//			if(recoverQuestID > 0) {
+//				if(NoviceGuideStepManager.Instance.isInNoviceGuide()){
+//					SureRetry(null);
+//				} else {
+//					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
+//				}
+//			}
+//			else{
+//				EnterGame();
+//			}
         }
     }
-	
-	private void StartFight() {
-		StartQuestParam sqp = new StartQuestParam ();
-		sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = null;	//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-		sqp.questId = 0;			//questInfo.Data.ID;
-		sqp.stageId = 0;			//questInfo.StageID;
-		sqp.startNew = 1;
-		sqp.isUserGuide = 1;
-		QuestController.Instance.StartQuest(sqp, RspStartQuest);
+
+	void EnterGame () {
+		ModuleManager.Instance.HideModule (ModuleEnum.LoadingModule);
+		if (NoviceGuideStepManager.Instance.CurrentGuideStep == NoviceGuideStage.NoviceGuideStepA_1) {
+			StartQuestParam sqp = new StartQuestParam ();
+			sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
+			sqp.helperUserUnit = null;	//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+			sqp.questId = 0;			//questInfo.Data.ID;
+			sqp.stageId = 0;			//questInfo.StageID;
+			sqp.startNew = 1;
+			sqp.isUserGuide = 1;
+			QuestController.Instance.StartQuest(sqp, RspStartQuest);
+		} else {
+			ModuleManager.Instance.EnterMainScene();
+			
+			if (!NoviceGuideStepManager.Instance.isInNoviceGuide()) {
+				if (DataCenter.Instance.CommonData.NoticeInfo != null && DataCenter.Instance.CommonData.NoticeInfo.NoticeList != null
+				    && DataCenter.Instance.CommonData.NoticeInfo.NoticeList.Count > 0 ) {
+					ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	
+				}
+				else { // no 
+					if (DataCenter.Instance.UserData.LoginInfo.Bonus != null && DataCenter.Instance.UserData.LoginInfo.Bonus != null
+					    && DataCenter.Instance.UserData.LoginInfo.Bonus.Count > 0 ) {
+						//						Debug.LogError("show Reward scene... ");
+						foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
+							if(item.enabled == 1){
+								ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
+								return;
+							}
+						}
+						
+					}
+				}	
+			}
+		}
 	}
-	
+
 	private void RspStartQuest(object data) {
 		QuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
@@ -209,34 +236,7 @@ public class LoadingModule : ModuleBase {
 
 	uint recoverQuestID = 0;
 
-	void EnterGame () {
-		ModuleManager.Instance.HideModule (ModuleEnum.LoadingModule);
-		if (NoviceGuideStepManager.Instance.CurrentGuideStep == NoviceGuideStage.NoviceGuideStepA_1) {
-			StartFight();
-		} else {
-			ModuleManager.Instance.EnterMainScene();
 
-			if (!NoviceGuideStepManager.Instance.isInNoviceGuide()) {
-				if (DataCenter.Instance.CommonData.NoticeInfo != null && DataCenter.Instance.CommonData.NoticeInfo.NoticeList != null
-				    && DataCenter.Instance.CommonData.NoticeInfo.NoticeList.Count > 0 ) {
-					ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);	
-				}
-				else { // no 
-					if (DataCenter.Instance.UserData.LoginInfo.Bonus != null && DataCenter.Instance.UserData.LoginInfo.Bonus != null
-					    && DataCenter.Instance.UserData.LoginInfo.Bonus.Count > 0 ) {
-//						Debug.LogError("show Reward scene... ");
-						foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
-							if(item.enabled == 1){
-								ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
-								return;
-							}
-						}
-							
-					}
-				}	
-			}
-		}
-	}
 
 	void SureRetry(object data) {
 		BattleConfigData.Instance.ResetFromDisk();

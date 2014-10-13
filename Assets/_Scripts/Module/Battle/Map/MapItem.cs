@@ -86,7 +86,7 @@ public class MapItem : MonoBehaviour {
 			switch (gridItem.star) {
 			case bbproto.EGridStar.GS_KEY:
 				spriteName = "key";
-//				tag = "map_key";
+				tag = "map_key";
 				break;
 			case bbproto.EGridStar.GS_QUESTION:
 				spriteName = "key";

@@ -136,9 +136,8 @@ public class NoviceGuideStepK_4:NoviceGuidStep
 
 		GameObject bs = GameObject.FindWithTag ("boost_skill");
 		
-		NoviceGuideUtil.ForceOneBtnClick (bs);
+		NoviceGuideUtil.ForceOneBtnClick (bs,ClickSkill as UICallback);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{bs}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (bs).onClick += ClickSkill;
 		
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillAttack, SkillAttack);
 	}

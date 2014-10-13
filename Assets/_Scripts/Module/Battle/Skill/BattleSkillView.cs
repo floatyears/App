@@ -73,24 +73,16 @@ public class BattleSkillView : ViewBase {
 
 	public override void ShowUI ()
 	{
-
-		if (!isShow) {
-			base.ShowUI ();
-			if (viewData != null && viewData.ContainsKey("show_skill_window")) {
-				userUnit = viewData ["show_skill_window"] as UserUnit;
-				Refresh(userUnit);
-			}	
-			isShow = true;
-		}else{
-			ModuleManager.Instance.HideModule(ModuleEnum.BattleSkillModule);
+		base.ShowUI ();
+		if (viewData != null && viewData.ContainsKey("show_skill_window")) {
+			userUnit = viewData ["show_skill_window"] as UserUnit;
+			Refresh(userUnit);
 		}
-
 	}
 
 	public override void HideUI ()
 	{
 		base.HideUI ();
-		isShow = false;
 		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "close_skill_window");
 	}
 

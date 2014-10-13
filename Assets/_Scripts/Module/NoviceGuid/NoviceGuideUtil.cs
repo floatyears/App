@@ -18,6 +18,8 @@ public class NoviceGuideUtil {
 
 	private static UIEventListenerCustom.LongPressDelegate pressDelegate;
 
+	private static UICallback clickCallback;
+
 	private static GameObject[] multiBtns;
 
 	// posAndDir:the x,y stand for the position, the z stands for direction
@@ -171,7 +173,7 @@ public class NoviceGuideUtil {
 		tipText.SetActive (false);
 	}
 
-	public static void ForceOneBtnClick(GameObject obj,bool isExecuteBefore = true)
+	public static void ForceOneBtnClick(GameObject obj, UICallback callback, bool isExecuteBefore = true)
 	{
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 		camLastLayer = mainCam.eventReceiverMask;
@@ -188,6 +190,7 @@ public class NoviceGuideUtil {
 			UIEventListenerCustom.Get (obj).onClick += BtnClick;	
 		}
  		
+		clickCallback = callback;
 		longPressDelegate = UIEventListenerCustom.Get (obj).LongPress;
 		UIEventListenerCustom.Get (obj).LongPress = null;
 
@@ -209,7 +212,11 @@ public class NoviceGuideUtil {
 		UIEventListenerCustom.Get (btn).LongPress = longPressDelegate;
 		longPressDelegate = null;
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-//		mainCam.eventReceiverMask = camLastLayer;
+		if (clickCallback != null) {
+			clickCallback (btn);
+			clickCallback = null;
+		}
+
 
 		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
 
@@ -276,7 +283,6 @@ public class NoviceGuideUtil {
 		
 		oneBtnClickLayer = obj.layer;
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
-//		mainCam.eventReceiverMask = mask;
 		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, true);
 
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
@@ -287,7 +293,6 @@ public class NoviceGuideUtil {
 	{
 		UIEventListenerCustom.Get (btn).LongPress -= BtnPress;
 		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
-//		mainCam.eventReceiverMask = camLastLayer;
 
 		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
 

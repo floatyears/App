@@ -18,7 +18,6 @@ public class NoviceGuideStepE_1:NoviceGuidStep
 //		NoviceGuideUtil.ForceOneBtnClick (cityObj);
 //
 //		UIEventListenerCustom.Get (cityObj).onClick += TapCityItem;
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.OthersModule);
 	}

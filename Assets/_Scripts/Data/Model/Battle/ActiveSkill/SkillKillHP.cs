@@ -35,5 +35,10 @@ namespace bbproto{
 			BattleAttackManager.Instance.SkillGravity (ai);
 			return ai;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }

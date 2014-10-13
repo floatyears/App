@@ -17,14 +17,6 @@ public class TipsLabelUI : MonoBehaviour {
 		cacheParent = panel.transform.parent;
 	}
 
-	void OnEnable() {
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
-	}
-
-	void OnDisable() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
-	}
-
 	void ChangeSceneComplete(object data) {
 		AlphaEnd ();
 	}

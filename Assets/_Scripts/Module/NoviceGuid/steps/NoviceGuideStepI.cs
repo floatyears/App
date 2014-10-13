@@ -86,9 +86,8 @@ public class NoviceGuideStepI_1:NoviceGuidStep{
 	private void ClickOK2(object data){
 		GameObject gm = GameObject.FindWithTag ("level_up_friend");
 
-		UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+		NoviceGuideUtil.ForceOneBtnClick (gm,OnClickFriend as UICallback);
 
 	}
 
@@ -130,8 +129,7 @@ public class NoviceGuideStepI_3:NoviceGuidStep{
 	{
 		nextState = typeof(NoviceGuideStepI_4);
 		GameObject gm = GameObject.FindWithTag ("level_up_btn");
-		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+		NoviceGuideUtil.ForceOneBtnClick (gm,OnClickLevelUp as UICallback);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
 
 	}
@@ -177,8 +175,7 @@ public class NoviceGuideStepI_4:NoviceGuidStep{
 
 	private void OnClickBack(GameObject gm){
 		UIEventListenerCustom.Get (gm).onClick -= OnClickBack;
-		UIEventListenerCustom.Get (gm).onClick += OnClickBack1;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+		NoviceGuideUtil.ForceOneBtnClick (gm,OnClickBack1 as UICallback);
 
 
 	}

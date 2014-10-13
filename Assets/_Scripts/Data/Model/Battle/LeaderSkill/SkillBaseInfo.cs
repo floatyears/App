@@ -114,5 +114,11 @@ namespace bbproto{
 		{
 			return id.ToString ();
 		}
+
+		
+		public virtual SkillBase GetBaseInfo(){
+			//			throw new excepti
+			return null;
+		}
 	}
 }

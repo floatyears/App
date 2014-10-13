@@ -33,22 +33,14 @@ public class DragChangeView : MonoBehaviour {
 		leftStartPos = cacheLeftParent.localPosition;
 	}	
 
-	void OnEnable() {
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
-	}
-
-	void OnDisable() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, ChangeSceneComplete);
-	}
-
-	void ChangeSceneComplete(object data) {
-		ModuleEnum se = (ModuleEnum)data;
-		if (se == ModuleEnum.UnitDetailModule) {
-			panel.enabled = false;
-		} else if (!panel.enabled) {
-			panel.enabled = true;	
-		}
-	}
+//	void ChangeSceneComplete(object data) {
+//		ModuleEnum se = (ModuleEnum)data;
+//		if (se == ModuleEnum.UnitDetailModule) {
+//			panel.enabled = false;
+//		} else if (!panel.enabled) {
+//			panel.enabled = true;	
+//		}
+//	}
 
 	void CheckMessageReceive() {
 		if (dragCollider == null) {

@@ -22,7 +22,7 @@ public class HomeView : ViewBase{
 		base.ShowUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
+//		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
 
 		MsgCenter.Instance.AddListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
 
@@ -36,6 +36,8 @@ public class HomeView : ViewBase{
 			bool isNewCity = (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityList[i].id) == StageState.NEW); 
 			cityBg.GetComponent<TweenAlpha> ().enabled = isNewCity;
 		}
+
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.HOME);
 	}
 
 	private void OnRefreshRewardList(object data){
@@ -59,17 +61,11 @@ public class HomeView : ViewBase{
 		}
 	}
 
-	private void OnChangeSceneComplete(object data ){
-		if((ModuleEnum)data == ModuleEnum.HomeModule){
-
-		}
-	}
-
 	public override void HideUI(){
 		base.HideUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, true);
 
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
+//		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
 		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
@@ -97,41 +93,6 @@ public class HomeView : ViewBase{
 	void ClickPurchase(GameObject obj){
 		ModuleManager.Instance.ShowModule (ModuleEnum.ShopModule);
 	}
-	
-//
-//	void UpdateInfo (DragPanel panel, List<CityInfo> cityList) {
-//		List<StageInfo> temp = new List<StageInfo>();
-//		for (int i = 0; i < cityList.Count; i++) {
-//			CityInfo tci = cityList[ i ];
-//			for (int j = 0; j < tci.stages.Count; j++) {
-//				StageInfo tsi = tci.stages[ j ];
-//				tsi.InitStageId(tci.id);
-//				temp.Add(tsi);
-//			}
-//		}
-//
-//		for (int i = 0; i < temp.Count; i++) {
-//			VStageItemInfo vsii = new VStageItemInfo();
-//			vsii.Refresh(panel.ScrollItem[ i ], temp[ i ]);
-//			stageInfo.Add(panel.ScrollItem[ i ], vsii);
-//		}
-//	}
-//	
-//	int GetDragPanelCellCount(List<CityInfo> cityList){
-//		int count = 0;
-//		for (int cityIndex = 0; cityIndex < cityList.Count; cityIndex++){
-//			count += cityList[ cityIndex ].stages.Count;
-//		}
-//		return count;
-//	}
-//
-//	void UpdateTexture(DragPanel panel, List<Texture2D> tex2dList){
-//		for (int i = 0; i < panel.ScrollItem.Count; i++){
-//			GameObject item = panel.ScrollItem [i];
-//			UITexture texture = item.transform.FindChild("Texture").GetComponent<UITexture>();
-//			texture.mainTexture = tex2dList[ i ];
-//		}
-//	}
 
 	void ClickStoryItem(GameObject item){
 		Debug.LogError("ClickStoryItem ");

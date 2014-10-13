@@ -40,6 +40,9 @@ public class ViewBase : MonoBehaviour {
 	
 	public virtual void DestoryUI() {
 
+		if (ModuleManager.CheckIsModuleFocusUIEvent (config)) {
+			InputManager.Instance.SetBlockWithinModule(config.moduleName,false);
+		}
 		if (viewData != null) {
 			viewData.Clear();
 			viewData = null;

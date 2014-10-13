@@ -60,5 +60,10 @@ namespace bbproto	{
 	//		ConfigBattleUseData.Instance.posionAttack = null;
 	////		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, BattleEnd);
 	//	}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }

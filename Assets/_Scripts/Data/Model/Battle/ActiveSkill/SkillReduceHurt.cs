@@ -103,5 +103,10 @@ namespace bbproto{
 		public int GetDuration() {
 			return (int)period;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }
