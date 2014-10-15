@@ -58,6 +58,7 @@ Btn_SortRule_Fav=收藏
 Btn_SortRule_AddPoint=+号
 Btn_SortRule_Rank=等级
 Btn_Level_Up=强化
+Btn_AutoSelect=选择材料
 Btn_Evolve=进化
 Btn_Fight=开始战斗
 
@@ -1435,6 +1436,15 @@ guide_string_6=做的很不错！不过，只了解基础战斗技巧，是无�
 guide_string_7=以后进入地牢前，你都可以邀请一个好友来一起冒险。现在选择一个好友加入队伍吧。
 guide_string_8=看到卡牌上的发光点了吗？当光点闪烁，代表卡牌的怒气已满，可以释放大技能了。
 guide_string_9=现在就点击【释放技能】按钮试试吧。
+guide_string_10=你不是一个人在战斗！除了在战场中缴获卡牌之外，通关召唤可获得更强力的卡牌。
+guide_string_11=邀请好友来战斗或强化时，都可以获得友情点数。花费友情点数就可以友情召唤了。
+guide_string_12=恭喜你抽到强力卡牌，以后多多收集吧。现在就把他们编入队伍吧。
+guide_string_13=点击队伍中的空位来放入新卡牌吧。
+guide_string_14=恭喜你，新成员已加入队伍！现在就去雾隐山脉更体验一下吧。
+guide_string_15=我们已经收集了不少素材卡牌和金币，可以用来强化队伍成员哦。
+guide_string_16=首先需要选择一张卡牌作为强化对象，请选择队长来强化吧。
+guide_string_17=任意卡牌都可以作为强化素材，不同卡牌提供的强化经验值不同。现在，请添加3个素材卡牌吧。
+guide_string_18=强化时，可以邀请一位好友来帮忙，好友的参与可以提升强化效果哦。
 
 #novice guide tips
 guide_tips_1=请把同一颜色的色块拖到同一个格子里

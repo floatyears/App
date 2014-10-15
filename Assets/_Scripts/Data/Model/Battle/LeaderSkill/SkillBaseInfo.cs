@@ -27,6 +27,10 @@ namespace bbproto{
 		public void RefreashCooling () {
 			DisposeCooling ();
 		}
+
+		public void ResetCooling(){
+			coolingDone = true;
+		}
 		
 		public bool CoolingDone {
 			get {

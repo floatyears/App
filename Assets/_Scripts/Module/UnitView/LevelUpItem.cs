@@ -2,13 +2,8 @@
 using System.Collections;
 
 public class LevelUpItem : MyUnitItem {
-	public static LevelUpItem Inject(GameObject item){
-		LevelUpItem view = item.GetComponent<LevelUpItem>();
-		if (view == null) view = item.AddComponent<LevelUpItem>();
-		return view;
-	}
-	public delegate void LevelUpItemCallback(LevelUpItem puv);
-	public LevelUpItemCallback callback;
+
+	public DataListener callback;
 	
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
@@ -39,5 +34,10 @@ public class LevelUpItem : MyUnitItem {
 		} else {
 			IsParty = false;
 		}
+	}
+
+	protected override void UpdatePartyState(){
+		partyLabel.enabled = IsParty;
+		//		IsEnable = !IsParty;
 	}
 }

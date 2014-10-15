@@ -252,13 +252,6 @@ public class UnitDetailView : ViewBase{
 	bool isNoviceGUide = true;
 
 	void ClickTexture( GameObject go ){
-		if (!ShowTexture) {
-			return;	
-		}
-
-		if (isNoviceGUide && NoviceGuideStepManager.Instance.isInNoviceGuide ()) {
-			return;	
-		}
 
 		AudioManager.Instance.StopAudio (AudioEnum.sound_level_up);
 

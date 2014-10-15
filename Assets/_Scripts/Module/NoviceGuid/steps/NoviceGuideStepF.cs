@@ -15,10 +15,8 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 
 		//NoviceGuideUtil.RemoveAllArrows ();
 
-		GameObject empty = GameObject.FindWithTag ("party_unit3");
 		//NoviceGuideUtil.ForceOneBtnClick(empty);
-		NoviceGuideUtil.ForceOneBtnClick (empty,EmptyClick as UICallback);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{empty},new Vector3[]{new Vector3(0,0,3)});
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("party_unit3"),new Vector3(0,0,3),true,true,EmptyClick);
 
 
 
@@ -48,9 +46,7 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 		
 //		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(cardId).gameObject;
 
-		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
-		NoviceGuideUtil.ForceOneBtnClick (unit,OnUnitClick as UICallback);
+		NoviceGuideUtil.ShowArrow (GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86), new Vector3(0,0,2),true,true,OnUnitClick);
 	}
 
 	private void OnUnitClick(GameObject btn)

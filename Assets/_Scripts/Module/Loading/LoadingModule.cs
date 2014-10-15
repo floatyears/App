@@ -141,12 +141,9 @@ public class LoadingModule : ModuleBase {
 
 //			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
-//#if !NOVICE_ENABLE
-//			NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.NONE;
 //#endif
 #if UNITY_EDITOR 
-//			NoviceGuideStepManager.Instance.CurrentNoviceGuideStage = NoviceGuideStage.SCRATCH;
-			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepC_1;
+			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
 
 			EnterGame();

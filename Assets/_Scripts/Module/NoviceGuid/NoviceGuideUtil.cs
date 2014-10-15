@@ -22,8 +22,12 @@ public class NoviceGuideUtil {
 
 	private static GameObject[] multiBtns;
 
+	private static GameObject arrowPrefab;
+
+	private static UICamera mainCam;
+
 	// posAndDir:the x,y stand for the position, the z stands for direction
-	public static void ShowArrow(GameObject[] parents,Vector3[] posAndDir, bool showTap = true){
+	public static void ShowArrow(GameObject[] parents,Vector3[] posAndDir, bool showTap = true, bool forceClick = true, UICallback callback = null){
 
 		Vector3 dir;
 		int i = 0,len = posAndDir.Length;
@@ -108,6 +112,83 @@ public class NoviceGuideUtil {
 				i++;
 			}
 		});
+
+	}
+
+	public static void ShowArrow(GameObject parent,Vector3 posAndDir, bool showTap = true, bool forceClick = true, UICallback callback = null){
+
+		Vector3 dir;
+		if (arrowPrefab == null) {
+			arrowPrefab = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/NoviceGuide/NoviceGuideArrow",null) as GameObject;	
+		}
+		GameObject arrow = NGUITools.AddChild (parent, arrowPrefab);
+		GameObject tap = arrow.transform.FindChild("Sprite/Sprite").gameObject;
+		tap.layer = arrow.transform.FindChild("Sprite").gameObject.layer = arrow.layer;
+		if(showTap){
+			tap.GetComponent<UISprite>().enabled = true;
+		}else{
+			tap.GetComponent<UISprite>().enabled = false;
+		}
+		TweenPosition tPos = arrow.transform.FindChild("Sprite").GetComponent<TweenPosition> ();
+		
+		Vector3 size = Vector3.zero; 
+		Vector3 center = Vector3.zero;
+		if(parent.GetComponent<BoxCollider> () != null){
+			size = parent.GetComponent<BoxCollider> ().size;
+			center = parent.GetComponent<BoxCollider> ().center;
+		}
+
+		switch ( (int)posAndDir .z) {
+			//point to the top
+		case 3:
+			dir = new Vector3 (0.0f, 0.0f, 180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
+			tPos.to.y = - 12.0f;
+			tPos.from.y = - 32.0f;
+			tPos.from.x = tPos.to.x = posAndDir.x = 0;
+			arrow.transform.localPosition = new Vector3(center.x + posAndDir.x , center.y - size.y / 2 + posAndDir.y,0);
+			break;
+			//point to the right
+		case 4:
+			dir = new Vector3 (0f, 0f, 90f);
+			tPos.to.x =  - 12.0f;
+			tPos.from.x = - 32.0f;
+			tPos.to.y = tPos.from.y = 0;
+			arrow.transform.localPosition = new Vector3(center.x - size.x / 2 + posAndDir.x , center.y + posAndDir.y, 0);
+			break;
+			//point to the bottom
+		case 1:
+			//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
+			dir = new Vector3 (0f, 0f, 0f);
+			tPos.to.y = 12.0f;
+			tPos.from.y = 32.0f;
+			tPos.from.x = tPos.to.x = 0f;
+			arrow.transform.localPosition = new Vector3(center.x + posAndDir.x , center.y + size.y / 2 + posAndDir.y,0);
+			break;
+		case 2:
+			//point to the left
+			//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
+			dir = new Vector3 (0f, 0f, 270f);
+			tPos.to.x = 12f;
+			tPos.from.x = 32.0f;
+			tPos.from.y = tPos.to.y = 0f;
+
+			arrow.transform.localPosition = new Vector3(center.x - size.x / 2 + posAndDir.x , center.y + posAndDir.y, 0);
+			break;
+		default:
+			dir = Vector3.zero;
+			break;
+		}
+		
+		arrow.transform.FindChild("Sprite").transform.Rotate (dir);
+		tap.transform.Rotate (-dir);
+		NGUITools.AdjustDepth (arrow, 20);
+
+		//don't use the parent gameobject ref.
+		arrows.Add (parent.GetInstanceID () + parent.name, arrow);
+
+		if (forceClick) {
+			ForceOneBtnClick(parent,callback);
+		}
 	}
 
 	public static void RemoveAllArrows(){
@@ -175,7 +256,8 @@ public class NoviceGuideUtil {
 
 	public static void ForceOneBtnClick(GameObject obj, UICallback callback, bool isExecuteBefore = true)
 	{
-		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
+		if(mainCam == null)
+			mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 		camLastLayer = mainCam.eventReceiverMask;
 
 		//TODO:Change the execute order....this may be different in different platform
@@ -198,6 +280,7 @@ public class NoviceGuideUtil {
 		LayerMask mask =  1 << LayerMask.NameToLayer ("NoviceGuide");
 //		mainCam.eventReceiverMask = mask;
 		obj.layer = LayerMask.NameToLayer ("NoviceGuide");
+//		Debug.Log ("force click: "+ obj.ToString() + " layer: " + obj.layer);
 
 		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, true);
 

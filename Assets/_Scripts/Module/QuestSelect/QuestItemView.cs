@@ -34,7 +34,7 @@ public class QuestItemView : DragPanelItemBase {
 	public override void SetData<T> (T data, params object[] args)
 	{
 		this.data = data as QuestInfo;
-		tag = "";
+		tag = "Untagged";
 		if (this.data.state == EQuestState.QS_QUESTING) {
 			tag = "quest_new";	
 		}

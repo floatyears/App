@@ -29,7 +29,7 @@ public class FriendUnitItem : BaseUnitItem {
 		base.SetData(this.friendInfo.UserUnit);
 		if(args.Length > 0)
 			callback += (DataListener)args [0];
-		tag = "";
+		tag = "Untagged";
 		if (name == "0") {
 			tag = "friend_one";
 		}

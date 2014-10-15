@@ -961,10 +961,10 @@ public class BattleMapView : ViewBase {
 			guideType = type;
 			switch (type) {
 			case 1: //key
-				NoviceGuideUtil.ShowArrow(new GameObject[]{GameObject.FindWithTag("map_key")},new Vector3[]{new Vector3(0,0,1)},false);
+				NoviceGuideUtil.ShowArrow(GameObject.FindWithTag("map_key"),new Vector3(0,0,1),false);
 				break;
 			case 2: // door
-				NoviceGuideUtil.ShowArrow(new GameObject[]{door},new Vector3[]{new Vector3(0,0,1)},false);
+				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,1),false);
 				break;
 			default:
 				break;

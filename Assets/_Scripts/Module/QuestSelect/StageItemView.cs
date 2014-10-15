@@ -164,7 +164,7 @@ public class StageItemView : MonoBehaviour{
 	GameObject insPrefab = null;
 	public void ShowIconByState(StageState state){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
-		tag = "";
+		tag = "Untagged";
 		if(state == StageState.LOCKED){
 			icon.spriteName = "icon_stage_lock";
 			UIEventListenerCustom.Get(this.gameObject).onClick = ShowTip;

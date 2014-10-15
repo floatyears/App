@@ -181,9 +181,49 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepC_3:
-			if(startType == NoviceGuideStartType.START_BATTLE){
+			if(startType == NoviceGuideStartType.FIGHT){
 				gotoNextStep = true;
 			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepC_4:
+			if(startType == NoviceGuideStartType.FIGHT){
+				gotoNextStep = false;
+				ChangeState (typeof(NoviceGuideStepC_4));
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_1:
+			if(startType == NoviceGuideStartType.HOME){
+				gotoNextStep = false;
+				ModuleManager.Instance.ShowModule(ModuleEnum.ScratchModule);
+			}else if(startType == NoviceGuideStartType.SCRATCH){
+				gotoNextStep = false;
+				ChangeState(typeof(NoviceGuideStepD_1));
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_2:
+
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_3:
+
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_4:
+
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_1:
+			if(startType == NoviceGuideStartType.HOME){
+				gotoNextStep = false;
+				ChangeState(typeof(NoviceGuideStepE_1));
+			}else if(startType == NoviceGuideStartType.UNITS){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_2:
+			if(startType == NoviceGuideStartType.LEVEL_UP){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_3:
+
 			break;
 		}
 
@@ -231,6 +271,7 @@ public enum NoviceGuideStartType{
 	FIGHT_READY,
 	FIGHT,
 	UNITS,
+	LEVEL_UP,
 //	SCRATCH,
 //	INPUT_NAME,
 //	QUEST_SELECT,

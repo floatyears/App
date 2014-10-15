@@ -19,10 +19,8 @@ public class NoviceGuideStepA_2:NoviceGuidStep
 	public override void Enter()
 	{
 		nextState = typeof(NoviceGuideStepA_3);
-		GameObject mi = ModuleManager.Instance.GetModule<BattleMapModule> (ModuleEnum.BattleMapModule).GetMapItem(2,1);//GameObject.FindWithTag ("map_item");
 
-		NoviceGuideUtil.ShowArrow(new GameObject[]{mi},new Vector3[]{new Vector3(0,0,1)},true);	
-		NoviceGuideUtil.ForceOneBtnClick (mi,ClickOK);
+		NoviceGuideUtil.ShowArrow(ModuleManager.Instance.GetModule<BattleMapModule> (ModuleEnum.BattleMapModule).GetMapItem(2,1),new Vector3(0,0,1),true,true,ClickOK);	
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_1"));
 	}

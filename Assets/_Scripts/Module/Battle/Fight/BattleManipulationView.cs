@@ -444,12 +444,7 @@ public class BattleManipulationView : ViewBase {
 					return;
 				}
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
-				EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.DragCard, returnValue => {
-					GameObject prefab = returnValue as GameObject;
-					GameObject effectIns = EffectManager.InstantiateEffect(ViewManager.Instance.EffectPanel, prefab);
-					Transform card = ci.transform;
-					effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;}
-				);
+				EffectManager.Instance.PlayEffect("card_effect",ViewManager.Instance.EffectPanel.transform,ci.transform.localPosition + ci.transform.parent.parent.localPosition);
 			}
 		}
 	}

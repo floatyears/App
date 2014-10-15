@@ -12,7 +12,6 @@ public class BattleBottomView : ViewBase {
 	private Dictionary<int, GameObject> enableSKillPos = new Dictionary<int, GameObject> ();
 	private List<int> enablePos = new List<int> ();
 
-	private GameObject activeEnableEffect;
 	private Dictionary<GameObject, ActiveSkill> unitInfoPos = new Dictionary<GameObject,ActiveSkill> ();
 
 	private UITexture[] actor;
@@ -30,8 +29,6 @@ public class BattleBottomView : ViewBase {
 		base.Init (uiconfig, data);
 
 		List<UserUnit> userUnitInfo = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit;
-
-		EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
 
 		Transform actorTrans = transform.Find ("Actor");
 		actor = new UITexture[5];
@@ -145,15 +142,13 @@ public class BattleBottomView : ViewBase {
 		ActiveSkill activeSKill = data as ActiveSkill;
 		foreach (var item in unitInfoPos) {
 			if(item.Value.GetBaseInfo().id == activeSKill.GetBaseInfo().id && item.Value.CoolingDone) {
-				if (activeEnableEffect == null) {
-					EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.ActiveSkill, o => activeEnableEffect = o as GameObject);
-				}
-				if (enableSKillPos.ContainsKey (item.Key)) {
-					return;	
-				}
-				
-				enableSKillPos.Add (item.Key, null);
-				enablePos.Add (item.Key);
+				EffectManager.Instance.PlayEffect("activeskill_enabled",item.Key.transform);
+//				if (enableSKillPos.ContainsKey (item.Key)) {
+//					return;	
+//				}
+//				
+//				enableSKillPos.Add (item.Key, null);
+//				enablePos.Add (item.Key);
 
 			}
 		}
@@ -162,14 +157,14 @@ public class BattleBottomView : ViewBase {
 	public void Boost() {
 //		RemoveSkillEffect (prevID);
 		//		Debug.LogError("Boost Active Skill : " + tuu);
-		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
+//		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
 	}
 
 	void RemoveSkillEffect (int pos) {
-		if(enableSKillPos.ContainsKey(pos))
-			enableSKillPos.Remove (pos);
-		if(enablePos.Contains(pos))
-			enablePos.Remove (pos);
+//		if(enableSKillPos.ContainsKey(pos))
+//			enableSKillPos.Remove (pos);
+//		if(enablePos.Contains(pos))
+//			enablePos.Remove (pos);
 	}
 
 	void ClickItem (GameObject obj) {

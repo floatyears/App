@@ -101,8 +101,7 @@ public class NoviceGuideStepD_4:NoviceGuidStep
 	{
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide21_title"),TextCenter.GetText ("guide21_content"),TextCenter.GetText ("NEXT"),ClickOk3);
 		
-		GameObject leader = GameObject.FindWithTag ("battle_leader");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{leader}, new Vector3[]{new Vector3(0,80,1)},false);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("battle_leader"), new Vector3(0,80,1),false);
 //		NoviceGuideUtil.ForceOneBtnClick (leader);
 	}
 	
@@ -188,8 +187,7 @@ public class NoviceGuideStepD_7:NoviceGuidStep
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide24_title"),TextCenter.GetText ("guide24_content"),TextCenter.GetText ("NEXT"),ClickOk3,null, GuidePicPath.FindKey);
 		
-		GameObject door = GameObject.FindWithTag ("map_door");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{door}, new Vector3[]{new Vector3 (-50, 0, 2)},false);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("map_door"), new Vector3 (-50, 0, 2),false);
 		
 		MsgCenter.Instance.AddListener (CommandEnum.QuestEnd, OnQuestEnd);
 

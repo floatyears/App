@@ -22,8 +22,6 @@ public class HomeView : ViewBase{
 		base.ShowUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 
-//		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChangeSceneComplete);
-
 		MsgCenter.Instance.AddListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
 
 		GameTimer.GetInstance ().CheckRefreshServer ();
@@ -38,6 +36,7 @@ public class HomeView : ViewBase{
 		}
 
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.HOME);
+
 	}
 
 	private void OnRefreshRewardList(object data){

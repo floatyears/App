@@ -10,12 +10,10 @@ public class NoviceGuideStepB_1:NoviceGuidStep
 		nextState = typeof(NoviceGuideStepB_2);
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_5"));
-		GameObject obj = GameObject.FindWithTag ("city_one");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{obj}, new Vector3[]{new Vector3(0,0,1)});
-		NoviceGuideUtil.ForceOneBtnClick (obj,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("city_one"), new Vector3(0,0,1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
-		}); 
+		});
 	}
 
 }
@@ -38,9 +36,7 @@ public class NoviceGuideStepB_3:NoviceGuidStep
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepB_4);
-		GameObject obj = GameObject.FindWithTag ("quest_new");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{obj}, new Vector3[]{new Vector3 (0, 0, 3)});
-		NoviceGuideUtil.ForceOneBtnClick (obj, o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 0, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 		});
 	}
@@ -51,9 +47,7 @@ public class NoviceGuideStepB_4:NoviceGuidStep{
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepB_5);
-		GameObject obj = GameObject.FindWithTag ("fight_btn");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{obj}, new Vector3[]{new Vector3 (0, 0, 1)});
-		NoviceGuideUtil.ForceOneBtnClick (obj, o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("fight_btn"), new Vector3 (0, 0, 1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 		});
 	}

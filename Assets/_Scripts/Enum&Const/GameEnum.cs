@@ -12,6 +12,7 @@ public enum CommandEnum{
 	levelDone,
 	ChangeSceneComplete,
 	BattleEnd,
+	BattleSkillPanel,
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,

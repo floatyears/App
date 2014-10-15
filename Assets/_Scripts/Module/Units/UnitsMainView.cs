@@ -69,7 +69,6 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	
 	public override void ShowUI(){
 		base.ShowUI();
-//		RefreshParty();
 
 		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
