@@ -252,13 +252,6 @@ public class UnitDetailView : ViewBase{
 	bool isNoviceGUide = true;
 
 	void ClickTexture( GameObject go ){
-		if (!ShowTexture) {
-			return;	
-		}
-
-		if (isNoviceGUide && NoviceGuideStepManager.Instance.isInNoviceGuide ()) {
-			return;	
-		}
 
 		AudioManager.Instance.StopAudio (AudioEnum.sound_level_up);
 
@@ -287,22 +280,7 @@ public class UnitDetailView : ViewBase{
 //		PlayLevelUp(rlu);
 //	} 
 
-	void ScaleEnd(){
-		if (!isEvolve) {
-			return;
-		}
-		if( DataCenter.evolveInfo != null )
-			DataCenter.evolveInfo.ClearData ();
-		
-		isEvolve = false;
-		
-		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
-		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
-		evolveEffectIns.transform.localPosition = pos;
-		evolveEffectIns.layer = GameLayer.EffectLayer;
 
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
-	}
 
 	string GetWayString(List<bbproto.UnitGetWay> getway){
 		string gw = "";
@@ -568,6 +546,23 @@ public class UnitDetailView : ViewBase{
 		
 		unitAlpha.ResetToBeginning();
 		unitAlpha.PlayForward();
+	}
+
+	void ScaleEnd(){
+		if (!isEvolve) {
+			return;
+		}
+		if( DataCenter.evolveInfo != null )
+			DataCenter.evolveInfo.ClearData ();
+		
+		isEvolve = false;
+		
+		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
+		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
+		evolveEffectIns.transform.localPosition = pos;
+		evolveEffectIns.layer = GameLayer.EffectLayer;
+		
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 	
 	void ShowBodyTexture( UserUnit data ){

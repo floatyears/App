@@ -17,8 +17,7 @@ public class NoviceGuideStepL_1:NoviceGuidStep
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide15_title"),TextCenter.GetText ("guide15_content"),TextCenter.GetText ("NEXT"),ClickOk2);
 		
 		
-		GameObject sp1 = GameObject.FindWithTag ("battle_sp1");
-		NoviceGuideUtil.ShowArrow (new GameObject[]{sp1}, new Vector3[]{new Vector3 (0, 0, 1)});
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("battle_sp1"), new Vector3 (0, 0, 1));
 		
 		
 	}
@@ -40,7 +39,7 @@ public class NoviceGuideStepL_1:NoviceGuidStep
 		
 	outLoop:
 		if (item != null) {
-			NoviceGuideUtil.ShowArrow(new GameObject[]{ item.gameObject},new Vector3[]{new Vector3(0,0,1)});	
+			NoviceGuideUtil.ShowArrow(item.gameObject,new Vector3(0,0,1));	
 		}
 	}
 

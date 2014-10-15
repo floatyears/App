@@ -46,5 +46,10 @@ namespace bbproto{
 			BattleAttackManager.Instance.RecoverEnergePoint (step);
 			return step;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }

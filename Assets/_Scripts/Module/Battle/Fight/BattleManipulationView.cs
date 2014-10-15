@@ -229,20 +229,12 @@ public class BattleManipulationView : ViewBase {
 			case "state_info":
 				StateInfo(args[1]);
 				break;
-			case "limit_input":
-			if((bool)args[1]){
-				foreach (var i in (int[])args[2]) {
-					moveItem[i].GetComponent<BoxCollider>().enabled = false;
-				}
-
-				foreach (var j in (int[])args[3]) {
-					battleCardAreaItem[j].GetComponent<BoxCollider>().enabled = false;
-				}
-			}else{
-				for (int i = 0; i < 5; i++) {
-					moveItem[i].GetComponent<BoxCollider>().enabled = false;
-					battleCardAreaItem[i].GetComponent<BoxCollider>().enabled = false;
-				}
+			case "guide":
+			switch((int)args[1]){
+			case 1:
+				break;
+			case 2:
+				break;
 			}
 			break;
 			default:
@@ -452,12 +444,7 @@ public class BattleManipulationView : ViewBase {
 					return;
 				}
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_title_overlap);
-				EffectManager.Instance.GetOtherEffect(EffectManager.EffectEnum.DragCard, returnValue => {
-					GameObject prefab = returnValue as GameObject;
-					GameObject effectIns = EffectManager.InstantiateEffect(ViewManager.Instance.EffectPanel, prefab);
-					Transform card = ci.transform;
-					effectIns.transform.localPosition = card.localPosition + card.parent.parent.localPosition;}
-				);
+				EffectManager.Instance.PlayEffect("card_effect",ViewManager.Instance.EffectPanel.transform,ci.transform.localPosition + ci.transform.parent.parent.localPosition);
 			}
 		}
 	}
@@ -869,6 +856,11 @@ public class BattleManipulationView : ViewBase {
 		
 	}
 
-	////---------------count down end
+	////---------------count down end'
+
+	///---------------guide
+	void StartGuide(int type){
+
+	}
 	
 }

@@ -13,11 +13,10 @@ public class NoviceGuideStepG_1:NoviceGuidStep{
 
 
 		//LogHelper.Log (party.name);
-		NoviceGuideUtil.ForceOneBtnClick (party);
+		NoviceGuideUtil.ForceOneBtnClick (party,TapParty as UICallback);
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
-		UIEventListenerCustom.Get (party).onClick += TapParty;
 
 	}
 	
@@ -47,8 +46,7 @@ public class NoviceGuideStepG_2:NoviceGuidStep{
 		GameObject party = GameObject.FindWithTag ("level_up");
 		
 		//LogHelper.Log (party.name);
-		NoviceGuideUtil.ForceOneBtnClick (party,true);
-		UIEventListenerCustom.Get (party).onClick += TapParty;
+		NoviceGuideUtil.ForceOneBtnClick (party,TapParty as UICallback);
 
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
@@ -76,11 +74,10 @@ public class NoviceGuideStepG_3:NoviceGuidStep{
 		GameObject party = GameObject.FindWithTag ("evolve");
 		
 		//LogHelper.Log (party.name);
-		NoviceGuideUtil.ForceOneBtnClick (party);
+		NoviceGuideUtil.ForceOneBtnClick (party,TapParty as UICallback);
 		
 		NoviceGuideUtil.ShowArrow (new GameObject[]{party}, new Vector3[]{new Vector3(0,0,1)});
 		
-		UIEventListenerCustom.Get (party).onClick += TapParty;
 
 	}
 	

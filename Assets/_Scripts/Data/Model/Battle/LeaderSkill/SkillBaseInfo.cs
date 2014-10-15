@@ -27,6 +27,10 @@ namespace bbproto{
 		public void RefreashCooling () {
 			DisposeCooling ();
 		}
+
+		public void ResetCooling(){
+			coolingDone = true;
+		}
 		
 		public bool CoolingDone {
 			get {
@@ -113,6 +117,12 @@ namespace bbproto{
 		public override string ToString ()
 		{
 			return id.ToString ();
+		}
+
+		
+		public virtual SkillBase GetBaseInfo(){
+			//			throw new excepti
+			return null;
 		}
 	}
 }

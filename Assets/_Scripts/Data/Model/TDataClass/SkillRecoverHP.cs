@@ -50,6 +50,10 @@ namespace bbproto{
 //				coolingDone = true;
 //			}
 //		}
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 }
 	
 }

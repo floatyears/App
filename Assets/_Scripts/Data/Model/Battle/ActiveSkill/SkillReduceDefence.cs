@@ -50,5 +50,10 @@ namespace bbproto{
 			}
 		}
 
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
+
 	}
 }

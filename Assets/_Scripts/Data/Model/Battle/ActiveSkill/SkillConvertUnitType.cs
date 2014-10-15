@@ -53,6 +53,11 @@ namespace bbproto{
 			
 			return type;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 
 	public class ChangeCardColor {

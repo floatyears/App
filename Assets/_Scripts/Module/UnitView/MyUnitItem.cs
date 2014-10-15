@@ -9,8 +9,6 @@ public class MyUnitItem : BaseUnitItem {
 	protected UILabel partyLabel;
 	public UILabel PartyLabel{
 		get { 
-			if(!partyLabel.enabled)
-				partyLabel.enabled = true;
 			return partyLabel; 
 		}
 	}
@@ -81,6 +79,8 @@ public class MyUnitItem : BaseUnitItem {
 	public override void SetData<T> (T data, params object[] args)
 	{
 		base.SetData (data, args);
+	
+
 		IsFavorite = (userUnit != null && userUnit.isFavorite == 1) ? true : false;
 		if (args.Length > 0) {
 			callback = args[0] as DataListener;	
@@ -88,7 +88,16 @@ public class MyUnitItem : BaseUnitItem {
 		if (args.Length > 1) {
 			CurrentSortRule = (SortRule)args[1];
 		}
-		if(userUnit != null)
+		if (userUnit != null) {
 			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnit);
+			tag = "Untagged";
+			if (userUnit.unitId == 1 || userUnit.unitId == 5 || userUnit.unitId == 9) {
+				tag = "unit_leader";	
+			}		
+		}
+
 	}
+
+
+	
 }

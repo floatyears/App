@@ -40,6 +40,7 @@ public class NoviceGuideStepManager {
 	
 	public void ChangeState(Type nextState)
 	{
+		Debug.Log ("Goto Guide Step: [[[---" + nextState + "---]]]");
 		prevState = currentState;
 
 		if (prevState != null && stepInsDic.ContainsKey(prevState)) {
@@ -57,13 +58,15 @@ public class NoviceGuideStepManager {
 			Activator.CreateInstance(currentState);
 		}
 		stepInsDic[currentState].Enter();
+
+		CurrentGuideStep = (NoviceGuideStage)Enum.Parse(typeof(NoviceGuideStage),currentState.ToString());
 	}
 
 	void ServerCallback(object data){
 		Debug.LogWarning ("Novice ServerCallback..");
 	}
 
-	public NoviceGuideStage CurrentNoviceGuideStage
+	public NoviceGuideStage CurrentGuideStep
 	{
 		get{
 			return currentNoviceGuideStage;
@@ -105,19 +108,130 @@ public class NoviceGuideStepManager {
 		}
 
 		Type nextType = currentState;
+		bool gotoNextStep = false;
 
-		if(currentState.Name.IndexOf("NoviceGuideStepA") >= 0){
-			switch(startType){
-			case NoviceGuideStartType.START_BATTLE:
-			case NoviceGuideStartType.FIGHT:
-				if(stepInsDic.ContainsKey (nextType)) {
-					nextType = stepInsDic[nextType].NextState;
-				}
-				ChangeState (nextType);
-				break;
+		switch((NoviceGuideStage)Enum.Parse(typeof(NoviceGuideStage),nextType.Name)){
+		case NoviceGuideStage.NoviceGuideStepA_1:
+			if(startType == NoviceGuideStartType.START_BATTLE){
+				gotoNextStep = false;
+				ChangeState (typeof(NoviceGuideStepA_1));	
 			}
-		}else if(currentState.Name.IndexOf("NoviceGuideStepB") >= 0){
+			break;
+		case NoviceGuideStage.NoviceGuideStepA_2:
+			if(startType == NoviceGuideStartType.FIGHT){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepA_3:
+			break;
+		case NoviceGuideStage.NoviceGuideStepA_4:
+			if(startType == NoviceGuideStartType.GOLD_BOX){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepA_5:
+			if(startType == NoviceGuideStartType.GET_KEY){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepA_6:
+			break;
+		case NoviceGuideStage.NoviceGuideStepB_1:
+			if(startType == NoviceGuideStartType.HOME){
+				gotoNextStep = false;
+				ChangeState (typeof(NoviceGuideStepB_1));	
+			}else if(startType == NoviceGuideStartType.STAGE_SELECT){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepB_2:
+			if(startType == NoviceGuideStartType.QUEST_SELECT){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepB_3:
+			if(startType == NoviceGuideStartType.FIGHT_READY){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepB_4:
+			if(startType == NoviceGuideStartType.START_BATTLE){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepB_5:
+			if(startType == NoviceGuideStartType.START_BATTLE){
+				gotoNextStep = false;
+				ChangeState (typeof(NoviceGuideStepB_5));
+			}else if(startType == NoviceGuideStartType.GET_KEY){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepC_1:
+			if(startType == NoviceGuideStartType.QUEST_SELECT){
+				gotoNextStep = false;
+				ChangeState (typeof(NoviceGuideStepC_1));
+			}else if(startType == NoviceGuideStartType.FRIEND_SELECT){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepC_2:
+			if(startType == NoviceGuideStartType.FIGHT_READY){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepC_3:
+			if(startType == NoviceGuideStartType.FIGHT){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepC_4:
+			if(startType == NoviceGuideStartType.FIGHT){
+				gotoNextStep = false;
+				ChangeState (typeof(NoviceGuideStepC_4));
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_1:
+			if(startType == NoviceGuideStartType.HOME){
+				gotoNextStep = false;
+				ModuleManager.Instance.ShowModule(ModuleEnum.ScratchModule);
+			}else if(startType == NoviceGuideStartType.SCRATCH){
+				gotoNextStep = false;
+				ChangeState(typeof(NoviceGuideStepD_1));
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_2:
 
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_3:
+
+			break;
+		case NoviceGuideStage.NoviceGuideStepD_4:
+
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_1:
+			if(startType == NoviceGuideStartType.HOME){
+				gotoNextStep = false;
+				ChangeState(typeof(NoviceGuideStepE_1));
+			}else if(startType == NoviceGuideStartType.UNITS){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_2:
+			if(startType == NoviceGuideStartType.LEVEL_UP){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_3:
+
+			break;
+		}
+
+		if (gotoNextStep) {
+			if(stepInsDic.ContainsKey (nextType)) {
+				nextType = stepInsDic[nextType].NextState;
+			}
+			ChangeState (nextType);	
 		}
 
 		//get the last step.  
@@ -148,10 +262,16 @@ public enum NoviceGuideStepEntityID{
 public enum NoviceGuideStartType{
 	DEFAULT,
 	START_BATTLE,
-//	GOLD_BOX,
+	GOLD_BOX,
+	GET_KEY,
+	HOME,
+	STAGE_SELECT,
+	QUEST_SELECT,
+	FRIEND_SELECT,
+	FIGHT_READY,
 	FIGHT,
-//	GET_KEY,
 	UNITS,
+	LEVEL_UP,
 //	SCRATCH,
 //	INPUT_NAME,
 //	QUEST_SELECT,
@@ -174,6 +294,9 @@ public enum NoviceGuideStage{
 	NoviceGuideStepA_6,
 	NoviceGuideStepB_1,
 	NoviceGuideStepB_2,
+	NoviceGuideStepB_3,
+	NoviceGuideStepB_4,
+	NoviceGuideStepB_5,
 	NoviceGuideStepC_1,
 	NoviceGuideStepC_2,
 	NoviceGuideStepC_3,

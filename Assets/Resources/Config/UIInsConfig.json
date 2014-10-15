@@ -385,7 +385,7 @@
         "x": 0,
         "y": -565,
         "z": 0, 
-        "group" : 0
+        "group" : -1
     },
     {
    		"name":"OperationNoticeModule",
@@ -520,7 +520,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : -1
+        "group" : 2
     },
     {
         "name":"BattleSkillModule",

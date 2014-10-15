@@ -56,7 +56,6 @@ public class PartyUnitItem : MyUnitItem {
 
 public class LevelUpUnitItem : MyUnitItem {
 
-
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
 			callback(this);
@@ -102,13 +101,18 @@ public class LevelUpUnitItem : MyUnitItem {
 			}
 			break;
 		case "shield_item":
-			IsParty = true;
 			if(isParty || IsFavorite) {
 				
 				if(args[1] != null && userUnit.uniqueId == (args[1] as UserUnit).uniqueId) {
 					return;
 				}
 				IsEnable = (bool)args[2];
+			}
+			break;
+		case "auto_select":
+			if(userUnit == (UserUnit)args[1])
+			{
+				callback(this);
 			}
 			break;
 		}

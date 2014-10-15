@@ -86,7 +86,7 @@ public class MapItem : MonoBehaviour {
 			switch (gridItem.star) {
 			case bbproto.EGridStar.GS_KEY:
 				spriteName = "key";
-//				tag = "map_key";
+				tag = "map_key";
 				break;
 			case bbproto.EGridStar.GS_QUESTION:
 				spriteName = "key";
@@ -215,9 +215,34 @@ public class MapItem : MonoBehaviour {
 		animEnd = cb;
 
 //		gameObject.SetActive (true);
-		EffectManager.Instance.GetMapEffect (gridItem.type, returnValue => {
-			StartCoroutine (MeetEffect (returnValue)); }
-		);
+		string path = "";
+		switch (gridItem.type) {
+		case bbproto.EQuestGridType.Q_ENEMY:
+			path = "Enconuterenemy";
+			break;
+		case bbproto.EQuestGridType.Q_EXCLAMATION:
+			break;
+		case bbproto.EQuestGridType.Q_KEY:
+			break;
+		case bbproto.EQuestGridType.Q_NONE:
+			break;
+		case bbproto.EQuestGridType.Q_QUESTION:
+			break;
+		case bbproto.EQuestGridType.Q_TRAP:
+			path = "Trap";
+			break;
+		case bbproto.EQuestGridType.Q_TREATURE:
+			break;
+		}
+		if (path != "") {
+			EffectManager.Instance.PlayEffect (path, effectPanel.transform, Vector3.zero, returnValue => {
+				GridAnim (rotateSingleEnd);	
+			});
+		}else{
+			GridAnim (rotateSingleEnd);	
+		}
+
+
 	}
 
 	public const string rotateAllEnd = "HideGrid";
@@ -229,25 +254,6 @@ public class MapItem : MonoBehaviour {
 		}
 		else{
 			GridAnim ( rotateAllEnd );
-		}
-	}
-	
-	IEnumerator MeetEffect (Object obj) {
-		if (gridItem == null) {
-			GridAnim (rotateSingleEnd);	
-			yield break;
-		}
-
-		if (obj == null) {
-//			yield return 0;
-			GridAnim (rotateSingleEnd);	
-		} else {
-			GameObject effect = obj as GameObject;
-			GameObject go = NGUITools.AddChild(effectPanel, effect);
-			go.transform.localScale = new Vector3(100f,100f,1f);
-			yield return new WaitForSeconds(0.5f);
-			Destroy(go);
-			GridAnim (rotateSingleEnd);	
 		}
 	}
 

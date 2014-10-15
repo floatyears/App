@@ -46,11 +46,13 @@ public class BattleMapView : ViewBase {
 	private string currentShowInfo;
 
 	private bool isMoving = false;
+//	private bool isInTips = false;
 	private Vector3 targetPoint;
 	private List<Coordinate> movePath = new List<Coordinate>();
 	private Vector3 distance = Vector3.zero;
 
-	
+	private int guideType = 0;
+
 	private Coordinate currentCoor;
 	private Coordinate prevCoor;
 
@@ -87,7 +89,72 @@ public class BattleMapView : ViewBase {
 		RefreshMap ();
 	}
 
-	public void RefreshMap(){
+	public override void CallbackView (params object[] args)
+	{
+		switch (args[0].ToString()) {
+			//			case "rolecoor":
+			//				RoleCoordinate((Coordinate)data[1]);
+			//				break;
+		case "player_dead":
+			BattleFail();
+			break;
+		case "boss_dead":
+			BossDead();
+			break;
+		case "reload":
+			RefreshMap();
+			break;
+		case "guide":
+			ToggleGuideTips((bool)args[1],(int)args[2]);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	void HaveFriendExit() {
+		ModuleManager.Instance.ExitBattle ();
+		ModuleManager.Instance.ShowModule(ModuleEnum.ResultModule);
+		MsgCenter.Instance.Invoke(CommandEnum.ShowFriendPointUpdateResult, BattleConfigData.Instance.BattleFriend);
+	}
+	
+	void BattleFail() {
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("ResumeQuestTitle"), 
+		                                    TextCenter.GetText ("ResumeQuestContent", DataCenter.resumeQuestStone),
+		                                    TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"), 
+		                                    BattleFailRecover, BattleFailExit);
+	}
+	
+	void BattleFailRecover(object data) {
+		if (DataCenter.Instance.UserData.AccountInfo.stone < DataCenter.redoQuestStone) {
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+			return;
+		}
+		
+		QuestController.Instance.ResumeQuest (o=>{
+			Umeng.GA.Buy ("ResumeQuest" , 1, DataCenter.resumeQuestStone);
+			BattleAttackManager.Instance.AddBlood (BattleAttackManager.Instance.maxBlood);
+			BattleAttackManager.Instance.RecoverEnergePoint (DataCenter.maxEnergyPoint);
+			BattleConfigData.Instance.StoreMapData ();
+		}, BattleConfigData.Instance.questDungeonData.questId);
+		BattleAttackManager.Instance.ClearData ();
+	}
+	
+	
+	void BattleFailExit(object data) {
+		QuestController.Instance.RetireQuest (o=>{
+			AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
+			ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
+			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
+				
+				ModuleManager.Instance.ExitBattle ();
+				ModuleManager.Instance.EnterMainScene();
+			}) );
+			BattleConfigData.Instance.ClearData ();
+		}, BattleConfigData.Instance.questDungeonData.questId, true);
+	}
+
+	void RefreshMap(){
 		StartMap ();
 		
 		if(BattleConfigData.Instance.storeBattleData.isBattle == 1){
@@ -114,7 +181,8 @@ public class BattleMapView : ViewBase {
 			
 			if(currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY){
 				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove", BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
+//					isInTips = true;
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
 				});
 			}
 		}
@@ -311,9 +379,9 @@ public class BattleMapView : ViewBase {
 		} else {
 			moveY = 0;
 		}
-		bouncePath[0] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + moveY);
-		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, secondPath [3].y + bounceOffset);
-		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, secondPath [3].y);
+		bouncePath[0] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, 0);
+		bouncePath[1] = new Vector3(secondPath [3].x+moveX, secondPath [3].y, 0);
+		bouncePath[2] = new Vector3(secondPath [3].x, secondPath [3].y, 0);
 		iTween.MoveTo (role, iTween.Hash ("path", bouncePath, "movetopath", false, "islocal", true, "time", 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MoveEnd", "oncompletetarget", gameObject));
 	}
 	
@@ -353,7 +421,8 @@ public class BattleMapView : ViewBase {
 				RotateAnim (()=>{
 					SetName (BattleFullScreenTipsView.BossBattle);
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_get_key);
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate");
+//					isInTips = true;
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "gate",OpenGateFunc as Callback);
 					ArriveAtCell ();
 				});
 				return;
@@ -393,9 +462,9 @@ public class BattleMapView : ViewBase {
 				GameTimer.GetInstance().AddCountDown(0f, ()=>{
 					RotateAnim (()=>{
 						AudioManager.Instance.PlayAudio (AudioEnum.sound_get_treasure);
-								BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.coins;
+						BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getMoney += currentMapData.coins;
 						ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"refresh");
-
+						NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.GOLD_BOX);
 						ArriveAtCell ();
 					});
 				});
@@ -433,6 +502,21 @@ public class BattleMapView : ViewBase {
 		} else {
 			ArriveAtCell();
 		}
+	}
+
+	void OpenGateFunc() {
+		//		battle.ShieldInput (true);
+		//key step
+//		isInTips = false;
+		door.SetActive (true);
+		ToggleGuideTips (false, 1);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.GET_KEY);
+	}
+
+	
+	void ReadyMoveFunc() {
+//		isInTips = false;
+		NoviceGuideStepManager.Instance.StartStep ( NoviceGuideStartType.START_BATTLE );
 	}
 
 	void MeetBoss () {
@@ -478,11 +562,7 @@ public class BattleMapView : ViewBase {
 	}
 	
 	private void IfArriveAtTheDoor() {
-		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor) && currentShowInfo != null) {
-			door.SetActive(true);
-		} else {
-			door.SetActive(false);
-		}
+
 	}
 
 	void ShieldMap(object data) {
@@ -583,35 +663,41 @@ public class BattleMapView : ViewBase {
 	}
 
 	void ClickDoor(GameObject go) {
-		
-		if (BattleConfigData.Instance.storeBattleData.isBattle != 1) {
-			if( BattleConfigData.Instance.questDungeonData.isLastCell() ) {
-				AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
-				ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss",MeetBoss as Callback);
-			} else {
-				BattleConfigData.Instance.questDungeonData.currentFloor ++;
-				BattleConfigData.Instance.storeBattleData.questData.Add (new ClearQuestParam ());
-				if (BattleAttackManager.maxEnergyPoint >= 10) {
-					BattleAttackManager.maxEnergyPoint = DataCenter.maxEnergyPoint;
+
+		if ( DGTools.EqualCoordinate (currentCoor, MapConfig.endCoor) && currentShowInfo != null) {
+			if (BattleConfigData.Instance.storeBattleData.isBattle != 1) {
+				if( BattleConfigData.Instance.questDungeonData.isLastCell() ) {
+					AudioManager.Instance.PlayAudio (AudioEnum.sound_boss_battle);
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "boss",MeetBoss as Callback);
 				} else {
-					BattleAttackManager.maxEnergyPoint += 10;
+					BattleConfigData.Instance.questDungeonData.currentFloor ++;
+					BattleConfigData.Instance.storeBattleData.questData.Add (new ClearQuestParam ());
+					if (BattleAttackManager.maxEnergyPoint >= 10) {
+						BattleAttackManager.maxEnergyPoint = DataCenter.maxEnergyPoint;
+					} else {
+						BattleAttackManager.maxEnergyPoint += 10;
+					}
+					BattleConfigData.Instance.ResetRoleCoordinate();
+					BattleConfigData.Instance.StoreMapData ();
+					
+					BattleAttackManager.Instance.Reset ();
+					ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
+
+					
 				}
-				BattleConfigData.Instance.ResetRoleCoordinate();
-				BattleConfigData.Instance.StoreMapData ();
-				
-				BattleAttackManager.Instance.Reset ();
-				ModuleManager.SendMessage (ModuleEnum.BattleTopModule, "refresh");
-
-				
+				return;
 			}
-			return;
-		}
-		else if (currentShowInfo == BattleFullScreenTipsView.CheckOut) {
-			door.SetActive(false);
-			BattleConfigData.Instance.ClearData();
-			ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"clear_quest");
+			else if (currentShowInfo == BattleFullScreenTipsView.CheckOut) {
+				door.SetActive(false);
+				BattleConfigData.Instance.ClearData();
+				ModuleManager.SendMessage(ModuleEnum.BattleTopModule,"clear_quest");
 
+			}
+		} else {
+			OnClickMapItem(map[2,4].gameObject);
 		}
+
+
 	}
 
 
@@ -868,5 +954,33 @@ public class BattleMapView : ViewBase {
 
 	public GameObject GetMapItem(int x, int y){
 		return map [x, y].gameObject;
+	}
+
+	void ToggleGuideTips(bool isShow, int type){
+		if (isShow) {
+			guideType = type;
+			switch (type) {
+			case 1: //key
+				NoviceGuideUtil.ShowArrow(GameObject.FindWithTag("map_key"),new Vector3(0,0,1),false);
+				break;
+			case 2: // door
+				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,1),false);
+				break;
+			default:
+				break;
+			}
+		}else{
+			guideType = 0;
+			switch (type) {
+			case 1: //key
+				NoviceGuideUtil.RemoveAllArrows();
+				break;
+			case 2: // door
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 }

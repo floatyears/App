@@ -24,7 +24,7 @@ public class ViewBase : MonoBehaviour {
 	}
 
 	public virtual void ShowUI() {
-		if (ModuleManager.CheckIsModuleFocusUIEvent (config)) {
+		if (config != null && ModuleManager.CheckIsModuleFocusUIEvent (config)) {
 			gameObject.layer = GameLayer.blocker;
 			InputManager.Instance.SetBlockWithinModule(config.moduleName,true);
 		}
@@ -32,7 +32,7 @@ public class ViewBase : MonoBehaviour {
 	}
 
 	public virtual void HideUI() {
-		if (ModuleManager.CheckIsModuleFocusUIEvent (config)) {
+		if (config != null && ModuleManager.CheckIsModuleFocusUIEvent (config)) {
 			InputManager.Instance.SetBlockWithinModule(config.moduleName,false);
 		}
 		ToggleAnimation (false);
@@ -40,6 +40,9 @@ public class ViewBase : MonoBehaviour {
 	
 	public virtual void DestoryUI() {
 
+		if (config != null && ModuleManager.CheckIsModuleFocusUIEvent (config)) {
+			InputManager.Instance.SetBlockWithinModule(config.moduleName,false);
+		}
 		if (viewData != null) {
 			viewData.Clear();
 			viewData = null;

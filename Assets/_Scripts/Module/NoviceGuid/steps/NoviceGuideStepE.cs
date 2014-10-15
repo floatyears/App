@@ -3,43 +3,75 @@ using System.Collections;
 
 public class NoviceGuideStepE_1:NoviceGuidStep
 {
-	private LayerMask camLastLayer;
-
-	private int btnLastLayer;
-
-	private bool changeEnd = false;
 
 	public override void Enter()
 	{
 	
-		nextState = null;
-//		QuestView qv = GameObject.Find ("HomeWorldMap(Clone)").GetComponent<QuestView>();
-//		GameObject cityObj =  qv.GetCityItem (0);
-//		NoviceGuideUtil.ForceOneBtnClick (cityObj);
-//
-//		UIEventListenerCustom.Get (cityObj).onClick += TapCityItem;
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete,OnChange);
+		nextState = typeof(NoviceGuideStepE_2);
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.OthersModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
+
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_btn"), new Vector3(0,0,1),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
+		});
 	}
 
-	void OnChange(object data){
-//		if (UIManager.Instance.baseScene.CurrentScene == ModuleEnum.Others) {
-//			if (!changeEnd) {
-//				ModuleManger.Instance.ShowModule (ModuleEnum.NickName);
-//			}else{
-//				NoviceGuideStepEntityManager.CurrentNoviceGuideStage = NoviceGuideStage.UNIT_EVOLVE;
-//				GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = true;
-//				MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete,OnChange);
-//
-//				ModuleManger.Instance.ShowModule(ModuleEnum.Home);
-//			}
-//
-//		} else if(UIManager.Instance.baseScene.CurrentScene == ModuleEnum.NickName) {
-//			GameObject.Find("NickNameWindow(Clone)/CancelButton").GetComponent<UIButton>().isEnabled = false;
-//			changeEnd = true;
-//		}
+}
 
+public class NoviceGuideStepE_2:NoviceGuidStep
+{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepE_3);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("level_up"), new Vector3(0,0,1),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+		});
 	}
+}
 
+public class NoviceGuideStepE_3:NoviceGuidStep
+{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepE_4);
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_16"));
+		
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_leader"), new Vector3(0,0,1),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
+		});
+	}
+}
+
+//select material
+public class NoviceGuideStepE_4:NoviceGuidStep
+{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepE_5);
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_17"));
+		
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_leader"), new Vector3(0,0,1),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
+		});
+	}
+}
+
+//select friend
+public class NoviceGuideStepE_5:NoviceGuidStep
+{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepE_6);
+	}
+}
+
+public class NoviceGuideStepE_6:NoviceGuidStep
+{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepE_5);
+	}
 }

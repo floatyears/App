@@ -54,6 +54,7 @@ public class FriendSelectView : ViewBase{
 			}
 
 		}
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FRIEND_SELECT);
 	}
 
 	private void InitUI(){
@@ -150,19 +151,12 @@ public class FriendSelectView : ViewBase{
 				if(CheckStaminaEnough()){
 					Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
 					AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-					//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetStaminaLackMsgParams());
 					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
 					return;
 				}
-				//		Debug.LogError("friend ClickHelperItem");
 				AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 				
-				Dictionary<string, object> pickedInfo = new Dictionary<string, object>();
-				pickedInfo.Add("QuestInfo", pickedQuestInfo);
-				pickedInfo.Add("HelperInfo", item.FriendInfo);
-				
-				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"data",pickedInfo);//before
-				//		MsgCenter.Instance.Invoke(CommandEnum.OnPickHelper);//after
+				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", pickedQuestInfo,"HelperInfo", item.FriendInfo);//before
 			}
 		}
 

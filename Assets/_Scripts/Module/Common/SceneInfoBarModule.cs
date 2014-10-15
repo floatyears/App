@@ -28,6 +28,8 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.NicknameModule:
 				case ModuleEnum.UnitDetailModule:
 				case ModuleEnum.MsgWindowModule:
+				case ModuleEnum.NoviceGuideTipsModule:
+				case ModuleEnum.NoviceMsgWindowModule:
 				case ModuleEnum.MaskModule:
 				case ModuleEnum.UnitSortModule:
 				case ModuleEnum.ItemCounterModule:

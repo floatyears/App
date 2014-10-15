@@ -15,13 +15,10 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 
 		//NoviceGuideUtil.RemoveAllArrows ();
 
-		GameObject empty = GameObject.FindWithTag ("party_unit3");
 		//NoviceGuideUtil.ForceOneBtnClick(empty);
-		NoviceGuideUtil.ForceOneBtnClick (empty);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{empty},new Vector3[]{new Vector3(0,0,3)});
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("party_unit3"),new Vector3(0,0,3),true,true,EmptyClick);
 
 
-		UIEventListenerCustom.Get (empty).onClick += EmptyClick;
 
 
 	}
@@ -49,10 +46,7 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 		
 //		GameObject gm = GameObject.Find ("LevelUpUI(Clone)").GetComponent<LevelUpOperateUnity>().GetPartyUnitItem(cardId).gameObject;
 
-		GameObject unit = GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86);
-		NoviceGuideUtil.ShowArrow (new GameObject[]{unit}, new Vector3[]{new Vector3(0,0,2)});
-		NoviceGuideUtil.ForceOneBtnClick (unit);
-		UIEventListenerCustom.Get (unit).onClick += OnUnitClick;
+		NoviceGuideUtil.ShowArrow (GameObject.Find ("PartyWindow(Clone)").GetComponent<PartyView> ().GetUnitItem (86), new Vector3(0,0,2),true,true,OnUnitClick);
 	}
 
 	private void OnUnitClick(GameObject btn)
@@ -62,10 +56,9 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 
 
 		GameObject unit2 = GameObject.FindWithTag ("party_unit2");
-		NoviceGuideUtil.ForceOneBtnClick (unit2);
+		NoviceGuideUtil.ForceOneBtnClick (unit2,OnUnit2Click as UICallback);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit2},new Vector3[]{new Vector3(0,0,3)});
 		
-		UIEventListenerCustom.Get (unit2).onClick += OnUnit2Click;
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_3"),new Vector2(50.0f,100.0f));
 
 		//JumpToNextState = true;
@@ -77,11 +70,10 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 		UIEventListenerCustom.Get (btn).onClick -= OnUnit2Click;
 		
 		GameObject unit1 = GameObject.FindWithTag ("party_unit1");
-		NoviceGuideUtil.ForceOneBtnClick (unit1);
+		NoviceGuideUtil.ForceOneBtnClick (unit1,OnUnit1Click as UICallback);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{unit1},new Vector3[]{new Vector3(0,0,3)});
 		
 		
-		UIEventListenerCustom.Get (unit1).onClick += OnUnit1Click;
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_4"),new Vector2(100.0f,100.0f));
 	}
 
@@ -140,11 +132,10 @@ public class NoviceGuideStepF_3:NoviceGuidStep{
 
 			return;
 		}
-		NoviceGuideUtil.ForceOneBtnClick (sbb);
+		NoviceGuideUtil.ForceOneBtnClick (sbb,TapBackBtn as UICallback);
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{sbb}, new Vector3[]{new Vector3(0,0,3)});
 
-		UIEventListenerCustom.Get (sbb).onClick += TapBackBtn;
 	}
 	
 	private void TapBackBtn(GameObject btn)
@@ -165,10 +156,8 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 		nextState = null;
 		GameObject btn0 = GameObject.FindWithTag ("unit_detail_btn2");
 		//NoviceGuideUtil.ForceOneBtnClick(empty);
-		NoviceGuideUtil.ForceOneBtnClick (btn0);
+		NoviceGuideUtil.ForceOneBtnClick (btn0, Btn0Click as UICallback);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{btn0},new Vector3[]{new Vector3(0,0,1)});
-
-		UIEventListenerCustom.Get (btn0).onClick += Btn0Click;
 
 
 	}
@@ -181,7 +170,6 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 
 		NoviceGuideUtil.showTipText (TextCenter.GetText("guide_tips_6"), new Vector2 (0, 0));
 
-		MsgCenter.Instance.AddListener (CommandEnum.ChangeSceneComplete, onChangeScene);
 //		GameObject sbb = GameObject.FindWithTag ("scene_back_btn");
 //		NoviceGuideUtil.ForceOneBtnClick (sbb);
 //		
@@ -198,10 +186,6 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 	
 	}
 
-	void onChangeScene(object data){
-		MsgCenter.Instance.RemoveListener (CommandEnum.ChangeSceneComplete, onChangeScene);
-		GoToNextState();
-	}
 
 //	private void Btn1Click(GameObject btn)
 //	{

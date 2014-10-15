@@ -164,12 +164,13 @@ public class StageItemView : MonoBehaviour{
 	GameObject insPrefab = null;
 	public void ShowIconByState(StageState state){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
-
+		tag = "Untagged";
 		if(state == StageState.LOCKED){
 			icon.spriteName = "icon_stage_lock";
 			UIEventListenerCustom.Get(this.gameObject).onClick = ShowTip;
 		}
 		else if(state == StageState.NEW){
+			tag = "stage_new";
 			ShowIconAccessState(icon);
 			if(insPrefab == null) {
 				string sourcePath = "Prefabs/UI/UnitItem/ArriveStagePrefab";

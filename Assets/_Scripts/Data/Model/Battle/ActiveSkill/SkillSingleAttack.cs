@@ -98,5 +98,10 @@ public partial class SkillSingleAttack : ActiveSkill {
 			BattleAttackManager.Instance.ActiveSkillAttack (ai);
 			return ai;
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 }

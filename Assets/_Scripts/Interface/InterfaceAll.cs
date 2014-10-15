@@ -120,8 +120,6 @@ public delegate void Callback();
 
 public delegate void UICallback(GameObject caller);
 
-public delegate Object UICallbackExtend(Object data);
-
 public delegate void UICallback<T>(T arg1);
 
 public delegate void DataListener(object data);

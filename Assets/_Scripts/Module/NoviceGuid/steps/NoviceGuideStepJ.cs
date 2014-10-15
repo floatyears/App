@@ -49,9 +49,8 @@ public class NoviceGuideStepJ_1:NoviceGuidStep{
 
 		GameObject gm = GameObject.FindWithTag ("evolve_friend_btn");
 		
-		UIEventListenerCustom.Get (gm).onClick += OnClickFriend;
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,3)});
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+		NoviceGuideUtil.ForceOneBtnClick (gm,OnClickFriend as UICallback);
 		
 	}
 	
@@ -106,8 +105,7 @@ public class NoviceGuideStepJ_3:NoviceGuidStep{
 		GameObject gm = GameObject.FindWithTag ("evolve_btn");
 
 		NoviceGuideUtil.ShowArrow (new GameObject[]{gm}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (gm).onClick += OnClickLevelUp;
-		NoviceGuideUtil.ForceOneBtnClick (gm);
+		NoviceGuideUtil.ForceOneBtnClick (gm,OnClickLevelUp as UICallback);
 
 	}
 	

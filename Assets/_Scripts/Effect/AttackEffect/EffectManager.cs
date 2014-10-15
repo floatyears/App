@@ -5,13 +5,9 @@ using System.Text;
 using bbproto;
 
 public class EffectManager {
-	public enum EffectEnum {
-		DragCard,
 
-		Gacha,
-
-		ActiveSkill,
-	}
+	private Dictionary<string, ParticleSystem> skillEffectPool = new Dictionary<string, ParticleSystem> ();
+	private Dictionary<string, ParticleEffectItem> currentEffects = new Dictionary<string, ParticleEffectItem> ();
 
 	private static EffectManager instance;
 	public static EffectManager Instance {
@@ -22,330 +18,128 @@ public class EffectManager {
 			return instance;
 		}
 	}
-
-	public GameObject effectPanel;
-
-	public const int DragCardEffect = -1000;
-
-	public const float SingleSkillDangerLevel = 2.3f;
-	public const float AllSkillDangerLevel = 1.8f;
-
-	private Dictionary<int, string> effectName = new Dictionary<int, string>();
-//	private Dictionary<int, GameObject> effectObject = new Dictionary<int, GameObject>();
-	private Dictionary<string, GameObject> skillEffectPool = new Dictionary<string, GameObject> ();
-
-	public void GetOtherEffect(EffectEnum effect, ResourceCallback resouceCB) {
-		string path = "";
-		switch (effect) {
-		case EffectEnum.DragCard:
-			path = "card_effect";
-			break;
-		case EffectEnum.ActiveSkill:
-			path = "activeskill_enabled";
-			break;
-//		case EffectEnum.PassiveAntiAttack:
-//			path = "PS-fight-back";
-//			break;
-//		case EffectEnum.LeaderSkillExtrackAttack:
-//			path = "LS-pursuit";
-//			break;
-		}
-
-		if (path == "") {
-			resouceCB (null);
-			return;
-		}
-			
-		GetEffectFromCache (path, resouceCB);
-	}
-
-	public void GetMapEffect(bbproto.EQuestGridType type, ResourceCallback resourceCB) {
-		string path = "";
-		switch (type) {
-		case bbproto.EQuestGridType.Q_ENEMY:
-			path = "Enconuterenemy";
-			break;
-		case bbproto.EQuestGridType.Q_EXCLAMATION:
-			break;
-		case bbproto.EQuestGridType.Q_KEY:
-			break;
-		case bbproto.EQuestGridType.Q_NONE:
-			break;
-		case bbproto.EQuestGridType.Q_QUESTION:
-			break;
-		case bbproto.EQuestGridType.Q_TRAP:
-			path = "Trap";
-			break;
-		case bbproto.EQuestGridType.Q_TREATURE:
-			break;
-		}
-
-		if (path == "") {
-			resourceCB(null);
-			return;
-		}
-
-		GetEffectFromCache (path, resourceCB);
-	}
-
-	public void GetSkillEffectObject(int skillID, string userUnitID, ResourceCallback resouceCb) {
-		if (skillID == 0) {
-//			Debug.LogError ("skillStoreID : " + skillID + " userUnitID : " + userUnitID);
-			resouceCb(null);
-			return; 
-		}
-		string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(userUnitID, skillID);
-		SkillBase sbi = DataCenter.Instance.BattleData.AllSkill[skillStoreID];
-		string path = "";
-		NormalSkill tns = sbi as NormalSkill;
-		if (tns != null) {
-			path = GetNormalSkillEffectName (tns);
-		} else if (sbi is ActiveSkill) {
-			StringBuilder sb = new StringBuilder ();
-			sb.Append ("as-");
-			Type type = sbi.GetType ();
-			if (type == typeof(SkillSingleAttack)) {
-				GetSingleAttackEffectName (sbi as SkillSingleAttack, sb);
-			} else if (type == typeof(SkillTargetTypeAttack)) {
-				GetAttackTargetType (sbi as SkillTargetTypeAttack, sb);
-			} else if (type == typeof(SkillConvertUnitType)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_as_color_change);
-				sb.Append ("color");
-			} else if (type == typeof(SkillDeferAttackRound)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
-
-				sb.Append ("low");
-			} else if (type == typeof(SkillDelayTime)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_delay);
-
-				sb.Append ("delay");
-			} else if (type == typeof(SkillReduceDefence)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_def_down);
-
-				sb.Append ("reduce-def");
-			} else if (type == typeof(SkillReduceHurt)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_damage_down);
-
-				sb.Append ("reduce-injure");
-			} else if (type == typeof(SkillAttackRecoverHP)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1_blood);
-
-				sb.Append ("single-blood-purple");
-			} else if (type == typeof(SkillKillHP)) {
-				sb.Append ("all-2-dark");
-			} else if (type == typeof(SkillSingleAttack)) {
-				sb.Append ("single-2-dark");
-			} else if (type == typeof(SkillRecoverSP)) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
-				sb.Append ("sp-recover");
-			} else if (type == typeof(SkillPoison)) {
-				sb.Append ("poison");
-			} else if (type == typeof(SkillSuicideAttack)) {
-				SkillSuicideAttack tsa = sbi as SkillSuicideAttack;
-				sb.Append (GetAttackRanger (tsa.AttackRange));
-				sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
-				sb.Append (GetSkillType (tsa.AttackUnitType));
-			}
-			path = sb.ToString ();
-		} else if (sbi is SkillExtraAttack) {
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);
-			path = "ls-claw-1-";
-			SkillExtraAttack tsea = sbi as SkillExtraAttack;
-			switch (tsea.unitType) {
-				case bbproto.EUnitType.UFIRE:
-					path += "fire";
-					break;
-				case bbproto.EUnitType.UWATER:
-					path += "water";
-					break;
-				case bbproto.EUnitType.UWIND:
-					path += "wind";
-					break;
-				case bbproto.EUnitType.ULIGHT:
-					path += "light";
-					break;
-				case bbproto.EUnitType.UDARK:
-					path += "dark";
-					break;
-				case bbproto.EUnitType.UNONE:
-					path += "none";
-					break;
-				default:
-					path += "fire";
-					break;
-			}
-		} else if(sbi is TSkillAntiAttack) {
-			string effectName = "ps-sword-1-";
-			TSkillAntiAttack tsaa = sbi as TSkillAntiAttack;
-			path = effectName + GetSkillType((int)tsaa.AttackSource);
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
-		}
-		GetEffectFromCache (path, resouceCb);
-	}
-
-	void GetEffectFromCache(string path, ResourceCallback resouceCallback) {
-		string reallyPath = "Effect/effect/" + path;
-		if (skillEffectPool.ContainsKey (reallyPath)) {
-			resouceCallback(skillEffectPool[reallyPath]);
-			return;
-		}
-
-		ResourceManager.Instance.LoadLocalAsset(reallyPath, o => {
-			if(o != null) {
-				skillEffectPool.Add(reallyPath,o as GameObject);
-			}
-			resouceCallback(o);
-		});
-	}
-
-	void GetAttackTargetType(SkillTargetTypeAttack aatt,StringBuilder sb) {
-		sb.Append(GetAttackRanger(aatt.AttackRange));
-		float hurtValue = aatt.value;
-		if(aatt.type == bbproto.EValueType.FIXED) {
-			sb.Append("1-");
-		}
-		else {
-			sb.Append(GetAttackDanger(aatt.AttackRange ,hurtValue));
-		}
-		sb.Append (GetSkillType (aatt.AttackType));
-
-		switch (aatt.AttackRange) {
-			case 0:
-				if(aatt.type == bbproto.EValueType.FIXED || hurtValue < SingleSkillDangerLevel) {
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
-				}else{
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
-				}
-				break;
-			case 1:
-				if(aatt.type == bbproto.EValueType.FIXED || hurtValue < AllSkillDangerLevel) {
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
-				}else{
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
-				}
-				break;
-		}
-	}
-
-	void GetSingleAttackEffectName(SkillSingleAttack tssa,StringBuilder sb) {
-		sb.Append(GetAttackRanger(tssa.AttackRange));
-
-		if(tssa.type == bbproto.EValueType.FIXED) {
-			sb.Append("1-");
-		} else {
-			sb.Append(GetAttackDanger(tssa.AttackRange, tssa.value));
-		}
-
-		sb.Append (GetSkillType (tssa.AttackType));
-
-		switch (tssa.AttackRange) {
-		case 0:
-			if(tssa.type == bbproto.EValueType.FIXED || tssa.value < SingleSkillDangerLevel) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
-			}else{
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
-			}
-			break;
-		case 1:
-			if(tssa.type == bbproto.EValueType.FIXED || tssa.value < AllSkillDangerLevel) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
-			}else{
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
-			}
-			break;
-		}
-	}
-
-	string GetNormalSkillEffectName(NormalSkill tns) {
-		StringBuilder sb = new StringBuilder ();
-		sb.Append("ns-");
-		sb.Append (GetAttackRanger (tns.AttackRange));
-		float hurtValue = tns.attackValue;
-		sb.Append (GetAttackDanger (tns.AttackRange, hurtValue));
-		sb.Append(GetSkillType(tns.AttackType));
-
-		switch (tns.AttackRange) {
-		case 0:
-			if(hurtValue < SingleSkillDangerLevel) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single1);
-			}else{
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single2);
-			}
-			break;
-		case 1:
-			if(hurtValue < AllSkillDangerLevel) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all1);
-			}else{
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all2);
-			}
-			break;
-		}
-
-		return sb.ToString ();
-	}
-
-	string GetAttackRanger(int attackRange) {
-		if(attackRange == 0) {
-			return "single-";
-		}
-		else {
-			return "all-";
-		}
-	}
 	
-	string GetAttackDanger(int attackRange, float attackValue) {
-		if (attackRange == 0) {
-			if (attackValue < SingleSkillDangerLevel) {	
-					return "1-";
-			} else {
-					return "2-";
+	private Transform EffectPoolRoot;
+	private EffectManager() {
+		EffectPoolRoot = GameObject.Find ("EffectPool").transform;
+		EffectPoolRoot.gameObject.SetActive (false);
+		GameInput.OnUpdate += OnUpdate;
+	}
+
+	private List<string> tobeRemoved = new List<string>();
+	void OnUpdate(){
+		foreach (var psItem in currentEffects.Values) {
+			string path = psItem.pathAndId.Split('_')[0];
+			if(!psItem.ps.IsAlive()){
+				if(skillEffectPool.ContainsKey(path)){
+					if(skillEffectPool[path] != psItem.ps){
+						GameObject.Destroy(psItem.ps.gameObject);
+					}else{
+						psItem.ps.transform.parent = EffectPoolRoot;
+					}
+				}
+				if(psItem.callback != null){
+					psItem.callback(psItem.ps);
+					psItem.callback = null;
+				}
+
+				tobeRemoved.Add(psItem.pathAndId);
 			}
-		} else {
-			if (attackValue < AllSkillDangerLevel) {
-				return "1-";
-			} else {
-				return "2-";
+		}
+
+		foreach (var item in tobeRemoved) {
+			Debug.Log ("remove effect: " + currentEffects.Remove(item));
+		}
+		tobeRemoved.Clear ();
+	}
+
+	/// <summary>
+	/// Play the effect.
+	/// </summary>
+	/// <param name="path">Path.</param>
+	/// <param name="parent">Parent.</param>
+	/// <param name="pos">Position.</param>
+	/// <param name="effectEndCallback">Effect end callback.</param>
+	public void PlayEffect(string path, Transform parent, Vector3 pos = default(Vector3), DataListener effectEndCallback = null){
+		if (string.IsNullOrEmpty (path)) {
+			return;		
+		}
+		string pid = path + "_" + parent.GetInstanceID();
+		ParticleSystem ps;
+		if (currentEffects.ContainsKey (pid)) {
+			Debug.Log("effect playing: " + pid);
+			ParticleEffectItem pItem = currentEffects[pid];
+			pItem.ps.Clear();
+			if(pItem.callback != null){
+				pItem.callback(pItem.ps);
+			}
+			pItem.ps.Play();
+		}else{
+			if (skillEffectPool.ContainsKey (path)) {
+				if(skillEffectPool[path].IsAlive()){
+					ps = GameObject.Instantiate(skillEffectPool[path]) as ParticleSystem;
+				}else{
+					ps = skillEffectPool[path];
+				}
+				ps.transform.parent = parent;
+				ps.transform.localPosition = pos;
+				ps.Clear();
+				currentEffects.Add(pid,new ParticleEffectItem(pid,ps,effectEndCallback));
+				ps.Play();
+				
+			}else{
+				ResourceManager.Instance.LoadLocalAsset("Effect/effect/" + path, o => {
+					if(o != null) {
+						GameObject obj = NGUITools.AddChild(parent.gameObject,o as GameObject);
+						obj.transform.localPosition = pos;
+						ps = obj.GetComponent<ParticleSystem>();
+						if(ps == null){
+							throw new ArgumentException("The Effect isnt't ParticleSystem!");
+							return;
+						}
+						skillEffectPool.Add(path,ps);
+						currentEffects.Add(pid,new ParticleEffectItem(pid,ps,effectEndCallback));
+					}
+				});
 			}
 		}
 
 	}
 
-	string GetSkillType(int type) {
-		switch (type) {
-			case 0:
-			return "all";
-			case 1:
-			return "fire";
-			case 2:
-			return "water";
-			case 3:
-			return "wind";
-			case 4:
-			return "light";
-			case 5:
-			return "dark";
-			case 6:
-			return "none";
-			case 7:
-			return "heart";
+	/// <summary>
+	/// Plaies the effect.
+	/// </summary>
+	/// <param name="path">Path.</param>
+	/// <param name="parent">Parent.</param>
+	/// <param name="pos">Position.</param>
+	/// <param name="keyTimeCallback">Key time callback. The num of the params must be even, first is time, second is the callback</param>
+	void PlayEffect(string path, Transform parent, Vector3 pos = default(Vector3), params object[] keyTimeCallback){
+		if (keyTimeCallback.Length % 2 != 0) {
+			throw new ArgumentException("The Num of the Parameters Must Be Even!");
+			return;
 		}
-		return "";
-	}
-
-	private Dictionary<string,Type> effectCommand = new Dictionary<string, Type> ();
-	private EffectManager() { }
-
-	public static GameObject InstantiateEffect(GameObject parent, GameObject obj) {
-		Vector3 localScale = obj.transform.localScale;
-		Vector3 rotation = obj.transform.eulerAngles;
-		GameObject effectIns =  NGUITools.AddChild(parent, obj);
-		effectIns.transform.localScale = localScale;
-		effectIns.transform.eulerAngles = rotation;
-		return effectIns;
 	}
 
 	public void ClearCache() {
-		effectName.Clear ();
+		foreach (var item in skillEffectPool) {
+			GameObject.Destroy(item.Value.gameObject);
+		}
+		foreach (var item in currentEffects) {
+			GameObject.Destroy(item.Value.ps.gameObject);
+			item.Value.callback = null;
+		}
 		skillEffectPool.Clear ();
+	}
+}
+ 
+class ParticleEffectItem{
+	public string pathAndId;
+	public ParticleSystem ps;
+	public DataListener callback;
+
+	public ParticleEffectItem(string pathAndId, ParticleSystem  ps, DataListener callback){
+		this.pathAndId = pathAndId;
+		this.ps = ps;
+		this.callback = callback;
 	}
 }

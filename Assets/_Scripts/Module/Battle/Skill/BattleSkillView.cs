@@ -73,7 +73,6 @@ public class BattleSkillView : ViewBase {
 
 	public override void ShowUI ()
 	{
-
 		if (!isShow) {
 			base.ShowUI ();
 			if (viewData != null && viewData.ContainsKey("show_skill_window")) {

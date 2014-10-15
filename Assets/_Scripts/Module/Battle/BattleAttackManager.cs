@@ -602,7 +602,6 @@ public class BattleAttackManager {
 			if(tei.Equals(targetEnemy)) {
 				targetEnemy = null;
 			}
-//			MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, tei);
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_dead",tei);
 		}
 		deadEnemy.Clear ();
@@ -617,21 +616,22 @@ public class BattleAttackManager {
 				if(te.Equals(targetEnemy)) {
 					targetEnemy = null;
 				}
-//				MsgCenter.Instance.Invoke(CommandEnum.EnemyDead, te);
 				ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_dead",te);
 
 			}
 		}
 		
 		if (enemyInfo.Count == 0) {
-//			BattleBottomView.notClick = false;
 			if(isBoss){
 				BattleConfigData.Instance.storeBattleData.isBattle = 1;
 				BattleConfigData.Instance.StoreMapData();
 			}
 			GameTimer.GetInstance().AddCountDown(1f, ()=>{
-				if(isBoss)
+				if(isBoss){
 					ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"boss_dead");
+					MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
+				}
+					
 				BattleEnd();
 			}); //TODO: set time in const config
 			return false;
@@ -646,6 +646,7 @@ public class BattleAttackManager {
 		ModuleManager.Instance.HideModule (ModuleEnum.BattleEnemyModule);
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleMapModule);
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_battle_over);
+		MsgCenter.Instance.Invoke (CommandEnum.FightEnd);
 		ClearData();
 		//		AudioManager.Instance.PlayBackgroundAudio (AudioEnum.music_dungeon);
 	}

@@ -49,6 +49,11 @@ namespace bbproto{
 				strengthenAttack.attackRound--;
 			}
 		}
+
+		public override SkillBase GetBaseInfo ()
+		{
+			return baseInfo;
+		}
 	}
 
 }

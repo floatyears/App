@@ -136,9 +136,8 @@ public class NoviceGuideStepK_4:NoviceGuidStep
 
 		GameObject bs = GameObject.FindWithTag ("boost_skill");
 		
-		NoviceGuideUtil.ForceOneBtnClick (bs);
+		NoviceGuideUtil.ForceOneBtnClick (bs,ClickSkill as UICallback);
 		NoviceGuideUtil.ShowArrow (new GameObject[]{bs}, new Vector3[]{new Vector3(0,0,4)});
-		UIEventListenerCustom.Get (bs).onClick += ClickSkill;
 		
 		MsgCenter.Instance.AddListener (CommandEnum.ActiveSkillAttack, SkillAttack);
 	}
@@ -180,11 +179,11 @@ public class NoviceGuideStepK_5:NoviceGuidStep
 		
 		NoviceGuideUtil.RemoveAllArrows ();
 		
-		MsgCenter.Instance.AddListener (CommandEnum.BattleEnd, OnBattleEnd);
+		MsgCenter.Instance.AddListener (CommandEnum.FightEnd, OnBattleEnd);
 	}
 	
 	private void OnBattleEnd (object data){
-		MsgCenter.Instance.RemoveListener (CommandEnum.BattleEnd, OnBattleEnd);
+		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnBattleEnd);
 
 
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide34_title"),TextCenter.GetText ("guide34_content"),TextCenter.GetText ("NEXT"));

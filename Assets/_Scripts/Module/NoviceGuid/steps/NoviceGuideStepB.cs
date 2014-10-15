@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+//city
 public class NoviceGuideStepB_1:NoviceGuidStep
 {
 	
@@ -8,26 +9,58 @@ public class NoviceGuideStepB_1:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepB_2);
 
-		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide2_title"),TextCenter.GetText ("guide2_content"),TextCenter.GetText ("OK"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_5"));
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("city_one"), new Vector3(0,0,1),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
+		});
 	}
 
 }
 
+//stage
 public class NoviceGuideStepB_2:NoviceGuidStep
 {
 	
 	public override void Enter()
 	{
-		nextState = null;
-
-		TipsManager.Instance.ShowGuideMsgWindow( TextCenter.GetText ("guide3_title"),TextCenter.GetText ("guide3_content"), TextCenter.GetText ("OK"),InputName);
+		nextState = typeof(NoviceGuideStepB_3);
+		NoviceGuideUtil.ForceOneBtnClick (GameObject.FindWithTag("stage_new"),null);
 	}
 
-	private void InputName(object data)
+}
+
+//quest_select
+public class NoviceGuideStepB_3:NoviceGuidStep
+{
+	public override void Enter ()
 	{
-		uint unitID = DataCenter.Instance.UnitData.GetUnitInfo(9).id;
-		ModuleManager.SendMessage (ModuleEnum.LoadingModule, "func", "FirstLogin", "data", unitID);
-		NoviceGuideStepManager.Instance.FinishCurrentStep ();
+		nextState = typeof(NoviceGuideStepB_4);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 0, 3),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+		});
 	}
+}
 
+//fight ready
+public class NoviceGuideStepB_4:NoviceGuidStep{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepB_5);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("fight_btn"), new Vector3 (0, 0, 1),true,true,o=>{
+			NoviceGuideUtil.RemoveAllArrows();
+		});
+	}
+}
+
+//key
+public class NoviceGuideStepB_5:NoviceGuidStep
+{
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepC_1);
+
+		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide4_title"), TextCenter.GetText ("guide4_content"), TextCenter.GetText ("NEXT"));
+		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 1);
+	}
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
+using System.Text;
+using System;
 
 public class BattleEnemyView : ViewBase {
 	private Dictionary<uint, BattleEnemyItem> enemyList;
@@ -18,6 +20,9 @@ public class BattleEnemyView : ViewBase {
 	private Vector3 defaultAtkInfoRotation = new Vector3 (0f, 0f, 10f);
 	private Vector3 defaultAtkInfoPosition, moveAtkInfoPosition;
 	private UITexture bgTexture;
+	
+	public const float SingleSkillDangerLevel = 2.3f;
+	public const float AllSkillDangerLevel = 1.8f;
 
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null)
 	{
@@ -128,7 +133,6 @@ public class BattleEnemyView : ViewBase {
 
 	void AttackEnemyEnd(object data) {
 		int count = (int)data;
-		DestoryEffect ();
 		prevAttackInfo = null;
 		if (count <= 0) {
 			return;	
@@ -185,18 +189,6 @@ public class BattleEnemyView : ViewBase {
 //		Debug.LogError ("EnemyItemPlayEffect ");
 		prevAttackInfo = ai;
 		PlayerEffect (ei, ai);
-	}
-
-	void DestoryEffect() {
-		if (prevEffect != null) {				
-			Destroy(prevEffect);
-		}
-		if (extraEffect.Count > 0) {
-			for (int i = extraEffect.Count - 1; i >= 0; i--) {
-				Destroy(extraEffect[i]);
-			}	
-			extraEffect.Clear();
-		}
 	}
 
 	void End() {
@@ -298,59 +290,267 @@ public class BattleEnemyView : ViewBase {
 	}
 	public const int ScreenWidth = 640;
 
-	GameObject prevEffect;
-	List<GameObject> extraEffect = new List<GameObject> ();
+//	GameObject prevEffect;
+//	List<GameObject> extraEffect = new List<GameObject> ();
 
 	void PlayerEffect(BattleEnemyItem ei, AttackInfoProto ai) {
-		EffectManager.Instance.GetSkillEffectObject (ai.skillID, ai.userUnitID, returnValue => {
-			if(ei != null)
-				ei.InjuredShake();
 
-			if(returnValue == null) {
-				return;
+		if (ai.skillID == 0) {
+			//			Debug.LogError ("skillStoreID : " + skillID + " userUnitID : " + userUnitID);
+			return; 
+		}
+		string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(ai.userUnitID, ai.skillID);
+		SkillBase sbi = DataCenter.Instance.BattleData.AllSkill[skillStoreID];
+		string path = "";
+		NormalSkill tns = sbi as NormalSkill;
+		if (tns != null) {
+			path = GetNormalSkillEffectName (tns);
+		} else if (sbi is ActiveSkill) {
+			StringBuilder sb = new StringBuilder ();
+			sb.Append ("as-");
+			Type type = sbi.GetType ();
+			if (type == typeof(SkillSingleAttack)) {
+				GetSingleAttackEffectName (sbi as SkillSingleAttack, sb);
+			} else if (type == typeof(SkillTargetTypeAttack)) {
+				GetAttackTargetType (sbi as SkillTargetTypeAttack, sb);
+			} else if (type == typeof(SkillConvertUnitType)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_as_color_change);
+				sb.Append ("color");
+			} else if (type == typeof(SkillDeferAttackRound)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_slow);
+				
+				sb.Append ("low");
+			} else if (type == typeof(SkillDelayTime)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_delay);
+				
+				sb.Append ("delay");
+			} else if (type == typeof(SkillReduceDefence)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_def_down);
+				
+				sb.Append ("reduce-def");
+			} else if (type == typeof(SkillReduceHurt)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_damage_down);
+				
+				sb.Append ("reduce-injure");
+			} else if (type == typeof(SkillAttackRecoverHP)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1_blood);
+				
+				sb.Append ("single-blood-purple");
+			} else if (type == typeof(SkillKillHP)) {
+				sb.Append ("all-2-dark");
+			} else if (type == typeof(SkillSingleAttack)) {
+				sb.Append ("single-2-dark");
+			} else if (type == typeof(SkillRecoverSP)) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_poison);
+				sb.Append ("sp-recover");
+			} else if (type == typeof(SkillPoison)) {
+				sb.Append ("poison");
+			} else if (type == typeof(SkillSuicideAttack)) {
+				SkillSuicideAttack tsa = sbi as SkillSuicideAttack;
+				sb.Append (GetAttackRanger (tsa.AttackRange));
+				sb.Append (GetAttackDanger (1, 2)); //2 == second effect.
+				sb.Append (GetSkillType (tsa.AttackUnitType));
 			}
+			path = sb.ToString ();
+		} else if (sbi is SkillExtraAttack) {
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ls_chase);
+			path = "ls-claw-1-";
+			SkillExtraAttack tsea = sbi as SkillExtraAttack;
+			switch (tsea.unitType) {
+			case bbproto.EUnitType.UFIRE:
+				path += "fire";
+				break;
+			case bbproto.EUnitType.UWATER:
+				path += "water";
+				break;
+			case bbproto.EUnitType.UWIND:
+				path += "wind";
+				break;
+			case bbproto.EUnitType.ULIGHT:
+				path += "light";
+				break;
+			case bbproto.EUnitType.UDARK:
+				path += "dark";
+				break;
+			case bbproto.EUnitType.UNONE:
+				path += "none";
+				break;
+			default:
+				path += "fire";
+				break;
+			}
+		} else if(sbi is TSkillAntiAttack) {
+			string effectName = "ps-sword-1-";
+			TSkillAntiAttack tsaa = sbi as TSkillAntiAttack;
+			path = effectName + GetSkillType((int)tsaa.AttackSource);
+			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
+		}
 
-			GameObject prefab = returnValue as GameObject;
-
-			string skillStoreID = DataCenter.Instance.BattleData.GetSkillID(ai.userUnitID, ai.skillID);
-
-			SkillBase pdb = DataCenter.Instance.BattleData.AllSkill[skillStoreID];
-
-			System.Type t = pdb.GetType();
-
-			if(t == typeof(SkillExtraAttack)) {
-				foreach (var item in enemyList.Values) {
-					if(item != null) {
-						GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);
-						go.transform.localPosition = item.transform.localPosition;
-						extraEffect.Add(go);
-					}
+		if(DataCenter.Instance.BattleData.AllSkill[skillStoreID].GetType() == typeof(SkillExtraAttack)) {
+			foreach (var item in enemyList.Values) {
+				if(item != null) {
+					EffectManager.Instance.PlayEffect(path,effectPanel.transform, item.transform.localPosition, o=>{
+						item.InjuredShake();
+					});
 				}
+			}
+		} else {
+
+			if(ai.attackRange == 0) {
+				UITexture tex = ei.texture;
+				float x = ei.transform.localPosition.x*enemyRoot.transform.localScale.x;
+				float y = (tex.transform.localPosition.y +  tex.height * 0.5f)*enemyRoot.transform.localScale.y;
+				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(x,y,0),o=>{
+					ei.InjuredShake();
+				});
+			}
+		}
+	}
+	
+	void GetAttackTargetType(SkillTargetTypeAttack aatt,StringBuilder sb) {
+		sb.Append(GetAttackRanger(aatt.AttackRange));
+		float hurtValue = aatt.value;
+		if(aatt.type == bbproto.EValueType.FIXED) {
+			sb.Append("1-");
+		}
+		else {
+			sb.Append(GetAttackDanger(aatt.AttackRange ,hurtValue));
+		}
+		sb.Append (GetSkillType (aatt.AttackType));
+		
+		switch (aatt.AttackRange) {
+		case 0:
+			if(aatt.type == bbproto.EValueType.FIXED || hurtValue < SingleSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
+			}
+			break;
+		case 1:
+			if(aatt.type == bbproto.EValueType.FIXED || hurtValue < AllSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
+			}
+			break;
+		}
+	}
+	
+	void GetSingleAttackEffectName(SkillSingleAttack tssa,StringBuilder sb) {
+		sb.Append(GetAttackRanger(tssa.AttackRange));
+		
+		if(tssa.type == bbproto.EValueType.FIXED) {
+			sb.Append("1-");
+		} else {
+			sb.Append(GetAttackDanger(tssa.AttackRange, tssa.value));
+		}
+		
+		sb.Append (GetSkillType (tssa.AttackType));
+		
+		switch (tssa.AttackRange) {
+		case 0:
+			if(tssa.type == bbproto.EValueType.FIXED || tssa.value < SingleSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_single2);
+			}
+			break;
+		case 1:
+			if(tssa.type == bbproto.EValueType.FIXED || tssa.value < AllSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_all2);
+			}
+			break;
+		}
+	}
+	
+	string GetNormalSkillEffectName(NormalSkill tns) {
+		StringBuilder sb = new StringBuilder ();
+		sb.Append("ns-");
+		sb.Append (GetAttackRanger (tns.AttackRange));
+		float hurtValue = tns.attackValue;
+		sb.Append (GetAttackDanger (tns.AttackRange, hurtValue));
+		sb.Append(GetSkillType(tns.AttackType));
+		
+		switch (tns.AttackRange) {
+		case 0:
+			if(hurtValue < SingleSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single2);
+			}
+			break;
+		case 1:
+			if(hurtValue < AllSkillDangerLevel) {
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all1);
+			}else{
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all2);
+			}
+			break;
+		}
+		
+		return sb.ToString ();
+	}
+	
+	string GetAttackRanger(int attackRange) {
+		if(attackRange == 0) {
+			return "single-";
+		}
+		else {
+			return "all-";
+		}
+	}
+	
+	string GetAttackDanger(int attackRange, float attackValue) {
+		if (attackRange == 0) {
+			if (attackValue < SingleSkillDangerLevel) {	
+				return "1-";
 			} else {
-				Vector3 pos = prefab.transform.localPosition;
-				GameObject go = EffectManager.InstantiateEffect(effectPanel, prefab);
-				go.transform.localPosition = pos;
-				extraEffect.Add(go);
-				if(ai.attackRange == 0) {
-					UITexture tex = ei.texture;
-					float x = ei.transform.localPosition.x;
-					float y = tex.transform.localPosition.y +  tex.height * 0.5f;
-
-					go.transform.localPosition =  new Vector3(x, y, 0f);
-				}
+				return "2-";
 			}
-		});
+		} else {
+			if (attackValue < AllSkillDangerLevel) {
+				return "1-";
+			} else {
+				return "2-";
+			}
+		}
+		
+	}
+	
+	string GetSkillType(int type) {
+		switch (type) {
+		case 0:
+			return "all";
+		case 1:
+			return "fire";
+		case 2:
+			return "water";
+		case 3:
+			return "wind";
+		case 4:
+			return "light";
+		case 5:
+			return "dark";
+		case 6:
+			return "none";
+		case 7:
+			return "heart";
+		}
+		return "";
 	}
 
 	void SkillRecoverSP(object data) {
-		ResourceManager.Instance.LoadLocalAsset ("Effect/jiufeng", o => {
-			GameObject obj = o as GameObject;
-			if (obj != null) {
-				Transform trans = obj.transform;
-				prevEffect = NGUITools.AddChild (effectPanel, obj);
-				DGTools.CopyTransform (prevEffect.transform, trans);
-			}
-		});
+//		ResourceManager.Instance.LoadLocalAsset ("Effect/jiufeng", o => {
+//			GameObject obj = o as GameObject;
+//			if (obj != null) {
+//				Transform trans = obj.transform;
+//				prevEffect = NGUITools.AddChild (effectPanel, obj);
+//				DGTools.CopyTransform (prevEffect.transform, trans);
+//			}
+//		});
+
 	}
 	
 //	void ExcuteActiveSkillEnd(object data) {

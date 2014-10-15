@@ -10,6 +10,7 @@ public class LevelUpView : ViewBase {
 //	private DataCenter dataCenter;
 	private UIButton levelUpButton;
 	private UIButton sortButton;
+	private UIButton autoSelect;
 	
 	private DragPanel dragPanel;
 	
@@ -26,11 +27,12 @@ public class LevelUpView : ViewBase {
 	/// index:0==base, 1~3==material, 4==friend.
 	/// </summary>
 	private LevelUpItem[] selectedItem = new LevelUpItem[6];
-	private DragPanelConfigItem dragConfig;
 	
 	private const int baseItemIndex = 0;
 	
 	private const int friendItemIndex = 5;
+
+	List<KeyValuePair<int,UserUnit>> sortDic;
 	/// <summary>
 	/// indx : 0==hplabel, 1==explabel, 2==atk label. 3==exp got label. 4==coin need label. 5==sortlabel;
 	/// </summary>
@@ -40,6 +42,8 @@ public class LevelUpView : ViewBase {
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI ();
+
+		sortDic = new List<KeyValuePair<int, UserUnit>> ();
 	}
 
 	public override void ShowUI () {
@@ -54,7 +58,7 @@ public class LevelUpView : ViewBase {
 		SortUnitByCurRule();
 		ShowData ();
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
-		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
+
 
 		topObject.transform.localPosition = new Vector3 (0, 1000, 0);
 		bottomObject.transform.localPosition = new Vector3(-1000, 0, 0);
@@ -100,6 +104,9 @@ public class LevelUpView : ViewBase {
 		dragPanel.DestoryUI ();
 	}
 
+	void BottomRootMoveEnd(){
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.LEVEL_UP);
+	}
 
 	private SortRule _sortRule = SortRule.None;
 	
@@ -154,8 +161,6 @@ public class LevelUpView : ViewBase {
 	}
 
 	void ShowData () {
-		
-
 		dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit (),MyUnitClickCallback as DataListener);
 
 		RefreshSortInfo ();
@@ -218,16 +223,19 @@ public class LevelUpView : ViewBase {
 			FindChild<UILabel>("Top/InfoPanel/_Label" + i).text = texts[i];
 		}
 		levelUpButton = FindChild<UIButton>("Button_LevelUp");
+		autoSelect = FindChild<UIButton> ("Button_AutoSelect");
 		FindChild ("Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
+		FindChild ("Button_AutoSelect/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_AutoSelect");
 
 		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
+		UIEventListenerCustom.Get (autoSelect.gameObject).onClick = AutoSelectCallback;
 		levelUpButton.isEnabled = false;
+		autoSelect.isEnabled = false;
 		InitDragPanel ();
 	}
 
 	void InitDragPanel() {
 
-		dragConfig = DataCenter.Instance.GetConfigDragPanelItem ("LevelUpDragPanel");
 		dragPanel = new DragPanel ("LevelUpDragPanel", "Prefabs/UI/UnitItem/MyUnitPrefab",typeof(LevelUpUnitItem), transform);//LevelUpUnitItem.Inject().gameObject, 12, 3);
 
 
@@ -250,7 +258,8 @@ public class LevelUpView : ViewBase {
 		CheckLevelUp ();
 	}
 
-	void SelectedFriendCallback(LevelUpItem piv) {
+	void SelectedFriendCallback(object data) {
+		LevelUpItem piv = data as LevelUpItem;
 		doNotClearData = true;
 			
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
@@ -275,7 +284,8 @@ public class LevelUpView : ViewBase {
 	/// <summary>
 	/// Selecteds material item's callback.
 	/// </summary>
-	void SelectedItemCallback(LevelUpItem piv) {
+	void SelectedItemCallback(object data) {
+		LevelUpItem piv = data as LevelUpItem;
 		if (prevMaterialItem == null) {
 			DisposeNoPreMaterial (piv);
 		} else {
@@ -285,7 +295,8 @@ public class LevelUpView : ViewBase {
 		CheckLevelUp ();
 	}
 
-	void SelectBaseItemCallback(LevelUpItem piv){
+	void SelectBaseItemCallback(object data){
+		LevelUpItem piv = data as LevelUpItem;
 		if (prevSelectedItem == null) {
 			if (prevMaterialItem == null) {
 				DisposeNoPreMaterial (piv);
@@ -467,6 +478,27 @@ public class LevelUpView : ViewBase {
 		fromLevelUpBack = true;
 	}
 
+	void AutoSelectCallback(GameObject go){
+		if (selectedItem [baseItemIndex] == null) {
+			return;	
+		}
+
+		foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
+			if(!DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(item)){
+				sortDic.Add(new KeyValuePair<int, UserUnit>(item.MultipleMaterialExp(selectedItem[baseItemIndex].UserUnit),item));
+			}
+		}
+		sortDic.Sort ((KeyValuePair<int,UserUnit> v1, KeyValuePair<int,UserUnit> v2) => {
+			return v1.Key.CompareTo(v2.Key);
+		});
+		foreach (var item in sortDic) {
+			dragPanel.ItemCallback("auto_select",item.Value);
+		}
+		sortDic.Clear ();
+
+
+	}
+
 //	void SortCallback(GameObject go) {
 //		MsgCenter.Instance.Invoke(CommandEnum.OpenSortRuleWindow, true);
 //	}
@@ -643,6 +675,8 @@ public class LevelUpView : ViewBase {
 		UserUnit baseItem = selectedItem [baseItemIndex].UserUnit;
 		if (baseItem == null) {
 			levelUpButton.isEnabled = false;
+			autoSelect.isEnabled = false;
+
 			return;	
 		}
 		levelUpInfo.Add (baseItem);
@@ -650,6 +684,7 @@ public class LevelUpView : ViewBase {
 		UserUnit friendInfo = selectedItem [friendItemIndex].UserUnit;
 		if (friendInfo == null) {
 			levelUpButton.isEnabled = false;
+			autoSelect.isEnabled = true;
 			return;	
 		}
 		levelUpInfo.Add (friendInfo);
@@ -662,6 +697,7 @@ public class LevelUpView : ViewBase {
 
 		if (levelUpInfo.Count == 2) {	// material is null; collection only have base and friend.
 			levelUpButton.isEnabled = false;
+			autoSelect.isEnabled = true;
 			return;	
 		}
 	
