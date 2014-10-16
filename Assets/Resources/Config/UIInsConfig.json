@@ -180,13 +180,13 @@
         "group" : 0
     },
     {
-        "name":"MyUnitsListModule",
-        "path": "Prefabs/UI/Units/MyUnitsListUI",
-        "parent": 1,
+        "name":"UnitsListModule",
+        "path": "Prefabs/UI/Units/UnitsListUI",
+        "parent": 4,
         "x": 0,
-        "y": 0,
+        "y": 40,
         "z": 0, 
-        "group" : 0
+        "group" : 2
     },
     {
         "name":"QuestSelectModule",

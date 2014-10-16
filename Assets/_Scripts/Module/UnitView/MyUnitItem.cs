@@ -20,7 +20,6 @@ public class MyUnitItem : BaseUnitItem {
 			return isParty;
 		}
 		set{
-//			Debug.LogError("isparty : " + isParty + " isenable : " + IsEnable);
 			isParty = value;
 			UpdatePartyState();
 		}
@@ -56,7 +55,7 @@ public class MyUnitItem : BaseUnitItem {
 		partyLabel.enabled = false;
 		partyLabel.text = TextCenter.GetText("Text_Party");
 		partyLabel.color = new Color (0.9333f, 0.192f, 0.192f);
-		lockSpr.enabled = false;
+//		lockSpr.enabled = false;
 
 		IsParty = false;
 	}
@@ -69,7 +68,7 @@ public class MyUnitItem : BaseUnitItem {
 	}
 
 	protected virtual void UpdateFavoriteState(){
-		lockSpr.enabled = isFavorite;
+		lockSpr.spriteName = isFavorite ? "Lock_close" : "Lock_open";
 	}
 
 	protected virtual void BehindChangeUserUnit(UserUnit tuu) {
@@ -89,7 +88,15 @@ public class MyUnitItem : BaseUnitItem {
 			CurrentSortRule = (SortRule)args[1];
 		}
 		if (userUnit != null) {
-			IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnit);
+			int i = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnit);
+			if(i > 0){
+				IsParty = true;
+				partyLabel.text = TextCenter.GetText("Text_Party") + " " + i;
+				partyLabel.enabled = true;
+			}else{
+				IsParty = false;
+				partyLabel.enabled = false;
+			}
 			tag = "Untagged";
 			if (userUnit.unitId == 1 || userUnit.unitId == 5 || userUnit.unitId == 9) {
 				tag = "unit_leader";	

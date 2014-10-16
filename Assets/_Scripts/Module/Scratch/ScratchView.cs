@@ -1,24 +1,23 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using bbproto;
 
 public class ScratchView : ViewBase {
+
+	private GachaType gachaType;
+	private int gachaCount;
 
     private UIButton btnFriendGacha;
     private UIButton btnRareGacha;
     private UIButton btnEventGacha;
 
-    private UISprite friendGachaTimesParent;
-    private UISprite rareGachaTimesParent;
-    private UISprite eventGachaTimesParent;
-
-
-    private UILabel friendGachaTimes;
-    private UILabel rareGachaTimes;
-    private UILabel eventGachaTimes;
+	private UILabel rareTimes;
+	private UILabel currentFriendPoint;
 
 	private GameObject infoPanelRoot;
 	private GameObject windowRoot;
+	private GameObject currentRoot;
 
 	private UILabel scratchContent;
 
@@ -28,116 +27,169 @@ public class ScratchView : ViewBase {
 	}
 	
 	public override void ShowUI () {
+		currentFriendPoint.text = DataCenter.Instance.UserData.AccountInfo.friendPoint + "";
 		base.ShowUI ();
-        UpdateGachaTimes();
-		ShowUIAnimation();
+       
+		rareTimes.text = TextCenter.GetText("OneTimesDesc",DataCenter.Instance.GetAvailableOneGachaTimes().ToString()); 
+
+
+
 
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.SCRATCH);
 	}
 
 	private void InitUI() {
 		btnFriendGacha = FindChild<UIButton>("Gacha_Entrance/1");
-		FindChild ("Gacha_Entrance/1/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("FriendScratch");
+		FindChild<UILabel> ("Gacha_Entrance/1/Title").text = TextCenter.GetText ("FriendScratch");
 		btnRareGacha = FindChild<UIButton>("Gacha_Entrance/2");
-		FindChild ("Gacha_Entrance/2/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("RareScratch");
+		FindChild<UILabel> ("Gacha_Entrance/2/Title").text = TextCenter.GetText ("RareScratch");
 		btnEventGacha = FindChild<UIButton>("Gacha_Entrance/3");
-		FindChild ("Gacha_Entrance/3/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("EventScratch");
+		FindChild<UILabel> ("Gacha_Entrance/3/Title").text = TextCenter.GetText ("EventScratch");
 
         UIEventListenerCustom.Get(btnFriendGacha.gameObject).onClick = OnClickFriendGacha;
         UIEventListenerCustom.Get(btnRareGacha.gameObject).onClick = OnClickRareGacha;
         UIEventListenerCustom.Get(btnEventGacha.gameObject).onClick = OnClickEventGacha;
 
-		friendGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/1/TimesParent");
-		rareGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/2/TimesParent");
-		eventGachaTimesParent = FindChild<UISprite>("Gacha_Entrance/3/TimesParent");
+		FindChild<UILabel>("Gacha_Entrance/1/Times").enabled = false;
+		rareTimes = FindChild<UILabel>("Gacha_Entrance/2/Times");
+		FindChild<UILabel> ("Gacha_Entrance/3/Times").text = TextCenter.GetText ("NineTimesDesc");
+		FindChild<UILabel> ("Gacha_Entrance/1/CardStar").text = TextCenter.GetText ("ScratchStar1-3");
+		FindChild<UILabel> ("Gacha_Entrance/3/CardStar").text = FindChild<UILabel> ("Gacha_Entrance/2/CardStar").text = TextCenter.GetText ("ScratchStar4-5");
 
-		friendGachaTimes = FindChild<UILabel>("Gacha_Entrance/1/TimesParent/Times");
-		rareGachaTimes = FindChild<UILabel>("Gacha_Entrance/2/TimesParent/Times");
-		eventGachaTimes = FindChild<UILabel>("Gacha_Entrance/3/TimesParent/Times");
+		FindChild<UILabel> ("Gacha_Entrance/1/CostNum").text = TextCenter.GetText ("ScratchCost1");
+		FindChild<UILabel> ("Gacha_Entrance/2/CostNum").text = TextCenter.GetText ("ScratchCost2");
+		FindChild<UILabel> ("Gacha_Entrance/3/CostNum").text = TextCenter.GetText ("ScratchCost3");
+
+		FindChild<UILabel> ("Current/Label").text = TextCenter.GetText ("CurrentOwnFriendPoint");
 
 		scratchContent = FindChild<UILabel> ("Notice_Window/Content");
 		scratchContent.text = DataCenter.Instance.CommonData.NoticeInfo.GachaNotice;
 
 		infoPanelRoot = transform.FindChild("Notice_Window").gameObject;
 		windowRoot = transform.FindChild("Gacha_Entrance").gameObject;
+		currentRoot = transform.FindChild ("Current").gameObject;
+
+		currentFriendPoint = FindChild<UILabel> ("Current/CurrentFriendPoint");
+
+
+		FindChild<UILabel> ("Gacha_Entrance/1/CostLabel").text = FindChild<UILabel> ("Gacha_Entrance/2/CostLabel").text = FindChild<UILabel> ("Gacha_Entrance/3/CostLabel").text = TextCenter.GetText("ScratchCost");
+
 	}
 
-	private void ShowUIAnimation(){
-		infoPanelRoot.transform.localPosition = new Vector3(-1000, -300, 0);
-		windowRoot.transform.localPosition = new Vector3(1000, -570, 0);
-		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
-		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+			infoPanelRoot.transform.localPosition = new Vector3(-1000, -300, 0);
+			windowRoot.transform.localPosition = new Vector3(1000, -570, 0);
 
+			 
+			iTween.MoveTo(currentRoot, iTween.Hash("x", (70f - currentFriendPoint.width)/2, "time", 0.4f, "islocal", true));
+			iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+			iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+		}else{
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+		}
 	}
-
-	private void onTweenFinished(){
-		NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.UNITS);
-	}
-
-    private void OnClickButton(GameObject btn){
-        AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
-    }
 
     private void OnClickFriendGacha(GameObject btn){
-//        LogHelper.Log("OnClickFriendGacha");
-        OnClickButton(btn);
-//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenFriendGachaWindow", null);
-//        ExcuteCallback(cbdArgs);
-		ModuleManager.SendMessage (ModuleEnum.ScratchModule, "OpenFriendGachaWindow");
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+		if (DataCenter.Instance.GetAvailableFriendGachaTimes() < 1) {
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FriendGachaFailed"),TextCenter.GetText("GachaFriendPointNotEnough", DataCenter.friendGachaFriendPoint),TextCenter.GetText("Back"));
+			return;
+		}
+
+		gachaType = GachaType.FriendGacha;
+		gachaCount = 1;
+		Umeng.GA.Event ("Gacha1",gachaCount+"");
+		UnitController.Instance.Gacha(OnRspGacha, (int)gachaType, gachaCount);
     }
 
     private void OnClickRareGacha(GameObject btn){
-//        LogHelper.Log("OnClickRareGacha");
-		OnClickButton(btn);
-//		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenRareGachaWindow", null);
-//		ExcuteCallback(cbdArgs);
-		ModuleManager.SendMessage (ModuleEnum.ScratchModule, "OpenRareGachaWindow");
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+		if (DataCenter.Instance.GetAvailableOneGachaTimes() < 1) {
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("RareGachaFailed"),TextCenter.GetText("RareGachaStoneNotEnough", DataCenter.rareGachaStone),TextCenter.GetText("Back"));
+			return;
+		}
+
+		gachaType = GachaType.RareGacha;
+		gachaCount = 1;
+		Umeng.GA.Event ("Gacha2",gachaCount+"");
+		UnitController.Instance.Gacha(OnRspGacha, (int)gachaType, gachaCount);
+		
 	}
 
     private void OnClickEventGacha(GameObject btn){
-//        LogHelper.Log("OnClickEventGacha");
-        OnClickButton(btn);
-//        CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs("OpenEventGachaWindow", null);
-//        ExcuteCallback(cbdArgs);
-		ModuleManager.SendMessage (ModuleEnum.ScratchModule, "OpenEventGachaWindow");
+		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
+		if (DataCenter.Instance.GetAvailableNineGachaTimes() < 9) {
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventGachaFailed"),TextCenter.GetText("EventGachaStoneNotEnough", DataCenter.eventGachaStone),TextCenter.GetText("Back"));
+			return;
+		}
+		int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableNineGachaTimes());
+		string content2 = TextCenter.GetText("EventGachaStatus", DataCenter.eventGachaStone, 
+		                                     maxGachaTimes, maxGachaTimes * DataCenter.eventGachaStone,
+		                                     DataCenter.Instance.UserData.AccountInfo.stone);
+		
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("EventGacha"), new string[2] {TextCenter.GetText ("EventGachaDescription"),content2}, 
+		TextCenter.GetText ("ConfirmOneEventGacha"), 
+		TextCenter.GetText ("ConfirmMaxEventGacha", maxGachaTimes), 
+		CallbackEventGacha, CallbackEventGacha, 1, maxGachaTimes);;
     }
 
-    private void UpdateGachaTimes(){
-        UpdateFriendGachaTimes();
-        UpdateRareGachaTimes();
-        UpdateEventGachaTimes();
-    }
-
-    private void UpdateFriendGachaTimes(){
-        if (DataCenter.Instance.GetAvailableFriendGachaTimes() == 0){
-            friendGachaTimesParent.gameObject.SetActive(false);
-            return;
-        }
-        friendGachaTimesParent.gameObject.SetActive(true);
-        friendGachaTimes.text = DataCenter.Instance.GetAvailableFriendGachaTimes().ToString();
-    }
-
-    private void UpdateRareGachaTimes(){
-        if (DataCenter.Instance.GetAvailableRareGachaTimes() == 0){
-            rareGachaTimesParent.gameObject.SetActive(false);
-            return;
-        }
-        rareGachaTimesParent.gameObject.SetActive(true);
-        rareGachaTimes.text = DataCenter.Instance.GetAvailableRareGachaTimes().ToString(); 
-    }
-
-    private void UpdateEventGachaTimes(){
-        if (DataCenter.Instance.GetAvailableEventGachaTimes() == 0){
-            eventGachaTimesParent.gameObject.SetActive(false);
-            return;
-        }
-        eventGachaTimesParent.gameObject.SetActive(true);
-        eventGachaTimes.text = DataCenter.Instance.GetAvailableEventGachaTimes().ToString();  
-    }
+	void OnRspGacha(object data) {
+		if (data == null)
+			return;
+		
+		LogHelper.Log(data);
+		bbproto.RspGacha rsp = data as bbproto.RspGacha;
+		
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code,ClickOK);
+			return;
+		}
+		
+		if(rsp.unitList.Count == 0) {
+			TipsManager.Instance.ShowTipsLabel("server return data is null");
+			return;
+		}
+		
+		DataCenter.Instance.UserData.AccountInfo.friendPoint = rsp.friendPoint;
+		DataCenter.Instance.UserData.AccountInfo.stone = rsp.stone;
+		
+		LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
+		              ,  DataCenter.Instance.UserData.AccountInfo.friendPoint, DataCenter.Instance.UserData.AccountInfo.stone);
+		
+		// record
+		List<uint> blankList = rsp.blankUnitId;
+		List<UserUnit> unitList = rsp.unitList;
+		
+		LogHelper.LogError("before gacha, userUnitList count {0}", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
+		// delete unit;
+		
+		List<uint> newUnitIdList = DataCenter.Instance.UnitData.UserUnitList.FirstGetUnits(unitList);
+		DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(unitList);
+		
+		LogHelper.LogError("after gacha, userUnitList count {0}", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
+		
+		LogHelper.Log("MsgCenter.Instance.Invoke(CommandEnum.EnterGachaWindow");
+		ModuleManager.Instance.HideModule (ModuleEnum.ScratchModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.GachaModule, "type", gachaType, "chances", gachaCount, "unit", rsp.unitUniqueId, "blank", blankList, "new", newUnitIdList);// GetGachaWindowInfo (gachaType, gachaCount, rsp.unitUniqueId, blankList, newUnitIdList));
+		MsgCenter.Instance.Invoke(CommandEnum.SyncChips, null);
+		
+	}
 	
-	public UIButton BtnRareGacha{
-		get{ return btnRareGacha;}
-		private set{btnRareGacha = value;}
+	private void ClickOK(object data){
+		Debug.Log ("scratch: ");
+		ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);
+	}
+	
+	private void CallbackEventGacha(object args){
+		gachaType = GachaType.EventGacha;
+		gachaCount = 9;
+		Umeng.GA.Event ("Gacha3",gachaCount+"");
+		UnitController.Instance.Gacha(OnRspGacha, (int)gachaType, gachaCount);
 	}
 
 }
