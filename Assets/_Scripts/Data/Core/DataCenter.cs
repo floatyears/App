@@ -322,7 +322,7 @@ public class DataCenter {
         return DataCenter.rareGachaStone;
     }
     
-    public int GetAvailableRareGachaTimes(){
+    public int GetAvailableOneGachaTimes(){
         if (GetRareGachaNeedStones() == 0)
             return 0;
 		return  userData.AccountInfo.stone / GetRareGachaNeedStones();
@@ -332,12 +332,12 @@ public class DataCenter {
         return DataCenter.rareGachaStone;
     }
     
-    public int GetAvailableEventGachaTimes(){
+    public int GetAvailableNineGachaTimes(){
 //        if (!InEventGacha)
 //            return 0;
         if (GetEventGachaNeedStones() == 0)
             return 0;
-		return  userData.AccountInfo.stone / GetEventGachaNeedStones();
+		return  userData.AccountInfo.stone / GetRareGachaNeedStones();
     }
 
 	private List<AudioConfigItem> configAudioList;

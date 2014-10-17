@@ -109,11 +109,11 @@ public class RewardView : ViewBase {
 
 		dragPanel.DestoryUI ();
 
-		base.DestoryUI ();
-
 		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
 		MsgCenter.Instance.RemoveListener (CommandEnum.TakeAward, OnTakeAward);
 		MsgCenter.Instance.RemoveListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
+
+		base.DestoryUI ();
 	}
 
 	private void InitUI(){
@@ -121,7 +121,7 @@ public class RewardView : ViewBase {
 
 		InitData ();
 
-		CreateDragView ();
+		dragPanel = new DragPanel("RewardDragPanel", "Prefabs/UI/Reward/RewardItem",typeof(RewardItemView), transform);
 
 
 		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
@@ -154,13 +154,6 @@ public class RewardView : ViewBase {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
 		ModuleManager.Instance.HideModule (ModuleEnum.RewardModule);
-//		HideUI ();
-	}
-
-
-	private void CreateDragView(){
-		dragPanel = new DragPanel("RewardDragPanel", "Prefabs/UI/Reward/RewardItem",typeof(RewardItemView), transform);
-//		dragPanel.CreatUI();
 	}
 
 	private void FindUIElement(){
@@ -222,23 +215,23 @@ public class RewardView : ViewBase {
 		RefreshView ();
 	}
 
-
-	void Update(){
-		int i;
-		int.TryParse(UIToggle.GetActiveToggle (3).name,out i);
-		if (currentContentIndex != i) {
-			currentContentIndex = i;
-
-			RefreshView();
-		}
-	}
-
+	/// <summary>
+	/// Shows the tab info. this function is used in RewardUI's prefab.
+	/// </summary>
+	/// <param name="data">Data.</param>
 	public void ShowTabInfo(object data){
 		UIToggle toggle = UIToggle.GetActiveToggle (3);
-		//Debug.Log ("tab info: " + data);
-//		Debug.Log ("toggle: " + toggle);
+
 		if (toggle != null) {
 			tabInfo.text = TextCenter.GetText ("Reward_Tab_Info" + toggle.ToString().Substring(0,1));
+
+			int i;
+			int.TryParse(UIToggle.GetActiveToggle (3).name,out i);
+			if (currentContentIndex != i) {
+				currentContentIndex = i;
+				
+				RefreshView();
+			}
 		}
 	}
 

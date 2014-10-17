@@ -603,7 +603,7 @@ public class LevelUpView : ViewBase {
 			return false;
 		}
 		
-		if (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(piv.UserUnit.uniqueId)) {
+		if (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(piv.UserUnit.uniqueId) > 0) {
 			return true;
 		}
 		

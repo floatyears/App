@@ -150,7 +150,7 @@ Text_Material=材料
 Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
-Text_Party=使用中
+Text_Party=队伍
 Text_TapToLogin=点击屏幕进入游戏
 Text_Notice=游戏公告
 
@@ -419,8 +419,17 @@ EventGachaNotOpen=限时活动召唤会定期开放。请关注登录公告！
 EventGachaStoneNotEnough=你的魔法石余额不足！\n召唤一次需要 [FFB14A]{0}[-] 魔法石.\n\n请先充值!
 
 FriendScratch=友情召唤
-RareScratch=稀有召唤
-EventScratch=活动召唤
+RareScratch=召唤1次
+EventScratch=召唤9次
+ScratchCost=消耗
+ScratchStar1-3=1~3星
+ScratchStar4-5=4~5星
+OneTimesDesc=再抽[FFB14A]{0}[-]次必出5星
+NineTimesDesc=至少获得一个5星
+CurrentOwnFriendPoint=当前拥有:
+ScratchCost1=200
+ScratchCost2=300
+ScratchCost3=2700
 
 GachaChances=可召唤： [FFB14A]{0}[-]/{1}
 Lv=Lv {0}
@@ -435,6 +444,8 @@ StartQuestFail=进入战斗失败
 #resource download
 DownloadErrorTitle=下载失败
 DownloadErrorContent=下载过程出错， 是否尝试重新下载？
+UnitListTab1=卡牌
+UnitListTab2=碎片
 
 
 ## net error
@@ -539,6 +550,9 @@ Preface_Content2=地下格斗会场，话音未落，护卫已闪身出现，\n�
 Preface_Content3=护卫拼命救主，Mavis幸免于难，不过...带来了更大的噩耗...
 Preface_Content4=伯爵被绑架了！
 Preface_Content5=Mavis救父心切，集结了在场的格斗家们，决定勇闯怪物世界，营救伯爵！
+
+FunctionNotOpenTitle=暂未开放
+FunctionNotOpenContent=当前功能暂未开放，敬请期待
 
 ##unit name
 UnitName_1=印第安萨满

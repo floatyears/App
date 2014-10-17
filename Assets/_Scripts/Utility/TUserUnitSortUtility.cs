@@ -19,6 +19,7 @@ public enum SortRule {
 }
 
 public enum SortRuleByUI{
+	NONE,
 	ApplyView,
 	SellView,
 	FriendListView,

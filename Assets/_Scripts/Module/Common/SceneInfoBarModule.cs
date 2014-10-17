@@ -88,7 +88,7 @@ public class SceneInfoBarModule : ModuleBase {
 			case ModuleEnum.LevelUpModule:
 			case ModuleEnum.SellUnitModule:
 			case ModuleEnum.CatalogModule:
-			case ModuleEnum.MyUnitsListModule: 
+			case ModuleEnum.UnitsListModule: 
 			case ModuleEnum.EvolveModule:
 				backName = ModuleEnum.UnitsMainModule;
 				break;

@@ -25,16 +25,6 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Catalog");
 		buttonInfo.Add(go, ModuleEnum.CatalogModule);
 		
-		go = FindChild("Bottom/Evolve");
-		btnLabel = FindChild<UILabel>("Bottom/Evolve/Label");
-		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Evolve");
-		buttonInfo.Add(go, ModuleEnum.EvolveModule);
-		
-		go = FindChild("Bottom/LevelUp");
-		btnLabel = FindChild<UILabel>("Bottom/LevelUp/Label");
-		btnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
-		buttonInfo.Add(go, ModuleEnum.LevelUpModule);
-		
 		go = FindChild("Bottom/Party");
 		btnLabel = FindChild<UILabel>("Bottom/Party/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_Party");
@@ -48,7 +38,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 		go = FindChild("Bottom/UnitList");
 		btnLabel = FindChild<UILabel>("Bottom/UnitList/Label");
 		btnLabel.text = TextCenter.GetText("Btn_JumpScene_UnitList");
-		buttonInfo.Add(go, ModuleEnum.MyUnitsListModule);
+		buttonInfo.Add(go, ModuleEnum.UnitsListModule);
 		
 		dragChangeView = FindChild<DragSliderBase> ("Top/DragPartyUnits");
 		dragChangeView.SetDataInterface (this);

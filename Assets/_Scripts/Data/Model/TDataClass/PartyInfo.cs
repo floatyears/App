@@ -34,24 +34,24 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 		return CurrentParty.HasUnit(tuu.uniqueId);
 	}
 
-	public bool UnitIsInParty(UserUnit tuu) {
+	public int UnitIsInParty(UserUnit tuu) {
 		if( tuu==null ) {
 			Debug.LogError("UnitIsInParty(tuu) >>> ERROR: tuu is NULL.");
-			return false;
+			return 0;
 		}
 		if (tuu.userID != DataCenter.Instance.UserData.UserInfo.userId) {
-			return false;
+			return 0;
 		}
 		return UnitIsInParty(tuu.uniqueId);
 	}
 
-    public bool UnitIsInParty(uint uniqueId) {
-        foreach (var party in partyList) {
-            if (party.HasUnit(uniqueId)) {
-                return true;
-            }
-        }
-        return false;
+    public int UnitIsInParty(uint uniqueId) {
+		for (int i = 0; i < partyList.Count; i++) {
+			if (partyList[i].HasUnit(uniqueId)) {
+				return i + 1;
+			}
+		}
+        return 0;
     }
 
     public void assignParty() {

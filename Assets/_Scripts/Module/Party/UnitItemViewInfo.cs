@@ -90,7 +90,7 @@ public class UnitItemInfo : MonoBehaviour{
 			mainTexture.mainTexture = o as Texture2D;
 		});
 		IsFavorate (userUnitItem.isFavorite);
-		bool isParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnitItem.uniqueId);
+		bool isParty = (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnitItem.uniqueId) > 0);
 		IsPartyItem(isParty);
 		bbproto.EvolveInfo ei = userUnitItem.UnitInfo.evolveInfo;
 		if (ei == null || ei.materialUnitId.Count == 0) {
@@ -236,7 +236,7 @@ public class UnitItemViewInfo {
 	}
 
 	public void SetStateInAllParty(){
-		IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(dataItem.uniqueId);
+		IsParty = (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(dataItem.uniqueId) > 0);
 	}
 
     public void RefreshStates(Dictionary <string, object> statesDic) {

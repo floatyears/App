@@ -11,6 +11,8 @@ public class UnitSortView : ViewBase {
 	SortRule targetRule = SortRule.None;
 	protected Dictionary<UIButton, SortRule> sortRuleSelectDic = new Dictionary<UIButton, SortRule>() ;
 
+	SortRuleByUI srui;
+
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
 		InitBtns();
@@ -18,6 +20,20 @@ public class UnitSortView : ViewBase {
 
 	public override void ShowUI(){
 		base.ShowUI();
+
+		if (viewData != null && viewData.ContainsKey("from")) {
+			switch((string)viewData["from"]){
+			case "unit_list":
+				srui = SortRuleByUI.MyUnitListView;
+				break;
+			case "party":
+				srui = SortRuleByUI.PartyView;
+				break;
+			case "sell_unit":
+				srui = SortRuleByUI.SellView;
+				break;
+			}
+		}
 	}
 
 	public override void DestoryUI () {
@@ -99,8 +115,6 @@ public class UnitSortView : ViewBase {
 			Debug.Log("the object is tweening!");
 			return;	
 		}
-			
-		SortRuleByUI srui = 0;
 
 		SortRule sr = SortUnitTool.GetSortRule (srui);
 		foreach (var item in sortRuleSelectDic) {

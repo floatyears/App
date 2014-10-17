@@ -61,7 +61,7 @@ public enum ModuleEnum
 	
 	SellUnitModule,
 	
-	MyUnitsListModule,
+	UnitsListModule,
 	
 	CatalogModule,
 	
