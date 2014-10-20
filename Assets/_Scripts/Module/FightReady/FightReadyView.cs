@@ -186,12 +186,13 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	private void EnterBattle (QuestDungeonData tqdd) {
 		pickedHelperInfo.friendPoint = 0;
 		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
-		BattleConfigData.Instance.StoreData (tqdd.questId);
 
 		BattleConfigData.Instance.gotFriendPoint = 0;
 		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		BattleConfigData.Instance.ResetFromServer(tqdd);
 		ModuleManager.Instance.EnterBattle ();
+
+		BattleConfigData.Instance.StoreData (tqdd.questId);
 
 		Umeng.GA.StartLevel ("Quest" + tqdd.questId);
 	}
