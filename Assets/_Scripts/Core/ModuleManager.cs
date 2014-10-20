@@ -54,8 +54,11 @@ public class ModuleManager {
 
 		if (group != ModuleGroup.NONE) {
 				ModuleEnum prevName = moduleGroup [(int)group];
-				if(prevName == name)
+				if(prevName == name){
+					ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, name);	
 					return;
+				}
+					
 				if (prevName != ModuleEnum.None) {
 					HideModule (prevName);
 				}	

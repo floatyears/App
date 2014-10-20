@@ -19,7 +19,7 @@ public class EvolveItem : MonoBehaviour{
 
 		haveLabel = transform.Find ("HaveLabel").GetComponent<UILabel> ();
 		maskSprite = transform.Find ("Mask").GetComponent<UISprite> ();
-		UIEventListenerCustom.Get(gameObject).LongPress = LongPress;
+		UIEventListenerCustom.Get(gameObject).onClick = onClick;
 	}
 
 	public void RefreshData (uint unitId, int currCount, int totalCount) {
@@ -42,9 +42,10 @@ public class EvolveItem : MonoBehaviour{
 		}
 	}
 
-	void LongPress(GameObject target) {
+	void onClick(GameObject target) {
 		if (userUnit != null) {
-//			ModuleManager.Instance.ShowModule();
+			ModuleManager.Instance.HideModule(ModuleEnum.UnitLevelupAndEvolveModule);
+			ModuleManager.Instance.ShowModule(ModuleEnum.UnitSourceModule,"unit",userUnit);
 		}
 //			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",userUnit);
 	}

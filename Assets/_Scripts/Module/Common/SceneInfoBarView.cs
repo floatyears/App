@@ -10,6 +10,8 @@ public class SceneInfoBarView : ViewBase{
 	private bool temp = false;
 //	private bool isTweenDone = false;
 	private ModuleEnum backModule = ModuleEnum.None;
+
+	private ModuleEnum currModule = ModuleEnum.None;
 	
 	public override void Init ( UIConfigItem config, Dictionary<string, object> data = null ) {
 		base.Init (config, data);
@@ -50,10 +52,14 @@ public class SceneInfoBarView : ViewBase{
 	public void BackPreScene (GameObject go) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 
+		if(currModule != ModuleEnum.None)
+			ModuleManager.Instance.HideModule (currModule);
+		currModule = ModuleEnum.None;
 		ModuleManager.Instance.ShowModule (backModule);
 	}
 
-	public void SetSceneName(string name){
-		sceneNameLabel.text = name;
+	public void SetSceneName(ModuleEnum name){
+		currModule = name;
+		sceneNameLabel.text = name.ToString();
 	}
 }

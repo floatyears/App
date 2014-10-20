@@ -65,6 +65,8 @@ public enum ModuleEnum
 
 	UnitSelectModule,
 
+	UnitSourceModule,
+
 	UnitLevelupAndEvolveModule,
 	
 	CatalogModule,

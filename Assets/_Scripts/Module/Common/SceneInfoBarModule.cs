@@ -42,12 +42,12 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.UnitsMainModule:
 					v.gameObject.SetActive(true);
 					v.SetBackBtnActive(false);
-					v.SetSceneName(data[0].ToString());
+					v.SetSceneName((ModuleEnum)data[0] );
 					break;
 				default:
 					view.gameObject.SetActive(true);
 					v.SetBackBtnActive(true,GetBackModule(name));
-					v.SetSceneName(data[0].ToString());
+					v.SetSceneName((ModuleEnum)data[0]);
 					break;
 				}
 			}else if(data[0] is string){
@@ -62,7 +62,7 @@ public class SceneInfoBarModule : ModuleBase {
 			break;
 		case 2:
 		 	if(data[0].ToString() == "stage"){
-				v.SetSceneName(data[1].ToString());
+				v.SetSceneName((ModuleEnum)data[1]);
 			}
 			break;
 		default:
@@ -104,9 +104,14 @@ public class SceneInfoBarModule : ModuleBase {
 			case ModuleEnum.FightReadyModule:
 				backName = ModuleEnum.FriendSelectModule;
 				break;
+			case ModuleEnum.UnitSelectModule:
+			case ModuleEnum.UnitSourceModule:
+				backName = ModuleEnum.UnitLevelupAndEvolveModule;
+				break;
 			default:
 				backName = ModuleEnum.None;
 				break;
+
 		}
 		return backName;
 	}

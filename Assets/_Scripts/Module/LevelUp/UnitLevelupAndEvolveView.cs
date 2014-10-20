@@ -99,8 +99,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		levelUpButton = FindChild<UIButton>("Bottom/LevelUp/Button_LevelUp");
 		autoSelect = FindChild<UIButton> ("Bottom/LevelUp/Button_AutoSelect");
 		evolveBtn = FindChild ("Bottom/Evolve/Button_Evolve");
-		FindChild ("Bottom/LevelUp/Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
-		FindChild ("Bottom/LevelUp/Button_AutoSelect/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_AutoSelect");
+		FindChild<UILabel> ("Bottom/LevelUp/Button_LevelUp/Label").text = TextCenter.GetText ("Btn_Level_Up");
+		FindChild <UILabel>("Bottom/LevelUp/Button_AutoSelect/Label").text = TextCenter.GetText ("Btn_AutoSelect");
+		FindChild<UILabel> ("Bottom/Evolve/Button_Evolve/Label").text = TextCenter.GetText ("Btn_Evolve");
 
 		nextBtn = FindChild ("Top/Button_Next");
 		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = ClickLevelUp;
@@ -503,6 +504,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 
 	///-----------evolve
+	private List<uint> partIds = new List<uint>();
 	private Dictionary<uint, int> materialCount = new Dictionary<uint, int>();
 	private UserUnit partyItem = null;
 	void ShowEvolveInfo () {
@@ -518,6 +520,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		}
 
 		canEvolve = true;
+		partIds.Clear ();
 		foreach (var id in materialCount.Keys) {
 			int count = 0;
 			foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
@@ -526,6 +529,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 					if(DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(item) > 0){
 						partyItem = item;
 					}
+					partIds.Add(item.uniqueId);
 				}
 			}
 			evolveItem[i].RefreshData(id, count, materialCount[id]);
@@ -548,6 +552,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			TipsManager.Instance.ShowTipsLabel("notEnoughmaterialTips");
 			return;
 		}
+
+		UnitController.Instance.Evolve (EvolveNetCallback, baseUserUnit.uniqueId, partIds);
+
 //
 //		TipsManager.Instance.ShowMsgWindow( TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
 //			MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,o1 =>{
@@ -565,6 +572,10 @@ public class UnitLevelupAndEvolveView : ViewBase {
 //			ModuleManager.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
 //		});
 		return;
+
+	}
+
+	void EvolveNetCallback(object data){
 
 	}
 

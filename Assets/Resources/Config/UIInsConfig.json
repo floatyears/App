@@ -207,6 +207,15 @@
         "group" : 0
     },
     {
+        "name":"UnitSourceModule",
+        "path": "Prefabs/UI/Units/UnitSourceUI",
+        "parent": 1,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : 0
+    },
+    {
         "name":"QuestSelectModule",
         "path": "Prefabs/UI/Home/QuestSelectUI",
         "parent": 0,
