@@ -111,6 +111,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		type = transform.FindChild ("Top/Type").GetComponent<UISprite> ();
 		grayStar = transform.FindChild ("Top/Star2").GetComponent<UISprite> ();
 		lightStar = transform.FindChild ("Top/Star2/Star1").GetComponent<UISprite> ();
+		parent = FindChild("Bottom/LevelUp/Items");
 
 
 		////---------------Effect
@@ -150,7 +151,6 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				ShowAvatar(baseUserUnit);
 				ShowUIByType(ShowType.LevelUp);
 				ResetLevelUpData();
-				RefreshLevelUpInfo();
 				ShowUnitInfo();
 			}else if(viewData.ContainsKey("evolve")){
 				baseUserUnit = viewData["level_up"] as UserUnit;
@@ -269,6 +269,11 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	}
 
 	void ShowUnitInfo(){
+		number.text = baseUserUnit.unitId.ToString();
+		if (number.text.Length < 3) {
+			number.text = (number.text.Length == 1) ? ("00" + number.text) : ("0" + number.text);
+		}
+
 		unitName.text = TextCenter.GetText ("UnitName_" + baseUserUnit.unitId);
 		
 		type.spriteName = "type_" + baseUserUnit.UnitInfo.UnitType;
@@ -392,6 +397,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			item.SetData<UserUnit>(null);
 		}
 		currMatList.Clear ();
+		RefreshLevelUpInfo();
 	}
 
 	GameObject parent;
@@ -401,31 +407,36 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	//center
 	
 	IEnumerator SwallowUserUnit () {
+		Vector3 tarPos = unitBodyTex.transform.localPosition + new Vector3 (0, unitBodyTex.height / 2, 0);
+		Debug.Log ("pos:------------" + tarPos);
 		yield return new WaitForSeconds(1f);
 		for (int i = 0; i < 5; i++) {
 			if(selectedItem[i].UserUnit != null){
 				GameObject obj = NGUITools.AddChild(parent,selectedItem[i].gameObject);
-				iTween.ScaleTo(obj, iTween.Hash("y", 0f, "time", 0.2f));
+				obj.transform.localPosition = selectedItem[i].transform.localPosition;
+				iTween.ScaleTo(obj, iTween.Hash("x",0f,"y", 0f, "time", 0.2f));
+				selectedItem[i].SetData<UserUnit>(null);
 				yield return new WaitForSeconds(0.2f);
+
 
 				GameObject lq = NGUITools.AddChild(parent, linhunqiuEffect);
 				lq.transform.localPosition = obj.transform.localPosition;
 				lq.transform.localScale = Vector3.zero;
 				Destroy(obj);
-				iTween.ScaleTo(lq, iTween.Hash("y", 1f, "time", 0.2f));
+				iTween.ScaleTo(lq, iTween.Hash("x",1f,"y", 1f, "time", 0.2f));
 				yield return new WaitForSeconds(0.2f);
-				iTween.MoveTo(lq, iTween.Hash("position", unitBodyTex.transform.localPosition, "time", 0.3f, "islocal", true));
+				iTween.MoveTo(lq, iTween.Hash("position",tarPos , "time", 0.3f, "islocal", true));
 				yield return new WaitForSeconds(0.3f);
 
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_devour_unit);
 				
 				Destroy(lq);
 				GameObject se = NGUITools.AddChild(parent, swallowEffect);
+				se.transform.localPosition = tarPos;
 				yield return new WaitForSeconds(0.4f);
 				Destroy(se);
 			}
 		}
-		ResetLevelUpData ();
 		RefreshLevelUpInfo();
 	}
 	
