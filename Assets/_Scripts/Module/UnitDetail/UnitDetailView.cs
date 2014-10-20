@@ -123,7 +123,7 @@ public class UnitDetailView : ViewBase{
 	void InitUI() {
 		unitBodyTex = FindChild< UITexture >("Bottom/detailSprite");
 		materilItem = FindChild<Transform>("Center/MaterialItem").gameObject;
-		parent = FindChild<UIGrid> ("Center/UIGrid").gameObject;
+
 		
 		GameObject go = FindChild<Transform>("Bottom/Bg").gameObject;
 		UIEventListenerCustom.Get (go).onClick = ClickTexture;

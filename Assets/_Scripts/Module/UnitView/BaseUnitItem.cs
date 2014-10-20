@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 
 public class BaseUnitItem : DragPanelItemBase {
-	protected const string emptyBorder = "avatar_border_light";
+	protected const string emptyBorder = "avatar_border_none";
 
 	protected bool canCrossed = true;
 	protected bool isCrossed;

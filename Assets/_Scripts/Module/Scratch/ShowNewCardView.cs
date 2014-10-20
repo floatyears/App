@@ -62,6 +62,7 @@ public class ShowNewCardView : ViewBase {
 		bombEffect = transform.Find ("scratch2").gameObject;
 		bombEffect.gameObject.SetActive (false);
 		profileTexture = FindChild<UITexture> ("TexturePanel/Texture");
+//		profileTexture.gameObject.layer = GameLayer.LayerToInt( GameLayer.BottomInfo);	
 		cardNameLabel = FindChild<UILabel>("Star/CardName");
 		starSpr = FindChild<UISprite>("Star/Star1");
 		starBgSpr = FindChild<UISprite> ("Star/Starbg1");

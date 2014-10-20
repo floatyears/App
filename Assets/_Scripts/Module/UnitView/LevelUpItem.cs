@@ -79,14 +79,6 @@ public class LevelUpItem : MyUnitItem {
 		
 	}
 
-	public void ToggleDelBtn(bool IsShow){
-		if (IsShow) {
-				
-		}else{
-
-		}
-	}
-
 	void ClickDel(GameObject obj){
 		if(delCallback != null) {
 			delCallback(this);

@@ -40,8 +40,21 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		Evolve,
 	}
 
+	private GameObject levelUpEffect = null;
+	private GameObject swallowEffect = null;
+	private GameObject linhunqiuEffect = null;
+	private GameObject evolveEffect = null;
+
 
 	private ShowType currType = ShowType.None;
+
+	//top
+	private UISprite type;
+	private UILabel cost;
+	private UILabel number;
+	private UILabel unitName;
+	private UISprite lightStar;
+	private UISprite grayStar;
 
 	public override void Init (UIConfigItem uiconfig, System.Collections.Generic.Dictionary<string, object> data)
 	{
@@ -91,13 +104,14 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		afterHpLabel = FindChild<UILabel> ("Top/AfterHp");
 		titleLabel = FindChild<UILabel> ("Top/Title");
 
-		//center
-		friendEffect = FindChild<UISprite>("Center/AE");
-		friendSprite = FindChild<UISprite>("Center/AE/Avatar");
-		friendEffect.gameObject.SetActive (false);
-		
-		initPos = FindChild<Transform> ("Center/InitPosition").localPosition;;
-		endPos = FindChild<Transform> ("Center/EndPosition").localPosition;
+		//top
+		cost = transform.FindChild("Top/Cost").GetComponent<UILabel>();
+		number = transform.FindChild("Top/No").GetComponent<UILabel>();
+		unitName = transform.FindChild("Top/Name").GetComponent<UILabel>();
+		type = transform.FindChild ("Top/Type").GetComponent<UISprite> ();
+		grayStar = transform.FindChild ("Top/Star2").GetComponent<UISprite> ();
+		lightStar = transform.FindChild ("Top/Star2/Star1").GetComponent<UISprite> ();
+
 
 		////---------------Effect
 		if (levelUpEffect == null) {
@@ -135,11 +149,12 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				baseUserUnit = viewData["level_up"] as UserUnit;
 				ShowAvatar(baseUserUnit);
 				ShowUIByType(ShowType.LevelUp);
-				ResetData();
-				RefreshInfo();
+				ResetLevelUpData();
+				RefreshLevelUpInfo();
+				ShowUnitInfo();
 			}else if(viewData.ContainsKey("evolve")){
 				baseUserUnit = viewData["level_up"] as UserUnit;
-				ResetData();
+				ResetLevelUpData();
 				ShowUIByType(ShowType.Evolve);
 			}
 		}
@@ -171,7 +186,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_invalid);
 		}
 
-		RefreshInfo ();
+		RefreshLevelUpInfo ();
 	}
 
 	void SelectedFriendCallback(object data){
@@ -225,7 +240,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	}
 
 	private int expGot = 0;
-	void RefreshInfo(){
+	void RefreshLevelUpInfo(){
 		int totalMoney = 0;
 		for (int i = 1; i < 5; i++) {	//material index range
 			if (selectedItem[i-1].UserUnit != null){
@@ -235,6 +250,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 		moneyNeed = baseUserUnit.level * CoinBase * totalMoney;
 		moneyNeedLabel.text =  moneyNeed + "";
+
 
 		expGot = System.Convert.ToInt32(LevelUpCurExp() * (friendInfo == null ? 1 : DGTools.AllMultiple (baseUserUnit,friendInfo.UserUnit)) ); 
 		getExpLabel.text = expGot.ToString();
@@ -252,6 +268,26 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		}
 	}
 
+	void ShowUnitInfo(){
+		unitName.text = TextCenter.GetText ("UnitName_" + baseUserUnit.unitId);
+		
+		type.spriteName = "type_" + baseUserUnit.UnitInfo.UnitType;
+		
+		cost.text = baseUserUnit.UnitInfo.cost.ToString();
+		
+		int len = 0;
+		if (baseUserUnit.UnitInfo.maxStar > baseUserUnit.UnitInfo.rare) {
+			grayStar.enabled = true;
+			grayStar.width = (baseUserUnit.UnitInfo.maxStar - baseUserUnit.UnitInfo.rare) * 28;
+			len = 2*baseUserUnit.UnitInfo.rare - baseUserUnit.UnitInfo.maxStar;
+		} else {
+			grayStar.enabled = false;
+			len = baseUserUnit.UnitInfo.rare;
+		}
+		lightStar.width = baseUserUnit.UnitInfo.rare*29;
+		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
+	}
+
 	void SelectFriend(FriendInfo friendInfo) {
 		if (friendInfo == null) {
 			return;	
@@ -266,7 +302,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		}
 		selectedItem [index].SetData<UserUnit> (unitInfo);
 		currMatList.Add (unitInfo);
-		RefreshInfo ();
+		RefreshLevelUpInfo ();
 	}
 	
 	int LevelUpCurExp () {
@@ -286,7 +322,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			bbproto.RspLevelUp rspLevelUp = data as bbproto.RspLevelUp;
 			if (rspLevelUp.header.code != (int)ErrorCode.SUCCESS) {
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow (rspLevelUp.header.code);
-				ResetData();
+				ResetLevelUpData();
 				return;
 			}
 			
@@ -308,6 +344,8 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			
 			//更新强化后的base卡牌数据
 			DataCenter.Instance.UnitData.UserUnitList.UpdateMyUnit(rspLevelUp.baseUnit);
+			baseUserUnit = rspLevelUp.baseUnit;
+			StartCoroutine(SwallowUserUnit());
 			
 //			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"levelup",rspLevelUp);
 			
@@ -349,267 +387,46 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		}
 	}
 
-	private void ResetData(){
+	private void ResetLevelUpData(){
 		foreach (var item in selectedItem) {
 			item.SetData<UserUnit>(null);
 		}
 		currMatList.Clear ();
 	}
 
+	GameObject parent;
 
 	//-----------------level up effect
-	void PlayLevelUp() {
-		Umeng.GA.Event ("PowerUp");
-		
-		Transform effectTrans = friendEffect.transform;
-		effectTrans.localPosition = initPos;
-		Vector3 downEndPos = endPos + (-100f * Vector3.up);
-		AudioManager.Instance.PlayAudio (AudioEnum.sound_friend_up);
-
-		GameObject.Instantiate (selectedItem [4].gameObject);
-
-		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",endPos,"time",0.35f,"delay",1.5f,"easetype",iTween.EaseType.easeInQuart,"islocal",true));
-		iTween.RotateFrom (friendEffect.gameObject, iTween.Hash ("z", 10, "time", 0.15f,"delay",1.5f, "easetype", iTween.EaseType.easeOutBack));
-		iTween.MoveTo(friendEffect.gameObject,iTween.Hash("position",downEndPos,"time", 0.15f,"delay",1.65f,"easetype",iTween.EaseType.easeOutQuart,"islocal",true,"oncomplete","ShowLevelup","oncompletetarget",gameObject));
-	}
-	
-	void ShowLevelup() {
-		
-		for (int i = 0; i < dataCenter.levelUpMaterials.Count; i++) {
-			UnitInfo tui = dataCenter.levelUpMaterials[i].UnitInfo;
-			GameObject go = NGUITools.AddChild(parent, materilItem);
-			go.SetActive(true);
-
-			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
-			ResourceManager.Instance.GetAvatarAtlas(tui.id, sprite);
-			go.transform.Find("Background").GetComponent<UISprite>().spriteName = DGTools.GetItemBackgroundName(tui.type);
-			go.transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>().spriteName = DGTools.GetItemBorderName(tui.type);
-			material.Enqueue(go);
-		}
-
-		parent.GetComponent<UIGrid> ().Reposition ();
-		count = material.Count;
-		ResourceManager.Instance.GetAvatar (UnitAssetType.Profile,newBlendUnit.unitId, o => {
-			DGTools.ShowTexture (unitBodyTex, o as Texture2D);
-			ShowTexture = true;
-			
-			Vector3 localposition = unitBodyTex.transform.localPosition; 
-			Vector3 tPos = new Vector3(localposition.x, localposition.y + unitBodyTex.height * 0.5f - 480f, localposition.z);
-			targetPosition = tPos - parent.transform.localPosition; 
-			ShowUnitScale();
-			SetEffectCamera();
-			StartCoroutine(SwallowUserUnit());
-		});
-	}
 
 	//center
-	Vector3 targetPosition;
-	
-	Queue<GameObject> material = new Queue<GameObject> ();
-	int count = 0;
-	List<GameObject> effectCache = new List<GameObject>();
-	GameObject levelUpEffect = null;
-	GameObject swallowEffect = null;
-	GameObject linhunqiuEffect = null;
-	GameObject evolveEffect = null;
-	
-	
-	GameObject materilUse = null;
-	GameObject linhunqiuIns = null;
-	GameObject swallowEffectIns = null;
-	GameObject evolveEffectIns = null;
-	GameObject parent;
 	
 	IEnumerator SwallowUserUnit () {
 		yield return new WaitForSeconds(1f);
-		
-		while (material.Count > 0) {
-			materilUse = material.Dequeue();
-			iTween.ScaleTo(materilUse, iTween.Hash("y", 0f, "time", 0.2f));
-			yield return new WaitForSeconds(0.2f);
-			Destroy(materilUse);
-			linhunqiuIns = NGUITools.AddChild(parent, linhunqiuEffect);
-			linhunqiuIns.transform.localPosition = materilUse.transform.localPosition;
-			linhunqiuIns.transform.localScale = Vector3.zero;
-			iTween.ScaleTo(linhunqiuIns, iTween.Hash("y", 1f, "time", 0.2f));
-			yield return new WaitForSeconds(0.2f);
-			iTween.MoveTo(linhunqiuIns, iTween.Hash("position", targetPosition, "time", 0.3f, "islocal", true));
-			yield return new WaitForSeconds(0.3f);
-			
-			AudioManager.Instance.PlayAudio(AudioEnum.sound_devour_unit);
-			
-			Destroy(linhunqiuIns);
-			swallowEffectIns = NGUITools.AddChild(gameObject, swallowEffect);
-			yield return new WaitForSeconds(0.4f);
-			Destroy(swallowEffectIns);
-		}
-		
-		_curLevel = oldBlendUnit.level;
-		levelLabel.text = _curLevel + " / " + oldBlendUnit.UnitInfo.maxLevel;
-		gotExp = levelUpData.blendExp;
-		
-		levelDone = gotExp > 0;
-		
-		curExp = oldBlendUnit.CurExp;
-		Calculate ();
-	}
-	
-	void ClearEffectCache(){
-		while (material.Count > 0) {
-			Destroy(material.Dequeue());
-		}
-		
-		//		DGTools.SafeDestory (materilUse);
-		//		DGTools.SafeDestory (linhunqiuIns);
-		//		DGTools.SafeDestory (swallowEffectIns);
-		//		DGTools.SafeDestory (evolveEffectIns);
-		
-		for (int i = effectCache.Count - 1; i >= 0 ; i--) {
-			GameObject go = effectCache[i];
-			Destroy( go );
-			effectCache.Remove(go);
-		}
-	}
+		for (int i = 0; i < 5; i++) {
+			if(selectedItem[i].UserUnit != null){
+				GameObject obj = NGUITools.AddChild(parent,selectedItem[i].gameObject);
+				iTween.ScaleTo(obj, iTween.Hash("y", 0f, "time", 0.2f));
+				yield return new WaitForSeconds(0.2f);
 
-	void PlayLevelupEffect () {
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_level_up);
-		GameObject go = Instantiate (levelUpEffect) as GameObject;
-		effectCache.Add (go);
-	}
+				GameObject lq = NGUITools.AddChild(parent, linhunqiuEffect);
+				lq.transform.localPosition = obj.transform.localPosition;
+				lq.transform.localScale = Vector3.zero;
+				Destroy(obj);
+				iTween.ScaleTo(lq, iTween.Hash("y", 1f, "time", 0.2f));
+				yield return new WaitForSeconds(0.2f);
+				iTween.MoveTo(lq, iTween.Hash("position", unitBodyTex.transform.localPosition, "time", 0.3f, "islocal", true));
+				yield return new WaitForSeconds(0.3f);
 
-	void Update(){
-		ExpRise();
-	} 
-	
-	void LevelUpEnd() {
-		gotExp = 0;
-		
-		RecoverEffectCamera ();
-		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
-		
-		if (oldBlendUnit != null) {
-			if(_curLevel >= oldBlendUnit.UnitInfo.maxLevel) {
-				UnitController.Instance.UserguideEvoUnit(o=>{
-					RspUserGuideEvolveUnit rsp = o as RspUserGuideEvolveUnit;
-					if (rsp.header.code == ErrorCode.SUCCESS) {
-						if (rsp != null ) {
-							DataCenter.Instance.UnitData.UserUnitList.AddMyUnitList(rsp.addUnit);
-						}
-					}else {
-						Debug.LogError("UserGuideEvolveUnit ret err:"+rsp.header.code);
-					}
-				},oldBlendUnit.unitId);
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_devour_unit);
+				
+				Destroy(lq);
+				GameObject se = NGUITools.AddChild(parent, swallowEffect);
+				yield return new WaitForSeconds(0.4f);
+				Destroy(se);
 			}
-			
-			oldBlendUnit = null;	
 		}
-	}
-	
-	void LevelupExpRiseEnd() {
-		isNoviceGUide = false;
-		AudioManager.Instance.StopAudio (AudioEnum.sound_get_exp);
-	}
-	
-	void ExpRise () {
-		if (gotExp <= 0) {
-			if(levelDone) {
-				MsgCenter.Instance.Invoke(CommandEnum.levelDone);
-				levelDone = false;
-				GameTimer.GetInstance().AddCountDown(1f, LevelupExpRiseEnd);
-			}
-			return;	
-		}	
-		
-		if(gotExp < expRiseStep){
-			curExp += gotExp;
-			gotExp = 0;
-			
-			if(AudioManager.Instance.GetPlayAuioInfo() != AudioEnum.sound_get_exp)
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
-		} else {
-			gotExp -= expRiseStep;
-			curExp += expRiseStep;
-			
-			if(AudioManager.Instance.GetPlayAuioInfo() != AudioEnum.sound_get_exp)
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_get_exp);
-		}
-		
-		if(curExp >= currMaxExp) {
-			gotExp += curExp - currMaxExp;
-			curExp = 0;
-			if ( _curLevel < oldBlendUnit.UnitInfo.maxLevel ){
-				_curLevel ++;
-				PlayLevelupEffect();
-			} else { // reach MaxLevel
-				//TODO: show MAX on the progress bar
-				curExp = currMaxExp;
-				gotExp = 0;
-			}
-			
-			//			LogHelper.LogError("=======gotExp:{0} curExp:{1} curLevel:{2} ",gotExp, curExp, curLevel);
-			
-			Calculate();
-		}
-		
-		int needExp = currMaxExp - curExp;
-		
-		if ((_curLevel > oldBlendUnit.UnitInfo.maxLevel) 
-		    || (_curLevel == oldBlendUnit.UnitInfo.maxLevel && needExp <= 0) ) {
-			levelLabel.text = oldBlendUnit.UnitInfo.maxLevel.ToString() + "/" + oldBlendUnit.UnitInfo.maxLevel.ToString();
-			needExpLabel.text = "Max";
-			expSlider.value = 1.0f;
-			return;
-		} else {
-			needExpLabel.text = TextCenter.GetText("Text_Next") +": " + needExp.ToString();
-		}
-		
-		float progress = (float)curExp / (float)currMaxExp;
-		if (progress == 0) {
-			progress = 0.1f;
-		}
-		expSlider.value = progress;
-	}
-
-	
-	void Calculate () {
-		if( oldBlendUnit == null ) {
-			Debug.LogError("Calculate() :: oldBlendUnit=null");
-			return;
-		}
-		
-		levelLabel.text = _curLevel.ToString () + " / " + oldBlendUnit.UnitInfo.maxLevel;
-		
-		currMaxExp = oldBlendUnit.UnitInfo.GetLevelExp(_curLevel); 
-		
-		expRiseStep = (int)(currMaxExp * 0.01f);
-		if ( expRiseStep < 1 )
-			expRiseStep = 1;
-	}
-
-	Vector3 initPos;
-	Vector3 endPos;
-	
-	private const float yCoor = -142;
-	
-
-	
-	UserUnit oldBlendUnit = null;
-	UserUnit newBlendUnit = null;
-	
-	private UserUnit curUserUnit;
-	
-	bool levelDone = false;
-	
-	public void SetEffectCamera() {
-		Camera camera = Main.Instance.effectCamera;
-		camera.transform.eulerAngles = new Vector3 (15f, 0f, 0f);
-		camera.orthographicSize = 1.3f;
-	}
-	
-	public void RecoverEffectCamera() {
-		Camera camera = Main.Instance.effectCamera;
-		camera.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
-		camera.orthographicSize = 1f;
+		ResetLevelUpData ();
+		RefreshLevelUpInfo();
 	}
 	
 }
