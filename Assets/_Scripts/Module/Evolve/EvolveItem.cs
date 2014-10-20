@@ -3,77 +3,62 @@ using System.Collections.Generic;
 using System.Collections;
 using bbproto;
 
-public class EvolveItem {
-	public GameObject itemObject;
+public class EvolveItem : MonoBehaviour{
 //	public BoxCollider boxCollider;
-	public UserUnit userUnit;
-	public UISprite showTexture;
-	public UILabel haveLabel;
-	public UISprite maskSprite;
-	public UISprite highLight;
-	public UISprite borderSprite;
-	public UISprite bgprite;
-	public int index;
-	public bool HaveUserUnit = true;
-	private UIEventListenerCustom listener ;
+	UnitInfo userUnit;
+	UISprite showTexture;
+	UILabel haveLabel;
+	UISprite maskSprite;
+	UISprite borderSprite;
+	UISprite bgprite;
 
-	public EvolveItem (int index, GameObject target) {
-		index = index;
-		itemObject = target;
-		Transform trans = target.transform;
-		showTexture = trans.Find("Texture").GetComponent<UISprite>();
-		highLight = trans.Find("Light").GetComponent<UISprite>();
-		borderSprite = trans.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
-		bgprite = trans.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
-//		boxCollider = target.GetComponent<BoxCollider>();
-		highLight.enabled = false;
-		listener = UIEventListenerCustom.Get (target);
-		if (index == 1 || index == 5) {
-			return;		
-		}
+	void Init () {
+		showTexture = transform.Find("Texture").GetComponent<UISprite>();
+		borderSprite = transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
+		bgprite = transform.Find("Sprite_Avatar_Bg").GetComponent<UISprite>(); 
 
-		haveLabel = trans.Find ("HaveLabel").GetComponent<UILabel> ();
-		maskSprite = trans.Find ("Mask").GetComponent<UISprite> ();
+		haveLabel = transform.Find ("HaveLabel").GetComponent<UILabel> ();
+		maskSprite = transform.Find ("Mask").GetComponent<UISprite> ();
+		UIEventListenerCustom.Get(gameObject).LongPress = LongPress;
 	}
 
-	public void Refresh (UserUnit tuu, bool isHave = true) {
-		userUnit = tuu;
-		HaveUserUnit = isHave;
-		ShowShield (!isHave);
-		if (tuu == null) {
+	public void RefreshData (uint unitId, int currCount, int totalCount) {
+		if (haveLabel == null) {
+			Init();	
+		}
+
+		if (unitId == 0) {
 			showTexture.spriteName = "";
-			borderSprite.enabled = false;
-			bgprite.spriteName = "unit_empty_bg";
-			listener.LongPress = null;
+			borderSprite.spriteName = "unit_empty_bg";
+			bgprite.spriteName = "";
+			haveLabel.enabled = false;
+			UIEventListenerCustom.Get(gameObject).LongPress = null;
 		} else {
-			listener.LongPress = LongPress;
-			borderSprite.enabled = true;
+			userUnit = DataCenter.Instance.UnitData.GetUnitInfo(unitId);
 			ShowUnitType();
-//			userUnit.UnitInfo.GetAsset(UnitAssetType.Avatar, o=>{
-//				showTexture.mainTexture = o as Texture2D;
-//			});
-			ResourceManager.Instance.GetAvatarAtlas(userUnit.UnitInfo.id, showTexture);
+			ShowShield (currCount, totalCount);
+
+			ResourceManager.Instance.GetAvatarAtlas(unitId, showTexture);
 		}
 	}
 
 	void LongPress(GameObject target) {
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",userUnit);
+		if (userUnit != null) {
+//			ModuleManager.Instance.ShowModule();
+		}
+//			ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",userUnit);
 	}
 
-	void ShowShield(bool show) {
-		if(maskSprite != null && maskSprite.enabled != show) {
-			maskSprite.enabled = show;
-		}
-		if(haveLabel != null && haveLabel.enabled != show) {
-			haveLabel.enabled = show;
-		}
-//		if (boxCollider != null && boxCollider.enabled == show) {
-//			boxCollider.enabled = !show;
-//		}
+	void ShowShield(int currCount, int totalCount) {
+		haveLabel.enabled = true;
+		bool show = currCount >= totalCount;
+		haveLabel.text = currCount + " / " + totalCount;
+		haveLabel.color = show ? Color.green : Color.red;
+		maskSprite.enabled = show;
 	}
 
 	private void ShowUnitType(){
-		switch (userUnit.UnitInfo.type){
+		switch (userUnit.type){
 		case EUnitType.UFIRE :
 			bgprite.spriteName = "avatar_bg_fire";
 			borderSprite.spriteName = "avatar_border_fire";
@@ -107,4 +92,5 @@ public class EvolveItem {
 			break;
 		}
 	}
+
 }

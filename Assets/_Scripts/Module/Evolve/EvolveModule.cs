@@ -5,7 +5,7 @@ using bbproto;
 
 public class EvolveModule : ModuleBase {
 	public EvolveModule(UIConfigItem config):base(  config) {
-		CreateUI<EvolveView> ();
+//		CreateUI<EvolveView> ();
 	}
 	
 	public override void InitUI () {

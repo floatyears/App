@@ -52,7 +52,7 @@ public class UnitSelectView : ViewBase {
 		avalibleList.Clear ();
 		List<UserUnit> list = viewData ["list"] as List<UserUnit>;
 		foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
-			if(!DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(item) && item.isFavorite == 0 && ! list.Contains(item)){
+			if(!DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(item) && item.isFavorite == 0 && ! list.Contains(item) && item != viewData["base_info"]){
 				avalibleList.Add(item);
 			}
 		}

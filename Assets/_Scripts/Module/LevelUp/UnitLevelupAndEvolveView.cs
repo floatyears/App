@@ -30,7 +30,8 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	private FriendInfo friendInfo;
 	private const int CoinBase = 100;
 
-	private List<LevelUpItem> selectedItem = new List<LevelUpItem>();
+	private List<LevelUpItem> levelupItem = new List<LevelUpItem>();
+	private List<EvolveItem> evolveItem = new List<EvolveItem>();
 
 	private List<UserUnit> currMatList;
 
@@ -56,6 +57,17 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	private UISprite lightStar;
 	private UISprite grayStar;
 
+	private bool isLevelIncrease = false;
+	private int expGot = 0;
+
+	private GameObject levelupRoot;
+	private GameObject evolveRoot;
+
+	private GameObject nextBtn;
+
+	private GameObject evolveBtn;
+	private bool canEvolve;
+
 	public override void Init (UIConfigItem uiconfig, System.Collections.Generic.Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
@@ -63,7 +75,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		for (int i = 1; i <= 5; i++) {	//gameobject name is 1 ~ 6.
 
 			LevelUpItem pui = FindChild<LevelUpItem>("Bottom/LevelUp/Items/" + i.ToString());
-			selectedItem.Add(pui);
+			levelupItem.Add(pui);
 
 			pui.SetData<UserUnit>(null,OnClickDelItem as DataListener);
 
@@ -71,25 +83,32 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				pui.callback = SelectedFriendCallback;
 				pui.PartyLabel.text = TextCenter.GetText("Text_Friend");
 			}else{
-				pui.callback = SelectedItemCallback;
+				pui.callback = ClickToSelectedItem;
 				pui.PartyLabel.text = TextCenter.GetText("Text_Material");
 			}
-			
 
+		}
+
+		for (int i = 1; i < 4; i++) {
+			EvolveItem ei = FindChild<EvolveItem>("Bottom/Evolve/Items/" + i.ToString());
+			evolveItem.Add(ei);
 		}
 
 		currMatList = new List<UserUnit> ();
 		unitBodyTex = FindChild< UITexture >("Bottom/detailSprite");
-		levelUpButton = FindChild<UIButton>("Bottom/LevelUp/Button_LevelUp/");
+		levelUpButton = FindChild<UIButton>("Bottom/LevelUp/Button_LevelUp");
 		autoSelect = FindChild<UIButton> ("Bottom/LevelUp/Button_AutoSelect");
+		evolveBtn = FindChild ("Bottom/Evolve/Button_Evolve");
 		FindChild ("Bottom/LevelUp/Button_LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Level_Up");
 		FindChild ("Bottom/LevelUp/Button_AutoSelect/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_AutoSelect");
-		
-		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = LevelUpCallback;
-		UIEventListenerCustom.Get (autoSelect.gameObject).onClick = AutoSelectCallback;
+
+		nextBtn = FindChild ("Top/Button_Next");
+		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = ClickLevelUp;
+		UIEventListenerCustom.Get (autoSelect.gameObject).onClick = ClickAutoSelect;
+		UIEventListenerCustom.Get (evolveBtn).onClick = ClickEvolve;
 
 		UIEventListenerCustom.Get (FindChild ("Top/Button_Back")).onClick = GoBack;
-		UIEventListenerCustom.Get (FindChild ("Top/Button_Next")).onClick = GoNext;
+		UIEventListenerCustom.Get (nextBtn).onClick = GoNext;
 //		levelUpButton.isEnabled = false;
 //		autoSelect.isEnabled = false;
 
@@ -103,6 +122,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		beforeHpLabel = FindChild<UILabel> ("Top/BeforeHp");
 		afterHpLabel = FindChild<UILabel> ("Top/AfterHp");
 		titleLabel = FindChild<UILabel> ("Top/Title");
+
+		evolveRoot = FindChild ("Bottom/Evolve");
+		levelupRoot = FindChild ("Bottom/LevelUp");
 
 		//top
 		cost = transform.FindChild("Top/Cost").GetComponent<UILabel>();
@@ -146,16 +168,25 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				SelectUnit(viewData["unit_info"] as UserUnit,(int)viewData["unit_index"]);
 			}else if(viewData.ContainsKey("friend_info")){
 				SelectFriend(viewData["friend_info"] as FriendInfo);
-			}else if(viewData.ContainsKey("level_up")){
-				baseUserUnit = viewData["level_up"] as UserUnit;
+			}else if(viewData.ContainsKey("level_up") || viewData.ContainsKey("evolve")){
+				if(viewData.ContainsKey("level_up")){
+					baseUserUnit = viewData["level_up"] as UserUnit;
+					ShowUIByType(ShowType.LevelUp);
+				
+				}else if(viewData.ContainsKey("evolve")){
+					baseUserUnit = viewData["evolve"] as UserUnit;
+					ShowUIByType(ShowType.Evolve);
+				}
+				if(baseUserUnit.UnitInfo.evolveInfo == null){
+					nextBtn.SetActive(false);
+				}else{
+					nextBtn.SetActive(true);
+					ShowEvolveInfo();
+				}
 				ShowAvatar(baseUserUnit);
-				ShowUIByType(ShowType.LevelUp);
 				ResetLevelUpData();
 				ShowUnitInfo();
-			}else if(viewData.ContainsKey("evolve")){
-				baseUserUnit = viewData["level_up"] as UserUnit;
-				ResetLevelUpData();
-				ShowUIByType(ShowType.Evolve);
+
 			}
 		}
 		viewData.Clear ();
@@ -163,20 +194,39 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 	public override void DestoryUI ()
 	{
+		Destroy (levelUpEffect);
+		Destroy (swallowEffect);
+		Destroy (linhunqiuEffect);
+		Destroy (evolveEffect);
+
+		currMatList.Clear ();
+		levelupItem.Clear ();
 		base.DestoryUI ();
 	}
 
-	void SelectedItemCallback(object data){
+	
+	private void GoBack(GameObject obj){
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitLevelupAndEvolveModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitsListModule);
+		
+	}
+	
+	private void GoNext(GameObject obj){
+		ShowUIByType (currType == ShowType.Evolve ? ShowType.LevelUp : ShowType.Evolve);
+	}
+
+
+	void ClickToSelectedItem(object data){
 		LevelUpItem item = data as LevelUpItem;
 //		 = new List<UserUnit> ();
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitLevelupAndEvolveModule);
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitSelectModule,"type","level_up","index",selectedItem.IndexOf (item),"list",currMatList);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitSelectModule,"type","level_up","index",levelupItem.IndexOf (item),"list",currMatList,"base_info",baseUserUnit);
 	}
 
 	void OnClickDelItem(object data){
 
 		LevelUpItem item = data as LevelUpItem;
-		int index = selectedItem.IndexOf (item);
+		int index = levelupItem.IndexOf (item);
 		if (item.UserUnit != null) {
 			currMatList.Remove(item.UserUnit);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_click_success);
@@ -195,14 +245,14 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"type","level_up");
 	}
 
-	void LevelUpCallback(GameObject go) {
+	void ClickLevelUp(GameObject go) {
 		if (DataCenter.Instance. UserData.AccountInfo.money < moneyNeed) {
 			TipsManager.Instance.ShowTipsLabel("not enough money");
 			return;
 		}
 
 		List<uint> unitIds = new List<uint> ();
-		foreach (var item in selectedItem.GetRange (0, 4)) {
+		foreach (var item in levelupItem.GetRange (0, 4)) {
 			if(item.UserUnit == null)
 				continue;
 			unitIds.Add(item.UserUnit.uniqueId);
@@ -216,11 +266,11 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("LevelUp_NeedTitle"),TextCenter.GetText("LevelUp_NeedMaterial"),TextCenter.GetText("OK"));
 			return;
 		}
-		UnitController.Instance.LevelUp (NetCallback,baseUserUnit.uniqueId,unitIds,friendInfo.userId,selectedItem[4].UserUnit);
+		UnitController.Instance.LevelUp (NetCallback,baseUserUnit.uniqueId,unitIds,friendInfo.userId,levelupItem[4].UserUnit);
 		
 	}
 	
-	void AutoSelectCallback(GameObject go){
+	void ClickAutoSelect(GameObject go){
 
 		List<KeyValuePair<int, UserUnit>> sortDic = new List<KeyValuePair<int, UserUnit>> ();
 		foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
@@ -239,11 +289,11 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		
 	}
 
-	private int expGot = 0;
+
 	void RefreshLevelUpInfo(){
 		int totalMoney = 0;
 		for (int i = 1; i < 5; i++) {	//material index range
-			if (selectedItem[i-1].UserUnit != null){
+			if (levelupItem[i-1].UserUnit != null){
 				totalMoney ++;
 			}
 		}
@@ -258,12 +308,10 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		UnitInfo tu = baseUserUnit.UnitInfo;
 		int toLevel = tu.GetLevelByExp (expGot + baseUserUnit.exp);
 		if (expGot == 0) {
-			beforeHpLabel.text = baseUserUnit.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
-			beforeAtkLabel.text =  baseUserUnit.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
-			beforeLvLabel.text = baseUserUnit.level + "";// + "->" + toLevel;
+			afterLvLabel.text = afterAtkLabel.text = afterHpLabel.text = "";
 		}else{
 			afterHpLabel.text =  tu.GetHpByLevel(toLevel).ToString() ;
-			afterAtkLabel.text =   tu.GetAtkByLevel(toLevel).ToString();
+			afterAtkLabel.text =  tu.GetAtkByLevel(toLevel).ToString();
 			afterLvLabel.text =  toLevel + "";
 		}
 	}
@@ -291,6 +339,10 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		}
 		lightStar.width = baseUserUnit.UnitInfo.rare*29;
 		grayStar.transform.localPosition = new Vector3(len * 15,-82,0);
+
+		beforeHpLabel.text = baseUserUnit.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
+		beforeAtkLabel.text =  baseUserUnit.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
+		beforeLvLabel.text = baseUserUnit.level + "";// + "->" + toLevel;
 	}
 
 	void SelectFriend(FriendInfo friendInfo) {
@@ -298,14 +350,14 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			return;	
 		}
 		this.friendInfo = friendInfo;
-		selectedItem [4].SetData<UserUnit> (friendInfo.UserUnit);
+		levelupItem [4].SetData<UserUnit> (friendInfo.UserUnit);
 	}
 
 	void SelectUnit(UserUnit unitInfo,int index){
-		if (selectedItem [index].UserUnit != null) {
-			currMatList.Remove(selectedItem [index].UserUnit);
+		if (levelupItem [index].UserUnit != null) {
+			currMatList.Remove(levelupItem [index].UserUnit);
 		}
-		selectedItem [index].SetData<UserUnit> (unitInfo);
+		levelupItem [index].SetData<UserUnit> (unitInfo);
 		currMatList.Add (unitInfo);
 		RefreshLevelUpInfo ();
 	}
@@ -313,8 +365,8 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	int LevelUpCurExp () {
 		int devorExp = 0;
 		for (int i = 1; i < 6; i++) {	//material index range
-			if (selectedItem[i-1].UserUnit != null){
-				devorExp += selectedItem[i-1].UserUnit.MultipleMaterialExp(baseUserUnit);
+			if (levelupItem[i-1].UserUnit != null){
+				devorExp += levelupItem[i-1].UserUnit.MultipleMaterialExp(baseUserUnit);
 			}
 		}
 		//		Debug.LogError (devorExp);
@@ -349,6 +401,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			
 			//更新强化后的base卡牌数据
 			DataCenter.Instance.UnitData.UserUnitList.UpdateMyUnit(rspLevelUp.baseUnit);
+			if(rspLevelUp.baseUnit.level > baseUserUnit.level){
+				isLevelIncrease = true;
+			}
 			baseUserUnit = rspLevelUp.baseUnit;
 			StartCoroutine(SwallowUserUnit());
 			
@@ -361,6 +416,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	}
 
 	void ShowAvatar(UserUnit info){
+		if (unitBodyTex != null && (unitBodyTex.mainTexture != null) && (unitBodyTex.mainTexture.name == info.unitId.ToString ())) {
+			return;
+		}
 		ResourceManager.Instance.GetAvatar( UnitAssetType.Profile,info.unitId, o=>{
 			unitBodyTex.alpha = 0;
 			unitBodyTex.GetComponent<TweenAlpha>().enabled = true;
@@ -371,29 +429,22 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		});
 	}
 
-	private void GoBack(GameObject obj){
-		ModuleManager.Instance.HideModule (ModuleEnum.UnitLevelupAndEvolveModule);
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitsListModule);
-
-	}
-
-	private void GoNext(GameObject obj){
-		ShowUIByType (currType == ShowType.Evolve ? ShowType.LevelUp : ShowType.Evolve);
-	}
-
 	private void ShowUIByType(ShowType type){
-		if (currType == type)
-			return;
+
 		currType = type;
 		if (type == ShowType.Evolve) {
+			evolveRoot.SetActive(true);
+			levelupRoot.SetActive(false);
 			titleLabel.text = TextCenter.GetText("Evolve_Title");
 		}else if(type == ShowType.LevelUp){
+			evolveRoot.SetActive(false);
+			levelupRoot.SetActive(true);
 			titleLabel.text = TextCenter.GetText("LevelUp_Title");
 		}
 	}
 
 	private void ResetLevelUpData(){
-		foreach (var item in selectedItem) {
+		foreach (var item in levelupItem) {
 			item.SetData<UserUnit>(null);
 		}
 		currMatList.Clear ();
@@ -411,11 +462,11 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		Debug.Log ("pos:------------" + tarPos);
 		yield return new WaitForSeconds(1f);
 		for (int i = 0; i < 5; i++) {
-			if(selectedItem[i].UserUnit != null){
-				GameObject obj = NGUITools.AddChild(parent,selectedItem[i].gameObject);
-				obj.transform.localPosition = selectedItem[i].transform.localPosition;
+			if(levelupItem[i].UserUnit != null){
+				GameObject obj = NGUITools.AddChild(parent,levelupItem[i].gameObject);
+				obj.transform.localPosition = levelupItem[i].transform.localPosition;
 				iTween.ScaleTo(obj, iTween.Hash("x",0f,"y", 0f, "time", 0.2f));
-				selectedItem[i].SetData<UserUnit>(null);
+				levelupItem[i].SetData<UserUnit>(null);
 				yield return new WaitForSeconds(0.2f);
 
 
@@ -437,7 +488,85 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				Destroy(se);
 			}
 		}
+
+		if (isLevelIncrease) {
+			isLevelIncrease = false;
+//			GameObject le = NGUITools.AddChild(parent, levelUpEffect);
+//			le.transform.localPosition = tarPos;
+//			le.layer = GameLayer.EffectLayer;
+//			yield return new WaitForSeconds(1f);
+//			Destroy(le);
+		} 
+		ShowUnitInfo ();
 		RefreshLevelUpInfo();
 	}
-	
+
+
+	///-----------evolve
+	private Dictionary<uint, int> materialCount = new Dictionary<uint, int>();
+	private UserUnit partyItem = null;
+	void ShowEvolveInfo () {
+		int i = 0;
+		bool isHave = false;
+		materialCount.Clear ();
+		foreach (var item in baseUserUnit.UnitInfo.evolveInfo.materialUnitId) {
+			if(materialCount.ContainsKey(item)){
+				materialCount[item]++;
+			}else{
+				materialCount[item] = 1;
+			}
+		}
+
+		canEvolve = true;
+		foreach (var id in materialCount.Keys) {
+			int count = 0;
+			foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
+				if(item.unitId == id){
+					count++;
+					if(DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(item) > 0){
+						partyItem = item;
+					}
+				}
+			}
+			evolveItem[i].RefreshData(id, count, materialCount[id]);
+			canEvolve = canEvolve && (count >= materialCount[id]);
+			i++;
+		}
+		for (int j = i; j < 3; j++) {
+			evolveItem[j].RefreshData(0,0,0);
+		}
+	}
+
+
+	private void ClickEvolve(GameObject obj){
+
+		if (baseUserUnit.level < baseUserUnit.UnitInfo.maxLevel) {
+			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("notmaxleveltips"));
+			return;
+		}
+		if (!canEvolve) {
+			TipsManager.Instance.ShowTipsLabel("notEnoughmaterialTips");
+			return;
+		}
+//
+//		TipsManager.Instance.ShowMsgWindow( TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{
+//			MsgCenter.Instance.AddListener(CommandEnum.ResourceDownloadComplete,o1 =>{
+//				List<ProtoBuf.IExtensible> evolveInfoList = new List<ProtoBuf.IExtensible> ();
+//				evolveInfoList.Add (baseItem.userUnit);
+//				evolveInfoList.Add (friendInfo);
+//				foreach (var item in materialItem.Values) {
+//					UserUnit tuu = item.userUnit;
+//					if(tuu != null) {
+//						evolveInfoList.Add(tuu);
+//					}
+//				}
+//				//				ExcuteCallback (evolveInfoList);
+//			});
+//			ModuleManager.Instance.ShowModule(ModuleEnum.ResourceDownloadModule);
+//		});
+		return;
+
+	}
+
+
 }

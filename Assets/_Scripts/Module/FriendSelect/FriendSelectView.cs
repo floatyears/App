@@ -191,21 +191,7 @@ public class FriendSelectView : ViewBase{
 
 //		CreateGeneralListView();
 	}
-	
-	void CheckFriend() {
-		if (evolveItem == null) {
-			return;	
-		}
-		
-		HelperRequire hr = evolveItem.userUnit.UnitInfo.evolveInfo.helperRequire;
-		
-		for (int i = 0; i < dragPanel.ScrollItem.Count; i++) {
-			HelperUnitItem hui = dragPanel.ScrollItem[i].GetComponent<HelperUnitItem>();
-			if(! CheckEvolve(hr, hui.UserUnit)) {
-				hui.IsEnable = false;
-			}
-		}
-	}
+
 	
 	bool CheckEvolve(HelperRequire hr, UserUnit tuu) {
 

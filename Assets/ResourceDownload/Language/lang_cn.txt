@@ -1448,6 +1448,8 @@ guide62_title=指引结束
 guide62_content=我的指引就到这了哦。\n\n独自前进吧！少年！
 
 notmaxleveltips=基础卡牌等级未达到满级。\n提示：只有Lv满级的卡牌才能进化。
+notEnoughmaterialTips=进化所需卡牌未收集全，无法进化。
+
 clearQuest=已通关
 
 ## pure string description with no title.
