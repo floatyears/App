@@ -40,15 +40,15 @@ public class DragPanel : ModuleBase{
 	public void Clear(){
 		dragPanelView.ClearPool ();
 	}
-
-	public GameObject GetDragViewObject(){
-		if (dragPanelView != null) {
-			return dragPanelView.gameObject;
-		}
-		else{
-			return null;
-		}
-	}
+//
+//	public GameObject GetDragViewObject(){
+//		if (dragPanelView != null) {
+//			return dragPanelView.gameObject;
+//		}
+//		else{
+//			return null;
+//		}
+//	}
 
 	public void AddItemToGrid(GameObject obj, int index){
 		dragPanelView.AddItemToGrid (obj, index);

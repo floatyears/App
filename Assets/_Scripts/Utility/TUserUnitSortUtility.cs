@@ -27,8 +27,7 @@ public enum SortRuleByUI{
 	ReceptionView,
 	UnitDisplayUnity,
 	MyUnitListView,
-	LevelUp,
-	Evolve
+	UnitLevelupAndEvolveView,
 }
 
 public class SortUnitTool{

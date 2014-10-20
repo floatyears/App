@@ -19,6 +19,8 @@ public class FriendSelectView : ViewBase{
 
 	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
 
+	private QuestItemView pickedQuestInfo;
+
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init(config,data);
 		InitUI();
@@ -26,34 +28,32 @@ public class FriendSelectView : ViewBase{
 		premiumBtn.gameObject.SetActive (false);
 
 		dragPanel = new DragPanel("FriendSelectDragPanel", "Prefabs/UI/UnitItem/HelperUnitPrefab" ,typeof(HelperUnitItem), transform);
+	
+		premiumBtn.gameObject.SetActive(false);	
 	}
 
 	public override void ShowUI() {
 		base.ShowUI();
-		CreateGeneralListView();
-		ShowUIAnimation(dragPanel);
-		isShowPremium = false;
+		dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener);
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
-
-		if (premiumBtn.gameObject.activeSelf) {
-			premiumBtn.gameObject.SetActive(false);	
-		}
 
 		if (viewData != null) {
 			if(viewData.ContainsKey("type")){
 				if(viewData["type"].ToString() == "evolve"){
 					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"evolve");
 					evolveItem = viewData["item"] as EvolveItem;
-				}else if(viewData["type"].ToString() == "levelup"){
-					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"levelup");
-					CheckFriend();
+				}else if(viewData["type"].ToString() == "level_up"){
+					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"level_up");
+//					CheckFriend();
 				}else if(viewData["type"].ToString() == "quest"){
 					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"quest");
-					RecordPickedInfoForFight(viewData["data"]);	
+					pickedQuestInfo = viewData["data"] as QuestItemView;	
 				}
 			}
-
+			dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener,viewData["type"].ToString());
 		}
+
+
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FRIEND_SELECT);
 	}
 
@@ -67,67 +67,31 @@ public class FriendSelectView : ViewBase{
 		UIEventListenerCustom.Get(premiumBtn.gameObject).onClick = ClickPremiumBtn;
 	}
 
-	List<FriendInfo> GetPremiumData(){
-		List<FriendInfo> tfiList = new List<FriendInfo>();
-		return tfiList;
-	}
-	
-	private void CreatePremiumListView(){
-		List<FriendInfo> newest = GetPremiumData();
-
-		if(premiumFriendList == null){
-			premiumFriendList = newest;
-			dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
-		} else {
-			if(!premiumFriendList.Equals(newest)){
-				premiumFriendList = newest;
-				dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
-				
-			} else {
-//				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
-			}
-		}
+	public override void HideUI ()
+	{
+		base.HideUI ();
 	}
 
-	private void CreateGeneralListView(){
-		List<FriendInfo> newest = DataCenter.Instance.FriendData.GetSupportFriend ();//SupportFriends;
-		if(generalFriendList == null){
-			generalFriendList = newest;
-			dragPanel.SetData<FriendInfo> (generalFriendList, ClickHelperItem as DataListener);
-		} else {
+//	private void CreatePremiumListView(){
+//		List<FriendInfo> newest = GetPremiumData();
+//
+//		if(premiumFriendList == null){
+//			premiumFriendList = newest;
+//			dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
+//		} else {
+//			if(!premiumFriendList.Equals(newest)){
+//				premiumFriendList = newest;
+//				dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
+//				
+//			} else {
+////				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
+//			}
+//		}
+//	}
 
-			if(generalFriendList.Equals(newest)){
-				generalFriendList = newest;
-			}
-			dragPanel.SetData<FriendInfo> (generalFriendList, ClickHelperItem as DataListener);
-		}
-	}
 
-	DragPanel RefreshDragView(FriendInfoType fType){
-		friendInfoTyp = fType;
-		string dragPanelName;
-		List<FriendInfo> dataList;
 
-		if(fType == FriendInfoType.General){
-			dragPanelName = "GeneralDragPanel";
-			dataList = generalFriendList;
-		}
-		else{
-			dragPanelName = "PremiumDragPanel";
-			dataList = premiumFriendList;
-		}
-
-		dragPanel.SetData<FriendInfo> (generalFriendList, ClickHelperItem as DataListener);
-
-		return dragPanel;
-	}
-
-	private QuestItemView pickedQuestInfo;
-	private void RecordPickedInfoForFight(object msg){
-		pickedQuestInfo = msg as QuestItemView;
-	}
-
-	protected virtual void ClickHelperItem(object data){
+	void ClickHelperItem(object data){
 //		if(viewData["sele"]
 		HelperUnitItem item = data as HelperUnitItem;
 		foreach (var i in viewData) {
@@ -137,10 +101,10 @@ public class FriendSelectView : ViewBase{
 			if(viewData["type"].ToString() == "evolve"){
 				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"evolve");
 				ModuleManager.Instance.ShowModule(ModuleEnum.EvolveModule,"friendinfo",item.FriendInfo);
-			}else if(viewData["type"].ToString() == "levelup"){
-				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"levelup");
-				ModuleManager.Instance.ShowModule(ModuleEnum.LevelUpModule,"friendinfo",item.FriendInfo);
-				CheckFriend();
+			}else if(viewData["type"].ToString() == "level_up"){
+				ModuleManager.Instance.HideModule(ModuleEnum.FriendSelectModule);
+				ModuleManager.Instance.ShowModule(ModuleEnum.UnitLevelupAndEvolveModule,"friend_info",item.FriendInfo);
+//				CheckFriend();
 				
 			}else if(viewData["type"].ToString() == "quest"){
 				if(pickedQuestInfo == null){
@@ -176,19 +140,25 @@ public class FriendSelectView : ViewBase{
 		else return false;
 	}
 
-	private void ReceiveSortInfo(object msg){
-		curSortRule = (SortRule)msg;
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+			iTween.MoveTo (gameObject, iTween.Hash ("x", config.localPosition.x, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));   
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
 	}
 
 
-	private void ShowUIAnimation(DragPanel dragPannel){
-		if(dragPannel == null) return;
-		GameObject targetPanel = dragPannel.GetDragViewObject();
-		targetPanel.transform.localPosition = new Vector3(-1000, 0, 0);
-		iTween.MoveTo (targetPanel, iTween.Hash ("x", 0, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));      
-	}
-
-	bool isShowPremium = false;
 	protected void ClickPremiumBtn(GameObject btn){
 		UserUnit leader = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[ 0 ];
 
@@ -219,21 +189,7 @@ public class FriendSelectView : ViewBase{
 
 		premiumFriendList = rspPremiumList;
 
-		if(isShowPremium){
-			CreateGeneralListView();
-			ShowUIAnimation(dragPanel);
-		}
-		else{
-			CreatePremiumListView();
-			ShowUIAnimation(dragPanel);
-		}
-		isShowPremium = !isShowPremium;
-	}
-	
-	public GameObject GetFriendItem(int i){
-		if(dragPanel != null)
-			return dragPanel.ScrollItem[i];
-		return null;
+//		CreateGeneralListView();
 	}
 	
 	void CheckFriend() {
@@ -259,6 +215,8 @@ public class FriendSelectView : ViewBase{
 			return false;	
 		}
 	}
+
+
 }
 
 public enum FriendInfoType{

@@ -447,6 +447,16 @@ DownloadErrorContent=下载过程出错， 是否尝试重新下载？
 UnitListTab1=卡牌
 UnitListTab2=碎片
 
+#level up
+LevelUp_Title=卡牌强化
+LevelUp_NeedTitle=强化条件不满足
+LevelUp_NoMaterial=没有可用的材料
+LevelUp_NeedMaterial=请再放入4个任意卡牌来完成强化
+LevelUp_NeedFriend=请邀请1位好友来完成强化
+LevelUp_NeedMoney=金钱不足,无法强化!
+
+#evolve
+Evolve_Title=卡牌进化
 
 ## net error
 success=成功

@@ -19,7 +19,7 @@ public class FightReadyPage : ViewBase {
 	private UILabel ownSkillNameLabel;
 	private UILabel ownSkillDscpLabel;
 
-	private HelperUnitItem helper;
+	private FriendUnitItem helper;
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
 	public List<PageUnitItem> partyViewList = new List<PageUnitItem> ();
 
@@ -53,7 +53,7 @@ public class FightReadyPage : ViewBase {
 			partyView.Add(i, puv);
 		}
 		
-		helper = transform.FindChild("Helper").GetComponent<HelperUnitItem>();
+		helper = transform.FindChild("Helper").GetComponent<FriendUnitItem>();
 	}
 
 	public void RefreshParty(UnitParty party){

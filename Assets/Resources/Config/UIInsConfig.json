@@ -182,11 +182,29 @@
     {
         "name":"UnitsListModule",
         "path": "Prefabs/UI/Units/UnitsListUI",
+        "parent": 1,
+        "x": 0,
+        "y": -490,
+        "z": 0, 
+        "group" : 0
+    },
+    {
+        "name":"UnitLevelupAndEvolveModule",
+        "path": "Prefabs/UI/Units/UnitLevelupAndEvolveUI",
         "parent": 4,
         "x": 0,
-        "y": 40,
+        "y": -490,
         "z": 0, 
         "group" : 2
+    },
+ 	{
+        "name":"UnitSelectModule",
+        "path": "Prefabs/UI/Units/UnitSelectUI",
+        "parent": 1,
+        "x": 0,
+        "y": -490,
+        "z": 0, 
+        "group" : 0
     },
     {
         "name":"QuestSelectModule",

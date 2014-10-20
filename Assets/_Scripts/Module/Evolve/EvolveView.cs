@@ -388,7 +388,7 @@ public class EvolveView : ViewBase {
 		UIEventListenerCustom.Get (evolveButton.gameObject).onClick = Evolve;
 
 		unitItemDragPanel = new DragPanel ("EvolveDragPanel","Prefabs/UI/UnitItem/MyUnitPrefab",typeof(EvolveDragItem), transform);
-		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
+//		_sortRule = SortUnitTool.GetSortRule (SortRuleByUI.Evolve);//SortRule.HP;
 
 	}
 
@@ -514,13 +514,13 @@ public class EvolveView : ViewBase {
 	private void ReceiveSortInfo(object msg){
 		_sortRule = (SortRule)msg;
 		SortUnitByCurRule();
-		unitItemDragPanel.SetData<UserUnit> (allData,null,_sortRule);
+		unitItemDragPanel.SetData<UserUnit> (allData);
 
 	}
 	
 	private void SortUnitByCurRule(){
 		SortUnitTool.SortByTargetRule(_sortRule, allData);
-		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.Evolve);
+//		SortUnitTool.StoreSortRule (_sortRule, SortRuleByUI.Evolve);
 		
 	}
 
@@ -603,7 +603,7 @@ public class EvolveView : ViewBase {
 	void RefreshView() {
 		SortUnitByCurRule ();
 
-		unitItemDragPanel.SetData<UserUnit>(allData,ClickDragItem as DataListener,_sortRule);
+		unitItemDragPanel.SetData<UserUnit>(allData,ClickDragItem as DataListener);
 
 	}
 

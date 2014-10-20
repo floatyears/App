@@ -51,8 +51,8 @@ public class SceneInfoBarModule : ModuleBase {
 					break;
 				}
 			}else if(data[0] is string){
-				if(data[0].ToString() == "levelup"){
-					v.SetBackBtnActive(true,ModuleEnum.LevelUpModule);
+				if(data[0].ToString() == "level_up"){
+					v.SetBackBtnActive(true,ModuleEnum.UnitLevelupAndEvolveModule);
 				}else if(data[0].ToString() == "evolve"){
 					v.SetBackBtnActive(true,ModuleEnum.EvolveModule);
 				}else if(data[0].ToString() == "quest"){

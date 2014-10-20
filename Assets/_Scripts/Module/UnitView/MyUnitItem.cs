@@ -78,14 +78,10 @@ public class MyUnitItem : BaseUnitItem {
 	public override void SetData<T> (T data, params object[] args)
 	{
 		base.SetData (data, args);
-	
 
 		IsFavorite = (userUnit != null && userUnit.isFavorite == 1) ? true : false;
 		if (args.Length > 0) {
 			callback = args[0] as DataListener;	
-		}
-		if (args.Length > 1) {
-			CurrentSortRule = (SortRule)args[1];
 		}
 		if (userUnit != null) {
 			int i = DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty (userUnit);

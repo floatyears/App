@@ -62,6 +62,10 @@ public enum ModuleEnum
 	SellUnitModule,
 	
 	UnitsListModule,
+
+	UnitSelectModule,
+
+	UnitLevelupAndEvolveModule,
 	
 	CatalogModule,
 	
