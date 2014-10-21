@@ -580,8 +580,71 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	}
 
 	void EvolveNetCallback(object data){
+		if (data != null) {
+			RspEvolve evolveData = data as RspEvolve;
+
+			if (evolveData.header.code != (int)ErrorCode.SUCCESS) {
+				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow (evolveData.header.code);
+				ResetLevelUpData();
+				return;
+			}
+
+			//			uint userId = DataCenter.Instance.UserData.UserInfo.userId;
+			//			DataCenter.Instance.oldUserUnitInfo = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit (rspLevelUp.blendUniqueId);
+			//			DataCenter.Instance.levelUpMaterials.Clear();
+			
+			//删除消耗的材料
+			foreach (var item in partIds) {
+				DataCenter.Instance.UnitData.UserUnitList.DelMyUnit(item);
+			}
+			
+			//更新强化后的base卡牌数据
+			DataCenter.Instance.UnitData.UserUnitList.DelMyUnit(baseUserUnit.uniqueId);
+			baseUserUnit = DataCenter.Instance.UnitData.UserUnitList.AddMyUnit(evolveData.evolvedUnit);
+			StartCoroutine(SwallowEvolveUnit());
+		}
 
 	}
 
+	IEnumerator SwallowEvolveUnit () {
+		Vector3 tarPos = unitBodyTex.transform.localPosition + new Vector3 (0, unitBodyTex.height / 2, 0);
+		Debug.Log ("pos:------------" + tarPos);
+		yield return new WaitForSeconds(1f);
+		for (int i = 0; i < 3; i++) {
+			if(levelupItem[i].UserUnit != null){
+				GameObject obj = NGUITools.AddChild(parent,evolveItem[i].gameObject);
+				obj.transform.localPosition = levelupItem[i].transform.localPosition;
+				iTween.ScaleTo(obj, iTween.Hash("x",0f,"y", 0f, "time", 0.2f));
+				levelupItem[i].SetData<UserUnit>(null);
+				yield return new WaitForSeconds(0.2f);
+				
+				
+				GameObject lq = NGUITools.AddChild(parent, linhunqiuEffect);
+				lq.transform.localPosition = obj.transform.localPosition;
+				lq.transform.localScale = Vector3.zero;
+				Destroy(obj);
+				iTween.ScaleTo(lq, iTween.Hash("x",1f,"y", 1f, "time", 0.2f));
+				yield return new WaitForSeconds(0.2f);
+				iTween.MoveTo(lq, iTween.Hash("position",tarPos , "time", 0.3f, "islocal", true));
+				yield return new WaitForSeconds(0.3f);
+				
+				AudioManager.Instance.PlayAudio(AudioEnum.sound_devour_unit);
+				
+				Destroy(lq);
+				GameObject se = NGUITools.AddChild(parent, swallowEffect);
+				se.transform.localPosition = tarPos;
+				yield return new WaitForSeconds(0.4f);
+				Destroy(se);
+			}
+		}
 
+		GameObject le = NGUITools.AddChild(parent, evolveEffect);
+		le.transform.localPosition = tarPos;
+		le.layer = GameLayer.EffectLayer;
+		yield return new WaitForSeconds(2f);
+		Destroy(le);
+
+		ShowUnitInfo ();
+		RefreshLevelUpInfo();
+	}
 }
