@@ -13,6 +13,8 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 	private UserUnit data;
 
+	private UILabel levelupLabel;
+
 	void Init(){
 		atkLabel = transform.FindChild ("LabelAtk").GetComponent<UILabel>();
 		hpLabel = transform.FindChild ("LabelHp").GetComponent<UILabel> ();
@@ -24,10 +26,10 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 
 		transform.FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Submit_Evolve");
-		transform.FindChild ("LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Submit_LevelUp");
+		levelupLabel = transform.FindChild ("LevelUp/Label").GetComponent<UILabel> ();
 
 		UIEventListenerCustom.Get (transform.FindChild ("LevelUp").gameObject).onClick = ClickLevelUp;
-		UIEventListenerCustom.Get (transform.FindChild ("Evolve").gameObject).onClick = ClickEvolve;
+		UIEventListenerCustom.Get (transform.FindChild ("Evolve").gameObject).onClick = ClickSuperEvolve;
 
 		UIEventListenerCustom.Get (gameObject).LongPress = PressItem;
 	}
@@ -51,6 +53,12 @@ public class UnitsListCardItemView : DragPanelItemBase {
 			darkStar.enabled = false;
 			len = data.UnitInfo.rare;
 		}
+
+		if (data.level >= data.UnitInfo.maxLevel) {
+			levelupLabel.text = TextCenter.GetText ("Btn_Submit_Evolve");
+		} else {
+			levelupLabel.text = TextCenter.GetText ("Btn_Submit_LevelUp");
+		}
 		lightStar.width = data.UnitInfo.rare*29;
 
 		name.text = data.UnitInfo.name;
@@ -65,11 +73,16 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 	void ClickLevelUp(GameObject obj){
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitsListModule);
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "level_up",data);
+		if (data.level >= data.UnitInfo.maxLevel) {
+			ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "evolve",data);
+		}else{
+			ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "level_up",data);
+		}
+
 	}
 
-	void ClickEvolve(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "evolve",data);
+	void ClickSuperEvolve(GameObject obj){
+		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FunctionNotOpenTitle"),TextCenter.GetText("FunctionNotOpenContent"),TextCenter.GetText("OK"));
 	}
 
 	void PressItem(GameObject obj){

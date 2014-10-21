@@ -67,4 +67,10 @@ public class SceneInfoBarView : ViewBase{
 //		currModule = name;
 		sceneNameLabel.text = name;
 	}
+
+	public void NoBackScene(ModuleEnum name){
+		if (backModules.Count > 0 && backModules.Peek() == name) {
+			backModules.Pop();
+		}
+	}
 }

@@ -59,6 +59,7 @@ public class UnitSelectView : ViewBase {
 	}
 
 	private void SelectItem(object data){
+		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, "no_back", ModuleEnum.UnitSelectModule);
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitSelectModule);
 		ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "unit_info", data as UserUnit, "unit_index" ,viewData["index"]);
 	}
