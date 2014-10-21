@@ -25,42 +25,41 @@ public class UnitController : ControllerBase {
 		HttpRequestManager.Instance.SendHttpRequest (reqChangeParty, callback, ProtocolNameEnum.RspChangeParty);
 	}
 	
-	public void EvolveStart(NetCallback callback, uint baseUnitId, List<uint> partUnitId,uint helperUserId, UserUnit helperUnit,int helperPremium, uint evolveQuestId,int restartNew) {
+	public void Evolve(NetCallback callback, uint baseUnitId, List<uint> partUnitId) {
 
-		
-		ReqEvolveStart reqEvolveStart = new ReqEvolveStart();
-		reqEvolveStart.header = new ProtoHeader();
-		reqEvolveStart.header.apiVer = ServerConfig.API_VERSION;
-		reqEvolveStart.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
-		
-		//request params
-		reqEvolveStart.baseUniqueId = baseUnitId;
-		CollectionHelper.ResetReadOnlyList(reqEvolveStart.partUniqueId, partUnitId);
-		reqEvolveStart.helperUserId = helperUserId;
-		reqEvolveStart.helperUnit = helperUnit;
-		reqEvolveStart.helperPremium = helperPremium;
-		reqEvolveStart.evolveQuestId = evolveQuestId;
-		
-		reqEvolveStart.restartNew = restartNew;
+		;
 
-		HttpRequestManager.Instance.SendHttpRequest (reqEvolveStart, callback, ProtocolNameEnum.RspEvolveStart);
-	}
-
-	public void EvolveDone(NetCallback callback, uint questId, uint securityKey, int getMoney, List<uint> getUnit, List<uint> hitGrid) {
-		ReqEvolveDone reqEvolveDone = new ReqEvolveDone();
-		reqEvolveDone.header = new ProtoHeader();
-		reqEvolveDone.header.apiVer = ServerConfig.API_VERSION;
-		reqEvolveDone.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
+		ReqEvolve reqEvolve = new ReqEvolve();
+		reqEvolve.header = new ProtoHeader();
+		reqEvolve.header.apiVer = ServerConfig.API_VERSION;
+		reqEvolve.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
 		
 		//request params
-		reqEvolveDone.questId = questId;
-		reqEvolveDone.securityKey = securityKey;
-		reqEvolveDone.getMoney = getMoney;
-		CollectionHelper.ResetReadOnlyList(reqEvolveDone.getUnit, getUnit);
-		CollectionHelper.ResetReadOnlyList(reqEvolveDone.hitGrid, hitGrid);
-
-		HttpRequestManager.Instance.SendHttpRequest (reqEvolveDone, callback, ProtocolNameEnum.RspEvolveDone);
+		reqEvolve.baseUniqueId = baseUnitId;
+//		CollectionHelper.ResetReadOnlyList(reqEvolve.partUniqueId, partUnitId);
+		reqEvolve.partUniqueId.AddRange(partUnitId);
+//		reqEvolve.helperUserId = helperUserId;
+//		reqEvolve.helperUnit = helperUnit;
+//		reqEvolve.helperPremium = helperPremium;
+		
+		HttpRequestManager.Instance.SendHttpRequest (reqEvolve, callback, ProtocolNameEnum.RspEvolveStart);
 	}
+
+//	public void EvolveDone(NetCallback callback, uint questId, uint securityKey, int getMoney, List<uint> getUnit, List<uint> hitGrid) {
+//		ReqEvolveDone reqEvolveDone = new ReqEvolveDone();
+//		reqEvolveDone.header = new ProtoHeader();
+//		reqEvolveDone.header.apiVer = ServerConfig.API_VERSION;
+//		reqEvolveDone.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
+//		
+//		//request params
+//		reqEvolveDone.questId = questId;
+//		reqEvolveDone.securityKey = securityKey;
+//		reqEvolveDone.getMoney = getMoney;
+//		CollectionHelper.ResetReadOnlyList(reqEvolveDone.getUnit, getUnit);
+//		CollectionHelper.ResetReadOnlyList(reqEvolveDone.hitGrid, hitGrid);
+//
+//		HttpRequestManager.Instance.SendHttpRequest (reqEvolveDone, callback, ProtocolNameEnum.RspEvolveDone);
+//	}
 
 	public void UnitFavorite(NetCallback callBack, uint uniqueid, EFavoriteAction action) {
 		ReqUnitFavorite reqUnitFavorite = new ReqUnitFavorite();

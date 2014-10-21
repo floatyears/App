@@ -27,8 +27,6 @@ public class StageSelectView : ViewBase{
 	private UIButton btnCopyTypeElite;
 
 
-	private List<QuestInfo> questInfoList = new List<QuestInfo>();
-	private StageInfo curStageInfo;
 	private int curQuestIndex;
 	private UnitDataModel evolveStageInfo;
 	private List<StageItemView> storyStageList = new List<StageItemView>();
@@ -42,11 +40,6 @@ public class StageSelectView : ViewBase{
 		base.Init(config,data);
 		storyStageRoot = transform.FindChild("StoryStages").gameObject;
 		eventStageRoot = transform.FindChild("EventStages").gameObject;
-
-//		btnCopyTypeNormal = FindChild<UIButton>("CopyType/Normal");
-//		btnCopyTypeElite = FindChild<UIButton>("CopyType/Elite");
-
-
 	}
 	
 	public override void ShowUI(){

@@ -15,7 +15,7 @@ public class NoviceGuideStepJ_1:NoviceGuidStep{
 	}
 	
 	private void ClickOK(object data){
-		EvolveView evoView = GameObject.Find ("UnitDisplay(Clone)").GetComponent<EvolveView>();
+//		EvolveView evoView = GameObject.Find ("UnitDisplay(Clone)").GetComponent<EvolveView>();
 
 //		uint id = evoView.GetMaxLvUnitID();
 //		evoView.SetItemVisible (id);

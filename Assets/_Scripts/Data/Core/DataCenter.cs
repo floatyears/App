@@ -235,23 +235,6 @@ public class DataCenter {
 	/// store operate befoure account info
 	/// </summary>
 	public UserInfo oldAccountInfo = null;
-
-	/// <summary>
-	/// store befoure levelup's level
-	/// </summary>
-	public UserUnit oldUserUnitInfo = null;
-
-	/// <summary>
-	/// store levelup's materials
-	/// </summary>
-	public List<UserUnit> levelUpMaterials = new List<UserUnit> ();
-
-	/// <summary>
-	/// store levelup helper info.
-	/// </summary>
-	public UserUnit levelUpFriend = null;
-
-    // unit configs table(come from config file: ) e.g.<hp, hpLevelConfigList>
    
 	
 //    public UnitBaseInfo FriendBaseInfo {

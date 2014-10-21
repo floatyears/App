@@ -3,7 +3,7 @@ using System.Collections;
 using bbproto;
 
 public class BaseUnitItem : DragPanelItemBase {
-	protected const string emptyBorder = "unit_empty_bg";
+	protected const string emptyBorder = "avatar_border_none";
 
 	protected bool canCrossed = true;
 	protected bool isCrossed;
@@ -26,6 +26,12 @@ public class BaseUnitItem : DragPanelItemBase {
 			InitUI();	
 		}
 		userUnit = data as UserUnit;
+		if (userUnit != null) {
+			crossFadeLabel.text = "Lv" + userUnit.level;
+		}else{
+			crossFadeLabel.text = "";
+		}	
+
 		RefreshState();
 	}
 
@@ -47,20 +53,6 @@ public class BaseUnitItem : DragPanelItemBase {
 
 		}
 	}
-	
-	private SortRule currentSortRule;
-	public SortRule CurrentSortRule{
-		get{
-			return currentSortRule;
-		}
-		set{
-			if(currentSortRule !=  value){
-				currentSortRule = value;
-				UpdateCrossFadeText();
-			}
-
-		}
-	}
 
 	protected virtual void InitUI(){
 		avatar = transform.FindChild("Avatar").GetComponent<UISprite>();
@@ -70,11 +62,10 @@ public class BaseUnitItem : DragPanelItemBase {
 		avatarBg = transform.FindChild("Background").GetComponent<UISprite>();
 
 
-		UIEventListenerCustom listener = UIEventListenerCustom.Get (gameObject);
 		//		Debug.LogError ("GameObject : " + gameObject + "parent : " + transform.parent + " parent 2 : " + transform.parent.parent +" -- UpdatEnableState : maskSpr -- " + maskSpr + " -- listener : -- " + listener);
 
-		listener.LongPress = PressItem;
-		listener.onClick = ClickObjItem;
+		UIEventListenerCustom.Get (gameObject).LongPress = PressItem;
+		UIEventListenerCustom.Get (gameObject).onClick = ClickObjItem;
 
 	}
 
@@ -89,29 +80,6 @@ public class BaseUnitItem : DragPanelItemBase {
 
 	protected virtual void UpdatEnableState() {
 		maskSpr.enabled = !isEnable;
-	}
-
-	private void UpdateCrossFadeState(){
-		if( userUnit == null )
-			return;
-
-		if(userUnit.AddNumber==0) {
-			isCrossed = !isCrossed;
-			crossFadeLabel.text = crossFadeBeforeText;
-			crossFadeLabel.color = new Color(223.0f/255f, 223.0f/255f, 223.0f/255f);
-			return;
-		}
-
-		if(isCrossed){
-			crossFadeLabel.text = crossFadeBeforeText;
-			crossFadeLabel.color = new Color(223.0f/255f, 223.0f/255f, 223.0f/255f);
-			isCrossed = false;
-		}
-		else{
-			crossFadeLabel.text = crossFadeAfterText;
-			crossFadeLabel.color = new Color(255.0f/255f, 89.0f/255f, 98.0f/255f);
-			isCrossed = true;
-		}
 	}
 
 	private void ClickObjItem(GameObject item){
@@ -133,41 +101,6 @@ public class BaseUnitItem : DragPanelItemBase {
 		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",userUnit);
 	}
 
-	private string crossFadeBeforeText;
-	private string crossFadeAfterText;
-	
-	private void UpdateCrossFadeText(){
-		switch (currentSortRule){
-			case SortRule.ID : 
-			case SortRule.Attribute : 
-			case SortRule.Race :
-			case SortRule.GetTime :
-			case SortRule.AddPoint :
-			case SortRule.Fav : 
-				crossFadeBeforeText = "Lv" + userUnit.level;
-				if(userUnit.AddNumber == 0){ 
-					canCrossed = false;
-					crossFadeLabel.text = crossFadeBeforeText;
-					crossFadeLabel.color = Color.yellow;
-				}
-				else {
-					canCrossed = true;
-					crossFadeAfterText = "+" + userUnit.AddNumber;
-				}
-				break;
-			case SortRule.Attack : 
-				crossFadeBeforeText = userUnit.Attack.ToString();
-				crossFadeAfterText = "+" + userUnit.AddNumber;
-				break;
-			case SortRule.HP : 
-				crossFadeBeforeText = userUnit.Hp.ToString();
-				crossFadeAfterText = "+" + userUnit.AddNumber;
-				break;
-			default:
-				break;
-		}
-	}
-
 
 	protected virtual void SetEmptyState(){
 		IsEnable = false;
@@ -182,14 +115,11 @@ public class BaseUnitItem : DragPanelItemBase {
 		avatarBorderSpr.spriteName = GetBorderSpriteName ();
 		avatarBg.spriteName = GetAvatarBgSpriteName ();
 
-		if (! IsInvoking("UpdateCrossFadeState"))
-			InvokeRepeating("UpdateCrossFadeState", 0f, 1f);
-
 //		Debug.LogError ("gameobject : " + gameObject + "set common state : " + avatar.spriteName + " userUnit.UnitID : " + userUnit.UnitID);
 		ResourceManager.Instance.GetAvatarAtlas(userUnit.unitId, avatar);
 	}
 
-	string GetBorderSpriteName () {
+	protected string GetBorderSpriteName () {
 		switch (userUnit.UnitType) {
 		case 1:
 			return "avatar_border_fire";
@@ -209,7 +139,7 @@ public class BaseUnitItem : DragPanelItemBase {
 		}
 	}
 
-	string GetAvatarBgSpriteName() {
+	protected string GetAvatarBgSpriteName() {
 		switch (userUnit.UnitType) {
 		case 1:
 			return "avatar_bg_fire";

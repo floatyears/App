@@ -61,7 +61,7 @@ public class ApplyView : ViewBase{
 		SortUnitTool.SortByTargetRule(curSortRule, friendOutDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.ApplyView);
 
-		dragPanel.SetData<FriendInfo> (friendOutDataList,curSortRule);
+		dragPanel.SetData<FriendInfo> (friendOutDataList);
 	}
 
 	private void ReceiveSortInfo(object msg){

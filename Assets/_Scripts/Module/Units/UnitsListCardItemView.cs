@@ -22,11 +22,14 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 		icon = transform.FindChild ("UnitIcon").GetComponent<MyUnitItem> ();
 
+
 		transform.FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Submit_Evolve");
 		transform.FindChild ("LevelUp/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Submit_LevelUp");
 
 		UIEventListenerCustom.Get (transform.FindChild ("LevelUp").gameObject).onClick = ClickLevelUp;
 		UIEventListenerCustom.Get (transform.FindChild ("Evolve").gameObject).onClick = ClickEvolve;
+
+		UIEventListenerCustom.Get (gameObject).LongPress = PressItem;
 	}
 
 	public override void SetData<T> (T d, params object[] args)
@@ -35,6 +38,8 @@ public class UnitsListCardItemView : DragPanelItemBase {
 			Init ();
 
 		icon.SetData<T> (d,args);
+		UIEventListenerCustom.Get (icon.gameObject).LongPress = null;
+		UIEventListenerCustom.Get (icon.gameObject).onClick = ClickCard;
 		this.data = d as UserUnit;
 
 		int len = 0;
@@ -59,12 +64,19 @@ public class UnitsListCardItemView : DragPanelItemBase {
 	}
 
 	void ClickLevelUp(GameObject obj){
-
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitsListModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "level_up",data);
 	}
 
 	void ClickEvolve(GameObject obj){
-
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "evolve",data);
 	}
 
+	void PressItem(GameObject obj){
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit", data);
+	}
 
+	void ClickCard(object data){
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit", this.data);
+	}
 }

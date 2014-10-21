@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using bbproto;
 
 public class HelperUnitItem : FriendUnitItem {
-	private UILabel friendTypeLabel;
-	private UILabel friendPointLabel;
-	private UILabel rankLabel;
+	private UILabel raceLabel;
+	private UILabel arrtLabel;
 	private UISprite baseBoardSpr;
+	private UILabel descLabel;
 	
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
@@ -15,8 +16,8 @@ public class HelperUnitItem : FriendUnitItem {
 
 	protected override void SetEmptyState(){
 		base.SetEmptyState();
-		friendTypeLabel.text = string.Empty;
-		friendPointLabel.text = string.Empty;
+		raceLabel.text = string.Empty;
+		arrtLabel.text = string.Empty;
 	}
 
 	protected override void SetCommonState(){
@@ -24,46 +25,76 @@ public class HelperUnitItem : FriendUnitItem {
 		SetFriendType();
 
 		if(friendInfo.friendPoint != 0){
-			friendPointLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.friendPoint.ToString());
+			arrtLabel.text = string.Format("{0}" + TextCenter.GetText("Text_Point"), friendInfo.friendPoint.ToString());
 		}
 		else{
-			friendPointLabel.text = string.Empty;
+			arrtLabel.text = string.Empty;
 		}
 
-		rankLabel.text = TextCenter.GetText("Text_Rank")+": " + friendInfo.rank;
+	}
+
+	public override void SetData<T>(T friendInfo, params object[] args){
+
+		base.SetData<T>(friendInfo, args);
+
+		if (args.Length > 1) {
+			switch(args[1].ToString()){
+			case "level_up":
+				descLabel.text = "";
+				break;
+			case "evolve":
+				break;
+			case "fight_ready":
+				break;
+			}
+		}
 	}
 
 	protected override void InitUI(){
-		base.InitUI();
-		friendTypeLabel = transform.FindChild("Label_Friend_Type").GetComponent<UILabel>();
-		friendPointLabel = transform.FindChild("Label_Friend_Point").GetComponent<UILabel>();
-		rankLabel = transform.FindChild("Label_Rank").GetComponent<UILabel>();
+		nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
+		avatar = transform.FindChild("Avatar").GetComponent<UISprite>();
+		descLabel = transform.FindChild("Label_Desc").GetComponent<UILabel>();
+		maskSpr = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
+		avatarBorderSpr = transform.FindChild("Sprite_Avatar_Border").GetComponent<UISprite>();
+		avatarBg = transform.FindChild("Background").GetComponent<UISprite>();
+		crossFadeLabel = transform.FindChild("Label_Lv").GetComponent<UILabel>();
+
+		raceLabel = transform.FindChild("Label_Race").GetComponent<UILabel>();
+		arrtLabel = transform.FindChild("Label_Attr").GetComponent<UILabel>();
 		baseBoardSpr = transform.FindChild("Sprite_Base_Board").GetComponent<UISprite>();
+
+		transform.FindChild ("SelectBtn/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Select");
+
+		UIEventListenerCustom.Get(transform.FindChild("SelectBtn").gameObject).onClick = ClickItem;
+		UIEventListenerCustom.Get (gameObject).LongPress = OnDetail;
 	}
 
 	private void SetFriendType(){
 
-		friendTypeLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
-		friendPointLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
+		raceLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
+		arrtLabel.color = new Color(36.0f/255, 26.0f/255, 30.0f/255);
 		switch (friendInfo.friendState) {
 			case bbproto.EFriendState.FRIENDHELPER : 
-				friendTypeLabel.text = TextCenter.GetText("Text_Support");
-				rankLabel.color = Color.white;
+				raceLabel.text = TextCenter.GetText("Text_Support");
+//				rankLabel.color = Color.white;
 				nameLabel.color = Color.white;
 				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_HELPER;
 				break;
 			case bbproto.EFriendState.ISFRIEND : 
-				friendTypeLabel.text = TextCenter.GetText("Text_Friend");
-				rankLabel.color = new Color(229.0f/255, 184.0f/255, 78.0f/255);
+				raceLabel.text = TextCenter.GetText("Text_Friend");
+//				rankLabel.color = new Color(229.0f/255, 184.0f/255, 78.0f/255);
 				nameLabel.color = new Color(229.0f/255, 184.0f/255, 78.0f/255);
 				baseBoardSpr.spriteName = UIConfig.SPR_NAME_BASEBOARD_FRIEND;
 				break;
 			default:
-				friendTypeLabel.text = string.Empty;
+				raceLabel.text = string.Empty;
 				baseBoardSpr.spriteName = string.Empty;
 				break;
 		}
 	}
 
+	private void OnDetail(GameObject obj){
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit");
+	}
 
 }

@@ -56,6 +56,15 @@ public class QuestDataModel : ProtobufDataBase {
 		}
 	}
 
+	public QuestInfo GetQuestInfo(uint questID){
+		uint stageId = questID / 10;
+		foreach (var item in GetStageInfo (stageId).QuestInfo) {
+			if(item.id == questID){
+				return item;
+			}
+		}
+		return null;
+	}
 	
 	private Dictionary<uint, CityInfo> cityInfo = new Dictionary<uint, CityInfo>();
 }

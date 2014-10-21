@@ -9,7 +9,8 @@ public class SceneInfoBarView : ViewBase{
 //	private IUICallback iuiCallback; 
 	private bool temp = false;
 //	private bool isTweenDone = false;
-	private ModuleEnum backModule = ModuleEnum.None;
+	
+	private Stack<ModuleEnum> backModules = new Stack<ModuleEnum>();
 	
 	public override void Init ( UIConfigItem config, Dictionary<string, object> data = null ) {
 		base.Init (config, data);
@@ -40,20 +41,30 @@ public class SceneInfoBarView : ViewBase{
 	}
 
 	public void SetBackBtnActive (bool canBack,ModuleEnum name = ModuleEnum.None){
-		if (canBack) {
-			backModule = name;
+		if (!canBack) {
+			backModules.Clear();
+		}
+		if(backModules.Count <= 0 || backModules.Peek() != name){
+			backModules.Push(name);
 			Debug.Log("back: " + name);
 		}
+		SetSceneName (name);
 		backBtn.SetActive( canBack );
 	}
 
 	public void BackPreScene (GameObject go) {
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );
 
-		ModuleManager.Instance.ShowModule (backModule);
+		if(backModules.Count > 0)
+			ModuleManager.Instance.HideModule (backModules.Pop());
+		ModuleManager.Instance.ShowModule (backModules.Peek());
 	}
 
+	public void SetSceneName(ModuleEnum name){
+		sceneNameLabel.text = name.ToString();
+	}
 	public void SetSceneName(string name){
+//		currModule = name;
 		sceneNameLabel.text = name;
 	}
 }

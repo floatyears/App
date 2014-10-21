@@ -26,7 +26,7 @@ public class FriendUnitItem : BaseUnitItem {
 		
 	public override void SetData<T>(T friendInfo, params object[] args){
 		this.friendInfo = friendInfo as FriendInfo;
-		base.SetData(this.friendInfo.UserUnit);
+		base.SetData(this.friendInfo == null ? null : this.friendInfo.UserUnit);
 		if(args.Length > 0)
 			callback += (DataListener)args [0];
 		tag = "Untagged";
@@ -38,6 +38,7 @@ public class FriendUnitItem : BaseUnitItem {
 	protected override void InitUI(){
 		base.InitUI();
 		nameLabel = transform.FindChild("Label_Name").GetComponent<UILabel>();
+		UIEventListenerCustom.Get (gameObject).onClick = ClickItem;
 		SetName();
 	}
 
@@ -58,7 +59,7 @@ public class FriendUnitItem : BaseUnitItem {
 	}
 
 	private void SetName(){
-		if(string.IsNullOrEmpty(friendInfo.nickName)){
+		if(friendInfo == null || string.IsNullOrEmpty(friendInfo.nickName)){
 			nameLabel.text = "NONAME";
 		}
 		else{

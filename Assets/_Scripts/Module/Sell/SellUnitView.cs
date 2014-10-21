@@ -353,7 +353,6 @@ public class SellUnitView : ViewBase{
 		for (int i = 0; i < dragPanel.ScrollItem.Count; i++){
 			SellUnitItem suv = dragPanel.ScrollItem[ i ].GetComponent<SellUnitItem>();
 			suv.SetData<UserUnit>(unitList[ i ]);
-			suv.CurrentSortRule = curSortRule;
 		}
 	}
 

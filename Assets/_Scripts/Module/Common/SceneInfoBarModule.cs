@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SceneInfoBarModule : ModuleBase {
-	
+	private SceneInfoBarView v;
+
 	public SceneInfoBarModule(UIConfigItem config):base(  config) {
 		CreateUI<SceneInfoBarView> ();
+		v = view as SceneInfoBarView;
     }
 	
 	public override void DestoryUI () {
@@ -13,7 +16,6 @@ public class SceneInfoBarModule : ModuleBase {
 
 	public override void OnReceiveMessages (params object[] data)
 	{
-		SceneInfoBarView v = view as SceneInfoBarView;
 		switch (data.Length) {
 		case 1:
 			if(data[0] is ModuleEnum){
@@ -21,6 +23,7 @@ public class SceneInfoBarModule : ModuleBase {
 				switch (name) {
 				case ModuleEnum.HomeModule:
 					v.gameObject.SetActive(false);
+					v.SetBackBtnActive(false,(ModuleEnum)data[0]);
 					break;
 				case ModuleEnum.RewardModule:
 				case ModuleEnum.MusicModule:
@@ -41,28 +44,23 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.OthersModule:
 				case ModuleEnum.UnitsMainModule:
 					v.gameObject.SetActive(true);
-					v.SetBackBtnActive(false);
-					v.SetSceneName(data[0].ToString());
+					v.SetBackBtnActive(false,(ModuleEnum)data[0]);
 					break;
 				default:
+//					backModules.
 					view.gameObject.SetActive(true);
-					v.SetBackBtnActive(true,GetBackModule(name));
-					v.SetSceneName(data[0].ToString());
+					v.SetBackBtnActive(true,(ModuleEnum)data[0]);
 					break;
 				}
 			}else if(data[0] is string){
-				if(data[0].ToString() == "levelup"){
-					v.SetBackBtnActive(true,ModuleEnum.LevelUpModule);
-				}else if(data[0].ToString() == "evolve"){
-					v.SetBackBtnActive(true,ModuleEnum.EvolveModule);
-				}else if(data[0].ToString() == "quest"){
-					v.SetBackBtnActive(true,ModuleEnum.QuestSelectModule);
+				if(data[0].ToString() == "back_scene"){
+					v.BackPreScene(null);
 				}
 			}
 			break;
 		case 2:
 		 	if(data[0].ToString() == "stage"){
-				v.SetSceneName(data[1].ToString());
+				v.SetSceneName((string)data[1]);
 			}
 			break;
 		default:
@@ -72,42 +70,5 @@ public class SceneInfoBarModule : ModuleBase {
 
 	}
 
-	private ModuleEnum GetBackModule(ModuleEnum name){
-		ModuleEnum backName = ModuleEnum.None;
-		switch (name) {
-			case ModuleEnum.FriendListModule:
-			case ModuleEnum.ApplyModule:
-			case ModuleEnum.ReceptionModule:
-			case ModuleEnum.SearchFriendModule:
-				backName = ModuleEnum.FriendMainModule;
-				break;
-			case ModuleEnum.GameRaiderModule:
-				backName = ModuleEnum.OthersModule;
-				break;
-			case ModuleEnum.PartyModule:
-			case ModuleEnum.LevelUpModule:
-			case ModuleEnum.SellUnitModule:
-			case ModuleEnum.CatalogModule:
-			case ModuleEnum.UnitsListModule: 
-			case ModuleEnum.EvolveModule:
-				backName = ModuleEnum.UnitsMainModule;
-				break;
-			case ModuleEnum.StageSelectModule:
-				backName = ModuleEnum.HomeModule;
-				break;
-			case ModuleEnum.GachaModule:
-				backName = ModuleEnum.ScratchModule;
-				break;
-			case ModuleEnum.QuestSelectModule:
-				backName = ModuleEnum.StageSelectModule;
-				break;
-			case ModuleEnum.FightReadyModule:
-				backName = ModuleEnum.FriendSelectModule;
-				break;
-			default:
-				backName = ModuleEnum.None;
-				break;
-		}
-		return backName;
-	}
+
 }

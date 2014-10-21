@@ -56,7 +56,7 @@ public class BattleManipulationView : ViewBase {
 	////------------battle card area end
 
 	////------------battle card start
-	public event Callback CallBack;
+	public event Callback callBack;
 	
 //	private Vector3[] cardPosition;
 	
@@ -397,7 +397,7 @@ public class BattleManipulationView : ViewBase {
 		if(indexID >= 0) {
 //			Main.Instance.GInput.IsCheckInput = false;
 			if(SortCard(indexID, selectTarget)) {
-				CallBack += HandleCallBack;
+				callBack += HandleCallBack;
 			}
 			else {
 //				Main.Instance.GInput.IsCheckInput = true; 
@@ -410,7 +410,7 @@ public class BattleManipulationView : ViewBase {
 	}
 	
 	void HandleCallBack () {
-		CallBack -= HandleCallBack;
+		callBack -= HandleCallBack;
 //		Main.Instance.GInput.IsCheckInput = true;
 		ResetSelect();
 	}
@@ -783,8 +783,8 @@ public class BattleManipulationView : ViewBase {
 			}
 		}
 		
-		if(CallBack != null)
-			CallBack();
+		if(callBack != null)
+			callBack();
 	}
 	
 	void CheckMove(int startID, List<CardItem> firstCard,bool bigger) {

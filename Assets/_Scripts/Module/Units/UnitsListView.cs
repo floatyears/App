@@ -6,7 +6,7 @@ using bbproto;
 public class UnitsListView : ViewBase {
 	private UILabel volumeInfo;
 
-	private GameObject OkBtn;
+//	private GameObject OkBtn;
 	
 	private int currentContentIndex;
 
@@ -20,10 +20,10 @@ public class UnitsListView : ViewBase {
 		curSortRule = SortUnitTool.GetSortRule (SortRuleByUI.MyUnitListView);//DEFAULT_SORT_RULE;
 		volumeInfo = FindChild<UILabel> ("VolumeInfo");
 
-		OkBtn = FindChild ("OkBtn");
-		UIEventListenerCustom.Get (OkBtn).onClick = ClickOK;
+//		OkBtn = FindChild ("OkBtn");
+//		UIEventListenerCustom.Get (OkBtn).onClick = ClickOK;
 
-		FindChild<UILabel>("Title").text = TextCenter.GetText("Btn_JumpScene_UnitList");
+//		FindChild<UILabel>("Title").text = TextCenter.GetText("Btn_JumpScene_UnitList");
 		content = FindChild<Transform>("Content");
 
 		FindChild<UILabel> ("1/Label").text = TextCenter.GetText ("UnitListTab1");
@@ -41,8 +41,6 @@ public class UnitsListView : ViewBase {
 
 		SortUnitByCurRule();
 
-		InputManager.Instance.SetBlockWithinModule (ModuleEnum.UnitSortModule, true);
-
 		volumeInfo.text = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Count + "/" + DataCenter.Instance.UserData.UserInfo.unitMax;
 	}
 	
@@ -54,7 +52,6 @@ public class UnitsListView : ViewBase {
 
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 
-		InputManager.Instance.SetBlockWithinModule (ModuleEnum.UnitSortModule, false);
 	}
 
 	protected override void ToggleAnimation (bool isShow)
@@ -80,8 +77,9 @@ public class UnitsListView : ViewBase {
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.MyUnitListView);
 
-		dragPanel.SetData<UserUnit> (myUnitDataList, null,curSortRule);
+		dragPanel.SetData<UserUnit> (myUnitDataList);
 	}
+
 
 	void ClickOK(GameObject obj){
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitsListModule);

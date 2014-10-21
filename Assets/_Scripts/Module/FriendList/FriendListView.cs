@@ -149,7 +149,7 @@ public class FriendListView : ViewBase{
 		SortUnitTool.SortByTargetRule(curSortRule, friendDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.FriendListView);
 
-		dragPanel.SetData<FriendInfo> (friendDataList, curSortRule);
+		dragPanel.SetData<FriendInfo> (friendDataList);
 	}
 
 	private void AddCmdListener(){

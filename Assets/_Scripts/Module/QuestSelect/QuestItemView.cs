@@ -134,14 +134,13 @@ public class QuestItemView : DragPanelItemBase {
 		BattleConfigData.Instance.currentStageInfo = stageInfo;
 		BattleConfigData.Instance.currentQuestInfo = data;
 
-		if (NoviceGuideStepManager.Instance.CurrentGuideStep == NoviceGuideStage.NoviceGuideStepB_3) {
-			
-			ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", this,"HelperInfo", null);//before
-		} else {
-			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
-		}
-
-
+//		if (NoviceGuideStepManager.Instance.CurrentGuideStep == NoviceGuideStage.NoviceGuideStepB_3) {
+//			
+//			,"HelperInfo", null);//before
+//		} else {
+//			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
+//		}
+		ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", data);
 	}
 
 	private bool CheckStaminaEnough(){

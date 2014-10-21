@@ -165,7 +165,7 @@ public class ReceptionView : ViewBase {
 		SortUnitTool.SortByTargetRule(curSortRule, friendInDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.ReceptionView);
 
-		dragPanel.SetData<FriendInfo> (friendInDataList,null,curSortRule);
+		dragPanel.SetData<FriendInfo> (friendInDataList);
 	}
 
 	private void ReceiveSortInfo(object msg){

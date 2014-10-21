@@ -26,6 +26,9 @@ public class UnitSortView : ViewBase {
 			case "unit_list":
 				srui = SortRuleByUI.MyUnitListView;
 				break;
+			case "level_up":
+				srui = SortRuleByUI.UnitLevelupAndEvolveView;
+				break;
 			case "party":
 				srui = SortRuleByUI.PartyView;
 				break;

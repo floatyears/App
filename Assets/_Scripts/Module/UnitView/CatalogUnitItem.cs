@@ -24,7 +24,7 @@ public class CatalogUnitItem : MyUnitItem {
 		avatarSprite = transform.FindChild("Sprite_Avatar").GetComponent<UISprite>();
 		erotemeSpr = transform.FindChild("Sprite_Erotemer").GetComponent<UISprite>();
 		maskSprite = transform.FindChild("Sprite_Mask").GetComponent<UISprite>();
-		maskSpr = maskSprite;
+//		maskSpr = maskSprite;
 		//translucentMaskSpr = transform.FindChild("Sprite_Translucent").GetComponent<UISprite>();
 		idLabel = transform.FindChild("Label_ID").GetComponent<UILabel>();
 		type = transform.FindChild ("Sprite_Type").GetComponent<UISprite> ();
@@ -72,6 +72,18 @@ public class CatalogUnitItem : MyUnitItem {
 			}
 			idLabel.text = "No. " + userUnit.unitId.ToString();
 		}
+	}
+
+	public override void SetData<T> (T data, params object[] args)
+	{
+//		base.SetData (data, args);
+		if (maskSprite == null) {
+			InitUI();	
+		}
+		userUnit = data as UserUnit;
+		
+		RefreshState();
+
 	}
 
 	protected override void UpdateFavoriteState(){
