@@ -23,8 +23,6 @@ public class StageSelectView : ViewBase{
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
 	private UITexture background;
 
-	private List<QuestInfo> questInfoList = new List<QuestInfo>();
-	private StageInfo curStageInfo;
 	private int curQuestIndex;
 	private UnitDataModel evolveStageInfo;
 	private List<StageItemView> storyStageList = new List<StageItemView>();

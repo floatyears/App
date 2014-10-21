@@ -13,7 +13,7 @@ public class UnitSourceView : ViewBase {
 	private UISprite avatarBorder;
 	private UILabel nameLabel;	
 
-	private GameObject UnitIcon;
+	private GameObject unitIcon;
 
 	public override void Init (UIConfigItem uiconfig, System.Collections.Generic.Dictionary<string, object> data)
 	{
@@ -23,9 +23,9 @@ public class UnitSourceView : ViewBase {
 		avatarBg = FindChild<UISprite> ("Unit/UnitIcon/Background");
 		avatarBorder = FindChild<UISprite> ("Unit/UnitIcon/Sprite_Avatar_Border");
 		nameLabel = FindChild<UILabel> ("Unit/Name");
-		UnitIcon = FindChild("UnitIcon");
+		unitIcon = FindChild("Unit/UnitIcon");
 
-		UIEventListenerCustom.Get (UnitIcon).LongPress = OnDetail;
+		UIEventListenerCustom.Get (unitIcon).LongPress = OnDetail;
 
 		dragPanel = new DragPanel ("UnitSourceDragPanel", "Prefabs/UI/Units/UnitSourceItem", typeof(UnitSourceItemView), transform);
 	}

@@ -19,8 +19,6 @@ public class FriendSelectView : ViewBase{
 
 	protected FriendInfoType friendInfoTyp = FriendInfoType.General;
 
-	private QuestItemView pickedQuestInfo;
-
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init(config,data);
 		InitUI();
@@ -39,15 +37,12 @@ public class FriendSelectView : ViewBase{
 
 		if (viewData != null) {
 			if(viewData.ContainsKey("type")){
-				if(viewData["type"].ToString() == "evolve"){
-					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"evolve");
-					evolveItem = viewData["item"] as EvolveItem;
-				}else if(viewData["type"].ToString() == "level_up"){
+				if(viewData["type"].ToString() == "level_up"){
 					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"level_up");
 //					CheckFriend();
-				}else if(viewData["type"].ToString() == "quest"){
-					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"quest");
-					pickedQuestInfo = viewData["data"] as QuestItemView;	
+				}else if(viewData["type"].ToString() == "fight_ready"){
+					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"fight_ready");
+//					pickedQuestInfo = viewData["data"] as QuestItemView;	
 				}
 			}
 			dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener,viewData["type"].ToString());
@@ -72,24 +67,6 @@ public class FriendSelectView : ViewBase{
 		base.HideUI ();
 	}
 
-//	private void CreatePremiumListView(){
-//		List<FriendInfo> newest = GetPremiumData();
-//
-//		if(premiumFriendList == null){
-//			premiumFriendList = newest;
-//			dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
-//		} else {
-//			if(!premiumFriendList.Equals(newest)){
-//				premiumFriendList = newest;
-//				dragPanel.SetData<FriendInfo> (premiumFriendList, ClickHelperItem as DataListener);
-//				
-//			} else {
-////				Debug.Log("CreatePremiumListView(), the friend info list is NOT CHANGED, do nothing...");
-//			}
-//		}
-//	}
-
-
 
 	void ClickHelperItem(object data){
 //		if(viewData["sele"]
@@ -98,46 +75,20 @@ public class FriendSelectView : ViewBase{
 			Debug.Log("key: " + i.Key);
 		}
 		if(viewData.ContainsKey("type")){
-			if(viewData["type"].ToString() == "evolve"){
-				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"evolve");
-				ModuleManager.Instance.ShowModule(ModuleEnum.EvolveModule,"friendinfo",item.FriendInfo);
-			}else if(viewData["type"].ToString() == "level_up"){
+			if(viewData["type"].ToString() == "level_up"){
 				ModuleManager.Instance.HideModule(ModuleEnum.FriendSelectModule);
 				ModuleManager.Instance.ShowModule(ModuleEnum.UnitLevelupAndEvolveModule,"friend_info",item.FriendInfo);
 //				CheckFriend();
 				
-			}else if(viewData["type"].ToString() == "quest"){
-				if(pickedQuestInfo == null){
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-					return;
-				}
-				
-				if(CheckStaminaEnough()){
-					Debug.LogError("TurnToFriendSelect()......Stamina is not enough, MsgWindow show...");
-					AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("StaminaLackNoteTitle"),TextCenter.GetText("StaminaLackNoteContent"),TextCenter.GetText("OK"));
-					return;
-				}
+			}else if(viewData["type"].ToString() == "fight_ready"){
+
+
 				AudioManager.Instance.PlayAudio (AudioEnum.sound_click);
 				
-				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", pickedQuestInfo,"HelperInfo", item.FriendInfo);//before
+				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"helper_info", item.FriendInfo);//before
 			}
 		}
 
-	}
-
-	/// <summary>
-	/// Checks the stamina enough.
-	/// MsgWindow show, note stamina is not enough.
-	/// </summary>
-	/// <returns><c>true</c>, if stamina enough was checked, <c>false</c> otherwise.</returns>
-	/// <param name="staminaNeed">Stamina need.</param>
-	/// <param name="staminaNow">Stamina now.</param>
-	private bool CheckStaminaEnough(){
-		int staminaNeed = pickedQuestInfo.Data.stamina;
-		int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
-		if(staminaNeed > staminaNow) return true;
-		else return false;
 	}
 
 	protected override void ToggleAnimation (bool isShow)

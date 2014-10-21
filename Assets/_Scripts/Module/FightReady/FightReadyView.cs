@@ -13,17 +13,42 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 	private UIButton startFightBtn;
 
+	private FriendInfo friendInfo;
+
+	private FightReadyPage pageLeft;
+	private FightReadyPage pageRight;
+	private FightReadyPage moveParent;
+
+	private QuestInfo questInfo;
+
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
 		InitUI();
+
+		pageLeft = FindChild<FightReadyPage> ("LeftParent");
+		pageLeft.Init ();
+		pageRight = FindChild<FightReadyPage> ("RightParent");
+		pageRight.Init ();
+		moveParent = FindChild<FightReadyPage> ("MoveParent");
+		moveParent.Init ();
 	}
 
 	public override void ShowUI() {
 		base.ShowUI();
 		ShowUIAnimation();
-		RecordPickedInfoForFight ();
+//		RecordPickedInfoForFight ();
+		RefreshParty ();
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT_READY);
+
+		if (viewData != null){
+			if(viewData.ContainsKey ("helper_info")) {
+				moveParent.HelperInfo = pageRight.HelperInfo = pageLeft.HelperInfo = viewData["helper_info"] as FriendInfo;
+			}
+			if(viewData.ContainsKey("QuestInfo")){
+				questInfo = viewData["QuestInfo"] as QuestInfo;
+			}
+		}
 	}
 
 	public override void DestoryUI () {
@@ -94,34 +119,12 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));       
 	}
 
-	static public FriendInfo pickedHelperInfo;
 
-	private void RecordPickedInfoForFight(){
-
-		pickedHelperInfo = viewData["HelperInfo"] as FriendInfo;
-		RefreshParty();
-	}
-
-	void EvolveSelectQuest(object data) {
-		Debug.LogError ("EvolveSelectQuest");
-		evolveStart = data as UnitDataModel;
-		prePageBtn.isEnabled = false;
-		nextPageBtn.isEnabled = false;
-//		pickedHelperInfo = evolveStart.EvolveStart.friendInfo;
-		UnitParty up = new UnitParty (0);
-		up.id = 5;
-		for (int i = 0; i < evolveStart.evolveParty.Count; i++) {
-			PartyItem pi = new PartyItem();
-			pi.unitPos = i;
-			pi.unitUniqueId = evolveStart.evolveParty[i] == null ? 0 : evolveStart.evolveParty[i].uniqueId;
-			up.items.Add(pi);
-		}
-
-		dragSlider.StopOperate = true;
-		dragSlider.RefreshData (up);
-	}
-	
-
+//	private void RecordPickedInfoForFight(){
+//
+//		pickedHelperInfo = viewData["HelperInfo"] as FriendInfo;
+//		RefreshParty();
+//	}
 
 	private void ClickFightBtn(GameObject btn){
 		Debug.Log("StandbyView.ClickFightBtn(), start...");
@@ -129,10 +132,11 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 		StartQuestParam sqp = new StartQuestParam ();
 		sqp.currPartyId = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId;
-		sqp.helperUserUnit = viewData[ "HelperInfo" ] as FriendInfo;
-		QuestItemView questInfo = viewData[ "QuestInfo"] as QuestItemView;
-		sqp.questId = questInfo.Data.id;
-		sqp.stageId = questInfo.StageID;
+//		if (viewData.ContainsKey ("HelperInfo")) {
+//			sqp.helperUserUnit = viewData[ "HelperInfo" ] as FriendInfo;	
+//		}
+		sqp.questId = questInfo.id;
+		sqp.stageId = questInfo.id/10;
 		sqp.startNew = 1;
 		QuestController.Instance.StartQuest (sqp, RspStartQuest);
 	}
@@ -148,8 +152,9 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			return;
 		}
 		if (rspStartQuest.header.code == 0 && rspStartQuest.dungeonData != null) {
-			FriendInfo tfi = viewData[ "HelperInfo" ] as FriendInfo;
-			tfi.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
+
+			if(friendInfo != null)
+				friendInfo.usedTime = GameTimer.GetInstance().GetCurrentSeonds();
 
 			LogHelper.Log("rspStartQuest code:{0}, error:{1}", rspStartQuest.header.code, rspStartQuest.header.error);
 			DataCenter.Instance.UserData.UserInfo.staminaNow = rspStartQuest.staminaNow;
@@ -174,7 +179,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			return;
 		}
 
-		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		friendInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
 
 		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
 		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
@@ -184,11 +189,13 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	}
 	
 	private void EnterBattle (QuestDungeonData tqdd) {
-		pickedHelperInfo.friendPoint = 0;
-		pickedHelperInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		if (friendInfo != null) {
+			friendInfo.friendPoint = 0;
+			friendInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+		}
 
 		BattleConfigData.Instance.gotFriendPoint = 0;
-		BattleConfigData.Instance.BattleFriend = pickedHelperInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		BattleConfigData.Instance.BattleFriend = friendInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		BattleConfigData.Instance.ResetFromServer(tqdd);
 		ModuleManager.Instance.EnterBattle ();
 

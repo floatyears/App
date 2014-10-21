@@ -44,7 +44,7 @@ public class HelperUnitItem : FriendUnitItem {
 				break;
 			case "evolve":
 				break;
-			case "quest":
+			case "fight_ready":
 				break;
 			}
 		}
@@ -66,6 +66,7 @@ public class HelperUnitItem : FriendUnitItem {
 		transform.FindChild ("SelectBtn/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Select");
 
 		UIEventListenerCustom.Get(transform.FindChild("SelectBtn").gameObject).onClick = ClickItem;
+		UIEventListenerCustom.Get (gameObject).LongPress = OnDetail;
 	}
 
 	private void SetFriendType(){
@@ -92,5 +93,8 @@ public class HelperUnitItem : FriendUnitItem {
 		}
 	}
 
+	private void OnDetail(GameObject obj){
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit");
+	}
 
 }

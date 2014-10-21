@@ -22,22 +22,28 @@ public class CatalogView : ViewBase {
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		TOTAL_CATALOG_COUNT = GetTotalUnitCount();
+
+		dynamicDragPanel = new DragPanel("CatalogDragPanel","Prefabs/UI/UnitItem/CatalogUnitPrefab",typeof(CatalogUnitItem), transform);
+
+		List<UserUnit> catalogDataList =  new List<UserUnit>();
+		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
+			UserUnit userUnit = new UserUnit();
+			userUnit.level = 1;
+			userUnit.exp = 0;
+			userUnit.unitId = (uint)(i + 1);
+			catalogDataList.Add(userUnit);
+		}
+		dynamicDragPanel.SetData<UserUnit>(catalogDataList);
 	}
 	
 	public override void ShowUI () {
 		base.ShowUI ();
 
-		RefreshItemCounter();
-		StartCoroutine("InitDragPanel");
-
-		transform.localPosition = new Vector3 (-1000, -260, 0);
-		iTween.MoveTo (gameObject, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true));
 	}
 	
 	public override void HideUI () {
-		base.HideUI ();
-
 		DestoryDragPanel();
+		base.HideUI ();
 	}
 
 	private GameObject emptyItem;
@@ -264,36 +270,21 @@ public class CatalogView : ViewBase {
 	//--------------------------------NEW---------------------------------
 	DragPanel dynamicDragPanel;
 
-	IEnumerator InitDragPanel() {
 
-		dynamicDragPanel = new DragPanel("CatalogDragPanel","Prefabs/UI/UnitItem/CatalogUnitPrefab",typeof(CatalogUnitItem), transform);
-
-//		DragPanelSetInfo setter = new DragPanelSetInfo();
-//		setter.parentTrans = transform;
-//		setter.clipRange = new Vector4 (0, -200, 640, 560);
-//		setter.gridArrange = UIGrid.Arrangement.Vertical;
-//		setter.scrollBarPosition = new Vector3 (320, -460, 0);
-//		setter.maxPerLine = 5;
-//		setter.depth = 2;	
-//		dynamicDragPanel.SetDragPanel (setter);
-
-		List<UserUnit> catalogDataList =  new List<UserUnit>();
-		for (int i = 0; i < TOTAL_CATALOG_COUNT; i++){
-			UserUnit userUnit = new UserUnit();
-			userUnit.level = 1;
-			userUnit.exp = 0;
-			userUnit.unitId = (uint)(i + 1);
-			catalogDataList.Add(userUnit);
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("time", 0.4f, "x", config.localPosition.x, "islocal", true));
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
 		}
-		dynamicDragPanel.SetData<UserUnit>(catalogDataList);
-
-		yield return null;
-		ShowUIAnimation();
-	}
-
-	void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, -256, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("time", 0.4f, "x", 0, "islocal", true));
 	}
 
 }

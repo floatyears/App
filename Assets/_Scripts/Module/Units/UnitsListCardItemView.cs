@@ -69,7 +69,7 @@ public class UnitsListCardItemView : DragPanelItemBase {
 	}
 
 	void ClickEvolve(GameObject obj){
-
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "evolve",data);
 	}
 
 	void PressItem(GameObject obj){

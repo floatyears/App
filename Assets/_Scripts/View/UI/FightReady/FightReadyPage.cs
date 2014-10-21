@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
-public class FightReadyPage : ViewBase {
+public class FightReadyPage : MonoBehaviour {
 	private UILabel partyNoLabel;
 
 	private UILabel totalHPLabel;
@@ -23,14 +23,11 @@ public class FightReadyPage : ViewBase {
 	private Dictionary<int, PageUnitItem> partyView = new Dictionary<int, PageUnitItem>();
 	public List<PageUnitItem> partyViewList = new List<PageUnitItem> ();
 
-	void Awake() {
-		Init (null, null);
-	}
+	private FriendInfo friendInfo;
+	
+	public void Init () {
 
-	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data) {
-		base.Init (uiconfig, data);
-
-		partyNoLabel = FindChild<UILabel> ("Label_Party_No");
+		partyNoLabel = transform.FindChild ("Label_Party_No").GetComponent<UILabel>();
 		
 		totalHPLabel = transform.FindChild("Label_Total_HP").GetComponent<UILabel>();
 		totalAtkLabel = transform.FindChild("Label_Total_ATK").GetComponent<UILabel>();
@@ -48,12 +45,19 @@ public class FightReadyPage : ViewBase {
 		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
 		
 		for (int i = 0; i < 4; i++){
-			PageUnitItem puv = FindChild<PageUnitItem>(i.ToString());
+			PageUnitItem puv =transform.FindChild(i.ToString()).GetComponent<PageUnitItem>();
 			partyViewList.Add(puv);
 			partyView.Add(i, puv);
 		}
 		
 		helper = transform.FindChild("Helper").GetComponent<FriendUnitItem>();
+		helper.SetData<FriendInfo> (null,ClickSelectFriend as DataListener);
+	}
+	public FriendInfo HelperInfo{
+		set{
+			friendInfo = value;
+			ShowHelper ();
+		}
 	}
 
 	public void RefreshParty(UnitParty party){
@@ -70,7 +74,7 @@ public class FightReadyPage : ViewBase {
 
 	private void ShowPartyInfo(UnitParty party){
 //		Debug.LogError ("FightReadyView.pickedHelperInfo == null : " + (FightReadyView.pickedHelperInfo == null));
-		if(FightReadyView.pickedHelperInfo == null) return;
+		if(friendInfo == null) return;
 		int partyIDIndex = party.id + 1;
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
 		partyNoLabel.text = partyIDIndex.ToString() + "/" + suffix;
@@ -78,13 +82,13 @@ public class FightReadyPage : ViewBase {
 		UpdateHelperLeaderSkillInfo();
 		UpdatePartyAtkInfo(party);
 
-		if (FightReadyView.pickedHelperInfo != null) {
-			ShowHelper(FightReadyView.pickedHelperInfo);
+		if (friendInfo != null) {
+			ShowHelper();
 		}
 	}
 
-	void ShowHelper(FriendInfo friendInfo) {
-		helper.SetData(friendInfo);
+	void ShowHelper() {
+		helper.SetData<FriendInfo>(friendInfo);
 	} 
 	
 
@@ -94,16 +98,16 @@ public class FightReadyPage : ViewBase {
 	}
 
 	private void UpdateHelperLeaderSkillInfo(){
-		if(FightReadyView.pickedHelperInfo == null){
+		if(friendInfo == null){
 			return;
 		}
 		
-		UnitInfo unitInfo = FightReadyView.pickedHelperInfo.UserUnit.UnitInfo;
+		UnitInfo unitInfo = friendInfo.UserUnit.UnitInfo;
 		int skillId = unitInfo.leaderSkill;
 		if(skillId == 0){
 			UpdateLeaderSkillView(null, helperSkillNameLabel, helperSkillDcspLabel);
 		} else {
-			string userUnitKey = FightReadyView.pickedHelperInfo.UserUnit.MakeUserUnitKey();
+			string userUnitKey = friendInfo.UserUnit.MakeUserUnitKey();
 			SkillBase baseInfo = DataCenter.Instance.BattleData.GetSkill(userUnitKey, skillId, SkillType.NormalSkill);
 			SkillBase leaderSkill = baseInfo;	
 			UpdateLeaderSkillView(leaderSkill, helperSkillNameLabel, helperSkillDcspLabel);
@@ -111,10 +115,10 @@ public class FightReadyPage : ViewBase {
 	}
 
 	private void UpdatePartyAtkInfo(UnitParty curParty){
-		int totalHp = curParty.TotalHp + FightReadyView.pickedHelperInfo.UserUnit.Hp;
+		int totalHp = curParty.TotalHp + friendInfo.UserUnit.Hp;
 		totalHPLabel.text = totalHp.ToString();
 		
-		int totalAtk = curParty.GetTotalAtk() + FightReadyView.pickedHelperInfo.UserUnit.Attack;
+		int totalAtk = curParty.GetTotalAtk() + friendInfo.UserUnit.Attack;
 		totalAtkLabel.text = totalAtk.ToString();
 		
 		int value = 0;
@@ -146,5 +150,9 @@ public class FightReadyPage : ViewBase {
 			name.text = TextCenter.GetText("LeaderSkillText") + TextCenter.GetText("SkillName_" + skill.id);//skill.name;
 			dscp.text = TextCenter.GetText("SkillDesc_" + skill.id);//skill.description;
 		}
+	}
+
+	private void ClickSelectFriend(object obj){
+		ModuleManager.Instance.ShowModule (ModuleEnum.FriendSelectModule,"type", "fight_ready");
 	}
 }

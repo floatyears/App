@@ -180,6 +180,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				}
 				if(baseUserUnit.UnitInfo.evolveInfo == null){
 					nextBtn.SetActive(false);
+					for (int j = 0; j < 3; j++) {
+						evolveItem[j].RefreshData(0,0,0);
+					}
 				}else{
 					nextBtn.SetActive(true);
 					ShowEvolveInfo();
@@ -207,9 +210,10 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 	
 	private void GoBack(GameObject obj){
-		ModuleManager.Instance.HideModule (ModuleEnum.UnitLevelupAndEvolveModule);
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitsListModule);
-		
+//		ModuleManager.Instance.HideModule (ModuleEnum.UnitLevelupAndEvolveModule);
+//		ModuleManager.Instance.ShowModule (ModuleEnum.UnitsListModule);
+
+		ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, "back_scene");
 	}
 	
 	private void GoNext(GameObject obj){

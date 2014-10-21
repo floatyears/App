@@ -30,7 +30,7 @@ public class BaseUnitItem : DragPanelItemBase {
 			crossFadeLabel.text = "Lv" + userUnit.level;
 		}else{
 			crossFadeLabel.text = "";
-		}
+		}	
 
 		RefreshState();
 	}

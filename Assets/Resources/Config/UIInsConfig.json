@@ -166,7 +166,7 @@
         "path": "Prefabs/UI/Units/CatalogUI",
         "parent": 1,
         "x": 0,
-        "y": 0,
+        "y": -280,
         "z": 0, 
         "group" : 0
     },
