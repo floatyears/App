@@ -135,7 +135,7 @@ public class ShowNewCardView : ViewBase {
 	}
 
 	void DetailButtonCallback(GameObject go) {
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",userUnit);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"user_unit",userUnit);
 		ModuleManager.Instance.HideModule (ModuleEnum.ShowNewCardModule);
 	}
 

@@ -98,7 +98,7 @@ public class BaseUnitItem : DragPanelItemBase {
 			return;	
 		}
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",userUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"user_unit",userUnit);
 	}
 
 

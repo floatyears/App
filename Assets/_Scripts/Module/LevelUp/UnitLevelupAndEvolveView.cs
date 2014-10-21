@@ -198,10 +198,10 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 	public override void DestoryUI ()
 	{
-		Destroy (levelUpEffect);
-		Destroy (swallowEffect);
-		Destroy (linhunqiuEffect);
-		Destroy (evolveEffect);
+//		Destroy (levelUpEffect);
+//		Destroy (swallowEffect);
+//		Destroy (linhunqiuEffect);
+//		Destroy (evolveEffect);
 
 		currMatList.Clear ();
 		levelupItem.Clear ();

@@ -94,7 +94,7 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	private void OnDetail(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit");
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "user_unit",friendInfo.UserUnit);
 	}
 
 }

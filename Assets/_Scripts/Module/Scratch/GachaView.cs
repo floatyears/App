@@ -392,7 +392,7 @@ public class GachaView : ViewBase {
         if (newUnitId == 0){
             return;
         }
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(newUnitId));
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"user_unit",DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(newUnitId));
     }
 
     List<GameObject> GetSortedGrids(){
