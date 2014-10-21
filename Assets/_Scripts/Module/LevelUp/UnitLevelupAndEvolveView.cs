@@ -611,11 +611,11 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		Debug.Log ("pos:------------" + tarPos);
 		yield return new WaitForSeconds(1f);
 		for (int i = 0; i < 3; i++) {
-			if(levelupItem[i].UserUnit != null){
+			if(evolveItem[i].unitId != 0){
 				GameObject obj = NGUITools.AddChild(parent,evolveItem[i].gameObject);
-				obj.transform.localPosition = levelupItem[i].transform.localPosition;
+				obj.transform.localPosition = evolveItem[i].transform.localPosition;
 				iTween.ScaleTo(obj, iTween.Hash("x",0f,"y", 0f, "time", 0.2f));
-				levelupItem[i].SetData<UserUnit>(null);
+				evolveItem[i].RefreshData(0,0,0);
 				yield return new WaitForSeconds(0.2f);
 				
 				
@@ -644,6 +644,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		yield return new WaitForSeconds(2f);
 		Destroy(le);
 
+		ShowAvatar (baseUserUnit);
 		ShowUnitInfo ();
 		RefreshLevelUpInfo();
 	}
