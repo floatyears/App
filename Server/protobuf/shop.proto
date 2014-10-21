@@ -18,5 +18,19 @@ message RspShopBuy {
     optional BonusInfo      weekBonus           = 6;
     optional string			productId			= 7;
     optional int32			payTotal			= 8;
+    optional float          productPrice        = 9;
+    optional int32          gotStone            = 10;
+    optional int32          vipLevel            = 11;
 }
 
+message ReqBuyMoney {
+    optional ProtoHeader    header              = 1;
+}
+
+message RspBuyMoney {
+    optional ProtoHeader    header              = 1;
+    optional int32          stone               = 2;
+    optional int32          gotMoney            = 3;
+    optional int32          money               = 4;
+    optional int32          usedBuyMoneyCnt     = 5;
+}

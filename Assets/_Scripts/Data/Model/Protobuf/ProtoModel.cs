@@ -872,6 +872,14 @@ namespace bbproto
       get { return _rspEvolve; }
       set { _rspEvolve = value; }
     }
+    private bbproto.RspUserGuideStep _rspUserGuideStep = null;
+    [global::ProtoBuf.ProtoMember(38, IsRequired = false, Name=@"rspUserGuideStep", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.RspUserGuideStep rspUserGuideStep
+    {
+      get { return _rspUserGuideStep; }
+      set { _rspUserGuideStep = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -3241,6 +3249,14 @@ namespace bbproto
       get { return _hitGrid; }
     }
   
+    private bbproto.ECopyType _copyType = bbproto.ECopyType.CT_NORMAL;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"copyType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.ECopyType.CT_NORMAL)]
+    public bbproto.ECopyType copyType
+    {
+      get { return _copyType; }
+      set { _copyType = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5254,30 +5270,6 @@ namespace bbproto
       get { return _partUniqueId; }
     }
   
-    private uint _helperUserId = default(uint);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"helperUserId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(uint))]
-    public uint helperUserId
-    {
-      get { return _helperUserId; }
-      set { _helperUserId = value; }
-    }
-    private bbproto.UserUnit _helperUnit = null;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"helperUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public bbproto.UserUnit helperUnit
-    {
-      get { return _helperUnit; }
-      set { _helperUnit = value; }
-    }
-    private int _helperPremium = default(int);
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"helperPremium", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int helperPremium
-    {
-      get { return _helperPremium; }
-      set { _helperPremium = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -5312,24 +5304,8 @@ namespace bbproto
       get { return _totalMoney; }
       set { _totalMoney = value; }
     }
-    private int _gotFriPoint = default(int);
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"gotFriPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int gotFriPoint
-    {
-      get { return _gotFriPoint; }
-      set { _gotFriPoint = value; }
-    }
-    private int _totalFriPoint = default(int);
-    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"totalFriPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
-    public int totalFriPoint
-    {
-      get { return _totalFriPoint; }
-      set { _totalFriPoint = value; }
-    }
     private bbproto.UserUnit _evolvedUnit = null;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"evolvedUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"evolvedUnit", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public bbproto.UserUnit evolvedUnit
     {
@@ -7782,6 +7758,32 @@ namespace bbproto
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspUserGuideStep")]
+  public partial class RspUserGuideStep : global::ProtoBuf.IExtensible
+  {
+    public RspUserGuideStep() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private bbproto.UserGuideStep _step = bbproto.UserGuideStep.STEP_TEACH;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"step", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.UserGuideStep.STEP_TEACH)]
+    public bbproto.UserGuideStep step
+    {
+      get { return _step; }
+      set { _step = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
     [global::ProtoBuf.ProtoContract(Name=@"EUnitType")]
     public enum EUnitType
     {
@@ -8192,6 +8194,29 @@ namespace bbproto
             
       [global::ProtoBuf.ProtoEnum(Name=@"RANK_EXP", Value=6)]
       RANK_EXP = 6
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"UserGuideStep")]
+    public enum UserGuideStep
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"STEP_TEACH", Value=1)]
+      STEP_TEACH = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"STEP_QUEST_GOAL", Value=2)]
+      STEP_QUEST_GOAL = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"STEP_QUEST_PSKILL", Value=3)]
+      STEP_QUEST_PSKILL = 3,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"STEP_SUMMON", Value=4)]
+      STEP_SUMMON = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"STEP_POWER_UP", Value=5)]
+      STEP_POWER_UP = 5,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"STEP_COLOR_BLOCK", Value=6)]
+      STEP_COLOR_BLOCK = 6
     }
   
 }

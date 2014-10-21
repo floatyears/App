@@ -1,5 +1,6 @@
 import public "base.proto";
 import public "unit.proto";
+import public "task.proto";
 
 package bbproto;
 
@@ -19,6 +20,7 @@ message UserInfo {
 	optional int32		costMax				= 13;	
 	optional UserUnit	unit				= 14; //leader unit
     optional uint32		regTime     		= 15; //user register time
+    optional int32      vipLevel            = 16; //vip system
 }
 
 message UserInfoDetail {
@@ -28,12 +30,16 @@ message UserInfoDetail {
 	repeated UserUnit		unitList			= 4;
 	optional PartyInfo		party				= 5;
 	optional LoginInfo		login				= 6;
-	optional QuestClearInfo	questClear			= 7;
+	optional QuestClearInfo	questClear          = 7;
 	optional bytes			unitFavoriteFlag	= 8;
 	optional bytes			haveUnitFlag		= 9;	//got unit
 	optional bytes			meetUnitFlag		= 10;	//meet unit
     optional bytes			userGuideFlag		= 11;
     optional int32          flag                = 12;   //1: system generated user
+    optional DailyUserOptCnt dailyOptCnt        = 13;   // 每日操作计数
+    optional UserTaskInfo   userTaskInfo        = 14;   // 任务系统信息
+    optional TotalUserOptCnt totalOptCnt        = 15;   // 总操作计数
+    optional UserCopyInfo   copyInfo            = 16;   // 副本信息
 }
 
 message MonthCard {
@@ -90,19 +96,26 @@ message TerminalInfo {
 	optional string	os		 					= 4; // android / ios
 }
 
-enum EBonusType{
-    CHAIN_LOGIN = 1;
-    TOTAL_LOGIN = 2;
-    RANK_REACH  = 3;
-    COMPENSATION  = 4;
-    OTHER_EVENT  = 5;
-}
+//enum EBonusType{
+//    TOTAL_LOGIN = 1;
+//    CHAIN_LOGIN = 2;
+//    RANK_REACH  = 3;
+//    OTHER_EVENT  = 4;
+//    WEEK_CARD   = 5;
+//    MONTH_CARD  = 6;
+//    DAILY_TASK  = 7;
+//    ACHIEVE_TASK = 8;
+//    STAR = 9;
+//}
 
+// 奖励类型
 enum EGiftContent {
-    COIN            = 1;
-    FRIEND_POINT    = 2;
-    UNIT            = 3;
-    CHIP            = 4;
+    COIN            = 1; // 金币
+    FRIEND_POINT    = 2; // 友情点数
+    UNIT            = 3; // 卡牌
+    CHIP            = 4; // 魔法石
+    STAMINA         = 5; // 体力
+    RANK_EXP        = 6; // 升级经验
 }
 
 message GiftItem {
@@ -200,6 +213,7 @@ message RspAuthUser {
 	optional NoticeInfo		notice				= 19;
     repeated StageInfo      eventList           = 20;
     optional StatHelperCount helpCountInfo      = 21;
+    repeated VipConf        vipConfList         = 22;
 }
 
 //-------------------------------------------------
@@ -242,6 +256,7 @@ message RspRestoreStamina {
 	optional int32			staminaMax			= 3; 	
 	optional uint32			staminaRecover		= 4; // stamina recover time
 	optional int32			stone				= 5;
+    optional int32          usedVipCnt          = 6;
 }
 
 //-------------------------------------------------
@@ -294,6 +309,10 @@ message ReqAcceptBonus {
 
 message RspAcceptBonus {
     optional ProtoHeader	header				= 1;
+    optional int32          stone               = 2;
+    optional int32          money               = 3;
+    optional int32          friendPoint         = 4;
+    repeated UserUnit       newUnitList         = 5;
 }
 
 message ReqBonusList {
@@ -305,8 +324,92 @@ message RspBonusList {
     repeated BonusInfo      bonus               = 2;
 }
 
+// 用户关卡星级状态
+message RspQuestStarList {
+    optional ProtoHeader    header              = 1;
+    optional UserCopyInfo   copyInfo            = 2;
+}
+
 message StatHelperCount {
     optional int32		friendPointGet			= 1; // friend Pt got everyday
     optional int32		helpFriendCount			= 2; // times of help friend
     optional int32		helpHelperCount			= 3; // times of help helper
+}
+
+// VIP 配置
+message VipConf {
+    optional string     vipName                 = 1; // vip Title
+    optional int32      vipLevel                = 2; // vip Level
+    optional float      payTotal                = 3; // vip payed money
+    optional int32      staminaAdd              = 4; // stamina
+    optional int32      partyCostAdd            = 5; // cost
+    optional int32      dailyReliveCnt          = 6; // relive cnt for 50% free
+    optional int32      dailyBuyStaminaCnt      = 7; // player buy stamina count every day
+    optional int32      dailyBuyMoneyCnt        = 8; // player buy money count every day
+    optional int32      dailyFriendPoint        = 9; // player can get friendPoint every login day
+}
+
+// task system
+message UserTaskInfo {
+    repeated TaskObj     achievedTaskList       = 1; // 已经完成的任务ID列表
+    required int32       maxBonusId             = 2; // 最大的奖励ID
+    repeated BonusInfo   bonusList				= 3; // 奖励列表
+}
+
+// 精英副本与关卡评★
+message UserCopyInfo {
+    optional CopyPassInfo   normalCopyInfo      = 1; // 普通副本
+    optional CopyPassInfo   eliteCopyInfo       = 2; // 精英副本
+}
+
+// 每日用户操作计数, 每日第一次登录时清0
+message DailyUserOptCnt {
+    optional int32       resumeQuestCnt         = 1;  // 重打quest计数
+    optional int32       buyStaminaCnt          = 2;  // 购买体力计数
+    optional int32       buyMoneyCnt            = 3;  // 购买金币计数
+    optional int32       clearQuestCnt          = 4;  // 打任意小关卡次数
+    optional int32       friendPointGot         = 5;  // 得到友情点数
+    optional int32       friendCnt              = 6;  // 得到好友
+    optional int32       powerUpCnt             = 7;  // 强化
+    optional int32       evolveCnt              = 8;  // 进化
+    optional int32       summonCnt_FP           = 9;  // 友情召唤
+    optional int32       summonCnt_Rare         = 10; // 稀有召唤
+    optional int32       eventQuestCnt          = 11; // 活动关卡
+}
+
+// 用户总的操作计数
+message TotalUserOptCnt {
+    optional int32       friendCnt              = 1;  // 好友数量(IsFriend)
+    optional int32       summonCnt_FP           = 2;  // 友情抽卡次数
+    optional int32       summonCnt_FP9          = 3;  // 友情抽卡9连抽次数
+    optional int32       summonCnt_Rare         = 4;  // 稀有抽卡次数
+    optional int32       summonCnt_Rare9        = 5;  // 稀有抽卡9连抽次数
+    optional int32       powerUpCnt             = 6;  // 强化次数
+    optional int32       powerUpCnt_Max         = 7;  // 强化到满级次数
+    optional int32       evolveCnt              = 8;  // 进化次数
+    optional int32       evolveCnt_Max          = 9;  // 进化到满级次数
+    optional int32       unitCnt_3              = 10; // 3★卡牌数量
+    optional int32       unitCnt_4              = 11; // 4★卡牌数量
+    optional int32       unitCnt_5              = 12; // 5★卡牌数量
+    optional int32       moneyCnt_Quest         = 13; // 从关卡获得金币数量
+    optional int32       friendPointCnt         = 14; // 获得friendPoint数量
+    optional int32       eventQuestCnt          = 15; // 活动关卡数量
+    optional int32       cityPass               = 16; // 当前已通关的city
+    optional int32       stagePass              = 17; // 当前已通关的stage
+}
+
+// 玩家指引步骤
+enum UserGuideStep {
+    STEP_TEACH                                  = 1;  // 第一场战斗，教学关：基础战斗教学
+    STEP_QUEST_GOAL                             = 2;  // 第二场战斗，战场第1关（Id:111），熟悉一次基础战斗、明确通关目标
+    STEP_QUEST_PSKILL                           = 3;  // 第三场战斗，战场第2关（Id:112），指引玩家使用主动技能
+    STEP_SUMMON                                 = 4;  // 通关第9关(id:133)后，指引玩家抽卡，抽卡之后指引编队
+    STEP_POWER_UP                               = 5;  // 在玩家通关第12关(id:143)后，触发强化指引
+    STEP_COLOR_BLOCK                            = 6;  // 第五场战斗，进入第15关时（Id:153），指导玩家对色块进行排序、同时拖动多个色块、利用BOOST的技巧以及SP和探索
+}
+
+// 玩家指引api response
+message RspUserGuideStep {
+    optional ProtoHeader    header              = 1;
+    optional UserGuideStep  step                = 2;
 }

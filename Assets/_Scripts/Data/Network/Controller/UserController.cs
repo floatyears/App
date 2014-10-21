@@ -16,7 +16,7 @@ public class UserController : ControllerBase {
 	}
 
 
-	public void FirstLogin(NetCallback callback, uint selectRole) {
+	public void Login(NetCallback callback, NetCallback questStarCallback=null, uint selectRole=0) {
 
 		bool b = PlayerPrefs.HasKey (GameDataPersistence.USER_ID);
 		uint userId = GameDataPersistence.Instance.GetUInt(GameDataPersistence.USER_ID);
@@ -41,6 +41,11 @@ public class UserController : ControllerBase {
 		reqAuthUser.terminal.channel = ServerConfig.Channel;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqAuthUser, callback, ProtocolNameEnum.RspAuthUser);
+
+		if( questStarCallback != null ) {
+			HttpRequestManager.Instance.AddProtoListener (ProtocolNameEnum.RspQuestStarList, questStarCallback );
+		}
+
 	}
 
 	public void RenameNick(NetCallback callback, string newNickName) {
@@ -57,9 +62,9 @@ public class UserController : ControllerBase {
 		HttpRequestManager.Instance.SendHttpRequest (reqRenameNick, callback, ProtocolNameEnum.RspRenameNick);
 	}
 
-	public void Login(NetCallback callback){
-		FirstLogin (callback, 0);
-	}
+//	public void Login(NetCallback callback){
+//		FirstLogin (callback, 0);
+//	}
 
 
 	public void FinishUserGuide(NetCallback callBack, int step) {

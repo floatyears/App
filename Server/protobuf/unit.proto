@@ -230,6 +230,19 @@ message RspEvolveDone {
 	optional int32			staminaMaxAdd	= 19;	
 }
 
+message ReqEvolve {
+    optional ProtoHeader    header          = 1;
+    optional uint32			baseUniqueId	= 2;
+    repeated uint32			partUniqueId	= 3;
+}
+
+message RspEvolve {
+    optional ProtoHeader    header          = 1;
+    optional int32          usedMoney       = 2;
+    optional int32          totalMoney      = 3;
+    optional UserUnit       evolvedUnit     = 4;
+}
+
 message ReqGacha {	
 	optional ProtoHeader	header			= 1;
 	optional int32			gachaId			= 2;
@@ -244,7 +257,6 @@ message RspGacha {
 	optional int32			stone			= 5;
 	optional int32			friendPoint		= 6;
 }
-
 
 message ReqSellUnit {	
 	optional ProtoHeader	header			= 1;

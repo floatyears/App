@@ -27,13 +27,26 @@ public class LoadingModule : ModuleBase {
 	public override void OnReceiveMessages (params object[] data)
 	{
 		if (data [0] == "StartLogin") {
-			UserController.Instance.Login(LoginSuccess);
+			UserController.Instance.Login(LoginSuccess, QuestStarCallback);
 //			netBase.OnRequest(null, LoginSuccess);
 		}else if(data[0] == "FirstLogin"){
-			UserController.Instance.FirstLogin( LoginSuccess,(uint)data[1]);
+			UserController.Instance.Login( LoginSuccess, QuestStarCallback, (uint)data[1]);
 		}
 	}
 
+	void QuestStarCallback(object data) {
+		RspQuestStarList rsp = data as bbproto.RspQuestStarList;
+		Debug.LogWarning("QuestStar:"+ rsp.copyInfo.normalCopyInfo.questStarList);
+		foreach(QuestStarObj star in rsp.copyInfo.normalCopyInfo.questStarList) {
+			Debug.LogWarning("    qId:"+star.questId +" => star:"+star.star);
+		}
+
+		//
+		if ( rsp.copyInfo != null ) {
+			DataCenter.Instance.NormalCopyInfo = rsp.copyInfo.normalCopyInfo;
+			DataCenter.Instance.EliteCopyInfo = rsp.copyInfo.eliteCopyInfo;
+		}
+	}
 
     void LoginSuccess(object data) {
 		bbproto.RspAuthUser rspAuthUser;
@@ -145,6 +158,7 @@ public class LoadingModule : ModuleBase {
 #if UNITY_EDITOR 
 			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
+			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 
 			EnterGame();
 

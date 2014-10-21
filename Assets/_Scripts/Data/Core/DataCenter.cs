@@ -219,6 +219,9 @@ public class DataCenter {
 		}
 	}
 
+	public CopyPassInfo NormalCopyInfo;
+	public CopyPassInfo EliteCopyInfo;
+
 	private TaskAndAchieveModel taskAndAchieveData;
 	public TaskAndAchieveModel TaskAndAchieveData{
 		get{

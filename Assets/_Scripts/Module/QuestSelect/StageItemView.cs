@@ -66,6 +66,8 @@ public class StageItemView : MonoBehaviour{
 
 //			if(DataCenter.gameState == GameState.Normal) {
 				SetIconView();
+
+				ShowStar();
 //			}
 //			else{
 //				SetEvolveIcon();
@@ -96,6 +98,7 @@ public class StageItemView : MonoBehaviour{
 //		if (data.Type == bbproto.QuestType.E_QUEST_STORY) {
 			StageState clearState = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (data.id);
 			ShowIconByState (clearState);
+			
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
 //
 //		}
@@ -159,6 +162,13 @@ public class StageItemView : MonoBehaviour{
 	private void DestoryTipObj(){
 		Debug.Log("DestoryTipObj()...");
 		GameObject.Destroy(transform.FindChild("Tip").gameObject);
+	}
+
+	private void ShowStar() {
+
+		UISprite star = transform.FindChild("Star").GetComponent<UISprite>();
+		int stageStar = DataCenter.Instance.NormalCopyInfo.GetStageStar(data.id);
+		star.width = star.height * stageStar;
 	}
 
 	GameObject insPrefab = null;

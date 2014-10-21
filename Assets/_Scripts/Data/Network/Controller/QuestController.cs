@@ -27,6 +27,8 @@ public class QuestController : ControllerBase {
 		reqClearQuest.getUnit.AddRange(questParam.getUnit);
 		reqClearQuest.hitGrid.AddRange(questParam.hitGrid);
 
+		reqClearQuest.copyType = questParam.copyType;
+
 		HttpRequestManager.Instance.SendHttpRequest (reqClearQuest, data => {
 
 			RspClearQuest rspClearQuest = data as RspClearQuest;
@@ -150,6 +152,8 @@ public class QuestController : ControllerBase {
 		if(questParam.helperUserUnit != null)
 			reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit;
 		reqStartQuest.isUserGuide = questParam.isUserGuide;
+
+		reqStartQuest.copyType = questParam.questType;  //普通副本 or 精英副本
 
 		HttpRequestManager.Instance.SendHttpRequest (reqStartQuest, callback, ProtocolNameEnum.RspStartQuest);
 	}
