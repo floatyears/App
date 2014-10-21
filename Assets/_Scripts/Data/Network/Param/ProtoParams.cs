@@ -9,4 +9,5 @@ public class StartQuestParam {
 	public int currPartyId;
 	public int startNew;
 	public int isUserGuide;
+	public ECopyType questType; //普通副本 or 精英副本
 }

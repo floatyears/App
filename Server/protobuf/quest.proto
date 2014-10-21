@@ -50,6 +50,11 @@ enum EGridStar {
 	GS_EXCLAMATION		= 9;
 }
 
+enum ECopyType {
+    CT_NORMAL           = 0;
+    CT_ELITE            = 1;
+}
+
 message QuestStatus {
 	optional uint32			questId			= 1;
 	repeated uint32			playTime		= 2;
@@ -248,6 +253,16 @@ message WorldMapInfo {
 	repeated CityInfo	citylist		= 3; // CityInfo without stages(only CityInfo.id & CityInfo.cityName)
 }
 
+message QuestStarObj {
+    optional uint32     questId         = 1;
+    optional int32      star            = 2;
+}
+
+message CopyPassInfo {
+    repeated QuestStarObj    questStarList  = 1;
+    repeated uint32          stageIdList    = 2;
+}
+
 //-------------------------------------------------------------
 
 message ReqStartQuest {
@@ -259,6 +274,7 @@ message ReqStartQuest {
 	optional int32			currentParty	= 6;
 	optional int32			restartNew		= 7;
     optional int32			isUserGuide	    = 8;
+    optional ECopyType      copyType        = 9;
 }
 
 message RspStartQuest {
@@ -275,6 +291,9 @@ message ReqClearQuest {
 	optional int32			getMoney		= 4;
 	repeated uint32			getUnit			= 5; //without uniqueId	
 	repeated uint32			hitGrid			= 6;
+    optional int32          totalHp         = 7;
+    optional int32          leftHp          = 8;
+    optional ECopyType      copyType        = 9;
 }
 
 message RspClearQuest {
@@ -318,6 +337,7 @@ message ReqResumeQuest {
 message RspResumeQuest {
 	optional ProtoHeader 	header 			= 1;
 	optional int32			stone 			= 2;
+    optional int32          usedVipCnt      = 3;
 }
 
 message ReqRedoQuest {
@@ -392,6 +412,7 @@ message ClearQuestParam {
 	optional int32				getMoney	= 2;
 	repeated uint32				getUnit		= 3;
 	repeated uint32				hitGrid		= 4;
+    optional ECopyType			copyType	= 5;
 }
 
 message AttackInfoProto {
@@ -418,3 +439,6 @@ message ActiveSkillData {
 	optional int32				skillId		= 1;
 	optional int32				round		= 2; //current elapsed round
 }
+
+
+

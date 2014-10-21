@@ -34,4 +34,3 @@ message ProtoHeader {
 	optional string error		= 6; // result error description
 	optional int32	extraTag	= 7; // addtional logic for future use
 }
-

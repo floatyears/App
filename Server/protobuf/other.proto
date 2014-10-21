@@ -40,3 +40,14 @@ message RspGetServerTime {
     optional uint32         serverTime			= 2;
 }
 
+message ReqAcceptStarBonus {
+    optional ProtoHeader    header              = 1;
+    optional uint32         stageId             = 2;
+    optional ECopyType      copyType            = 3;
+}
+
+message RspAcceptStarBonus {
+    optional ProtoHeader    header              = 1;
+    optional int32          addStone            = 2;
+    optional int32          currentStone        = 3;
+}

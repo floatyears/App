@@ -23,6 +23,10 @@ public class StageSelectView : ViewBase{
 	private List<UITexture> pickEnemiesList = new List<UITexture>();
 	private UITexture background;
 
+	private UIButton btnCopyTypeNormal;
+	private UIButton btnCopyTypeElite;
+
+
 	private int curQuestIndex;
 	private UnitDataModel evolveStageInfo;
 	private List<StageItemView> storyStageList = new List<StageItemView>();
@@ -42,8 +46,15 @@ public class StageSelectView : ViewBase{
 		base.ShowUI();
 		if (viewData.ContainsKey("story")) {
 			ShowStoryCityView(viewData["story"]);
+			FindChild("CopyType/Normal").SetActive(true);
+			FindChild("CopyType/Elite").SetActive(true);
+
+			ShowQuestStar();
+
 		}else if(viewData.ContainsKey("event")){
 			ShowEventCityView();
+			FindChild("CopyType/Normal").SetActive(false);
+			FindChild("CopyType/Elite").SetActive(false);
 		}else if(viewData.ContainsKey("evolve")){
 			EvolveStartQuest(viewData["evolve"]);
 		}
@@ -51,6 +62,31 @@ public class StageSelectView : ViewBase{
 		if (currentCityName != "") {
 			SetSceneName(currentCityName);
 		}
+
+	}
+
+	void ShowQuestStar() {
+		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		CopyPassInfo passInfo;
+		if( toggle.name == "Normal" ) {
+			passInfo = DataCenter.Instance.NormalCopyInfo;
+		}
+		else {
+			passInfo = DataCenter.Instance.EliteCopyInfo;
+		}
+
+
+	}
+
+	public void OnSelectCopyType(object data) {
+		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		if (toggle != null) {
+			Debug.Log("toggle.name:"+ toggle.name);
+		}
+//		
+//		if( btnCopyTypeNormal.gameObject == caller ) {
+//			Debug.Log("caller is btnCopyTypeNormal");
+//		}
 	}
 
 	private void ShowEventCityView(){
