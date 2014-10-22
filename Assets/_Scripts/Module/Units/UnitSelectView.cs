@@ -27,7 +27,7 @@ public class UnitSelectView : ViewBase {
 
 	public override void ShowUI ()
 	{
-		base.ShowUI ();
+
 		MsgCenter.Instance.AddListener(CommandEnum.SortByRule, ReceiveSortInfo);
 		if (viewData != null) {
 			if(viewData.ContainsKey("type") && viewData["type"] == "level_up"){
@@ -36,8 +36,10 @@ public class UnitSelectView : ViewBase {
 				GetAvalibleList();
 				if(avalibleList.Count <= 0){
 					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("LevelUp_NeedTitle"),TextCenter.GetText("LevelUp_NoMaterial"),TextCenter.GetText("OK"));
+					ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, "no_back", ModuleEnum.UnitSelectModule);
 					ModuleManager.Instance.HideModule(ModuleEnum.UnitSelectModule);
 					ModuleManager.Instance.ShowModule(ModuleEnum.UnitLevelupAndEvolveModule);
+					return;
 				}else{
 					SortRule sui = SortUnitTool.GetSortRule(SortRuleByUI.UnitLevelupAndEvolveView);
 					SortUnitByCurRule(sui);
@@ -46,6 +48,7 @@ public class UnitSelectView : ViewBase {
 
 			}
 		}
+		base.ShowUI ();
 	}
 
 	private void GetAvalibleList(){

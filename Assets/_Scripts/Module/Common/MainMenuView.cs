@@ -27,13 +27,11 @@ public class MainMenuView : ViewBase{
     private void AddListener(){
 //		Debug.LogError("main menu addlistener");
 		MsgCenter.Instance.AddListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
-        MsgCenter.Instance.AddListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
 
     private void RemoveListener(){
 //		Debug.LogError("main menu removeListener");
 		MsgCenter.Instance.RemoveListener(CommandEnum.ModifiedParty, UpdateLeaderAvatar);
-        MsgCenter.Instance.RemoveListener(CommandEnum.EnableMenuBtns, SetMenuValid);
     }
 	
 	private void InitButton() {

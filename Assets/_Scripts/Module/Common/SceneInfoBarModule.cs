@@ -37,6 +37,7 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.UnitSortModule:
 				case ModuleEnum.ItemCounterModule:
 				case ModuleEnum.ApplyMessageModule:
+				case ModuleEnum.ShowNewCardModule:
 					break;
 				case ModuleEnum.FriendMainModule:
 				case ModuleEnum.ScratchModule:

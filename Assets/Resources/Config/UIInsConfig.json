@@ -114,7 +114,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : -1
+        "group" : 2
     },
     {
         "name":"ShopModule",
@@ -331,7 +331,7 @@
         "x": 0,
         "y": -180,
         "z": 0, 
-        "group" : 0
+        "group" : 2
     },
      {
         "name":"ItemCounterModule",

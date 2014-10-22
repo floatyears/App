@@ -13,6 +13,8 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 	private UserUnit data;
 
+	private GameObject evolveBtn;
+	private GameObject levelUpBtn;
 	private UILabel levelupLabel;
 
 	void Init(){
@@ -24,6 +26,8 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 		icon = transform.FindChild ("UnitIcon").GetComponent<MyUnitItem> ();
 
+		levelUpBtn = transform.FindChild ("LevelUp").gameObject;
+		evolveBtn = transform.FindChild ("Evolve").gameObject;
 
 		transform.FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Submit_Evolve");
 		levelupLabel = transform.FindChild ("LevelUp/Label").GetComponent<UILabel> ();
@@ -55,7 +59,12 @@ public class UnitsListCardItemView : DragPanelItemBase {
 		}
 
 		if (data.level >= data.UnitInfo.maxLevel) {
-			levelupLabel.text = TextCenter.GetText ("Btn_Submit_Evolve");
+			if(data.UnitInfo.evolveInfo == null){
+				levelUpBtn.SetActive(false);
+			}else{
+				levelUpBtn.SetActive(true);
+				levelupLabel.text = TextCenter.GetText ("Btn_Submit_Evolve");
+			}
 		} else {
 			levelupLabel.text = TextCenter.GetText ("Btn_Submit_LevelUp");
 		}

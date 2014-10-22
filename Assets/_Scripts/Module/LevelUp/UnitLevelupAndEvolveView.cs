@@ -474,7 +474,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				yield return new WaitForSeconds(0.35f);
 			}
 		}
-		yield return new WaitForSeconds((count-1)*0.35f + 0.6f);
+		yield return new WaitForSeconds((count-2)*0.35f + 0.6f);
 		GameObject se = NGUITools.AddChild(levelupRoot, swallowEffect);
 		se.transform.localPosition = tarPos;
 		yield return new WaitForSeconds(0.4f);

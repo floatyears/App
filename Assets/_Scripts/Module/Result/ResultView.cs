@@ -61,15 +61,11 @@ public class ResultView : ViewBase {
 		UIEventListenerCustom.Get(cancelBtn.gameObject).onClick = ClickCancel;
 	}
 	public override void ShowUI(){
-		MsgCenter.Instance.Invoke (CommandEnum.EnableMenuBtns, false);
 
 		base.ShowUI();
-		ShowUIAnimation();
 	}
 
 	public override void HideUI(){
-		MsgCenter.Instance.Invoke (CommandEnum.EnableMenuBtns, true);
-
 		base.HideUI();
 	}
 
@@ -162,8 +158,19 @@ public class ResultView : ViewBase {
 		checkBtn.gameObject.SetActive(!active);
 	}
 
-	private void ShowUIAnimation(){
-		transform.localPosition = 1000 * Vector3.left;
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+
+			transform.localPosition = new Vector3(-1000,config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f));
+		}else{
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+		}
+
 	}
+
 }

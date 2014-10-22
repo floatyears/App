@@ -76,12 +76,6 @@ public class UnitDetailView : ViewBase{
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI();
-
-//		ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial", o=>{
-//			unitMaterial = o as Material;
-//			if( unitMaterial == null )
-//				Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
-//		});
 	}
 	
 	public override void ShowUI () {
@@ -108,18 +102,20 @@ public class UnitDetailView : ViewBase{
 			}
 		}
 
-
-
 	}
 
 	public override void HideUI () {
 		base.HideUI ();
 		iTween.Stop ();
 
+		if (viewData.ContainsKey ("back_callback")) {
+			(viewData["back_callback"] as DataListener)(null);
+		}
 		if( isFavorStateChanged ) {
 			ModuleManager.SendMessage(ModuleEnum.LevelUpModule, "RefreshUnitItem", curUserUnit);
 			isFavorStateChanged = false;
 		}
+		viewData.Clear ();
 	}
 	
 	//----------Init functions of UI Elements----------
