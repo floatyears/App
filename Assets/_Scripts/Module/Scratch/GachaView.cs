@@ -94,7 +94,7 @@ public class GachaView : ViewBase {
 					AutoShowOneCard();
 				}
 				
-				NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.SCRATCH);	
+//				NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.SCRATCH);	
 			}else if(viewData.ContainsKey("from")){
 				AutoShowOneCard();
 			}

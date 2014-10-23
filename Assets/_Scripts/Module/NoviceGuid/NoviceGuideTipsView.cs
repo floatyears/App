@@ -18,6 +18,13 @@ public class NoviceGuideTipsView : ViewBase {
 		label_bg = FindChild<UISprite> ("Tips/Label_Bg");
 	}
 
+	public override void CallbackView (params object[] args)
+	{
+		if (args [0].ToString () == "ui_click") {
+			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
+		}
+	}
+
 	public override void ShowUI ()
 	{
 		base.ShowUI ();

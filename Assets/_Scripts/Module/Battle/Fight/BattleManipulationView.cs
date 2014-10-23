@@ -321,6 +321,8 @@ public class BattleManipulationView : ViewBase {
 	}
 
 	void GenerateCard() {
+
+		ModuleManager.SendMessage(ModuleEnum.NoviceGuideTipsModule,"ui_click");
 		BattleCardAreaItem bcai = null;
 		for (int i = 0; i < rayCastHit.Length; i++) {
 			tempObject = rayCastHit[i].collider.gameObject;

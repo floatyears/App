@@ -172,7 +172,7 @@ public class NoviceGuideUtil {
 			tPos.from.x = 32.0f;
 			tPos.from.y = tPos.to.y = 0f;
 
-			arrow.transform.localPosition = new Vector3(center.x - size.x / 2 + posAndDir.x , center.y + posAndDir.y, 0);
+			arrow.transform.localPosition = new Vector3(center.x + size.x / 2 + posAndDir.x , center.y + posAndDir.y, 0);
 			break;
 		default:
 			dir = Vector3.zero;
@@ -291,21 +291,24 @@ public class NoviceGuideUtil {
 
 	private static void BtnClick(GameObject btn)
 	{
+		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
+		
+		btn.layer = oneBtnClickLayer;
+
+
 		UIEventListenerCustom.Get (btn).onClick -= BtnClick;
 		UIEventListenerCustom.Get (btn).LongPress = longPressDelegate;
 		longPressDelegate = null;
-		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
+//		UICamera mainCam = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<UICamera>();
 		if (clickCallback != null) {
-			clickCallback (btn);
+			UICallback clickTemp = clickCallback;
 			clickCallback = null;
+			clickTemp (btn);
+			clickTemp = null;
+
 		}
 
-
-		InputManager.Instance.SetBlockWithinLayer (BlockerReason.NoviceGuide, false);
-
-		btn.layer = oneBtnClickLayer;
-		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
-
+//		LogHelper.Log ("btn layer: " + oneBtnClickLayer + ", mainCam layer: " + mainCam.eventReceiverMask.value);
 	}
 
 	public static void ForceBtnsClick(GameObject[] objs,UIEventListenerCustom.VoidDelegate clickCalback){

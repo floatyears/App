@@ -28,7 +28,6 @@ public class NoviceGuideStepA_2:NoviceGuidStep
 	private void ClickOK(GameObject data)
 	{
 		NoviceGuideUtil.RemoveArrow ((GameObject)data);
-		ModuleManager.Instance.HideModule (ModuleEnum.NoviceGuideTipsModule);
 		
 	}
 
@@ -50,9 +49,6 @@ public class NoviceGuideStepA_3:NoviceGuidStep
 	private void OnFightEnd(object data)
 	{
 		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnFightEnd);
-		GameTimer.GetInstance ().AddCountDown (5f, () => {
-			ModuleManager.Instance.HideModule (ModuleEnum.NoviceGuideTipsModule);
-		});
 		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide2_title"), TextCenter.GetText ("guide2_content"), TextCenter.GetText ("NEXT"),o=>{
 			GoToNextState();
 		});
@@ -89,9 +85,6 @@ public class NoviceGuideStepA_6:NoviceGuidStep{
 	{
 		nextState = typeof(NoviceGuideStepB_1);
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_4"));
-		GameTimer.GetInstance ().AddCountDown (2f, () => {
-			ModuleManager.Instance.HideModule (ModuleEnum.NoviceGuideTipsModule);
-		});
 
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 2);
 	}

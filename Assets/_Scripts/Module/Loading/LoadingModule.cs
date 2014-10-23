@@ -156,23 +156,21 @@ public class LoadingModule : ModuleBase {
 
 //#endif
 #if UNITY_EDITOR 
-			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
+//			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
-			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
+			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
 
-			EnterGame();
-
-//			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
-//			if(recoverQuestID > 0) {
-//				if(NoviceGuideStepManager.Instance.isInNoviceGuide()){
-//					SureRetry(null);
-//				} else {
-//					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
-//				}
-//			}
-//			else{
-//				EnterGame();
-//			}
+			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
+			if(recoverQuestID > 0) {
+				if(NoviceGuideStepManager.Instance.isInNoviceGuide()){
+					SureRetry(null);
+				} else {
+					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("BattleContinueTitle"),TextCenter.GetText("BattleContinueContent"),TextCenter.GetText("Resume"),TextCenter.GetText("Discard"),SureRetry,Cancel);
+				}
+			}
+			else{
+				EnterGame();
+			}
         }
     }
 

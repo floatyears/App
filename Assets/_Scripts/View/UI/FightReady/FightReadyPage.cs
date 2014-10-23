@@ -51,7 +51,7 @@ public class FightReadyPage : MonoBehaviour {
 		}
 		
 		helper = transform.FindChild("Helper").GetComponent<FriendUnitItem>();
-		helper.SetData<FriendInfo> (null,ClickSelectFriend as DataListener);
+		helper.SetData<FriendInfo> (null,ClickSelectFriend as DataListener,"battle_helper");
 	}
 	public FriendInfo HelperInfo{
 		set{

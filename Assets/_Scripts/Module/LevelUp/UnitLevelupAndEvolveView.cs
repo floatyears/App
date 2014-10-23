@@ -191,8 +191,8 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				ShowAvatar(baseUserUnit);
 				ResetLevelUpData();
 				ShowUnitInfo();
-
 			}
+			NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.UNIT_LEVELUP_EVOLVE);
 		}
 		viewData.Clear ();
 	}

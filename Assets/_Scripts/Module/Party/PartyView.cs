@@ -58,14 +58,13 @@ public class PartyView : ViewBase, IDragChangeView{
 		UpdateInfoPanelView(DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, DataCenter.Instance.UnitData.PartyInfo.CurrentParty);
 		RefreshItemCounter();
-		ShowUIAnimation();
 	
-		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNITS);
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.PARTY);
 	}
 
 	public override void HideUI(){
 		base.HideUI();
-		ModuleManager.Instance.HideModule (ModuleEnum.UnitsMainModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
 		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
 		RmvCmdListener();
 	}
@@ -73,6 +72,23 @@ public class PartyView : ViewBase, IDragChangeView{
 	public override void DestoryUI(){
 		base.DestoryUI();
 		partyItems.Clear();
+	}
+
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+			
+			topRoot.transform.localPosition = 1000 * Vector3.up;
+			bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
+			
+			iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
+			iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true));
+		}else{
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+		}
 	}
 
 	private void InitPagePanel(){
@@ -134,17 +150,6 @@ public class PartyView : ViewBase, IDragChangeView{
 		pageIndexSpr.spriteName = UIConfig.SPR_NAME_PAGE_INDEX_PREFIX  + curPartyIndex;
 		dragChangeView.RefreshData ();
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshPartyPanelInfo, tup);   
-
-		RefreshUnitListByCurId();
-	}
-
-	private void RefreshUnitListByCurId(){
-		//Debug.Log("RefreshUnitListByCurId()...curIndex is : " + DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId);
-//		for (int i = 1; i < dragPanel.ScrollItem.Count; i++){
-//			PartyUnitItem puv = dragPanel.ScrollItem[ i ].GetComponent<PartyUnitItem>();
-//			puv.IsParty = DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(puv.UserUnit.uniqueId);
-//			//Debug.Log("puv.IsParty : " + puv.IsParty);
-//		}
 
 	}
         
@@ -220,7 +225,6 @@ public class PartyView : ViewBase, IDragChangeView{
 			ClearPartyFocusState();
 		}	
 
-		RefreshUnitListByCurId ();
 	}
 
 
@@ -264,7 +268,6 @@ public class PartyView : ViewBase, IDragChangeView{
 			}
 		}
 
-		RefreshUnitListByCurId ();
 	}
 
 	private void AddToFocusWithPickedUnit(){
@@ -485,21 +488,6 @@ public class PartyView : ViewBase, IDragChangeView{
 		SortUnitTool.SortByTargetRule(curSortRule, myUnitDataList);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.PartyView);
 
-	}
-
-	private void ShowUIAnimation() {
-		gameObject.transform.localPosition = new Vector3(0, -476, 0);
-
-		topRoot.transform.localPosition = 1000 * Vector3.up;
-		bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
-
-		iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
-		iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true, "oncomplete", "BottomRootMoveEnd", "oncompletetarget", gameObject));
-	}
-
-	void BottomRootMoveEnd() {
-//		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (false);
-//		dragPanel.GetDragViewObject().GetComponent<DragPanelView>().scrollBar.gameObject.SetActive (true);
 	}
 
 	private void RefreshItemCounter(){

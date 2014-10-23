@@ -149,6 +149,12 @@ namespace bbproto{
 				
 			if ( questId > storyClear.questId ) {
 				storyClear.questId = questId;
+				if(questId == 133){
+					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepD_1;
+				}else if(questId == 143){
+					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_1;
+				}
+
 			}
 			if (stageId >= 17 && questId >= 175) {
 				GameDataPersistence.Instance.StoreData("ResrouceDownload","Start");

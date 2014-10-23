@@ -34,6 +34,14 @@ public class PartyUnitItem : MyUnitItem {
 		}
 	}
 
+	public override void SetData<T> (T data, params object[] args)
+	{
+		base.SetData (data, args);
+		if (userUnit.unitId == 86) {
+			gameObject.tag = "unitId_86";	
+		}
+	}
+
 	public override void ItemCallback(params object[] args){
 		switch (args [0].ToString ()) {
 		case "out_party":
@@ -119,5 +127,9 @@ public class LevelUpUnitItem : MyUnitItem {
 	}
 
 
-
+	void Update(){
+		if(gameObject.layer == GameLayer.NoviceGuide){
+			Debug.Log("novice guide layer");
+		}
+	}
 }

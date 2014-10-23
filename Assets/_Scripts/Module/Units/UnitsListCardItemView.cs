@@ -44,10 +44,14 @@ public class UnitsListCardItemView : DragPanelItemBase {
 			Init ();
 
 		icon.SetData<T> (d,args);
+
 		UIEventListenerCustom.Get (icon.gameObject).LongPress = null;
 		UIEventListenerCustom.Get (icon.gameObject).onClick = ClickCard;
 		this.data = d as UserUnit;
 
+		if (data.unitId == 1 || data.unitId == 5 || data.unitId == 9) {
+			levelUpBtn.tag = "unit_leader_levelup";
+		}
 		int len = 0;
 		if (data.UnitInfo.maxStar > data.UnitInfo.rare) {
 			darkStar.enabled = true;
