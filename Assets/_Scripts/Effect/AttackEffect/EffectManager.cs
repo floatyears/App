@@ -30,6 +30,29 @@ public class EffectManager {
 	void OnUpdate(){
 		foreach (var psItem in currentEffects.Values) {
 			string path = psItem.pathAndId.Split('_')[0];
+#if !UNITY_EDITOR
+			if(psItem.ps == null){
+				tobeRemoved.Add(psItem);
+				if(psItem.callback != null){
+					psItem.callback(psItem.ps);
+					psItem.callback = null;
+				}
+			}else if(!psItem.ps.IsAlive() || psItem.ps.isStopped){
+				if(skillEffectPool.ContainsKey(path)){
+					if(skillEffectPool[path] != psItem.ps){
+						GameObject.Destroy(psItem.ps.gameObject);
+					}else{
+						psItem.ps.transform.parent = EffectPoolRoot;
+					}
+				}
+				if(psItem.callback != null){
+					psItem.callback(psItem.ps);
+					psItem.callback = null;
+				}
+				
+				tobeRemoved.Add(psItem.pathAndId);
+			}
+#else
 			if(!psItem.ps.IsAlive() || psItem.ps.isStopped){
 				if(skillEffectPool.ContainsKey(path)){
 					if(skillEffectPool[path] != psItem.ps){
@@ -42,9 +65,10 @@ public class EffectManager {
 					psItem.callback(psItem.ps);
 					psItem.callback = null;
 				}
-
+				
 				tobeRemoved.Add(psItem.pathAndId);
 			}
+#endif
 		}
 
 		foreach (var item in tobeRemoved) {

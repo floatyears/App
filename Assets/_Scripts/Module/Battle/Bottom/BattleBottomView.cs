@@ -218,6 +218,9 @@ public class BattleBottomView : ViewBase {
 	
 	public override void DestoryUI () {
 		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, OnActiveSkill);
+		foreach (var item in unitInfoPos) {
+			EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
+		}
 		base.DestoryUI ();
 	}
 }

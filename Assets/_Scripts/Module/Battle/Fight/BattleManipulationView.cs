@@ -87,6 +87,12 @@ public class BattleManipulationView : ViewBase {
 	private bool isCardDragable = true;
 	private bool isInCountingDown = false;
 
+	private BattleGuideType currGuideType = BattleGuideType.NONE;
+
+	private EffectMotionTrail guideFinger;
+
+	private GameObject fingerSprite;
+
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
@@ -97,6 +103,10 @@ public class BattleManipulationView : ViewBase {
 		battleCard = FindChild("BattleCard");
 		////------------battle card pool start
 		battleCardPool = FindChild("BattleCardPool");
+		guideFinger = FindChild<EffectMotionTrail> ("BattleCard/Guide");
+		fingerSprite = FindChild("BattleCard/Guide/Sprite");
+		guideFinger.gameObject.SetActive (false);
+
 
 		int count = BattleConfigData.cardPoolSingle;
 		cardPosition = new Vector3[count];
@@ -168,17 +178,10 @@ public class BattleManipulationView : ViewBase {
 
 	public override void ShowUI() {
 		base.ShowUI();
-		//		Debug.LogError ("NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION :" + (NoviceGuideStepEntityManager.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION));
-//		if (NoviceGuideStepManager.Instance.CurrentNoviceGuideStage == NoviceGuideStage.ANIMATION) {
-////			AddGuideCard ();
-//			BattleConfigData.Instance.storeBattleData.colorIndex = 0;
-//		}
-		//		Debug.LogError ("isShow");
 		GenerateShowCard();
 
 		GameInput.OnUpdate += HandleOnUpdate;
 		
-		//		UserGuideAnim (null);
 		GameInput.OnPressEvent += HandleOnPressEvent;
 		GameInput.OnReleaseEvent += HandleOnReleaseEvent;
 		GameInput.OnStationaryEvent += HandleOnStationaryEvent;
@@ -207,7 +210,7 @@ public class BattleManipulationView : ViewBase {
 
 	public override void CallbackView (params object[] args)
 	{
-
+		int ut = -1;
 		switch (args[0].ToString()) {
 			case "attack_enemy_end":
 	//			StartBattle(false);
@@ -230,10 +233,37 @@ public class BattleManipulationView : ViewBase {
 				StateInfo(args[1]);
 				break;
 			case "guide":
-			switch((int)args[1]){
-			case 1:
+			switch((BattleGuideType)args[1]){
+			case BattleGuideType.HP_DRAG:
+				foreach (var item in cardItemArray) {
+					item.SetSprite((int)EUnitType.UHeart,CheckGenerationAttack((int)EUnitType.UHeart));
+				}
+				currGuideType = BattleGuideType.HP_DRAG;
+				StartGuide(BattleGuideType.MULTI_DRAG);
+			break;
+			case BattleGuideType.BOOST_DRAG:
+				ut =  DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit[0].UnitType;
+				for (int i = 0; i < 3; i++) {
+					cardItemArray[i].SetSprite(ut,CheckGenerationAttack(ut));
+				}
+				StartGuide(BattleGuideType.BOOST_DRAG);
+				currGuideType = BattleGuideType.BOOST_DRAG;
 				break;
-			case 2:
+			case BattleGuideType.SING_DRAG:
+				StartGuide(BattleGuideType.SING_DRAG);
+				currGuideType = BattleGuideType.SING_DRAG;
+				break;
+			case BattleGuideType.MULTI_DRAG:
+				ut =  DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit[0].UnitType;
+				for (int i = 0; i < 3; i++) {
+					cardItemArray[i].SetSprite(ut,CheckGenerationAttack(ut));
+				}
+				currGuideType = BattleGuideType.MULTI_DRAG;
+				StartGuide(BattleGuideType.MULTI_DRAG);
+
+				break;
+			default:
+
 				break;
 			}
 			break;
@@ -323,6 +353,7 @@ public class BattleManipulationView : ViewBase {
 	void GenerateCard() {
 
 		ModuleManager.SendMessage(ModuleEnum.NoviceGuideTipsModule,"ui_click");
+		StopGuide ();
 		BattleCardAreaItem bcai = null;
 		for (int i = 0; i < rayCastHit.Length; i++) {
 			tempObject = rayCastHit[i].collider.gameObject;
@@ -347,7 +378,12 @@ public class BattleManipulationView : ViewBase {
 				isInCountingDown = true;
 			}
 			for(int i = 0;i < generateCount;i++) {
-				GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].index);
+				if(currGuideType == BattleGuideType.HP_DRAG){
+					GenerateSpriteCard((int)EUnitType.UHeart,selectTarget[i].index);
+				}else{
+					GenerateSpriteCard(GenerateCardIndex(),selectTarget[i].index);
+				}
+
 //				RefreshLine();
 			}
 		}
@@ -368,6 +404,7 @@ public class BattleManipulationView : ViewBase {
 		}
 		countDownUI.SetActive(false);
 		ResetSelect();
+		currGuideType = BattleGuideType.NONE;
 		//			ShieldInput (false);
 		//			MsgCenter.Instance.Invoke(CommandEnum.ReduceActiveSkillRound);
 		//			showCountDown = false;
@@ -668,7 +705,7 @@ public class BattleManipulationView : ViewBase {
 	/// <param name="locationID">Location I.</param>
 	public void ChangeSpriteCard(int source, int index, int locationID) {
 		CardItem ci = cardItemArray [locationID];
-		if (ci.colorType == source) {
+		if (ci.colorType != source) {
 			ci.SetSprite (index,CheckGenerationAttack (index));
 		}
 	}
@@ -693,7 +730,7 @@ public class BattleManipulationView : ViewBase {
 		for (int i = 0; i < battleCardAreaItem.Length; i++) {
 			if(battleCardAreaItem[i] == null) 
 				continue;
-			if(BattleAttackManager.Instance.upi.CalculateNeedCard( battleCardAreaItem[i].AreaItemID, index )) {
+			if(BattleAttackManager.Instance.CalculateNeedCard( battleCardAreaItem[i].AreaItemID, index )) {
 				trans.Add(battleCardAreaItem[i].transform);
 			}
 		}
@@ -705,7 +742,7 @@ public class BattleManipulationView : ViewBase {
 			return true;
 		}
 		if(normalSkill == null)
-			normalSkill = BattleAttackManager.Instance.upi.GetNormalSkill ();
+			normalSkill = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetNormalSkill ();
 		foreach (var item in normalSkill) {
 			if(item.Blocks.Contains((uint)index)) {
 				return true;
@@ -861,8 +898,100 @@ public class BattleManipulationView : ViewBase {
 	////---------------count down end'
 
 	///---------------guide
-	void StartGuide(int type){
+	void StartGuide(BattleGuideType type){
+
+		int count = 0;
+		int prevColor = -1;
+		int maxCount = 0;
+		int maxIndex = -1;
+		switch (type) {
+		case BattleGuideType.MULTI_DRAG:
+			for (int i = 0; i < 5; i++) {
+				if(prevColor == cardItemArray[i].colorType){
+					count++;
+					if(count > maxCount){
+						maxCount = count;
+						maxIndex = i;
+					}
+				}else{
+					prevColor = cardItemArray[i].colorType;
+					count = 0;
+				}
+			}
+			if(maxCount >= 1){
+				guideFinger.gameObject.SetActive(true);
+				guideFinger.IsEffectStart = true;
+				if(maxIndex - maxCount > 0){
+				 	StartCoroutine(GuideFingerMove(cardItemArray[maxIndex].transform.localPosition,cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex - maxCount - 1].transform.localPosition));
+				}else if(maxIndex >3){
+					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[maxIndex].transform.localPosition));
+				}else{
+					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[maxIndex + 1].transform.localPosition));
+				}
+			}
+
+			break;
+		case BattleGuideType.SING_DRAG:
+			break;
+		case BattleGuideType.SWITCH_DRAG:
+			break;
+		case BattleGuideType.BOOST_DRAG:
+
+			for (int i = 0; i < 5; i++) {
+				if(prevColor == cardItemArray[i].colorType){
+					count++;
+					if(count > maxCount){
+						maxCount = count;
+						maxIndex = i;
+					}
+				}else{
+					prevColor = cardItemArray[i].colorType;
+					count = 0;
+				}
+			}
+			if(maxCount >= 1){
+				guideFinger.gameObject.SetActive(true);
+				guideFinger.IsEffectStart = true;
+				if(maxIndex - maxCount > 0){
+					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex].transform.localPosition,cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[boostIndex].transform.localPosition));
+				}else{
+					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[boostIndex].transform.localPosition));
+				}
+			}
+			break;
+		default:
+				break;
+		}
+	}
+
+	private void StopGuide(){
+		guideFinger.gameObject.SetActive (false);
+		iTween.Stop (guideFinger.gameObject);
+		guideFinger.Stop();
+		StopCoroutine ("GuideFingerMove");
+	}
+
+	IEnumerator GuideFingerMove(Vector3 pos1, Vector3 pos2, Vector3 pos3){
+		while (true) {
+			if(pos3 != Vector3.zero){
+				fingerSprite.transform.localPosition = pos1;
+				iTween.MoveTo(fingerSprite,iTween.Hash("position",pos2,"time",0.5f,"easetype",iTween.EaseType.linear,"islocal",true));
+				yield return new WaitForSeconds(0.55f);
+				iTween.MoveTo(fingerSprite,iTween.Hash("position",pos3,"time",0.5f,"easetype",iTween.EaseType.easeOutSine,"islocal",true));
+				yield return new WaitForSeconds(0.8f);
+			}
+		}
+
 
 	}
 	
+}
+
+enum BattleGuideType{
+	NONE,
+	HP_DRAG,
+	SING_DRAG,
+	SWITCH_DRAG,
+	MULTI_DRAG,
+	BOOST_DRAG,
 }

@@ -40,7 +40,7 @@ namespace bbproto{
 		public override AttackInfoProto ExcuteByDisk(AttackInfoProto ai) {
 			reduceHurtAttack = ai;
 			BattleConfigData.Instance.reduceHurtAttack = reduceHurtAttack;
-			MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,reduceHurtAttack);
+			reduceHurtAttack.attackRound = 0;
 			reduceHurtAttack.attackRound --;
 			MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
 			return reduceHurtAttack;
@@ -51,7 +51,7 @@ namespace bbproto{
 			if (reduceHurtAttack == null) {
 				return;
 			}
-			MsgCenter.Instance.Invoke(CommandEnum.ActiveReduceHurt,reduceHurtAttack);
+			reduceHurtAttack.attackRound = 0;
 			if (reduceHurtAttack.attackRound <= 0) {
 				BattleConfigData.Instance.reduceHurtAttack = null;
 				MsgCenter.Instance.RemoveListener (CommandEnum.EnemyAttackEnd, EnemyAttackEnd);
