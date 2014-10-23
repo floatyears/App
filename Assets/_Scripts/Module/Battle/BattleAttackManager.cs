@@ -897,7 +897,6 @@ public class BattleAttackManager {
 				
 				
 				GameTimer.GetInstance().AddCountDown(BattleAttackEffectView.activeSkillEffectTime, ()=>{
-					MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, true);
 					GameTimer.GetInstance().AddCountDown(1f,ExcuteActiveSkill);
 					ModuleManager.SendMessage (ModuleEnum.BattleFullScreenTipsModule, "ready",userUnit);
 					AudioManager.Instance.PlayAudio (AudioEnum.sound_active_skill);
@@ -920,8 +919,8 @@ public class BattleAttackManager {
 		iase.Excute(ai.userUnitID, userUnit.Attack);
 		iase = null;
 		userUnit = null;
-		GameTimer.GetInstance ().AddCountDown (fixEffectTime + singleEffectTime, ()=>{
-			MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, false);
+		GameTimer.GetInstance ().AddCountDown (singleEffectTime, ()=>{
+			MsgCenter.Instance.Invoke(CommandEnum.ExcuteActiveSkill, activeSkill[ai.userUnitID]);
 		});
 	}
 	

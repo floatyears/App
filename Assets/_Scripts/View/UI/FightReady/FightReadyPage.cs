@@ -74,21 +74,23 @@ public class FightReadyPage : MonoBehaviour {
 
 	private void ShowPartyInfo(UnitParty party){
 //		Debug.LogError ("FightReadyView.pickedHelperInfo == null : " + (FightReadyView.pickedHelperInfo == null));
-		if(friendInfo == null) return;
+//		if(friendInfo == null) return;
 		int partyIDIndex = party.id + 1;
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
 		partyNoLabel.text = partyIDIndex.ToString() + "/" + suffix;
 		UpdateOwnLeaderSkillInfo(party);
-		UpdateHelperLeaderSkillInfo();
+
 		UpdatePartyAtkInfo(party);
 
 		if (friendInfo != null) {
 			ShowHelper();
+
 		}
 	}
 
 	void ShowHelper() {
 		helper.SetData<FriendInfo>(friendInfo);
+		UpdateHelperLeaderSkillInfo();
 	} 
 	
 
@@ -115,10 +117,11 @@ public class FightReadyPage : MonoBehaviour {
 	}
 
 	private void UpdatePartyAtkInfo(UnitParty curParty){
-		int totalHp = curParty.TotalHp + friendInfo.UserUnit.Hp;
+		int totalHp = curParty.TotalHp + (friendInfo == null ? 0:  friendInfo.UserUnit.Hp);
 		totalHPLabel.text = totalHp.ToString();
 		
-		int totalAtk = curParty.GetTotalAtk() + friendInfo.UserUnit.Attack;
+		int totalAtk = curParty.GetTotalAtk() + (friendInfo == null ? 0 : friendInfo.UserUnit.Attack);
+
 		totalAtkLabel.text = totalAtk.ToString();
 		
 		int value = 0;

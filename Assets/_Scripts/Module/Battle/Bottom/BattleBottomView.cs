@@ -24,6 +24,7 @@ public class BattleBottomView : ViewBase {
 
 		List<UserUnit> userUnitInfo = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit;
 
+		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, OnActiveSkill);
 		Transform actorTrans = transform.Find ("Actor");
 		actor = new UITexture[5];
 		for (int i = 0; i < 5; i++) {
@@ -52,6 +53,7 @@ public class BattleBottomView : ViewBase {
 					ActiveSkill activeSkill =  sbi as ActiveSkill;
 					unitInfoPos.Add(temp, activeSkill);
 					activeSkill.AddListener(ActiveSkillCallback);
+//					activeSkill.RefreashCooling();
 				}
 
 				ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,tui.id, o=>{
@@ -112,6 +114,8 @@ public class BattleBottomView : ViewBase {
 		case "close_skill_window":
 			MaskCard("",false);
 			break;
+		case "":
+			break;
 		default:
 			break;
 		}
@@ -136,7 +140,7 @@ public class BattleBottomView : ViewBase {
 		ActiveSkill activeSKill = data as ActiveSkill;
 		foreach (var item in unitInfoPos) {
 			if(item.Value.GetBaseInfo().id == activeSKill.GetBaseInfo().id && item.Value.CoolingDone) {
-				EffectManager.Instance.PlayEffect("activeskill_enabled",item.Key.transform);;
+				EffectManager.Instance.PlayEffect("activeskill_enabled",item.Key.transform,new Vector3(43,10,0));;
 
 			}
 		}
@@ -172,6 +176,9 @@ public class BattleBottomView : ViewBase {
 	
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
+		if (energyPoint < 17) {
+			NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.BATTLE_SP);	
+		}
 		for (int i = 0; i < spSprite.Length; i++) {
 			UISprite sprite = spSprite[i];
 			if(i < energyPoint) {
@@ -196,10 +203,21 @@ public class BattleBottomView : ViewBase {
 		}
 	}
 
+	void OnActiveSkill(object data){
+		ActiveSkill ac = data as ActiveSkill;
+		foreach (var item in unitInfoPos) {
+			if(item.Value.GetBaseInfo().id == ac.GetBaseInfo().id) {
+				EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
+				
+			}
+		}
+
+	}
 
 
 	
 	public override void DestoryUI () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, OnActiveSkill);
 		base.DestoryUI ();
 	}
 }

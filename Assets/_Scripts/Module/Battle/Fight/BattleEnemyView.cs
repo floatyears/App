@@ -71,10 +71,13 @@ public class BattleEnemyView : ViewBase {
 	public override void ShowUI () {
 		base.ShowUI ();
 
-		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT);
 
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT);
 		if(viewData != null && viewData.ContainsKey("enemy")){
 			Refresh(viewData["enemy"] as List<EnemyInfo>);
+			if((viewData["enemy"] as List<EnemyInfo>)[0].enemeyType == EEnemyType.BOSS){
+				NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT_BOSS);
+			}
 		}
 		MsgCenter.Instance.AddListener (CommandEnum.PlayAllEffect, PlayAllEffect);
 	}
@@ -224,6 +227,7 @@ public class BattleEnemyView : ViewBase {
 				if(enemyItemPool.Count > 0){
 					go = enemyItemPool.Dequeue().gameObject;
 					ei = go.GetComponent<BattleEnemyItem>();
+
 					enemyList.Add(tei.EnemySymbol,ei);
 					ei.RefreshData(tei,()=>{
 						sortCount--;

@@ -246,6 +246,26 @@ public class NoviceGuideStepManager {
 				gotoNextStep = true;
 			}
 			break;
+		case NoviceGuideStage.NoviceGuideStepF_1:
+			if(startType == NoviceGuideStartType.FIGHT){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepF_2:
+			if(startType == NoviceGuideStartType.BATTLE_SP){
+				gotoNextStep = true;
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepF_3:
+			if(startType == NoviceGuideStartType.FIGHT_BOSS){
+				gotoNextStep = true;
+			}
+			break;
+//		case NoviceGuideStage.NoviceGuideStepF_2:
+//			if(startType == NoviceGuideStartType.BATTLE_SP){
+//				gotoNextStep = true;
+//			}
+//			break;
 		}
 
 		if (gotoNextStep) {
@@ -291,10 +311,12 @@ public enum NoviceGuideStartType{
 	FRIEND_SELECT,
 	FIGHT_READY,
 	FIGHT,
+	FIGHT_BOSS,
 	UNITS,
 	LEVEL_UP,
 	UNIT_LIST,
 	UNIT_LEVELUP_EVOLVE,
+	BATTLE_SP,
 //	SCRATCH,
 //	INPUT_NAME,
 //	QUEST_SELECT,
