@@ -81,9 +81,9 @@ public class DGTools {
 			return;
 		}
 
-		StageState questStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (tsi.id);
+		StageState questState = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (tsi.id, tsi.CopyType);
 
-		if (questStage == StageState.NEW) {
+		if (questState == StageState.NEW) {
 
 			ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityID);
 
@@ -93,9 +93,9 @@ public class DGTools {
 			return;
 		}
 
-		StageState stageClearStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityID);
+		StageState stageClearStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityID, false);
 
-		if (questStage == StageState.CLEAR) { 	
+		if (questState == StageState.CLEAR) { 	
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].id != tqi.id) { // current quest not the last quest.
 				ModuleManager.Instance.ShowModule (ModuleEnum.StageSelectModule,"story",cityID);
 

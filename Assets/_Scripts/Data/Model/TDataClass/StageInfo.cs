@@ -11,6 +11,8 @@ public partial class StageInfo : ProtoBuf.IExtensible {
 		get { return stageId; }
 	}
 	
+	public ECopyType CopyType = ECopyType.CT_NORMAL;
+
 	private List<QuestInfo> questInfo;
 
 //	public void InitQuestInfo (StageInfo si) {

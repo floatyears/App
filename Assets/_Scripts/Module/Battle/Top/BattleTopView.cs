@@ -207,7 +207,9 @@ using bbproto;public class BattleTopView : ViewBase {
 	void QuestEnd (TRspClearQuest trcq) {
 		if (BattleConfigData.Instance.currentStageInfo != null) {
 			if ( BattleConfigData.Instance.currentStageInfo.type == QuestType.E_QUEST_STORY ) { // story quest
-				DataCenter.Instance.QuestData.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
+				DataCenter.Instance.QuestData.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, 
+				                                                                    BattleConfigData.Instance.currentQuestInfo.id,
+				                                                                    BattleConfigData.Instance.currentStageInfo.CopyType);
 			} else { 
 				DataCenter.Instance.QuestData.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
 			}	

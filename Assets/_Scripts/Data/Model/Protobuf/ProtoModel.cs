@@ -1670,6 +1670,22 @@ namespace bbproto
       get { return _addRate; }
       set { _addRate = value; }
     }
+    private bbproto.MaterialType _mType = bbproto.MaterialType.MT_UNIT;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"mType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.MaterialType.MT_UNIT)]
+    public bbproto.MaterialType mType
+    {
+      get { return _mType; }
+      set { _mType = value; }
+    }
+    private bbproto.NumRange _dropCnt = null;
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"dropCnt", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.NumRange dropCnt
+    {
+      get { return _dropCnt; }
+      set { _dropCnt = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1735,6 +1751,22 @@ namespace bbproto
     {
       get { return _dropPos; }
       set { _dropPos = value; }
+    }
+    private bbproto.MaterialType _mType = bbproto.MaterialType.MT_UNIT;
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"mType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.MaterialType.MT_UNIT)]
+    public bbproto.MaterialType mType
+    {
+      get { return _mType; }
+      set { _mType = value; }
+    }
+    private int _dropCnt = default(int);
+    [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"dropCnt", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int dropCnt
+    {
+      get { return _dropCnt; }
+      set { _dropCnt = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2693,6 +2725,14 @@ namespace bbproto
     {
       get { return _staminaMaxAdd; }
       set { _staminaMaxAdd = value; }
+    }
+    private int _curStar = default(int);
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"curStar", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int curStar
+    {
+      get { return _curStar; }
+      set { _curStar = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4100,6 +4140,22 @@ namespace bbproto
       get { return _isFavorite; }
       set { _isFavorite = value; }
     }
+    private bbproto.MaterialType _mtType = bbproto.MaterialType.MT_UNIT;
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"mtType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.MaterialType.MT_UNIT)]
+    public bbproto.MaterialType mtType
+    {
+      get { return _mtType; }
+      set { _mtType = value; }
+    }
+    private int _fragCnt = default(int);
+    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"fragCnt", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int fragCnt
+    {
+      get { return _fragCnt; }
+      set { _fragCnt = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -4275,6 +4331,14 @@ namespace bbproto
     {
       get { return _showPos; }
       set { _showPos = value; }
+    }
+    private int _fragmentsSize = default(int);
+    [global::ProtoBuf.ProtoMember(22, IsRequired = false, Name=@"fragmentsSize", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int fragmentsSize
+    {
+      get { return _fragmentsSize; }
+      set { _fragmentsSize = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -4619,6 +4683,22 @@ namespace bbproto
       get { return _unitId; }
     }
   
+    private bbproto.MaterialType _mtype = bbproto.MaterialType.MT_UNIT;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"mtype", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.MaterialType.MT_UNIT)]
+    public bbproto.MaterialType mtype
+    {
+      get { return _mtype; }
+      set { _mtype = value; }
+    }
+    private int _unitCnt = default(int);
+    [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"unitCnt", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int unitCnt
+    {
+      get { return _unitCnt; }
+      set { _unitCnt = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -6052,6 +6132,14 @@ namespace bbproto
       get { return _eventClear; }
     }
   
+    private bbproto.StageClearItem _eliteClear = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"eliteClear", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.StageClearItem eliteClear
+    {
+      get { return _eliteClear; }
+      set { _eliteClear = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -6203,6 +6291,14 @@ namespace bbproto
     {
       get { return _count; }
       set { _count = value; }
+    }
+    private bbproto.MaterialType _mtype = bbproto.MaterialType.MT_UNIT;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"mtype", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(bbproto.MaterialType.MT_UNIT)]
+    public bbproto.MaterialType mtype
+    {
+      get { return _mtype; }
+      set { _mtype = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -8117,6 +8213,17 @@ namespace bbproto
             
       [global::ProtoBuf.ProtoEnum(Name=@"QUEST_EVENT_DAILY", Value=26)]
       QUEST_EVENT_DAILY = 26
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"MaterialType")]
+    public enum MaterialType
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MT_UNIT", Value=1)]
+      MT_UNIT = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MT_FRAGMENT", Value=2)]
+      MT_FRAGMENT = 2
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EUnitGetType")]

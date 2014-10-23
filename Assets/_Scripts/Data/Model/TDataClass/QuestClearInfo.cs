@@ -17,9 +17,6 @@ namespace bbproto{
 
 	public partial class QuestClearInfo : ProtobufDataBase {
 
-	    //// property ////
-		public	StageClearItem			StoryClear { get { return this.storyClear; } }
-		public	List<StageClearItem>	EventClear { get { return this.eventClear; } }
 
 		public uint prevStageId(uint stageId) {
 			uint cityId = stageId / 10;
@@ -36,11 +33,11 @@ namespace bbproto{
 		}
 
 		//return 0:locked  1:cleared 2: currentOpen
-		public StageState GetStoryCityState(uint cityId) {
+		public StageState GetStoryCityState(uint cityId, bool onlyNormal=false) {
 			CityInfo cityinfo = DataCenter.Instance.QuestData.GetCityInfo(cityId);
 			bool isClear = true;
 				foreach( StageInfo stage in cityinfo.stages ) {
-				if (!IsStoryStageClear(stage)){
+				if (!IsStoryStageClear(stage, onlyNormal)){
 					isClear = false;
 					break;
 				}
@@ -55,7 +52,7 @@ namespace bbproto{
 			CityInfo prevCity = DataCenter.Instance.QuestData.GetCityInfo(cityId-1);
 			bool prevIsClear = true;
 				foreach( StageInfo stage in prevCity.stages ) {
-				if (!IsStoryStageClear(stage)){
+				if (!IsStoryStageClear(stage, onlyNormal)){
 					prevIsClear = false;
 					break;
 				}
@@ -67,7 +64,7 @@ namespace bbproto{
 		}
 
 			//return 0:locked  1:cleared 2: currentOpen
-		public StageState GetStoryStageState(uint stageId) {
+		public StageState GetStoryStageState(uint stageId, ECopyType copyType) {
 			StageInfo stageinfo = DataCenter.Instance.QuestData.GetStageInfo(stageId);
 
 			bool isClear = IsStoryStageClear(stageinfo);
@@ -83,21 +80,27 @@ namespace bbproto{
 			return StageState.LOCKED;
 		}
 
-		public	bool IsStoryStageClear(StageInfo stageInfo) {
-			if (StoryClear == null || stageInfo == null) {
+		private	bool IsStoryStageClear(StageInfo stageInfo, bool onlyNormal=false) {
+
+			StageClearItem clearItem = (stageInfo.CopyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
+			if( onlyNormal ) {
+				clearItem = storyClear;
+			}
+
+			if (clearItem == null || stageInfo == null) {
 				return false;
 			}
 
-			if (stageInfo.id == StoryClear.stageId) {
+			if (stageInfo.id == clearItem.stageId) {
 				//Last quest of stage is clear, so the stage is clear.
-				return ( StoryClear.questId >= stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].id );
+				return ( clearItem.questId >= stageInfo.QuestInfo[stageInfo.QuestInfo.Count-1].id );
 			}
 
-			return ( stageInfo.id < StoryClear.stageId );
+			return ( stageInfo.id < clearItem.stageId );
 		}
 
 		public	bool IsEventStageClear(StageInfo stageInfo) {
-			if (EventClear == null) {
+			if (eventClear == null) {
 				return false;
 			}
 
@@ -112,14 +115,15 @@ namespace bbproto{
 			return false;
 		}
 
-		public	bool IsStoryQuestClear(uint stageId, uint questId) {
-			if (StoryClear == null) {
+		public	bool IsStoryQuestClear(uint stageId, uint questId, ECopyType copyType) {
+			StageClearItem clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
+			if (clearItem == null) {
 				return false;
 			}
-			if ( stageId < StoryClear.stageId ) { 
+			if ( stageId < clearItem.stageId ) { 
 				return true;
-			} else if ( stageId == StoryClear.stageId ) { 
-				return ( questId <= StoryClear.questId );
+			} else if ( stageId == clearItem.stageId ) { 
+				return ( questId <= clearItem.questId );
 			}
 
 			return false;
@@ -139,16 +143,18 @@ namespace bbproto{
 			return false;
 		}
 
-		public	void UpdateStoryQuestClear(uint stageId, uint questId) {
-				if (storyClear == null) {
-					storyClear = new StageClearItem();			
-				}
-			if( stageId > storyClear.stageId ) {
-				storyClear.stageId = stageId;
+		public	void UpdateStoryQuestClear(uint stageId, uint questId, ECopyType copyType) {
+			StageClearItem clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
+
+			if (clearItem == null) {
+				clearItem = new StageClearItem();			
+			}
+			if( stageId > clearItem.stageId ) {
+				clearItem.stageId = stageId;
 			}
 				
-			if ( questId > storyClear.questId ) {
-				storyClear.questId = questId;
+			if ( questId > clearItem.questId ) {
+				clearItem.questId = questId;
 			}
 			if (stageId >= 17 && questId >= 175) {
 				GameDataPersistence.Instance.StoreData("ResrouceDownload","Start");

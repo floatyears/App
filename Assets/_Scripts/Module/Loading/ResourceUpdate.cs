@@ -618,7 +618,7 @@ public class ResourceUpdate : MonoBehaviour {
 
 //		Debug.Log ("error: " + www.error);
 		if (!string.IsNullOrEmpty (www.error) && !ignoreErr) {
-			Debug.Log (www.error + " : " + url);
+			Debug.LogError ("www.error:"+www.error + " url: " + url);
 
 			Umeng.GA.Event("DownloadError","FileErr:" + url);
 

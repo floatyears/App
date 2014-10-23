@@ -59,6 +59,10 @@ public class QuestItemView : DragPanelItemBase {
 //		throw new System.NotImplementedException ();
 	}
 
+	public void CollectBonusCallback () {
+
+	}
+
 	private StageInfo _stageInfo;
 	public StageInfo stageInfo{
 		set { _stageInfo = value; stageID = _stageInfo.id; }

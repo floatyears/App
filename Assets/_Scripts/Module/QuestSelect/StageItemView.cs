@@ -77,6 +77,12 @@ public class StageItemView : MonoBehaviour{
 		}
 	}
 
+	private ECopyType copyType;
+	public ECopyType CopyType {
+		get { return copyType; }
+		set { copyType = value;}
+	}
+
 	public Callback evolveCallback;
 	
 	private void SetPosition(){
@@ -96,7 +102,7 @@ public class StageItemView : MonoBehaviour{
 	private void SetIconView(){
 //		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
 //		if (data.Type == bbproto.QuestType.E_QUEST_STORY) {
-			StageState clearState = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (data.id);
+			StageState clearState = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (data.id, data.CopyType);
 			ShowIconByState (clearState);
 			
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
@@ -167,7 +173,9 @@ public class StageItemView : MonoBehaviour{
 	private void ShowStar() {
 
 		UISprite star = transform.FindChild("Star").GetComponent<UISprite>();
-		int stageStar = DataCenter.Instance.NormalCopyInfo.GetStageStar(data.id);
+		CopyPassInfo passinfo = ( (CopyType == ECopyType.CT_NORMAL) ? DataCenter.Instance.NormalCopyInfo : DataCenter.Instance.EliteCopyInfo);
+
+		int stageStar = passinfo.GetStageStar(data.id);
 		star.width = star.height * stageStar;
 	}
 
