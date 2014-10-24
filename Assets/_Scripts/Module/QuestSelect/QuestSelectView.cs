@@ -5,11 +5,22 @@ using bbproto;
 
 public class QuestSelectView : ViewBase {
 	private DragPanel dragPanel;
+	private QuestRewardItemView questRewardItem;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
 		dragPanel = new DragPanel("QuestSelectDragPanel", "Prefabs/UI/Quest/QuestItemPrefab",typeof(QuestItemView), transform);
+
+		GameObject rewardObj = ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Quest/QuestRewardItem", null) as GameObject;
+		rewardObj = Instantiate(rewardObj) as GameObject;
+		dragPanel.AddItemToGrid(rewardObj, 5);
+
+		questRewardItem = rewardObj.GetComponent<QuestRewardItemView>();
+
+//		questRewardItem = new QuestRewardItemView();
+//		dragPanel.AddItemToGrid(questRewardItem.gameObject, 5);
+
 	}
 
 	public override void ShowUI(){
@@ -27,6 +38,8 @@ public class QuestSelectView : ViewBase {
 				pickedStage = newPickedStage;
 				GetAccessQuest(newQuestList,accessQuestList, newPickedStage.CopyType);
 				dragPanel.SetData<QuestInfo> (accessQuestList, pickedStage);
+
+				questRewardItem.SetData(pickedStage);
 			} 
 			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST_SELECT);
 		}

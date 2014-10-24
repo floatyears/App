@@ -173,7 +173,7 @@ public class StageItemView : MonoBehaviour{
 	private void ShowStar() {
 
 		UISprite star = transform.FindChild("Star").GetComponent<UISprite>();
-		CopyPassInfo passinfo = ( (CopyType == ECopyType.CT_NORMAL) ? DataCenter.Instance.NormalCopyInfo : DataCenter.Instance.EliteCopyInfo);
+		CopyPassInfo passinfo = DataCenter.Instance.GetCopyPassInfo(CopyType);
 
 		int stageStar = passinfo.GetStageStar(data.id);
 		star.width = star.height * stageStar;

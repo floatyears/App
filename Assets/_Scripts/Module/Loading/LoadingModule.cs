@@ -44,7 +44,9 @@ public class LoadingModule : ModuleBase {
 		//
 		if ( rsp.copyInfo != null ) {
 			DataCenter.Instance.NormalCopyInfo = rsp.copyInfo.normalCopyInfo;
+			DataCenter.Instance.NormalCopyInfo.CopyType = ECopyType.CT_NORMAL;
 			DataCenter.Instance.EliteCopyInfo = rsp.copyInfo.eliteCopyInfo;
+			DataCenter.Instance.EliteCopyInfo.CopyType = ECopyType.CT_ELITE;
 		}
 	}
 

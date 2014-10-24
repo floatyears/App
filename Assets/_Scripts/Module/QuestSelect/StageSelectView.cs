@@ -244,7 +244,7 @@ public class StageSelectView : ViewBase{
 		UIToggle toggle = UIToggle.GetActiveToggle (5);
 		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 
-		Debug.LogWarning("currCopyType:"+currCopyType+" toggle.name:"+( toggle != null ? toggle.name:" NULL"));
+//		Debug.LogWarning("currCopyType:"+currCopyType+" toggle.name:"+( toggle != null ? toggle.name:" NULL"));
 		bool searchFarthestArrivedStageSucceed = false;
 		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(storyStageRoot, StageItemView.Prefab);

@@ -23,6 +23,12 @@ public class QuestItemView : DragPanelItemBase {
 			stageID = value;
 		}
 	}
+	
+	private StageInfo _stageInfo;
+	public StageInfo stageInfo{
+		set { _stageInfo = value; stageID = _stageInfo.id; }
+		get {return _stageInfo;}
+	}
 
 	private QuestInfo data;
 	public QuestInfo Data{
@@ -59,11 +65,10 @@ public class QuestItemView : DragPanelItemBase {
 //		throw new System.NotImplementedException ();
 	}
 
-	private StageInfo _stageInfo;
-	public StageInfo stageInfo{
-		set { _stageInfo = value; stageID = _stageInfo.id; }
-		get {return _stageInfo;}
+	public void CollectBonusCallback () {
+
 	}
+
 
 	public Callback evolveCallback;
 	
@@ -72,12 +77,13 @@ public class QuestItemView : DragPanelItemBase {
 	
 		nameLabel.text = data.name;
 		//staminaLabel.text = string.Format( "STAMINA {0}", data.Stamina);
-		staminaLabel.text = TextCenter.GetText("Stamina") + " " + data.stamina;
 		//floorLabel.text = string.Format( "FLOOR {0}", data.Floor);
 //		floorLabel.text = TextCenter.GetText("Floor") + " " + data.Floor;
+		int multiple = (stageInfo.CopyType==ECopyType.CT_NORMAL ? 1 : 2);
 
-		expLabel.text = data.rewardExp.ToString();
-		coinLabel.text = data.rewardMoney.ToString();
+		staminaLabel.text = TextCenter.GetText("Stamina") + " " + (data.stamina * multiple);
+		expLabel.text = (data.rewardExp * multiple).ToString();
+		coinLabel.text = (data.rewardMoney * multiple).ToString();
 
 		/*Debug.Log("QuestItemView.ShowQuestInfo(), stageID = " + stageID + ", questID = " + data.ID 
 		          + ", isClear = " + isClear);*/
@@ -108,9 +114,9 @@ public class QuestItemView : DragPanelItemBase {
 		UISprite star = transform.FindChild("Star").GetComponent<UISprite>();
 		star.gameObject.SetActive(isClear);
 		if ( isClear ) {
-			CopyPassInfo passinfo = ( (stageInfo.CopyType == ECopyType.CT_NORMAL) ? DataCenter.Instance.NormalCopyInfo : DataCenter.Instance.EliteCopyInfo);
+			CopyPassInfo passinfo = DataCenter.Instance.GetCopyPassInfo(stageInfo.CopyType);
 			
-			int stageStar = passinfo.GetQuestStar(data.id);
+			int stageStar = passinfo.GetQuestStar(StageID, data.id);
 			star.width = star.height * stageStar;
 		}
 	}
@@ -157,7 +163,7 @@ public class QuestItemView : DragPanelItemBase {
 //		} else {
 //			ModuleManager.Instance.ShowModule(ModuleEnum.FriendSelectModule,"type","quest","data",thisQuestItemView);//before
 //		}
-		ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", data);
+		ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo", data, "StageInfo", stageInfo);
 	}
 
 	private bool CheckStaminaEnough(){
