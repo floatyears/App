@@ -31,7 +31,7 @@ public class HomeView : ViewBase{
 		List<CityInfo> cityList = DataCenter.Instance.QuestData.GetCityListInfo();
 		for (int i = 0; i < cityList.Count; i++) {
 			UISprite cityBg = FindChild("StoryDoor/"+i+"/Background").GetComponent<UISprite>();
-			bool isNewCity = (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityList[i].id) == StageState.NEW); 
+			bool isNewCity = (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityList[i].id, true) == StageState.NEW); 
 			cityBg.GetComponent<TweenAlpha> ().enabled = isNewCity;
 		}
 
@@ -151,12 +151,12 @@ public class HomeView : ViewBase{
 			return;
 		}
                 
-		if (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityViewInfo [item].id) == StageState.LOCKED) {
+		if (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityViewInfo [item].id, true) == StageState.LOCKED) {
 			TipsManager.Instance.ShowTipsLabel (TextCenter.GetText ("Stage_Locked"), item);
 		} else {
 //			List<TStageInfo> stages = DataCenter.Instance.QuestData.GetCityInfo(1).Stages;
 //			List<TQuestInfo> quests = stages[stages.Count - 1].QuestInfo;
-			if(cityViewInfo [item].id == 2 && (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(2) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
+			if(cityViewInfo [item].id == 2 && (DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(2, true) == StageState.NEW) && (GameDataPersistence.Instance.GetData("ResourceComplete") != "true")){//QuestClearInfo.GetStoryStageState (cityViewInfo [item].ID)){
 				
 //				MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, mwp);
 				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("DownloadResourceTipTile"),TextCenter.GetText("DownloadResourceTipContent"),TextCenter.GetText("OK"),o=>{

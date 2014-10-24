@@ -48,16 +48,14 @@ public class StageSelectView : ViewBase{
 			ShowStoryCityView(viewData["story"]);
 			FindChild("CopyType/Normal").SetActive(true);
 			FindChild("CopyType/Elite").SetActive(true);
-
-			ShowQuestStar();
-
 		}else if(viewData.ContainsKey("event")){
 			ShowEventCityView();
 			FindChild("CopyType/Normal").SetActive(false);
 			FindChild("CopyType/Elite").SetActive(false);
-		}else if(viewData.ContainsKey("evolve")){
-			EvolveStartQuest(viewData["evolve"]);
 		}
+//		else if(viewData.ContainsKey("evolve")){
+//			EvolveStartQuest(viewData["evolve"]);
+//		}
 
 		if (currentCityName != "") {
 			SetSceneName(currentCityName);
@@ -65,27 +63,13 @@ public class StageSelectView : ViewBase{
 
 	}
 
-	void ShowQuestStar() {
-		UIToggle toggle = UIToggle.GetActiveToggle (5);
-		CopyPassInfo passInfo;
-		if( toggle.name == "Normal" ) {
-			passInfo = DataCenter.Instance.NormalCopyInfo;
-		}
-		else {
-			passInfo = DataCenter.Instance.EliteCopyInfo;
-		}
-
-
-	}
 
 	public void OnSelectCopyType(object data) {
-		UIToggle toggle = UIToggle.GetActiveToggle (5);
-		if (toggle != null) {
-			Debug.Log("toggle.name:"+ toggle.name);
-		}
-//		
-//		if( btnCopyTypeNormal.gameObject == caller ) {
-//			Debug.Log("caller is btnCopyTypeNormal");
+		ShowStoryCityView(viewData["story"]);
+
+//		UIToggle toggle = UIToggle.GetActiveToggle (5);
+//		if (toggle != null) {
+//			Debug.Log("toggle.name:"+ toggle.name);
 //		}
 	}
 
@@ -181,71 +165,69 @@ public class StageSelectView : ViewBase{
 	private GameObject storyStageRoot;
 	private List<StageItemView> stageViewList  = new List<StageItemView>();
 
-	private void GetData(uint cityID){
-		CityInfo received = DataCenter.Instance.QuestData.GetCityInfo(cityID);
+//	private void GetData(uint cityID){
+//		CityInfo received = DataCenter.Instance.QuestData.GetCityInfo(cityID);
+//
+////		if(currPickedCityInfo == null){
+////			//when first time to step in
+////			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
+////			currPickedCityInfo = received;
+//////			Debug.LogError("received : " + received);
+////			DestoryStages();
+////			FillView();
+////		} else if(!currPickedCityInfo.Equals(received)){
+////			//when picked city changed
+////			Debug.Log("recorded picked cityInfo is changed, update stage view...");
+////			currPickedCityInfo = received;
+////			DestoryStages();
+////			FillView();
+////		} else{
+////			//when picked city not changed
+////			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
+////		}
+//		currPickedCityInfo = received;
+//		//			Debug.LogError("received : " + received);
+//		DestoryStages();
+//		FillView();
+//	}
 
-//		if(currPickedCityInfo == null){
-//			//when first time to step in
-//			Debug.Log("recorded picked cityInfo is null, as first time to step in, create stage view...");
-//			currPickedCityInfo = received;
-////			Debug.LogError("received : " + received);
-//			DestoryStages();
-//			FillView();
-//		} else if(!currPickedCityInfo.Equals(received)){
-//			//when picked city changed
-//			Debug.Log("recorded picked cityInfo is changed, update stage view...");
-//			currPickedCityInfo = received;
-//			DestoryStages();
-//			FillView();
-//		} else{
-//			//when picked city not changed
-//			Debug.Log("recorded picked cityInfo is not changed, keep stage view...");
-//		}
-		currPickedCityInfo = received;
-		//			Debug.LogError("received : " + received);
-		DestoryStages();
-		FillView();
-	}
-	
 	private void ShowStoryCityView(object msg){
 		storyStageRoot.gameObject.SetActive(true);
 		eventStageRoot.gameObject.SetActive(false);
-		GetData((uint)msg);
+
+
+		uint cityID = (uint)msg;
+		currPickedCityInfo = DataCenter.Instance.QuestData.GetCityInfo(cityID);
+
+		if(currPickedCityInfo != null) {
+			DestoryStages();
+			GenerateStages( currPickedCityInfo.stages );
+		}
+
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
 		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.id));
 	}
-
-	private void FillView(){
-		if(currPickedCityInfo == null) {
-			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
-			return;
-		}
 	
-		List<StageInfo> accessStageList = currPickedCityInfo.stages;
-		GenerateStages(accessStageList);
-
-	}
-
 	/// <summary>
 	/// Gets the access stage list.
 	/// Add the whole cleared stage and the first one not cleared to the list
 	/// </summary>
 	/// <returns>The access stage list.</returns>
-	private List<StageInfo> GetAccessStageList(List<StageInfo> stageInfoList){
-		List<StageInfo> accessStageList = new List<StageInfo>();
-		for (int i = 0; i < stageInfoList.Count; i++){
-			if(stageInfoList[ i ].type == QuestType.E_QUEST_STORY){
-				accessStageList.Add(stageInfoList[ i ]);
-				if (!DataCenter.Instance.QuestData.QuestClearInfo.IsStoryStageClear(stageInfoList[ i ]))
-					break;					
-			}
-			else{
-				Debug.LogError("Error: invalid quest type:" + stageInfoList[i].type);
-				break;
-			}
-		}
-		return accessStageList;
-	}
+//	private List<StageInfo> GetAccessStageList(List<StageInfo> stageInfoList){
+//		List<StageInfo> accessStageList = new List<StageInfo>();
+//		for (int i = 0; i < stageInfoList.Count; i++){
+//			if(stageInfoList[ i ].type == QuestType.E_QUEST_STORY){
+//				accessStageList.Add(stageInfoList[ i ]);
+//				if (!DataCenter.Instance.QuestData.QuestClearInfo.IsStoryStageClear(stageInfoList[ i ]))
+//					break;					
+//			}
+//			else{
+//				Debug.LogError("Error: invalid quest type:" + stageInfoList[i].type);
+//				break;
+//			}
+//		}
+//		return accessStageList;
+//	}
 	
 	/// <summary>
 	/// Generates the stage page.
@@ -259,23 +241,20 @@ public class StageSelectView : ViewBase{
 
 		storyStageList.Clear ();
 
+		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+
+//		Debug.LogWarning("currCopyType:"+currCopyType+" toggle.name:"+( toggle != null ? toggle.name:" NULL"));
 		bool searchFarthestArrivedStageSucceed = false;
 		for (int i = 0; i < accessStageList.Count; i++){
 			GameObject cell = NGUITools.AddChild(storyStageRoot, StageItemView.Prefab);
 			cell.name = i.ToString();
 			StageItemView stageItemView = StageItemView.Inject(cell);
 
-//			if(!searchFarthestArrivedStageSucceed){
-//
-//				if(!DataCenter.Instance.QuestData.QuestClearInfo.IsStoryStageClear(accessStageList[ i ])){
-//					stageItemView.IsArrivedStage = true;
-//					searchFarthestArrivedStageSucceed = true;
-//				}
-//				else{
-//					stageItemView.IsArrivedStage = false;
-//				}
-//			}
+			stageItemView.CopyType = currCopyType;
+			accessStageList[ i ].CopyType = currCopyType;
 			stageItemView.Data = accessStageList[ i ];
+
 			storyStageList.Add(stageItemView);
 		}
 
@@ -392,48 +371,45 @@ public class StageSelectView : ViewBase{
 	}
 	
 	//===========evolve==============================================
-	void EvolveStartQuest (object data) {
-//		Debug.LogError ("EvolveStartQuest");
-		evolveStageInfo = data as UnitDataModel;
-		GetData(evolveStageInfo.StageInfo.cityId);
-		FillViewEvolve();
+//	void EvolveStartQuest (object data) {
+//		evolveStageInfo = data as UnitDataModel;
+//		GetData(evolveStageInfo.StageInfo.cityId);
+//		FillViewEvolve();
+//
+//		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
+//		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVOLVETAGE"));
+//	}
 
-		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
-		SetSceneName (TextCenter.GetText ("SCENE_NAME_EVOLVETAGE"));
-	}
-
-	void FillViewEvolve(){
-		if(currPickedCityInfo == null) {
-			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
-			return;
-		}
-
-		foreach (var item in storyStageList) {
-			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
-				item.evolveCallback = ClickEvolve;
-				item.ShowIconByState(StageState.NEW);
-				continue;
-			}
-			else{
-				item.ShowIconByState(StageState.LOCKED);
-//				UIEventListenerCustom listener = item.GetComponent<UIEventListenerCustom>();
-//				listener.onClick = null;
-//				Destroy(listener);
-			}
-		}	
-
-
-	}
-
-	void ClickEvolve() {
-		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectStage, evolveStageInfo);
-	}
-
-
+//	void FillViewEvolve(){
+//		if(currPickedCityInfo == null) {
+//			Debug.LogError("CreateSlidePageView(), cityInfo is NULL!");
+//			return;
+//		}
+//
+//		foreach (var item in storyStageList) {
+//			if(item.Data.Equals(evolveStageInfo.StageInfo)) {
+//				item.evolveCallback = ClickEvolve;
+//				item.ShowIconByState(StageState.NEW);
+//				continue;
+//			}
+//			else{
+//				item.ShowIconByState(StageState.LOCKED);
+////				UIEventListenerCustom listener = item.GetComponent<UIEventListenerCustom>();
+////				listener.onClick = null;
+////				Destroy(listener);
+//			}
+//		}	
+//	}
+//
+//	void ClickEvolve() {
+//		MsgCenter.Instance.Invoke (CommandEnum.EvolveSelectStage, evolveStageInfo);
+//	}
+//
+//
 	public GameObject GetStageNewItem(){
 		if(storyStageRoot != null)
 		foreach(var i in storyStageRoot.transform.GetComponentsInChildren<StageItemView>()){
-			if(DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(i.Data.id) == StageState.NEW){
+			if(DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(i.Data.id, i.Data.CopyType) == StageState.NEW){
 				return i.gameObject;
 			}
 		}

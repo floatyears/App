@@ -56,11 +56,6 @@ public class QuestItem : MonoBehaviour {
 				EUnitType unitType = DataCenter.Instance.UnitData.GetUnitInfo(bossID).type;
 				bossTypeSpr.color = DGTools.TypeToColor(unitType);
 
-				if(stageInfo.type == QuestType.E_QUEST_STORY)
-					IsClear = DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageInfo.id, questInfo.id);
-				else if(stageInfo.type == QuestType.E_QUEST_EVENT)
-					IsClear = DataCenter.Instance.QuestData.QuestClearInfo.IsEventQuestClear(stageInfo.id, questInfo.id);
-				else{}
 			}
 		}
 	}

@@ -28,6 +28,8 @@ public class QuestController : ControllerBase {
 		reqClearQuest.hitGrid.AddRange(questParam.hitGrid);
 
 		reqClearQuest.copyType = questParam.copyType;
+		reqClearQuest.totalHp = questParam.totalHp;
+		reqClearQuest.leftHp = questParam.leftHp;
 
 		HttpRequestManager.Instance.SendHttpRequest (reqClearQuest, data => {
 
@@ -57,6 +59,8 @@ public class QuestController : ControllerBase {
 			cq.gotExp = rspClearQuest.gotExp;
 			cq.gotStone = rspClearQuest.gotStone;
 			cq.gotFriendPoint = rspClearQuest.gotFriendPoint;
+			cq.curStar = rspClearQuest.curStar;
+
 			foreach (UserUnit uu in rspClearQuest.gotUnit) {
 				DataCenter.Instance.UnitData.UserUnitList.AddMyUnit(uu);
 				uu.userID = DataCenter.Instance.UserData.UserInfo.userId;
@@ -153,9 +157,25 @@ public class QuestController : ControllerBase {
 			reqStartQuest.helperUnit = questParam.helperUserUnit.UserUnit;
 		reqStartQuest.isUserGuide = questParam.isUserGuide;
 
-		reqStartQuest.copyType = questParam.questType;  //普通副本 or 精英副本
+		reqStartQuest.copyType = questParam.copyType;  //普通副本 or 精英副本
 
 		HttpRequestManager.Instance.SendHttpRequest (reqStartQuest, callback, ProtocolNameEnum.RspStartQuest);
 	}
 
+
+	public void AcceptStarBonus(NetCallback callBack, uint stageId, ECopyType copyType) {
+		ReqAcceptStarBonus req = new ReqAcceptStarBonus();
+
+		req.header = new ProtoHeader();
+		req.header.apiVer = ServerConfig.API_VERSION;
+		req.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
+
+		//request params
+		req.copyType = copyType;
+		req.stageId = stageId;
+
+		Debug.Log("req.copyType:"+copyType+" req.stageId:"+req.stageId);
+
+		HttpRequestManager.Instance.SendHttpRequest (req, callBack, ProtocolNameEnum.RspAcceptStarBonus);
+	}
 }

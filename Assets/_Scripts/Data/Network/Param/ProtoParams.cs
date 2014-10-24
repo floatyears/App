@@ -9,5 +9,14 @@ public class StartQuestParam {
 	public int currPartyId;
 	public int startNew;
 	public int isUserGuide;
-	public ECopyType questType; //普通副本 or 精英副本
+	public ECopyType copyType; //普通副本 or 精英副本
+}
+
+namespace bbproto{
+
+public partial class ClearQuestParam  : ProtoBuf.IExtensible {
+	public int totalHp;
+	public int leftHp;
+}
+
 }

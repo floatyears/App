@@ -221,6 +221,12 @@ public class DataCenter {
 
 	public CopyPassInfo NormalCopyInfo;
 	public CopyPassInfo EliteCopyInfo;
+	public CopyPassInfo GetCopyPassInfo(ECopyType copyType) {
+		if (copyType==ECopyType.CT_NORMAL) 
+			return DataCenter.Instance.NormalCopyInfo;
+		else
+			return DataCenter.Instance.EliteCopyInfo;
+	}
 
 	private TaskAndAchieveModel taskAndAchieveData;
 	public TaskAndAchieveModel TaskAndAchieveData{

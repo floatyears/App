@@ -178,12 +178,17 @@ using bbproto;public class BattleTopView : ViewBase {
 	ClearQuestParam GetQuestData () {
 		ClearQuestParam cqp = new ClearQuestParam ();
 		cqp.questID = BattleConfigData.Instance.questDungeonData.questId;
+		cqp.copyType = BattleConfigData.Instance.currentStageInfo.CopyType;
+
 		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			cqp.getMoney += item.getMoney;
 			cqp.getUnit.AddRange(item.getUnit);
 			cqp.hitGrid.AddRange(item.hitGrid);
 		}
-		
+
+		cqp.leftHp = BattleConfigData.Instance.storeBattleData.hp;
+		cqp.totalHp = BattleConfigData.Instance.party.TotalHp;
+
 		return cqp;
 	}
 
@@ -192,8 +197,26 @@ using bbproto;public class BattleTopView : ViewBase {
 			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserData.UserInfo;
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			DataCenter.Instance.UserData.RefreshUserInfo (clearQuest);
+
+			//更新通关评星
+			CopyPassInfo passInfo = DataCenter.Instance.GetCopyPassInfo(BattleConfigData.Instance.currentStageInfo.CopyType);
+			passInfo.UpdateQuestStar(BattleConfigData.Instance.currentQuestInfo.id, clearQuest.curStar);
+
+			//更新通关信息
+			if (BattleConfigData.Instance.currentStageInfo != null) {
+				if ( BattleConfigData.Instance.currentStageInfo.type == QuestType.E_QUEST_STORY ) { // story quest
+					DataCenter.Instance.QuestData.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, 
+					                                                                    BattleConfigData.Instance.currentQuestInfo.id,
+					                                                                    BattleConfigData.Instance.currentStageInfo.CopyType);
+				} else { 
+					DataCenter.Instance.QuestData.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
+				}	
+			}
+
 			End();
 			QuestEnd(clearQuest);
+
+
 
 			Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.id.ToString());
 		} else {
@@ -205,14 +228,6 @@ using bbproto;public class BattleTopView : ViewBase {
 
 	
 	void QuestEnd (TRspClearQuest trcq) {
-		if (BattleConfigData.Instance.currentStageInfo != null) {
-			if ( BattleConfigData.Instance.currentStageInfo.type == QuestType.E_QUEST_STORY ) { // story quest
-				DataCenter.Instance.QuestData.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
-			} else { 
-				DataCenter.Instance.QuestData.QuestClearInfo.UpdateEventQuestClear (BattleConfigData.Instance.currentStageInfo.id, BattleConfigData.Instance.currentQuestInfo.id);
-			}	
-		}
-		
 		ModuleManager.Instance.ExitBattle ();
 		
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,"data", trcq);

@@ -20,6 +20,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	private FightReadyPage moveParent;
 
 	private QuestInfo questInfo;
+	private StageInfo stageInfo;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -46,6 +47,9 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			}
 			if(viewData.ContainsKey("QuestInfo")){
 				questInfo = viewData["QuestInfo"] as QuestInfo;
+			}
+			if(viewData.ContainsKey("StageInfo")){
+				stageInfo = viewData["StageInfo"] as StageInfo;
 			}
 		}
 	}
@@ -142,7 +146,8 @@ public class FightReadyView : ViewBase, IDragChangeView {
 //			sqp.helperUserUnit = viewData[ "HelperInfo" ] as FriendInfo;	
 //		}
 		sqp.questId = questInfo.id;
-		sqp.stageId = questInfo.id/10;
+		sqp.stageId = stageInfo.id;
+		sqp.copyType = stageInfo.CopyType;
 		sqp.startNew = 1;
 		QuestController.Instance.StartQuest (sqp, RspStartQuest);
 	}
