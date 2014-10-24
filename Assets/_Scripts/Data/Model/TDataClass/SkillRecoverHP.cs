@@ -36,7 +36,7 @@ namespace bbproto{
 					tempBlood += value;
 				}
 				else if(type == EValueType.PERCENT) {
-					tempBlood += atk *  BattleAttackManager.Instance.maxBlood;
+					tempBlood += atk *  BattleAttackManager.Instance.MaxBlood;
 				}	
 			}
 			

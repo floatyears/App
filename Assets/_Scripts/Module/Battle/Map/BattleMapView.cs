@@ -133,7 +133,7 @@ public class BattleMapView : ViewBase {
 		
 		QuestController.Instance.ResumeQuest (o=>{
 			Umeng.GA.Buy ("ResumeQuest" , 1, DataCenter.resumeQuestStone);
-			BattleAttackManager.Instance.AddBlood (BattleAttackManager.Instance.maxBlood);
+			BattleAttackManager.Instance.AddBlood (BattleAttackManager.Instance.MaxBlood);
 			BattleAttackManager.Instance.RecoverEnergePoint (DataCenter.maxEnergyPoint);
 			BattleConfigData.Instance.StoreMapData ();
 		}, BattleConfigData.Instance.questDungeonData.questId);

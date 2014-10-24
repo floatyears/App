@@ -179,15 +179,14 @@ using bbproto;public class BattleTopView : ViewBase {
 		ClearQuestParam cqp = new ClearQuestParam ();
 		cqp.questID = BattleConfigData.Instance.questDungeonData.questId;
 		cqp.copyType = BattleConfigData.Instance.currentStageInfo.CopyType;
+		cqp.leftHp = BattleAttackManager.Instance.Blood; //BattleConfigData.Instance.storeBattleData.hp;
+		cqp.totalHp = BattleAttackManager.Instance.MaxBlood;
 
 		foreach (var item in BattleConfigData.Instance.storeBattleData.questData) {
 			cqp.getMoney += item.getMoney;
 			cqp.getUnit.AddRange(item.getUnit);
 			cqp.hitGrid.AddRange(item.hitGrid);
 		}
-
-		cqp.leftHp = BattleConfigData.Instance.storeBattleData.hp;
-		cqp.totalHp = BattleConfigData.Instance.party.TotalHp;
 
 		return cqp;
 	}

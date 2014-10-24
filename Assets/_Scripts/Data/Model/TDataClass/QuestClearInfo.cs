@@ -17,6 +17,9 @@ namespace bbproto{
 
 	public partial class QuestClearInfo : ProtobufDataBase {
 
+		public StageClearItem GetClearItem(ECopyType copyType) {
+			return (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
+		}
 
 		public uint prevStageId(uint stageId) {
 			uint cityId = stageId / 10;

@@ -45,7 +45,11 @@ public class StageSelectView : ViewBase{
 	public override void ShowUI(){
 		base.ShowUI();
 		if (viewData.ContainsKey("story")) {
-			ShowStoryCityView(viewData["story"]);
+			UIToggle toggle = UIToggle.GetActiveToggle (5);
+			ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+
+			ShowStoryCityView(viewData["story"], currCopyType);
+
 			FindChild("CopyType/Normal").SetActive(true);
 			FindChild("CopyType/Elite").SetActive(true);
 		}else if(viewData.ContainsKey("event")){
@@ -65,12 +69,16 @@ public class StageSelectView : ViewBase{
 
 
 	public void OnSelectCopyType(object data) {
-		ShowStoryCityView(viewData["story"]);
+		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 
-//		UIToggle toggle = UIToggle.GetActiveToggle (5);
-//		if (toggle != null) {
-//			Debug.Log("toggle.name:"+ toggle.name);
-//		}
+		StageClearItem clearInfo = DataCenter.Instance.QuestData.QuestClearInfo.GetClearItem(currCopyType);
+		uint lastestCityId = clearInfo.stageId/10;
+		if( lastestCityId==0 ) 
+			lastestCityId = 1;
+
+		ShowStoryCityView(lastestCityId, currCopyType);
+
 	}
 
 	private void ShowEventCityView(){
@@ -191,7 +199,7 @@ public class StageSelectView : ViewBase{
 //		FillView();
 //	}
 
-	private void ShowStoryCityView(object msg){
+	private void ShowStoryCityView(object msg, ECopyType currCopyType){
 		storyStageRoot.gameObject.SetActive(true);
 		eventStageRoot.gameObject.SetActive(false);
 
@@ -201,7 +209,8 @@ public class StageSelectView : ViewBase{
 
 		if(currPickedCityInfo != null) {
 			DestoryStages();
-			GenerateStages( currPickedCityInfo.stages );
+
+			GenerateStages( currPickedCityInfo.stages, currCopyType );
 		}
 
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
@@ -233,7 +242,7 @@ public class StageSelectView : ViewBase{
 	/// Generates the stage page.
 	/// </summary>
 	/// <param name="count">Count.</param>
-	private void GenerateStages(List<StageInfo> accessStageList){
+	private void GenerateStages(List<StageInfo> accessStageList, ECopyType currCopyType){
 		background = FindChild<UITexture>("Background");
 		ResourceManager.Instance.LoadLocalAsset("Stage/1" /*+ currPickedCityInfo.ID*/, o =>{
 			background.mainTexture = o as Texture2D;
@@ -241,8 +250,6 @@ public class StageSelectView : ViewBase{
 
 		storyStageList.Clear ();
 
-		UIToggle toggle = UIToggle.GetActiveToggle (5);
-		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 
 //		Debug.LogWarning("currCopyType:"+currCopyType+" toggle.name:"+( toggle != null ? toggle.name:" NULL"));
 		bool searchFarthestArrivedStageSucceed = false;

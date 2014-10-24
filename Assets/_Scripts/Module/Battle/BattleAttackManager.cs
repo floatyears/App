@@ -8,7 +8,7 @@ public class BattleAttackManager {
 	public static string[] stateInfo = new string[] {"Player Phase","Enemy Phase","Normal Skill","Passive Skill","Active Skill"};
     private ErrorMsg errorMsg;
     public UnitParty upi;
-    public int maxBlood = 0;
+    public int MaxBlood = 0;
     private int blood = 0;
     public int Blood {
 		set {
@@ -19,7 +19,7 @@ public class BattleAttackManager {
 
 			} if(value > blood) {
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
-				blood = (value < maxBlood ? value : maxBlood);
+				blood = (value < MaxBlood ? value : MaxBlood);
 				isRecover = true;
 			} else{
 				blood = value;
@@ -83,7 +83,7 @@ public class BattleAttackManager {
     }
 
 	public void ResetBlood () {
-		maxBlood = Blood = upi.GetInitBlood();
+		MaxBlood = Blood = upi.GetInitBlood();
 		maxEnergyPoint = DataCenter.maxEnergyPoint;
 	}
 
@@ -99,10 +99,10 @@ public class BattleAttackManager {
 	public void InitData () {
 		StoreBattleData sbd = BattleConfigData.Instance.storeBattleData;
 		if (sbd.hp == -1) {
-			Blood = maxBlood = upi.GetInitBlood ();
+			Blood = MaxBlood = upi.GetInitBlood ();
 			maxEnergyPoint = DataCenter.maxEnergyPoint;
 		} else {
-			maxBlood = upi.GetInitBlood ();
+			MaxBlood = upi.GetInitBlood ();
 			Blood = sbd.hp;
 			CheckPlayerDead();
 			maxEnergyPoint = sbd.sp;
@@ -131,7 +131,7 @@ public class BattleAttackManager {
     }
 	
 	public void InjuredNotDead(float probability) {
-        float residualBlood = Blood - maxBlood * probability;
+        float residualBlood = Blood - MaxBlood * probability;
 		if (residualBlood < 1) {
 			residualBlood = 1;	
         }
@@ -224,7 +224,7 @@ public class BattleAttackManager {
 
     public List<AttackInfoProto> CaculateFight(int areaItem, int id, bool isBoost) {
 		float value = isBoost ? 1.5f : 1f;
-		return upi.CalculateSkill(areaItem, id, maxBlood, value);
+		return upi.CalculateSkill(areaItem, id, MaxBlood, value);
     }
 
     public void StartAttack(object data) {
@@ -259,7 +259,7 @@ public class BattleAttackManager {
     }
 
     public void GetBaseData() {
-		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "init_data", Blood,maxBlood,maxEnergyPoint);
+		ModuleManager.SendMessage (ModuleEnum.BattleBottomModule, "init_data", Blood,MaxBlood,maxEnergyPoint);
     }
 
    public  void RecoverEnergePoint(object data) {
@@ -294,7 +294,7 @@ public class BattleAttackManager {
             return;
         }
 //        MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
-        int addBlood = RecoverHP(maxBlood, 2);				// 3: every step.
+        int addBlood = RecoverHP(MaxBlood, 2);				// 3: every step.
 //		Blood += addBlood;
 		AddBlood (addBlood);
         ConsumeEnergyPoint();
@@ -330,7 +330,7 @@ public class BattleAttackManager {
 		}
 
 		int addBlood = Blood + value;
-		Blood = addBlood > maxBlood ? maxBlood : addBlood;
+		Blood = addBlood > MaxBlood ? MaxBlood : addBlood;
 	}
 
     void ConsumeEnergyPoint() {	
@@ -366,7 +366,7 @@ public class BattleAttackManager {
 //    }
 			
     int ReductionBloodByProportion(float proportion) {
-        return (int)(maxBlood * proportion);
+        return (int)(MaxBlood * proportion);
     }
 
 
@@ -510,7 +510,7 @@ public class BattleAttackManager {
 //				MsgCenter.Instance.Invoke (CommandEnum.ReduceActiveSkillRound);
 				BattleAttackManager.instance.ReduceActiveSkillRound();
 				
-				int blood = RecoverHP(BattleAttackManager.Instance.maxBlood, 1);	//1: every round.
+				int blood = RecoverHP(BattleAttackManager.Instance.MaxBlood, 1);	//1: every round.
 				
 				BattleAttackManager.Instance.AddBlood(blood);
 				
