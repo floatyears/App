@@ -259,15 +259,11 @@ public class NoviceGuideStepManager {
 		case NoviceGuideStage.NoviceGuideStepF_3:
 			if(startType == NoviceGuideStartType.FIGHT_BOSS){
 				gotoNextStep = true;
+			}else if(startType == NoviceGuideStartType.QUEST_CLEAR){
+				gotoNextStep = true;
 			}
 			break;
-//		case NoviceGuideStage.NoviceGuideStepF_2:
-//			if(startType == NoviceGuideStartType.BATTLE_SP){
-//				gotoNextStep = true;
-//			}
-//			break;
 		}
-
 		if (gotoNextStep) {
 			if(stepInsDic.ContainsKey (nextType)) {
 				nextType = stepInsDic[nextType].NextState;
@@ -317,6 +313,7 @@ public enum NoviceGuideStartType{
 	UNIT_LIST,
 	UNIT_LEVELUP_EVOLVE,
 	BATTLE_SP,
+	QUEST_CLEAR,
 //	SCRATCH,
 //	INPUT_NAME,
 //	QUEST_SELECT,
@@ -360,6 +357,7 @@ public enum NoviceGuideStage{
 	NoviceGuideStepF_2,
 	NoviceGuideStepF_3,
 	NoviceGuideStepF_4,
+
 	NoviceGuideStepF_5,
 	NoviceGuideStepF_6,
 	NoviceGuideStepG_1,

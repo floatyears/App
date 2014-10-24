@@ -898,6 +898,7 @@ public class BattleManipulationView : ViewBase {
 	////---------------count down end'
 
 	///---------------guide
+	private IEnumerator currGuideCor;
 	void StartGuide(BattleGuideType type){
 
 		int count = 0;
@@ -922,12 +923,13 @@ public class BattleManipulationView : ViewBase {
 				guideFinger.gameObject.SetActive(true);
 				guideFinger.IsEffectStart = true;
 				if(maxIndex - maxCount > 0){
-				 	StartCoroutine(GuideFingerMove(cardItemArray[maxIndex].transform.localPosition,cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex - maxCount - 1].transform.localPosition));
+					currGuideCor = GuideFingerMove(cardItemArray[maxIndex].transform.localPosition,cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex - maxCount - 1].transform.localPosition);
 				}else if(maxIndex >3){
-					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[maxIndex].transform.localPosition));
+					currGuideCor = GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[maxIndex].transform.localPosition);
 				}else{
-					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[maxIndex + 1].transform.localPosition));
+					currGuideCor = GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[maxIndex + 1].transform.localPosition);
 				}
+				StartCoroutine(currGuideCor);
 			}
 
 			break;
@@ -953,10 +955,11 @@ public class BattleManipulationView : ViewBase {
 				guideFinger.gameObject.SetActive(true);
 				guideFinger.IsEffectStart = true;
 				if(maxIndex - maxCount > 0){
-					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex].transform.localPosition,cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[boostIndex].transform.localPosition));
+					currGuideCor = GuideFingerMove(cardItemArray[maxIndex].transform.localPosition,cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[boostIndex].transform.localPosition);
 				}else{
-					StartCoroutine(GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[boostIndex].transform.localPosition));
+					currGuideCor = GuideFingerMove(cardItemArray[maxIndex - maxCount].transform.localPosition,cardItemArray[maxIndex].transform.localPosition,battleCardAreaItem[boostIndex].transform.localPosition);
 				}
+				StartCoroutine(currGuideCor);
 			}
 			break;
 		default:
@@ -968,7 +971,10 @@ public class BattleManipulationView : ViewBase {
 		guideFinger.gameObject.SetActive (false);
 		iTween.Stop (guideFinger.gameObject);
 		guideFinger.Stop();
-		StopCoroutine ("GuideFingerMove");
+		if (currGuideCor != null) {
+			StopCoroutine(currGuideCor);
+		}
+
 	}
 
 	IEnumerator GuideFingerMove(Vector3 pos1, Vector3 pos2, Vector3 pos3){

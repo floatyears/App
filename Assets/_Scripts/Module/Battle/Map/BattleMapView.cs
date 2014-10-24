@@ -107,6 +107,14 @@ public class BattleMapView : ViewBase {
 		case "guide":
 			ToggleGuideTips((bool)args[1],(int)args[2]);
 			break;
+		case "clear_quest_highlight":
+			foreach (var item in map) {
+				if(item.isShadowShow()){
+					item.Around(true);
+				}
+
+			}
+			break;
 		default:
 			break;
 		}
@@ -861,6 +869,7 @@ public class BattleMapView : ViewBase {
 				yield return 10;
 			}
 		}
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST_CLEAR);
 	}
 	
 	List<Coordinate> CaculateX(Coordinate endCoord) {

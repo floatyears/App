@@ -13,6 +13,9 @@ public enum CommandEnum{
 	ChangeSceneComplete,
 	BattleEnd,
 	BattleSkillPanel,
+	TaskDataChange,
+	AchieveDataChange,
+
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
 	StartAttack					= 1003,

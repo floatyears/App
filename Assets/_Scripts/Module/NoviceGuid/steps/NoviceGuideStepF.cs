@@ -39,8 +39,7 @@ public class NoviceGuideStepF_3:NoviceGuidStep{
 
 	public override void Enter()
 	{
-		nextState = nextState = null;
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+		nextState = typeof(NoviceGuideStepF_4);
 		MsgCenter.Instance.AddListener (CommandEnum.EnemyAttackEnd, OnAttackEnd);
 	}
 
@@ -58,15 +57,16 @@ public class NoviceGuideStepF_3:NoviceGuidStep{
 
 	}
 }
-//boss - boost
+//boss - shadow
 public class NoviceGuideStepF_4:NoviceGuidStep{
 	
 	public override void Enter()
 	{
 
-
-
-		
+		nextState = nextState = null;
+		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("guide7_title"),TextCenter.GetText ("guide7_content"),TextCenter.GetText ("OK"));
+		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "clear_quest_highlight");
 	}
 }
 

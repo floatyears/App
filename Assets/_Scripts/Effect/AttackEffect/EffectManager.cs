@@ -37,7 +37,7 @@ public class EffectManager {
 					psItem.callback(psItem.ps);
 					psItem.callback = null;
 				}
-			}else if(!psItem.ps.IsAlive() || psItem.ps.isStopped){
+			}else if(!psItem.ps.IsAlive()){
 				if(skillEffectPool.ContainsKey(path)){
 					if(skillEffectPool[path] != psItem.ps){
 						GameObject.Destroy(psItem.ps.gameObject);
@@ -53,7 +53,7 @@ public class EffectManager {
 				tobeRemoved.Add(psItem.pathAndId);
 			}
 #else
-			if(!psItem.ps.IsAlive() || psItem.ps.isStopped){
+			if(!psItem.ps.IsAlive()){
 				if(skillEffectPool.ContainsKey(path)){
 					if(skillEffectPool[path] != psItem.ps){
 						GameObject.Destroy(psItem.ps.gameObject);
@@ -160,7 +160,18 @@ public class EffectManager {
 			}
 			pItem.ps.Stop();
 			pItem.ps.Clear();
+			currentEffects.Remove(pid);
+			
+			if(skillEffectPool.ContainsKey(path)){
+				if(skillEffectPool[path] != pItem.ps){
+					GameObject.Destroy(pItem.ps.gameObject);
+				}else{
+					pItem.ps.transform.parent = EffectPoolRoot;
+				}
+			}
 		}
+
+
 
 	}
 
