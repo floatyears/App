@@ -218,9 +218,9 @@
     {
         "name":"QuestSelectModule",
         "path": "Prefabs/UI/Home/QuestSelectUI",
-        "parent": 0,
+        "parent": 1,
         "x": 0,
-        "y": 0,
+        "y": -580,
         "z": 0, 
         "group" : 0
     },

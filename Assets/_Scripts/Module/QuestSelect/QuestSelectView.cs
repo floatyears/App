@@ -30,7 +30,14 @@ public class QuestSelectView : ViewBase {
 			StageInfo newPickedStage = viewData["data"] as StageInfo;
 			List<QuestInfo> newQuestList = newPickedStage.QuestInfo;
 //			newQuestList.Reverse ();
-			
+			if (newPickedStage.CopyType == ECopyType.CT_ELITE ) {
+				UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
+				elite.isChecked = true;
+			}else {
+				UIToggle normal = FindChild<UIToggle>("CopyType/Elite");
+				normal.isChecked = true;
+			}
+
 			if(accessQuestList == null){
 				accessQuestList = new List<QuestInfo>();
 			}
@@ -51,11 +58,12 @@ public class QuestSelectView : ViewBase {
 
 	protected override void ToggleAnimation (bool isShow)
 	{
+
 		if (isShow) {
 			gameObject.SetActive(true);
 
-			transform.localPosition = new Vector3(-1000, 0, 0);
-			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f));  
 			
 
 		}else{
