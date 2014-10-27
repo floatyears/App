@@ -58,6 +58,7 @@ Btn_SortRule_Fav=Favorite
 Btn_SortRule_AddPoint=Add Point
 Btn_SortRule_Rank=Rank
 Btn_Level_Up=Start Fusion
+Btn_AutoSelect=Auto Select
 Btn_Evolve=Evolve
 Btn_Fight=Battle
 
@@ -229,6 +230,8 @@ RetryClearQuestTitle=Server error
 ExitBattleConfirm=Are you sure to abort battle?
 ExitBattleConfirmTitle=Exit Battle
 BattleMenu=Menu
+CopyElite=Elite
+CopyNormal=Normal
 
 #Loading
 BattleContinueTitle=Battle Confirm
@@ -418,8 +421,17 @@ EventGachaNotOpen=Our next event summon will coming soon, please wait.
 EventGachaStoneNotEnough=1 event summon need [FFB14A]{0}[-] magic stones\nYour do not have enough magic stones.
 
 FriendScratch=Friend Summon
-RareScratch=Rare Summon
-EventScratch=Event Summon
+RareScratch=Summon X1
+EventScratch=Summon X9
+ScratchCost=Cost
+ScratchStar1-3=1~3星
+ScratchStar4-5=4~5星
+OneTimesDesc=再抽[FFB14A]{0}[-]次必出5星
+NineTimesDesc=至少获得一个5星
+CurrentOwnFriendPoint=当前拥有:
+ScratchCost1=200
+ScratchCost2=300
+ScratchCost3=2700
 
 GachaChances=Chances {0}/{1}
 Lv=Lv {0}
@@ -434,7 +446,19 @@ StartQuestFail=Start quest failed
 #resource download
 DownloadErrorTitle=Download Error
 DownloadErrorContent=Download failed. Would you like to retry download?
+UnitListTab1=卡牌
+UnitListTab2=碎片
 
+#level up
+LevelUp_Title=卡牌强化
+LevelUp_NeedTitle=强化条件不满足
+LevelUp_NoMaterial=没有可用的材料
+LevelUp_NeedMaterial=请再放入4个任意卡牌来完成强化
+LevelUp_NeedFriend=请邀请1位好友来完成强化
+LevelUp_NeedMoney=金钱不足,无法强化!
+
+#evolve
+Evolve_Title=卡牌进化
 
 ## net error
 success=success
@@ -538,6 +562,9 @@ Preface_Content2=Underground Fighting Venue, a guard jumping in front of Mavis w
 Preface_Content3=The guard tried to save Mavis, even survived, but worse news came!
 Preface_Content4=Dracula has been kidnapped!
 Preface_Content5=Mavis was very anxious, gathering a lots of fighters,\n decided to go to Monsters World to rescue Dracula!
+
+FunctionNotOpenTitle=暂未开放
+FunctionNotOpenContent=当前功能暂未开放，敬请期待
 
 ##unit name
 UnitName_1=Indian Shaman

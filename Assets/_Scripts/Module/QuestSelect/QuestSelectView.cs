@@ -18,8 +18,10 @@ public class QuestSelectView : ViewBase {
 
 		questRewardItem = rewardObj.GetComponent<QuestRewardItemView>();
 
-//		questRewardItem = new QuestRewardItemView();
-//		dragPanel.AddItemToGrid(questRewardItem.gameObject, 5);
+		UILabel normalText = FindChild<UILabel>("CopyType/Normal/text");
+		UILabel eliteText = FindChild<UILabel>("CopyType/Elite/text");
+		normalText.text = TextCenter.GetText("CopyNormal");
+		eliteText.text = TextCenter.GetText("CopyElite");
 
 	}
 
