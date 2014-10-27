@@ -42,7 +42,7 @@ public class UnitController : ControllerBase {
 //		reqEvolve.helperUnit = helperUnit;
 //		reqEvolve.helperPremium = helperPremium;
 		
-		HttpRequestManager.Instance.SendHttpRequest (reqEvolve, callback, ProtocolNameEnum.RspEvolveStart);
+		HttpRequestManager.Instance.SendHttpRequest (reqEvolve, callback, ProtocolNameEnum.RspEvolve);
 	}
 
 //	public void EvolveDone(NetCallback callback, uint questId, uint securityKey, int getMoney, List<uint> getUnit, List<uint> hitGrid) {

@@ -229,6 +229,9 @@ public class BattleMapView : ViewBase {
 			});
 			
 		}
+		if (sbd.hitKey) {
+			door.SetActive(true);	
+		}
 		BattleAttackManager.Instance.GetBaseData ();
 	}
 
@@ -560,10 +563,6 @@ public class BattleMapView : ViewBase {
 		//		Debug.Log ("battle guide----------");
 		
 	}
-	
-	private void IfArriveAtTheDoor() {
-
-	}
 
 	void ShieldMap(object data) {
 		int b = (int)data;
@@ -710,7 +709,6 @@ public class BattleMapView : ViewBase {
 
 	public void ArriveAtCell() {
 		isMoving = false;
-		IfArriveAtTheDoor ();
 		BattleConfigData.Instance.StoreMapData ();
 		
 		int index = BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor);

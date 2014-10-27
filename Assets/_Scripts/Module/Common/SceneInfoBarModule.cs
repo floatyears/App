@@ -37,6 +37,7 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.UnitSortModule:
 				case ModuleEnum.ItemCounterModule:
 				case ModuleEnum.ApplyMessageModule:
+				case ModuleEnum.ShowNewCardModule:
 					break;
 				case ModuleEnum.FriendMainModule:
 				case ModuleEnum.ScratchModule:
@@ -61,6 +62,8 @@ public class SceneInfoBarModule : ModuleBase {
 		case 2:
 		 	if(data[0].ToString() == "stage"){
 				v.SetSceneName((string)data[1]);
+			}else if(data[0].ToString() == "no_back"){
+				v.NoBackScene((ModuleEnum)data[1]);
 			}
 			break;
 		default:

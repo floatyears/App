@@ -12,6 +12,8 @@ public class EvolveItem : MonoBehaviour{
 	UISprite borderSprite;
 	UISprite bgprite;
 
+	public uint unitId;
+
 	void Init () {
 		showTexture = transform.Find("Texture").GetComponent<UISprite>();
 		borderSprite = transform.Find("Sprite_Avatar_Border").GetComponent<UISprite>();
@@ -27,6 +29,7 @@ public class EvolveItem : MonoBehaviour{
 			Init();	
 		}
 
+		this.unitId = unitId;
 		if (unitId == 0) {
 			showTexture.spriteName = "";
 			borderSprite.spriteName = "unit_empty_bg";

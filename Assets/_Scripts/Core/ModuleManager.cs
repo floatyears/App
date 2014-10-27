@@ -201,7 +201,8 @@ public class ModuleManager {
 		ClearModulesAndScenes ();
 		Resources.UnloadUnusedAssets ();
 
-		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
+//		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
+		BattleAttackManager.Instance.EnterBattle ();
 
 //		ShowScene (SceneEnum.BattleScene);
 

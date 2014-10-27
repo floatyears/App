@@ -78,7 +78,7 @@ namespace bbproto{
 			bool temp = coolingDone;
 			coolingDone = CheckCooling ();
 			if (!temp && coolingDone) {
-				//			Excute();
+				Excute();
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_as_activate);
 			}
 			StoreSkillCooling ();
@@ -112,6 +112,10 @@ namespace bbproto{
 		
 		public virtual object Excute (string userUnitID, int atk = -1) {
 			return null;
+		}
+
+		public virtual void Excute () {
+			return;
 		}
 
 		public override string ToString ()

@@ -37,7 +37,6 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 	public override void ShowUI() {
 		base.ShowUI();
-		ShowUIAnimation();
 //		RecordPickedInfoForFight ();
 		RefreshParty ();
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.FIGHT_READY);
@@ -58,6 +57,18 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	public override void DestoryUI () {
 		base.DestoryUI ();
 
+	}
+
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			gameObject.SetActive(true);
+			gameObject.transform.localPosition = new Vector3(-1000,  config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f));       
+		}else{
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+		}
 	}
 
 	private DragSliderBase dragSlider;
@@ -118,11 +129,6 @@ public class FightReadyView : ViewBase, IDragChangeView {
 		dragSlider.RefreshData ();
 	}
 
-	private void ShowUIAnimation(){
-		gameObject.transform.localPosition = new Vector3(-1000, 0, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));       
-	}
-
 
 //	private void RecordPickedInfoForFight(){
 //
@@ -174,25 +180,6 @@ public class FightReadyView : ViewBase, IDragChangeView {
 			EnterBattle (tqdd);
 	} 
 
-	private void RspEvolveStartQuest (object data) {
-		if (data == null){ return; }
-		evolveStart.StoreData ();
-		bbproto.RspEvolveStart rsp = data as bbproto.RspEvolveStart;
-		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
-			Debug.LogError("Rsp code: "+rsp.header.code+", error:"+rsp.header.error);
-			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
-			return;
-		}
-
-		friendInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
-
-		DataCenter.Instance.UserData.UserInfo.staminaNow = rsp.staminaNow;
-		DataCenter.Instance.UserData.UserInfo.staminaRecover = rsp.staminaRecover;
-		bbproto.QuestDungeonData questDungeonData = rsp.dungeonData;
-		questDungeonData.assignData ();
-		EnterBattle (questDungeonData);
-	}
-	
 	private void EnterBattle (QuestDungeonData tqdd) {
 		if (friendInfo != null) {
 			friendInfo.friendPoint = 0;

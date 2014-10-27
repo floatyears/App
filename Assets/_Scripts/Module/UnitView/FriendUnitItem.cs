@@ -7,6 +7,8 @@ public class FriendUnitItem : BaseUnitItem {
 //	public delegate void UnitItemCallback(FriendUnitItem huv);
 	protected DataListener callback;
 
+	private GameObject selectBtn;
+
 	public static FriendUnitItem Inject(GameObject item){
 		FriendUnitItem view = item.AddComponent<FriendUnitItem>();
 		if (view == null)
@@ -28,11 +30,8 @@ public class FriendUnitItem : BaseUnitItem {
 		this.friendInfo = friendInfo as FriendInfo;
 		base.SetData(this.friendInfo == null ? null : this.friendInfo.UserUnit);
 		if(args.Length > 0)
-			callback += (DataListener)args [0];
-		tag = "Untagged";
-		if (name == "0") {
-			tag = "friend_one";
-		}
+			callback = (DataListener)args [0];
+
 	}
 
 	protected override void InitUI(){

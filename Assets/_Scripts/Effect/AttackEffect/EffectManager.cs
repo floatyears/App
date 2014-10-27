@@ -30,7 +30,14 @@ public class EffectManager {
 	void OnUpdate(){
 		foreach (var psItem in currentEffects.Values) {
 			string path = psItem.pathAndId.Split('_')[0];
-			if(!psItem.ps.IsAlive()){
+#if !UNITY_EDITOR
+			if(psItem.ps == null){
+				tobeRemoved.Add(psItem);
+				if(psItem.callback != null){
+					psItem.callback(psItem.ps);
+					psItem.callback = null;
+				}
+			}else if(!psItem.ps.IsAlive() || psItem.ps.isStopped){
 				if(skillEffectPool.ContainsKey(path)){
 					if(skillEffectPool[path] != psItem.ps){
 						GameObject.Destroy(psItem.ps.gameObject);
@@ -42,9 +49,26 @@ public class EffectManager {
 					psItem.callback(psItem.ps);
 					psItem.callback = null;
 				}
-
+				
 				tobeRemoved.Add(psItem.pathAndId);
 			}
+#else
+			if(!psItem.ps.IsAlive() || psItem.ps.isStopped){
+				if(skillEffectPool.ContainsKey(path)){
+					if(skillEffectPool[path] != psItem.ps){
+						GameObject.Destroy(psItem.ps.gameObject);
+					}else{
+						psItem.ps.transform.parent = EffectPoolRoot;
+					}
+				}
+				if(psItem.callback != null){
+					psItem.callback(psItem.ps);
+					psItem.callback = null;
+				}
+				
+				tobeRemoved.Add(psItem.pathAndId);
+			}
+#endif
 		}
 
 		foreach (var item in tobeRemoved) {
@@ -90,7 +114,9 @@ public class EffectManager {
 			}else{
 				ResourceManager.Instance.LoadLocalAsset("Effect/effect/" + path, o => {
 					if(o != null) {
-						GameObject obj = NGUITools.AddChild(parent.gameObject,o as GameObject);
+						GameObject obj = GameObject.Instantiate(o) as GameObject;
+						obj.transform.parent = parent;
+						obj.transform.localScale = Vector3.one;
 						obj.transform.localPosition = pos;
 						ps = obj.GetComponent<ParticleSystem>();
 						if(ps == null){
@@ -118,6 +144,24 @@ public class EffectManager {
 			throw new ArgumentException("The Num of the Parameters Must Be Even!");
 			return;
 		}
+	}
+
+	/// <summary>
+	/// Stops the effect.
+	/// </summary>
+	/// <param name="path">Path.</param>
+	/// <param name="parent">Parent.</param>
+	public void StopEffect(string path, Transform parent){
+		string pid = path + "_" + parent.GetInstanceID();
+		if (currentEffects.ContainsKey (pid)) {
+			ParticleEffectItem pItem = currentEffects[pid];
+			if(pItem.callback != null){
+				pItem.callback(pItem.ps);
+			}
+			pItem.ps.Stop();
+			pItem.ps.Clear();
+		}
+
 	}
 
 	public void ClearCache() {

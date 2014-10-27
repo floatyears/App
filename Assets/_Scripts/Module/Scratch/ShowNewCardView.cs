@@ -4,16 +4,63 @@ using System.Collections.Generic;
 using bbproto;
 
 public class ShowNewCardView : ViewBase {
+	
+	private GameObject backEffect;
+	private GameObject bombEffect;
+	private UITexture profileTexture;
+	
+	private UserUnit userUnit;
+	
+	private UIButton detailButton;
+	private UIButton returnButton;
+	private UILabel detailButtonLabel;
+	private UILabel returnButtonLabel;
+	private UISprite starSpr;
+	private UISprite starBgSpr;
+	private Vector3 starPosition = Vector3.zero;
+	
+	private UILabel cardNameLabel;
+	
+	private int starSprWidth = 0;
+	private GameObject starParent;
+	
+	private List<GameObject> starList = new List<GameObject> ();
+	
+	private Vector3 DoubleScale = new Vector3 (2f, 2f, 2f);
+	private Vector3 TribleScale = new Vector3 (3f, 3f, 3f);
+
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init (config,data);
-		InitComponent ();
+
+		backEffect = transform.Find ("scratch1").gameObject;
+		bombEffect = transform.Find ("scratch2").gameObject;
+		bombEffect.SetActive (false);
+		profileTexture = FindChild<UITexture> ("TexturePanel/Texture");
+		//		profileTexture.gameObject.layer = GameLayer.LayerToInt( GameLayer.BottomInfo);	
+		cardNameLabel = FindChild<UILabel>("Star/CardName");
+		starSpr = FindChild<UISprite>("Star/Star1");
+		starBgSpr = FindChild<UISprite> ("Star/Starbg1");
+		starParent = starSpr.transform.parent.gameObject;
+		starSprWidth = starSpr.width;
+		starPosition = starBgSpr.transform.localPosition;
+		
+		detailButton = FindChild<UIButton>("DetailButton");
+		detailButtonLabel = FindChild<UILabel>("DetailButton/Label");
+		returnButton = FindChild<UIButton>("ReturnButton");
+		returnButtonLabel = FindChild<UILabel> ("ReturnButton/Label");
+		
+		detailButtonLabel.text = TextCenter.GetText ("Btn_ToDetail");
+		returnButtonLabel.text = TextCenter.GetText ("Btn_SceneBack");
+		
+		UIEventListenerCustom.Get (detailButton.gameObject).onClick = DetailButtonCallback;
+		UIEventListenerCustom.Get (returnButton.gameObject).onClick = ReturnButtonCallback;
 //		MsgCenter.Instance.AddListener (CommandEnum.ShowNewCard, ShowProfile);
 	}
 
 	public override void ShowUI () {
 		base.ShowUI ();
 		ActiveButton (false);
-		ActiveEffect (true);
+		backEffect.SetActive (true);
 
 		if (viewData.ContainsKey ("data")) {
 			ShowProfile(viewData["data"] as UserUnit);
@@ -21,9 +68,10 @@ public class ShowNewCardView : ViewBase {
 	}
 
 	public override void HideUI () {
-		ActiveEffect (false);
 		base.HideUI ();
 
+		backEffect.SetActive (false);
+		bombEffect.SetActive (false);
 		profileTexture.mainTexture = null;
 		for (int i = 0; i < starList.Count; i++) {
 			Destroy(starList[i]);
@@ -33,61 +81,13 @@ public class ShowNewCardView : ViewBase {
 
 //	private ModuleEnum sEnum;
 
-	private GameObject backEffect;
-	private GameObject bombEffect;
-	private UITexture profileTexture;
-
-	private UserUnit userUnit;
-
-	private UIButton detailButton;
-	private UIButton returnButton;
-	private UILabel detailButtonLabel;
-	private UILabel returnButtonLabel;
-	private UISprite starSpr;
-	private UISprite starBgSpr;
-	private Vector3 starPosition = Vector3.zero;
-
-	private UILabel cardNameLabel;
-
-	private int starSprWidth = 0;
-	private GameObject starParent;
-
-	private List<GameObject> starList = new List<GameObject> ();
-
-	private Vector3 DoubleScale = new Vector3 (2f, 2f, 2f);
-	private Vector3 TribleScale = new Vector3 (3f, 3f, 3f);
-
-	void InitComponent() {
-		backEffect = transform.Find ("scratch1").gameObject;
-		bombEffect = transform.Find ("scratch2").gameObject;
-		bombEffect.gameObject.SetActive (false);
-		profileTexture = FindChild<UITexture> ("TexturePanel/Texture");
-//		profileTexture.gameObject.layer = GameLayer.LayerToInt( GameLayer.BottomInfo);	
-		cardNameLabel = FindChild<UILabel>("Star/CardName");
-		starSpr = FindChild<UISprite>("Star/Star1");
-		starBgSpr = FindChild<UISprite> ("Star/Starbg1");
-		starParent = starSpr.transform.parent.gameObject;
-		starSprWidth = starSpr.width;
-		starPosition = starBgSpr.transform.localPosition;
-
-		detailButton = FindChild<UIButton>("DetailButton");
-		detailButtonLabel = FindChild<UILabel>("DetailButton/Label");
-		returnButton = FindChild<UIButton>("ReturnButton");
-		returnButtonLabel = FindChild<UILabel> ("ReturnButton/Label");
-
-		detailButtonLabel.text = TextCenter.GetText ("Btn_ToDetail");
-		returnButtonLabel.text = TextCenter.GetText ("Btn_SceneBack");
-
-		UIEventListenerCustom.Get (detailButton.gameObject).onClick = DetailButtonCallback;
-		UIEventListenerCustom.Get (returnButton.gameObject).onClick = ReturnButtonCallback;
-	}
 
 	void ShowProfile(UserUnit userUnit) {
 
 		if (userUnit== null) {
 			return;	
 		}
-
+		this.userUnit = userUnit;
 		cardNameLabel.text = userUnit.UnitInfo.name;
 
 		int maxRare = userUnit.UnitInfo.maxStar == 0 ? userUnit.UnitInfo.rare : userUnit.UnitInfo.maxStar;
@@ -106,14 +106,13 @@ public class ShowNewCardView : ViewBase {
 		}
 
 		GameTimer.GetInstance ().AddCountDown (0.5f, ()=>{
-			Debug.Log("show new card effect end1");
 			ResourceManager.Instance.GetAvatar (UnitAssetType.Profile, userUnit.unitId, texture => {
 				Texture2D tex = texture as Texture2D;
 				DGTools.ShowTexture(profileTexture, tex);
 				iTween.ScaleFrom(profileTexture.gameObject, iTween.Hash("scale", TribleScale, "time", 0.3f, "easetype", iTween.EaseType.easeOutQuart));
 				GameTimer.GetInstance().AddCountDown(0.5f, ()=>{
 					Debug.Log("show new card effect end");
-					bombEffect.SetActive (true);
+//					bombEffect.SetActive (true);
 					
 					StartCoroutine (ShowStar (userUnit.UnitInfo.rare));
 				});
@@ -135,14 +134,18 @@ public class ShowNewCardView : ViewBase {
 	}
 
 	void DetailButtonCallback(GameObject go) {
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",userUnit);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"user_unit",userUnit,"back_callback",ViewDetailBack as DataListener);
 		ModuleManager.Instance.HideModule (ModuleEnum.ShowNewCardModule);
 	}
 
 	void ReturnButtonCallback(GameObject go) {
 		ModuleManager.Instance.HideModule (ModuleEnum.ShowNewCardModule);
+		ModuleManager.Instance.ShowModule (ModuleEnum.GachaModule,"from","new_card");
 	}
-	
+
+	void ViewDetailBack(object data){
+		ModuleManager.Instance.ShowModule (ModuleEnum.GachaModule,"from","new_card");
+	}
 
 	void ActiveButton(bool b) {
 		if (detailButton != null) {
@@ -154,16 +157,6 @@ public class ShowNewCardView : ViewBase {
 		}
 	}
 
-	void ActiveEffect(bool b) {
-		if (backEffect != null && backEffect.activeSelf != b) {
-			backEffect.SetActive (b);
-		}
-
-		if (bombEffect != null && bombEffect.activeSelf != b) {
-			bombEffect.SetActive (b);
-		}
-	}
-	
 	IEnumerator ShowStar(int rare) {
 		for (int i = 0; i < rare; i++) {
 			GameObject go = NGUITools.AddChild(starParent, starSpr.gameObject);

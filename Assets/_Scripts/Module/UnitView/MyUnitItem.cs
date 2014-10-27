@@ -93,10 +93,10 @@ public class MyUnitItem : BaseUnitItem {
 				IsParty = false;
 				partyLabel.enabled = false;
 			}
-			tag = "Untagged";
-			if (userUnit.unitId == 1 || userUnit.unitId == 5 || userUnit.unitId == 9) {
-				tag = "unit_leader";	
-			}		
+//			tag = "Untagged";
+//			if (userUnit.unitId == 1 || userUnit.unitId == 5 || userUnit.unitId == 9) {
+//				tag = "unit_leader";	
+//			}		
 		}
 
 	}

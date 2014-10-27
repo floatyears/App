@@ -13,7 +13,6 @@ public class NoviceGuideStepC_1:NoviceGuidStep
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 0, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
-			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
 		});
 
 	}
@@ -30,8 +29,7 @@ public class NoviceGuideStepC_2:NoviceGuidStep
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_7"));
 
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("friend_one"), new Vector3 (0, 0, 3),true,true,o=>{
-			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("battle_helper"), new Vector3 (0, 0, 1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 		});
 		
@@ -39,24 +37,37 @@ public class NoviceGuideStepC_2:NoviceGuidStep
 
 }
 
-//fight ready
+//select friend
 public class NoviceGuideStepC_3:NoviceGuidStep{
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepC_4);
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("fight_btn"), new Vector3 (0, 0, 1),true,true,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("friend_one"), new Vector3 (0, 0, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
+
 		});
 	}
 }
 
-//boost skill
+//fight_ready
 public class NoviceGuideStepC_4:NoviceGuidStep
+{	
+	public override void Enter ()
+	{
+		nextState = typeof(NoviceGuideStepC_5);
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("fight_btn"), new Vector3 (0, 0, 1), true, true, o1 => {
+				NoviceGuideUtil.RemoveAllArrows ();
+		});
+	}
+}
+//boost skill
+public class NoviceGuideStepC_5:NoviceGuidStep
 {
 	
 	public override void Enter()
 	{
-		nextState = typeof(NoviceGuideStepD_1);
+		nextState = null;
+		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 
 		UserUnit uu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [0];//.ActiveSkill
 		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (uu.MakeUserUnitKey (), uu.UnitInfo.activeSkill, SkillType.ActiveSkill);
@@ -70,16 +81,12 @@ public class NoviceGuideStepC_4:NoviceGuidStep
 				
 				MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd,OnSkillRelease);
 				MsgCenter.Instance.AddListener(CommandEnum.BattleSkillPanel,OnBattleSkillShow);
-				
-				
-				
 			});
 	}
 
 	void OnBattleSkillShow(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleSkillPanel,OnBattleSkillShow);
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("boost_skill"), new Vector3 (0, 0, 3),true,true,o1=>{
-			ModuleManager.Instance.HideModule(ModuleEnum.NoviceGuideTipsModule);
 			NoviceGuideUtil.RemoveAllArrows();
 		});
 	}

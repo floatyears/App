@@ -32,7 +32,6 @@ public class FriendSelectView : ViewBase{
 
 	public override void ShowUI() {
 		base.ShowUI();
-		dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener);
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST);
 
 		if (viewData != null) {
@@ -71,12 +70,13 @@ public class FriendSelectView : ViewBase{
 	void ClickHelperItem(object data){
 //		if(viewData["sele"]
 		HelperUnitItem item = data as HelperUnitItem;
-		foreach (var i in viewData) {
-			Debug.Log("key: " + i.Key);
-		}
+//		foreach (var i in viewData) {
+//			Debug.Log("key: " + i.Key);
+//		}
 		if(viewData.ContainsKey("type")){
 			if(viewData["type"].ToString() == "level_up"){
 				ModuleManager.Instance.HideModule(ModuleEnum.FriendSelectModule);
+				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"no_back",ModuleEnum.FriendSelectModule);
 				ModuleManager.Instance.ShowModule(ModuleEnum.UnitLevelupAndEvolveModule,"friend_info",item.FriendInfo);
 //				CheckFriend();
 				

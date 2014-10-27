@@ -17,7 +17,8 @@ namespace bbproto{
 		}
 		
 		
-		void Excute() {
+		public override void Excute ()
+		{
 			if(dataListener != null) {
 				dataListener(this);
 			}

@@ -88,10 +88,11 @@ public class UIEventListenerCustom : MonoBehaviour {
 		if (isPressed) {
 			GameTimer.GetInstance ().AddCountDown (0.6f, CountDown);
 		} else {
-			bool b =GameTimer.GetInstance ().ExitCountDonw(CountDown);
-//			Debug.LogError("b : " + b + " onclick : " + onClick);
-			if(b){
-				if (onClick != null) onClick (gameObject);
+			if(GameTimer.GetInstance ().ExitCountDonw(CountDown)){
+				if (onClick != null){
+					ModuleManager.SendMessage(ModuleEnum.NoviceGuideTipsModule,"ui_click");
+					onClick (gameObject);
+				}
 			}
 		}
 	}

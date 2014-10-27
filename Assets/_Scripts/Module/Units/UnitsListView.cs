@@ -42,6 +42,8 @@ public class UnitsListView : ViewBase {
 		SortUnitByCurRule();
 
 		volumeInfo.text = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Count + "/" + DataCenter.Instance.UserData.UserInfo.unitMax;
+
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNIT_LIST);
 	}
 	
 	public override void HideUI (){

@@ -4,30 +4,16 @@ using System.Collections.Generic;
 using bbproto;
 
 namespace bbproto{
-public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
-    private List<PartyItem> partyItem = new List<PartyItem>();		
+public partial class UnitParty : ProtoBuf.IExtensible{
  
 	public UnitParty(int dummy=0) { 
 		
     }
 
 	public void Init(){
-		AddListener ();
 		reAssignData();
 		GetSkillCollection();
 	}
-
-	public void AddListener() {
-		MsgCenter.Instance.AddListener(CommandEnum.ActiveReduceHurt, ReduceHurt);      
-		MsgCenter.Instance.AddListener (CommandEnum.EnterBattle, EnterBattle);
-		MsgCenter.Instance.AddListener (CommandEnum.LeftBattle, LeftBattle);
-	}
-
-    public void RemoveListener() {
-		MsgCenter.Instance.RemoveListener (CommandEnum.LeftBattle, LeftBattle);
-		MsgCenter.Instance.RemoveListener (CommandEnum.EnterBattle, EnterBattle);
-        MsgCenter.Instance.RemoveListener(CommandEnum.ActiveReduceHurt, ReduceHurt);
-    }
 
     public bool HasUnit(uint uniqueId) {
         if (UserUnit == null) {
@@ -58,40 +44,13 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
         get {
             if (userUnit == null) {
 				userUnit = new List<UserUnit>(){null,null,null,null,null};
-                for (int i = 0; i < partyItem.Count; i++) {
-					userUnit[partyItem[i].unitPos] = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(partyItem[i].unitUniqueId);
+                for (int i = 0; i < items.Count; i++) {
+						userUnit[items[i].unitPos] = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(items[i].unitUniqueId);
                 }
             }
             return userUnit;
         }
     }
-
-	void EnterBattle(object data) {
-		if (BattleConfigData.Instance.BattleFriend == null) {
-			UserUnit[DataCenter.friendPos] = null;
-		}
-		else {
-			if (id == DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId) {
-				UserUnit tuu = BattleConfigData.Instance.BattleFriend.UserUnit;
-				DataCenter.Instance.UnitData.UserUnitList.Add(tuu.userID, tuu.uniqueId, tuu);
-				UserUnit[DataCenter.friendPos] = tuu;
-				
-				cardCount ++;
-			}
-		}
-
-		for (int i = 0; i < partyItem.Count; i++) {
-			if(partyItem[i].unitUniqueId > 0) {
-				cardCount ++;
-			}
-		}
-	}
-
-	void LeftBattle (object data) {
-		UserUnit[DataCenter.friendPos] = null;
-	}
-
-    AttackInfoProto reduceHurt = null;
 
     private int totalHp = 0;
     private int totalCost = 0;
@@ -153,171 +112,35 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 	}
     public int TotalCost	{ get { return totalCost; } }
 
-    //skill sort
-    private CalculateRecoverHP crh ;
-    /// <summary>
-    /// key is area item. value is skill list. this area already use skill must record in this dic, avoidance redundant calculate.
-    /// </summary>
-    private Dictionary<int, CalculateSkillUtility> alreadyUse = new Dictionary<int, CalculateSkillUtility>();	 
-    private Dictionary<int, List<AttackInfoProto>> attack = new Dictionary<int, List<AttackInfoProto>>();
-    public Dictionary<int, List<AttackInfoProto>> Attack {
-        get { return attack;}
-    }
-
-    void ReduceHurt(object data) {
-        reduceHurt = data as AttackInfoProto;
-        if (reduceHurt != null) {
-            if (reduceHurt.attackRound == 0) {
-                reduceHurt = null;
-            }
-        }
-    }
-
-	private int cardCount = 0;
-    public int CaculateInjured(int attackType, float attackValue) {
-		float Proportion = 1f / cardCount;
-        float attackV = attackValue * Proportion;
-        float hurtValue = 0;
-
-		foreach (var item in UserUnit) {
-			if(item != null) {
-				hurtValue += item.CalculateInjured(attackType, attackV);
-			}
-		}
-
-        if (reduceHurt != null) {
-            float value = hurtValue * reduceHurt.attackValue;
-            hurtValue -= value;
-        }
-
-        return System.Convert.ToInt32(hurtValue);
-    }
-
-	public bool CalculateNeedCard(int areaItemID, int index) {
-		if (crh == null) {
-			crh = new CalculateRecoverHP();		
-		}
-
-		CalculateSkillUtility csu = CheckSkillUtility (areaItemID);
-		if (csu.haveCard.Count == 5) {
-			return false;	
-		}
-
-		if (crh.RecoverHPNeedCard (csu) == index) {
-			return true;	
-		}
-
-		foreach (var item in UserUnit) {
-			if(item == null) {
-				LogHelper.Log("skip empty partyItem:"+item);
-				continue;
-			}
-
-			if(item.CaculateNeedCard(csu) == index) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public List<AttackInfoProto> CalculateSkill(int areaItemID, int cardID, int blood, float boostValue = 1f) {
-        if (crh == null) {
-            crh = new CalculateRecoverHP();
-        }
-
-        CalculateSkillUtility skillUtility = CheckSkillUtility(areaItemID, cardID);
-        List<AttackInfoProto> areaItemAttackInfo = CheckAttackInfo(areaItemID);
-        areaItemAttackInfo.Clear();
-        UserUnit tempUnitInfo;
-        List<AttackInfoProto> tempAttack = new List<AttackInfoProto>();
-		List<AttackInfoProto> tempAttackType = new List<AttackInfoProto>();
-
-		//===== calculate fix recover hp.
-		AttackInfoProto recoverHp = crh.RecoverHP(skillUtility, blood);
-		if (recoverHp != null) {
-			recoverHp.attackValue *= boostValue;
-			recoverHp.userUnitID = UserUnit[0].MakeUserUnitKey();
-			recoverHp.userPos = 0; // 0 == self leder position
-			tempAttack.Add(recoverHp);
-		}
-		int len = UserUnit.Count;
-		for (int i = 0; i < len; i++) {
-			var item = UserUnit[i];
-			if(item == null) {
-				LogHelper.Log("skip empty partyItem:"+item);
-				continue;
-			}
-			tempAttack.AddRange(item.CaculateAttack(skillUtility));
-			if (tempAttack.Count > 0) {
-				for (int j = 0; j < tempAttack.Count; j++) {
-					AttackInfoProto ai = tempAttack[j];
-					ai.userPos = i;
-
-					ai.attackValue *= boostValue;
-
-					areaItemAttackInfo.Add(ai);
-					tempAttackType.Add(ai);
-				}
-			}
-			tempAttack.Clear();
-		}
-		CalculateAttackCount ();
-		return tempAttackType;
-    }
-	int prevAttackCount = 0;
-	void CalculateAttackCount() {
-		int attackCount = 0;
-		foreach (var item in attack) {
-			if(item.Value != null) {
-				attackCount += item.Value.Count;
-			}
-		}
-
-		if (attackCount == 0 || attackCount == prevAttackCount) {
-			return;	
-		}
-
-		prevAttackCount = attackCount;
-
-		switch (attackCount) {
-			case 1:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_1);
-				break;
-			case 2:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_2);
-				break;
-			case 3:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_3);
-				break;
-			case 4:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_4);
-				break;
-			case 5:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_5);
-				break;
-			case 6:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_6);
-				break;
-			default:
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_attack_increase_7);
-				break;
-		}
-	}
-
-    public void ClearData() {
-        AttackInfoProto.ClearData();
-        alreadyUse.Clear();
-        attack.Clear();
-    }
 	
     public void GetSkillCollection() {
-        partyItem = new List<PartyItem>();
-        for (int i 		= 0; i < items.Count; i++) {
-            partyItem.Add(items[i]);
-        }
 
-        GetLeaderSkill();
-        DGTools.InsertSort<PartyItem,IComparer>(partyItem, this);
+
+		if (items.Count > 0) {
+			uint id = items[0].unitUniqueId;
+			UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(id);
+			AddLeadSkill(tuu);
+		}
+		
+		if (BattleConfigData.Instance.BattleFriend != null) {
+			UserUnit tuu = BattleConfigData.Instance.BattleFriend.UserUnit;
+			AddLeadSkill(tuu);
+		}
+
+		items.Sort ((first,second)=>{
+			PartyItem firstUU = (PartyItem)first;
+			PartyItem secondUU = (PartyItem)second;
+			
+			NormalSkill ns1 = GetSecondSkill(firstUU);
+			NormalSkill ns2 = GetSecondSkill(secondUU);
+			if (ns1 == null && ns2 == null)
+				return 0;
+			else if (ns1 == null)
+				return 1;
+			else
+				return -1;
+			return ns1.activeBlocks.Count.CompareTo(ns2.activeBlocks.Count);
+		});
     }
 
 	public List<NormalSkill> GetNormalSkill() {
@@ -336,20 +159,6 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
 		}
 		return temp;
 	}
-
-	
-    void GetLeaderSkill() {
-        if (items.Count > 0) {
-            uint id = items[0].unitUniqueId;
-			UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(id);
-			AddLeadSkill(tuu);
-        }
-
-		if (BattleConfigData.Instance.BattleFriend != null) {
-			UserUnit tuu = BattleConfigData.Instance.BattleFriend.UserUnit;
-			AddLeadSkill(tuu);
-		}
-    }
 
     void AddLeadSkill(UserUnit tuu) {
 		if (tuu == null) {
@@ -384,21 +193,6 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
         }
     }
 
-    public int Compare(object first, object second) {
-        PartyItem firstUU = (PartyItem)first;
-        PartyItem secondUU = (PartyItem)second;
-	
-        NormalSkill ns1 = GetSecondSkill(firstUU);
-        NormalSkill ns2 = GetSecondSkill(secondUU);
-        if (ns1 == null && ns2 == null)
-            return 0;
-        else if (ns1 == null)
-            return 1;
-        else
-            return -1;
-        return ns1.activeBlocks.Count.CompareTo(ns2.activeBlocks.Count);
-    }
-	
     public int GetInitBlood() {
         int bloodNum = 0;
 		foreach (var item in UserUnit) {
@@ -425,34 +219,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
         return temp;
     }
 
-	CalculateSkillUtility CheckSkillUtility(int areaItemID) {
-		CalculateSkillUtility skillUtility;	
-		if (!alreadyUse.TryGetValue(areaItemID, out skillUtility)) {
-			skillUtility = new CalculateSkillUtility();
-			alreadyUse.Add(areaItemID, skillUtility);
-		}
-		return skillUtility;
-	}
 
-    CalculateSkillUtility CheckSkillUtility(int areaItemID, int cardID) {
-        CalculateSkillUtility skillUtility;												//-- find or creat  have card and use skill record data
-        if (!alreadyUse.TryGetValue(areaItemID, out skillUtility)) {
-            skillUtility = new CalculateSkillUtility();
-            alreadyUse.Add(areaItemID, skillUtility);
-        }
-        skillUtility.haveCard.Add((uint)cardID);
-        return skillUtility;
-    }
-	
-    List<AttackInfoProto> CheckAttackInfo(int areaItemID) {
-        List<AttackInfoProto> areaItemAttackInfo = null;										//-- find or creat attack data;
-        if (!attack.TryGetValue(areaItemID, out areaItemAttackInfo)) {
-            areaItemAttackInfo = new List<AttackInfoProto>();
-            attack.Add(areaItemID, areaItemAttackInfo);
-        }
-        return areaItemAttackInfo;
-    }
-	
     NormalSkill GetSecondSkill(PartyItem pi) {
         UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(pi.unitUniqueId);
         if (tuu == null) {
@@ -493,7 +260,7 @@ public partial class UnitParty : ProtoBuf.IExtensible,IComparer{
     }
 
 	public UserUnit GetPartyItem(int index){
-		if (index < 0 || index >= partyItem.Count)
+		if (index < 0 || index >= items.Count)
 						return null;
 		Debug.LogError ("index : " + index + "instance.items [index].unitUniqueId : " + items [index].unitUniqueId); 
 		for (int i = 0; i < items.Count; i++) {

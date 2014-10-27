@@ -20,16 +20,6 @@ public class GachaModule : ModuleBase {
 		CreateUI<GachaView> ();
 	}
     
-    public override void ShowUI () {
-        base.ShowUI ();
-//        SetTitleView();
-//		foreach (var item in moduleData.Keys) {
-//			Debug.Log ("gacha: " + item);
-//		}
-		
-		if (moduleData != null) {
-			(view as GachaView).Enter(moduleData);
-		}
-    }
+
 
 }

@@ -114,7 +114,7 @@
         "x": 0,
         "y": 0,
         "z": 0, 
-        "group" : -1
+        "group" : 2
     },
     {
         "name":"ShopModule",
@@ -288,25 +288,6 @@
         "group" : 0
     },
     {
-        "name":"PartyDragPanelUI",
-        "path": "Prefabs/UI/Party/PartyDragPanelUI",
-        "parent": 0,
-        "x": 0,
-        "y": 0,
-        "z": 0, 
-        "group" : 0
-    },
-	{
-        "name":"UnitDisplayModule",
-        "path": "Prefabs/UI/Units/UnitDisplayUI",
-        "parent": 1,
-        "x": 0,
-        "y": -430,
-        "z": 0, 
-        "group" : 0
-    },
-    
-    {
         "name":"ApplyMessageModule",
         "path": "Prefabs/UI/FriendList/ApplyMessageUI",
         "parent": 4,
@@ -331,7 +312,7 @@
         "x": 0,
         "y": -180,
         "z": 0, 
-        "group" : 0
+        "group" : 2
     },
      {
         "name":"ItemCounterModule",
@@ -365,7 +346,7 @@
         "path": "Prefabs/UI/Party/PartyUI",
         "parent": 1,
         "x": 0,
-        "y": 0,
+        "y": -485,
         "z": 0, 
         "group" : 0
     },
@@ -458,15 +439,6 @@
         "y":0,
         "z": 0, 
         "group" : 2
-    },
-    {
-        "name":"VictoryModule",
-        "path": "Prefabs/VictoryUI",
-        "parent": 0,
-        "x": 0,
-        "y": 0,
-        "z": 0, 
-        "group" : 0
     },
     {
         "name":"PrefaceModule",

@@ -25,7 +25,7 @@ public class UnitSourceView : ViewBase {
 		nameLabel = FindChild<UILabel> ("Unit/Name");
 		unitIcon = FindChild("Unit/UnitIcon");
 
-		UIEventListenerCustom.Get (unitIcon).LongPress = OnDetail;
+		UIEventListenerCustom.Get (unitIcon).onClick = OnDetail;
 
 		dragPanel = new DragPanel ("UnitSourceDragPanel", "Prefabs/UI/Units/UnitSourceItem", typeof(UnitSourceItemView), transform);
 	}
@@ -58,7 +58,11 @@ public class UnitSourceView : ViewBase {
 	}
 
 	private void OnDetail(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"unit",unitInfo);
+		UserUnit u = new UserUnit ();
+		u.unitId = unitInfo.id;
+		u.level = 1;
+		u.userID = 0;
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule,"user_unit",u);
 	}
 
 	private void ShowUnitType(){

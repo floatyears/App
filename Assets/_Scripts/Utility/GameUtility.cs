@@ -215,7 +215,7 @@ public class DGTools {
 		userUnit.exp = 0;
 		userUnit.unitId = (uint)unitID;
 
-		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"unit",userUnit);
+		ModuleManager.Instance.ShowModule(ModuleEnum.UnitDetailModule,"user_unit",userUnit);
 	}
 
 	/// <summary>

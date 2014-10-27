@@ -76,10 +76,10 @@ public class UnitSelectItemView : DragPanelItemBase {
 
 	
 	void PressItem(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit", data);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "user_unit", data);
 	}
 	
 	void ClickCard(GameObject data){
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit", data);
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "user_unit", data);
 	}
 }

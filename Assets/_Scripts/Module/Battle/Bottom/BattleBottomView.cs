@@ -5,12 +5,6 @@ using System.Collections;
 using bbproto;
 
 public class BattleBottomView : ViewBase {
-//	private Camera bottomCamera;
-//	private RaycastHit rch;
-//	private TUnitParty upi;
-//	private Dictionary<GameObject, UITexture> actorObject = new Dictionary<GameObject, UITexture>();
-	private Dictionary<int, GameObject> enableSKillPos = new Dictionary<int, GameObject> ();
-	private List<int> enablePos = new List<int> ();
 
 	private Dictionary<GameObject, ActiveSkill> unitInfoPos = new Dictionary<GameObject,ActiveSkill> ();
 
@@ -30,6 +24,7 @@ public class BattleBottomView : ViewBase {
 
 		List<UserUnit> userUnitInfo = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit;
 
+		MsgCenter.Instance.AddListener (CommandEnum.ExcuteActiveSkill, OnActiveSkill);
 		Transform actorTrans = transform.Find ("Actor");
 		actor = new UITexture[5];
 		for (int i = 0; i < 5; i++) {
@@ -58,6 +53,7 @@ public class BattleBottomView : ViewBase {
 					ActiveSkill activeSkill =  sbi as ActiveSkill;
 					unitInfoPos.Add(temp, activeSkill);
 					activeSkill.AddListener(ActiveSkillCallback);
+//					activeSkill.RefreashCooling();
 				}
 
 				ResourceManager.Instance.GetAvatar(UnitAssetType.Profile,tui.id, o=>{
@@ -118,6 +114,8 @@ public class BattleBottomView : ViewBase {
 		case "close_skill_window":
 			MaskCard("",false);
 			break;
+		case "":
+			break;
 		default:
 			break;
 		}
@@ -142,30 +140,11 @@ public class BattleBottomView : ViewBase {
 		ActiveSkill activeSKill = data as ActiveSkill;
 		foreach (var item in unitInfoPos) {
 			if(item.Value.GetBaseInfo().id == activeSKill.GetBaseInfo().id && item.Value.CoolingDone) {
-				EffectManager.Instance.PlayEffect("activeskill_enabled",item.Key.transform);
-//				if (enableSKillPos.ContainsKey (item.Key)) {
-//					return;	
-//				}
-//				
-//				enableSKillPos.Add (item.Key, null);
-//				enablePos.Add (item.Key);
+				EffectManager.Instance.PlayEffect("activeskill_enabled",item.Key.transform,new Vector3(43,10,0));;
 
 			}
 		}
 	}	
-
-	public void Boost() {
-//		RemoveSkillEffect (prevID);
-		//		Debug.LogError("Boost Active Skill : " + tuu);
-//		MsgCenter.Instance.Invoke(CommandEnum.LaunchActiveSkill, tuu);
-	}
-
-	void RemoveSkillEffect (int pos) {
-//		if(enableSKillPos.ContainsKey(pos))
-//			enableSKillPos.Remove (pos);
-//		if(enablePos.Contains(pos))
-//			enablePos.Remove (pos);
-	}
 
 	void ClickItem (GameObject obj) {
 		UITexture tex = actor [int.Parse (obj.name)];
@@ -197,6 +176,9 @@ public class BattleBottomView : ViewBase {
 	
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
+		if (energyPoint < 17) {
+			NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.BATTLE_SP);	
+		}
 		for (int i = 0; i < spSprite.Length; i++) {
 			UISprite sprite = spSprite[i];
 			if(i < energyPoint) {
@@ -221,10 +203,24 @@ public class BattleBottomView : ViewBase {
 		}
 	}
 
+	void OnActiveSkill(object data){
+		ActiveSkill ac = data as ActiveSkill;
+		foreach (var item in unitInfoPos) {
+			if(item.Value.GetBaseInfo().id == ac.GetBaseInfo().id) {
+				EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
+				
+			}
+		}
+
+	}
 
 
 	
 	public override void DestoryUI () {
+		MsgCenter.Instance.RemoveListener (CommandEnum.ExcuteActiveSkill, OnActiveSkill);
+		foreach (var item in unitInfoPos) {
+			EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
+		}
 		base.DestoryUI ();
 	}
 }

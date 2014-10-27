@@ -7,6 +7,7 @@ public class HelperUnitItem : FriendUnitItem {
 	private UILabel arrtLabel;
 	private UISprite baseBoardSpr;
 	private UILabel descLabel;
+	private GameObject selectBtn;
 	
 	protected override void ClickItem(GameObject item){
 		if(callback != null) {
@@ -37,6 +38,10 @@ public class HelperUnitItem : FriendUnitItem {
 
 		base.SetData<T>(friendInfo, args);
 
+		selectBtn.tag = "Untagged";
+		if (name == "0") {
+			selectBtn.tag = "friend_one";
+		}
 		if (args.Length > 1) {
 			switch(args[1].ToString()){
 			case "level_up":
@@ -45,6 +50,9 @@ public class HelperUnitItem : FriendUnitItem {
 			case "evolve":
 				break;
 			case "fight_ready":
+				break;
+			case "battle_helper":
+				selectBtn.tag = "battle_helper";
 				break;
 			}
 		}
@@ -64,8 +72,9 @@ public class HelperUnitItem : FriendUnitItem {
 		baseBoardSpr = transform.FindChild("Sprite_Base_Board").GetComponent<UISprite>();
 
 		transform.FindChild ("SelectBtn/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Select");
+		selectBtn = transform.FindChild("SelectBtn").gameObject;
 
-		UIEventListenerCustom.Get(transform.FindChild("SelectBtn").gameObject).onClick = ClickItem;
+		UIEventListenerCustom.Get(selectBtn).onClick = ClickItem;
 		UIEventListenerCustom.Get (gameObject).LongPress = OnDetail;
 	}
 
@@ -94,7 +103,7 @@ public class HelperUnitItem : FriendUnitItem {
 	}
 
 	private void OnDetail(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "unit");
+		ModuleManager.Instance.ShowModule (ModuleEnum.UnitDetailModule, "user_unit",friendInfo.UserUnit);
 	}
 
 }

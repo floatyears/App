@@ -76,12 +76,6 @@ public class UnitDetailView : ViewBase{
 	public override void Init ( UIConfigItem config , Dictionary<string, object> data = null) {
 		base.Init (config, data);
 		InitUI();
-
-//		ResourceManager.Instance.LoadLocalAsset("Materials/UnitMaterial", o=>{
-//			unitMaterial = o as Material;
-//			if( unitMaterial == null )
-//				Debug.LogError("Scene -> UnitDetail : Not Find UnitMaterial");
-//		});
 	}
 	
 	public override void ShowUI () {
@@ -100,12 +94,13 @@ public class UnitDetailView : ViewBase{
 
 		NoviceGuideStepManager.Instance .StartStep (NoviceGuideStartType.UNITS);
 
-		if(viewData.ContainsKey("unit")){
-			curUserUnit = viewData["unit"] as UserUnit;
-			ShowInfo (curUserUnit);
-			UpdateFavView(curUserUnit.isFavorite);
+		if (viewData != null) {
+			if(viewData.ContainsKey("user_unit")){
+				curUserUnit = viewData["user_unit"] as UserUnit;
+				ShowInfo (curUserUnit);
+				UpdateFavView(curUserUnit.isFavorite);
+			}
 		}
-
 
 	}
 
@@ -113,10 +108,14 @@ public class UnitDetailView : ViewBase{
 		base.HideUI ();
 		iTween.Stop ();
 
+		if (viewData.ContainsKey ("back_callback")) {
+			(viewData["back_callback"] as DataListener)(null);
+		}
 		if( isFavorStateChanged ) {
 			ModuleManager.SendMessage(ModuleEnum.LevelUpModule, "RefreshUnitItem", curUserUnit);
 			isFavorStateChanged = false;
 		}
+		viewData.Clear ();
 	}
 	
 	//----------Init functions of UI Elements----------
@@ -207,14 +206,11 @@ public class UnitDetailView : ViewBase{
 
 	}
 
-	bool ShowTexture = false;
-
 	bool isNoviceGUide = true;
 
 	void ClickTexture( GameObject go ){
 		AudioManager.Instance.StopAudio (AudioEnum.sound_level_up);
 
-		ShowTexture = false;
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );	
 
 		unitBodyTex.mainTexture = null;
@@ -257,18 +253,10 @@ public class UnitDetailView : ViewBase{
 		return gw;
 	}
 
-	//------------------levelup-----------------------------------------
+	void ShowInfo(UserUnit userUnit) {
 
-
-	
-	//------------------end-----------------------------------------
-	void ShowInfo(UserUnit userUnit, bool isLevelUp = false) {
-
-
-		if (!isLevelUp) {
-			ShowBodyTexture( userUnit ); 
-			ShowUnitScale();
-		}
+		ShowBodyTexture( userUnit ); 
+		ShowUnitScale();
 
 		///-----------show top panel
 		UnitInfo unitInfo = userUnit.UnitInfo;
@@ -409,35 +397,12 @@ public class UnitDetailView : ViewBase{
 	void ShowUnitScale(){
 		TweenScale unitScale = gameObject.GetComponentInChildren< TweenScale >();
 		TweenAlpha unitAlpha = gameObject.GetComponentInChildren< TweenAlpha >();
-		
-		unitAlpha.eventReceiver = this.gameObject;
-		unitAlpha.callWhenFinished = "ScaleEnd";
-		
-		if( unitScale == null || unitAlpha == null )
-			return;
-		
+
 		unitScale.ResetToBeginning();
 		unitScale.PlayForward();
 		
 		unitAlpha.ResetToBeginning();
 		unitAlpha.PlayForward();
-	}
-
-	void ScaleEnd(){
-		if (!isEvolve) {
-			return;
-		}
-		if( DataCenter.evolveInfo != null )
-			DataCenter.evolveInfo.ClearData ();
-		
-		isEvolve = false;
-//		
-//		evolveEffectIns = NGUITools.AddChild(unitBodyTex.gameObject, evolveEffect);
-//		Vector3 pos = new Vector3 (0f, unitBodyTex.height * 0.5f, 0f);
-//		evolveEffectIns.transform.localPosition = pos;
-//		evolveEffectIns.layer = GameLayer.EffectLayer;
-		
-		AudioManager.Instance.PlayAudio(AudioEnum.sound_check_role);
 	}
 	
 	void ShowBodyTexture( UserUnit data ){
@@ -449,20 +414,8 @@ public class UnitDetailView : ViewBase{
 		ResourceManager.Instance.GetAvatar( UnitAssetType.Profile,unitInfo.id, o=>{
 			Texture2D target = o as Texture2D;
 			DGTools.ShowTexture(unitBodyTex, target);
-			ShowTexture = true;
 		});
 		
-	}
-
-	
-	//---------Exp increase----------
-
-
-
-
-
-	private void ShowFavState(object msg){
-		UpdateFavView(curUserUnit.isFavorite);
 	}
 
 	private void ClickLock(GameObject go){
@@ -484,7 +437,6 @@ public class UnitDetailView : ViewBase{
 
 		curUserUnit.isFavorite = (curUserUnit.isFavorite == 1) ? 0 : 1;
 
-		//update the user unit 
 		DataCenter.Instance.UnitData.UserUnitList.UpdateMyUnit( curUserUnit );
 
 		UpdateFavView(curUserUnit.isFavorite);
