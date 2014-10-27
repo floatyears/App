@@ -25,7 +25,7 @@ public class StageSelectView : ViewBase{
 
 	private UIButton btnCopyTypeNormal;
 	private UIButton btnCopyTypeElite;
-
+	ECopyType currCopyType = ECopyType.CT_NORMAL;
 
 	private int curQuestIndex;
 	private UnitDataModel evolveStageInfo;
@@ -44,18 +44,35 @@ public class StageSelectView : ViewBase{
 	
 	public override void ShowUI(){
 		base.ShowUI();
+		UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
+		UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
+		normal.optionCanBeNone = true;
+		elite.optionCanBeNone = true;
+
 		if (viewData.ContainsKey("story")) {
 			UIToggle toggle = UIToggle.GetActiveToggle (5);
-			ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+//			currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+			Debug.Log("StageSelect.showUI >>> 111 currCopyType="+currCopyType+" elite.value:"+elite.value+" normal.val:"+normal.value);
+			elite.value = (currCopyType == ECopyType.CT_ELITE );
+			normal.value = !elite.value;
+			Debug.Log("StageSelect.showUI >>> 222 currCopyType="+currCopyType+" elite.value:"+elite.value+" normal.val:"+normal.value);
 
+			if( toggle != null ) {
+				Debug.Log( "StageSelect1 >>>> UIToggle.GetActiveToggle(5) = "+toggle.name);
+			}
 			ShowStoryCityView(viewData["story"], currCopyType);
 
-			FindChild("CopyType/Normal").SetActive(true);
-			FindChild("CopyType/Elite").SetActive(true);
-		}else if(viewData.ContainsKey("event")){
+			if( toggle != null )
+			Debug.Log( "StageSelect2 >>>> UIToggle.GetActiveToggle(5) = "+toggle.name);
+
+
+			normal.gameObject.SetActive(true);
+			elite.gameObject.SetActive(true);
+
+		}else if(viewData.ContainsKey("event")) {
 			ShowEventCityView();
-			FindChild("CopyType/Normal").SetActive(false);
-			FindChild("CopyType/Elite").SetActive(false);
+			normal.gameObject.SetActive(false);
+			elite.gameObject.SetActive(false);
 		}
 //		else if(viewData.ContainsKey("evolve")){
 //			EvolveStartQuest(viewData["evolve"]);
@@ -70,8 +87,13 @@ public class StageSelectView : ViewBase{
 
 	public void OnSelectCopyType(object data) {
 		UIToggle toggle = UIToggle.GetActiveToggle (5);
-		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+		if( toggle == null ) {
+			return;
+		}
 
+		currCopyType = (( toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+//			currCopyType = (currCopyType != ECopyType.CT_NORMAL  ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+		Debug.LogWarning("After Stage.OnSelCopy:  currCopyType="+currCopyType);
 		StageClearItem clearInfo = DataCenter.Instance.QuestData.QuestClearInfo.GetClearItem(currCopyType);
 		uint lastestCityId = clearInfo.stageId/10;
 		if( lastestCityId==0 ) 
@@ -79,6 +101,17 @@ public class StageSelectView : ViewBase{
 
 		ShowStoryCityView(lastestCityId, currCopyType);
 
+	}
+
+	public override void CallbackView(params object[] args) {
+		string cmd = (string)args[0];
+		if(cmd == "ChangeCopyType") {
+			currCopyType = (ECopyType)args[1];
+
+//			UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
+//			UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
+
+		}
 	}
 
 	private void ShowEventCityView(){
@@ -124,7 +157,8 @@ public class StageSelectView : ViewBase{
 		uint now = GameTimer.GetInstance ().GetCurrentSeonds ();
 		foreach (var item in eventCityData) {
 			if(cityData.ContainsKey(item.cityId)) {
-//				Debug.LogWarning(item.cityId+"|"+item.id+") EndTime:"+cityData[item.cityId].EndTime+" | item.End="+item.EndTime);
+//			
+				Debug.LogWarning(item.cityId+"|"+item.id+") EndTime:"+cityData[item.cityId].EndTime+" | item.End="+item.EndTime);
 				if(cityData[item.cityId].EndTime > item.EndTime){
 					if(now < item.EndTime){
 						cityData[item.cityId] = item;

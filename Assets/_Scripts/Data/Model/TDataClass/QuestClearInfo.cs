@@ -12,13 +12,56 @@ public enum StageState {
 	EVENT_CLOSE = 4
 }
 
+
 namespace bbproto{
 
-
 	public partial class QuestClearInfo : ProtobufDataBase {
+		public const int MAX_STAGE_ID = 57; //当前版本最后一个StageId
+		public const int STAGE_COUNT_OF_CITY = 7; 
+
 
 		public StageClearItem GetClearItem(ECopyType copyType) {
 			return (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
+		}
+
+		//返回最新可进入的CityId
+		public uint GetNewestCity(ECopyType copyType) {
+			StageClearItem clearInfo = GetClearItem(copyType);
+			uint lastestCityId = clearInfo.stageId/10;
+			if( lastestCityId==0 ) 
+				lastestCityId = 1;
+
+			if( GetStoryCityState(lastestCityId, copyType) == StageState.CLEAR ) 
+				lastestCityId += 1; //当前City已通关，返回下一City
+
+			return lastestCityId;
+		}
+
+		//返回最新可进入的StageId
+		public uint GetNewestStage(ECopyType copyType) {
+			StageClearItem clearInfo = GetClearItem(copyType);
+			uint lastestStageId = clearInfo.stageId;
+			if( lastestStageId==0 ) 
+				lastestStageId = 11;
+			if( GetStoryStageState(lastestStageId, copyType) == StageState.CLEAR ) 
+				lastestStageId = nextStageId(lastestStageId); //当前Stage已通关，返回下一Stage
+			
+			return lastestStageId;
+		}
+
+		public uint nextStageId(uint stageId) {
+			uint cityId = stageId / 10;
+			if (stageId == MAX_STAGE_ID ) { //last stage of all
+				return stageId;
+			}
+
+			if ( stageId % 10 == STAGE_COUNT_OF_CITY ) { // is last stage of city
+				//get next city's first stage
+				CityInfo cityinfo = DataCenter.Instance.QuestData.GetCityInfo(cityId+1);
+				return cityinfo.stages[0].id;
+			}
+
+			return stageId+1;
 		}
 
 		public uint prevStageId(uint stageId) {
@@ -31,16 +74,16 @@ namespace bbproto{
 				CityInfo cityinfo = DataCenter.Instance.QuestData.GetCityInfo(cityId-1);
 				return cityinfo.stages[cityinfo.stages.Count-1].id;
 			}
-
+			
 			return stageId-1;
 		}
 
 		//return 0:locked  1:cleared 2: currentOpen
-		public StageState GetStoryCityState(uint cityId, bool onlyNormal=false) {
+		public StageState GetStoryCityState(uint cityId, ECopyType copyType) {
 			CityInfo cityinfo = DataCenter.Instance.QuestData.GetCityInfo(cityId);
 			bool isClear = true;
 				foreach( StageInfo stage in cityinfo.stages ) {
-				if (!IsStoryStageClear(stage, onlyNormal)){
+				if (!IsStoryStageClear(stage, copyType)){
 					isClear = false;
 					break;
 				}
@@ -55,7 +98,7 @@ namespace bbproto{
 			CityInfo prevCity = DataCenter.Instance.QuestData.GetCityInfo(cityId-1);
 			bool prevIsClear = true;
 				foreach( StageInfo stage in prevCity.stages ) {
-				if (!IsStoryStageClear(stage, onlyNormal)){
+				if (!IsStoryStageClear(stage, copyType)){
 					prevIsClear = false;
 					break;
 				}
@@ -70,24 +113,24 @@ namespace bbproto{
 		public StageState GetStoryStageState(uint stageId, ECopyType copyType) {
 			StageInfo stageinfo = DataCenter.Instance.QuestData.GetStageInfo(stageId);
 
-			bool isClear = IsStoryStageClear(stageinfo);
+			bool isClear = IsStoryStageClear(stageinfo, copyType);
 			if ( isClear ) {
 				return StageState.CLEAR;
 			}
 
 			// current isClear==false, but previous stage is Cleared.
 			uint prevStage = prevStageId(stageId);
-			if (prevStage == 0 || IsStoryStageClear( DataCenter.Instance.QuestData.GetStageInfo(prevStage) ) )
+			if (prevStage == 0 || IsStoryStageClear( DataCenter.Instance.QuestData.GetStageInfo(prevStage), copyType ) )
 				return StageState.NEW;
 
 			return StageState.LOCKED;
 		}
 
-		private	bool IsStoryStageClear(StageInfo stageInfo, bool onlyNormal=false) {
+		private	bool IsStoryStageClear(StageInfo stageInfo, ECopyType copyType) {
 
 			StageClearItem clearItem = (stageInfo.CopyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
-			if( onlyNormal ) {
-				clearItem = storyClear;
+			if( stageInfo.CopyType != copyType ) {
+				clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
 			}
 
 			if (clearItem == null || stageInfo == null) {
