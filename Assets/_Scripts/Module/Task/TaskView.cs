@@ -10,15 +10,18 @@ public class TaskView : ViewBase {
 	{
 		base.Init (uiconfig, data);
 
-		FindChild<UILabel> ("Title").text = TextCenter.GetText ("");
-		MsgCenter.Instance.AddListener (CommandEnum.TaskDataChange,OnDataChange);
+		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Task_Title");
 
-		dragPanel = new DragPanel ("TaskDragPanel","Prefabs/UI/Achieve/AchieveAndTaskItemView",typeof(AchieveAndTaskItemView),transform.FindChild ("Content"));
+
+		dragPanel = new DragPanel ("TaskDragPanel","Prefabs/UI/Achieve/AchieveAndTaskItem",typeof(AchieveAndTaskItemView),transform.FindChild ("Content"));
+
+		UIEventListenerCustom.Get (FindChild ("OkBtn")).onClick = OnClickOK;
 	}
 	
 	public override void ShowUI ()
 	{
 		base.ShowUI ();
+		MsgCenter.Instance.AddListener (CommandEnum.TaskDataChange,OnDataChange);
 
 		dragPanel.SetData<TaskConf> (DataCenter.Instance.TaskAndAchieveData.GetTaskList());
 	}
@@ -30,16 +33,22 @@ public class TaskView : ViewBase {
 	
 	public override void HideUI ()
 	{
+		MsgCenter.Instance.AddListener (CommandEnum.TaskDataChange,OnDataChange);
+		DataCenter.Instance.TaskAndAchieveData.SendTempAward ();
 		base.HideUI ();
 	}
 	
 	public override void DestoryUI ()
 	{
-		MsgCenter.Instance.AddListener (CommandEnum.TaskDataChange,OnDataChange);
+
 		base.DestoryUI ();
 	}
 
 	private void OnDataChange(object data){
 		dragPanel.SetData<TaskConf> (DataCenter.Instance.TaskAndAchieveData.GetTaskList());
+	}
+
+	private void OnClickOK(GameObject obj){
+		ModuleManager.Instance.HideModule (ModuleEnum.TaskModule);
 	}
 }

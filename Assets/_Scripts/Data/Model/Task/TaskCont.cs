@@ -9,6 +9,10 @@ namespace bbproto{
 			get;
 			set;
 		}
+
+		public int CurrGoalCount;
+
+		public int BonusID;
 	}
 }
 

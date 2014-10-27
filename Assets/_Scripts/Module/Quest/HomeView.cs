@@ -13,18 +13,62 @@ public class HomeView : ViewBase{
 
 	private UISprite fog;
 
+	private GameObject awardNum;
+	private GameObject achieveNum;
+	private GameObject taskNum;
+	private UILabel awardNumLabel;
+	private UILabel taskNumLabel;
+	private UILabel achieveNumLabel;
+
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config,data);
-		InitUI();
+
+		InitWorldMap();
+		awardNum = FindChild ("Icons/Reward/NumBg");
+		achieveNum = FindChild ("Icons/Achieve/NumBg");
+		taskNum = FindChild ("Icons/Task/NumBg");
+
+		awardNumLabel = FindChild<UILabel> ("Icons/Reward/NumBg/Num");
+		taskNumLabel = FindChild<UILabel> ("Icons/Task/NumBg/Num");
+		achieveNumLabel = FindChild<UILabel> ("Icons/Achieve/NumBg/Num");
+
+
+		UIEventListenerCustom.Get (FindChild ("Icons/Reward")).onClick = CLickIcons;
+		UIEventListenerCustom.Get (FindChild ("Icons/Notice")).onClick = CLickIcons;
+		UIEventListenerCustom.Get (FindChild ("Icons/Purchase")).onClick = CLickIcons;
+		UIEventListenerCustom.Get (FindChild ("Icons/Task")).onClick = CLickIcons;
+		UIEventListenerCustom.Get (FindChild ("Icons/Achieve")).onClick = CLickIcons;
+		
+		fog = FindChild("Fog").GetComponent<UISprite>();
+		FindChild<UILabel> ("EventDoor/Label").text = TextCenter.GetText ("City_Event");
+
+		MsgCenter.Instance.AddListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
+		MsgCenter.Instance.AddListener (CommandEnum.TaskBonusChange, OnTaskBonus);
+		MsgCenter.Instance.AddListener (CommandEnum.AchieveBonusChange, OnAchieveBonus);
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
 
-		MsgCenter.Instance.AddListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
-
 		GameTimer.GetInstance ().CheckRefreshServer ();
+
+		int count = DataCenter.Instance.TaskAndAchieveData.TaskBonusCount;
+		if (count > 0) {
+			taskNumLabel.text = count.ToString();	
+			taskNum.SetActive(true);
+		}else{
+			taskNum.SetActive(false);
+		}
+
+		count = DataCenter.Instance.TaskAndAchieveData.AchieveBonusCount;
+		if (count > 0) {
+			achieveNumLabel.text = DataCenter.Instance.TaskAndAchieveData.AchieveBonusCount.ToString();
+			achieveNum.SetActive(true);
+		}else{
+			achieveNum.SetActive(false);
+		}
+
 
 		ShowRewardInfo ();
 
@@ -39,6 +83,14 @@ public class HomeView : ViewBase{
 
 	}
 
+	public override void DestoryUI ()
+	{
+		MsgCenter.Instance.RemoveListener (CommandEnum.RefreshRewardList,OnRefreshRewardList);
+		MsgCenter.Instance.RemoveListener (CommandEnum.TaskBonusChange, OnTaskBonus);
+		MsgCenter.Instance.RemoveListener (CommandEnum.AchieveBonusChange, OnAchieveBonus);
+		base.DestoryUI ();
+	}
+
 	private void OnRefreshRewardList(object data){
 		ShowRewardInfo ();
 	}
@@ -51,12 +103,10 @@ public class HomeView : ViewBase{
 			}
 		}
 		if (count > 0) {
-			FindChild<UILabel> ("Icons/Reward/Num").enabled = true;
-			FindChild<UISprite> ("Icons/Reward/NumBg").enabled = true;
-			FindChild<UILabel> ("Icons/Reward/Num").text = count + "";	
+			awardNum.SetActive(true);
+			awardNumLabel.text = count + "";	
 		} else {
-			FindChild<UILabel> ("Icons/Reward/Num").enabled = false;
-			FindChild<UISprite> ("Icons/Reward/NumBg").enabled = false;
+			awardNum.SetActive(false);
 		}
 	}
 
@@ -69,30 +119,29 @@ public class HomeView : ViewBase{
 		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadComplete);
 		MsgCenter.Instance.RemoveListener(CommandEnum.ResourceDownloadComplete,DownloadCompleteEx);
 	}
-	
-	void InitUI(){
-		InitWorldMap();
 
-		UIEventListenerCustom.Get (FindChild ("Icons/Reward").gameObject).onClick = ClickReward;
-		UIEventListenerCustom.Get (FindChild ("Icons/Notice").gameObject).onClick = ClickNotice;
-		UIEventListenerCustom.Get (FindChild ("Icons/Purchase").gameObject).onClick = ClickPurchase;
+	void CLickIcons(GameObject obj){
+		switch (obj.name) {
+		case "Reward":
+			ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
+			break;
+		case "Notice":
+			ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
+			break;
+		case "Purchase":
+			ModuleManager.Instance.ShowModule (ModuleEnum.ShopModule);
+			break;
+		case "Task":
+			ModuleManager.Instance.ShowModule(ModuleEnum.TaskModule);
+			break;
+		case "Achieve":
+			ModuleManager.Instance.ShowModule(ModuleEnum.AchieveModule);
+			break;
+		default:
+				break;
+		}
 
-		fog = FindChild("Fog").GetComponent<UISprite>();
-		FindChild<UILabel> ("EventDoor/Label").text = TextCenter.GetText ("City_Event");
 	}
-
-	void ClickReward(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
-	}
-
-	void ClickNotice(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
-	}
-
-	void ClickPurchase(GameObject obj){
-		ModuleManager.Instance.ShowModule (ModuleEnum.ShopModule);
-	}
-
 	void ClickStoryItem(GameObject item){
 		Debug.LogError("ClickStoryItem ");
 //		CallBackDispatcherArgs cbdArgs = new CallBackDispatcherArgs();
@@ -254,6 +303,27 @@ public class HomeView : ViewBase{
 		fog.GetComponent<TweenPosition> ().from = new Vector3(1024f*dir,y ,0);
 		fog.GetComponent<TweenPosition> ().to = new Vector3(-1024f*dir,y ,0);
 //		fog.transform.localPosition = new Vector3(?
+	}
+
+	private void OnTaskBonus(object data){
+		int count = DataCenter.Instance.TaskAndAchieveData.TaskBonusCount;
+		if (count > 0) {
+			taskNumLabel.text = count.ToString();	
+			taskNum.SetActive(true);
+		}else{
+			taskNum.SetActive(false);
+		}
+
+	}
+
+	private void OnAchieveBonus(object data){
+		int count = DataCenter.Instance.TaskAndAchieveData.AchieveBonusCount;
+		if (count > 0) {
+			achieveNumLabel.text = count.ToString();	
+			achieveNum.SetActive(true);
+		}else{
+			achieveNum.SetActive(false);
+		}
 	}
 }
 

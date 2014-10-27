@@ -15,6 +15,8 @@ public enum CommandEnum{
 	BattleSkillPanel,
 	TaskDataChange,
 	AchieveDataChange,
+	AchieveBonusChange,
+	TaskBonusChange,
 
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,

@@ -38,6 +38,8 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.ItemCounterModule:
 				case ModuleEnum.ApplyMessageModule:
 				case ModuleEnum.ShowNewCardModule:
+				case ModuleEnum.TaskModule:
+				case ModuleEnum.AchieveModule:
 					break;
 				case ModuleEnum.FriendMainModule:
 				case ModuleEnum.ScratchModule:
