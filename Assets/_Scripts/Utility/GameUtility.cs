@@ -93,7 +93,7 @@ public class DGTools {
 			return;
 		}
 
-		StageState stageClearStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityID, false);
+		StageState stageClearStage = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState (cityID, tsi.CopyType);
 
 		if (questState == StageState.CLEAR) { 	
 			if (tsi.QuestInfo [tsi.QuestInfo.Count - 1].id != tqi.id) { // current quest not the last quest.

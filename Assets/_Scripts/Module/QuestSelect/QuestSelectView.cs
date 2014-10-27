@@ -28,34 +28,68 @@ public class QuestSelectView : ViewBase {
 
 		if (viewData != null) {
 			StageInfo newPickedStage = viewData["data"] as StageInfo;
-			List<QuestInfo> newQuestList = newPickedStage.QuestInfo;
-//			newQuestList.Reverse ();
-			
-			if(accessQuestList == null){
-				accessQuestList = new List<QuestInfo>();
-			}
-			if(!accessQuestList.Equals(newQuestList)){
-				pickedStage = newPickedStage;
-				GetAccessQuest(newQuestList,accessQuestList, newPickedStage.CopyType);
-				dragPanel.SetData<QuestInfo> (accessQuestList, pickedStage);
 
-				questRewardItem.SetData(pickedStage);
-			} 
+//			newQuestList.Reverse ();
+
+			UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
+			UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
+			elite.optionCanBeNone = true;
+			normal.optionCanBeNone = true;
+			elite.value = (newPickedStage.CopyType == ECopyType.CT_ELITE );
+			normal.value = (newPickedStage.CopyType == ECopyType.CT_NORMAL );
+
+			ShowQuestList(newPickedStage);
+
 			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST_SELECT);
 		}
+
+	}
+
+	void ShowQuestList(StageInfo newPickedStage) {
+		List<QuestInfo> newQuestList = newPickedStage.QuestInfo;
+
+		if(accessQuestList == null){
+			accessQuestList = new List<QuestInfo>();
+		}
+		if(!accessQuestList.Equals(newQuestList)){
+			pickedStage = newPickedStage;
+			GetAccessQuest(newQuestList,accessQuestList, newPickedStage.CopyType);
+			dragPanel.SetData<QuestInfo> (accessQuestList, pickedStage);
+			
+			questRewardItem.SetData(pickedStage);
+		} 
 
 		if (pickedStage != null) {
 			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage",pickedStage.stageName);
 		}
 	}
 
+	public void OnSelectCopyType(object data) {
+		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		if( toggle == null ) {
+			return;
+		}
+		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+		
+		uint newestStageId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage( currCopyType );
+		StageInfo newStage = DataCenter.Instance.QuestData.GetStageInfo( newestStageId );
+
+		ShowQuestList( newStage );
+
+		Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (5).name);
+//		ShowStoryCityView(lastestCityId, currCopyType);
+
+		ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", currCopyType);
+	}
+
 	protected override void ToggleAnimation (bool isShow)
 	{
+
 		if (isShow) {
 			gameObject.SetActive(true);
 
-			transform.localPosition = new Vector3(-1000, 0, 0);
-			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f));  
 			
 
 		}else{

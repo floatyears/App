@@ -13,6 +13,7 @@ public class QuestItemView : DragPanelItemBase {
 	private UILabel coinLabel;
 	private UILabel clearFlagLabel;
 	private UISprite mask;
+	private UISprite lockSpr;
 
 	private uint stageID;
 	public uint StageID{
@@ -95,8 +96,6 @@ public class QuestItemView : DragPanelItemBase {
 //		clearFlagLabel.text = isClear ? TextCenter.GetText("clearQuest") : "";
 
 		bool isClear = DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageID, data.id, stageInfo.CopyType);
-
-
 		ShowQuestStar(isClear);
 
 		UnitInfo bossUnitInfo = DataCenter.Instance.UnitData.GetUnitInfo(data.bossId[ 0 ]);
@@ -104,7 +103,9 @@ public class QuestItemView : DragPanelItemBase {
 		borderSpr.spriteName = bossUnitInfo.GetUnitBorderSprName();
 
 //		enabled = (data.state != EQuestState.QS_NEW);
-		mask.enabled = (data.state == EQuestState.QS_NEW);
+		bool isLocked = (data.state == EQuestState.QS_NEW);
+		mask.enabled = isLocked;
+		lockSpr.gameObject.SetActive( isLocked );
 
 		clearFlagLabel.text = (data.state == EQuestState.QS_QUESTING) ? "New!" : "";
 	}
@@ -134,6 +135,7 @@ public class QuestItemView : DragPanelItemBase {
 		borderSpr = transform.FindChild("Sprite_Boss_Avatar_Border").GetComponent<UISprite>();
 		avatarBgSpr = transform.FindChild("Sprite_Boss_Avatar_Bg").GetComponent<UISprite>();
 		mask = transform.FindChild ("Mask").GetComponent<UISprite> ();
+		lockSpr = transform.FindChild ("LockImg").GetComponent<UISprite> ();
 	}
 
 	private void AddEventListener(){
