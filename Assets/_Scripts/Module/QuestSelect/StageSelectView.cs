@@ -240,6 +240,7 @@ public class StageSelectView : ViewBase{
 
 		uint cityID = (uint)msg;
 		currPickedCityInfo = DataCenter.Instance.QuestData.GetCityInfo(cityID);
+		currentCityName = currPickedCityInfo.cityName;
 
 		if(currPickedCityInfo != null) {
 			DestoryStages();
@@ -475,6 +476,9 @@ public class StageSelectView : ViewBase{
 
 	private void SetSceneName(string name){
 		currentCityName = name;
+
+		ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage", currentCityName);
+
 //		GameObject obj = GameObject.Find ("SceneInfoBar(Clone)");
 //		obj.GetComponent<SceneInfoDecoratorUnity> ().SetSceneName (name);
 	}
