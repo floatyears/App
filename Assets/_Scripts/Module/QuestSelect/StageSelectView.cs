@@ -40,6 +40,11 @@ public class StageSelectView : ViewBase{
 		base.Init(config,data);
 		storyStageRoot = transform.FindChild("StoryStages").gameObject;
 		eventStageRoot = transform.FindChild("EventStages").gameObject;
+
+		UILabel normalText = FindChild<UILabel>("CopyType/Normal/text");
+		UILabel eliteText = FindChild<UILabel>("CopyType/Elite/text");
+		normalText.text = TextCenter.GetText("CopyNormal");
+		eliteText.text = TextCenter.GetText("CopyElite");
 	}
 	
 	public override void ShowUI(){
