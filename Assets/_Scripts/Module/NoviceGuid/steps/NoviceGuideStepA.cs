@@ -7,7 +7,7 @@ public class NoviceGuideStepA_1:NoviceGuidStep
 	public override void Enter(){
 		nextState = typeof(NoviceGuideStepA_2);
 		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide1_title"),TextCenter.GetText ("guide1_content"),TextCenter.GetText ("NEXT"),o=>{
-			GoToNextState();
+			GoToNextState(true);
 		});
 	}
 }
@@ -28,7 +28,7 @@ public class NoviceGuideStepA_2:NoviceGuidStep
 	private void ClickOK(GameObject data)
 	{
 		NoviceGuideUtil.RemoveArrow ((GameObject)data);
-		
+		GoToNextState();
 	}
 
 }
@@ -41,16 +41,17 @@ public class NoviceGuideStepA_3:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepA_4);
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_2"));
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule,"guide", 1);
+		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule,"guide", BattleGuideType.SING_DRAG);
 //		UIEventListenerCustom.
 		MsgCenter.Instance.AddListener (CommandEnum.FightEnd, OnFightEnd);
 	}
 	
 	private void OnFightEnd(object data)
 	{
+		GoToNextState();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnFightEnd);
 		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide2_title"), TextCenter.GetText ("guide2_content"), TextCenter.GetText ("NEXT"),o=>{
-			GoToNextState();
+			GoToNextState(true);
 		});
 
 	}
@@ -63,10 +64,8 @@ public class NoviceGuideStepA_4:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepA_5);
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_3"));
-		GameTimer.GetInstance ().AddCountDown (2f, () => {
-			ModuleManager.Instance.HideModule (ModuleEnum.NoviceGuideTipsModule);
-		});
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 1);
+//		GoToNextState();
 	}
 }
 
@@ -76,6 +75,7 @@ public class NoviceGuideStepA_5:NoviceGuidStep{
 	{
 		nextState = typeof(NoviceGuideStepA_6);
 		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide3_title"), TextCenter.GetText ("guide3_content"), TextCenter.GetText ("NEXT"));
+		GoToNextState();
 	}
 }
 
@@ -87,5 +87,6 @@ public class NoviceGuideStepA_6:NoviceGuidStep{
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_4"));
 
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 2);
+		GoToNextState();
 	}
 }

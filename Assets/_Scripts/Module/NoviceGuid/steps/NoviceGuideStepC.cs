@@ -13,6 +13,7 @@ public class NoviceGuideStepC_1:NoviceGuidStep
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 0, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
+			GoToNextState();
 		});
 
 	}
@@ -31,6 +32,7 @@ public class NoviceGuideStepC_2:NoviceGuidStep
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("battle_helper"), new Vector3 (0, 0, 1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
+			GoToNextState();
 		});
 		
 	}
@@ -44,7 +46,7 @@ public class NoviceGuideStepC_3:NoviceGuidStep{
 		nextState = typeof(NoviceGuideStepC_4);
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("friend_one"), new Vector3 (0, 0, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
-
+			GoToNextState();
 		});
 	}
 }
@@ -56,7 +58,8 @@ public class NoviceGuideStepC_4:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepC_5);
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("fight_btn"), new Vector3 (0, 0, 1), true, true, o1 => {
-				NoviceGuideUtil.RemoveAllArrows ();
+			NoviceGuideUtil.RemoveAllArrows ();
+			GoToNextState();
 		});
 	}
 }
@@ -92,6 +95,7 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 	}
 
 	void OnSkillRelease(object data){
+		GoToNextState();
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd,OnSkillRelease);
 		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide5_title"), TextCenter.GetText ("guide5_content"), TextCenter.GetText ("NEXT"));
 	}

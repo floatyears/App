@@ -45,9 +45,9 @@ public class NoviceGuideStepL_1:NoviceGuidStep
 
 	
 	
-	public override void Exit()
-	{
-		NoviceGuideUtil.RemoveAllArrows ();
-		//CommandEnum.BattleStart;
-	}
+//	public override void Exit()
+//	{
+//		NoviceGuideUtil.RemoveAllArrows ();
+//		//CommandEnum.BattleStart;
+//	}
 }

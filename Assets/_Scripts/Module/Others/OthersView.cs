@@ -94,6 +94,7 @@ public class OthersView : ViewBase {
 		case "ResetData":
 			GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
 			GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
+			BattleConfigData.Instance.ClearData();
 			GameDataPersistence.Instance.StoreData("ResrouceDownload","");
 			GameDataPersistence.Instance.StoreData("ResourceComplete","");
 			ModuleManager.Instance.ShowModule(ModuleEnum.LoadingModule);

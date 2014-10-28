@@ -60,6 +60,7 @@ public class EffectMotionTrail : MonoBehaviour {
 		}
 		currObjs.Clear ();
 		objPool.Clear ();
+
 		IsEffectStart = false;
 	}
 }

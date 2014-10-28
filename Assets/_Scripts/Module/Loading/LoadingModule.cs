@@ -22,6 +22,7 @@ public class LoadingModule : ModuleBase {
 
 //		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
 //		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
+//		BattleConfigData.Instance.ClearData ();
     }
 
 	public override void OnReceiveMessages (params object[] data)
@@ -155,13 +156,13 @@ public class LoadingModule : ModuleBase {
 			}
 
 
-//			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#endif
 #if UNITY_EDITOR 
 //			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
-			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
+//			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepA_1;
 
 			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
