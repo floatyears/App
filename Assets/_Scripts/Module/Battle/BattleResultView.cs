@@ -6,7 +6,8 @@ using bbproto;
 public class BattleResultView : ViewBase {
 	private UISlider levelProgress;
 	private UILabel coinLabel;
-	private UILabel empiricalLabel;
+	private UILabel expLabel;
+	private UILabel rankLabel;
 
 	private UISprite leftWing;
 	private UISprite rightWing;
@@ -107,8 +108,10 @@ public class BattleResultView : ViewBase {
 		int gotCoin = clearQuest.gotMoney;
 		float addCoin = gotCoin * 0.05f;
 	
-		coinLabel.text = clearQuest.gotMoney.ToString ();
-		empiricalLabel.text = clearQuest.gotExp.ToString ();
+		coinLabel.text = "+" + clearQuest.gotMoney.ToString ();
+		expLabel.text = "+" + clearQuest.gotExp.ToString ();
+		rankLabel.text = clearQuest.rank.ToString();
+//		rankLabel.text = clearQuest.curStar;
 
 		StartCoroutine (UpdateLevelNumber ());
 		StartCoroutine (UpdateCoinNumber (addCoin, curCoin, gotCoin));
@@ -216,10 +219,12 @@ public class BattleResultView : ViewBase {
 	void FindComponent () {
 		levelProgress = FindChild<UISlider> ("LvProgress");
 		coinLabel = FindChild<UILabel>("CoinValue");
-		empiricalLabel = FindChild<UILabel>("EmpiricalValue");
+		expLabel = FindChild<UILabel>("ExpValue");
+		rankLabel = FindChild<UILabel>("LvProgress/RankValue");
+
 		leftWing = FindChild<UISprite>("LeftWing");
 		rightWing = FindChild<UISprite>("RightWing");
-		niuJiao = FindChild<UISprite>("NiuJiao");
+		niuJiao = FindChild<UISprite>("SwordLeft");
 		frontCircle = FindChild<UISprite>("FrontCircle");
 		backCircle = FindChild<UISprite>("BackCircle");
 		sureButton = FindChild<UIButton>("Button");
@@ -231,6 +236,9 @@ public class BattleResultView : ViewBase {
 		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
 		rankUpScale = FindChild<TweenScale>("RankPanel/RankUp");
 		rankUpSprite = rankUpScale.GetComponent<UILabel> ();
+
+		UILabel GotInfoLabel = FindChild<UILabel>("GotInfoLabel");
+		GotInfoLabel.text = TextCenter.GetText("VictoryGotInfo");
 	}
 
 	void Sure(GameObject go) {
@@ -270,7 +278,7 @@ public class BattleResultView : ViewBase {
 	IEnumerator UpdateCoinNumber (int coinNum, int addNum) {
 		coinNum ++;
 		addNum --;
-//		coinLabel.text = coinNum.ToString();
+		coinLabel.text = "+" + coinNum.ToString();
 		yield return 0;
 		if (addNum != 0) { 
 			StartCoroutine(UpdateCoinNumber(coinNum, addNum));
@@ -283,7 +291,7 @@ public class BattleResultView : ViewBase {
 			empire = maxEmpire;
 		}
 		float progree = (float)empire / (float)maxEmpire;
-		empiricalLabel.text = empire.ToString();
+		expLabel.text = empire.ToString();
 		levelProgress.value = progree;
 		yield return 0;
 		if (empire < maxEmpire) {
