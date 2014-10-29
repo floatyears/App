@@ -282,11 +282,13 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		List<UserUnit> sortDic = new List<UserUnit> ();
 		List<UserUnit> sortDic1 = new List<UserUnit> ();
 		foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
-			if((DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(item) <= 0) && item.isFavorite == 0 && !currMatList.Contains(item) && (item.UnitInfo.rare <= 3 && item != baseUserUnit)){
+			if((DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(item) <= 0) && (item.isFavorite == 0) && !currMatList.Contains(item) && (item != baseUserUnit)){
 				if(item.UnitRace == (int)EUnitRace.SCREAMCHEESE){
 					sortDic.Add(item);
 				}else{
-					sortDic1.Add(item);
+					if(item.UnitInfo.rare <= 3) {
+						sortDic1.Add(item);
+					}
 				}
 
 			}
