@@ -27,7 +27,7 @@ namespace bbproto{
 		//返回最新可进入的CityId
 		public uint GetNewestCity(ECopyType copyType) {
 			StageClearItem clearInfo = GetClearItem(copyType);
-			uint lastestCityId = clearInfo.stageId/10;
+			uint lastestCityId = ( clearInfo==null ? 0 : clearInfo.stageId/10 );
 			if( lastestCityId==0 ) 
 				lastestCityId = 1;
 
@@ -40,7 +40,7 @@ namespace bbproto{
 		//返回最新可进入的StageId
 		public uint GetNewestStage(ECopyType copyType) {
 			StageClearItem clearInfo = GetClearItem(copyType);
-			uint lastestStageId = clearInfo.stageId;
+			uint lastestStageId = (clearInfo==null ? 0 : clearInfo.stageId);
 			if( lastestStageId==0 ) 
 				lastestStageId = 11;
 			if( GetStoryStageState(lastestStageId, copyType) == StageState.CLEAR ) 
@@ -190,11 +190,15 @@ namespace bbproto{
 		}
 
 		public	void UpdateStoryQuestClear(uint stageId, uint questId, ECopyType copyType) {
+			if (storyClear == null) {
+				storyClear = new StageClearItem();
+			}
+			if (eliteClear == null) {
+				eliteClear = new StageClearItem();
+			}
+
 			StageClearItem clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
 
-			if (clearItem == null) {
-				clearItem = new StageClearItem();			
-			}
 			if( stageId > clearItem.stageId ) {
 				clearItem.stageId = stageId;
 				if(questId == 133){

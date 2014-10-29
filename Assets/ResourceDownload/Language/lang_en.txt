@@ -232,6 +232,7 @@ ExitBattleConfirmTitle=Exit Battle
 BattleMenu=Menu
 CopyElite=Elite
 CopyNormal=Normal
+VictoryGotInfo=You got bonus:
 
 #Loading
 BattleContinueTitle=Battle Confirm

@@ -58,7 +58,7 @@ Btn_SortRule_Fav=收藏
 Btn_SortRule_AddPoint=+号
 Btn_SortRule_Rank=等级
 Btn_Level_Up=强化
-Btn_AutoSelect=自动选择材料
+Btn_AutoSelect=自动选择
 Btn_Evolve=进化
 Btn_Fight=开始战斗
 
@@ -232,6 +232,7 @@ ExitBattleConfirmTitle=退出战斗
 BattleMenu=菜单
 CopyElite=精英
 CopyNormal=普通
+VictoryGotInfo=- 获得奖励 -
 
 #Loading
 BattleContinueTitle=战斗继续确认
