@@ -99,10 +99,8 @@ public class StageSelectView : ViewBase{
 		currCopyType = (( toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 //			currCopyType = (currCopyType != ECopyType.CT_NORMAL  ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 		Debug.LogWarning("After Stage.OnSelCopy:  currCopyType="+currCopyType);
-		StageClearItem clearInfo = DataCenter.Instance.QuestData.QuestClearInfo.GetClearItem(currCopyType);
-		uint lastestCityId = clearInfo.stageId/10;
-		if( lastestCityId==0 ) 
-			lastestCityId = 1;
+
+		uint lastestCityId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestCity(currCopyType);
 
 		ShowStoryCityView(lastestCityId, currCopyType);
 

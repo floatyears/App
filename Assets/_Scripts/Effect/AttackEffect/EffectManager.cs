@@ -32,7 +32,7 @@ public class EffectManager {
 			string path = psItem.pathAndId.Split('_')[0];
 #if !UNITY_EDITOR
 			if(psItem.ps == null){
-				tobeRemoved.Add(psItem);
+				tobeRemoved.Add(psItem.pathAndId);
 				if(psItem.callback != null){
 					psItem.callback(psItem.ps);
 					psItem.callback = null;
