@@ -102,6 +102,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		FindChild<UILabel> ("Bottom/LevelUp/Button_LevelUp/Label").text = TextCenter.GetText ("Btn_Level_Up");
 		FindChild <UILabel>("Bottom/LevelUp/Button_AutoSelect/Label").text = TextCenter.GetText ("Btn_AutoSelect");
 		FindChild<UILabel> ("Bottom/Evolve/Button_Evolve/Label").text = TextCenter.GetText ("Btn_Evolve");
+		FindChild<UILabel> ("Bottom/CostLabel").text = TextCenter.GetText ("Text_Cost");
 
 		nextBtn = FindChild ("Top/Button_Next");
 		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = ClickLevelUp;
@@ -113,7 +114,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 //		levelUpButton.isEnabled = false;
 //		autoSelect.isEnabled = false;
 
-		moneyNeedLabel = FindChild<UILabel> ("Bottom/LevelUp/MoneyLabel");
+		moneyNeedLabel = FindChild<UILabel> ("Bottom/MoneyLabel");
 		getExpLabel = FindChild<UILabel> ("Bottom/LevelUp/GetExpLabel");
 		needExpLabel = FindChild<UILabel> ("Bottom/LevelUp/NeedExpLabel");
 		beforeLvLabel = FindChild<UILabel> ("Top/BeforeLv");
@@ -278,21 +279,54 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	
 	void ClickAutoSelect(GameObject go){
 
-		List<KeyValuePair<int, UserUnit>> sortDic = new List<KeyValuePair<int, UserUnit>> ();
+		List<UserUnit> sortDic = new List<UserUnit> ();
+		List<UserUnit> sortDic1 = new List<UserUnit> ();
 		foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
-			if(!DataCenter.Instance.UnitData.PartyInfo.UnitIsInCurrentParty(item) && item.isFavorite == 0 && ! currMatList.Contains(item)){
-				sortDic.Add(new KeyValuePair<int, UserUnit>(item.MultipleMaterialExp(baseUserUnit),item));
+			if((DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(item) <= 0) && item.isFavorite == 0 && !currMatList.Contains(item) && (item.UnitInfo.rare <= 3 && item != baseUserUnit)){
+				if(item.UnitRace == (int)EUnitRace.SCREAMCHEESE){
+					sortDic.Add(item);
+				}else{
+					sortDic1.Add(item);
+				}
+
 			}
 		}
-		sortDic.Sort ((KeyValuePair<int,UserUnit> v1, KeyValuePair<int,UserUnit> v2) => {
-			return v1.Key.CompareTo(v2.Key);
+		sortDic.Sort ((v1, v2)=> {
+			return v1.MultipleMaterialExp(baseUserUnit) - v2.MultipleMaterialExp(baseUserUnit);//CompareTo(v2.Key);
 		});
-		foreach (var item in sortDic) {
+		sortDic1.Sort ((v1,v2) => {
+			if(v1.UnitInfo.rare == v2.UnitInfo.rare)
+			{
+				return v1.Attack - v2.Attack;
+			}
+			return v1.UnitInfo.rare - v2.UnitInfo.rare;
+		});
 
+		int count = sortDic.Count;
+		int count1 = sortDic1.Count + count;
+		for (int i = 0; i < 4; i++) {
+			if(i < count){
+				SelectUnit(sortDic[i],i);
+			}else if(i < count1){
+				SelectUnit(sortDic1[i-count],i);
+			}
 		}
-		sortDic.Clear ();
-		
-		
+
+		List<FriendInfo> fl = DataCenter.Instance.FriendData.GetSupportFriend ();
+		FriendInfo data = null;
+		foreach (var item in fl) {
+			if(item.UserUnit.UnitRace == baseUserUnit.UnitRace){
+				if(data == null)
+					data = item;
+				if(item.UserUnit.UnitType == baseUserUnit.UnitType){
+					data = item;
+				}
+			}
+			Debug.Log("race: " + item.UserUnit.UnitRace + " type: " +  item.UserUnit.UnitType);
+		}
+		if (data == null)
+			data = fl [0];
+		SelectFriend (data);
 	}
 
 

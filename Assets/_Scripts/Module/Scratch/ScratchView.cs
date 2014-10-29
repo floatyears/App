@@ -83,9 +83,10 @@ public class ScratchView : ViewBase {
 			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
 			infoPanelRoot.transform.localPosition = new Vector3(-1000, -300, 0);
 			windowRoot.transform.localPosition = new Vector3(1000, -570, 0);
+			currentRoot.transform.localPosition = new Vector3(-1000,-775,0);
 
 			 
-			iTween.MoveTo(currentRoot, iTween.Hash("x", (70f - currentFriendPoint.width)/2, "time", 0.4f, "islocal", true));
+			iTween.MoveTo(currentRoot, iTween.Hash("x", (100f - currentFriendPoint.localSize.x)/2, "time", 0.4f, "islocal", true));
 			iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 			iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
 		}else{
@@ -124,7 +125,7 @@ public class ScratchView : ViewBase {
     private void OnClickEventGacha(GameObject btn){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 		if (DataCenter.Instance.GetAvailableNineGachaTimes() < 9) {
-			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("EventGachaFailed"),TextCenter.GetText("EventGachaStoneNotEnough", DataCenter.eventGachaStone),TextCenter.GetText("Back"));
+			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("RareGachaFailed"),TextCenter.GetText("EventGachaStoneNotEnough", DataCenter.eventGachaStone),TextCenter.GetText("Back"));
 			return;
 		}
 		int maxGachaTimes = Mathf.Min(DataCenter.maxGachaPerTime, DataCenter.Instance.GetAvailableNineGachaTimes());
@@ -132,10 +133,14 @@ public class ScratchView : ViewBase {
 		                                     maxGachaTimes, maxGachaTimes * DataCenter.eventGachaStone,
 		                                     DataCenter.Instance.UserData.AccountInfo.stone);
 		
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("EventGacha"), new string[2] {TextCenter.GetText ("EventGachaDescription"),content2}, 
-		TextCenter.GetText ("ConfirmOneEventGacha"), 
-		TextCenter.GetText ("ConfirmMaxEventGacha", maxGachaTimes), 
-		CallbackEventGacha, CallbackEventGacha, 1, maxGachaTimes);;
+//		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("EventGacha"), new string[2] {TextCenter.GetText ("EventGachaDescription"),content2}, 
+//		TextCenter.GetText ("ConfirmOneEventGacha"), 
+//		TextCenter.GetText ("ConfirmMaxEventGacha", maxGachaTimes), 
+//		CallbackEventGacha, CallbackEventGacha, 1, maxGachaTimes);;
+		gachaType = GachaType.RareGacha;
+		gachaCount = 9;
+		Umeng.GA.Event ("Gacha3",gachaCount+"");
+		UnitController.Instance.Gacha(OnRspGacha, (int)gachaType, gachaCount);
     }
 
 	void OnRspGacha(object data) {
@@ -184,12 +189,6 @@ public class ScratchView : ViewBase {
 		Debug.Log ("scratch: ");
 		ModuleManager.Instance.ShowModule (ModuleEnum.ScratchModule);
 	}
-	
-	private void CallbackEventGacha(object args){
-		gachaType = GachaType.EventGacha;
-		gachaCount = 9;
-		Umeng.GA.Event ("Gacha3",gachaCount+"");
-		UnitController.Instance.Gacha(OnRspGacha, (int)gachaType, gachaCount);
-	}
+
 
 }

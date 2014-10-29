@@ -40,6 +40,7 @@ public class SceneInfoBarModule : ModuleBase {
 				case ModuleEnum.ShowNewCardModule:
 				case ModuleEnum.TaskModule:
 				case ModuleEnum.AchieveModule:
+				case ModuleEnum.AchieveTipModule:
 					break;
 				case ModuleEnum.FriendMainModule:
 				case ModuleEnum.ScratchModule:

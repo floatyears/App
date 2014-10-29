@@ -463,6 +463,10 @@ LevelUp_NeedMoney=金钱不足,无法强化!
 #evolve
 Evolve_Title=卡牌进化
 
+LevelUp_PartyItem_Title=当前卡牌正在使用
+LevelUp_PartyItem_Content=当前卡牌正在使用，强化后卡牌将消失，确定强化？
+Text_Cost=消耗:
+
 ## net error
 success=成功
 ERROR_BASE=ERROR_BASE
