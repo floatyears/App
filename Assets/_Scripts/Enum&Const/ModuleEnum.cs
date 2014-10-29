@@ -135,6 +135,12 @@ public enum ModuleEnum
 
 	NoviceGuideTipsModule,
 
+	TaskModule,
+
+	AchieveModule,
+
+	AchieveTipModule,
+
 	///--------battle
 	BattleMapModule,
 

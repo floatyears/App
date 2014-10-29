@@ -127,8 +127,9 @@ public class RewardItemView : DragPanelItemBase {
 	public void ClickTakeAward(){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
-		RewardView.bonusIDs.Add (data.id);
-		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
+
+//		MsgCenter.Instance.Invoke(CommandEnum.TakeAward,data);
+		ModuleManager.SendMessage (ModuleEnum.RewardModule, "take_award", data);
 	}
 
 	public override void ItemCallback (params object[] args)

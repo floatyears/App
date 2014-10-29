@@ -414,6 +414,24 @@
         "group" : 2
     },
     {
+    	"name":"TaskModule",
+        "path": "Prefabs/UI/Task/TaskUI",
+        "parent": 4,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : 2
+    },
+    {
+    	"name":"AchieveModule",
+        "path": "Prefabs/UI/Achieve/AchieveUI",
+        "parent": 4,
+        "x": 0,
+        "y": 0,
+        "z": 0, 
+        "group" : 2
+    },
+    {
         "name":"GameRaiderModule",
         "path": "Prefabs/UI/Raider/GameRaiderUI",
         "parent": 1,
@@ -546,6 +564,16 @@
         "x": 0,
         "y": 0,
         "z": 0, 
+        "group" : -1
+    }
+    ,
+    {
+        "name":"AchieveTipModule",
+        "path":"Prefabs/UI/Achieve/AchieveTipUI",
+        "parent": 4,
+        "x": 0,
+        "y": -300,
+        "z": 0,
         "group" : -1
     }
 

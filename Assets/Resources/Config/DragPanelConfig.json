@@ -209,6 +209,32 @@
 		"depth":13
 	},
 	{
+		"configName":"TaskDragPanel",
+		"scrollerLocalPos":[0,175,0],
+		"position":	[0,0,0],
+		"clipRange":[0, -215, 640, 660],
+		"gridArrange":"Horizontal",
+		"scrollMovement":"Vertical",
+		"scrollBarPosition":[307, 97, 0],
+		"cellWidth":600,	
+		"cellHeight":120,
+		"maxPerLine":1,
+		"depth":13
+	},
+	{
+		"configName":"AchieveDragPanel",
+		"scrollerLocalPos":[0,175,0],
+		"position":	[0,0,0],
+		"clipRange":[0, -235, 640, 660],
+		"gridArrange":"Horizontal",
+		"scrollMovement":"Vertical",
+		"scrollBarPosition":[307, 97, 0],
+		"cellWidth":600,	
+		"cellHeight":120,
+		"maxPerLine":1,
+		"depth":13
+	},
+	{
 		"configName":"ShopDragPanel",
 		"scrollerLocalPos":[0,130,0],
 		"position":	[0,0,0],

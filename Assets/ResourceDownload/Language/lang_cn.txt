@@ -327,7 +327,9 @@ Achieve_Title=成就
 Achieve_Tab1=未完成
 Achieve_Tab2=已完成
 Achieve_Complete=已完成
-
+Btn_GoTo=前往
+Label_Award=奖励:
+Label_Congratulations=恭喜！获得成就！
 
 # shop
 BillingNotSupported_Title=支付不支持

@@ -38,4 +38,13 @@ public class BonusController : ControllerBase {
 		HttpRequestManager.Instance.SendHttpRequest (reqBonusList, callBack, ProtocolNameEnum.RspBonusList);
 	}
 
+	public void TakeTaskBonus(NetCallback callback, List<int> bonusId){
+		ReqAcceptTaskBonus req = new ReqAcceptTaskBonus ();
+		req.header = new ProtoHeader ();
+		req.header.apiVer = ServerConfig.API_VERSION;
+		req.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
+		req.bonusId.AddRange (bonusId);
+		HttpRequestManager.Instance.SendHttpRequest (req, callback, ProtocolNameEnum.RspAcceptBonus);
+	}
+
 }

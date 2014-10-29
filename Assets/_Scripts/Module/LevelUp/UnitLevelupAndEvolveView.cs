@@ -531,19 +531,20 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 		canEvolve = true;
 		partIds.Clear ();
-		foreach (var id in materialCount.Keys) {
+		foreach (var id in materialCount) {
 			int count = 0;
 			foreach (var item in DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ()) {
-				if(item.unitId == id){
+				if(item.unitId == id.Key){
 					count++;
 					if(DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(item) > 0){
 						partyItem = item;
 					}
-					partIds.Add(item.uniqueId);
+					if(partIds.Count < id.Value)
+						partIds.Add(item.uniqueId);
 				}
 			}
-			evolveItem[i].RefreshData(id, count, materialCount[id]);
-			canEvolve = canEvolve && (count >= materialCount[id]);
+			evolveItem[i].RefreshData(id.Key, count, materialCount[id.Key]);
+			canEvolve = canEvolve && (count >= materialCount[id.Key]);
 			i++;
 		}
 		for (int j = i; j < 3; j++) {

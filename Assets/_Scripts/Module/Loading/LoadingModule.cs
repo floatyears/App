@@ -154,6 +154,7 @@ public class LoadingModule : ModuleBase {
 				DataCenter.Instance.UserData.LoginInfo = rspAuthUser.login;
 			}
 
+
 //			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#endif

@@ -399,6 +399,7 @@ public class MapItem : MonoBehaviour {
 		if (animEnd != null) {
 			animEnd ();	
 		}
+//		gameObject.SetActive (false);
 	}
 
 	public void Reset () {
@@ -528,5 +529,9 @@ public class MapItem : MonoBehaviour {
 
 	public bool IsKey(){
 		return mapItemSprite.spriteName == "key";
+	}
+
+	public bool isShadowShow(){
+		return mapBackSprite.gameObject.activeSelf;
 	}
 }

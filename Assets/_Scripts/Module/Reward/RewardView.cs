@@ -5,7 +5,7 @@ using bbproto;
 
 public class RewardView : ViewBase {
 
-	public static List<int> bonusIDs = new List<int>();
+	public  List<int> bonusIDs = new List<int>();
 
 	private DragPanel dragPanel;
 
@@ -32,8 +32,6 @@ public class RewardView : ViewBase {
 
 		bonusIDs.Clear ();
 
-		InitData ();
-
 		RefreshView ();
 
 //		ShowUIAnimation ();
@@ -53,6 +51,18 @@ public class RewardView : ViewBase {
 ////			ModuleManger.Instance.ShowModule (ModuleEnum.Reward);
 //		}
 //	}
+
+	public override void CallbackView (params object[] args)
+	{
+		switch (args[0].ToString()) {
+		case "take_award":
+			bonusIDs.Add ((args[1] as BonusInfo).id);
+			break;
+		default:
+				break;
+				}
+
+	}
 
 	public override void HideUI() {
 		base.HideUI();
@@ -102,7 +112,6 @@ public class RewardView : ViewBase {
 			MsgCenter.Instance.Invoke (CommandEnum.RefreshRewardList);
 		}
 		bonusIDs.Clear ();
-
 	} 
 
 	public override void DestoryUI () {
@@ -110,31 +119,38 @@ public class RewardView : ViewBase {
 		dragPanel.DestoryUI ();
 
 		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
-		MsgCenter.Instance.RemoveListener (CommandEnum.TakeAward, OnTakeAward);
 		MsgCenter.Instance.RemoveListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
 
 		base.DestoryUI ();
 	}
 
 	private void InitUI(){
-		FindUIElement ();
+		content = FindChild ("Content");
+		OKBtn = FindChild ("OkBtn");
+		
+		FindChild<UILabel> ("OkBtn/Label").text = TextCenter.GetText("OK");
+		FindChild<UILabel> ("1/Label").text = TextCenter.GetText ("Reward_Tab1");
+		FindChild<UILabel> ("2/Label").text = TextCenter.GetText ("Reward_Tab2");
+		FindChild<UILabel> ("3/Label").text = TextCenter.GetText ("Reward_Tab3");
+		FindChild<UILabel> ("4/Label").text = TextCenter.GetText ("Reward_Tab4");
+		FindChild<UILabel> ("5/Label").text = TextCenter.GetText ("Reward_Tab5");
+		
+		Nums = new Dictionary<int, GameObject> ();
+		
+		Nums.Add (1, FindChild ("1/Num"));
+		Nums.Add (2, FindChild ("2/Num"));
+		Nums.Add (3, FindChild ("3/Num"));
+		Nums.Add (4, FindChild ("4/Num"));
+		Nums.Add (5, FindChild ("5/Num"));
+		
+		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Reward_Title");
+		tabInfo = FindChild<UILabel> ("Info");
 
-		InitData ();
-
-		dragPanel = new DragPanel("RewardDragPanel", "Prefabs/UI/Reward/RewardItem",typeof(RewardItemView), transform);
-
-
-		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
-
-		MsgCenter.Instance.AddListener (CommandEnum.TakeAward, OnTakeAward);
-		MsgCenter.Instance.AddListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
-	}
-
-	private void InitData(){
+		//init data
 		aList.Clear ();
 		foreach (var item in DataCenter.Instance.UserData.LoginInfo.Bonus) {
 			if(item.type <= 3){
-
+				
 				if(!aList.ContainsKey(item.type))
 					aList[item.type] = new List<BonusInfo>();
 				aList[item.type].Add(item);
@@ -148,36 +164,19 @@ public class RewardView : ViewBase {
 				aList[4].Add(item);
 			}
 		}
+
+		dragPanel = new DragPanel("RewardDragPanel", "Prefabs/UI/Reward/RewardItem",typeof(RewardItemView), transform);
+
+
+		UIEventListenerCustom.Get (OKBtn).onClick += OnClickOK;
+
+		MsgCenter.Instance.AddListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
 	}
 
 	void OnClickOK(GameObject obj){
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_click );
 
 		ModuleManager.Instance.HideModule (ModuleEnum.RewardModule);
-	}
-
-	private void FindUIElement(){
-		content = FindChild ("Content");
-		OKBtn = FindChild ("OkBtn");
-
-		FindChild<UILabel> ("OkBtn/Label").text = TextCenter.GetText("OK");
-		FindChild<UILabel> ("1/Label").text = TextCenter.GetText ("Reward_Tab1");
-		FindChild<UILabel> ("2/Label").text = TextCenter.GetText ("Reward_Tab2");
-		FindChild<UILabel> ("3/Label").text = TextCenter.GetText ("Reward_Tab3");
-		FindChild<UILabel> ("4/Label").text = TextCenter.GetText ("Reward_Tab4");
-		FindChild<UILabel> ("5/Label").text = TextCenter.GetText ("Reward_Tab5");
-
-		Nums = new Dictionary<int, GameObject> ();
-
-		Nums.Add (1, FindChild ("1/Num"));
-		Nums.Add (2, FindChild ("2/Num"));
-	 	Nums.Add (3, FindChild ("3/Num"));
-		Nums.Add (4, FindChild ("4/Num"));
-  		Nums.Add (5, FindChild ("5/Num"));
-
-		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Reward_Title");
-
-		tabInfo = FindChild<UILabel> ("Info");
 	}
 
 	private void RefreshView(){
@@ -195,7 +194,7 @@ public class RewardView : ViewBase {
 			if(count > 0){
 				Nums[i].SetActive(true);
 //				UIToggle.
-				Nums[i].transform.Find("Label").gameObject.GetComponent<UILabel>().text = count+"";
+				Nums[i].transform.Find("Label").gameObject.GetComponent<UILabel>().text = count.ToString();
 			}else{
 				Nums[i].SetActive(false);
 			}

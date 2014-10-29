@@ -208,7 +208,6 @@ public class BattleBottomView : ViewBase {
 		foreach (var item in unitInfoPos) {
 			if(item.Value.GetBaseInfo().id == ac.GetBaseInfo().id) {
 				EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
-				
 			}
 		}
 

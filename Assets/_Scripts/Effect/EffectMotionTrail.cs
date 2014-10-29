@@ -10,7 +10,9 @@ public class EffectMotionTrail : MonoBehaviour {
 
 	public GameObject instance;
 
-	public Queue<GameObject> objPool;
+	private Queue<GameObject> objPool;
+
+	private List<GameObject> currObjs;
 
 	public int frameSep = 10;
 
@@ -21,6 +23,7 @@ public class EffectMotionTrail : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		objPool = new Queue<GameObject> ();
+		currObjs = new List<GameObject> ();
 	}
 	
 	// Update is called once per frame
@@ -38,6 +41,7 @@ public class EffectMotionTrail : MonoBehaviour {
 	IEnumerator Emmit(){
 //		Debug.Log ("Emmit");
 		GameObject obj = objPool.Count > 0 ? objPool.Dequeue() : Instantiate(instance) as GameObject;
+		currObjs.Add (obj);
 		obj.SetActive (true);
 		obj.transform.localScale = Vector3.one;
 		obj.transform.FindChild("Finger").GetComponent<TweenAlpha> ().enabled = true;
@@ -51,9 +55,11 @@ public class EffectMotionTrail : MonoBehaviour {
 	}
 
 	public void Stop(){
-		while (objPool.Count > 0) {
-			IsEffectStart = false;
-			Destroy(objPool.Dequeue());
+		foreach (var item in currObjs) {
+			Destroy(item);
 		}
+		currObjs.Clear ();
+		objPool.Clear ();
+		IsEffectStart = false;
 	}
 }
