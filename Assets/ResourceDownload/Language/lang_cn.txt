@@ -107,6 +107,8 @@ City_Name_100=进化魔境
 City_Name_101=紧急任务
 City_Name_102=周末任务
 City_Event=精彩活动
+EventName101=产出：强化素材
+EventName102=产出：大量金币
 
 Title_YourID=用户ID
 Title_ResourceDownload=资源下载
