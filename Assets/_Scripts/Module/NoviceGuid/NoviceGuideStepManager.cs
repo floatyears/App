@@ -126,41 +126,33 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepA_4:
+		case NoviceGuideStage.NoviceGuideStepA_5:
+		case NoviceGuideStage.NoviceGuideStepA_6:
 			if(startType == NoviceGuideStartType.START_BATTLE){
-				ChangeState (nextType);
+				ChangeState (typeof(NoviceGuideStepA_4));
 			}else if(startType == NoviceGuideStartType.GOLD_BOX){
 				ChangeState (typeof(NoviceGuideStepA_5));
-			}
-			break;
-		case NoviceGuideStage.NoviceGuideStepA_5:
-			if(startType == NoviceGuideStartType.GET_KEY){
+			}else if(startType == NoviceGuideStartType.GET_KEY){
 				ChangeState (typeof(NoviceGuideStepA_6));
 			}
 			break;
-		case NoviceGuideStage.NoviceGuideStepA_6:
-			if(startType == NoviceGuideStartType.GET_KEY){
-				ChangeState (nextType);
-			}else if(startType == NoviceGuideStartType.START_BATTLE){
-				ChangeState (typeof(NoviceGuideStepA_4));
-			}
-			break;
 		case NoviceGuideStage.NoviceGuideStepB_1:
-			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT){
+			if(startType == NoviceGuideStartType.HOME){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepB_2:
-			if(startType == NoviceGuideStartType.QUEST_SELECT){
+			if(startType == NoviceGuideStartType.STAGE_SELECT){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepB_3:
-			if(startType == NoviceGuideStartType.FIGHT_READY){
+			if(startType == NoviceGuideStartType.QUEST_SELECT){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepB_4:
-			if(startType == NoviceGuideStartType.START_BATTLE){
+			if(startType == NoviceGuideStartType.FIGHT_READY){
 				ChangeState (nextType);	
 			}
 			break;

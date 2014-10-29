@@ -140,9 +140,9 @@ public class QuestItemView : DragPanelItemBase {
 
 	private void AddEventListener(){
 		if(data == null)
-			UIEventListenerCustom.Get(this.gameObject).onClick = null;
+			UIEventListenerCustom.Get(this.gameObject).onClick -= ClickItem;
 		else
-			UIEventListenerCustom.Get(this.gameObject).onClick = ClickItem;
+			UIEventListenerCustom.Get(this.gameObject).onClick += ClickItem;
 	}
 
 	private void ClickItem(GameObject item){

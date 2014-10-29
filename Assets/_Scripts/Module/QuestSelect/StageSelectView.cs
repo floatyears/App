@@ -106,6 +106,8 @@ public class StageSelectView : ViewBase{
 
 		ShowStoryCityView(lastestCityId, currCopyType);
 
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
+
 	}
 
 	public override void CallbackView(params object[] args) {
@@ -248,12 +250,12 @@ public class StageSelectView : ViewBase{
 		currentCityName = currPickedCityInfo.cityName;
 
 		if(currPickedCityInfo != null) {
-			DestoryStages();
+//			DestoryStages();
 
 			GenerateStages( currPickedCityInfo.stages, currCopyType );
 		}
 
-		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
+
 		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.id));
 	}
 	

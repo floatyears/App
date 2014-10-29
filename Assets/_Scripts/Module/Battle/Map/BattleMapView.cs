@@ -971,7 +971,7 @@ public class BattleMapView : ViewBase {
 				NoviceGuideUtil.ShowArrow(GameObject.FindWithTag("map_key"),new Vector3(0,0,1),false,false);
 				break;
 			case 2: // door
-				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,3),false);
+				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,3),false,false);
 				break;
 			default:
 				break;
