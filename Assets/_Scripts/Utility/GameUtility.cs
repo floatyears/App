@@ -73,13 +73,18 @@ public class DGTools {
 		StageInfo tsi = BattleConfigData.Instance.currentStageInfo;
 		QuestInfo tqi = BattleConfigData.Instance.currentQuestInfo;
 
-		uint cityID = tsi.cityId;
-		CityInfo tci = DataCenter.Instance.QuestData.GetCityInfo (cityID);
 
-		if (tsi == null || tqi == null || tci == null) {
+		if (tsi == null || tqi == null) {
 			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
 			return;
 		}
+		uint cityID = tsi.cityId;
+		CityInfo tci = DataCenter.Instance.QuestData.GetCityInfo (cityID);
+		if (tci == null) {
+			ModuleManager.Instance.ShowModule (ModuleEnum.HomeModule);
+			return;
+		}
+
 
 		StageState questState = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState (tsi.id, tsi.CopyType);
 

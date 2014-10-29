@@ -162,22 +162,22 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepC_1:
-			if(startType == NoviceGuideStartType.QUEST_SELECT || startType == NoviceGuideStartType.FIGHT_READY){
+			if(startType == NoviceGuideStartType.QUEST_SELECT ){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepC_2:
-			if(startType == NoviceGuideStartType.FRIEND_SELECT){
-				ChangeState (nextType);	
-			}
-			break;
-		case NoviceGuideStage.NoviceGuideStepC_3:
 			if(startType == NoviceGuideStartType.FIGHT_READY){
 				ChangeState (nextType);	
 			}
 			break;
+		case NoviceGuideStage.NoviceGuideStepC_3:
+			if(startType == NoviceGuideStartType.FRIEND_SELECT){
+				ChangeState (nextType);	
+			}
+			break;
 		case NoviceGuideStage.NoviceGuideStepC_4:
-			if(startType == NoviceGuideStartType.FIGHT){
+			if(startType == NoviceGuideStartType.FIGHT_READY){
 				ChangeState (nextType);	
 			}
 			break;
@@ -187,7 +187,7 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepD_1:
-			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT || startType == NoviceGuideStartType.SCRATCH){
+			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT ){
 				ChangeState (nextType);	
 			}
 			break;
@@ -197,31 +197,36 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepD_3:
-			if(startType == NoviceGuideStartType.UNITS){
+			if(startType == NoviceGuideStartType.SCRATCH || startType == NoviceGuideStartType.HOME){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepD_4:
-			if(startType == NoviceGuideStartType.PARTY){
-				ChangeState (nextType);	
+			if(startType == NoviceGuideStartType.UNITS){
+				ChangeState (nextType);
 			}
 			break;
-//		case NoviceGuideStage.NoviceGuideStepD_5:
-//			if(startType == NoviceGuideStartType.){
-//				gotoNextStep = true;
-//			}
-//			break;
+		case NoviceGuideStage.NoviceGuideStepD_5:
+			if(startType == NoviceGuideStartType.PARTY){
+				ChangeState (nextType);
+			}
+			break;
 		case NoviceGuideStage.NoviceGuideStepE_1:
-			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT || startType == NoviceGuideStartType.UNITS){
+			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepE_2:
-			if(startType == NoviceGuideStartType.UNIT_LIST){
+			if(startType == NoviceGuideStartType.UNITS){
 				ChangeState (nextType);	
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepE_3:
+			if(startType == NoviceGuideStartType.UNIT_LIST){
+				ChangeState (nextType);	
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepE_4:
 			if(startType == NoviceGuideStartType.UNIT_LEVELUP_EVOLVE){
 				ChangeState (nextType);	
 			}
@@ -237,7 +242,12 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepF_3:
-			if(startType == NoviceGuideStartType.FIGHT_BOSS || startType == NoviceGuideStartType.QUEST_CLEAR){
+			if(startType == NoviceGuideStartType.FIGHT_BOSS){
+				ChangeState (nextType);
+			}
+			break;
+		case NoviceGuideStage.NoviceGuideStepF_4:
+			if(startType == NoviceGuideStartType.QUEST_CLEAR){
 				ChangeState (nextType);
 			}
 			break;
@@ -328,8 +338,8 @@ public enum NoviceGuideStage{
 	NoviceGuideStepF_2,
 	NoviceGuideStepF_3,
 	NoviceGuideStepF_4,
-	NoviceGuideStepF_5,
-	NoviceGuideStepF_6,
+
+
 	NoviceGuideStepG_1,
 	NoviceGuideStepG_2,
 	NoviceGuideStepG_3,

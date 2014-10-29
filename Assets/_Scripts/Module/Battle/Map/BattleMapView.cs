@@ -823,8 +823,9 @@ public class BattleMapView : ViewBase {
 		}
 	}
 	
-	public void BossDead() {
-		
+	void BossDead() {
+
+		ToggleGuideTips (false, 2);
 		DropUnit bossDrop = BattleConfigData.Instance.questDungeonData.drop.Find (a => a.dropId == 0);
 		if (bossDrop != null) {
 			BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.dropId);
@@ -835,7 +836,7 @@ public class BattleMapView : ViewBase {
 		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "clear", QuestClear as Callback);
 	}
 	
-	public void StartBattleEnemyAttack() {
+	void StartBattleEnemyAttack() {
 		EnemyAttackEnum eae = currentItem.TriggerAttack ();
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
@@ -971,7 +972,7 @@ public class BattleMapView : ViewBase {
 				NoviceGuideUtil.ShowArrow(GameObject.FindWithTag("map_key"),new Vector3(0,0,1),false,false);
 				break;
 			case 2: // door
-				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,3),false,false);
+				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,4),false,false);
 				break;
 			default:
 				break;
@@ -983,6 +984,7 @@ public class BattleMapView : ViewBase {
 				NoviceGuideUtil.RemoveAllArrows();
 				break;
 			case 2: // door
+				NoviceGuideUtil.RemoveAllArrows();
 				break;
 			default:
 				break;

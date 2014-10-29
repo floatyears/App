@@ -181,13 +181,15 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	} 
 
 	private void EnterBattle (QuestDungeonData tqdd) {
+		BattleConfigData.Instance.BattleFriend = null;
 		if (friendInfo != null) {
 			friendInfo.friendPoint = 0;
 			friendInfo.usedTime = GameTimer.GetInstance ().GetCurrentSeonds ();
+			BattleConfigData.Instance.BattleFriend = friendInfo;
 		}
 
 		BattleConfigData.Instance.gotFriendPoint = 0;
-		BattleConfigData.Instance.BattleFriend = friendInfo; //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
+		 //pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		BattleConfigData.Instance.ResetFromServer(tqdd);
 		ModuleManager.Instance.EnterBattle ();
 

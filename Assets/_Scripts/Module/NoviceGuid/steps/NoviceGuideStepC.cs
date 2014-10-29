@@ -70,7 +70,6 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 	public override void Enter()
 	{
 		nextState = null;
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 
 		UserUnit uu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [0];//.ActiveSkill
 		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (uu.MakeUserUnitKey (), uu.UnitInfo.activeSkill, SkillType.ActiveSkill);
@@ -95,7 +94,7 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 	}
 
 	void OnSkillRelease(object data){
-		GoToNextState();
+		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd,OnSkillRelease);
 		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide5_title"), TextCenter.GetText ("guide5_content"), TextCenter.GetText ("NEXT"));
 	}

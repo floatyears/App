@@ -75,10 +75,6 @@ public class BattleResultView : ViewBase {
 		base.DestoryUI ();
 	}
 
-	void OnDestory() {
-
-	}
-	
 	float currentLevelExp = 0;
 	float gotExp = 0;
 	float add = 0;
@@ -268,11 +264,7 @@ public class BattleResultView : ViewBase {
 	}
 
 	void PlayAnimation () {
-		if (!gameObject.activeSelf) {
-			ShowUI ();
-		}
-
-		PrevAnimation ();
+		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", Vector3.zero, "time", 0.8f, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "StartRotateWing", "oncompletetarget", gameObject));
 	}
 
 	IEnumerator UpdateCoinNumber (int coinNum, int addNum) {
@@ -298,12 +290,6 @@ public class BattleResultView : ViewBase {
 			StartCoroutine(UpdateLevelNumber(empire, maxEmpire));
 		}
 	}
-
-	void PrevAnimation () {
-		iTween.ScaleFrom (gameObject, iTween.Hash ("scale", Vector3.zero, "time", 0.8f, "easetype", iTween.EaseType.easeOutElastic, "oncomplete", "StartRotateWing", "oncompletetarget", gameObject));
-	}
-
-	void ScaleEnd() { }
 	
 	void StartRotateWing () {
 		canPlayAnimation = true;

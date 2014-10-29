@@ -49,19 +49,19 @@ public class NoviceGuideStepE_3:NoviceGuidStep
 	}
 }
 
+//click auto
 public class NoviceGuideStepE_4:NoviceGuidStep
 {
 	public override void Enter ()
 	{
 		nextState = null;
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_19"));
 		
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("auto_select"), new Vector3(0,0,1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("level_up_btn"), new Vector3(0,0,1),true,true,o1=>{
 				NoviceGuideUtil.RemoveAllArrows();
-				GoToNextState();
+				NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 			});
 		});
 	}

@@ -51,7 +51,7 @@ public class NoviceGuideStepD_3:NoviceGuidStep
 
 }
 
-//click units
+//click party
 public class NoviceGuideStepD_4:NoviceGuidStep
 {
 	
