@@ -34,6 +34,11 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 		return CurrentParty.HasUnit(tuu.uniqueId);
 	}
 
+	/// <summary>
+	/// Units the is in party. return the pos in the party, start from 1.
+	/// </summary>
+	/// <returns>The is in party.</returns>
+	/// <param name="tuu">Tuu.</param>
 	public int UnitIsInParty(UserUnit tuu) {
 		if( tuu==null ) {
 			Debug.LogError("UnitIsInParty(tuu) >>> ERROR: tuu is NULL.");

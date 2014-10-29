@@ -57,6 +57,8 @@ public class RewardView : ViewBase {
 		switch (args[0].ToString()) {
 		case "take_award":
 			bonusIDs.Add ((args[1] as BonusInfo).id);
+			aList [currentContentIndex].Remove (args[1] as BonusInfo);
+			RefreshView ();
 			break;
 		default:
 				break;
@@ -190,7 +192,6 @@ public class RewardView : ViewBase {
 					}
 				}
 			}
-			
 			if(count > 0){
 				Nums[i].SetActive(true);
 //				UIToggle.
@@ -210,8 +211,7 @@ public class RewardView : ViewBase {
 
 	private void OnTakeAward(object data){
 
-		aList [currentContentIndex].Remove (data as BonusInfo);
-		RefreshView ();
+
 	}
 
 	/// <summary>

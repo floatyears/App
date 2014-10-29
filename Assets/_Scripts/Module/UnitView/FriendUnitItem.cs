@@ -7,8 +7,6 @@ public class FriendUnitItem : BaseUnitItem {
 //	public delegate void UnitItemCallback(FriendUnitItem huv);
 	protected DataListener callback;
 
-	private GameObject selectBtn;
-
 	public static FriendUnitItem Inject(GameObject item){
 		FriendUnitItem view = item.AddComponent<FriendUnitItem>();
 		if (view == null)

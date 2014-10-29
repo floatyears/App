@@ -70,6 +70,7 @@ public class UnitsListCardItemView : DragPanelItemBase {
 				levelupLabel.text = TextCenter.GetText ("Btn_Submit_Evolve");
 			}
 		} else {
+			levelUpBtn.SetActive(true);
 			levelupLabel.text = TextCenter.GetText ("Btn_Submit_LevelUp");
 		}
 		lightStar.width = data.UnitInfo.rare*29;
