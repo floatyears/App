@@ -23,10 +23,10 @@ public class NoviceGuideStepK_1:NoviceGuidStep
 		GoToNextState();
 	}
 	
-	public override void Exit ()
-	{
-		NoviceGuideUtil.HideTipText ();
-	}
+//	public override void Exit ()
+//	{
+//		NoviceGuideUtil.HideTipText ();
+//	}
 }
 
 public class NoviceGuideStepK_2:NoviceGuidStep

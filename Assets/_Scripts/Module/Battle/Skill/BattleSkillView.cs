@@ -80,6 +80,7 @@ public class BattleSkillView : ViewBase {
 				Refresh(userUnit);
 			}	
 			isShow = true;
+			MsgCenter.Instance.Invoke(CommandEnum.BattleSkillPanel);
 		}else{
 			ModuleManager.Instance.HideModule(ModuleEnum.BattleSkillModule);
 		}

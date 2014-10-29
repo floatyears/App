@@ -180,26 +180,6 @@ public class BattleMapView : ViewBase {
 		
 		//init role pos
 		
-		currentItem = map [currentCoor.x, currentCoor.y];
-		if (!currentItem.hasBeenReached) {
-			currentItem.hasBeenReached = true;
-			currentItem.ToggleGrid();
-			
-			BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor));
-			
-			if(currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY){
-				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
-//					isInTips = true;
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
-				});
-			}
-		}
-		
-		
-		QuestGrid currentFloorData = BattleConfigData.Instance.questDungeonData.GetCellDataByCoor (currentCoor);
-		HighlightSurroundedCell (currentCoor);
-		//			Stop ();
-		
 		GameTimer.GetInstance ().AddCountDown (0.1f, RecoverBuff);
 		
 		if (BattleConfigData.Instance.trapPoison != null) {
@@ -219,7 +199,27 @@ public class BattleMapView : ViewBase {
 			tei.EnemySymbol = (uint)i;
 			DataCenter.Instance.UnitData.CatalogInfo.AddMeetNotHaveUnit(tei.UnitID);
 		}
-		
+
+		currentItem = map [currentCoor.x, currentCoor.y];
+		if (!currentItem.hasBeenReached) {
+			currentItem.hasBeenReached = true;
+			currentItem.ToggleGrid();
+			
+			BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)BattleConfigData.Instance.questDungeonData.GetGridIndex (currentCoor));
+			
+			if(currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY){
+				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
+					//					isInTips = true;
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
+				});
+			}
+		}else{
+			NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.START_BATTLE);
+		}
+
+		QuestGrid currentFloorData = BattleConfigData.Instance.questDungeonData.GetCellDataByCoor (currentCoor);
+		HighlightSurroundedCell (currentCoor);
+
 		if(sbd.EnemyInfo.Count > 0){
 			currentFloorData.Enemy = sbd.EnemyInfo;
 			if(sbd.EnemyInfo[0].enemeyType == EEnemyType.BOSS){
@@ -823,8 +823,9 @@ public class BattleMapView : ViewBase {
 		}
 	}
 	
-	public void BossDead() {
-		
+	void BossDead() {
+
+		ToggleGuideTips (false, 2);
 		DropUnit bossDrop = BattleConfigData.Instance.questDungeonData.drop.Find (a => a.dropId == 0);
 		if (bossDrop != null) {
 			BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.dropId);
@@ -835,7 +836,7 @@ public class BattleMapView : ViewBase {
 		ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "clear", QuestClear as Callback);
 	}
 	
-	public void StartBattleEnemyAttack() {
+	void StartBattleEnemyAttack() {
 		EnemyAttackEnum eae = currentItem.TriggerAttack ();
 		switch (eae) {
 		case EnemyAttackEnum.BackAttack:
@@ -968,10 +969,10 @@ public class BattleMapView : ViewBase {
 			guideType = type;
 			switch (type) {
 			case 1: //key
-				NoviceGuideUtil.ShowArrow(GameObject.FindWithTag("map_key"),new Vector3(0,0,1),false);
+				NoviceGuideUtil.ShowArrow(GameObject.FindWithTag("map_key"),new Vector3(0,0,1),false,false);
 				break;
 			case 2: // door
-				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,1),false);
+				NoviceGuideUtil.ShowArrow(door, new Vector3(0,0,4),false,false);
 				break;
 			default:
 				break;
@@ -983,6 +984,7 @@ public class BattleMapView : ViewBase {
 				NoviceGuideUtil.RemoveAllArrows();
 				break;
 			case 2: // door
+				NoviceGuideUtil.RemoveAllArrows();
 				break;
 			default:
 				break;

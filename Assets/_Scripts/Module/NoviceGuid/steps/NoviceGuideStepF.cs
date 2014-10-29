@@ -10,7 +10,7 @@ public class NoviceGuideStepF_1:NoviceGuidStep{
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_19"));
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "guide", BattleGuideType.MULTI_DRAG);
 
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_2;
+		GoToNextState();
 	}
 }
 
@@ -23,7 +23,7 @@ public class NoviceGuideStepF_2:NoviceGuidStep{
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_22"));
 
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_3;
+		GoToNextState();
 //		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide7_title"), TextCenter.GetText ("guide7_content"), TextCenter.GetText ("NEXT"),o=>{
 //			GoToNextState();
 //		});
@@ -44,6 +44,7 @@ public class NoviceGuideStepF_3:NoviceGuidStep{
 	}
 
 	private void OnAttackEnd(object data){
+		GoToNextState();
 		if (!stepNext) {
 			stepNext = true;
 			ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_21"));
@@ -64,9 +65,9 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 	{
 
 		nextState = nextState = null;
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("guide7_title"),TextCenter.GetText ("guide7_content"),TextCenter.GetText ("OK"));
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "clear_quest_highlight");
+		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 	}
 }
 

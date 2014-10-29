@@ -89,21 +89,22 @@ public class StageSelectView : ViewBase{
 
 	}
 
-
 	public void OnSelectCopyType(object data) {
 		UIToggle toggle = UIToggle.GetActiveToggle (5);
 		if( toggle == null ) {
 			return;
 		}
-
-		currCopyType = (( toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
-//			currCopyType = (currCopyType != ECopyType.CT_NORMAL  ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
-		Debug.LogWarning("After Stage.OnSelCopy:  currCopyType="+currCopyType);
-
-		uint lastestCityId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestCity(currCopyType);
-
-		ShowStoryCityView(lastestCityId, currCopyType);
-
+		ECopyType temp = (( toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+		if (currCopyType != temp) {
+			currCopyType = temp;
+			//			currCopyType = (currCopyType != ECopyType.CT_NORMAL  ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
+			Debug.LogWarning("After Stage.OnSelCopy:  currCopyType="+currCopyType);
+			
+			uint lastestCityId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestCity(currCopyType);
+			
+			ShowStoryCityView(lastestCityId, currCopyType);
+		}
+		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
 	}
 
 	public override void CallbackView(params object[] args) {
@@ -251,7 +252,7 @@ public class StageSelectView : ViewBase{
 			GenerateStages( currPickedCityInfo.stages, currCopyType );
 		}
 
-		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
+
 		SetSceneName (TextCenter.GetText("City_Name_" + currPickedCityInfo.id));
 	}
 	

@@ -178,7 +178,10 @@ using bbproto;public class BattleTopView : ViewBase {
 	ClearQuestParam GetQuestData () {
 		ClearQuestParam cqp = new ClearQuestParam ();
 		cqp.questID = BattleConfigData.Instance.questDungeonData.questId;
-		cqp.copyType = BattleConfigData.Instance.currentStageInfo.CopyType;
+		if (BattleConfigData.Instance.currentStageInfo != null) {
+			cqp.copyType = 	BattleConfigData.Instance.currentStageInfo.CopyType;
+		}
+
 		cqp.leftHp = BattleAttackManager.Instance.Blood; //BattleConfigData.Instance.storeBattleData.hp;
 		cqp.totalHp = BattleAttackManager.Instance.MaxBlood;
 
@@ -197,12 +200,11 @@ using bbproto;public class BattleTopView : ViewBase {
 			TRspClearQuest clearQuest = data as TRspClearQuest;
 			DataCenter.Instance.UserData.RefreshUserInfo (clearQuest);
 
-			//更新通关评星
-			CopyPassInfo passInfo = DataCenter.Instance.GetCopyPassInfo(BattleConfigData.Instance.currentStageInfo.CopyType);
-			passInfo.UpdateQuestStar(BattleConfigData.Instance.currentQuestInfo.id, clearQuest.curStar);
-
 			//更新通关信息
 			if (BattleConfigData.Instance.currentStageInfo != null) {
+				CopyPassInfo passInfo = DataCenter.Instance.GetCopyPassInfo(BattleConfigData.Instance.currentStageInfo.CopyType);
+				passInfo.UpdateQuestStar(BattleConfigData.Instance.currentQuestInfo.id, clearQuest.curStar);
+
 				if ( BattleConfigData.Instance.currentStageInfo.type == QuestType.E_QUEST_STORY ) { // story quest
 					DataCenter.Instance.QuestData.QuestClearInfo.UpdateStoryQuestClear (BattleConfigData.Instance.currentStageInfo.id, 
 					                                                                    BattleConfigData.Instance.currentQuestInfo.id,
@@ -216,8 +218,10 @@ using bbproto;public class BattleTopView : ViewBase {
 			QuestEnd(clearQuest);
 
 
+			if(BattleConfigData.Instance.currentQuestInfo != null){
+				Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.id.ToString());
 
-			Umeng.GA.FinishLevel ("Quest" + BattleConfigData.Instance.currentQuestInfo.id.ToString());
+			}
 		} else {
 			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText("RetryClearQuestTitle"),TextCenter.GetText("RetryClearQuestNet",DataCenter.redoQuestStone, 
 			                                                                                                  DataCenter.Instance.UserData.AccountInfo.stone),TextCenter.GetText("Retry"),RequestData);

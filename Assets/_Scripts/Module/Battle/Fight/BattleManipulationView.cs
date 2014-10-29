@@ -210,7 +210,7 @@ public class BattleManipulationView : ViewBase {
 
 	public override void CallbackView (params object[] args)
 	{
-		int ut = -1;
+		int ut = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit[0].UnitType;
 		switch (args[0].ToString()) {
 			case "attack_enemy_end":
 	//			StartBattle(false);
@@ -242,7 +242,6 @@ public class BattleManipulationView : ViewBase {
 				StartGuide(BattleGuideType.MULTI_DRAG);
 			break;
 			case BattleGuideType.BOOST_DRAG:
-				ut =  DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit[0].UnitType;
 				for (int i = 0; i < 3; i++) {
 					cardItemArray[i].SetSprite(ut,CheckGenerationAttack(ut));
 				}
@@ -250,6 +249,14 @@ public class BattleManipulationView : ViewBase {
 				currGuideType = BattleGuideType.BOOST_DRAG;
 				break;
 			case BattleGuideType.SING_DRAG:
+				for (int i = 0; i < 3; i++) {
+					if(i == 1){
+						cardItemArray[i].SetSprite(ut+1,CheckGenerationAttack(ut));
+					}else{
+						cardItemArray[i].SetSprite(ut,CheckGenerationAttack(ut));
+					}
+
+				}
 				StartGuide(BattleGuideType.SING_DRAG);
 				currGuideType = BattleGuideType.SING_DRAG;
 				break;
@@ -934,8 +941,26 @@ public class BattleManipulationView : ViewBase {
 
 			break;
 		case BattleGuideType.SING_DRAG:
+			guideFinger.gameObject.SetActive(true);
+			guideFinger.IsEffectStart = true;
+			int ut =  DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit[0].UnitType;
+			int index1 = -1;
+			int index2 = -1;
+			for (int i = 0; i < 5; i++) {
+				if(ut == cardItemArray[i].colorType){
+					if(index1 == -1){
+						index1 = i;
+					}else if(index2 == -1){
+						index2 = i;
+					}
+				}
+			}
+			int midIndex = (index1 + index2)/2;
+			currGuideCor = GuideFingerMove(cardItemArray[index1].transform.localPosition,battleCardAreaItem[midIndex].transform.localPosition,cardItemArray[index2].transform.localPosition,battleCardAreaItem[midIndex].transform.localPosition);
+			StartCoroutine(currGuideCor);
 			break;
 		case BattleGuideType.SWITCH_DRAG:
+
 			break;
 		case BattleGuideType.BOOST_DRAG:
 
@@ -968,23 +993,34 @@ public class BattleManipulationView : ViewBase {
 	}
 
 	private void StopGuide(){
-		guideFinger.gameObject.SetActive (false);
-		iTween.Stop (guideFinger.gameObject);
-		guideFinger.Stop();
-		if (currGuideCor != null) {
-			StopCoroutine(currGuideCor);
+		if (guideFinger.gameObject.activeSelf) {
+			guideFinger.gameObject.SetActive (false);
+			iTween.Stop (guideFinger.gameObject);
+			guideFinger.Stop();
+			if (currGuideCor != null) {
+				StopCoroutine(currGuideCor);
+			}	
 		}
+
 
 	}
 
-	IEnumerator GuideFingerMove(Vector3 pos1, Vector3 pos2, Vector3 pos3){
+	IEnumerator GuideFingerMove(Vector3 pos1, Vector3 pos2, Vector3 pos3, Vector3 pos4 = default(Vector3)){
 		while (true) {
-			if(pos3 != Vector3.zero){
+			if(pos4 == default(Vector3)){
 				fingerSprite.transform.localPosition = pos1;
 				iTween.MoveTo(fingerSprite,iTween.Hash("position",pos2,"time",0.5f,"easetype",iTween.EaseType.linear,"islocal",true));
 				yield return new WaitForSeconds(0.55f);
 				iTween.MoveTo(fingerSprite,iTween.Hash("position",pos3,"time",0.5f,"easetype",iTween.EaseType.easeOutSine,"islocal",true));
 				yield return new WaitForSeconds(0.8f);
+			}else{
+				fingerSprite.transform.localPosition = pos1;
+				iTween.MoveTo(fingerSprite,iTween.Hash("position",pos2,"time",0.5f,"easetype",iTween.EaseType.linear,"islocal",true));
+				yield return new WaitForSeconds(0.85f);
+
+				fingerSprite.transform.localPosition = pos3;
+				iTween.MoveTo(fingerSprite,iTween.Hash("position",pos4,"time",0.5f,"easetype",iTween.EaseType.easeOutSine,"islocal",true));
+				yield return new WaitForSeconds(0.85f);
 			}
 		}
 

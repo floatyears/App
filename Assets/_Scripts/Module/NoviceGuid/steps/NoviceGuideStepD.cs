@@ -12,6 +12,7 @@ public class NoviceGuideStepD_1:NoviceGuidStep
 	
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("scratch_btn"), new Vector3 (0, 0, 1), true, true, o1 => {
 			NoviceGuideUtil.RemoveAllArrows ();
+			GoToNextState();
 		});
 	}
 }
@@ -28,6 +29,7 @@ public class NoviceGuideStepD_2:NoviceGuidStep
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("rare_scratch"), new Vector3 (0, 0, 3), true, true, o1 => {
 			NoviceGuideUtil.RemoveAllArrows ();
+			GoToNextState();
 		});
 	}
 
@@ -43,12 +45,13 @@ public class NoviceGuideStepD_3:NoviceGuidStep
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_btn"), new Vector3 (0, 0, 1), true, true, o1 => {
 			NoviceGuideUtil.RemoveAllArrows ();
+			GoToNextState();
 		});
 	}
 
 }
 
-//click units
+//click party
 public class NoviceGuideStepD_4:NoviceGuidStep
 {
 	
@@ -58,6 +61,7 @@ public class NoviceGuideStepD_4:NoviceGuidStep
 		
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("party"), new Vector3 (0, 0, 1), true, true, o1 => {
 			NoviceGuideUtil.RemoveAllArrows ();
+			GoToNextState();
 		});
 	}
 	
@@ -79,6 +83,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 				NoviceGuideUtil.RemoveAllArrows ();
 
 				NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unitId_86"), new Vector3 (0, 0, 2), true, true, o2 => {
+					GoToNextState();
 					NoviceGuideUtil.RemoveAllArrows ();
 					ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
 				});
@@ -86,6 +91,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 		}else{
 			ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_13"));
 			NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unitId_86"), new Vector3 (0, 0, 2), true, true, o1 => {
+				GoToNextState();
 				NoviceGuideUtil.RemoveAllArrows ();
 				ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
 			});

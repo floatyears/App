@@ -22,6 +22,7 @@ public class LoadingModule : ModuleBase {
 
 //		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
 //		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
+//		BattleConfigData.Instance.ClearData ();
     }
 
 	public override void OnReceiveMessages (params object[] data)
@@ -155,7 +156,7 @@ public class LoadingModule : ModuleBase {
 			}
 
 
-//			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
+			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#endif
 #if UNITY_EDITOR 
@@ -187,7 +188,7 @@ public class LoadingModule : ModuleBase {
 			sqp.stageId = 0;			//questInfo.StageID;
 			sqp.startNew = 1;
 			sqp.isUserGuide = 1;
-			QuestController.Instance.StartQuest(sqp, RspStartQuest);
+			QuestController.Instance.StartQuest(sqp, RspStartGuideFirstQuest);
 		} else {
 			ModuleManager.Instance.EnterMainScene();
 			
@@ -213,7 +214,7 @@ public class LoadingModule : ModuleBase {
 		}
 	}
 
-	private void RspStartQuest(object data) {
+	private void RspStartGuideFirstQuest(object data) {
 		QuestDungeonData tqdd = null;
 		bbproto.RspStartQuest rspStartQuest = data as bbproto.RspStartQuest;
 		if (rspStartQuest.header.code != (int)ErrorCode.SUCCESS) {
@@ -235,36 +236,20 @@ public class LoadingModule : ModuleBase {
 
 		Umeng.GA.StartLevel ("Quest" + tqdd.questId);
 
-		EnterBattle (tqdd);
-	} 
-
-	private void EnterBattle (QuestDungeonData tqdd) {
 		BattleConfigData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
-//		Debug.LogError(tqdd.)
+		//		Debug.LogError(tqdd.)
 		BattleConfigData.Instance.ResetFromServer(tqdd);
 		BattleConfigData.Instance.StoreData (tqdd.questId);
 		ModuleManager.Instance.EnterBattle();
-	}
+	} 
 
 	uint recoverQuestID = 0;
-
-
 
 	void SureRetry(object data) {
 		BattleConfigData.Instance.ResetFromDisk();
 //		RecoverParty ();
 		ModuleManager.Instance.EnterBattle();
 	}
-
-//	void RecoverParty() {
-//		GameState gs = (GameState)BattleConfigData.Instance.gameState;
-//		if (gs == GameState.Evolve) {
-//			PartyInfo tpi = DataCenter.Instance.UnitData.PartyInfo;
-//			tpi.CurrentPartyId = tpi.AllParty.Count;
-//			tpi.AllParty.Add(BattleConfigData.Instance.party);
-//		}
-//		DataCenter.gameState = gs;
-//	}
 
 	void Cancel(object data) {
 
