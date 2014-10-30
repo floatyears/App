@@ -255,6 +255,10 @@ public class BattleResultView : ViewBase {
 
 		UILabel GotInfoLabel = FindChild<UILabel>("GotInfoLabel");
 		GotInfoLabel.text = TextCenter.GetText("VictoryGotInfo");
+
+		FindChild<UILabel>("LabelCoin").text = TextCenter.GetText("Text_Coins");
+		FindChild<UILabel>("LabelExp").text = TextCenter.GetText("Text_EXP");
+		FindChild<UILabel>("LabelRank").text = TextCenter.GetText("Text_Rank");
 	}
 
 	void Sure(GameObject go) {
