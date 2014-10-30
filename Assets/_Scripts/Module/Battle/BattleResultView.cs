@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using bbproto;
 
 public class BattleResultView : ViewBase {
+	private DragPanel dragPanel;
+
 	private UISlider levelProgress;
 	private UILabel coinLabel;
 	private UILabel expLabel;
@@ -23,6 +25,7 @@ public class BattleResultView : ViewBase {
 	private GameObject parent;
 	private GameObject dropItem;
 	private Dictionary<UserUnit, GameObject> dropItemList = new Dictionary<UserUnit, GameObject> ();
+	private List<UserUnit> dropUnitList = new List<UserUnit>();
 	private TRspClearQuest rspClearQuest = null;
 	private Queue<UserUnit> getUserUnit = new Queue<UserUnit> ();
 
@@ -42,6 +45,9 @@ public class BattleResultView : ViewBase {
 
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
+
+		dragPanel = new DragPanel("BattleResultDragPanel", "Prefabs/UI/UnitItem/MyUnitPrefab",typeof(MyUnitItem), transform);
+
 		FindComponent ();
 	}
 
@@ -127,10 +133,20 @@ public class BattleResultView : ViewBase {
 			sprite.enabled = false;
 			DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(tuu.UnitInfo.id);
 			getUserUnit.Enqueue(tuu);
+
+			dropUnitList.Add(tuu);
+
 			dropItemList.Add(tuu, go);
 		}
 
+		dragPanel.SetData<UserUnit> (dropUnitList, ClickDropItem as DataListener);
+
 		StartShowGetCard ();
+	}
+
+	void ClickDropItem(object data){
+		MyUnitItem item = data as MyUnitItem;
+		Debug.Log("ClickDropItem  >>>  item.Unitid: "+item.UserUnit.unitId);
 	}
 
 	void StartShowGetCard() {

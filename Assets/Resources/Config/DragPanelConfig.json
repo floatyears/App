@@ -246,5 +246,18 @@
 		"cellHeight":89,
 		"maxPerLine":1,
 		"depth":6
+	},
+	{
+		"configName":"BattleResultDragPanel",
+		"scrollerLocalPos":[0,-28,0],
+		"position":	[-180,0,0],
+		"clipRange":[200, -160, 500, 140],
+		"gridArrange":"Horizontal",
+		"scrollMovement":"Vertical",
+		"scrollBarPosition":[-800, -800, 0],
+		"cellWidth":95,	
+		"cellHeight":95,
+		"maxPerLine":5,
+		"depth":2
 	}
 ]
