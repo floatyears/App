@@ -43,7 +43,9 @@ public class FightReadyPage : MonoBehaviour {
 		helperSkillDcspLabel = transform.FindChild("Label_Helper_Skill_Dscp").GetComponent<UILabel>();
 		ownSkillNameLabel = transform.FindChild("Label_Own_Leader_Skill_Name").GetComponent<UILabel>();
 		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
-		
+
+		transform.FindChild ("Helper/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText("Text_Friend");
+
 		for (int i = 0; i < 4; i++){
 			PageUnitItem puv =transform.FindChild(i.ToString()).GetComponent<PageUnitItem>();
 			partyViewList.Add(puv);
@@ -78,6 +80,9 @@ public class FightReadyPage : MonoBehaviour {
 		int partyIDIndex = party.id + 1;
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
 		partyNoLabel.text = partyIDIndex.ToString() + "/" + suffix;
+
+		transform.FindChild ("0/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party") + " " + partyIDIndex;
+
 		UpdateOwnLeaderSkillInfo(party);
 
 		UpdatePartyAtkInfo(party);

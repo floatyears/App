@@ -39,6 +39,5 @@ public class PageUnitItem : MyUnitItem {
 			UIEventListenerCustom.Get(this.gameObject).LongPress = null;
 		}
 	}
-
 	
 }
