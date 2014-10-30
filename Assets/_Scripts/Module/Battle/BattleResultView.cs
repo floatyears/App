@@ -14,6 +14,7 @@ public class BattleResultView : ViewBase {
 	private UISprite niuJiao;
 	private UISprite frontCircle;
 	private UISprite backCircle;
+	private UISprite star;
 
 	private TweenScale rankUpScale;
 	private UILabel rankUpSprite;
@@ -107,6 +108,8 @@ public class BattleResultView : ViewBase {
 		coinLabel.text = "+" + clearQuest.gotMoney.ToString ();
 		expLabel.text = "+" + clearQuest.gotExp.ToString ();
 		rankLabel.text = clearQuest.rank.ToString();
+
+		star.width = star.height * clearQuest.curStar; //显示星级
 //		rankLabel.text = clearQuest.curStar;
 
 		StartCoroutine (UpdateLevelNumber ());
@@ -232,6 +235,7 @@ public class BattleResultView : ViewBase {
 		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
 		rankUpScale = FindChild<TweenScale>("RankPanel/RankUp");
 		rankUpSprite = rankUpScale.GetComponent<UILabel> ();
+		star = FindChild<UISprite>("Star");
 
 		UILabel GotInfoLabel = FindChild<UILabel>("GotInfoLabel");
 		GotInfoLabel.text = TextCenter.GetText("VictoryGotInfo");
