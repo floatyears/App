@@ -73,6 +73,10 @@ public class EventItemView : MonoBehaviour{
 				return;
 			}
 
+
+			UILabel eventName = gameObject.transform.FindChild ("EventName").GetComponent<UILabel>();
+			eventName.text = TextCenter.GetText("EventName"+data.cityId.ToString());
+
 //			if(DataCenter.gameState == GameState.Normal) {
 				SetIconView();
 //			}
