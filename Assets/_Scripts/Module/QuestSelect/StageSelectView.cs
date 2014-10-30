@@ -51,24 +51,30 @@ public class StageSelectView : ViewBase{
 		base.ShowUI();
 		UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
 		UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
-		normal.optionCanBeNone = true;
-		elite.optionCanBeNone = true;
+//		normal.optionCanBeNone = true;
+//		elite.optionCanBeNone = true;
 
 		if (viewData.ContainsKey("story")) {
-			UIToggle toggle = UIToggle.GetActiveToggle (5);
+//			UIToggle toggle = UIToggle.GetActiveToggle (6);
 //			currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 			Debug.Log("StageSelect.showUI >>> 111 currCopyType="+currCopyType+" elite.value:"+elite.value+" normal.val:"+normal.value);
-			elite.value = (currCopyType == ECopyType.CT_ELITE );
-			normal.value = !elite.value;
+
+			if(currCopyType == ECopyType.CT_ELITE){
+				elite.SendMessage("OnClick");
+			}
+			else if(currCopyType == ECopyType.CT_NORMAL && UIToggle.GetActiveToggle (6).name != "Normal"){
+				normal.SendMessage("OnClick");
+			}
+
 			Debug.Log("StageSelect.showUI >>> 222 currCopyType="+currCopyType+" elite.value:"+elite.value+" normal.val:"+normal.value);
 
-			if( toggle != null ) {
-				Debug.Log( "StageSelect1 >>>> UIToggle.GetActiveToggle(5) = "+toggle.name);
-			}
+//			if( toggle != null ) {
+//				Debug.Log( "StageSelect1 >>>> UIToggle.GetActiveToggle(6) = "+toggle.name);
+//			}
 			ShowStoryCityView(viewData["story"], currCopyType);
 
-			if( toggle != null )
-			Debug.Log( "StageSelect2 >>>> UIToggle.GetActiveToggle(5) = "+toggle.name);
+//			if( toggle != null )
+//			Debug.Log( "StageSelect2 >>>> UIToggle.GetActiveToggle(6) = "+toggle.name);
 
 
 			normal.gameObject.SetActive(true);
@@ -90,7 +96,7 @@ public class StageSelectView : ViewBase{
 	}
 
 	public void OnSelectCopyType(object data) {
-		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		UIToggle toggle = UIToggle.GetActiveToggle (6);
 		if( toggle == null ) {
 			return;
 		}

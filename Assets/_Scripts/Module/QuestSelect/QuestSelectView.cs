@@ -35,10 +35,11 @@ public class QuestSelectView : ViewBase {
 
 			UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
 			UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
-			elite.optionCanBeNone = true;
-			normal.optionCanBeNone = true;
-			elite.value = (newPickedStage.CopyType == ECopyType.CT_ELITE );
-			normal.value = (newPickedStage.CopyType == ECopyType.CT_NORMAL );
+			if(newPickedStage.CopyType == ECopyType.CT_ELITE){
+				elite.SendMessage("OnClick");
+			}else if(newPickedStage.CopyType == ECopyType.CT_NORMAL && UIToggle.GetActiveToggle (7).name != "Normal"){
+				normal.SendMessage("OnClick");
+			}
 
 			ShowQuestList(newPickedStage);
 
@@ -67,7 +68,7 @@ public class QuestSelectView : ViewBase {
 	}
 
 	public void OnSelectCopyType(object data) {
-		UIToggle toggle = UIToggle.GetActiveToggle (5);
+		UIToggle toggle = UIToggle.GetActiveToggle (7);
 		if( toggle == null ) {
 			return;
 		}
@@ -78,7 +79,7 @@ public class QuestSelectView : ViewBase {
 
 		ShowQuestList( newStage );
 
-		Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (5).name);
+		Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (7).name);
 //		ShowStoryCityView(lastestCityId, currCopyType);
 
 		ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", currCopyType);
