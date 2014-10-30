@@ -65,11 +65,8 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
 //        this.partyList = new List<UnitParty>();
 
         foreach (UnitParty party in partyList) {
-            Dictionary<EUnitType, int> atkVal = new Dictionary<EUnitType, int>();
-			
-            party.items.Sort(SortParty);
 			party.Init();
-
+            party.items.Sort(SortParty);
 //			foreach (var item in party.items) {
 //				Debug.LogError(party.id + " item unitPos : " + item.unitPos + " item unitUniqueId : " + item.unitUniqueId);
 //			}
@@ -79,13 +76,7 @@ public partial class PartyInfo : ProtoBuf.IExtensible {
     }
 
     private static int SortParty(PartyItem item1, PartyItem item2) {
-        if (item1.unitPos > item2.unitPos) {
-            return 1;
-        }
-        else if (item1.unitPos < item2.unitPos) {
-            return -1;
-        }
-        return 0;
+		return item1.unitPos - item2.unitPos;
     }
 	
     public	int	 CurrentPartyId { 

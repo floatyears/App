@@ -220,15 +220,12 @@ public class RewardView : ViewBase {
 	/// <param name="data">Data.</param>
 	public void ShowTabInfo(object data){
 		UIToggle toggle = UIToggle.GetActiveToggle (3);
-
-		if (toggle != null) {
-			tabInfo.text = TextCenter.GetText ("Reward_Tab_Info" + toggle.ToString().Substring(0,1));
-
+		if (toggle != null){
 			int i;
-			int.TryParse(UIToggle.GetActiveToggle (3).name,out i);
-			if (currentContentIndex != i) {
+			int.TryParse(toggle.name,out i);
+			if(currentContentIndex != i) {
+				tabInfo.text = TextCenter.GetText ("Reward_Tab_Info" + toggle.ToString().Substring(0,1));
 				currentContentIndex = i;
-				
 				RefreshView();
 			}
 		}

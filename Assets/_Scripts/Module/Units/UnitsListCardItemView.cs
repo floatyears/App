@@ -29,7 +29,7 @@ public class UnitsListCardItemView : DragPanelItemBase {
 		levelUpBtn = transform.FindChild ("LevelUp").gameObject;
 		evolveBtn = transform.FindChild ("Evolve").gameObject;
 
-		transform.FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_Submit_Evolve");
+		transform.FindChild ("Evolve/Label").GetComponent<UILabel> ().text = TextCenter.GetText ("Btn_SuperEvolve");
 		levelupLabel = transform.FindChild ("LevelUp/Label").GetComponent<UILabel> ();
 
 		UIEventListenerCustom.Get (transform.FindChild ("LevelUp").gameObject).onClick = ClickLevelUp;

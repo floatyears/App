@@ -54,14 +54,14 @@ public class NoviceGuideStepManager {
 			return;
 		}else{
 			currentState = nextState;
-
+			CurrentGuideStep = (NoviceGuideStage)Enum.Parse(typeof(NoviceGuideStage),currentState.ToString());
 			if(isExecute){
 				if (!stepInsDic.ContainsKey(currentState)) {
 					Activator.CreateInstance(currentState);
 				}
 				stepInsDic[currentState].Enter();
 			}
-			CurrentGuideStep = (NoviceGuideStage)Enum.Parse(typeof(NoviceGuideStage),currentState.ToString());
+
 		}
 
 

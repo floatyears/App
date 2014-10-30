@@ -39,4 +39,5 @@ public enum ProtocolNameEnum  {
 	RspEvolve,
 	RspAcceptStarBonus,
 	RspUserGuideStep,
+	RspRefreshUser
 }
