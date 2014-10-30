@@ -146,7 +146,7 @@ namespace HTMLEngine.NGUI {
             sprAnim.framesPerSecond = FPS;
             sprAnim.namePrefix = spriteName;
             sprAnim.loop = true;
-            sprAnim.Reset();
+			sprAnim.ResetToBeginning();
           } else {
             spr.spriteName = spriteName;
             spr.MakePixelPerfect();

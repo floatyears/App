@@ -135,7 +135,7 @@ public class UIPrefabTool : EditorWindow
 
 		if (mTab == 0)
 		{
-			BetterList<string> filtered = new BetterList<string>();
+			List<string> filtered = new List<string>();
 			string[] allAssets = AssetDatabase.GetAllAssetPaths();
 
 			foreach (string s in allAssets)
@@ -374,27 +374,21 @@ public class UIPrefabTool : EditorWindow
 	}
 
 	/// <summary>
-	/// Helper function that loads a preview texture. Previews are used for the Free version of Unity that can't use render textures.
+	/// GetComponentInChildren doesn't work on prefabs.
 	/// </summary>
 
-	static Texture2D LoadPreview (Item item)
+	static UISnapshotPoint GetSnapshotPoint (Transform t)
 	{
-		string path = "Assets/NGUI/Editor/Preview/" + item.prefab.name + ".png";
-		if (!File.Exists(path)) return null;
-
-		FileStream fs = File.OpenRead(path);
-		fs.Seek(0, SeekOrigin.End);
-		int size = (int)fs.Position;
-		fs.Seek(0, SeekOrigin.Begin);
-		BinaryReader reader = new BinaryReader(fs);
-		byte[] bytes = new byte[size];
-		reader.Read(bytes, 0, size);
-		reader.Close();
-
-		Texture2D tex = new Texture2D(1, 1);
-		tex.LoadImage(bytes);
-		tex.Apply();
-		return tex;
+		UISnapshotPoint point = t.GetComponent<UISnapshotPoint>();
+		if (point != null) return point;
+		
+		for (int i = 0, imax = t.childCount; i < imax; ++i)
+		{
+			Transform c = t.GetChild(i);
+			point = GetSnapshotPoint(c);
+			if (point != null) return point;
+		}
+		return null;
 	}
 
 	/// <summary>
@@ -405,11 +399,22 @@ public class UIPrefabTool : EditorWindow
 	{
 		if (item == null || item.prefab == null) return;
 
-		// Render textures only work in Unity Pro
-		if (!UnityEditorInternal.InternalEditorUtility.HasPro())
+		if (point == null) point = GetSnapshotPoint(item.prefab.transform);
+
+		if (point != null && point.thumbnail != null)
 		{
-			item.tex = LoadPreview(item);
-			item.dynamicTex = true;
+			Debug.Log(2);
+			// Explicitly chosen thumbnail
+			item.tex = point.thumbnail;
+			item.dynamicTex = false;
+			return;
+		}
+		else if (!UnityEditorInternal.InternalEditorUtility.HasPro())
+		{
+			// Render textures only work in Unity Pro
+			string path = "Assets/NGUI/Editor/Preview/" + item.prefab.name + ".png";
+			item.tex = File.Exists(path) ? (Texture2D)Resources.LoadAssetAtPath(path, typeof(Texture2D)) : null;
+			item.dynamicTex = false;
 			return;
 		}
 
@@ -491,12 +496,7 @@ public class UIPrefabTool : EditorWindow
 
 		if (point != null) SetupSnapshotCamera(child, cam, point);
 		else SetupSnapshotCamera(child, cam, objSize, Mathf.RoundToInt(Mathf.Max(size.x, size.y)), -100f, 100f);
-
-		Execute<UIWidget>("Start", root);
-		Execute<UIPanel>("Start", root);
-		Execute<UIWidget>("Update", root);
-		Execute<UIPanel>("Update", root);
-		Execute<UIPanel>("LateUpdate", root);
+		NGUITools.ImmediatelyCreateDrawCalls(root);
 		return true;
 	}
 
@@ -685,25 +685,6 @@ public class UIPrefabTool : EditorWindow
 				mLights[i].enabled = true;
 			mLights = null;
 		}
-	}
-
-	/// <summary>
-	/// Helper function that executes the functions in a proper order.
-	/// </summary>
-
-	static void Execute<T> (string funcName, GameObject root) where T : Component
-	{
-		T[] comps = root.GetComponents<T>();
-
-		foreach (T comp in comps)
-		{
-			MethodInfo method = comp.GetType().GetMethod(funcName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-			if (method != null) method.Invoke(comp, null);
-		}
-
-		Transform t = root.transform;
-		for (int i = 0, imax = t.childCount; i < imax; ++i)
-			Execute<T>(funcName, t.GetChild(i).gameObject);
 	}
 
 	/// <summary>

@@ -98,6 +98,7 @@ public class MainMenuView : ViewBase{
 //		Debug.LogError ((newestLeaderUnit == null) + "  leaderUnitInfo == null : " + (leaderUnitInfo == null));
 		if(newestLeaderUnit == null){
 			leaderAvatarTex.mainTexture = null;
+			leaderUnitInfo = null;
 //			Debug.LogError("newestLeaderUnit is NULL, return...");
 			return;
 		}

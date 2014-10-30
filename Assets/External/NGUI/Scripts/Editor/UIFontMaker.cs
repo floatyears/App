@@ -15,14 +15,14 @@ using System.IO;
 
 public class UIFontMaker : EditorWindow
 {
-	enum FontType
+	public enum FontType
 	{
 		GeneratedBitmap,	// Bitmap font, created from a dynamic font using FreeType
 		ImportedBitmap,		// Imported bitmap font, created using BMFont or another external tool
 		Dynamic,			// Dynamic font, used as-is
 	}
 
-	enum Create
+	public enum Create
 	{
 		None,
 		Bitmap,		// Bitmap font, created from a dynamic font using FreeType
@@ -30,7 +30,7 @@ public class UIFontMaker : EditorWindow
 		Dynamic,	// Dynamic font, used as-is
 	}
 
-	enum CharacterMap
+	public enum CharacterMap
 	{
 		Numeric,	// 0 through 9
 		Ascii,		// Character IDs 32 through 127
@@ -105,11 +105,11 @@ public class UIFontMaker : EditorWindow
 		GUILayout.Space(3f);
 
 		NGUIEditorTools.DrawHeader("Input", true);
-		NGUIEditorTools.BeginContents();
+		NGUIEditorTools.BeginContents(false);
 
 		GUILayout.BeginHorizontal();
 		mType = (FontType)EditorGUILayout.EnumPopup("Type", mType, GUILayout.MinWidth(200f));
-		GUILayout.Space(18f);
+		NGUIEditorTools.DrawPadding();
 		GUILayout.EndHorizontal();
 		Create create = Create.None;
 
@@ -123,7 +123,7 @@ public class UIFontMaker : EditorWindow
 			EditorGUI.BeginDisabledGroup(NGUISettings.fontData == null || NGUISettings.fontTexture == null);
 			{
 				NGUIEditorTools.DrawHeader("Output", true);
-				NGUIEditorTools.BeginContents();
+				NGUIEditorTools.BeginContents(false);
 				ComponentSelector.Draw<UIAtlas>(NGUISettings.atlas, OnSelectAtlas, false);
 				NGUIEditorTools.EndContents();
 			}
@@ -171,7 +171,7 @@ public class UIFontMaker : EditorWindow
 				if (mType == FontType.Dynamic)
 				{
 					NGUISettings.fontStyle = (FontStyle)EditorGUILayout.EnumPopup(NGUISettings.fontStyle);
-					GUILayout.Space(18f);
+					NGUIEditorTools.DrawPadding();
 				}
 			}
 			GUILayout.EndHorizontal();
@@ -228,6 +228,8 @@ public class UIFontMaker : EditorWindow
 						}
 					}
 
+					NGUISettings.fontKerning = EditorGUILayout.Toggle("Kerning", NGUISettings.fontKerning);
+
 					GUILayout.Label("Characters", EditorStyles.boldLabel);
 
 					CharacterMap cm = characterMap;
@@ -255,7 +257,7 @@ public class UIFontMaker : EditorWindow
 							}
 							else if (cm == CharacterMap.Numeric)
 							{
-								chars = "01234567890";
+								chars = "0123456789";
 							}
 							else if (cm == CharacterMap.Latin)
 							{
@@ -341,7 +343,7 @@ public class UIFontMaker : EditorWindow
 				EditorGUI.BeginDisabledGroup(ttf == null || isBuiltIn || !FreeType.isPresent);
 				{
 					NGUIEditorTools.DrawHeader("Output", true);
-					NGUIEditorTools.BeginContents();
+					NGUIEditorTools.BeginContents(false);
 					ComponentSelector.Draw<UIAtlas>(NGUISettings.atlas, OnSelectAtlas, false);
 					NGUIEditorTools.EndContents();
 
@@ -469,7 +471,8 @@ public class UIFontMaker : EditorWindow
 			if (FreeType.CreateFont(
 				NGUISettings.dynamicFont,
 				NGUISettings.fontSize, mFaceIndex,
-				NGUISettings.charsToInclude, out bmFont, out tex))
+				NGUISettings.fontKerning,
+				NGUISettings.charsToInclude, 1, out bmFont, out tex))
 			{
 				uiFont.bmFont = bmFont;
 				tex.name = fontName;
@@ -548,7 +551,7 @@ public class UIFontMaker : EditorWindow
 	/// Helper function that draws a slightly padded toggle
 	/// </summary>
 
-	static bool DrawOption (bool state, string text, params GUILayoutOption[] options)
+	static public bool DrawOption (bool state, string text, params GUILayoutOption[] options)
 	{
 		GUILayout.BeginHorizontal();
 		GUILayout.Space(10f);

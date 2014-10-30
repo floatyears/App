@@ -174,11 +174,6 @@ public class BattleEnemyView : ViewBase {
 	
 	List<AttackInfoProto> attackList= new List<AttackInfoProto>();
 
-//	void AttackEnemy(object data) {
-////		DestoryEffect ();
-//	}
-
-//	List<EnemyItem> enemyList = new List<EnemyItem>();
 
 	AttackInfoProto prevAttackInfo = null;
 
@@ -189,25 +184,14 @@ public class BattleEnemyView : ViewBase {
 		}
 		if (ei.enemyInfo.EnemySymbol != ai.enemyID)
 				return;
-//		Debug.LogError ("EnemyItemPlayEffect ");
 		prevAttackInfo = ai;
 		PlayerEffect (ei, ai);
 	}
 
-	void End() {
-//		GameTimer.GetInstance ().AddCountDown (0.2f, HideAttackInfo);
-	}
 
-
-//	private List<BattleEnemyItem> enemys = new List<BattleEnemyItem> ();	 
 
 	public void Refresh(List<EnemyInfo> enemy) {
-//
-//		monster.Clear();
-//		BattleEnemyItem[] ei = transform.GetComponentsInChildren<BattleEnemyItem> ();
-//		foreach (var item in ei) {
-//			item.DestoryUI();
-//		}
+
 
 		int sortCount = 0;
 		enemyList.Clear ();
@@ -250,7 +234,6 @@ public class BattleEnemyView : ViewBase {
 					});
 				}
 
-//				go.SetActive(true);
 			}
 		}
 	}
@@ -393,6 +376,7 @@ public class BattleEnemyView : ViewBase {
 		if(DataCenter.Instance.BattleData.AllSkill[skillStoreID].GetType() == typeof(SkillExtraAttack)) {
 			foreach (var item in enemyList.Values) {
 				if(item != null) {
+					Debug.Log("enemyt item: " + item.enemyInfo.enemyId + " no attack info");
 					EffectManager.Instance.PlayEffect(path,effectPanel.transform, item.transform.localPosition, o=>{
 						item.InjuredShake();
 					});
@@ -401,6 +385,7 @@ public class BattleEnemyView : ViewBase {
 		} else {
 
 			if(ai.attackRange == 0) {
+				Debug.Log("enemyt item: " + ei.enemyInfo.EnemySymbol + " attack info " + ai.enemyID);
 				UITexture tex = ei.texture;
 				float x = ei.transform.localPosition.x*enemyRoot.transform.localScale.x;
 				float y = (tex.transform.localPosition.y +  tex.height * 0.5f)*enemyRoot.transform.localScale.y;

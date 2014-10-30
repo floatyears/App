@@ -76,8 +76,9 @@ public class UnitDataModel : ProtobufDataBase {
 	public PartyInfo PartyInfo { 
 		get { return partyInfo; }
 		set { 
-			partyInfo = value;
 			value.assignParty();
+			partyInfo = value;
+
 		}
 	}
 

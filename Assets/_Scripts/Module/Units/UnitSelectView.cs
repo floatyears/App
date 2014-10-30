@@ -62,11 +62,18 @@ public class UnitSelectView : ViewBase {
 	}
 
 	private void SelectItem(object data){
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("LevelUp_PartyItem_Title"), TextCenter.GetText ("LevelUp_PartyItem_Content"), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"),o=>{
+		if (DataCenter.Instance.UnitData.PartyInfo.UnitIsInParty(data as UserUnit) > 0) {
+			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("LevelUp_PartyItem_Title"), TextCenter.GetText ("LevelUp_PartyItem_Content"), TextCenter.GetText ("OK"), TextCenter.GetText ("Cancel"),o=>{
+				ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, "no_back", ModuleEnum.UnitSelectModule);
+				ModuleManager.Instance.HideModule (ModuleEnum.UnitSelectModule);
+				ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "unit_info", data as UserUnit, "unit_index" ,viewData["index"]);
+			});	
+		}else{
 			ModuleManager.SendMessage (ModuleEnum.SceneInfoBarModule, "no_back", ModuleEnum.UnitSelectModule);
 			ModuleManager.Instance.HideModule (ModuleEnum.UnitSelectModule);
 			ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "unit_info", data as UserUnit, "unit_index" ,viewData["index"]);
-		});
+		}
+
 
 	}
 

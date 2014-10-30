@@ -162,7 +162,7 @@ public class LoadingModule : ModuleBase {
 #if UNITY_EDITOR 
 //			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
-			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
+//			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
 
 			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
