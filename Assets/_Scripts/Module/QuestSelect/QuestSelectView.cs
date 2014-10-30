@@ -6,6 +6,7 @@ using bbproto;
 public class QuestSelectView : ViewBase {
 	private DragPanel dragPanel;
 	private QuestRewardItemView questRewardItem;
+	private int currType = -1;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -72,17 +73,19 @@ public class QuestSelectView : ViewBase {
 		if( toggle == null ) {
 			return;
 		}
-		ECopyType currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
-		
-		uint newestStageId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage( currCopyType );
-		StageInfo newStage = DataCenter.Instance.QuestData.GetStageInfo( newestStageId );
-
-		ShowQuestList( newStage );
-
-		Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (7).name);
-//		ShowStoryCityView(lastestCityId, currCopyType);
-
-		ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", currCopyType);
+		ECopyType currCopyType = (toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE;
+		if ((int)currCopyType != currType) {
+			currType = (int)currCopyType;
+			uint newestStageId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage( currCopyType );
+			StageInfo newStage = DataCenter.Instance.QuestData.GetStageInfo( newestStageId );
+			
+			ShowQuestList( newStage );
+			
+			Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (7).name);
+			//		ShowStoryCityView(lastestCityId, currCopyType);
+			
+			ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", currCopyType);	
+		}
 	}
 
 	protected override void ToggleAnimation (bool isShow)

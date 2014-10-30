@@ -6,6 +6,19 @@ public class UserDataModel : ProtobufDataBase {
 
 //	public AccountInfo accountInfo;
 
+	public UserDataModel(){
+		HttpRequestManager.Instance.AddProtoListener (ProtocolNameEnum.RspRefreshUser, OnRefreshUserInfo);
+	}
+
+	void OnRefreshUserInfo(object data){
+		RspRefreshUser rsp = data as RspRefreshUser;
+		if(rsp.header.code == ErrorCode.SUCCESS){
+			Debug.Log("acount: " + rsp.account + " userinfo: " + rsp.user);
+			accountInfo = rsp.account;
+			userInfo = rsp.user;
+		}
+	}
+
 	private UserInfo userInfo;
 
 	public UserInfo UserInfo { 
