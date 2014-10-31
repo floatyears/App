@@ -6,8 +6,11 @@ public class DragPanel : ModuleBase{
 
 	protected DragPanelView dragPanelView;
 
+	private List<GameObject> scrollItem = null;
 	public List<GameObject> ScrollItem {
-		get{ return null;}//dragPanelView.scrollItem; }
+		get{ 
+			return scrollItem; 
+		}
 	}
 
 	public DragPanel(string name, string sourceObjUrl,System.Type type, Transform parentTransform):base(null){
@@ -35,6 +38,15 @@ public class DragPanel : ModuleBase{
 
 	public void SetData<T>(List<T> data, params object[] args){
 		dragPanelView.SetData<T>(data, args);
+
+		if( scrollItem == null ) {
+			scrollItem = new List<GameObject>();
+		}
+	
+		scrollItem.Clear();
+		foreach(var item in dragPanelView.ScrollItem) {
+			scrollItem.Add(item.gameObject);
+		}
 	}
 
 	public void Clear(){

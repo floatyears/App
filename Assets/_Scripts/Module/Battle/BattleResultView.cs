@@ -124,19 +124,10 @@ public class BattleResultView : ViewBase {
 		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
 			UserUnit tuu = clearQuest.gotUnit[i];
 		
-			GameObject go = NGUITools.AddChild(parent, dropItem);
-			go.SetActive(true);
-			uint unitID = tuu.UnitInfo.id;
-			go.name = i.ToString();
-			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
-			ResourceManager.Instance.GetAvatarAtlas(unitID, sprite);
-			sprite.enabled = false;
 			DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(tuu.UnitInfo.id);
 			getUserUnit.Enqueue(tuu);
 
 			dropUnitList.Add(tuu);
-
-			dropItemList.Add(tuu, go);
 		}
 
 		dragPanel.SetData<UserUnit> (dropUnitList, ClickDropItem as DataListener);
@@ -151,7 +142,7 @@ public class BattleResultView : ViewBase {
 
 	void StartShowGetCard() {
 		if(getUserUnit.Count > 0) {
-			GameTimer.GetInstance ().AddCountDown (0.5f, ShowGetCard);
+			GameTimer.GetInstance ().AddCountDown (0.3f, ShowGetCard);
 		}
 	}
 
@@ -159,8 +150,10 @@ public class BattleResultView : ViewBase {
 	UserUnit showUserUnit = null;
 
 	void ShowGetCard () {
+		goAnim = dragPanel.ScrollItem[dragPanel.ScrollItem.Count - getUserUnit.Count]; //dropItemList [showUserUnit];
+
 		showUserUnit = getUserUnit.Dequeue ();
-		goAnim = dropItemList [showUserUnit];
+
 		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.15f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 	}
@@ -247,8 +240,8 @@ public class BattleResultView : ViewBase {
 		sureButton.transform.Find ("Label").GetComponent<UILabel> ().text = TextCenter.GetText ("OK");
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
-		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
-		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
+//		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
+//		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
 		rankUpScale = FindChild<TweenScale>("RankPanel/RankUp");
 		rankUpSprite = rankUpScale.GetComponent<UILabel> ();
 		star = FindChild<UISprite>("Star");
