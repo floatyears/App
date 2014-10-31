@@ -8091,10 +8091,10 @@ namespace bbproto
       get { return _header; }
       set { _header = value; }
     }
-    private bbproto.UserGuideStep _step = bbproto.UserGuideStep.STEP_TEACH;
+    private int _step = default(int);
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"step", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(bbproto.UserGuideStep.STEP_TEACH)]
-    public bbproto.UserGuideStep step
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int step
     {
       get { return _step; }
       set { _step = value; }
@@ -8570,29 +8570,6 @@ namespace bbproto
             
       [global::ProtoBuf.ProtoEnum(Name=@"RANK_EXP", Value=6)]
       RANK_EXP = 6
-    }
-  
-    [global::ProtoBuf.ProtoContract(Name=@"UserGuideStep")]
-    public enum UserGuideStep
-    {
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"STEP_TEACH", Value=1)]
-      STEP_TEACH = 1,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"STEP_QUEST_GOAL", Value=2)]
-      STEP_QUEST_GOAL = 2,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"STEP_QUEST_PSKILL", Value=3)]
-      STEP_QUEST_PSKILL = 3,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"STEP_SUMMON", Value=4)]
-      STEP_SUMMON = 4,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"STEP_POWER_UP", Value=5)]
-      STEP_POWER_UP = 5,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"STEP_COLOR_BLOCK", Value=6)]
-      STEP_COLOR_BLOCK = 6
     }
   
 }

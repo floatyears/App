@@ -74,8 +74,6 @@ public class EventItemView : MonoBehaviour{
 			}
 
 
-			UILabel eventName = gameObject.transform.FindChild ("EventName").GetComponent<UILabel>();
-			eventName.text = TextCenter.GetText("EventName"+data.cityId.ToString());
 
 //			if(DataCenter.gameState == GameState.Normal) {
 				SetIconView();
@@ -112,6 +110,8 @@ public class EventItemView : MonoBehaviour{
 //		} else if(data.Type == bbproto.QuestType.E_QUEST_EVENT){
 //
 //		}
+		UILabel eventName = gameObject.transform.FindChild ("EventName").GetComponent<UILabel>();
+		eventName.text = TextCenter.GetText("EventName"+data.cityId.ToString());
 
 		uint currentTime = GameTimer.GetInstance().GetCurrentSeonds();
 		Debug.Log ("id: " + data.id + " current time: " + currentTime + " start time: " + data.StartTime + " end time: " + data.EndTime);
