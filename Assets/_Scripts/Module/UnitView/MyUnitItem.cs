@@ -68,7 +68,8 @@ public class MyUnitItem : BaseUnitItem {
 	}
 
 	protected virtual void UpdateFavoriteState(){
-		lockSpr.spriteName = isFavorite ? "Lock_close" : "Lock_open";
+//		lockSpr.spriteName = isFavorite ? "Lock_close" : "Lock_open";
+		lockSpr.enabled = isFavorite;
 	}
 
 	protected virtual void BehindChangeUserUnit(UserUnit tuu) {

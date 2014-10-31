@@ -253,7 +253,7 @@
 		"position":	[-180,0,0],
 		"clipRange":[200, -160, 500, 140],
 		"gridArrange":"Horizontal",
-		"scrollMovement":"Horizontal",
+		"scrollMovement":"Vertical",
 		"scrollBarPosition":[-80, -30, 0],
 		"cellWidth":95,	
 		"cellHeight":95,

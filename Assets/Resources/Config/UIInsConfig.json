@@ -508,7 +508,7 @@
         "path":"Prefabs/UI/Battle/BattleResultUI",
         "parent": 0,
         "x": 0,
-        "y": 0,
+        "y": -85,
         "z": 0, 
         "group" : -1
     },
