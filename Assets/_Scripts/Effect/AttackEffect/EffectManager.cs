@@ -97,6 +97,7 @@ public class EffectManager {
 			if(pItem.callback != null){
 				pItem.callback(pItem.ps);
 			}
+			pItem.ps.transform.localPosition = pos;
 			pItem.ps.Play();
 		}else{
 			if (skillEffectPool.ContainsKey (path)) {

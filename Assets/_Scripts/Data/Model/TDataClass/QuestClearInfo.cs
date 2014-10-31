@@ -201,13 +201,13 @@ namespace bbproto{
 
 			if( stageId > clearItem.stageId ) {
 				clearItem.stageId = stageId;
-				if(questId == 133){
-					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepD_1;
-				}else if(questId == 143){
-					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_1;
-				}else if(questId == 152){
-					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
-				}
+//				if(questId == 133){
+//					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepD_1;
+//				}else if(questId == 143){
+//					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_1;
+//				}else if(questId == 152){
+//					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
+//				}
 			}
 				
 			if ( questId > clearItem.questId ) {

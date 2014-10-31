@@ -273,12 +273,13 @@ public class BattleConfigData {
 	}
 
 	void WriteToFile<T>(T data, string fileName){
-		if(data == null)
-			return;
-		byte[] bytes = ProtobufSerializer.SerializeToBytes<T> (data);
-
 		string path = GetPath (fileName);
 		DeleteAndWrite (path);
+		if (data == null) {
+			return;	
+		}
+
+		byte[] bytes = ProtobufSerializer.SerializeToBytes<T> (data);
 		try {
 			FileStream fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write);
 			fs.Write(bytes, 0, bytes.Length);
