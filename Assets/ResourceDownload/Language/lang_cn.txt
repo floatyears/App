@@ -289,7 +289,7 @@ Sell_GetCoin=获得金币
 Sell_Ensure=确定要卖出？
 
 #reward
-Reward_Take=领取
+Reward_Take=领奖
 Reward_Tab1=累计登陆
 Reward_Tab2=连续登陆
 Reward_Tab3=等级
