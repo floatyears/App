@@ -189,7 +189,7 @@
 		"clipRange":[0, -200, 640, 560],
 		"gridArrange":"Vertical",
 		"scrollMovement":"Horizontal",
-		"scrollBarPosition":[320, -475, 0],
+		"scrollBarPosition":[332, -475, 0],
 		"cellWidth":110,
 		"cellHeight":105,
 		"maxPerLine":5,

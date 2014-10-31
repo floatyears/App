@@ -86,7 +86,7 @@ public class DragPanelView : ViewBase {
 	
 	void SetScrollView(){
 
-		scrollView.GetComponent<UIPanel>().depth = dragConfig.depth;
+		clip.depth = dragConfig.depth;
 		scrollBar.GetComponent<UIPanel>().depth = dragConfig.depth + 1;
 
 		scrollView.movement = dragConfig.scrollMovement;
@@ -166,6 +166,10 @@ public class DragPanelView : ViewBase {
 		foreach (var item in scrollItem) {
 			item.ItemCallback(data);
 		}
+	}
+
+	public void RefreshUIPanel(){
+		scrollBar.value = 0.01f;
 	}
 	
 }

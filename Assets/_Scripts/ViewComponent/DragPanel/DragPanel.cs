@@ -50,6 +50,11 @@ public class DragPanel : ModuleBase{
 //		}
 //	}
 
+	public void RefreshUIPanel(){
+		if (dragPanelView != null)
+			dragPanelView.RefreshUIPanel ();
+	}
+
 	public void AddItemToGrid(GameObject obj, int index){
 		dragPanelView.AddItemToGrid (obj, index);
 	}

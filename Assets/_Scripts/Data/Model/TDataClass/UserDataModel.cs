@@ -8,6 +8,7 @@ public class UserDataModel : ProtobufDataBase {
 
 	public UserDataModel(){
 		HttpRequestManager.Instance.AddProtoListener (ProtocolNameEnum.RspRefreshUser, OnRefreshUserInfo);
+		HttpRequestManager.Instance.AddProtoListener (ProtocolNameEnum.RspUserGuideStep, OnUserGuide);
 	}
 
 	void OnRefreshUserInfo(object data){
@@ -16,6 +17,13 @@ public class UserDataModel : ProtobufDataBase {
 			Debug.Log("acount: " + rsp.account + " userinfo: " + rsp.user);
 			accountInfo = rsp.account;
 			userInfo = rsp.user;
+		}
+	}
+
+	void OnUserGuide(object data){
+		RspUserGuideStep rsp = data as RspUserGuideStep;
+		if (rsp.header.code == ErrorCode.SUCCESS) {
+			NoviceGuideStepManager.Instance.CurrentGuideStep = (NoviceGuideStage)rsp.step;
 		}
 	}
 
