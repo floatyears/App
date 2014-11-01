@@ -78,7 +78,8 @@ public class QuestSelectView : ViewBase {
 			currType = (int)currCopyType;
 			uint newestStageId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage( currCopyType );
 			StageInfo newStage = DataCenter.Instance.QuestData.GetStageInfo( newestStageId );
-			
+			newStage.CopyType = currCopyType;
+
 			ShowQuestList( newStage );
 			
 			Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (7).name);

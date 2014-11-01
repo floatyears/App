@@ -43,6 +43,12 @@ public class BattleResultView : ViewBase {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 
+	private Vector3 leftSwordPos		= new Vector3 (-20f, 350f, 0f);
+	private Vector3 rightSwordPos		= new Vector3 (20f, 350f, 0f);
+
+	private Vector3 leftFlagPos			= new Vector3 (-46f, 350f, 15f);
+	private Vector3 rightFlagPos		= new Vector3 (260f, 350f, 0f);
+
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
 
@@ -56,7 +62,7 @@ public class BattleResultView : ViewBase {
 		if (viewData != null && viewData.ContainsKey ("data")) {
 			TRspClearQuest trcq = viewData["data"] as TRspClearQuest;
 			ShowData (trcq);
-			PlayAnimation ();		
+//			PlayAnimation ();		
 		}
 
 //		MsgCenter.Instance.AddListener (CommandEnum.VictoryData, VictoryData);
@@ -132,6 +138,13 @@ public class BattleResultView : ViewBase {
 
 		dragPanel.SetData<UserUnit> (dropUnitList, ClickDropItem as DataListener);
 
+		//
+		foreach(var item in dragPanel.ScrollItem) {
+			item.transform.Find ("Label_Cross_Fade").GetComponent<UILabel> ().enabled = false;//不显示Lv.
+			item.transform.Find ("Avatar").GetComponent<UISprite> ().enabled = false;
+			item.transform.Find ("Sprite_Mask").GetComponent<UISprite> ().enabled = true;
+		}
+
 		StartShowGetCard ();
 	}
 
@@ -159,6 +172,7 @@ public class BattleResultView : ViewBase {
 	}
 
 	void RecoverScale () {
+		goAnim.transform.Find ("Label_Cross_Fade").GetComponent<UILabel> ().enabled = true;//显示Lv.
 		goAnim.transform.Find ("Avatar").GetComponent<UISprite> ().enabled = true;
 		goAnim.transform.Find ("Sprite_Mask").GetComponent<UISprite> ().enabled = false;
 		iTween.ScaleTo (goAnim, iTween.Hash ("y", 1f, "time", 0.15f, "oncomplete", "AnimEnd", "oncompletetarget", gameObject));
@@ -225,10 +239,10 @@ public class BattleResultView : ViewBase {
 	}
 
 	void FindComponent () {
-		levelProgress = FindChild<UISlider> ("LvProgress");
-		coinLabel = FindChild<UILabel>("CoinValue");
-		expLabel = FindChild<UILabel>("ExpValue");
-		rankLabel = FindChild<UILabel>("LvProgress/RankValue");
+		levelProgress = FindChild<UISlider> ("Info/LvProgress");
+		coinLabel = FindChild<UILabel>("Info/CoinValue");
+		expLabel = FindChild<UILabel>("Info/ExpValue");
+		rankLabel = FindChild<UILabel>("Info/LvProgress/RankValue");
 
 		leftWing = FindChild<UISprite>("LeftWing");
 		rightWing = FindChild<UISprite>("RightWing");
@@ -246,12 +260,12 @@ public class BattleResultView : ViewBase {
 		rankUpSprite = rankUpScale.GetComponent<UILabel> ();
 		star = FindChild<UISprite>("Star");
 
-		UILabel GotInfoLabel = FindChild<UILabel>("GotInfoLabel");
+		UILabel GotInfoLabel = FindChild<UILabel>("Info/GotInfoLabel");
 		GotInfoLabel.text = TextCenter.GetText("VictoryGotInfo");
 
-		FindChild<UILabel>("LabelCoin").text = TextCenter.GetText("Text_Coins");
-		FindChild<UILabel>("LabelExp").text = TextCenter.GetText("Text_EXP");
-		FindChild<UILabel>("LabelRank").text = TextCenter.GetText("Text_Rank");
+		FindChild<UILabel>("Info/LabelCoin").text = TextCenter.GetText("Text_Coins");
+		FindChild<UILabel>("Info/LabelExp").text = TextCenter.GetText("Text_EXP");
+		FindChild<UILabel>("Info/LabelRank").text = TextCenter.GetText("Text_Rank");
 	}
 
 	void Sure(GameObject go) {

@@ -84,6 +84,10 @@ Text_Rank=等级
 Text_Rank_Colon=等级：
 Text_Name_Colon=名称：
 Text_Name=名称
+Text_Assist=支援
+
+QuestRewardItemTips=通关星数达到{0}，你将获得
+QuestRewardItemBonus=奖励
 
 #result view
 AddFriendTips=[FFB14A]你确定将TA添加为好友吗?[-]
@@ -153,6 +157,7 @@ Unit_Detail_Tab_Status=状态
 Unit_Detail_Tab_Normal_Skill=技能
 Unit_Detail_Tab_Prifile=信息
 Text_Party=队伍
+Text_Leader=队长
 Text_TapToLogin=点击屏幕进入游戏
 Text_Notice=游戏公告
 
@@ -544,7 +549,7 @@ CounterMax=/{0}
 StageStateNew=New
 StageStateClear=已通关
 StaminaLackNoteTitle=体力不足
-StaminaLackNoteContent=当前体力不足，不能进入此场战斗！
+StaminaLackNoteContent=当前体力不足，不能进入战斗！\n先去商城中购买体力吧！
 
 ##select role
 SelectRoleTitle=选定主角

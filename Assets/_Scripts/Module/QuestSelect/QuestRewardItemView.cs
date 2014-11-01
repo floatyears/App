@@ -61,7 +61,10 @@ public class QuestRewardItemView : DragPanelItemBase {
 			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
 			starNum = transform.FindChild("StarNum").GetComponent<UILabel>();
 			btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
-			
+
+			transform.FindChild("Tips").GetComponent<UILabel>().text = TextCenter.GetText("QuestRewardItemTips", maxStars);
+			transform.FindChild("Bonus").GetComponent<UILabel>().text = TextCenter.GetText("QuestRewardItemBonus");
+
 			inited = true;
 		}
 

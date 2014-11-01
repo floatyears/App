@@ -251,7 +251,7 @@
 		"configName":"BattleResultDragPanel",
 		"scrollerLocalPos":[0,-28,0],
 		"position":	[-180,0,0],
-		"clipRange":[200, -160, 500, 140],
+		"clipRange":[200, -190, 500, 140],
 		"gridArrange":"Horizontal",
 		"scrollMovement":"Vertical",
 		"scrollBarPosition":[-80, -30, 0],
