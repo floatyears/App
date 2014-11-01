@@ -15,6 +15,9 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 
 	private GameObject goBtn;
 
+	private UIAtlas atlas;
+	private Transform item;
+
 	private void Init(){
 		bigIcon = transform.FindChild ("Item/Img").GetComponent<UISprite> ();
 		name = transform.FindChild ("Name").GetComponent<UILabel>();
@@ -27,6 +30,9 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 
 		goBtn = transform.FindChild ("Go").gameObject;
 		UIEventListenerCustom.Get (goBtn).onClick = OnGo;
+
+		atlas = transform.FindChild ("Item/Img").gameObject.GetComponent<UISprite>().atlas;
+		item = transform.FindChild( "Item" );
 	}
 
 	public override void SetData<T> (T d, params object[] args)
@@ -40,31 +46,112 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 		if (data.TaskState == TaskStateEnum.TaskComp) {
 			progressLabel.text = data.goalCnt + "/" + data.goalCnt;
 			btnLabel.text = TextCenter.GetText ("Reward_Take");
-			goBtn.SetActive(true);
+//			goBtn.SetActive(true);
 		}else if(data.TaskState == TaskStateEnum.TaskBonusComp){
 			progressLabel.text = data.goalCnt + "/" + data.goalCnt;
-//			btnLabel.text = TextCenter.GetText ("Reward_Take");
-			goBtn.SetActive(false);
+			btnLabel.text = TextCenter.GetText ("Achieve_Complete");
+//			goBtn.SetActive(true);
 		}else if(data.TaskState == TaskStateEnum.NotComp){
 			progressLabel.text = data.CurrGoalCount + "/" + data.goalCnt;
 			btnLabel.text = TextCenter.GetText ("Btn_GoTo");
-			goBtn.SetActive(true);
+//			goBtn.SetActive(true);
 		}
 		int count = data.giftItem.Count;
 		for (int i = 2; i >0; i--) {
 			GameObject obj = transform.FindChild( "Icon" + i).gameObject;
 			if(i <= count){
 				obj.SetActive(true);
-				obj.GetComponent<UISprite>().spriteName = "icon_" + data.giftItem[i-1].content;
+				GiftItem gi = data.giftItem[i-1];
+				if(gi.content == (int)EGiftContent.UNIT) {
+					ResourceManager.Instance.GetAvatarAtlas((uint)gi.value, obj.GetComponent<UISprite>());
+				}else{
+					obj.GetComponent<UISprite>().atlas = atlas;
+					obj.GetComponent<UISprite>().spriteName = "icon_" + gi.content;
+				}
+
 				transform.FindChild( "Icon" + i + "/Label").GetComponent<UILabel>().text = "x " + data.giftItem[i-1].count;
 			}else{
 				obj.SetActive(false);
 			}
 
 			if(i == 1 && count > 0){
-				bigIcon.spriteName = "icon_" + data.giftItem[0].content;
+
+				GiftItem gift = data.giftItem[0];
+				bigIcon.spriteName = "icon_" + gift.content;
+				if (gift.content == (int)EGiftContent.UNIT) {
+//					UIEventListenerCustom.Get (item.gameObject).LongPress = ClickUnit;
+//					item.GetComponent<BoxCollider>().enabled = true;// obj.GetComponent<BoxCollider>()
+					
+					ResourceManager.Instance.GetAvatarAtlas((uint)gift.value, bigIcon);
+					int type = (int)DataCenter.Instance.UnitData.GetUnitInfo((uint)gift.value).type;
+					item.FindChild("Bg").GetComponent<UISprite>().spriteName = GetAvatarBgSpriteName(type);
+					item.FindChild("Border").GetComponent<UISprite>().spriteName = GetBorderSpriteName(type);
+					
+					
+				} else {
+//					item.GetComponent<BoxCollider>().enabled = false;// obj.GetComponent<BoxCollider>()
+					
+					bigIcon.atlas = atlas;
+					bigIcon.spriteName = "icon_" + gift.content;
+					item.FindChild("Bg").GetComponent<UISprite>().spriteName = GetAvatarBgSpriteName(2);
+					item.FindChild("Border").GetComponent<UISprite>().spriteName = GetBorderSpriteName(2);
+					
+
+				}
 			}
 		}
+
+
+	}
+	string GetBorderSpriteName (int unitType) {
+		switch (unitType) {
+		case 1:
+			return "avatar_border_fire";
+		case 2:
+			return "avatar_border_water";
+		case 3:
+			return "avatar_border_wind";
+		case 4:
+			return "avatar_border_light";
+		case 5:
+			return "avatar_border_dark";
+		case 6:
+			return "avatar_border_none";
+		default:
+			return "avatar_border_none";
+			break;
+		}
+	}
+	
+	string GetAvatarBgSpriteName(int unitType) {
+		switch (unitType) {
+		case 1:
+			return "avatar_bg_fire";
+		case 2:
+			return "avatar_bg_water";
+		case 3:
+			return "avatar_bg_wind";
+		case 4:
+			return "avatar_bg_light";
+		case 5:
+			return "avatar_bg_dark";
+		case 6:
+			return "avatar_bg_none";
+		default:
+			return "avatar_bg_none";
+			break;
+		}
+	}
+	
+	
+	private void ClickUnit(GameObject obj){
+		
+		Debug.Log ("Click Item To Detail");
+		uint i = 0; 
+		uint.TryParse(obj.transform.FindChild("Img").GetComponent<UISprite>().spriteName,out i);
+		DGTools.ChangeToUnitDetail (i);
+		
+		
 	}
 
 	public override void ItemCallback (params object[] args)

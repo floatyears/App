@@ -80,11 +80,11 @@ public class PartyView : ViewBase, IDragChangeView{
 			gameObject.SetActive(true);
 			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
 			
-			topRoot.transform.localPosition = 1000 * Vector3.up;
-			bottomRoot.transform.localPosition = new Vector3(-1000, -145, 0);
+			topRoot.transform.localPosition = new Vector3(0,150,0);//1000 * Vector3.up;
+			bottomRoot.transform.localPosition = new Vector3(0, -145, 0);// new Vector3(-1000, -145, 0);
 			
-			iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
-			iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true));
+//			iTween.MoveTo(topRoot, iTween.Hash("y", 150, "time", 0.4f,"islocal", true));
+//			iTween.MoveTo (bottomRoot, iTween.Hash ("x", 0, "time", 0.4f, "islocal", true));
 		}else{
 			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
 			gameObject.SetActive(false);
@@ -495,6 +495,8 @@ public class PartyView : ViewBase, IDragChangeView{
 		countArgs.Add("title", TextCenter.GetText("UnitCounterTitle"));
 		countArgs.Add("current", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserData.UserInfo.unitMax);
+		countArgs.Add("posy", -316);
+		countArgs.Add("posx", -180);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 

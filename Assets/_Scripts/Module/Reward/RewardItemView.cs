@@ -38,10 +38,8 @@ public class RewardItemView : DragPanelItemBase {
 			return;
 		}
 		if (gift.content == (int)EGiftContent.UNIT) {
-			UIEventListenerCustom.Get (obj).LongPress = ClickUnit;
-			obj.GetComponent<BoxCollider>().enabled = true;// obj.GetComponent<BoxCollider>()
-			obj.GetComponent<UIEventListenerCustom>().enabled = true;
-			obj.GetComponent<UIDragScrollView>().enabled = true;
+//			UIEventListenerCustom.Get (obj).LongPress = ClickUnit;
+//			obj.GetComponent<BoxCollider>().enabled = true;// obj.GetComponent<BoxCollider>()
 
 			ResourceManager.Instance.GetAvatarAtlas((uint)gift.value, obj.transform.FindChild("Img").GetComponent<UISprite>());
 			int type = (int)DataCenter.Instance.UnitData.GetUnitInfo((uint)gift.value).type;
@@ -50,10 +48,7 @@ public class RewardItemView : DragPanelItemBase {
 
 
 		} else {
-			UIEventListenerCustom.Get (obj).LongPress = null;
-			obj.GetComponent<BoxCollider>().enabled = false;// obj.GetComponent<BoxCollider>()
-			obj.GetComponent<UIEventListenerCustom>().enabled = false;
-			obj.GetComponent<UIDragScrollView>().enabled = false;
+//			obj.GetComponent<BoxCollider>().enabled = false;// obj.GetComponent<BoxCollider>()
 
 			UISprite sp = obj.transform.FindChild("Img").GetComponent<UISprite>();
 			sp.atlas = atlas;

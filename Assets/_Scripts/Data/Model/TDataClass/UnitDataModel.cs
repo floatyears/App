@@ -114,6 +114,9 @@ public class UnitDataModel : ProtobufDataBase {
 				Debug.LogError("uintid : " + unitID + " is invalid");
 				return null;
 			}
+			if(tui.maxStar == 0){
+				tui.maxStar = tui.rare;
+			}
 			unitInfo.Add(tui.id,tui);
 			return tui;
 		}

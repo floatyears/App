@@ -56,18 +56,23 @@ public class TaskAndAchieveModel : ProtobufDataBase {
 				GiftItem gi = new GiftItem();
 				gi.content = (int)jd[j]["content"];
 				gi.count = (int)jd[j]["count"];
+				if(jd[j].Count > 2){
+					gi.value = (int)jd[j]["value"];
+					gi.mtype = (MaterialType)(int)jd[j]["mtype"];
+				}
 				ins.giftItem.Add(gi);
 			}
 
 			if(ins.taskType == ETaskType.ACHIEVEMENT){
 				oriAchieveList.Add(ins.taskID,ins);
+				if(!achieveNotCompDic.ContainsKey(ins.achieveType)){
+					achieveNotCompDic.Add(ins.achieveType,new List<TaskConf>());
+				}
+				achieveNotCompDic[ins.achieveType].Add(ins);
 			}else if(ins.taskType == ETaskType.DAILYTASK){
 				oriTaskList.Add(ins.taskID,ins);
 			}
-			if(!achieveNotCompDic.ContainsKey(ins.achieveType)){
-				achieveNotCompDic.Add(ins.achieveType,new List<TaskConf>());
-			}
-			achieveNotCompDic[ins.achieveType].Add(ins);
+
 		}
 		foreach (var item in achieveNotCompDic.Values) {
 			item.Sort((x1,x2)=>{
@@ -112,6 +117,9 @@ public class TaskAndAchieveModel : ProtobufDataBase {
 				}
 			}
 			achieveCompList.Sort((x1,x2)=>{
+				if(x2.TaskState != x1.TaskState){
+					return (int)x1.TaskState - (int)x2.TaskState;
+				}
 				return (int)x1.achieveType - (int)x2.achieveType;
 			});
 			
