@@ -43,7 +43,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 
 		if (viewData != null){
 			if(viewData.ContainsKey ("helper_info")) {
-				moveParent.HelperInfo = pageRight.HelperInfo = pageLeft.HelperInfo = viewData["helper_info"] as FriendInfo;
+				friendInfo = moveParent.HelperInfo = pageRight.HelperInfo = pageLeft.HelperInfo = viewData["helper_info"] as FriendInfo;
 			}
 			if(viewData.ContainsKey("QuestInfo")){
 				questInfo = viewData["QuestInfo"] as QuestInfo;
