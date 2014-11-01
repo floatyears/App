@@ -84,7 +84,7 @@ public class RewardView : ViewBase {
 		dragPanel.Clear ();
 //		iTween.Stop (gameObject);
 
-		aList.Clear ();
+//		aList.Clear ();
 
 	}
 
@@ -122,7 +122,7 @@ public class RewardView : ViewBase {
 
 		UIEventListenerCustom.Get (OKBtn).onClick -= OnClickOK;
 		MsgCenter.Instance.RemoveListener (CommandEnum.GotoRewardMonthCardTab, OnGotoTab);
-
+		aList.Clear ();
 		base.DestoryUI ();
 	}
 

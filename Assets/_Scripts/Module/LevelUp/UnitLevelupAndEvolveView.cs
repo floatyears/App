@@ -72,7 +72,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	{
 		base.Init (uiconfig, data);
 
-		for (int i = 1; i <= 5; i++) {	//gameobject name is 1 ~ 6.
+		for (int i = 0; i <= 5; i++) {	//gameobject name is 1 ~ 6.
 
 			LevelUpItem pui = FindChild<LevelUpItem>("Bottom/LevelUp/Items/" + i.ToString());
 			levelupItem.Add(pui);
@@ -89,7 +89,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 		}
 
-		for (int i = 1; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			EvolveItem ei = FindChild<EvolveItem>("Bottom/Evolve/Items/" + i.ToString());
 			evolveItem.Add(ei);
 		}
@@ -102,7 +102,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		FindChild<UILabel> ("Bottom/LevelUp/Button_LevelUp/Label").text = TextCenter.GetText ("Btn_Level_Up");
 		FindChild <UILabel>("Bottom/LevelUp/Button_AutoSelect/Label").text = TextCenter.GetText ("Btn_AutoSelect");
 		FindChild<UILabel> ("Bottom/Evolve/Button_Evolve/Label").text = TextCenter.GetText ("Btn_Evolve");
-		FindChild<UILabel> ("Bottom/CostLabel").text = TextCenter.GetText ("Text_Cost");
+		FindChild<UILabel> ("Top/CostLabel").text = TextCenter.GetText ("Text_Cost");
 
 		nextBtn = FindChild ("Top/Button_Next");
 		UIEventListenerCustom.Get (levelUpButton.gameObject).onClick = ClickLevelUp;
@@ -114,15 +114,15 @@ public class UnitLevelupAndEvolveView : ViewBase {
 //		levelUpButton.isEnabled = false;
 //		autoSelect.isEnabled = false;
 
-		moneyNeedLabel = FindChild<UILabel> ("Bottom/MoneyLabel");
+		moneyNeedLabel = FindChild<UILabel> ("Top/MoneyLabel");
 		getExpLabel = FindChild<UILabel> ("Bottom/LevelUp/GetExpLabel");
 		needExpLabel = FindChild<UILabel> ("Bottom/LevelUp/NeedExpLabel");
-		beforeLvLabel = FindChild<UILabel> ("Top/BeforeLv");
-		afterLvLabel = FindChild<UILabel> ("Top/AfterLv");
-		beforeAtkLabel = FindChild<UILabel> ("Top/BeforeAtk");
-		afterAtkLabel = FindChild<UILabel> ("Top/AfterAtk");
-		beforeHpLabel = FindChild<UILabel> ("Top/BeforeHp");
-		afterHpLabel = FindChild<UILabel> ("Top/AfterHp");
+		beforeLvLabel = FindChild<UILabel> ("Bottom/LevelUp/BeforeLv");
+		afterLvLabel = FindChild<UILabel> ("Bottom/LevelUp/AfterLv");
+		beforeAtkLabel = FindChild<UILabel> ("Bottom/LevelUp/BeforeAtk");
+		afterAtkLabel = FindChild<UILabel> ("Bottom/LevelUp/AfterAtk");
+		beforeHpLabel = FindChild<UILabel> ("Bottom/LevelUp/BeforeHp");
+		afterHpLabel = FindChild<UILabel> ("Bottom/LevelUp/AfterHp");
 		titleLabel = FindChild<UILabel> ("Top/Title");
 
 		evolveRoot = FindChild ("Bottom/Evolve");
@@ -259,7 +259,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		}
 
 		List<uint> unitIds = new List<uint> ();
-		foreach (var item in levelupItem.GetRange (0, 4)) {
+		foreach (var item in levelupItem.GetRange (0, 5)) {
 			if(item.UserUnit == null)
 				continue;
 			unitIds.Add(item.UserUnit.uniqueId);
@@ -273,7 +273,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("LevelUp_NeedTitle"),TextCenter.GetText("LevelUp_NeedMaterial"),TextCenter.GetText("OK"));
 			return;
 		}
-		UnitController.Instance.LevelUp (NetCallback,baseUserUnit.uniqueId,unitIds,friendInfo.userId,levelupItem[4].UserUnit);
+		UnitController.Instance.LevelUp (NetCallback,baseUserUnit.uniqueId,unitIds,friendInfo.userId,levelupItem[5].UserUnit);
 		
 	}
 	
@@ -306,7 +306,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 		int count = sortDic.Count;
 		int count1 = sortDic1.Count + count;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 5; i++) {
 			if(i < count){
 				SelectUnit(sortDic[i],i);
 			}else if(i < count1){
@@ -334,8 +334,8 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 	void RefreshLevelUpInfo(){
 		int totalMoney = 0;
-		for (int i = 1; i < 5; i++) {	//material index range
-			if (levelupItem[i-1].UserUnit != null){
+		for (int i = 0; i < 5; i++) {	//material index range
+			if (levelupItem[i].UserUnit != null){
 				totalMoney ++;
 			}
 		}
@@ -392,7 +392,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			return;	
 		}
 		this.friendInfo = friendInfo;
-		levelupItem [4].SetData<UserUnit> (friendInfo.UserUnit);
+		levelupItem [5].SetData<UserUnit> (friendInfo.UserUnit);
 	}
 
 	void SelectUnit(UserUnit unitInfo,int index){
@@ -406,9 +406,9 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	
 	int LevelUpCurExp () {
 		int devorExp = 0;
-		for (int i = 1; i < 6; i++) {	//material index range
-			if (levelupItem[i-1].UserUnit != null){
-				devorExp += levelupItem[i-1].UserUnit.MultipleMaterialExp(baseUserUnit);
+		for (int i = 0; i < 6; i++) {	//material index range
+			if (levelupItem[i].UserUnit != null){
+				devorExp += levelupItem[i].UserUnit.MultipleMaterialExp(baseUserUnit);
 			}
 		}
 		//		Debug.LogError (devorExp);
@@ -503,7 +503,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		Vector3 tarPos = unitBodyTex.transform.localPosition + new Vector3 (0, unitBodyTex.height / 2, 0);
 		yield return new WaitForSeconds(1f);
 		int count = 0;
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 6; i++) {
 			if(levelupItem[i].UserUnit != null){
 				count++;
 				StartCoroutine(SwallowOneUnit(levelupItem[i],tarPos));
