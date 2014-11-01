@@ -45,7 +45,18 @@ public class HelperUnitItem : FriendUnitItem {
 		if (args.Length > 1) {
 			switch(args[1].ToString()){
 			case "level_up":
-				descLabel.text = "";
+				UserUnit temp = args[2] as UserUnit;
+				int add = 0;
+				if(this.friendInfo.UserUnit.UnitRace == temp.UnitType){
+					add += 25;
+				}
+				if(temp.UnitType == this.friendInfo.UserUnit.UnitType){
+					add += 25;
+				}
+				if(add == 0){
+					add = 10;
+				}
+				descLabel.text = TextCenter.GetText("LevelUp_Effect") + "+" + add.ToString() + "%";
 				break;
 			case "evolve":
 				break;

@@ -19,7 +19,9 @@ public class LoadingModule : ModuleBase {
 
 	public LoadingModule(UIConfigItem config):base(  config) {
 		CreateUI<LoadingView> ();
-
+		int a;
+		int.TryParse ("ada", out a);
+		Debug.Log ("int: -------" + a);
 //		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
 //		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
 //		BattleConfigData.Instance.ClearData ();

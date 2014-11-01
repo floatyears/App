@@ -63,7 +63,7 @@ public class FightReadyView : ViewBase, IDragChangeView {
 	{
 		if (isShow) {
 			gameObject.SetActive(true);
-			gameObject.transform.localPosition = new Vector3(-1000,  config.localPosition.y, 0);
+			gameObject.transform.localPosition = new Vector3(config.localPosition.x,  config.localPosition.y, 0);
 			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f));       
 		}else{
 			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	

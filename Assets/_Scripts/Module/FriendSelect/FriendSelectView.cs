@@ -38,13 +38,15 @@ public class FriendSelectView : ViewBase{
 			if(viewData.ContainsKey("type")){
 				if(viewData["type"].ToString() == "level_up"){
 					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"level_up");
+					dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener,viewData["type"],viewData["unit"]);
 //					CheckFriend();
 				}else if(viewData["type"].ToString() == "fight_ready"){
 					ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"fight_ready");
+					dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener,viewData["type"]);
 //					pickedQuestInfo = viewData["data"] as QuestItemView;	
 				}
 			}
-			dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.GetSupportFriend (), ClickHelperItem as DataListener,viewData["type"].ToString());
+
 		}
 
 

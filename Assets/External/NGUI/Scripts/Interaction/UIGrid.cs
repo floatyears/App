@@ -274,7 +274,13 @@ public class UIGrid : UIWidgetContainer
 	void OnValidate () { if (!Application.isPlaying && NGUITools.GetActive(this)) Reposition(); }
 
 	// Various generic sorting functions
-	static public int SortByName (Transform a, Transform b) { return string.Compare(a.name, b.name); }
+	static public int SortByName (Transform a, Transform b) { 
+		int r = 0;
+		if (int.TryParse (a.name, out r))
+			return r - int.Parse(b.name);
+		else
+			return string.Compare (a.name, b.name);
+	}
 	static public int SortHorizontal (Transform a, Transform b) { return a.localPosition.x.CompareTo(b.localPosition.x); }
 	static public int SortVertical (Transform a, Transform b) { return b.localPosition.y.CompareTo(a.localPosition.y); }
 

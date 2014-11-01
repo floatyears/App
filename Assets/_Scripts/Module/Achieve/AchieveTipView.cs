@@ -63,6 +63,11 @@ public class AchieveTipView : ViewBase {
 	}
 
 	public void OnAnimateEnd(){
+		StartCoroutine (DelayHideUI ());
+	}
+
+	IEnumerator DelayHideUI(){
+		yield return new WaitForSeconds(1.5f);
 		ModuleManager.Instance.HideModule (ModuleEnum.AchieveTipModule);
 	}
 }
