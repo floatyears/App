@@ -11,7 +11,7 @@ public class BattleCardAreaItem : MonoBehaviour {
 
 	private List<UISprite> cardList = new List<UISprite> ();
 	private GameObject parentObject;
-	private Vector3 scale = new Vector3 (0.5f, 0.5f, 1f);
+	private Vector3 scale = new Vector3 (0.5f, 0.5f, 1f); 
 	private Vector3 utilityScale = Vector3.zero;
 	private Vector3 pos = Vector3.zero;
 	private float durationTime = 0.1f;
@@ -42,6 +42,10 @@ public class BattleCardAreaItem : MonoBehaviour {
 //		base.Init(name);
 		UISprite tex = GetComponent<UISprite>();
 		utilityScale = new Vector3 ((float)tex.width / 4f, (float)tex.height / 4f, 1f);
+		utilityScale.x = utilityScale.x * 0.89f; //修正Back的图标阴影大小offset
+		utilityScale.y = utilityScale.y * 0.89f; //修正Back的图标阴影大小offset
+		scale.x = scale.x * 0.9f; //修正Back的图标阴影大小offset
+		scale.y = scale.y * 0.9f; //修正Back的图标阴影大小offset
 		pos = transform.localPosition;
 		parentObject = transform.parent.gameObject;
 		InitFightCard ();
@@ -201,6 +205,10 @@ public class BattleCardAreaItem : MonoBehaviour {
 		default:
 			break;
 		}
+
+		tempPos.x -= utilityScale.x*0.2f; //修正Back的图标阴影大小offset
+		tempPos.y += utilityScale.y*0.15f;
+
 		return tempPos - transform.localPosition;
 	}
 
