@@ -24,7 +24,7 @@ public class StageItemView : MonoBehaviour{
 		"icon_stage_special"
 	};
 
-	private Color EliteIconColor = new Color(255/255f, 221/255f, 79/255f);
+	private Color EliteIconColor = new Color(255/255f, 165/255f, 0/255f);
 	public Font myFont;
 	private StageState stageClearState;
 	public StageState StageClearState{

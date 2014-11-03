@@ -10,7 +10,7 @@ public class NoviceGuideStepB_1:NoviceGuidStep
 		nextState = typeof(NoviceGuideStepB_2);
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_5"));
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("city_one"), new Vector3(0,0,1),true,true,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("city_one"), new Vector3(0,-30,1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			GoToNextState();
 		});
@@ -38,7 +38,7 @@ public class NoviceGuideStepB_3:NoviceGuidStep
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepB_4);
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 0, 3),true,true,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 40, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			GoToNextState();
 		});

@@ -20,9 +20,9 @@ public class NoviceGuideStepA_2:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepA_3);
 
-		NoviceGuideUtil.ShowArrow(ModuleManager.Instance.GetModule<BattleMapModule> (ModuleEnum.BattleMapModule).GetMapItem(2,1),new Vector3(0,0,1),true,true,ClickOK);	
+		NoviceGuideUtil.ShowArrow(ModuleManager.Instance.GetModule<BattleMapModule> (ModuleEnum.BattleMapModule).GetMapItem(2,1),new Vector3(0,-20,1),true,true,ClickOK);	
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_1"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_1"), "coor", new Vector3(60, 58));
 	}
 	
 	private void ClickOK(GameObject data)
@@ -40,7 +40,7 @@ public class NoviceGuideStepA_3:NoviceGuidStep
 	public override void Enter()
 	{
 		nextState = typeof(NoviceGuideStepA_4);
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_2"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_2"), "coor", new Vector3(-40, 130));
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule,"guide", BattleGuideType.SING_DRAG);
 //		UIEventListenerCustom.
 		MsgCenter.Instance.AddListener (CommandEnum.FightEnd, OnFightEnd);
