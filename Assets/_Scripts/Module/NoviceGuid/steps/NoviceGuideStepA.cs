@@ -20,9 +20,9 @@ public class NoviceGuideStepA_2:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepA_3);
 
-		NoviceGuideUtil.ShowArrow(ModuleManager.Instance.GetModule<BattleMapModule> (ModuleEnum.BattleMapModule).GetMapItem(2,1),new Vector3(0,-20,1),true,true,ClickOK);	
+		NoviceGuideUtil.ShowArrow(ModuleManager.Instance.GetModule<BattleMapModule> (ModuleEnum.BattleMapModule).GetMapItem(2,1),new Vector3(0,-30,1),true,true,ClickOK);	
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_1"), "coor", new Vector3(60, 58));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_1"), "coor", new Vector3(-10, 80));
 	}
 	
 	private void ClickOK(GameObject data)

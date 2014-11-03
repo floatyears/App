@@ -132,6 +132,7 @@ Text_Sound=Sound
 ContactUsContent=Support Email: cs@yeedion.com
 ContactUs=Contact us
 
+Text_Skill_Info=Skill Info
 Text_Leader_Skill=Leader Skill
 Text_Active_Skill=Active Skill
 Text_Normal_Skill_1=Skill1

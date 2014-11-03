@@ -25,6 +25,8 @@ public class BattleSkillView : ViewBase {
 		si.skillTypeLabel = FindChild<UILabel> (info + path);
 		si.skillName = FindChild<UILabel>(info + pathName);
 		si.skillDescribeLabel = FindChild<UILabel>(info + pathDescribe);
+		si.skillTypeLabel.text = TextCenter.GetText("Text_Leader_Skill");
+
 		skillDic.Add(info, si);
 		
 		info = SKill[4];
@@ -32,6 +34,7 @@ public class BattleSkillView : ViewBase {
 		si.skillTypeLabel = FindChild<UILabel> ("PassiveSkill/Label");
 		si.skillName = FindChild<UILabel>("PassiveSkill/SkillName");
 		si.skillDescribeLabel = FindChild<UILabel>("PassiveSkill/DescribeLabel");
+		si.skillTypeLabel.text = TextCenter.GetText("Text_Passive_Skill");
 		skillDic.Add(info, si);
 		
 		info = SKill[1];
@@ -39,6 +42,7 @@ public class BattleSkillView : ViewBase {
 		si.skillTypeLabel = FindChild<UILabel> ("NormalSKill1/Label");
 		si.skillName = FindChild<UILabel>("NormalSKill1/SkillName");
 		si.skillDescribeLabel = FindChild<UILabel>("NormalSKill1/DescribeLabel");
+		si.skillTypeLabel.text = TextCenter.GetText("Text_Normal_Skill_1");
 		List<UISprite> temp = new List<UISprite> ();
 		for (int j = 1; j < 6; j++) {
 			temp.Add(FindChild<UISprite> ("NormalSKill1/" + j));
@@ -51,6 +55,7 @@ public class BattleSkillView : ViewBase {
 		si.skillTypeLabel = FindChild<UILabel> ("NormalSKill2/Label");
 		si.skillName = FindChild<UILabel>("NormalSKill2/SkillName");
 		si.skillDescribeLabel = FindChild<UILabel>("NormalSKill2/DescribeLabel");
+		si.skillTypeLabel.text = TextCenter.GetText("Text_Normal_Skill_2");
 		temp = new List<UISprite> ();
 		for (int j = 1; j < 6; j++) {
 			temp.Add(FindChild<UISprite> ("NormalSKill2/" + j));
@@ -62,6 +67,7 @@ public class BattleSkillView : ViewBase {
 		si.skillTypeLabel = FindChild<UILabel> ("ActiveSkill/Label");
 		si.skillName = FindChild<UILabel>("ActiveSkill/SkillName");
 		si.skillDescribeLabel = FindChild<UILabel>("ActiveSkill/DescribeLabel");
+		si.skillTypeLabel.text = TextCenter.GetText("Text_Active_Skill");
 		skillDic.Add(info, si);
 		roundLabel = FindChild<UILabel>("RoundLabel");
 		boostButton = FindChild<UIButton>("BoostButton");
@@ -69,6 +75,7 @@ public class BattleSkillView : ViewBase {
 		UIEventListenerCustom.Get (boostButton.gameObject).onClick = Boost;
 		Transform trans = FindChild<Transform>("Title/Button_Close");
 		UIEventListenerCustom.Get (trans.gameObject).onClick = Close;
+		FindChild<UILabel>("Title/Label").text = TextCenter.GetText("Text_Skill_Info");
 	}
 
 	public override void ShowUI ()
