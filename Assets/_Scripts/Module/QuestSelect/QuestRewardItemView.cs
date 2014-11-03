@@ -58,7 +58,6 @@ public class QuestRewardItemView : DragPanelItemBase {
 
 		if(!inited){
 			btn = transform.FindChild("CollectBtn").gameObject;
-			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
 			starNum = transform.FindChild("StarNum").GetComponent<UILabel>();
 			btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
 
@@ -70,6 +69,13 @@ public class QuestRewardItemView : DragPanelItemBase {
 
 		starNum.text = totalStars.ToString()+"/"+maxStars.ToString();
 
-		btn.GetComponent<UIButton>().isEnabled = passInfo.HasBonus(Data.id);
+		bool bHasBonus = passInfo.HasBonus(Data.id);
+		btn.GetComponent<UIButton>().isEnabled = bHasBonus;
+		if( totalStars >= maxStars && !bHasBonus ) { //已领奖
+			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_HasTaken");
+		}else {
+			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
+		}
+
 	}
 }

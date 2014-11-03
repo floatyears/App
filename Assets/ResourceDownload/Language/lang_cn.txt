@@ -303,6 +303,7 @@ TotalLogin=累计登录 {0} 天
 RankReach=等级:{0} 
 OtherRewards={0}
 RewardMonthCard=第{0}天
+Reward_HasTaken=已领奖
 
 #notice
 Notice_HelperTitle=友情战报
