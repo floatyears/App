@@ -178,8 +178,10 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 		if (data.TaskState == TaskStateEnum.TaskComp) {
 //			ModuleManager.SendMessage(ModuleEnum.ta
 			DataCenter.Instance.TaskAndAchieveData.TakeAwardTemp(data);
-			goBtn.GetComponent<UIButton>().isEnabled = false;
-			btnLabel.text = TextCenter.GetText ("Achieve_Complete");
+			if ( data.taskType == ETaskType.ACHIEVEMENT ) {
+				goBtn.GetComponent<UIButton>().isEnabled = false;
+				btnLabel.text = TextCenter.GetText ("Achieve_Complete");
+			}
 		}else if(data.TaskState == TaskStateEnum.NotComp){
 			if(data.taskType == ETaskType.ACHIEVEMENT){
 				ModuleManager.Instance.HideModule(ModuleEnum.AchieveModule);
