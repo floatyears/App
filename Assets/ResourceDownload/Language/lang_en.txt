@@ -84,6 +84,10 @@ Text_Rank=Rank
 Text_Rank_Colon=Rank:
 Text_Name_Colon=Name:
 Text_Name=Name
+Text_Assist=Support
+
+QuestRewardItemTips=Star num reached {0}，you will get
+QuestRewardItemBonus=Bonus:
 
 #result view
 AddFriendTips=[FFB14A]Are you sure to add him as your friend?[-]
@@ -151,6 +155,7 @@ Unit_Detail_Tab_Status=Status
 Unit_Detail_Tab_Normal_Skill=Normal Skill
 Unit_Detail_Tab_Prifile=Profile
 Text_Party=Used
+Text_Leader=Leader
 Text_TapToLogin=Touch Screen to Start!
 Text_Notice=Notice
 

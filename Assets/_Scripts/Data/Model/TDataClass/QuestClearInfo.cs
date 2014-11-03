@@ -28,7 +28,7 @@ namespace bbproto{
 		public uint GetNewestCity(ECopyType copyType) {
 			StageClearItem clearInfo = GetClearItem(copyType);
 			uint lastestCityId = ( clearInfo==null ? 0 : clearInfo.stageId/10 );
-			if( lastestCityId==0 ) 
+			if( lastestCityId < 1 )
 				lastestCityId = 1;
 
 			if( GetStoryCityState(lastestCityId, copyType) == StageState.CLEAR ) 
@@ -41,7 +41,7 @@ namespace bbproto{
 		public uint GetNewestStage(ECopyType copyType) {
 			StageClearItem clearInfo = GetClearItem(copyType);
 			uint lastestStageId = (clearInfo==null ? 0 : clearInfo.stageId);
-			if( lastestStageId==0 ) 
+			if( lastestStageId < 11 ) 
 				lastestStageId = 11;
 			if( GetStoryStageState(lastestStageId, copyType) == StageState.CLEAR ) 
 				lastestStageId = nextStageId(lastestStageId); //当前Stage已通关，返回下一Stage

@@ -16,7 +16,7 @@ public class BattleResultView : ViewBase {
 	private UISprite niuJiao;
 	private UISprite frontCircle;
 	private UISprite backCircle;
-	private UISprite star;
+	private UISprite star1, star2, star3;
 
 	private TweenScale rankUpScale;
 	private UILabel rankUpSprite;
@@ -43,6 +43,12 @@ public class BattleResultView : ViewBase {
 	private Vector3 rightWingAngle2 	= new Vector3 (0f, 0f, -3f);
 	private Vector3 rightWingAngle3 	= new Vector3 (0f, 0f, 15f);
 
+	private Vector3 leftSwordPos		= new Vector3 (-20f, 350f, 0f);
+	private Vector3 rightSwordPos		= new Vector3 (20f, 350f, 0f);
+
+	private Vector3 leftFlagPos			= new Vector3 (-46f, 350f, 15f);
+	private Vector3 rightFlagPos		= new Vector3 (260f, 350f, 0f);
+
 	public override void Init (UIConfigItem config, Dictionary<string, object> data = null) {
 		base.Init (config, data);
 
@@ -56,7 +62,7 @@ public class BattleResultView : ViewBase {
 		if (viewData != null && viewData.ContainsKey ("data")) {
 			TRspClearQuest trcq = viewData["data"] as TRspClearQuest;
 			ShowData (trcq);
-			PlayAnimation ();		
+//			PlayAnimation ();		
 		}
 
 //		MsgCenter.Instance.AddListener (CommandEnum.VictoryData, VictoryData);
@@ -115,7 +121,11 @@ public class BattleResultView : ViewBase {
 		expLabel.text = "+" + clearQuest.gotExp.ToString ();
 		rankLabel.text = clearQuest.rank.ToString();
 
-		star.width = star.height * clearQuest.curStar; //显示星级
+
+		star1.enabled = ( clearQuest.curStar>=1 );
+		star2.enabled = ( clearQuest.curStar>=2 );
+		star3.enabled = ( clearQuest.curStar>=3 );
+
 //		rankLabel.text = clearQuest.curStar;
 
 		StartCoroutine (UpdateLevelNumber ());
@@ -124,22 +134,20 @@ public class BattleResultView : ViewBase {
 		for (int i = 0; i < clearQuest.gotUnit.Count; i++) {
 			UserUnit tuu = clearQuest.gotUnit[i];
 		
-			GameObject go = NGUITools.AddChild(parent, dropItem);
-			go.SetActive(true);
-			uint unitID = tuu.UnitInfo.id;
-			go.name = i.ToString();
-			UISprite sprite = go.transform.Find("Avatar").GetComponent<UISprite>();
-			ResourceManager.Instance.GetAvatarAtlas(unitID, sprite);
-			sprite.enabled = false;
 			DataCenter.Instance.UnitData.CatalogInfo.AddHaveUnit(tuu.UnitInfo.id);
 			getUserUnit.Enqueue(tuu);
 
 			dropUnitList.Add(tuu);
-
-			dropItemList.Add(tuu, go);
 		}
 
 		dragPanel.SetData<UserUnit> (dropUnitList, ClickDropItem as DataListener);
+
+		//
+		foreach(var item in dragPanel.ScrollItem) {
+			item.transform.Find ("Label_Cross_Fade").GetComponent<UILabel> ().enabled = false;//不显示Lv.
+			item.transform.Find ("Avatar").GetComponent<UISprite> ().enabled = false;
+			item.transform.Find ("Sprite_Mask").GetComponent<UISprite> ().enabled = true;
+		}
 
 		StartShowGetCard ();
 	}
@@ -151,7 +159,7 @@ public class BattleResultView : ViewBase {
 
 	void StartShowGetCard() {
 		if(getUserUnit.Count > 0) {
-			GameTimer.GetInstance ().AddCountDown (0.5f, ShowGetCard);
+			GameTimer.GetInstance ().AddCountDown (0.3f, ShowGetCard);
 		}
 	}
 
@@ -159,13 +167,16 @@ public class BattleResultView : ViewBase {
 	UserUnit showUserUnit = null;
 
 	void ShowGetCard () {
+		goAnim = dragPanel.ScrollItem[dragPanel.ScrollItem.Count - getUserUnit.Count]; //dropItemList [showUserUnit];
+
 		showUserUnit = getUserUnit.Dequeue ();
-		goAnim = dropItemList [showUserUnit];
+
 		iTween.ScaleTo (goAnim, iTween.Hash ("y", 0f, "time", 0.15f, "oncomplete", "RecoverScale", "oncompletetarget", gameObject));
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_grid_turn);
 	}
 
 	void RecoverScale () {
+		goAnim.transform.Find ("Label_Cross_Fade").GetComponent<UILabel> ().enabled = true;//显示Lv.
 		goAnim.transform.Find ("Avatar").GetComponent<UISprite> ().enabled = true;
 		goAnim.transform.Find ("Sprite_Mask").GetComponent<UISprite> ().enabled = false;
 		iTween.ScaleTo (goAnim, iTween.Hash ("y", 1f, "time", 0.15f, "oncomplete", "AnimEnd", "oncompletetarget", gameObject));
@@ -232,10 +243,10 @@ public class BattleResultView : ViewBase {
 	}
 
 	void FindComponent () {
-		levelProgress = FindChild<UISlider> ("LvProgress");
-		coinLabel = FindChild<UILabel>("CoinValue");
-		expLabel = FindChild<UILabel>("ExpValue");
-		rankLabel = FindChild<UILabel>("LvProgress/RankValue");
+		levelProgress = FindChild<UISlider> ("Info/LvProgress");
+		coinLabel = FindChild<UILabel>("Info/CoinValue");
+		expLabel = FindChild<UILabel>("Info/ExpValue");
+		rankLabel = FindChild<UILabel>("Info/LvProgress/RankValue");
 
 		leftWing = FindChild<UISprite>("LeftWing");
 		rightWing = FindChild<UISprite>("RightWing");
@@ -247,18 +258,20 @@ public class BattleResultView : ViewBase {
 		sureButton.transform.Find ("Label").GetComponent<UILabel> ().text = TextCenter.GetText ("OK");
 		niuJiaoCurrent = niuJiao.transform.localPosition;
 		niuJiaoMoveTarget = new Vector3 (niuJiaoCurrent.x, niuJiaoCurrent.y - 20f, niuJiaoCurrent.z);
-		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
-		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
+//		parent = transform.Find ("VertialDrapPanel/SubPanel/Table").gameObject;
+//		dropItem = transform.Find ("VertialDrapPanel/SubPanel/MyUnitPrefab").gameObject;
 		rankUpScale = FindChild<TweenScale>("RankPanel/RankUp");
 		rankUpSprite = rankUpScale.GetComponent<UILabel> ();
-		star = FindChild<UISprite>("Star");
+		star1 = FindChild<UISprite>("Star1");
+		star2 = FindChild<UISprite>("Star2");
+		star3 = FindChild<UISprite>("Star3");
 
-		UILabel GotInfoLabel = FindChild<UILabel>("GotInfoLabel");
+		UILabel GotInfoLabel = FindChild<UILabel>("Info/GotInfoLabel");
 		GotInfoLabel.text = TextCenter.GetText("VictoryGotInfo");
 
-		FindChild<UILabel>("LabelCoin").text = TextCenter.GetText("Text_Coins");
-		FindChild<UILabel>("LabelExp").text = TextCenter.GetText("Text_EXP");
-		FindChild<UILabel>("LabelRank").text = TextCenter.GetText("Text_Rank");
+		FindChild<UILabel>("Info/LabelCoin").text = TextCenter.GetText("Text_Coins");
+		FindChild<UILabel>("Info/LabelExp").text = TextCenter.GetText("Text_EXP");
+		FindChild<UILabel>("Info/LabelRank").text = TextCenter.GetText("Text_Rank");
 	}
 
 	void Sure(GameObject go) {

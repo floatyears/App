@@ -24,6 +24,7 @@ public class AchieveView : ViewBase {
 		FindChild<UILabel> ("1/Label").text = TextCenter.GetText ("Achieve_Tab1");
 		FindChild<UILabel> ("2/Label").text = TextCenter.GetText ("Achieve_Tab2");
 
+		FindChild<UILabel> ("OkBtn/Label").text = TextCenter.GetText("OK");
 		UIEventListenerCustom.Get (FindChild ("OkBtn")).onClick = OnClickOK;
 
 		tabCount = FindChild ("2/Num");

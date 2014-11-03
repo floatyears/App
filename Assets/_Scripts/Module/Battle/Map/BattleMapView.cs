@@ -136,6 +136,12 @@ public class BattleMapView : ViewBase {
 	void BattleFailRecover(object data) {
 		if (DataCenter.Instance.UserData.AccountInfo.stone < DataCenter.redoQuestStone) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
+
+			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
+				ModuleManager.Instance.ExitBattle ();
+				ModuleManager.Instance.EnterMainScene();
+			}) );
+
 			return;
 		}
 		

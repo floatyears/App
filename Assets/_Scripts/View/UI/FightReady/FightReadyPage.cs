@@ -44,7 +44,7 @@ public class FightReadyPage : MonoBehaviour {
 		ownSkillNameLabel = transform.FindChild("Label_Own_Leader_Skill_Name").GetComponent<UILabel>();
 		ownSkillDscpLabel = transform.FindChild("Label_Own_Skill_Dscp").GetComponent<UILabel>();
 
-		transform.FindChild ("Helper/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText("Text_Friend");
+		transform.FindChild ("Helper/Label_Assist").GetComponent<UILabel> ().text = TextCenter.GetText("Text_Assist");
 
 		for (int i = 0; i < 4; i++){
 			PageUnitItem puv =transform.FindChild(i.ToString()).GetComponent<PageUnitItem>();
@@ -81,7 +81,7 @@ public class FightReadyPage : MonoBehaviour {
 		string suffix = partyIDIndex > 5 ? partyIDIndex.ToString() : "5";
 		partyNoLabel.text = partyIDIndex.ToString() + "/" + suffix;
 
-		transform.FindChild ("0/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Party") + " " + partyIDIndex;
+		transform.FindChild ("0/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Leader"); //TextCenter.GetText ("Text_Party") + " " + partyIDIndex;
 
 		UpdateOwnLeaderSkillInfo(party);
 
@@ -95,7 +95,9 @@ public class FightReadyPage : MonoBehaviour {
 
 	void ShowHelper() {
 		helper.SetData<FriendInfo>(friendInfo);
-		UpdateHelperLeaderSkillInfo();
+//		UpdateHelperLeaderSkillInfo();
+		transform.FindChild ("Helper/Label_Assist").GetComponent<UILabel> ().text = "";
+		transform.FindChild ("Helper/Label_Party").GetComponent<UILabel> ().text = TextCenter.GetText ("Text_Assist");
 	} 
 	
 

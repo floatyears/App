@@ -26,8 +26,12 @@ public class DragPanelView : ViewBase {
 
 	private System.Type itemType;
 
+	public List<DragPanelItemBase> ScrollItem { 
+		get { return scrollItem; }
+	}
+
 	public void Init(string name, Transform parent, string url, System.Type type)
-	{
+	{ 
 		base.Init (config);
 		clip = FindChild<UIPanel>("Scroll View");
 		scrollView = FindChild<UIScrollView>("Scroll View");

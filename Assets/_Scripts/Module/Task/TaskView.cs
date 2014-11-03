@@ -11,7 +11,7 @@ public class TaskView : ViewBase {
 		base.Init (uiconfig, data);
 
 		FindChild<UILabel> ("Title").text = TextCenter.GetText ("Task_Title");
-
+		FindChild<UILabel> ("OkBtn/Label").text = TextCenter.GetText("OK");
 
 		dragPanel = new DragPanel ("TaskDragPanel","Prefabs/UI/Achieve/AchieveAndTaskItem",typeof(AchieveAndTaskItemView),transform.FindChild ("Content"));
 
