@@ -98,7 +98,7 @@ public class NoviceGuideStepManager {
 
 	public bool isInNoviceGuide()
 	{
-		return currentNoviceGuideStage != NoviceGuideStage.NONE;
+		return currentNoviceGuideStage != NoviceGuideStage.NONE && currentNoviceGuideStage != NoviceGuideStage.BLANK;
 	}
 //	
 	public void FinishCurrentStep(){
