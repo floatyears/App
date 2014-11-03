@@ -17,6 +17,9 @@ public class BattleBottomView : ViewBase {
 	private int initBlood = -1;
 	private int initEnergyPoint = -1;
 	private int currentEnergyPoint = -1;
+	private UILabel hurtLabel;
+	private Vector3 hurtLabelPos;
+	private Vector3 tgtPos;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -88,6 +91,9 @@ public class BattleBottomView : ViewBase {
 		spriteAnimation = FindChild<UISpriteAnimationCustom> ("Board/HP");
 		bloodBar = FindChild<UISlider>("Board/Slider");
 		label = FindChild<UILabel>("Board/HPLabel");
+		hurtLabel = FindChild < UILabel> ("Board/HurtLabel");
+		hurtLabelPos = label.transform.localPosition;
+		tgtPos = new Vector3 (hurtLabelPos.x, hurtLabelPos.y+180, 0);
 	}
 
 	public override void CallbackView (params object[] args)
@@ -170,10 +176,21 @@ public class BattleBottomView : ViewBase {
 	void SetBlood (int num) {
 		string info = num + "/" + initBlood;
 		label.text = info;
-		currentBlood = num;
+
+		if (currentBlood > num) {
+
+			hurtLabel.transform.localPosition = hurtLabelPos;
+			hurtLabel.text = "-" + (currentBlood - num);
+			iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
+		}
+	   	currentBlood = num;
 		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
 	}
-	
+
+	void RemoveHurtLabel(){
+		hurtLabel.text = "";
+	}
+
 	void ListenEnergyPoint (object data) {
 		int energyPoint = (int) data;
 		if (energyPoint < 17) {

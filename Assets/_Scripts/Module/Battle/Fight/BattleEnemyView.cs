@@ -19,7 +19,7 @@ public class BattleEnemyView : ViewBase {
 	private BattleAttackInfo battleAttackInfo;
 	private Vector3 defaultAtkInfoRotation = new Vector3 (0f, 0f, 10f);
 	private Vector3 defaultAtkInfoPosition, moveAtkInfoPosition;
-	private UITexture bgTexture;
+
 	
 	public const float SingleSkillDangerLevel = 2.3f;
 	public const float AllSkillDangerLevel = 1.8f;
@@ -46,12 +46,7 @@ public class BattleEnemyView : ViewBase {
 
 		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
 		battleAttackInfo.Init ();
-		bgTexture = FindChild<UITexture>("Texture");
-		string path = "Texture/Map/fight_" + BattleConfigData.Instance.GetMapID ().ToString ();
-//		Debug.LogError ("BattleEnemy path : " + path);
-		ResourceManager.Instance.LoadLocalAsset (path, o => {
-			bgTexture.mainTexture = o as Texture2D;
-		});
+
 
 	}
 	
@@ -291,7 +286,30 @@ public class BattleEnemyView : ViewBase {
 		string path = "";
 		NormalSkill tns = sbi as NormalSkill;
 		if (tns != null) {
-			path = GetNormalSkillEffectName (tns);
+			StringBuilder sb = new StringBuilder ();
+			sb.Append("ns-");
+			sb.Append (GetAttackRanger (tns.AttackRange));
+			float hurtValue = tns.attackValue;
+			sb.Append (GetAttackDanger (tns.AttackRange, hurtValue));
+			sb.Append(GetSkillType(tns.AttackType));
+			
+			switch (tns.AttackRange) {
+			case 0:
+				if(hurtValue < SingleSkillDangerLevel) {
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single1);
+				}else{
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single2);
+				}
+				break;
+			case 1:
+				if(hurtValue < AllSkillDangerLevel) {
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all1);
+				}else{
+					AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all2);
+				}
+				break;
+			}
+			path = sb.ToString();
 		} else if (sbi is ActiveSkill) {
 			StringBuilder sb = new StringBuilder ();
 			sb.Append ("as-");
@@ -372,8 +390,8 @@ public class BattleEnemyView : ViewBase {
 			path = effectName + GetSkillType((int)tsaa.AttackSource);
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_ps_counter);
 		}
-
-		if(DataCenter.Instance.BattleData.AllSkill[skillStoreID].GetType() == typeof(SkillExtraAttack)) {
+		Debug.Log ("Skill Path: [[[---" + path + "---]]]");
+		if(sbi.GetType() == typeof(SkillExtraAttack)) {
 			foreach (var item in enemyList.Values) {
 				if(item != null) {
 					Debug.Log("enemyt item: " + item.enemyInfo.enemyId + " no attack info");
@@ -383,15 +401,20 @@ public class BattleEnemyView : ViewBase {
 				}
 			}
 		} else {
-
+			Debug.Log("enemyt item: " + ei.enemyInfo.EnemySymbol + " attack info " + ai.enemyID);
+			UITexture tex = ei.texture;
+			float x = ei.transform.localPosition.x*enemyRoot.transform.localScale.x;
+			float y = (tex.transform.localPosition.y +  tex.height * 0.5f)*enemyRoot.transform.localScale.y;
 			if(ai.attackRange == 0) {
-				Debug.Log("enemyt item: " + ei.enemyInfo.EnemySymbol + " attack info " + ai.enemyID);
-				UITexture tex = ei.texture;
-				float x = ei.transform.localPosition.x*enemyRoot.transform.localScale.x;
-				float y = (tex.transform.localPosition.y +  tex.height * 0.5f)*enemyRoot.transform.localScale.y;
-				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(x,y,0),o=>{
-					ei.InjuredShake();
-				});
+				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(x,y,0),null);
+				ei.InjuredShake();
+//				                                  ,o=>{
+//					Debug.Log("enemyt item: " + ei.enemyInfo.EnemySymbol + " attack info " + ai.enemyID);
+//
+//				});
+			}else{
+				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(0,y,0),null);
+				ei.InjuredShake();
 			}
 		}
 	}
@@ -452,34 +475,6 @@ public class BattleEnemyView : ViewBase {
 			}
 			break;
 		}
-	}
-	
-	string GetNormalSkillEffectName(NormalSkill tns) {
-		StringBuilder sb = new StringBuilder ();
-		sb.Append("ns-");
-		sb.Append (GetAttackRanger (tns.AttackRange));
-		float hurtValue = tns.attackValue;
-		sb.Append (GetAttackDanger (tns.AttackRange, hurtValue));
-		sb.Append(GetSkillType(tns.AttackType));
-		
-		switch (tns.AttackRange) {
-		case 0:
-			if(hurtValue < SingleSkillDangerLevel) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single1);
-			}else{
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_single2);
-			}
-			break;
-		case 1:
-			if(hurtValue < AllSkillDangerLevel) {
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all1);
-			}else{
-				AudioManager.Instance.PlayAudio(AudioEnum.sound_ns_all2);
-			}
-			break;
-		}
-		
-		return sb.ToString ();
 	}
 	
 	string GetAttackRanger(int attackRange) {

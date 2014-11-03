@@ -29,6 +29,7 @@ namespace bbproto{
 		}
 
 		public void ResetCooling(){
+			skillCooling = 0;
 			coolingDone = true;
 		}
 		

@@ -187,7 +187,8 @@ public class ModuleManager {
 	/// </summary>
 	public void ExitBattle(){
 		ClearModulesAndScenes ();
-
+		EffectManager.Instance.ClearCache ();
+		Resources.UnloadUnusedAssets ();
 		BattleAttackManager.Instance.ResetSkill();
 
 		BattleConfigData.Instance.ClearData ();
@@ -199,6 +200,7 @@ public class ModuleManager {
 	public void EnterBattle(){
 //		ClearAllUIObject ();
 		ClearModulesAndScenes ();
+		EffectManager.Instance.ClearCache ();
 		Resources.UnloadUnusedAssets ();
 
 //		MsgCenter.Instance.Invoke (CommandEnum.EnterBattle, null);
