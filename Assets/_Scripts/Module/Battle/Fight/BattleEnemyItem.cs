@@ -41,7 +41,7 @@ public class BattleEnemyItem : MonoBehaviour {
 		dropTexture = transform.FindChild("Drop").GetComponent<UISprite>();
 		dropTexture.enabled = false;
 		localPosition = texture.transform.localPosition;
-		//        attackPosition = new Vector3(localPosition.x, BattleBackground.ActorPosition.y, localPosition.z);
+        attackPosition = new Vector3(localPosition.x, -500, 0);
 		bloodSprite = transform.FindChild("BloodSprite").GetComponent<UISprite>();
 		bloodBgSprite = transform.FindChild("BloodSpriteBG").GetComponent<UISprite>();
 		nextLabel = transform.FindChild("NextLabel").GetComponent<UILabel>();
@@ -150,6 +150,7 @@ public class BattleEnemyItem : MonoBehaviour {
     }
 
     public void InjuredShake() {
+		Debug.Log ("Shake enemy------------");
         iTween.ShakeScale(texture.gameObject, iTween.Hash("amount", new Vector3(0.5f, 0.5f, 0.5f), "time", 0.2f));
     }
 

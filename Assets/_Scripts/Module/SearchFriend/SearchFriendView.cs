@@ -31,9 +31,9 @@ public class SearchFriendView : ViewBase{
 	
 	void SearchFriendWithID(string idString){ 
 		uint searchFriendUid = System.Convert.ToUInt32(idString);
-		Debug.LogError("Receive the click, to search the friend with the id ....");
+//		Debug.LogError("Receive the click, to search the friend with the id ....");
 		if (searchFriendUid == 0){
-			Debug.LogError("Search ID Input can't be empty!!!!!");
+//			Debug.LogError("Search ID Input can't be empty!!!!!");
 			//			MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetSearchIdEmptyMsgWindowParams());
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("InputError"),TextCenter.GetText("InputEmpty"),TextCenter.GetText("OK"));
 		}
@@ -41,7 +41,7 @@ public class SearchFriendView : ViewBase{
 			if(searchFriendUid < 10000){
 				ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(-203);
 			}else{
-				Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + searchFriendUid);
+//				Debug.LogError("SearchFriendController.SearchFriendWithID(), The ID input is " + searchFriendUid);
 				FriendController.Instance.FindFriend(OnRspFindFriend, searchFriendUid);
 			}
 			

@@ -8,16 +8,18 @@ public class FriendListView : ViewBase{
 	private DragPanel dragPanel;
 	private FriendInfo curPickedFriend;
 	private UIButton updateBtn;
-	private List<FriendInfo> friendDataList = new List<FriendInfo>();
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config, data);
 		InitUIElement();
+		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
+		dragPanel = new DragPanel("ApplyDragPanel","Prefabs/UI/UnitItem/FriendUnitPrefab",typeof(FriendUnitItem), transform);
 	}
 
 	public override void ShowUI(){
 		base.ShowUI();
-		CreateDragView();
+
+		dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.Friend, ClickItem  as DataListener);
 		SortUnitByCurRule();
 		RefreshCounter();
 		AddCmdListener();
@@ -27,12 +29,19 @@ public class FriendListView : ViewBase{
 	public override void HideUI(){
 		base.HideUI();
 //		dragPanel.DestoryUI();
-		if(dragPanel != null)
-			dragPanel.DestoryUI();
+//		if(dragPanel != null)
+//			dragPanel.DestoryUI();
 
 		RmvCmdListener();
 	}
 		
+	public override void DestoryUI ()
+	{
+		if(dragPanel != null)
+			dragPanel.DestoryUI();
+		base.DestoryUI ();
+	}
+
 	void EnableUpdateButton(object args){
 		updateBtn.gameObject.SetActive(true);
 		UIEventListenerCustom.Get(updateBtn.gameObject).onClick += ClickUpdateBtn;
@@ -49,15 +58,6 @@ public class FriendListView : ViewBase{
 		updateBtn = FindChild<UIButton>("Button_Update");
 		UIEventListenerCustom.Get(updateBtn.gameObject).onClick = ClickUpdateBtn;
 		curSortRule = SortUnitTool.GetSortRule(SortRuleByUI.FriendListView);
-	}
-
-	void CreateDragView(){
-		LogHelper.Log("FriendListView.CreateDragView(), receive call from logic, to create ui...");
-		friendDataList = DataCenter.Instance.FriendData.Friend;
-		dragPanel = new DragPanel("ApplyDragPanel","Prefabs/UI/UnitItem/FriendUnitPrefab",typeof(FriendUnitItem), transform);
-//		dragPanel.CreatUI();
-
-		dragPanel.SetData<FriendInfo> (friendDataList, ClickItem  as DataListener);
 	}
 
 	void ClickItem(object data){
@@ -123,7 +123,10 @@ public class FriendListView : ViewBase{
 		
 		DataCenter.Instance.FriendData.RefreshFriendList(inst);
 		
-		ShowUI();
+//		ShowUI();
+
+		SortUnitTool.SortByTargetRule(curSortRule, DataCenter.Instance.FriendData.Friend);
+		dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.Friend);
 	}
 
 	void RefreshCounter(){
@@ -146,10 +149,10 @@ public class FriendListView : ViewBase{
 
 	private void SortUnitByCurRule(){
 
-		SortUnitTool.SortByTargetRule(curSortRule, friendDataList);
+		SortUnitTool.SortByTargetRule(curSortRule, DataCenter.Instance.FriendData.Friend);
 		SortUnitTool.StoreSortRule (curSortRule, SortRuleByUI.FriendListView);
 
-		dragPanel.SetData<FriendInfo> (friendDataList);
+		dragPanel.SetData<FriendInfo> (DataCenter.Instance.FriendData.Friend);
 	}
 
 	private void AddCmdListener(){

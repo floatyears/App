@@ -74,6 +74,7 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 		UserUnit uu = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.UserUnit [0];//.ActiveSkill
 		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (uu.MakeUserUnitKey (), uu.UnitInfo.activeSkill, SkillType.ActiveSkill);
 		sbi.ResetCooling();
+		sbi.Excute ();
 
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_8"));
 

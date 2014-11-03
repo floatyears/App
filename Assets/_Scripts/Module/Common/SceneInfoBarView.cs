@@ -61,7 +61,7 @@ public class SceneInfoBarView : ViewBase{
 	}
 
 	public void SetSceneName(ModuleEnum name){
-		sceneNameLabel.text = name.ToString();
+		sceneNameLabel.text = TextCenter.GetText(name.ToString());
 	}
 	public void SetSceneName(string name){
 //		currModule = name;

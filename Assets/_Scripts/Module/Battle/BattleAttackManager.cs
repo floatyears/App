@@ -895,6 +895,7 @@ public class BattleAttackManager {
 	void EnemyAttack () {
 		if (te.GetRound () <= 0) {
 			ModuleManager.SendMessage(ModuleEnum.BattleEnemyModule,"enemy_attack",te.EnemySymbol);
+
 			int attackType = te.GetUnitType ();
 			float reduceValue = te.AttackValue;
 

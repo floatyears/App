@@ -166,38 +166,30 @@ Name_No_LeaderSkil=队长技能:无
 Description_No_LeaderSkill=技能描述:无
 
 ##Scene Name
-SCENE_NAME_APPLY=申请好友
-SCENE_NAME_CATALOG=图鉴
-SCENE_NAME_EVOLVE=进化
-SCENE_NAME_FIGHTREADY=战斗准备
-SCENE_NAME_FRIEND=好友
-SCENE_NAME_FRIEND_LIST=好友列表
-SCENE_NAME_FRIEND_SELECT=好友选择
-SCENE_NAME_HOME=战场
-SCENE_NAME_INFORMATION=通知信息
-SCENE_NAME_LEVEL_UP=强化
-SCENE_NAME_OTHERS=其它
-SCENE_NAME_PARTY=编队
-SCENE_NAME_QUEST_SELECT=战场选择
-SCENE_NAME_RECEPTION=接受请求
-SCENE_NAME_ROLE_SELECT=选择主角
-SCENE_NAME_SCRATCH=召唤
-SCENE_NAME_FRIEND_SEARCH=查找好友
-SCENE_NAME_SHOP=商城
-SCENE_NAME_STAGE_SELECT=关卡选择
-SCENE_NAME_UNITS=卡牌
-SCENE_NAME_UNIT_SELL=卡牌卖出
-SCENE_NAME_YOUR_ID=账号信息
-#SCENE_NAME_UNIT_RESULT=结果
-SCENE_NAME_UNIT_LIST=卡牌列表
-SCENE_NAME_OPERATION_NOTICE=运营通知
-SCENE_NAME_REWARD=奖励
-SCENE_NAME_RAIDER=游戏攻略
-SCENE_NAME_CURRENCY=购买测试
-SCENE_NAME_MUSIC=设置
-SCENE_NAME_NICKNAME=修改昵称
-SCENE_NAME_EVENTSTAGE=精彩活动
-SCENE_NAME_EVOLVETAGE=进化关卡
+ApplyModule=申请好友
+CatalogModule=图鉴
+FightReadyModule=战斗准备
+FriendMainModule=好友
+FriendListModule=好友列表
+FriendSelectModule=好友选择
+OthersModule=其它
+PartyModule=编队
+ReceptionModule=接受请求
+ScratchModule=召唤
+SearchFriendModule=查找好友
+ShopModule=商城
+UnitsMainModule=卡牌
+SellUnitModule=卡牌卖出
+UnitsListModule=卡牌列表
+GameRaiderModule=游戏攻略
+
+#menu name
+MainMenu_Home=战场
+MainMenu_Friends=好友
+MainMenu_Scratch=抽卡
+MainMenu_Shop=商店
+MainMenu_Others=其他
+MainMenu_Units=卡牌
 
 Stage_Event_Close=开放时间：{0}后
 Stage_Event_Remain=剩余时间：{0}
@@ -274,7 +266,7 @@ FriendApply=好友申请
 ConfirmApply=确定要申请添加他为好友吗？
 ConfirmAccept=确定要接受好友申请？
 AcceptApply=接受申请
-ConfirmDelete=确定要提交好友申请吗？
+ConfirmDelete=确定要删除好友申请吗？
 DeleteApply=删除申请
 
 #friend

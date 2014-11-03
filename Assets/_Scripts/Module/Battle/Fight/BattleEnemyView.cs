@@ -19,7 +19,7 @@ public class BattleEnemyView : ViewBase {
 	private BattleAttackInfo battleAttackInfo;
 	private Vector3 defaultAtkInfoRotation = new Vector3 (0f, 0f, 10f);
 	private Vector3 defaultAtkInfoPosition, moveAtkInfoPosition;
-	private UITexture bgTexture;
+
 	
 	public const float SingleSkillDangerLevel = 2.3f;
 	public const float AllSkillDangerLevel = 1.8f;
@@ -46,12 +46,7 @@ public class BattleEnemyView : ViewBase {
 
 		battleAttackInfo = FindChild<BattleAttackInfo>("AttackInfo");
 		battleAttackInfo.Init ();
-		bgTexture = FindChild<UITexture>("Texture");
-		string path = "Texture/Map/fight_" + BattleConfigData.Instance.GetMapID ().ToString ();
-//		Debug.LogError ("BattleEnemy path : " + path);
-		ResourceManager.Instance.LoadLocalAsset (path, o => {
-			bgTexture.mainTexture = o as Texture2D;
-		});
+
 
 	}
 	

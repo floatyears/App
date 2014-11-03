@@ -81,7 +81,7 @@ public class ApplyMessageView : ViewBase{
 			}
 			else if((string)viewData["title"] == TextCenter.GetText ("AcceptApply")){
 				MsgCenter.Instance.Invoke(CommandEnum.EnsureAcceptApply, null);
-				MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseSingleApply, null);
+//				MsgCenter.Instance.Invoke(CommandEnum.EnsureRefuseSingleApply, null);
 			}
 			else if((string)viewData["title"] == TextCenter.GetText ("DeleteApply")){
 //				MsgCenter.Instance.Invoke(CommandEnum.EnsureDeleteFriend, null);

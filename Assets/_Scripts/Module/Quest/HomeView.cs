@@ -126,22 +126,22 @@ public class HomeView : ViewBase{
 			ModuleManager.Instance.ShowModule (ModuleEnum.RewardModule);
 			break;
 		case "Notice":
-//			ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
-		{
-			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserData.UserInfo;
-			TRspClearQuest trcq=new TRspClearQuest();
-			trcq.curStar=1;
-			trcq.gotExp = 30;
-			trcq.gotMoney = 2890;
-			trcq.gotUnit = new List<UserUnit>();
-			for(uint i=0; i<5; i++) {
-				UserUnit uu = new UserUnit();
-				uu.unitId = 73;
-				uu.uniqueId = i;
-				trcq.gotUnit.Add(uu);
-			}
-			ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,"data", trcq);
-		}
+			ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
+//		{
+//			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserData.UserInfo;
+//			TRspClearQuest trcq=new TRspClearQuest();
+//			trcq.curStar=1;
+//			trcq.gotExp = 30;
+//			trcq.gotMoney = 2890;
+//			trcq.gotUnit = new List<UserUnit>();
+//			for(uint i=0; i<5; i++) {
+//				UserUnit uu = new UserUnit();
+//				uu.unitId = 73;
+//				uu.uniqueId = i;
+//				trcq.gotUnit.Add(uu);
+//			}
+//			ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,"data", trcq);
+//		}
 			break;
 		case "Purchase":
 			ModuleManager.Instance.ShowModule (ModuleEnum.ShopModule);

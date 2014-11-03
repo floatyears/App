@@ -93,6 +93,8 @@ public class BattleManipulationView : ViewBase {
 
 	private GameObject fingerSprite;
 
+	private UITexture bgTexture;
+
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
@@ -174,6 +176,13 @@ public class BattleManipulationView : ViewBase {
 		numberLabel = FindChild<UILabel>("CountDown/Number");
 		circleSprite = FindChild<UISprite>("CountDown/Circle");
 //		CreatEnemy ();
+
+		bgTexture = FindChild<UITexture>("Texture");
+		string path = "Texture/Map/fight_" + BattleConfigData.Instance.GetMapID ().ToString ();
+		//		Debug.LogError ("BattleEnemy path : " + path);
+		ResourceManager.Instance.LoadLocalAsset (path, o => {
+			bgTexture.mainTexture = o as Texture2D;
+		});
 	}
 
 	public override void ShowUI() {

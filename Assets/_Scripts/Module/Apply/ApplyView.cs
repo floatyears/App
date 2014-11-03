@@ -21,7 +21,6 @@ public class ApplyView : ViewBase{
 
 		SortUnitByCurRule();
 		RefreshCounter();
-		ShowUIAnimation();
 	}
 	
 	public override void HideUI(){
@@ -29,6 +28,25 @@ public class ApplyView : ViewBase{
 //		dragPanel.DestoryUI();
 
 		RmvCmdListener();
+	}
+
+	protected override void ToggleAnimation (bool isShow)
+	{
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+
+//			transform.localPosition = new Vector3(-1000, -478, 0);
+//			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
+
 	}
 
 	private void CreateDragView(){
@@ -54,7 +72,7 @@ public class ApplyView : ViewBase{
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		curPickedFriend = item.FriendInfo;
 //		MsgCenter.Instance.Invoke(CommandEnum.ViewApplyInfo, curPickedFriend);
-		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("DeleteApply"),"content",TextCenter.GetText ("ConfirmDelete"));
+//		ModuleManager.Instance.ShowModule (ModuleEnum.ApplyMessageModule, "data", curPickedFriend,"title",TextCenter.GetText ("DeleteApply"),"content",TextCenter.GetText ("ConfirmDelete"));
 	}
 
 	private void SortUnitByCurRule(){
@@ -76,10 +94,6 @@ public class ApplyView : ViewBase{
 	private void RmvCmdListener(){
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
-
-	private void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, -478, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
-	}
+	
 }
 

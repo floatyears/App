@@ -22,6 +22,7 @@ public class SceneInfoBarModule : ModuleBase {
 				ModuleEnum name = (ModuleEnum)data[0];
 				switch (name) {
 				case ModuleEnum.HomeModule:
+				case ModuleEnum.GachaModule:
 					v.gameObject.SetActive(false);
 					v.SetBackBtnActive(false,(ModuleEnum)data[0]);
 					break;

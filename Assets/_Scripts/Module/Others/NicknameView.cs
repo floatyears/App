@@ -108,7 +108,8 @@ public class NicknameView : ViewBase {
 			{
 				DataCenter.Instance.UserData.UserInfo.nickName = rspRenameNick.newNickName;
 				
-				GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBarView>().UpdateData();
+//				GameObject.Find("PlayerInfoBar(Clone)").GetComponent<PlayerInfoBarView>().UpdateData();
+				ModuleManager.SendMessage(ModuleEnum.PlayerInfoBarModule,"update");
 			} else
 			{
 				//TODO: show error msgbox.
