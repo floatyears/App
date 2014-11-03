@@ -6,9 +6,9 @@ public class NoviceGuideStepA_1:NoviceGuidStep
 {
 	public override void Enter(){
 		nextState = typeof(NoviceGuideStepA_2);
-		TipsManager.Instance.ShowGuideMsgWindow(TextCenter.GetText ("guide1_title"),TextCenter.GetText ("guide1_content"),TextCenter.GetText ("NEXT"),o=>{
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide1_content"), "ban_click",true,"rotate",true,"callback",  (UICallback)(o=>{
 			GoToNextState(true);
-		});
+		}));
 	}
 }
 
@@ -50,9 +50,10 @@ public class NoviceGuideStepA_3:NoviceGuidStep
 	{
 		GoToNextState();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnFightEnd);
-		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide2_title"), TextCenter.GetText ("guide2_content"), TextCenter.GetText ("NEXT"),o=>{
+
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide2_content"), "callback",  (UICallback)(o=>{
 			GoToNextState(true);
-		});
+		}));
 
 	}
 }
@@ -74,7 +75,7 @@ public class NoviceGuideStepA_5:NoviceGuidStep{
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepA_6);
-		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide3_title"), TextCenter.GetText ("guide3_content"), TextCenter.GetText ("NEXT"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText("guide3_content"));
 		GoToNextState();
 	}
 }

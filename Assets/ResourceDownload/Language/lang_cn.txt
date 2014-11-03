@@ -1337,19 +1337,19 @@ SkillDesc_4070=回复35%的血量
 ###new user guide
 
 guide1_title=欢迎进入游戏!
-guide1_content=嗨，魔法森林中的冒险者！等等我，我和你一样，前不久不小心踏进了这个地牢。这里的怪物好可怕，让我做你的向导，带你去探索吧！
+guide1_content=嗨，魔法森林中的冒险者！\n等等我，我和你一样，前不久\n不小心踏进了这个地牢。\n这里的怪物好可怕，让我\n做你的向导，带你去探索吧！
 guide2_title=战斗胜利
 guide2_content=哇！好厉害！怪物被我们打败了。我们继续前进吧。
 guide3_title=获得金币
-guide3_content=恭喜，你得到金币了！在魔法森林，金币是强化卡牌的必须品，多多收集吧。
+guide3_content=恭喜，你得到金币了！\n在魔法森林，金币是\n强化卡牌的必须品，多多收集吧。
 guide4_title=取得钥匙
-guide4_content=我们的目标是拿到钥匙，打开前面的大门走出这里。
+guide4_content=我们的目标是拿到钥匙，打开\n前面的大门走出这里。
 guide5_title=释放成功
-guide5_content=太棒了！继续使用你华丽的手法和强大的技能战斗吧。
+guide5_content=太棒了！继续使用你华丽的\n手法和强大的技能战斗吧。
 guide6_title=干得不错
-guide6_content=干得不错，好好利用这个技巧，继续挑战吧
+guide6_content=干得不错，好好利用\n这个技巧，继续挑战吧
 guide7_title=地牢阴影
-guide7_content=地牢内有阴影覆盖的区域，代表你还未探索过，增加探索可以带来更多收益哦。
+guide7_content=地牢内有阴影覆盖的区域，代表\n你还未探索过，增加探索\n可以带来更多收益哦。
 
 
 notmaxleveltips=基础卡牌等级未达到满级。\n提示：只有Lv满级的卡牌才能进化。

@@ -64,7 +64,7 @@ public class NoviceGuideStepB_5:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepC_1);
 
-		TipsManager.Instance.ShowGuideMsgWindow (TextCenter.GetText ("guide4_title"), TextCenter.GetText ("guide4_content"), TextCenter.GetText ("NEXT"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide4_content"));
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 1);
 		GoToNextState();
 	}
