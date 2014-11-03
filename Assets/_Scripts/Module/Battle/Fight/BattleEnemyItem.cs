@@ -230,6 +230,9 @@ public class BattleEnemyItem : MonoBehaviour {
 
     public void EnemyDead() {
         AudioManager.Instance.PlayAudio(AudioEnum.sound_enemy_die);
+		while (hurtValueQueue.Count > 0) {
+			GameObject.Destroy(hurtValueQueue.Dequeue());	
+		}
 		if (enemyInfo.dropUnit != null) {
 			DropItem();
 		}else{

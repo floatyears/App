@@ -411,13 +411,15 @@ public class BattleEnemyView : ViewBase {
 			float x = ei.transform.localPosition.x*enemyRoot.transform.localScale.x;
 			float y = (tex.transform.localPosition.y +  tex.height * 0.5f)*enemyRoot.transform.localScale.y;
 			if(ai.attackRange == 0) {
-				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(x,y,0),o=>{
-					ei.InjuredShake();
-				});
+				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(x,y,0),null);
+				ei.InjuredShake();
+//				                                  ,o=>{
+//					Debug.Log("enemyt item: " + ei.enemyInfo.EnemySymbol + " attack info " + ai.enemyID);
+//
+//				});
 			}else{
-				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(0,y,0),o=>{
-					ei.InjuredShake();
-				});
+				EffectManager.Instance.PlayEffect(path,effectPanel.transform,new Vector3(0,y,0),null);
+				ei.InjuredShake();
 			}
 		}
 	}
