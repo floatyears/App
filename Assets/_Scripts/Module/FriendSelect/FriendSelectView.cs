@@ -100,8 +100,8 @@ public class FriendSelectView : ViewBase{
 			gameObject.SetActive(true);
 			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
 
-			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
-			iTween.MoveTo (gameObject, iTween.Hash ("x", config.localPosition.x, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));   
+//			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);
+//			iTween.MoveTo (gameObject, iTween.Hash ("x", config.localPosition.x, "time", 0.4f));//, "oncomplete", "FriendITweenEnd", "oncompletetarget", gameObject));   
 			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
 		}else{
 			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
