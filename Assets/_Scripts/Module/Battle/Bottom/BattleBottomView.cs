@@ -111,19 +111,17 @@ public class BattleBottomView : ViewBase {
 			break;
 		case "update_blood":
 			int blood = (int)args[1];
-
+			SetBlood (blood);
 			if(args.Length > 2 && (bool)args[2]){ // recover
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				spriteAnimation.Reset();
-				SetBlood (blood,true);
-			}else{
-				SetBlood (blood);
 			}
 			break;
 		case "close_skill_window":
 			MaskCard("",false);
 			break;
-		case "":
+		case "recover_hp":
+			ShowRecoverHp ((int)(float)args[1]);
 			break;
 		default:
 			break;
@@ -196,6 +194,14 @@ public class BattleBottomView : ViewBase {
 		}
 	   	currentBlood = num;
 		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
+	}
+
+	void ShowRecoverHp(int value){
+		hurtLabel.transform.localPosition = hurtLabelPos;
+		hurtLabel.text = "+" + value;
+		hurtLabel.gradientTop = new Color(0.18f,0.65f,0.09f);
+		hurtLabel.gradientBottom = new Color(0.016f,0.28f,0.02f);
+		iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
 	}
 
 	void RemoveHurtLabel(){

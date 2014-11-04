@@ -232,7 +232,7 @@ using bbproto;public class BattleTopView : ViewBase {
 	
 	void QuestEnd (TRspClearQuest trcq) {
 		ModuleManager.Instance.ExitBattle ();
-		
+
 		ModuleManager.Instance.ShowModule (ModuleEnum.BattleResultModule,"data", trcq);
 	}
 	

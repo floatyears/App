@@ -141,6 +141,8 @@ public enum ModuleEnum
 
 	AchieveTipModule,
 
+	BattleFailModule,
+
 	///--------battle
 	BattleMapModule,
 

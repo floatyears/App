@@ -202,6 +202,7 @@ public class BattleAttackManager {
 		AddBlood (System.Convert.ToInt32 (ai.attackValue));
 		ModuleManager.SendMessage (ModuleEnum.BattleAttackEffectModule,"refresh_item", ai, true);
 		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "attack_enemy",ai);
+		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"recover_hp",ai.attackValue);
 //		ModuleManager.SendMessage (ModuleEnum.BattleEnemyModule, "recover_item",ai);
     }
 
