@@ -61,9 +61,9 @@ public class SellUnitView : ViewBase{
 		mainRoot.transform.localPosition = pos;
 		submitRoot.SetActive(false);
 		ResetReadyPool();
-		dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(), ClickItem as DataListener);
-		dragPanel.ItemCallback ("cancel_all");
 		if (IsRefresh) {
+			dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(), ClickItem as DataListener);
+			dragPanel.ItemCallback ("cancel_all");
 			ResetUIElement();		
 		}
 	}

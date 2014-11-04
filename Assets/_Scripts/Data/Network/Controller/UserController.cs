@@ -76,7 +76,7 @@ public class UserController : ControllerBase {
 		//request params
 		reqFinishUserGuide.step = step;
 
-		HttpRequestManager.Instance.SendHttpRequest (reqFinishUserGuide, callBack, ProtocolNameEnum.RspFinishUserGuide);
+		HttpRequestManager.Instance.SendHttpRequest (reqFinishUserGuide, callBack, ProtocolNameEnum.RspFinishUserGuide,false,null,ProtocolNameEnum.NONE,false);
 	}
 
 }

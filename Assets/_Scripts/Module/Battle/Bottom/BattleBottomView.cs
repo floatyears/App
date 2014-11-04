@@ -111,10 +111,13 @@ public class BattleBottomView : ViewBase {
 			break;
 		case "update_blood":
 			int blood = (int)args[1];
-			SetBlood (blood);
+
 			if(args.Length > 2 && (bool)args[2]){ // recover
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_hp_recover);
 				spriteAnimation.Reset();
+				SetBlood (blood,true);
+			}else{
+				SetBlood (blood);
 			}
 			break;
 		case "close_skill_window":
@@ -173,7 +176,7 @@ public class BattleBottomView : ViewBase {
 	}
 
 	private int currentBlood = 0;
-	void SetBlood (int num) {
+	void SetBlood (int num, bool isRecover =false) {
 		string info = num + "/" + initBlood;
 		label.text = info;
 
@@ -181,6 +184,14 @@ public class BattleBottomView : ViewBase {
 
 			hurtLabel.transform.localPosition = hurtLabelPos;
 			hurtLabel.text = "-" + (currentBlood - num);
+			hurtLabel.gradientTop = new Color(1f,0.46f,0.46f);
+			hurtLabel.gradientBottom = new Color(0.53f,0.07f,0.07f);
+			iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
+		}else if(isRecover){
+			hurtLabel.transform.localPosition = hurtLabelPos;
+			hurtLabel.text = "+" + (-currentBlood+num);
+			hurtLabel.gradientTop = new Color(0.18f,0.65f,0.09f);
+			hurtLabel.gradientBottom = new Color(0.016f,0.28f,0.02f);
 			iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
 		}
 	   	currentBlood = num;
