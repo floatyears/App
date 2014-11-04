@@ -2565,6 +2565,13 @@ namespace bbproto
       get { return _stageIdList; }
     }
   
+    private readonly global::System.Collections.Generic.List<uint> _acceptBonusStageList = new global::System.Collections.Generic.List<uint>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"acceptBonusStageList", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<uint> acceptBonusStageList
+    {
+      get { return _acceptBonusStageList; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

@@ -6,7 +6,9 @@ public class NoviceGuideStepA_1:NoviceGuidStep
 {
 	public override void Enter(){
 		nextState = typeof(NoviceGuideStepA_2);
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide1_content"), "ban_click",true,"rotate",true,"callback",  (UICallback)(o=>{
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide1_content"),
+		                                   "ban_click",true,"rotate",true,   "coor", new Vector3(-100,0,1),
+		                                   "callback",  (UICallback)(o=>{
 			GoToNextState(true);
 		}));
 	}
@@ -64,7 +66,7 @@ public class NoviceGuideStepA_4:NoviceGuidStep
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepA_5);
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_3"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_3"), "coor", new Vector3(0,90,0));
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 1);
 //		GoToNextState();
 	}

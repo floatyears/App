@@ -17,19 +17,23 @@ public class NoviceGuideTipsView : ViewBase {
 	private BoxCollider ban_mask;
 
 	private Transform tipsRoot;
+	private TweenScale ts;
 
 	public override void Init (UIConfigItem uiconfig, System.Collections.Generic.Dictionary<string, object> data)
 	{
 		base.Init (uiconfig, data);
 
 		avatar = FindChild<UISprite> ("Tips/Avatar");
-		label = FindChild<UILabel> ("Tips/Label");
-		label_bg = FindChild<UISprite> ("Tips/Label_Bg");
+		label = FindChild<UILabel> ("Tips/Avatar/Label_Bg/Label");
+		label_bg = FindChild<UISprite> ("Tips/Avatar/Label_Bg");
 		ban_mask = transform.GetComponent<BoxCollider> ();
 		tipsRoot = transform.FindChild("Tips");
 		uiPos = Vector3.zero;
 
 		UIEventListenerCustom.Get (gameObject).onClick = OnClickAny;
+
+		ts = label_bg.GetComponent<TweenScale>();
+
 	}
 
 	public override void CallbackView (params object[] args)
@@ -48,6 +52,8 @@ public class NoviceGuideTipsView : ViewBase {
 	{
 
 		if (viewData != null) {
+			label_bg.transform.localScale = Vector3.zero;
+
 			if(viewData.ContainsKey("ban_click") && (bool)viewData["ban_click"]){
 				ban_mask.enabled = true;
 			}else{
@@ -57,24 +63,43 @@ public class NoviceGuideTipsView : ViewBase {
 				callback = (UICallback)viewData["callback"];
 			}
 
+			bool isRotate = false;
+			if(viewData.ContainsKey("rotate") && (bool)viewData["rotate"]){
+				isRotate = true;
+//				label_bg.transform.rotation = rotateAngle;
+				avatar.transform.rotation = rotateAngle;
+				label.transform.rotation =  Quaternion.identity;
+//				avatar.transform.localPosition = new Vector3(-label_bg.width/2+100,-label_bg.height/2+30,0);
+			}else{
+				//label_bg.transform.rotation = Quaternion.identity;
+				avatar.transform.rotation = Quaternion.identity;
+				label.transform.rotation = Quaternion.identity;
+				
+//				avatar.transform.localPosition = new Vector3(label_bg.width/2-100,-label_bg.height/2+30,0);
+			}
 			if(viewData.ContainsKey("tips")){
 				label.text = (string)viewData["tips"];
+				float oldW = label_bg.width;
+				float oldH = label_bg.height;
 				label_bg.width = (int)label.localSize.x + 40;
 				label_bg.height = (int)label.localSize.y + 60;
 
-			}	
-			if(viewData.ContainsKey("rotate") && (bool)viewData["rotate"]){
-				label_bg.transform.rotation = rotateAngle;
-				avatar.transform.rotation = rotateAngle;
-				avatar.transform.localPosition = new Vector3(-label_bg.width/2+100,-label_bg.height/2+30,0);
-			}else{
-				label_bg.transform.rotation = Quaternion.identity;
-				avatar.transform.rotation = Quaternion.identity;
-				avatar.transform.localPosition = new Vector3(label_bg.width/2-100,-label_bg.height/2+30,0);
+				float offsetW = (label_bg.width - oldW ) * 0.5f;
+				float offsetH = (label_bg.height - oldH ) * 0.5f;
+				if( isRotate ) {
+				//	offsetW = -offsetW;
+				}
+
+				label.transform.localPosition = new Vector3(label.transform.localPosition.x - offsetW,
+				                                            label.transform.localPosition.y + offsetH,
+				                                            label.transform.localPosition.z);
+
 			}
 			if(viewData.ContainsKey("coor")){
 				uiPos = (Vector3)viewData["coor"];
 			}
+
+			ts.enabled = true;
 		}
 		base.ShowUI ();
 	}
@@ -90,6 +115,12 @@ public class NoviceGuideTipsView : ViewBase {
 			gameObject.SetActive(false);
 		}
 	}
+
+	public override void HideUI () {
+		base.HideUI();
+		ts.enabled = false;
+	}
+
 
 	public override void DestoryUI ()
 	{

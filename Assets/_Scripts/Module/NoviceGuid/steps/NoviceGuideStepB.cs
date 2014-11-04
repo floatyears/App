@@ -9,7 +9,7 @@ public class NoviceGuideStepB_1:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepB_2);
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_5"), "coor", new Vector3(100, 30),"rotate",true);
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_5"), "coor", new Vector3(-24, 30),"rotate",true);
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("city_one"), new Vector3(0,-30,1),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			GoToNextState();
