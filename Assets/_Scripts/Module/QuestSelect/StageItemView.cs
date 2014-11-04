@@ -24,6 +24,7 @@ public class StageItemView : MonoBehaviour{
 		"icon_stage_special"
 	};
 
+	private Color EliteIconColor = new Color(255/255f, 165/255f, 0/255f);
 	public Font myFont;
 	private StageState stageClearState;
 	public StageState StageClearState{
@@ -182,6 +183,12 @@ public class StageItemView : MonoBehaviour{
 	GameObject insPrefab = null;
 	public void ShowIconByState(StageState state){
 		UISprite icon = transform.FindChild("Icon/Background").GetComponent<UISprite>();
+		if( data.CopyType == ECopyType.CT_NORMAL ) {
+			icon.color = Color.white;
+		} else {
+			icon.color = EliteIconColor;
+		}
+
 		tag = "Untagged";
 		if(state == StageState.LOCKED){
 			icon.spriteName = "icon_stage_lock";

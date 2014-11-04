@@ -9,9 +9,9 @@ public class NoviceGuideStepC_1:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepC_2);
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_6"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_6"), "coor", new Vector3(-10, 240));
 
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 0, 3),true,true,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("quest_new"), new Vector3 (0, 40, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			GoToNextState();
 		});
@@ -44,7 +44,7 @@ public class NoviceGuideStepC_3:NoviceGuidStep{
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepC_4);
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("friend_one"), new Vector3 (0, 0, 3),true,true,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("friend_one"), new Vector3 (0, 20, 3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			GoToNextState();
 		});
@@ -76,10 +76,10 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 		sbi.ResetCooling();
 		sbi.Excute ();
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_8"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_8"),"coor", new Vector3(80,-70,1), "rotate",true);
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("battle_leader"), new Vector3 (0, 0, 1),true,true,o=>{
-				ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_9"));
+			ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_9"),"coor", new Vector3(20, 68, 1));
 				NoviceGuideUtil.RemoveAllArrows();
 				
 				MsgCenter.Instance.AddListener(CommandEnum.AttackEnemyEnd,OnSkillRelease);
@@ -89,7 +89,7 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 
 	void OnBattleSkillShow(object data){
 		MsgCenter.Instance.RemoveListener (CommandEnum.BattleSkillPanel,OnBattleSkillShow);
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("boost_skill"), new Vector3 (0, 0, 3),true,true,o1=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("boost_skill"), new Vector3 (0, 20, 3),true,true,o1=>{
 			NoviceGuideUtil.RemoveAllArrows();
 		});
 	}

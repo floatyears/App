@@ -201,8 +201,8 @@ public class BattleFullScreenTipsView : ViewBase {
 	}
 
 	//---------------------------------------------appear-----------------------------------------------------
-	public const string GameOver = "Game Over"; //"GAME-OVER-";
-	public const string BossAppears = "BOSS|APPEARS"; //"boss-APPEARS";
+	public const string GameOver = "Game Over !"; //"GAME-OVER-";
+	public const string BossAppears = "BOSS|APPEARS!"; //"boss-APPEARS";
 	public const string OpenGate = "GO TO THE|OPEN GATE !"; //"go-to-the-OPENED-GATE";
 	public const string BossBattle = "TAP TO|BOSS BATTLE !"; //"tap-to-boss-battle!";
 	public const string CheckOut = "TAP TO|CHECK OUT !"; //"tap-to-Check-Out-!";

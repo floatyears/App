@@ -24,12 +24,18 @@ namespace bbproto{
 			int stageStar = 3;
 
 			StageState state = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(stageId, this.CopyType);
-			if ( state != StageState.CLEAR) 
+			if ( state == StageState.LOCKED) 
 				return 0;
+
 
 			StageInfo stageInfo = DataCenter.Instance.QuestData.GetStageInfo(stageId);
 
+			int clearQuestCount = 0;
 			foreach(QuestInfo quest in stageInfo.quests ) {
+				if( DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageId, quest.id, this.CopyType) ) {
+					clearQuestCount += 1;
+				}
+
 				foreach(QuestStarObj q in questStarList)  {
 					if (q.questId == quest.id) {
 						if( q.star < stageStar)
@@ -38,7 +44,14 @@ namespace bbproto{
 					}
 				}
 			}
-			
+
+			if ( clearQuestCount < stageInfo.quests.Count ) {
+				if ( clearQuestCount > 0 )
+					return 1; //star 1
+				else 
+					return 0;
+			}
+
 			return stageStar;
 		}
 

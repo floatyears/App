@@ -142,16 +142,16 @@ public class NoviceGuideUtil {
 			//point to the top
 		case 3:
 			dir = new Vector3 (0.0f, 0.0f, 180.0f);// = Quaternion.FromToRotation(new Vector3(1,0,0),Vector3.zero);
-			tPos.to.y = - 12.0f;
-			tPos.from.y = - 32.0f;
+			tPos.to.y = - 1.0f;
+			tPos.from.y = - 50.0f;
 			tPos.from.x = tPos.to.x = posAndDir.x = 0;
 			arrow.transform.localPosition = new Vector3(center.x + posAndDir.x , center.y - size.y / 2 + posAndDir.y,0);
 			break;
 			//point to the right
 		case 4:
 			dir = new Vector3 (0f, 0f, 90f);
-			tPos.to.x =  - 12.0f;
-			tPos.from.x = - 32.0f;
+			tPos.to.x =  - 1.0f;
+			tPos.from.x = - 50.0f;
 			tPos.to.y = tPos.from.y = 0;
 			arrow.transform.localPosition = new Vector3(center.x - size.x / 2 + posAndDir.x , center.y + posAndDir.y, 0);
 			break;
@@ -159,8 +159,8 @@ public class NoviceGuideUtil {
 		case 1:
 			//					dir = Quaternion.FromToRotation(new Vector3(0,1,0),Vector3.zero);
 			dir = new Vector3 (0f, 0f, 0f);
-			tPos.to.y = 12.0f;
-			tPos.from.y = 32.0f;
+			tPos.to.y = 1.0f;
+			tPos.from.y = 50.0f;
 			tPos.from.x = tPos.to.x = 0f;
 			arrow.transform.localPosition = new Vector3(center.x + posAndDir.x , center.y + size.y / 2 + posAndDir.y,0);
 			break;
@@ -168,8 +168,8 @@ public class NoviceGuideUtil {
 			//point to the left
 			//					dir = Quaternion.FromToRotation(new Vector3(0,-1,0),Vector3.zero);
 			dir = new Vector3 (0f, 0f, 270f);
-			tPos.to.x = 12f;
-			tPos.from.x = 32.0f;
+			tPos.to.x = 1f;
+			tPos.from.x = 50.0f;
 			tPos.from.y = tPos.to.y = 0f;
 
 			arrow.transform.localPosition = new Vector3(center.x + size.x / 2 + posAndDir.x , center.y + posAndDir.y, 0);

@@ -10,6 +10,8 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 	private GameObject Icon;
 
 	private UILabel btnLabel;
+	private UIButton goBtnBg;
+	private Color takeAwardColor = new Color(229f/255,148f/255,45f/255);
 
 	private TaskConf data;
 
@@ -18,13 +20,14 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 	private UIAtlas atlas;
 	private Transform item;
 
-	private void Init(){
+	private void Init(){ 
 		bigIcon = transform.FindChild ("Item/Img").GetComponent<UISprite> ();
 		name = transform.FindChild ("Name").GetComponent<UILabel>();
 		progressLabel = transform.FindChild ("Label_Progress").GetComponent<UILabel> ();
 
 		transform.FindChild ("Label_Award").GetComponent<UILabel> ().text = TextCenter.GetText("Text_Award");
 		btnLabel = transform.FindChild ("Go/Label").GetComponent<UILabel> ();
+		goBtnBg = transform.FindChild ("Go").GetComponent<UIButton> ();
 
 		transform.FindChild ("Label_Award").GetComponent<UILabel> ().text = TextCenter.GetText ("Label_Award");
 
@@ -46,14 +49,25 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 		if (data.TaskState == TaskStateEnum.TaskComp) {
 			progressLabel.text = data.goalCnt + "/" + data.goalCnt;
 			btnLabel.text = TextCenter.GetText ("Reward_Take");
+			goBtn.GetComponent<UIButton>().isEnabled = true;
+
+			goBtnBg.defaultColor = takeAwardColor;
+
 //			goBtn.SetActive(true);
 		}else if(data.TaskState == TaskStateEnum.TaskBonusComp){
 			progressLabel.text = data.goalCnt + "/" + data.goalCnt;
 			btnLabel.text = TextCenter.GetText ("Achieve_Complete");
-//			goBtn.SetActive(true);
+			goBtn.GetComponent<UIButton>().isEnabled = false;
+
+			goBtnBg.defaultColor = Color.white;
+
 		}else if(data.TaskState == TaskStateEnum.NotComp){
 			progressLabel.text = data.CurrGoalCount + "/" + data.goalCnt;
 			btnLabel.text = TextCenter.GetText ("Btn_GoTo");
+			goBtn.GetComponent<UIButton>().isEnabled = true;
+
+			goBtnBg.defaultColor = Color.white;
+
 //			goBtn.SetActive(true);
 		}
 		int count = data.giftItem.Count;
@@ -164,6 +178,10 @@ public class AchieveAndTaskItemView : DragPanelItemBase {
 		if (data.TaskState == TaskStateEnum.TaskComp) {
 //			ModuleManager.SendMessage(ModuleEnum.ta
 			DataCenter.Instance.TaskAndAchieveData.TakeAwardTemp(data);
+			if ( data.taskType == ETaskType.ACHIEVEMENT ) {
+				goBtn.GetComponent<UIButton>().isEnabled = false;
+				btnLabel.text = TextCenter.GetText ("Achieve_Complete");
+			}
 		}else if(data.TaskState == TaskStateEnum.NotComp){
 			if(data.taskType == ETaskType.ACHIEVEMENT){
 				ModuleManager.Instance.HideModule(ModuleEnum.AchieveModule);
