@@ -216,7 +216,8 @@ public class BattleMapView : ViewBase {
 			if(currentCoor.x == MapConfig.characterInitCoorX && currentCoor.y == MapConfig.characterInitCoorY){
 				GameTimer.GetInstance ().AddCountDown (0.2f, ()=>{
 					//					isInTips = true;
-					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
+//					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, BattleAttackManager.Instance.CheckLeaderSkillCount() * BattleAttackManager.normalAttackInterv);
+					ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "readymove",ReadyMoveFunc as Callback, 1 * 0.5f);
 				});
 			}
 		}else{

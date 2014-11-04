@@ -51,7 +51,7 @@ public class NoviceGuideStepA_3:NoviceGuidStep
 		GoToNextState();
 		MsgCenter.Instance.RemoveListener (CommandEnum.FightEnd, OnFightEnd);
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide2_content"), "callback",  (UICallback)(o=>{
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide2_content"),"coor", new Vector3(40, 200), "callback",  (UICallback)(o=>{
 			GoToNextState(true);
 		}));
 
@@ -85,7 +85,7 @@ public class NoviceGuideStepA_6:NoviceGuidStep{
 	public override void Enter ()
 	{
 		nextState = typeof(NoviceGuideStepB_1);
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_4"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_4"),"coor", new Vector3(0, 100));
 
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "guide",true, 2);
 		GoToNextState();
