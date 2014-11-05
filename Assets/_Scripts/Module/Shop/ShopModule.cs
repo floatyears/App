@@ -58,7 +58,8 @@ public class ShopModule : ModuleBase {
         }
 //        MsgCenter.Instance.Invoke(CommandEnum.OpenMsgWindow, GetFriendExpansionMsgWindowParams());
 		TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("FriendExpand"),
-		                                   new string[2]{ TextCenter.GetText("FriendExpansionConfirm", DataCenter.friendExpansionStone, DataCenter.friendsExpandCount), TextCenter.GetText("FriendExpansionInfo", DataCenter.Instance.FriendData.FriendCount,DataCenter.Instance.UserData.UserInfo.friendMax) },
+		                                   new string[2]{ TextCenter.GetText("FriendExpansionConfirm", DataCenter.friendExpansionStone, DataCenter.friendsExpandCount), 
+											TextCenter.GetText("FriendExpansionInfo", DataCenter.Instance.FriendData.FriendCount,DataCenter.Instance.UserData.UserInfo.friendMax) },
 										   TextCenter.GetText("DoFriendExpand"),TextCenter.GetText("CANCEL"),CallbackFriendExpansion);
 
     }
