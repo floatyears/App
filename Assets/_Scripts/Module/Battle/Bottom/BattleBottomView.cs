@@ -42,7 +42,7 @@ public class BattleBottomView : ViewBase {
 //			actorObject.Add(temp, texture);
 //			Debug.Log("battle attack: " + userUnitInfo[i] + " i: " + i);
 			if(userUnitInfo[i] == null) {
-				temp.gameObject.SetActive(false);
+//				temp.gameObject.SetActive(false);
 				tex.enabled = false;
 				bgSpr.enabled = false;
 				skillBGSpr.enabled = false;
@@ -254,6 +254,7 @@ public class BattleBottomView : ViewBase {
 		foreach (var item in unitInfoPos) {
 			EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
 		}
+		unitInfoPos.Clear ();
 		base.DestoryUI ();
 	}
 }

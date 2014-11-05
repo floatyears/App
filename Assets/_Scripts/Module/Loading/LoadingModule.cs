@@ -241,8 +241,8 @@ public class LoadingModule : ModuleBase {
 		BattleConfigData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		//		Debug.LogError(tqdd.)
 		BattleConfigData.Instance.ResetFromServer(tqdd);
-		BattleConfigData.Instance.StoreData (tqdd.questId);
 		ModuleManager.Instance.EnterBattle();
+		BattleConfigData.Instance.StoreData (tqdd.questId);
 	} 
 
 	uint recoverQuestID = 0;

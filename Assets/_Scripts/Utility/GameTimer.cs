@@ -25,56 +25,56 @@ public class GameTimer : MonoBehaviour {
 			addSeconds += Time.deltaTime;
 		}
 
-		if (countDown.Count == 0) {
+		if (countDownList.Count == 0) {
 			return;	
 		}
 
-		for (int i = 0; i < countDown.Count; i++) {
-			if(countDown[i].countDownTime < 0f) {
-				CountDownDone(countDown[i]);
+		for (int i = countDownList.Count - 1; i >= 0 ; i--) {
+			if(countDownList[i].countDownTime < 0f) {
+				CountDownDone(countDownList[i]);
 			} else {
-				countDown[i].countDownTime -= Time.deltaTime;
+				countDownList[i].countDownTime -= Time.deltaTime;
 			}
 		}
 	}
 
-	private Queue<CountDownUtility> freeCountDown = new Queue<CountDownUtility> ();
+	private Queue<CountDownItem> freeCountDown = new Queue<CountDownItem> ();
 
-	private List<CountDownUtility> countDown = new List<CountDownUtility> ();
+	private List<CountDownItem> countDownList = new List<CountDownItem> ();
 
 	public void AddCountDown (float time, Callback callback) {
 		if (time < 0 || callback == null) {
 			return;		
 		}
 
-		CountDownUtility task = AllocationCountDown (time,callback);
-		countDown.Add (task);
+		CountDownItem task = AllocationCountDown (time,callback);
+		countDownList.Add (task);
 	}
 
 	public bool ExitCountDonw(Callback callback) {
-		CountDownUtility cdu = countDown.Find( a=>a.callback == callback) ;
+		CountDownItem cdu = countDownList.Find( a=>a.callback == callback) ;
 		if (cdu != null) {
-			countDown.Remove (cdu);
+			countDownList.Remove (cdu);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	void CountDownDone(CountDownUtility countDownUtility) {
-		countDown.Remove (countDownUtility);
-		countDownUtility.callback ();
+	void CountDownDone(CountDownItem item) {
+		countDownList.Remove (item);
+		item.callback ();
 		if (freeCountDown.Count < 10) {
-			freeCountDown.Enqueue (countDownUtility);	
+			freeCountDown.Enqueue (item);	
 		}
 	}
 
-	CountDownUtility AllocationCountDown (float time, Callback callback) {
-		CountDownUtility temp = null;
+	CountDownItem AllocationCountDown (float time, Callback callback) {
+		CountDownItem temp = null;
 		if (freeCountDown.Count > 0) {
 			temp = freeCountDown.Dequeue();
 		} else {
-			temp = new CountDownUtility();
+			temp = new CountDownItem();
 		}
 
 		temp.countDownTime = time;
@@ -252,7 +252,7 @@ public class GameTimer : MonoBehaviour {
 	}
 }
 
-public class CountDownUtility {
+public class CountDownItem {
 	public float countDownTime = 0f;
 	public Callback callback;
 }
