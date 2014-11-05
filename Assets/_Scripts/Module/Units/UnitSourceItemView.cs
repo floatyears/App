@@ -83,17 +83,20 @@ public class UnitSourceItemView : DragPanelItemBase {
 			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
 			break;
 		case EUnitGetType.E_STAGE:
-				ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",goData1 as StageInfo);
-				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
+			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",goData1 as StageInfo);
+			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
 			break;
 		case  EUnitGetType.E_NORMAL_QUEST:
 			if(!mask.enabled){
-				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
+				ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",goData1 as StageInfo);
 				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
-			}else{
-				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
-				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
+//				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
+//				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
 			}
+//			else{
+////				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
+////				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
+//			}
 			break;
 		case EUnitGetType.E_GACHA_EVENT:
 			break;

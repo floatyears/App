@@ -52,16 +52,6 @@ public class UnitsListCardItemView : DragPanelItemBase {
 		if (data.unitId == 1 || data.unitId == 5 || data.unitId == 9) {
 			levelUpBtn.tag = "unit_leader_levelup";
 		}
-		int len = 0;
-		if (data.UnitInfo.maxStar > data.UnitInfo.rare) {
-			darkStar.enabled = true;
-			darkStar.width = (data.UnitInfo.maxStar - data.UnitInfo.rare) * 28;
-			len = 2*data.UnitInfo.rare - data.UnitInfo.maxStar;
-		} else {
-			darkStar.enabled = false;
-			len = data.UnitInfo.rare;
-		}
-
 		if (data.level >= data.UnitInfo.maxLevel) {
 			if(data.UnitInfo.evolveInfo == null){
 				levelUpBtn.SetActive(false);
@@ -74,6 +64,14 @@ public class UnitsListCardItemView : DragPanelItemBase {
 			levelupLabel.text = TextCenter.GetText ("Btn_Submit_LevelUp");
 		}
 		lightStar.width = data.UnitInfo.rare*29;
+
+		if (data.UnitInfo.maxStar > data.UnitInfo.rare) {
+			darkStar.enabled = true;
+			darkStar.width = (data.UnitInfo.maxStar - data.UnitInfo.rare) * 28;
+			darkStar.transform.localPosition = new Vector3(lightStar.width,0,0);
+		} else {
+			darkStar.enabled = false;
+		}
 
 		name.text = data.UnitInfo.name;
 		atkLabel.text = data.Attack + "";

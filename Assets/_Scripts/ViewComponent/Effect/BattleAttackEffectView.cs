@@ -50,8 +50,9 @@ public class BattleAttackEffectView : ViewBase {
 			attackEffectStack.Enqueue (aei);
 			AttackEffectItem[] temp = attackEffectStack.ToArray ();
 			int len = temp.Length;
+			Debug.Log("temp leng: " + temp.Length);
 			for (int i = 0; i< len; i++){
-				iTween.Stop(temp[i].gameObject);
+//				iTween.Stop(temp[i].gameObject);
 				iTween.MoveTo(temp[i].gameObject,iTween.Hash("y",300f - (len - i - 1)*90f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true));
 			}
 
@@ -63,12 +64,9 @@ public class BattleAttackEffectView : ViewBase {
 //	}
 
 	IEnumerator DelayAni(){
-		yield return new WaitForSeconds(1.5f);
+		yield return new WaitForSeconds(1.25f);
 
 		AttackEffectItem item = attackEffectStack.Dequeue ();
-		if (attackEffectStack.Count == 0) {
-			CancelInvoke("DelayAni");
-		}
 		item.gameObject.SetActive (false);
 		itemPool.Enqueue (item);
 		Debug.Log ("effect length: " + attackEffectStack.Count);
@@ -76,7 +74,7 @@ public class BattleAttackEffectView : ViewBase {
 		AttackEffectItem[] temp = attackEffectStack.ToArray ();
 		int len = temp.Length;
 		for (int i = 0; i< len; i++){
-			iTween.Stop(temp[i].gameObject);
+//			iTween.Stop(temp[i].gameObject);
 			iTween.MoveTo(temp[i].gameObject,iTween.Hash("y",300f - (len - i - 1)*90f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true));
 		}
 	}
@@ -85,22 +83,23 @@ public class BattleAttackEffectView : ViewBase {
 
 	void PlayActiveSkill(AttackInfoProto ai) {
 		activeEffect.SetActive (true);
-		activeEffect.transform.localPosition = Vector3.zero;
+		activeEffect.transform.localPosition = BattleManipulationView.startPosition;
 		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(ai.userUnitID);
 		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture);
 		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (ai.userUnitID, ai.skillID, SkillType.ActiveSkill);
 		skillName = sbi == null ? "" : TextCenter.GetText (SkillBase.SkillNamePrefix + sbi.id);//sbi.SkillName;
-		iTween.MoveTo (activeEffect, iTween.Hash ("position", BattleManipulationView.startPosition, "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd", "islocal", true,"easetype", iTween.EaseType.easeInOutQuad));  
+		iTween.RotateTo (activeEffect, iTween.Hash ("rotation",new Vector3(0,0,1080f), "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd","oncompleteparams",ai ,"islocal", true,"easetype",iTween.EaseType.linear));  
 //		Debug.LogError ("PlayActiveSkill MoveTo");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_fly);
 	}
 
-	void ActiveSkillEnd() {
-		AttackEffectItem aei = GetAttackEffectItem ();
+	void ActiveSkillEnd(object data) {
+//		AttackEffectItem aei = GetAttackEffectItem ();
 //		Debug.LogError ("ActiveSkillEnd");
 //		aei.ShowActiveSkill (skillName, End);
 //		avatarTexture.mainTexture = null;
 		activeEffect.SetActive (false);
+		RefreshItem (data as AttackInfoProto);
 	}
 
 	AttackEffectItem GetAttackEffectItem () {

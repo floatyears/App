@@ -71,7 +71,7 @@ public class AttackEffectItem : MonoBehaviour {
 			skillNameLabel = transform.Find("SkillNameLabel").GetComponent<UILabel>();
 			ATKLabel = transform.Find("ATKLabel").GetComponent<UILabel>();
 			transform.localPosition = BattleManipulationView.startPosition;
-			moveEndPosition = new Vector3 (BattleManipulationView.endPosition.x,  BattleManipulationView.startPosition.y, BattleManipulationView.endPosition.z - 10f);
+			moveEndPosition = new Vector3 (BattleManipulationView.endPosition.x - 10,  BattleManipulationView.startPosition.y, BattleManipulationView.endPosition.z - 10f);
 			dropEndPosition = new Vector3 (moveEndPosition.x, BattleManipulationView.endPosition.y, BattleManipulationView.endPosition.z - 10f);
 			middlePosition = new Vector3(BattleManipulationView.middlePosition.x - backGroundSprite.width * 0.5f, BattleManipulationView.middlePosition.y, BattleManipulationView.middlePosition.z);
 		}

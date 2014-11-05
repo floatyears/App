@@ -5973,7 +5973,7 @@ namespace bbproto
     public uint userId
     {
       get { return _userId; }
-      set { _userId = value; }
+	set { _userId = value;  }
     }
     private string _userName = "";
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"userName", DataFormat = global::ProtoBuf.DataFormat.Default)]
