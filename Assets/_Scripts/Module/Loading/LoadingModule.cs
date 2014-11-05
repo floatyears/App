@@ -22,9 +22,9 @@ public class LoadingModule : ModuleBase {
 //		int a;
 //		int.TryParse ("ada", out a);
 //		Debug.Log ("int: -------" + a);
-		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
-		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
-		BattleConfigData.Instance.ClearData ();
+//		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
+//		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
+//		BattleConfigData.Instance.ClearData ();
     }
 
 	public override void OnReceiveMessages (params object[] data)
