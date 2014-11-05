@@ -22,9 +22,9 @@ public class LoadingModule : ModuleBase {
 //		int a;
 //		int.TryParse ("ada", out a);
 //		Debug.Log ("int: -------" + a);
-//		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
-//		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
-//		BattleConfigData.Instance.ClearData ();
+		GameDataPersistence.Instance.StoreData(GameDataPersistence.UUID, "");
+		GameDataPersistence.Instance.StoreData(GameDataPersistence.USER_ID, 0);
+		BattleConfigData.Instance.ClearData ();
     }
 
 	public override void OnReceiveMessages (params object[] data)
@@ -241,8 +241,8 @@ public class LoadingModule : ModuleBase {
 		BattleConfigData.Instance.BattleFriend = null;//pickedHelperInfo;//pickedInfoForFight[ "HelperInfo" ] as TFriendInfo;
 		//		Debug.LogError(tqdd.)
 		BattleConfigData.Instance.ResetFromServer(tqdd);
-		BattleConfigData.Instance.StoreData (tqdd.questId);
 		ModuleManager.Instance.EnterBattle();
+		BattleConfigData.Instance.StoreData (tqdd.questId);
 	} 
 
 	uint recoverQuestID = 0;

@@ -254,6 +254,7 @@ public class BattleBottomView : ViewBase {
 		foreach (var item in unitInfoPos) {
 			EffectManager.Instance.StopEffect("activeskill_enabled",item.Key.transform);;
 		}
+		unitInfoPos.Clear ();
 		base.DestoryUI ();
 	}
 }
