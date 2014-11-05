@@ -775,7 +775,7 @@ public class BattleAttackManager {
 				BattleConfigData.Instance.StoreMapData();
 			}
 			GameTimer.GetInstance().AddCountDown(1f, ()=>{
-				if(isBoss){
+				if(BattleConfigData.Instance.storeBattleData.isBattle == 1){
 					ModuleManager.SendMessage(ModuleEnum.BattleMapModule,"boss_dead");
 					MsgCenter.Instance.Invoke(CommandEnum.BattleEnd);
 				}
