@@ -396,7 +396,7 @@ public class PartyView : ViewBase, IDragChangeView{
 
 		ResourceManager.Instance.LoadLocalAsset("Prefabs/UI/Friend/RejectItem", o =>{
 			GameObject rejectItem = Instantiate( o) as GameObject;
-			dragPanel.AddItemToGrid (rejectItem,0);
+			dragPanel.AddItemToGrid (rejectItem,-1);
 			rejectItem.transform.FindChild("Label_Text").GetComponent<UILabel>().text = TextCenter.GetText ("Text_Reject");
 			UIEventListenerCustom.Get(rejectItem).onClick = RejectPartyMember;
 		});
