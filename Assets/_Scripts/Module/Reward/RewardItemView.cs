@@ -12,6 +12,7 @@ public class RewardItemView : DragPanelItemBase {
 	private bool inited = false;
 
 	private List<GameObject> itemList;
+	private Color takeAwardColor = new Color(229f/255,148f/255,45f/255);
 
 	private UIAtlas atlas;
 	
@@ -146,9 +147,7 @@ public class RewardItemView : DragPanelItemBase {
 			btn = transform.FindChild("OkBtn").gameObject;
 			//				mask = transform.FindChild("Mask").gameObject;
 			text = transform.FindChild("Label").GetComponent<UILabel>();
-			
-			
-			
+
 			transform.FindChild("OkBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
 			//Debug.Log("scroll view: " + FindObjectOfType<UIScrollView>());
 			btn.GetComponent<UIDragScrollView>().scrollView = FindObjectOfType<UIScrollView>();
@@ -160,8 +159,10 @@ public class RewardItemView : DragPanelItemBase {
 		//			Debug.Log("id: " +edata.id);
 		if(this.data.enabled == 1){
 			btn.GetComponent<UIButton>().isEnabled = true;
+			btn.GetComponent<UIButton>().defaultColor = takeAwardColor;
 		}else{
 			btn.GetComponent<UIButton>().isEnabled = false;
+			btn.GetComponent<UIButton>().defaultColor = Color.white;
 		}
 		
 		
