@@ -82,7 +82,7 @@ public class Main : MonoBehaviour {
 
 	void HandleException(string condition, string stackTrace, LogType type){
 		if (type == LogType.Error) {
-			TipsManager.Instance.ShowMsgWindow("Application Error",stackTrace,TextCenter.GetText("OK"));
+			TipsManager.Instance.ShowMsgWindow("Application Error-"+condition,stackTrace,TextCenter.GetText("OK"));
 		}
 	}
 

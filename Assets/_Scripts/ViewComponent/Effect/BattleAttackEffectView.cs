@@ -43,12 +43,18 @@ public class BattleAttackEffectView : ViewBase {
 	void RefreshItem (AttackInfoProto ai, bool recoverHP = false) {
 		AttackEffectItem aei = GetAttackEffectItem ();
 		aei.RefreshInfo(ai.userUnitID, ai.skillID, ()=>{
-			if(attackEffectStack.Count == 0){
-				InvokeRepeating("DelayAni",2f,2f);
-			}
-			attackEffectStack.Enqueue (aei);
 			Debug.Log("attack effect: [[[[[[[[[++++++++++" + aei.GetInstanceID());
-			iTween.MoveTo(aei.gameObject,iTween.Hash("y",200f + attackEffectStack.Count*111f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","AniEnd","oncompletetarget",gameObject));
+//			iTween.MoveTo(aei.gameObject,iTween.Hash("y",300f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","AniEnd","oncompletetarget",gameObject));
+
+			StartCoroutine(DelayAni());
+			attackEffectStack.Enqueue (aei);
+			AttackEffectItem[] temp = attackEffectStack.ToArray ();
+			int len = temp.Length;
+			for (int i = 0; i< len; i++){
+				iTween.Stop(temp[i].gameObject);
+				iTween.MoveTo(temp[i].gameObject,iTween.Hash("y",300f - (len - i - 1)*90f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true));
+			}
+
 		}, (int)ai.attackValue, recoverHP);
 	}
 
@@ -56,8 +62,8 @@ public class BattleAttackEffectView : ViewBase {
 //		StartCoroutine (DelayAni ());
 //	}
 
-	void DelayAni(){
-//		yield return new WaitForSeconds(1f);
+	IEnumerator DelayAni(){
+		yield return new WaitForSeconds(1.5f);
 
 		AttackEffectItem item = attackEffectStack.Dequeue ();
 		if (attackEffectStack.Count == 0) {
@@ -68,10 +74,10 @@ public class BattleAttackEffectView : ViewBase {
 		Debug.Log ("effect length: " + attackEffectStack.Count);
 
 		AttackEffectItem[] temp = attackEffectStack.ToArray ();
-
-		for (int i = 0; i< temp.Length; i++){
+		int len = temp.Length;
+		for (int i = 0; i< len; i++){
 			iTween.Stop(temp[i].gameObject);
-			iTween.MoveTo(temp[i].gameObject,iTween.Hash("y",200f + i*111f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true));
+			iTween.MoveTo(temp[i].gameObject,iTween.Hash("y",300f - (len - i - 1)*90f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true));
 		}
 	}
 
