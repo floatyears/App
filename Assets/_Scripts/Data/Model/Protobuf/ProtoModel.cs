@@ -896,6 +896,14 @@ namespace bbproto
       get { return _rspRefreshUser; }
       set { _rspRefreshUser = value; }
     }
+    private bbproto.RspClientLog _rspClientLog = null;
+    [global::ProtoBuf.ProtoMember(41, IsRequired = false, Name=@"rspClientLog", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.RspClientLog rspClientLog
+    {
+      get { return _rspClientLog; }
+      set { _rspClientLog = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1337,6 +1345,58 @@ namespace bbproto
     {
       get { return _rspQuestStar; }
       set { _rspQuestStar = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ReqClientLog")]
+  public partial class ReqClientLog : global::ProtoBuf.IExtensible
+  {
+    public ReqClientLog() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
+    }
+    private string _msg = "";
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"msg", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string msg
+    {
+      get { return _msg; }
+      set { _msg = value; }
+    }
+    private string _stack = "";
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"stack", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string stack
+    {
+      get { return _stack; }
+      set { _stack = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RspClientLog")]
+  public partial class RspClientLog : global::ProtoBuf.IExtensible
+  {
+    public RspClientLog() {}
+    
+    private bbproto.ProtoHeader _header = null;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"header", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public bbproto.ProtoHeader header
+    {
+      get { return _header; }
+      set { _header = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -5939,25 +5999,25 @@ namespace bbproto
       get { return _nickName; }
       set { _nickName = value; }
     }
-    private int _rank = default(int);
+    private int _rank = (int)-1;
     [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"rank", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int rank
     {
       get { return _rank; }
       set { _rank = value; }
     }
-    private int _exp = (int)100;
+    private int _exp = (int)-1;
     [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"exp", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue((int)100)]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int exp
     {
       get { return _exp; }
       set { _exp = value; }
     }
-    private int _staminaNow = default(int);
+    private int _staminaNow = (int)-1;
     [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"staminaNow", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int staminaNow
     {
       get { return _staminaNow; }
@@ -6019,9 +6079,9 @@ namespace bbproto
       get { return _regTime; }
       set { _regTime = value; }
     }
-    private int _vipLevel = default(int);
+    private int _vipLevel = (int)-1;
     [global::ProtoBuf.ProtoMember(16, IsRequired = false, Name=@"vipLevel", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int vipLevel
     {
       get { return _vipLevel; }
@@ -6232,65 +6292,65 @@ namespace bbproto
       get { return _review; }
       set { _review = value; }
     }
-    private int _payTotal = default(int);
+    private int _payTotal = (int)-1;
     [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"payTotal", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int payTotal
     {
       get { return _payTotal; }
       set { _payTotal = value; }
     }
-    private int _payMonth = default(int);
+    private int _payMonth = (int)-1;
     [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"payMonth", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int payMonth
     {
       get { return _payMonth; }
       set { _payMonth = value; }
     }
-    private int _money = default(int);
+    private int _money = (int)-1;
     [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"money", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int money
     {
       get { return _money; }
       set { _money = value; }
     }
-    private int _stonePay = default(int);
+    private int _stonePay = (int)-1;
     [global::ProtoBuf.ProtoMember(5, IsRequired = false, Name=@"stonePay", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int stonePay
     {
       get { return _stonePay; }
       set { _stonePay = value; }
     }
-    private int _stoneFree = default(int);
+    private int _stoneFree = (int)-1;
     [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"stoneFree", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int stoneFree
     {
       get { return _stoneFree; }
       set { _stoneFree = value; }
     }
-    private int _stone = default(int);
+    private int _stone = (int)-1;
     [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"stone", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int stone
     {
       get { return _stone; }
       set { _stone = value; }
     }
-    private int _friendPoint = default(int);
+    private int _friendPoint = (int)-1;
     [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"friendPoint", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int friendPoint
     {
       get { return _friendPoint; }
       set { _friendPoint = value; }
     }
-    private int _firstSelectNum = default(int);
+    private int _firstSelectNum = (int)-1;
     [global::ProtoBuf.ProtoMember(9, IsRequired = false, Name=@"firstSelectNum", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    [global::System.ComponentModel.DefaultValue((int)-1)]
     public int firstSelectNum
     {
       get { return _firstSelectNum; }
