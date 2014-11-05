@@ -458,7 +458,7 @@ UnitListTab2=碎片
 LevelUp_Title=卡牌强化
 LevelUp_NeedTitle=强化条件不满足
 LevelUp_NoMaterial=没有可用的材料
-LevelUp_NeedMaterial=请再放入4个任意卡牌来完成强化
+LevelUp_NeedMaterial=请先放入任意卡牌作为强化材料
 LevelUp_NeedFriend=请邀请1位好友来完成强化
 LevelUp_NeedMoney=金钱不足,无法强化!
 LevelUp_Effect=强化效果
@@ -473,7 +473,7 @@ LevelUp_PartyItem_Content=当前卡牌正在使用，强化后卡牌将消失，
 Text_Cost=消耗:
 Btn_SuperEvolve=进阶
 Text_ClickToSource=[点击头像查看来源]
-Text_MaxLv=最大等级:
+Text_MaxLv=最大Lv: 
 UnitSource_GetWay=获得途径
 
 #battle fail

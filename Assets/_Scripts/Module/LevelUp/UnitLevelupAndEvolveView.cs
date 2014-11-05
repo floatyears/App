@@ -410,7 +410,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 		beforeHpLabel.text = baseUserUnit.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
 		beforeAtkLabel.text =  baseUserUnit.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
-		beforeLvLabel.text = TextCenter.GetText("Text_Rank_Colon") + baseUserUnit.level + "";// + "->" + toLevel;
+		beforeLvLabel.text =  baseUserUnit.level + "";// + "->" + toLevel;
 	}
 
 	void SelectFriend(FriendInfo friendInfo) {

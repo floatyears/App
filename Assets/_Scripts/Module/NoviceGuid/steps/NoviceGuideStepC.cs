@@ -76,7 +76,7 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 		sbi.ResetCooling();
 		sbi.Excute ();
 
-		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_8"),"coor", new Vector3(80,-70,1), "rotate",true);
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_8"),"coor", new Vector3(-80,-70,1), "rotate",true);
 
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("battle_leader"), new Vector3 (0, 0, 1),true,true,o=>{
 			ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_9"),"coor", new Vector3(20, 68, 1));

@@ -209,7 +209,7 @@ public class UnitDetailView : ViewBase{
 	bool isNoviceGUide = true;
 
 	void ClickTexture( GameObject go ){
-		AudioManager.Instance.StopAudio (AudioEnum.sound_level_up);
+//		AudioManager.Instance.StopAudio (AudioEnum.sound_level_up);
 
 		AudioManager.Instance.PlayAudio( AudioEnum.sound_ui_back );	
 

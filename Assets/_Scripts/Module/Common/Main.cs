@@ -82,8 +82,9 @@ public class Main : MonoBehaviour {
     }
 
 	void HandleException(string condition, string stackTrace, LogType type){
-		if (type == LogType.Error) {
+		if (type == LogType.Error || type == LogType.Exception || type==LogType.Assert ) {
 #if INNER_TEST
+			UserController.Instance.SendLog(condition,stackTrace);
 			TipsManager.Instance.ShowMsgWindow("Application Error-"+condition,stackTrace,TextCenter.GetText("OK"));
 #else
 			UserController.Instance.SendLog(condition,stackTrace);

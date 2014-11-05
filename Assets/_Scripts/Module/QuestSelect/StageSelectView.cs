@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class StageSelectView : ViewBase{
+	private const int MAX_CITY_ID = 5;
+
 	private UIImageButton selectBtn;
 	private UILabel doorLabel;
 	private UILabel labDoorType;
@@ -35,6 +37,7 @@ public class StageSelectView : ViewBase{
 	private GameObject eventStageRoot;
 
 	private string currentCityName = "";
+	private uint currentCityId;
 
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config,data);
@@ -55,6 +58,7 @@ public class StageSelectView : ViewBase{
 //		elite.optionCanBeNone = true;
 
 		if (viewData.ContainsKey("story")) {
+			currentCityId = (uint) viewData["story"];
 //			UIToggle toggle = UIToggle.GetActiveToggle (6);
 //			currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 			Debug.Log("StageSelect.showUI >>> 111 currCopyType="+currCopyType+" elite.value:"+elite.value+" normal.val:"+normal.value);
@@ -71,7 +75,7 @@ public class StageSelectView : ViewBase{
 //			if( toggle != null ) {
 //				Debug.Log( "StageSelect1 >>>> UIToggle.GetActiveToggle(6) = "+toggle.name);
 //			}
-			ShowStoryCityView(viewData["story"], currCopyType);
+			ShowStoryCityView(currentCityId, currCopyType);
 
 //			if( toggle != null )
 //			Debug.Log( "StageSelect2 >>>> UIToggle.GetActiveToggle(6) = "+toggle.name);
@@ -93,6 +97,28 @@ public class StageSelectView : ViewBase{
 			SetSceneName(currentCityName);
 		}
 
+	}
+
+	public uint GetNextCity(uint cityId) {
+		cityId += 1;
+
+		if( cityId > MAX_CITY_ID ) {
+			cityId = 1;
+		}
+		return cityId;
+	} 
+
+	public void OnGoNextCity(object data){
+		uint cityId += 1;
+		if( cityId > MAX_CITY_ID ) {
+			cityId = 1;
+		}
+		
+		ShowStoryCityView(currentCityId, currCopyType);
+	}
+
+	public void OnGoPrevCity(object data){
+		
 	}
 
 	public void OnSelectCopyType(object data) {
