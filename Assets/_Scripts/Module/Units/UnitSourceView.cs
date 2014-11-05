@@ -24,6 +24,7 @@ public class UnitSourceView : ViewBase {
 		avatarBorder = FindChild<UISprite> ("Unit/UnitIcon/Sprite_Avatar_Border");
 		nameLabel = FindChild<UILabel> ("Unit/Name");
 		unitIcon = FindChild("Unit/UnitIcon");
+		FindChild<UILabel> ("Unit/Label").text = TextCenter.GetText ("UnitSource_GetWay");
 
 		UIEventListenerCustom.Get (unitIcon).onClick = OnDetail;
 
