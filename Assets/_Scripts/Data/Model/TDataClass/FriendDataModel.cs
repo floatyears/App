@@ -185,23 +185,9 @@ public class FriendDataModel : ProtobufDataBase {
 		return false;
 	}
 
-	private int friendCount = -1;
 	public int FriendCount {
 		get {
-			if(friendCount == -1){
-				List<FriendInfo> supporters = GetSupportFriend();//SupportFriends;
-				if (supporters != null){
-					for (int i = 0; i < supporters.Count; i++){
-						if (supporters[i].friendState == EFriendState.ISFRIEND){
-							friendCount += 1;
-						}
-					}
-				}
-			}
-			return friendCount;
-		}
-		set {
-			friendCount = value;
+			return Friend==null ? 0 : Friend.Count;
 		}
 	}
 
