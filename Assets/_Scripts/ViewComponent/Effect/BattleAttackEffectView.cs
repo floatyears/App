@@ -5,8 +5,8 @@ using System.Collections;
 
 public class BattleAttackEffectView : ViewBase {
 	private GameObject effect;
-	private Queue<AttackEffectItem> inactiveEffect = new Queue<AttackEffectItem>();
-	private Queue<AttackEffectItem> attackEffectQueue = new Queue<AttackEffectItem>();
+	private Queue<AttackEffectItem> itemPool = new Queue<AttackEffectItem>();
+	private Queue<AttackEffectItem> attackEffectStack = new Queue<AttackEffectItem>();
 
 	private GameObject activeEffect;
 	private UISprite avatarTexture;
@@ -42,16 +42,36 @@ public class BattleAttackEffectView : ViewBase {
 
 	void RefreshItem (AttackInfoProto ai, bool recoverHP = false) {
 		AttackEffectItem aei = GetAttackEffectItem ();
-		aei.RefreshInfo(ai.userUnitID, ai.skillID, End, (int)ai.attackValue, recoverHP);
+		aei.RefreshInfo(ai.userUnitID, ai.skillID, ()=>{
+			if(attackEffectStack.Count == 0){
+				InvokeRepeating("DelayAni",2f,2f);
+			}
+			attackEffectStack.Enqueue (aei);
+			Debug.Log("attack effect: [[[[[[[[[++++++++++" + aei.GetInstanceID());
+			iTween.MoveTo(aei.gameObject,iTween.Hash("y",200f + attackEffectStack.Count*111f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","AniEnd","oncompletetarget",gameObject));
+		}, (int)ai.attackValue, recoverHP);
 	}
 
-	void End() {
-		AttackEffectItem aei = attackEffectQueue.Dequeue ();
-		if (inactiveEffect.Count < 3) {
-			aei.gameObject.SetActive (false);
-			inactiveEffect.Enqueue (aei);
-		} else {
-			Destroy(aei.gameObject);
+//	void AniEnd(){
+//		StartCoroutine (DelayAni ());
+//	}
+
+	void DelayAni(){
+//		yield return new WaitForSeconds(1f);
+
+		AttackEffectItem item = attackEffectStack.Dequeue ();
+		if (attackEffectStack.Count == 0) {
+			CancelInvoke("DelayAni");
+		}
+		item.gameObject.SetActive (false);
+		itemPool.Enqueue (item);
+		Debug.Log ("effect length: " + attackEffectStack.Count);
+
+		AttackEffectItem[] temp = attackEffectStack.ToArray ();
+
+		for (int i = 0; i< temp.Length; i++){
+			iTween.Stop(temp[i].gameObject);
+			iTween.MoveTo(temp[i].gameObject,iTween.Hash("y",200f + i*111f,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true));
 		}
 	}
 
@@ -59,7 +79,7 @@ public class BattleAttackEffectView : ViewBase {
 
 	void PlayActiveSkill(AttackInfoProto ai) {
 		activeEffect.SetActive (true);
-		activeEffect.transform.localPosition = BattleManipulationView.activeSkillStartPosition;
+		activeEffect.transform.localPosition = Vector3.zero;
 		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(ai.userUnitID);
 		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture);
 		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (ai.userUnitID, ai.skillID, SkillType.ActiveSkill);
@@ -72,22 +92,22 @@ public class BattleAttackEffectView : ViewBase {
 	void ActiveSkillEnd() {
 		AttackEffectItem aei = GetAttackEffectItem ();
 //		Debug.LogError ("ActiveSkillEnd");
-		aei.ShowActiveSkill (skillName, End);
+//		aei.ShowActiveSkill (skillName, End);
 //		avatarTexture.mainTexture = null;
 		activeEffect.SetActive (false);
 	}
 
 	AttackEffectItem GetAttackEffectItem () {
 		AttackEffectItem aei;
-		if (inactiveEffect.Count == 0) {
+		if (itemPool.Count == 0) {
 			GameObject go = NGUITools.AddChild (gameObject, effect);
 			aei = go.GetComponent<AttackEffectItem> ();
 		} else {
-			aei = inactiveEffect.Dequeue();
+			aei = itemPool.Dequeue();
 		}
 		
 		aei.gameObject.SetActive (true);
-		attackEffectQueue.Enqueue(aei);
+//		attackEffectQueue.Enqueue(aei);
 
 		return aei;
 	}

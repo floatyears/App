@@ -26,7 +26,12 @@ public class AttackEffectItem : MonoBehaviour {
 		backGroundSprite.spriteName = tuu.UnitType.ToString ();
 		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture, returnValue => {
 //			BaseUnitItem.SetAvatarSprite (avatarTexture, returnValue, tuu.UnitInfo.ID);
-			Tween ();
+
+			transform.localPosition = BattleManipulationView.startPosition;
+			iTween.MoveTo(gameObject,iTween.Hash("position",moveEndPosition,"time",0.3f,"easetype",iTween.EaseType.easeInQuart,"islocal",true));
+			iTween.RotateFrom (gameObject, iTween.Hash ("z", 10,"delay",0.3f, "time", 0.15f, "easetype", iTween.EaseType.easeOutBack,"oncomplete","DropComplete","oncompletetarget",gameObject));
+//			iTween.MoveTo(gameObject,iTween.Hash("position",dropEndPosition,"delay",0.45f,"time", 0.2f,"easetype",iTween.EaseType.easeInOutQuart,));
+				
 			if (atk == 0) {
 				ATKLabel.text = "";
 				return;
@@ -72,21 +77,8 @@ public class AttackEffectItem : MonoBehaviour {
 		}
 	}
 	
-	private void Tween () {
-		transform.localPosition = BattleManipulationView.startPosition;
-		iTween.MoveTo(gameObject,iTween.Hash("position",moveEndPosition,"time",0.3f,"easetype",iTween.EaseType.easeInQuart,"islocal",true,"oncomplete","MoveComplete","oncompletetarget",gameObject));
-	}
-	
-	void MoveComplete() {
-		iTween.RotateFrom (gameObject, iTween.Hash ("z", 10, "time", 0.15f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "RotateComplete", "oncompletetarget", gameObject));
-	}
-	
-	void RotateComplete() {
-		iTween.MoveTo(gameObject,iTween.Hash("position",dropEndPosition,"time", 0.4f,"easetype",iTween.EaseType.easeInOutQuart,"islocal",true,"oncomplete","DropComplete","oncompletetarget",gameObject));
-	}
-	
 	void DropComplete() {
-		transform.localPosition = ViewManager.HidePos;
+//		transform.localPosition = ViewManager.HidePos;
 		if (callback != null) {
 			callback();	
 			callback = null;

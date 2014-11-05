@@ -74,8 +74,17 @@ public class Main : MonoBehaviour {
 
         // init manager class
         ViewManager.Instance.Init(uiRoot);
+
+
+		Application.RegisterLogCallback(HandleException);
 //		
     }
+
+	void HandleException(string condition, string stackTrace, LogType type){
+		if (type == LogType.Error) {
+			TipsManager.Instance.ShowMsgWindow("Application Error",stackTrace,TextCenter.GetText("OK"));
+		}
+	}
 
     /// <summary>
     /// start game

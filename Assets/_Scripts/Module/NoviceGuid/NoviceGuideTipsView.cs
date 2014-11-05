@@ -59,6 +59,8 @@ public class NoviceGuideTipsView : ViewBase {
 
 			if(viewData.ContainsKey("tips")){
 				label.text = (string)viewData["tips"];
+				Vector3 temp = label.transform.localPosition;
+//				label.transform.localPosition = new Vector3(temp.x - label.localSize.x/2 ,  temp.y + label.localSize.y/2,0);
 				label_bg.width = (int)label.localSize.x + 40;
 				label_bg.height = (int)label.localSize.y + 60;
 

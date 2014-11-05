@@ -75,7 +75,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 	public override void Enter()
 	{
 		nextState = null;
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+
 		GameObject obj = GameObject.FindWithTag ("party_unit3");
 		if (obj.GetComponent<PageUnitItem> ().UserUnit != null) {
 			ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_14"));
@@ -86,6 +86,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 					GoToNextState();
 					NoviceGuideUtil.RemoveAllArrows ();
 					ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
+					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 				});
 			});
 		}else{
@@ -94,6 +95,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 				GoToNextState();
 				NoviceGuideUtil.RemoveAllArrows ();
 				ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
+				NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 			});
 		}
 

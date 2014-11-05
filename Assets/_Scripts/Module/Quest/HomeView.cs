@@ -50,6 +50,7 @@ public class HomeView : ViewBase{
 	public override void ShowUI(){
 		base.ShowUI();
 		MsgCenter.Instance.Invoke(CommandEnum.ShowHomeBgMask, false);
+//		Debug.LogError("error");
 
 		GameTimer.GetInstance ().CheckRefreshServer ();
 
