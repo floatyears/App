@@ -58,9 +58,8 @@ public class HelperUnitItem : FriendUnitItem {
 				}
 				descLabel.text = TextCenter.GetText("LevelUp_Effect") + "+" + add.ToString() + "%";
 				break;
-			case "evolve":
-				break;
 			case "fight_ready":
+				descLabel.text = TextCenter.GetText("Text_Rank_Colon") + this.friendInfo.rank;
 				break;
 			case "battle_helper":
 				selectBtn.tag = "battle_helper";

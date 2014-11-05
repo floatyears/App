@@ -58,12 +58,10 @@ public class NoviceGuideStepManager {
 			if(isExecute){
 				if (!stepInsDic.ContainsKey(currentState)) {
 					Activator.CreateInstance(currentState);
+					stepInsDic[currentState].Enter();
 				}
-				stepInsDic[currentState].Enter();
 			}
-
 		}
-
 
 	}
 
@@ -187,7 +185,7 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepD_1:
-			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT ){
+			if(startType == NoviceGuideStartType.STAGE_SELECT ){
 				ChangeState (nextType);	
 			}
 			break;
@@ -212,7 +210,7 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepE_1:
-			if(startType == NoviceGuideStartType.HOME || startType == NoviceGuideStartType.STAGE_SELECT){
+			if(startType == NoviceGuideStartType.STAGE_SELECT){
 				ChangeState (nextType);	
 			}
 			break;
