@@ -35,6 +35,7 @@ public class StageSelectView : ViewBase{
 	private List<GameObject> stageDotList = new List<GameObject>();
 	
 	private GameObject eventStageRoot;
+	private UIButton rightButton, leftButton;
 
 	private string currentCityName = "";
 	private uint currentCityId;
@@ -48,6 +49,10 @@ public class StageSelectView : ViewBase{
 		UILabel eliteText = FindChild<UILabel>("CopyType/Elite/text");
 		normalText.text = TextCenter.GetText("CopyNormal");
 		eliteText.text = TextCenter.GetText("CopyElite");
+
+
+		rightButton = FindChild<UIButton>("Button_Right");
+		leftButton = FindChild<UIButton>("Button_Left");
 	}
 	
 	public override void ShowUI(){
@@ -99,26 +104,24 @@ public class StageSelectView : ViewBase{
 
 	}
 
-	public uint GetNextCity(uint cityId) {
-		cityId += 1;
-
-		if( cityId > MAX_CITY_ID ) {
-			cityId = 1;
+	public void OnGoNextCity(object data) {
+		currentCityId = currentCityId+1;
+		if( currentCityId > MAX_CITY_ID ) {
+			currentCityId = 1;
 		}
-		return cityId;
-	} 
 
-	public void OnGoNextCity(object data){
-		uint cityId += 1;
-		if( cityId > MAX_CITY_ID ) {
-			cityId = 1;
-		}
-		
+		viewData["story"] = currentCityId;
 		ShowStoryCityView(currentCityId, currCopyType);
 	}
 
-	public void OnGoPrevCity(object data){
+	public void OnGoPrevCity(object data) {
+		currentCityId = currentCityId - 1;
+		if( currentCityId < 1 ) {
+			currentCityId = MAX_CITY_ID;
+		}
 		
+		viewData["story"] = currentCityId;
+		ShowStoryCityView(currentCityId, currCopyType);		
 	}
 
 	public void OnSelectCopyType(object data) {
@@ -273,8 +276,12 @@ public class StageSelectView : ViewBase{
 		storyStageRoot.gameObject.SetActive(true);
 		eventStageRoot.gameObject.SetActive(false);
 
-
 		uint cityID = (uint)msg;
+
+		rightButton.gameObject.SetActive(!(cityID >= MAX_CITY_ID || StageState.LOCKED == DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(cityID+1, currCopyType) ));
+		leftButton.gameObject.SetActive( !(cityID <= 1 || StageState.LOCKED == DataCenter.Instance.QuestData.QuestClearInfo.GetStoryCityState(cityID-1, currCopyType) ));
+
+
 		currPickedCityInfo = DataCenter.Instance.QuestData.GetCityInfo(cityID);
 		currentCityName = currPickedCityInfo.cityName;
 
