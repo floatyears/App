@@ -10,6 +10,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 	private UIButton autoSelect;
 
 	private int moneyNeed = 0;
+	private int totalMoney = 0;
 	private UILabel moneyNeedLabel;
 
 	private UILabel getExpLabel;
@@ -356,16 +357,12 @@ public class UnitLevelupAndEvolveView : ViewBase {
 
 
 	void RefreshLevelUpInfo(){
-		int totalMoney = 0;
+		totalMoney = 0;
 		for (int i = 0; i < 5; i++) {	//material index range
 			if (levelupItem[i].UserUnit != null){
 				totalMoney ++;
 			}
 		}
-
-		moneyNeed = baseUserUnit.level * CoinBase * totalMoney;
-		moneyNeedLabel.text =  moneyNeed + "";
-
 
 		expGot = System.Convert.ToInt32(LevelUpCurExp() * (friendInfo == null ? 1 : DGTools.AllMultiple (baseUserUnit,friendInfo.UserUnit)) ); 
 		getExpLabel.text = TextCenter.GetText("LevelUp_GotExp") +  expGot.ToString();
@@ -376,11 +373,13 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		UnitInfo tu = baseUserUnit.UnitInfo;
 		int toLevel = tu.GetLevelByExp (expGot + baseUserUnit.exp);
 		if (expGot == 0) {
-			afterLvLabel.text = afterAtkLabel.text = afterHpLabel.text = "";
+			afterHpLabel.text = baseUserUnit.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
+			afterAtkLabel.text =  baseUserUnit.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
+			afterLvLabel.text = TextCenter.GetText("Text_Rank_Colon") + baseUserUnit.level + "";// + "->" + toLevel;
 		}else{
 			afterHpLabel.text =  tu.GetHpByLevel(toLevel).ToString() ;
 			afterAtkLabel.text =  tu.GetAtkByLevel(toLevel).ToString();
-			afterLvLabel.text =  toLevel + "";
+			afterLvLabel.text = TextCenter.GetText("Text_Rank_Colon") + toLevel;
 		}
 	}
 
@@ -505,11 +504,15 @@ public class UnitLevelupAndEvolveView : ViewBase {
 			levelupRoot.SetActive(false);
 			titleLabel.text = TextCenter.GetText("Evolve_Title");
 			nextBtnLabel.text = TextCenter.GetText("Btn_JumpScene_LevelUp");
+			moneyNeedLabel.text = baseUserUnit.UnitInfo.maxLevel * 500 + "";
 		}else if(type == ShowType.LevelUp){
 			evolveRoot.SetActive(false);
 			levelupRoot.SetActive(true);
 			titleLabel.text = TextCenter.GetText("LevelUp_Title");
 			nextBtnLabel.text = TextCenter.GetText("Btn_JumpScene_Evolve");
+
+			moneyNeed = baseUserUnit.level * CoinBase * totalMoney;
+			moneyNeedLabel.text =  moneyNeed + "";
 		}
 	}
 
@@ -592,7 +595,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
 				materialCount[item] = 1;
 			}
 		}
-
+		moneyNeedLabel.text =  moneyNeed + "";
 		canEvolve = true;
 		UnitInfo eolveUnit = DataCenter.Instance.UnitData.GetUnitInfo(baseUserUnit.UnitInfo.evolveInfo.evolveUnitId);
 		BeforeMaxLv.text = TextCenter.GetText("Text_MaxLv") + baseUserUnit.UnitInfo.maxLevel.ToString ();

@@ -87,12 +87,17 @@ using bbproto;public class BattleTopView : ViewBase {
 	}
 
 	void ShowMenu (GameObject go) {
+//		AttackInfoProto atk = new AttackInfoProto (0);
+//		atk.userUnitID = DataCenter.Instance.UnitData.PartyInfo.CurrentParty.GetUserUnit()[2].TUserUnitID;
+//		ModuleManager.SendMessage(ModuleEnum.BattleAttackEffectModule,"active_skill",atk);
 #if !UNITY_EDITOR
 		if (NoviceGuideStepManager.Instance.isInNoviceGuide()) {
 			return;	
 		}
 #endif
 		ModuleManager.Instance.ShowModule (ModuleEnum.MusicModule);
+
+
 //		if (battleMenu == null) {
 //			CreatBattleMenu ();
 //			return;
