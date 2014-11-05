@@ -10,11 +10,14 @@ public class BattleAttackEffectView : ViewBase {
 
 	private GameObject activeEffect;
 	private UISprite avatarTexture;
+	private UISprite avatarBg;
 
 	private Vector3 activeEnd = Vector3.zero;
 
 	public const float activeSkillEffectTime = 1.5f;
 	public const float activeSkillShowNameTime = 0.5f;
+
+	private Vector3 startPos = new Vector3 (377f, 393f, 0f);
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -23,6 +26,7 @@ public class BattleAttackEffectView : ViewBase {
 		effect.SetActive (false);
 		activeEffect = transform.Find ("ActiveSkill").gameObject;
 		avatarTexture = activeEffect.transform.Find ("Avatar").GetComponent<UISprite> ();
+		avatarBg = transform.Find ("ActiveSkill").GetComponent<UISprite> ();
 		activeEffect.SetActive (false);
 	}
 
@@ -83,12 +87,13 @@ public class BattleAttackEffectView : ViewBase {
 
 	void PlayActiveSkill(AttackInfoProto ai) {
 		activeEffect.SetActive (true);
-		activeEffect.transform.localPosition = BattleManipulationView.startPosition;
+		activeEffect.transform.localPosition = startPos;
 		UserUnit tuu = DataCenter.Instance.UnitData.UserUnitList.GetMyUnit(ai.userUnitID);
 		ResourceManager.Instance.GetAvatarAtlas (tuu.UnitInfo.id, avatarTexture);
+		avatarBg.spriteName = tuu.UnitType.ToString ();
 		SkillBase sbi = DataCenter.Instance.BattleData.GetSkill (ai.userUnitID, ai.skillID, SkillType.ActiveSkill);
 		skillName = sbi == null ? "" : TextCenter.GetText (SkillBase.SkillNamePrefix + sbi.id);//sbi.SkillName;
-		iTween.RotateTo (activeEffect, iTween.Hash ("rotation",new Vector3(0,0,1080f), "time", activeSkillEffectTime - 0.5f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd","oncompleteparams",ai ,"islocal", true,"easetype",iTween.EaseType.linear));  
+		iTween.RotateTo (activeEffect, iTween.Hash ("rotation",new Vector3(0,0,1080), "time", activeSkillEffectTime - 1f, "oncompletetarget", gameObject, "oncomplete", "ActiveSkillEnd","oncompleteparams",ai ,"islocal", true,"easetype",iTween.EaseType.linear));  
 //		Debug.LogError ("PlayActiveSkill MoveTo");
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_as_fly);
 	}
