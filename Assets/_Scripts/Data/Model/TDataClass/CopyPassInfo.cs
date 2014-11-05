@@ -77,10 +77,11 @@ namespace bbproto{
 		//标记为已领奖
 		public void SetAcceptBonus(uint stageId) {
 			this.stageIdList.Remove( stageId );
+			this.acceptBonusStageList.Add( stageId );
 		}
 
-		public bool HasBonus(uint stageId) {
-			foreach(uint sId in this.stageIdList) {
+		public bool IsBonusAccept(uint stageId) {
+			foreach(var sId in this.acceptBonusStageList ) {
 				if( sId == stageId ) {
 					return true;
 				}

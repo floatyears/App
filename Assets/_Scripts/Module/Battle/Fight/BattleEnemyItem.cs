@@ -76,7 +76,8 @@ public class BattleEnemyItem : MonoBehaviour {
 				stateSprite.transform.localPosition = texture.transform.localPosition + new Vector3 (0f, tex.height * 0.5f, 0f);
 			}
 //			Debug.Log ("texture enable: " + texture.enabled);
-			initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
+//			initHurtLabelPosition = stateSprite.transform.localPosition - new Vector3(0f,texture.height * 0.2f,0f);
+			initHurtLabelPosition = new Vector3(0f, bloodSprite.transform.localPosition.y+texture.height * 0.1f, 0f);
 			hurtLabelPosition = new Vector3(initHurtLabelPosition.x, initHurtLabelPosition.y - hurtValueLabel.height * 2, initHurtLabelPosition.z);
 			callBack();
 		});

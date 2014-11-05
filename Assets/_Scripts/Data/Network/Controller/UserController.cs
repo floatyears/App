@@ -79,4 +79,16 @@ public class UserController : ControllerBase {
 		HttpRequestManager.Instance.SendHttpRequest (reqFinishUserGuide, callBack, ProtocolNameEnum.RspFinishUserGuide,false,null,ProtocolNameEnum.NONE,false);
 	}
 
+	public void SendLog(string desc, string stackTrack){
+		ReqClientLog req = new ReqClientLog ();
+		req.header = new ProtoHeader ();
+		req.header.apiVer = ServerConfig.API_VERSION;
+		req.header.userId = DataCenter.Instance.UserData.UserInfo.userId;
+
+		req.msg = desc;
+		req.stack = stackTrack;
+
+		HttpRequestManager.Instance.SendHttpRequest (req, null, ProtocolNameEnum.NONE, false, null, ProtocolNameEnum.NONE, false);
+	}
+
 }

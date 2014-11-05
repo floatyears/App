@@ -75,14 +75,19 @@ public class Main : MonoBehaviour {
         // init manager class
         ViewManager.Instance.Init(uiRoot);
 
-
+#if !UNITY_EDITOR
 		Application.RegisterLogCallback(HandleException);
+#endif
 //		
     }
 
 	void HandleException(string condition, string stackTrace, LogType type){
 		if (type == LogType.Error) {
+#if INNER_TEST
 			TipsManager.Instance.ShowMsgWindow("Application Error-"+condition,stackTrace,TextCenter.GetText("OK"));
+#else
+			UserController.Instance.SendLog(condition,stackTrace);
+#endif
 		}
 	}
 

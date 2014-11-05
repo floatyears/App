@@ -29,7 +29,12 @@ public class QuestRewardItemView : DragPanelItemBase {
 
 			CopyPassInfo passInfo = DataCenter.Instance.GetCopyPassInfo( Data.CopyType );
 			passInfo.SetAcceptBonus(Data.id);
+			MsgCenter.Instance.Invoke(CommandEnum.SyncChips);
+			MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin);
 
+			//已领奖
+			btn.GetComponent<UIButton>().isEnabled = false;
+			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_HasTaken");
 		}
 		Debug.LogWarning("rspAcceptStarBonus result: "+rsp.header.code);
 
@@ -69,9 +74,14 @@ public class QuestRewardItemView : DragPanelItemBase {
 
 		starNum.text = totalStars.ToString()+"/"+maxStars.ToString();
 
-		bool bHasBonus = passInfo.HasBonus(Data.id);
-		btn.GetComponent<UIButton>().isEnabled = bHasBonus;
-		if( totalStars >= maxStars && !bHasBonus ) { //已领奖
+		bool bBonusIsAccept = passInfo.IsBonusAccept(Data.id);
+
+		btn.GetComponent<UIButton>().isEnabled = false;
+		if( totalStars >= maxStars) { 
+			btn.GetComponent<UIButton>().isEnabled = !bBonusIsAccept;
+		}
+
+		if( bBonusIsAccept ) { //已领奖
 			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_HasTaken");
 		}else {
 			transform.FindChild("CollectBtn/Label").GetComponent<UILabel>().text = TextCenter.GetText("Reward_Take");
