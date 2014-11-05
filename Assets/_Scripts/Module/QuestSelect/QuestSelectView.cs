@@ -7,6 +7,7 @@ public class QuestSelectView : ViewBase {
 	private DragPanel dragPanel;
 	private QuestRewardItemView questRewardItem;
 	private int currType = -1;
+	StageInfo currStage;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -30,19 +31,19 @@ public class QuestSelectView : ViewBase {
 		base.ShowUI();
 
 		if (viewData != null) {
-			StageInfo newPickedStage = viewData["data"] as StageInfo;
+			currStage = viewData["data"] as StageInfo;
 
 //			newQuestList.Reverse ();
 
 			UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
 			UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
-			if(newPickedStage.CopyType == ECopyType.CT_ELITE){
+			if(currStage.CopyType == ECopyType.CT_ELITE){
 				elite.SendMessage("OnClick");
-			}else if(newPickedStage.CopyType == ECopyType.CT_NORMAL && UIToggle.GetActiveToggle (7).name != "Normal"){
+			}else if(currStage.CopyType == ECopyType.CT_NORMAL && UIToggle.GetActiveToggle (7).name != "Normal"){
 				normal.SendMessage("OnClick");
 			}
 
-			ShowQuestList(newPickedStage);
+			ShowQuestList(currStage);
 
 			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST_SELECT);
 		}
@@ -73,19 +74,19 @@ public class QuestSelectView : ViewBase {
 		if( toggle == null ) {
 			return;
 		}
-		ECopyType currCopyType = (toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE;
-		if ((int)currCopyType != currType) {
-			currType = (int)currCopyType;
-			uint newestStageId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage( currCopyType );
-			StageInfo newStage = DataCenter.Instance.QuestData.GetStageInfo( newestStageId );
-			newStage.CopyType = currCopyType;
+		ECopyType selectCopyType = (toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE;
+		if ((int)selectCopyType != currType) {
+			currType = (int)selectCopyType;
+//			uint newestStageId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage( currCopyType );
+//			StageInfo newStage = DataCenter.Instance.QuestData.GetStageInfo( newestStageId );
+//			newStage.CopyType = currCopyType;
 
-			ShowQuestList( newStage );
+			currStage.CopyType = selectCopyType;
+			ShowQuestList( currStage );
 			
-			Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (7).name);
-			//		ShowStoryCityView(lastestCityId, currCopyType);
-			
-			ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", currCopyType);	
+//			Debug.Log("toggle lastStageID:"+newestStageId + " UIToggle.GetActiveToggle(5) = "+UIToggle.GetActiveToggle (7).name);
+
+			ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", selectCopyType);	
 		}
 	}
 

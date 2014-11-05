@@ -375,11 +375,11 @@ public class UnitLevelupAndEvolveView : ViewBase {
 		if (expGot == 0) {
 			afterHpLabel.text = baseUserUnit.Hp + "";// + "->" + tu.GetHpByLevel(toLevel);
 			afterAtkLabel.text =  baseUserUnit.Attack + "";// + "->" + tu.GetAtkByLevel(toLevel);
-			afterLvLabel.text = TextCenter.GetText("Text_Rank_Colon") + baseUserUnit.level + "";// + "->" + toLevel;
+			afterLvLabel.text =  baseUserUnit.level + "";// + "->" + toLevel;
 		}else{
 			afterHpLabel.text =  tu.GetHpByLevel(toLevel).ToString() ;
 			afterAtkLabel.text =  tu.GetAtkByLevel(toLevel).ToString();
-			afterLvLabel.text = TextCenter.GetText("Text_Rank_Colon") + toLevel;
+			afterLvLabel.text = toLevel.ToString();
 		}
 	}
 

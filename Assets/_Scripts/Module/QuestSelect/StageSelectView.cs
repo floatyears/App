@@ -135,9 +135,9 @@ public class StageSelectView : ViewBase{
 			//			currCopyType = (currCopyType != ECopyType.CT_NORMAL  ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 			Debug.LogWarning("After Stage.OnSelCopy:  currCopyType="+currCopyType);
 			
-			uint lastestCityId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestCity(currCopyType);
-			
-			ShowStoryCityView(lastestCityId, currCopyType);
+//			uint lastestCityId = DataCenter.Instance.QuestData.QuestClearInfo.GetNewestCity(currCopyType);
+
+			ShowStoryCityView(currentCityId, currCopyType);
 		}
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.STAGE_SELECT);
 	}
