@@ -19,10 +19,14 @@ public class SellUnitView : ViewBase{
 	private List<SellUnitItem> pickUnitViewList = new List<SellUnitItem>();
 	private List<GameObject> pickItemList = new List<GameObject>();
 	private List<GameObject> readyItemList = new List<GameObject>();
+	List<UserUnit> pickedUnitList = new List<UserUnit>();
 	
 	public override void Init(UIConfigItem config, Dictionary<string, object> data = null){
 		base.Init(config ,data);
 		InitUIElement();
+
+		dragPanel = new DragPanel("SellUnitDragPanel", "Prefabs/UI/UnitItem/SellUnitPrefab",typeof(SellUnitItem), mainRoot.transform);
+
 	}
 	
 	public override void ShowUI(){
@@ -38,8 +42,9 @@ public class SellUnitView : ViewBase{
 		RefreshOwnedUnitCount();
 
 		ResetUIElement();
+		dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(), ClickItem as DataListener);
 
-		ShowUIAnimation();	
+//		ShowUIAnimation();	
 	}
 	
 	public override void HideUI(){
@@ -51,33 +56,14 @@ public class SellUnitView : ViewBase{
 		MsgCenter.Instance.RemoveListener(CommandEnum.SortByRule, ReceiveSortInfo);
 	}
 
-	public override void CallbackView(params object[] args){
-		switch (args[0].ToString()){
-			case "CreateDragView" : 
-				CreateDragView(args[1]);
-				break;
-			case "DestoryDragView" : 
-				DestoryDragView(args[1]);
-				break;
-			case "ShowLastSureWindow" : 
-				ShowLastSureWindow(args[1]);
-				break;
-			case "BackToMainWindow" : 
-				BackToMainWindow((bool)args[1]);
-				break;
-			default:
-				break;
-		}
-	}
-	
     Vector3 pos = Vector3.zero;
     void BackToMainWindow(bool IsRefresh) {
 		mainRoot.transform.localPosition = pos;
-
 		submitRoot.SetActive(false);
 		ResetReadyPool();
-		ShowUIAnimation();
 		if (IsRefresh) {
+			dragPanel.SetData<UserUnit> (DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit(), ClickItem as DataListener);
+			dragPanel.ItemCallback ("cancel_all");
 			ResetUIElement();		
 		}
 	}
@@ -122,7 +108,8 @@ public class SellUnitView : ViewBase{
 	
 	void ClickSellOk(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSellOk");
+//		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSellOk");
+		UnitController.Instance.SellUnit(OnRspSellUnit,GetOnSaleUnitIDList());
 	}
 
 	void ClickSellCancel(GameObject btn){
@@ -130,14 +117,23 @@ public class SellUnitView : ViewBase{
 		BackToMainWindow (false);
 	}
 
-	void RmvViewItem(object args){
-		Dictionary<string, object> info = args as Dictionary<string, object>;
+	protected override void ToggleAnimation (bool isShow)
+	{
+		base.ToggleAnimation (isShow);
 
-	}
-	
-	void ShowUIAnimation(){
-		transform.localPosition = new Vector3(-1000, -285, 0);
-		iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+//			transform.localPosition = new Vector3(-1000, -285, 0);
+//			iTween.MoveTo(gameObject, iTween.Hash("x", 0, "time", 0.4f));  
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
 	}
 
 	void InitUIElement(){
@@ -192,31 +188,32 @@ public class SellUnitView : ViewBase{
 
 	void ClickSellBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
-		List<UserUnit> picked = new List<UserUnit>();
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
 			SellUnitItem sellUnitItem = pickUnitViewList[ i ];
 			if(sellUnitItem == null)
 				continue;
-
-			picked.Add(sellUnitItem.UserUnit);
+			pickedUnitList.Add(sellUnitItem.UserUnit);
+//			sellUnitItem.
 		}
-		ModuleManager.SendMessage (ModuleEnum.SellUnitModule, "ClickSell", picked);
+		if (CheckPickedUnitRare ()) {
+			TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("BigRareWarning"), TextCenter.GetText ("BigRareWarningText"), TextCenter.GetText ("OK"), TextCenter.GetText ("CANCEL"), o=>{
+				ShowLastSureWindow(pickedUnitList);
+			});	
+		}
+		else {
+			ShowLastSureWindow(pickedUnitList);
+		}
 	}
 
 	void ClickClearBtn(GameObject btn){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		ResetUIElement();
 //		dragPanel.Clear ();
+		pickedUnitList.Clear ();
 		dragPanel.ItemCallback ("cancel_all");
 		//clear data
 	}
-
-	void CreateDragView(object args){
-		if(dragPanel == null)
-			dragPanel = new DragPanel("SellUnitDragPanel", "Prefabs/UI/UnitItem/SellUnitPrefab",typeof(SellUnitItem), mainRoot.transform);
-		dragPanel.SetData<UserUnit> (args as List<UserUnit>, ClickItem as DataListener);
-	}
-
+	
 	int CheckHaveBeenPicked(SellUnitItem item){
 		for (int i = 0; i < pickUnitViewList.Count; i++) {
 			if(pickUnitViewList[ i ] != null && pickUnitViewList[ i ].Equals(item)) {
@@ -400,5 +397,70 @@ public class SellUnitView : ViewBase{
 				break;
 		}
 	}
-        
+
+	bool CheckPickedUnitRare(){
+		bool noteSignal = false;
+		for (int i = 0; i < pickedUnitList.Count; i++){
+			if(pickedUnitList[ i ] == null) continue;
+			if(pickedUnitList[ i ].UnitInfo.rare >= 3){
+				noteSignal = true;
+				break;
+			}
+		}
+		return noteSignal;
+	}
+
+	
+	List<uint> GetOnSaleUnitIDList(){
+		List<uint> idList = new List<uint>();
+		for (int i = 0; i < pickedUnitList.Count; i++){
+			
+			if(pickedUnitList[ i ] != null)
+				idList.Add(pickedUnitList[ i ].uniqueId);
+		}
+		return idList;
+	}
+
+	
+	List<UserUnit> GetReadySaleUnitList(){
+		List<UserUnit> readySaleList = new List<UserUnit>();
+		for (int i = 0; i < pickedUnitList.Count; i++){
+			if(pickedUnitList[ i ] != null)
+				readySaleList.Add(pickedUnitList[ i ]);
+		}
+		return readySaleList;
+	}
+
+	private void OnRspSellUnit(object data) {
+		if (data == null)
+			return;
+		
+		bbproto.RspSellUnit rsp = data as bbproto.RspSellUnit;
+		
+		if (rsp.header.code != (int)ErrorCode.SUCCESS) {
+			ErrorMsgCenter.Instance.OpenNetWorkErrorMsgWindow(rsp.header.code);
+			return;
+		}
+		
+		int money = rsp.money;
+		int gotMoney = rsp.gotMoney;
+		List<UserUnit> unitList = rsp.unitList;
+		
+		DataCenter.Instance.UserData.AccountInfo.money = rsp.money;
+		
+		DataCenter.Instance.UnitData.UserUnitList.DelMyUnitList(GetOnSaleUnitIDList());
+		
+		pickedUnitList.Clear();
+		MsgCenter.Instance.Invoke(CommandEnum.RefreshPlayerCoin, null);
+		//		base.HideUI ();
+		////		SellView view = view as SellView;
+		////		view.ResetUIState();
+		//		base.ShowUI ();
+		
+		BackToMainWindow(true);
+
+		AudioManager.Instance.PlayAudio(AudioEnum.sound_sold_out);
+	}
+
+  
 }

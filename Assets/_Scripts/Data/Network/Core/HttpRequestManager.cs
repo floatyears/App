@@ -54,7 +54,7 @@ public class HttpRequestManager : MonoBehaviour{
 	/// <param name="isSimultanuous">Is simultanuous.</param>
 	/// <param name="failCallback">Fail callback.</param>
 	/// <param name="failProtoName">Fail proto name.</param>
-	public void SendHttpRequest(ProtoBuf.IExtensible msg, NetCallback callback, ProtocolNameEnum protoName, bool isSimultanuous = false, NetCallback failCallback = null, ProtocolNameEnum failProtoName = ProtocolNameEnum.NONE){
+	public void SendHttpRequest(ProtoBuf.IExtensible msg, NetCallback callback, ProtocolNameEnum protoName, bool isSimultanuous = false, NetCallback failCallback = null, ProtocolNameEnum failProtoName = ProtocolNameEnum.NONE,bool forceWait = true){
 		HttpRequest req = null;
 		if(requestPool.Count > 0)
 			req = requestPool.Dequeue ();
@@ -65,6 +65,7 @@ public class HttpRequestManager : MonoBehaviour{
 		req.SuccessCallback = callback;
 		req.FailProtoName = failProtoName;
 		req.FailCallback = failCallback;
+		req.ForceWait = forceWait;
 		AddHttpRequest (req, isSimultanuous);
 	}
 
@@ -97,10 +98,14 @@ public class HttpRequestManager : MonoBehaviour{
 			
 			if (request != null) {
 				Debug.Log ("Proto Send: [[[---" + request.Msg.GetType().Name + "---]]]");
-				ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
+				if(request.ForceWait){
+					ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
+				}
 				WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
 				yield return www;
-				ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
+				if(request.ForceWait){
+					ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
+				}
 				RequestDone (www, request);
 				StartCoroutine(SendMsg ());		
 			}

@@ -88,6 +88,11 @@ public class HttpRequest {
 			failCallback = value;
 		}
 	}
+
+	public bool ForceWait {
+		get;
+		set;
+	}
 //
 //    public void ReSend(){
 //		www = new WWW (Url, data);

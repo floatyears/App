@@ -137,10 +137,12 @@ public class BattleMapView : ViewBase {
 		if (DataCenter.Instance.UserData.AccountInfo.stone < DataCenter.redoQuestStone) {
 			TipsManager.Instance.ShowTipsLabel(TextCenter.GetText("NotEnoughStone"));
 
-			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
-				ModuleManager.Instance.ExitBattle ();
-				ModuleManager.Instance.EnterMainScene();
-			}) );
+			ModuleManager.Instance.ExitBattle ();
+			//				ModuleManager.Instance.EnterMainScene();
+			ModuleManager.Instance.ShowModule(ModuleEnum.BattleFailModule);
+//			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
+//
+//			}) );
 
 			return;
 		}
@@ -159,11 +161,13 @@ public class BattleMapView : ViewBase {
 		QuestController.Instance.RetireQuest (o=>{
 			AudioManager.Instance.PlayAudio (AudioEnum.sound_game_over);
 			ModuleManager.Instance.HideModule(ModuleEnum.BattleMapModule);
-			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
-				
-				ModuleManager.Instance.ExitBattle ();
-				ModuleManager.Instance.EnterMainScene();
-			}) );
+			ModuleManager.Instance.ExitBattle ();
+			//				ModuleManager.Instance.EnterMainScene();
+			ModuleManager.Instance.ShowModule(ModuleEnum.BattleFailModule);
+//			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "over", (Callback)(()=>{
+//				
+//
+//			}) );
 			BattleConfigData.Instance.ClearData ();
 		}, BattleConfigData.Instance.questDungeonData.questId, true);
 	}

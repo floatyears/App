@@ -474,6 +474,10 @@ Btn_SuperEvolve=进阶
 Text_ClickToSource=[点击头像查看来源]
 Text_MaxLv=最大等级:
 
+#battle fail
+BattleFail_Desc=你还需要努力增强实例哦，你可以去：
+Btn_Attr=提升属性
+Btn_Summon=召唤怪兽
 
 ## net error
 success=成功

@@ -120,7 +120,8 @@ public class BattleBottomView : ViewBase {
 		case "close_skill_window":
 			MaskCard("",false);
 			break;
-		case "":
+		case "recover_hp":
+			ShowRecoverHp ((int)(float)args[1]);
 			break;
 		default:
 			break;
@@ -173,7 +174,7 @@ public class BattleBottomView : ViewBase {
 	}
 
 	private int currentBlood = 0;
-	void SetBlood (int num) {
+	void SetBlood (int num, bool isRecover =false) {
 		string info = num + "/" + initBlood;
 		label.text = info;
 
@@ -181,10 +182,26 @@ public class BattleBottomView : ViewBase {
 
 			hurtLabel.transform.localPosition = hurtLabelPos;
 			hurtLabel.text = "-" + (currentBlood - num);
+			hurtLabel.gradientTop = new Color(1f,0.46f,0.46f);
+			hurtLabel.gradientBottom = new Color(0.53f,0.07f,0.07f);
+			iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
+		}else if(isRecover){
+			hurtLabel.transform.localPosition = hurtLabelPos;
+			hurtLabel.text = "+" + (-currentBlood+num);
+			hurtLabel.gradientTop = new Color(0.18f,0.65f,0.09f);
+			hurtLabel.gradientBottom = new Color(0.016f,0.28f,0.02f);
 			iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
 		}
 	   	currentBlood = num;
 		bloodBar.value = DGTools.IntegerSubtriction(num, initBlood);
+	}
+
+	void ShowRecoverHp(int value){
+		hurtLabel.transform.localPosition = hurtLabelPos;
+		hurtLabel.text = "+" + value;
+		hurtLabel.gradientTop = new Color(0.18f,0.65f,0.09f);
+		hurtLabel.gradientBottom = new Color(0.016f,0.28f,0.02f);
+		iTween.MoveTo(hurtLabel.gameObject, iTween.Hash("position",tgtPos, "time", 1.5f, "easetype", iTween.EaseType.easeOutCirc, "oncomplete", "RemoveHurtLabel", "oncompletetarget", gameObject, "islocal", true));
 	}
 
 	void RemoveHurtLabel(){

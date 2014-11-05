@@ -127,6 +127,7 @@ public class HomeView : ViewBase{
 			break;
 		case "Notice":
 			ModuleManager.Instance.ShowModule (ModuleEnum.OperationNoticeModule);
+//			ModuleManager.Instance.ShowModule (ModuleEnum.BattleFailModule);
 //		{
 //			DataCenter.Instance.oldAccountInfo = DataCenter.Instance.UserData.UserInfo;
 //			TRspClearQuest trcq=new TRspClearQuest();

@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{E63E43EC-7321-EEA6-B377-45828C44ED41}</ProjectGuid>
+	<ProjectGuid>{AEFEC2DF-F31E-456D-776F-4D1E7018C302}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -101,15 +101,15 @@
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
  <Reference Include="UMGameAnalyticsLibForAndroid">
- <HintPath>/Users/kory/Documents/Dev/BB002/bb002/Assets/External/UmengGameAnalytics/Scripts/UMGameAnalyticsLibForAndroid.dll</HintPath>
+ <HintPath>/Users/Godfather/Documents/unity3d/DG/Assets/External/UmengGameAnalytics/Scripts/UMGameAnalyticsLibForAndroid.dll</HintPath>
  </Reference>
  <Reference Include="UMGameAnalyticsLibForiOS">
- <HintPath>/Users/kory/Documents/Dev/BB002/bb002/Assets/External/UmengGameAnalytics/Scripts/UMGameAnalyticsLibForiOS.dll</HintPath>
+ <HintPath>/Users/Godfather/Documents/unity3d/DG/Assets/External/UmengGameAnalytics/Scripts/UMGameAnalyticsLibForiOS.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{2C4C8329-EC50-8E0C-5F75-B90EB7D589DD}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{5D5A6903-28E8-5936-8EB5-A4F7DE90A2EC}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
