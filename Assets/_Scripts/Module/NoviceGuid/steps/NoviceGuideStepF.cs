@@ -64,7 +64,7 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 	public override void Enter()
 	{
 		nextState = nextState = null;
-		TipsManager.Instance.ShowMsgWindow (TextCenter.GetText ("guide7_title"),TextCenter.GetText ("guide7_content"),TextCenter.GetText ("OK"));
+		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide7_content")); 
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "clear_quest_highlight");
 		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
 	}

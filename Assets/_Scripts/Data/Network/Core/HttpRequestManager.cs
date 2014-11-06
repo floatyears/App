@@ -28,14 +28,13 @@ public class HttpRequestManager : MonoBehaviour{
 	/// </summary>
 	/// <param name="post">Post.</param>
 	/// <param name="callback">Callback.</param>
-	/// <param name="protoName">Proto name.protoName means the proto from server you want to listen. </param>
-	/// <param name="isSimultanuous">Is simultanuous.simultanuous means send the messages simultanuosly.</param>
-	private void AddHttpRequest(HttpRequest request, bool isSimultanuous = false) {
+	/// <param name="isSynchronous">Is simultanuous.simultanuous means send the messages simultanuosly.</param>
+	private void AddHttpRequest(HttpRequest request, bool isSynchronous = false) {
 		if (request == null) {
 			return;
 		}
 		requestList.Add (request);
-		if (isSimultanuous) {
+		if (isSynchronous) {
 			StartCoroutine (SendMsg(request));
 		}else{
 			wwwRequestQueue.Enqueue(request);
@@ -51,10 +50,10 @@ public class HttpRequestManager : MonoBehaviour{
 	/// <param name="msg">Message.</param>
 	/// <param name="callback">Callback.</param>
 	/// <param name="protoName">Proto name.</param>
-	/// <param name="isSimultanuous">Is simultanuous.</param>
+	/// <param name="isSynchronous">send the msg immediately.</param>
 	/// <param name="failCallback">Fail callback.</param>
 	/// <param name="failProtoName">Fail proto name.</param>
-	public void SendHttpRequest(ProtoBuf.IExtensible msg, NetCallback callback, ProtocolNameEnum protoName, bool isSimultanuous = false, NetCallback failCallback = null, ProtocolNameEnum failProtoName = ProtocolNameEnum.NONE,bool forceWait = true){
+	public void SendHttpRequest(ProtoBuf.IExtensible msg, NetCallback callback, ProtocolNameEnum protoName, bool isSynchronous = false, NetCallback failCallback = null, ProtocolNameEnum failProtoName = ProtocolNameEnum.NONE,bool forceWait = true){
 		HttpRequest req = null;
 		if(requestPool.Count > 0)
 			req = requestPool.Dequeue ();
@@ -66,7 +65,7 @@ public class HttpRequestManager : MonoBehaviour{
 		req.FailProtoName = failProtoName;
 		req.FailCallback = failCallback;
 		req.ForceWait = forceWait;
-		AddHttpRequest (req, isSimultanuous);
+		AddHttpRequest (req, isSynchronous);
 	}
 
 	/// <summary>
@@ -94,7 +93,7 @@ public class HttpRequestManager : MonoBehaviour{
 
 	IEnumerator SendMsg() {
 		if (wwwRequestQueue.Count > 0) {
-			HttpRequest request = wwwRequestQueue.Dequeue();	
+			HttpRequest request = wwwRequestQueue.Peek();	
 			
 			if (request != null) {
 				Debug.Log ("Proto Send: [[[---" + request.Msg.GetType().Name + "---]]]");
@@ -106,8 +105,12 @@ public class HttpRequestManager : MonoBehaviour{
 				if(request.ForceWait){
 					ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
 				}
+				wwwRequestQueue.Dequeue();
 				RequestDone (www, request);
-				StartCoroutine(SendMsg ());		
+				StartCoroutine(SendMsg ());
+			}else{
+				wwwRequestQueue.Dequeue();
+				StartCoroutine(SendMsg ());
 			}
 		}
 		yield return null;
