@@ -107,6 +107,12 @@ public class LoadingModule : ModuleBase {
 //				Debug.LogError("authUser response rspAuthUser.user == null");
             }
             
+			if( rspAuthUser.countInfo != null ) {
+				DataCenter.Instance.UserData.DataCount = rspAuthUser.countInfo;
+			} else {
+				DataCenter.Instance.UserData.DataCount = new DataCount();
+			}
+
             if (rspAuthUser.friends != null) {
 				List<FriendInfo> supportFriends = new List<FriendInfo>();
                 foreach (FriendInfo fi in rspAuthUser.friends) {
@@ -158,13 +164,14 @@ public class LoadingModule : ModuleBase {
 			}
 
 
+
 			NoviceGuideStepManager.Instance.InitGuideStage(rspAuthUser.userGuideStep);
 
 //#endif
 #if UNITY_EDITOR 
 //			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
-			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_1;
+//			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_1;
 
 			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {

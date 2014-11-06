@@ -320,6 +320,10 @@ public class DataCenter {
 		return  userData.AccountInfo.stone / GetRareGachaNeedStones();
     }
 
+	public int GetGachaWillGot5StarCount(){
+		return userData.DataCount.gachaWillGet5Star;
+	}
+
     public int GetEventGachaNeedStones(){
         return DataCenter.rareGachaStone;
     }
