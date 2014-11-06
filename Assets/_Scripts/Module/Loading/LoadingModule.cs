@@ -164,7 +164,7 @@ public class LoadingModule : ModuleBase {
 #if UNITY_EDITOR 
 //			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 #endif
-//			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepF_1;
+			NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_1;
 
 			recoverQuestID = (uint)BattleConfigData.Instance.hasBattleData();
 			if(recoverQuestID > 0) {
@@ -178,8 +178,9 @@ public class LoadingModule : ModuleBase {
 				EnterGame();
 			}
 
-			UserController.Instance.FinishUserGuide(null,1);
-			QuestController.Instance.ClearQuest(new ClearQuestParam(),null);
+//			UserController.Instance.FinishUserGuide(null,1);
+//			QuestController.Instance.ClearQuest(new ClearQuestParam(),null);
+//			UnitController.Instance.LevelUp(null,1,new List<uint>(){83},(uint)3,new UserUnit());
         }
     }
 

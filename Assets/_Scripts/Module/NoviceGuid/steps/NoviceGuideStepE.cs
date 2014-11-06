@@ -26,7 +26,7 @@ public class NoviceGuideStepE_2:NoviceGuidStep
 	{
 		nextState = typeof(NoviceGuideStepE_3);
 //		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_17"));
-		
+		MsgCenter.Instance.Invoke(CommandEnum.SortByRule, SortRule.ID);
 		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_list"), new Vector3 (0, 0, 1), true, true, o1 => {
 			NoviceGuideUtil.RemoveAllArrows ();
 			GoToNextState();

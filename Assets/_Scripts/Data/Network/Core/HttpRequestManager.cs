@@ -37,6 +37,7 @@ public class HttpRequestManager : MonoBehaviour{
 		if (isSynchronous) {
 			StartCoroutine (SendMsg(request));
 		}else{
+
 			wwwRequestQueue.Enqueue(request);
 			if(wwwRequestQueue.Count < 2){
 				StartCoroutine (SendMsg());
@@ -94,9 +95,8 @@ public class HttpRequestManager : MonoBehaviour{
 	IEnumerator SendMsg() {
 		if (wwwRequestQueue.Count > 0) {
 			HttpRequest request = wwwRequestQueue.Peek();	
-			
 			if (request != null) {
-				Debug.Log ("Proto Send: [[[---" + request.Msg.GetType().Name + "---]]]");
+				Debug.Log ("Proto Send: name-> [[[---" + request.Msg.GetType().Name + "---]]]");
 				if(request.ForceWait){
 					ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
 				}
@@ -105,8 +105,10 @@ public class HttpRequestManager : MonoBehaviour{
 				if(request.ForceWait){
 					ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",false);
 				}
-				wwwRequestQueue.Dequeue();
 				RequestDone (www, request);
+				wwwRequestQueue.Dequeue();
+
+
 				StartCoroutine(SendMsg ());
 			}else{
 				wwwRequestQueue.Dequeue();
@@ -118,7 +120,7 @@ public class HttpRequestManager : MonoBehaviour{
 
 	IEnumerator SendMsg(HttpRequest rq) {
 		HttpRequest request = rq;
-		Debug.Log ("Proto Send: [[[---" + rq.Msg.GetType().Name + "---]]]");
+		Debug.Log ("Proto Send: name-> [[[---" + rq.Msg.GetType().Name + "---]]]");
 		ModuleManager.SendMessage(ModuleEnum.MaskModule,"connect",true);
 		WWW www = new WWW (ServerConfig.ServerHost + "/" + GetUrlByType(request.Msg.GetType()), ProtobufSerializer.SerializeToBytes(request.Msg));
 		yield return www;
