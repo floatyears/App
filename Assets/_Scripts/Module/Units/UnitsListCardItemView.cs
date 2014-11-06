@@ -51,6 +51,8 @@ public class UnitsListCardItemView : DragPanelItemBase {
 
 		if (data.unitId == 1 || data.unitId == 5 || data.unitId == 9) {
 			levelUpBtn.tag = "unit_leader_levelup";
+		}else{
+			levelUpBtn.tag = "Untagged";
 		}
 		if (data.level >= data.UnitInfo.maxLevel) {
 			if(data.UnitInfo.evolveInfo == null){
