@@ -429,26 +429,26 @@ public class BattleAttackManager {
 		ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"energy_point",maxEnergyPoint);
     }
 
-	public void TrapTargetPoint(Coordinate coordinate) {
+	public void ArriveTargetPoint(Coordinate coordinate,EQuestGridType type = EQuestGridType.Q_NONE) {
         BattleConfigData.Instance.storeBattleData.roleCoordinate = coordinate;
-        ConsumeEnergyPoint();
-    }
-
-    bool temp = true;
-    public void MoveToMapItem(Coordinate coordinate) {
-		BattleConfigData.Instance.storeBattleData.roleCoordinate = coordinate;
-        if (temp) {
-            temp = false;
-            return;
-        }
-//        MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
-        int addBlood = RecoverHP(MaxBlood, 2);				// 3: every step.
-//		Blood += addBlood;
-		AddBlood (addBlood);
-        ConsumeEnergyPoint();
-
-		CoolingSkill ();
-    }
+		ConsumeEnergyPoint(type);
+	}
+	
+//    bool temp = true;
+//    public void MoveToMapItem(Coordinate coordinate) {
+//		BattleConfigData.Instance.storeBattleData.roleCoordinate = coordinate;
+//        if (temp) {
+//            temp = false;
+//            return;
+//        }
+////        MsgCenter.Instance.Invoke(CommandEnum.ActiveSkillCooling, null);	// refresh active skill cooling.
+//        int addBlood = RecoverHP(MaxBlood, 2);				// 3: every step.
+////		Blood += addBlood;
+//		AddBlood (addBlood);
+//        ConsumeEnergyPoint();
+//
+//		CoolingSkill ();
+//    }
 
 	bool isLimit = false;
 
@@ -481,7 +481,7 @@ public class BattleAttackManager {
 		Blood = addBlood > MaxBlood ? MaxBlood : addBlood;
 	}
 
-    void ConsumeEnergyPoint() {	
+    void ConsumeEnergyPoint(EQuestGridType type = EQuestGridType.Q_NONE) {	
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_walk);
 
 //		if(battleQuest.ChainLinkBattle) {
@@ -495,7 +495,7 @@ public class BattleAttackManager {
             maxEnergyPoint--;
 			BattleConfigData.Instance.storeBattleData.sp = maxEnergyPoint;
 //            MsgCenter.Instance.Invoke(CommandEnum.EnergyPoint, maxEnergyPoint);
-			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"energy_point",maxEnergyPoint);
+			ModuleManager.SendMessage(ModuleEnum.BattleBottomModule,"energy_point",maxEnergyPoint,type);
 			if(maxEnergyPoint == 0 && !isLimit) {
 				isLimit = true;
 				AudioManager.Instance.PlayAudio(AudioEnum.sound_sp_limited_over);

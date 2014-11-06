@@ -419,7 +419,7 @@ public class UnitDetailView : ViewBase{
 	}
 
 	private void ClickLock(GameObject go){
-		Debug.LogError ("ClickLock : " + curUserUnit);
+//		Debug.LogError ("ClickLock : " + curUserUnit);
 		bool isFav = (curUserUnit.isFavorite == 1) ? true : false;
 		EFavoriteAction favAction = isFav ? EFavoriteAction.DEL_FAVORITE : EFavoriteAction.ADD_FAVORITE;
 		UnitController.Instance.UnitFavorite(OnRspChangeFavState, curUserUnit.uniqueId, favAction);

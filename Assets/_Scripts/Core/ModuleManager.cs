@@ -186,6 +186,7 @@ public class ModuleManager {
 	/// Exits the battle.
 	/// </summary>
 	public void ExitBattle(){
+//		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepD_1;
 		ClearModulesAndScenes ();
 		EffectManager.Instance.ClearCache ();
 		Resources.UnloadUnusedAssets ();
@@ -211,6 +212,7 @@ public class ModuleManager {
 		ShowModule(ModuleEnum.BattleFullScreenTipsModule);
 		ShowModule(ModuleEnum.BattleAttackEffectModule);
 		GetOrCreateModule (ModuleEnum.MsgWindowModule);
+		GetOrCreateModule (ModuleEnum.MaskModule);
 		ShowModule(ModuleEnum.BattleBottomModule);
 		ShowModule(ModuleEnum.BattleTopModule);
 		ShowModule(ModuleEnum.BattleMapModule);

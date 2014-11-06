@@ -87,8 +87,14 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 			Umeng.GA.Event("Catalog");	
 		}
 //		iuiCallback.CallbackView(se);
+//		if (buttonInfo [caller] == ModuleEnum.PartyModule && DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage(ECopyType.CT_NORMAL) < 13) {
+//			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Open_Limit"),TextCenter.GetText("Open_Party"),TextCenter.GetText("OK"),o=>{
+//				ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule,1);
+//			});
+//		}else{
+			ModuleManager.Instance.ShowModule (buttonInfo [caller]);
+//		}
 
-		ModuleManager.Instance.ShowModule (buttonInfo [caller]);
 	}
 
 	protected override void ToggleAnimation (bool isShow)
