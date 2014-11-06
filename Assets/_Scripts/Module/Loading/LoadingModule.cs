@@ -177,6 +177,9 @@ public class LoadingModule : ModuleBase {
 			else{
 				EnterGame();
 			}
+
+			UserController.Instance.FinishUserGuide(null,1);
+			QuestController.Instance.ClearQuest(new ClearQuestParam(),null);
         }
     }
 
