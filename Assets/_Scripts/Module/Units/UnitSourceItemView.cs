@@ -87,12 +87,13 @@ public class UnitSourceItemView : DragPanelItemBase {
 			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
 			break;
 		case  EUnitGetType.E_NORMAL_QUEST:
-			if(!mask.enabled){
-				ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",goData1 as StageInfo);
-				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
-//				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
-//				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
-			}
+//			if(!mask.enabled){
+//
+////				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
+////				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
+//			}
+			ModuleManager.Instance.ShowModule(ModuleEnum.QuestSelectModule,"data",goData1 as StageInfo,"tips",data.getPath);
+			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
 //			else{
 ////				ModuleManager.Instance.ShowModule(ModuleEnum.FightReadyModule,"QuestInfo",goData1 as QuestInfo);
 ////				ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"unti_source");
@@ -110,7 +111,8 @@ public class UnitSourceItemView : DragPanelItemBase {
 	}
 
 	private void ShowQuestInfo(QuestInfo data){
-		goData1 = data;
+
+		goData1 = DataCenter.Instance.QuestData.GetStageInfo(data.id/10);
 		nameLabel.text = data.name;
 		infoLabel1.text = TextCenter.GetText("Stamina") + " " +  data.stamina;
 		infoLabel2.text = "";

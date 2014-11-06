@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum StageState {
+	NONE,
 	LOCKED = 0,
 	CLEAR = 1,
 	NEW = 2,
@@ -161,32 +162,48 @@ namespace bbproto{
 			return false;
 		}
 
-		public	bool IsStoryQuestClear(uint stageId, uint questId, ECopyType copyType) {
+		public StageState GetStoryQuestState(uint stageId, uint questId, ECopyType copyType) {
 			StageClearItem clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
 			if (clearItem == null) {
-				return false;
+				return StageState.NONE;
+			}
+			if (copyType == ECopyType.CT_NORMAL && clearItem.questId == 1 && clearItem.stageId == 1 && stageId == 11 && questId == 111) {
+				return StageState.NEW;		
 			}
 			if ( stageId < clearItem.stageId ) { 
-				return true;
-			} else if ( stageId == clearItem.stageId ) { 
-				return ( questId <= clearItem.questId );
+				return StageState.CLEAR;
+			} else if (stageId == clearItem.stageId){
+				if(questId <= clearItem.questId) { 
+					return StageState.CLEAR;
+				}else if(questId == (clearItem.questId + 1)){
+					return StageState.NEW;
+				}else{
+					return StageState.LOCKED;
+				}
+			}else if(stageId > clearItem.stageId){
+				if(IsStoryStageClear(DataCenter.Instance.QuestData.GetStageInfo(clearItem.stageId),copyType) && stageId == nextStageId(clearItem.stageId) && DataCenter.Instance.QuestData.GetStageInfo(stageId).QuestInfo[0].id == questId){
+					return StageState.NEW;
+//					questId == (clearItem.questId + 1)){
+				}
+				return StageState.LOCKED;
 			}
-
-			return false;
+			return StageState.NONE;
 		}
 
-		public	bool IsEventQuestClear(uint stageId, uint questId) {
+		public	StageState IsEventQuestClear(uint stageId, uint questId) {
 			if (this.eventClear == null) {
-				return false;
+				return StageState.NONE;
 			}
 
 			foreach(StageClearItem item in this.eventClear) {
 				if ( item.stageId == stageId ) { 
-					return ( questId <= item.questId);
+					if( questId <= item.questId){
+						return StageState.LOCKED;
+					}
 				}
 			}
 
-			return false;
+			return StageState.EVENT_OPEN;;
 		}
 
 		public	void UpdateStoryQuestClear(uint stageId, uint questId, ECopyType copyType) {

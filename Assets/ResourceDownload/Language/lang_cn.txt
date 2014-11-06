@@ -92,6 +92,9 @@ QuestRewardItemBonus=奖励
 Open_Limit=该功能尚未开启
 Open_Party=通关雾隐山脉-第三大关后开启！
 Open_LevelUp=通关雾隐山脉-第四大关后开启！
+Quest_Limit=当前关卡未开启
+Quest_Need=需要通关前面的关卡才能进入当前关卡
+Quest_NormalNeed=普通副本达到三星才能进入精英副本
 
 #result view
 AddFriendTips=[FFB14A]你确定将TA添加为好友吗?[-]

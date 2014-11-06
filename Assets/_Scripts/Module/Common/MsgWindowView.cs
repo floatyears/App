@@ -141,11 +141,12 @@ public class MsgWindowView : ViewBase{
         if (btnRightParam != null){
 
 			DataListener callback = btnRightParam.callback;
-
-            if (callback != null){
-				callback(btnRightParam.args);
-            }
+			BtnParam temp = btnRightParam;
 			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
+            if (callback != null){
+				callback(temp.args);
+            }
+
         }
         
     }
@@ -155,11 +156,12 @@ public class MsgWindowView : ViewBase{
         if (btnLeftParam != null){
 
 			DataListener callback = btnLeftParam.callback;
-
-            if (callback != null){
-				callback(btnLeftParam.args);
-			}
+			BtnParam temp = btnLeftParam;
 			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
+            if (callback != null){
+				callback(temp.args);
+			}
+
         }
        
     }
@@ -169,10 +171,12 @@ public class MsgWindowView : ViewBase{
         if (btnCenterParam != null){
 
 			DataListener callback = btnCenterParam.callback;
-            if (callback != null){
-				callback(btnCenterParam.args);
-            }
+			BtnParam temp = btnCenterParam;
 			ModuleManager.Instance.HideModule(ModuleEnum.MsgWindowModule);
+            if (callback != null){
+				callback(temp.args);
+            }
+
         }
     }
 

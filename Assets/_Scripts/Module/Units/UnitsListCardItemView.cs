@@ -86,14 +86,17 @@ public class UnitsListCardItemView : DragPanelItemBase {
 	}
 
 	void ClickLevelUp(GameObject obj){
-
+#if !UNITY_EDITOR
 		if (DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage(ECopyType.CT_NORMAL) < 15) {
+
 			TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Open_Limit"),TextCenter.GetText("Open_LevelUp"),TextCenter.GetText("OK"),o=>{
 //				ModuleManager.Instance.HideModule (ModuleEnum.UnitsListModule);
 				ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule,"story",(uint)1,"tips",4);
 			});
+			ModuleManager.Instance.ShowModule(ModuleEnum.StageSelectModule,"story",(uint)1,"tips",4);
 			return;
 		}
+#endif
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitsListModule);
 		if (data.level >= data.UnitInfo.maxLevel) {
 			ModuleManager.Instance.ShowModule (ModuleEnum.UnitLevelupAndEvolveModule, "evolve",data);

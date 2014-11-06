@@ -62,7 +62,7 @@ public class NoviceGuideStepE_4:NoviceGuidStep
 			NoviceGuideUtil.RemoveAllArrows();
 			NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("level_up_btn"), new Vector3(0,0,1),true,true,o1=>{
 				NoviceGuideUtil.RemoveAllArrows();
-				NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+				NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepE_BLANK;
 			});
 		});
 	}
