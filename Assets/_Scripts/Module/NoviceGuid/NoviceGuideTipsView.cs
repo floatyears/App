@@ -98,6 +98,8 @@ public class NoviceGuideTipsView : ViewBase {
 			if(viewData.ContainsKey("coor")){
 				uiPos = (Vector3)viewData["coor"];
 			}
+			label_bg.GetComponent<TweenScale>().enabled = true;
+			label_bg.GetComponent<TweenScale>().ResetToBeginning();
 
 			ts.enabled = true;
 		}
