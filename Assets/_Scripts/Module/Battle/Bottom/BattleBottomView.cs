@@ -107,7 +107,7 @@ public class BattleBottomView : ViewBase {
 			MaskCard("",false);
 			break;
 		case "energy_point":
-			ListenEnergyPoint(args[1],args[2]);
+			ListenEnergyPoint(args[1], (args.Length>=3 ? args[2]: null));
 			break;
 		case "update_blood":
 			int blood = (int)args[1];
@@ -210,7 +210,7 @@ public class BattleBottomView : ViewBase {
 
 	void ListenEnergyPoint (object data, object data1) {
 		int energyPoint = (int) data;
-		if (energyPoint < 17 && (EQuestGridType)data1 != EQuestGridType.Q_ENEMY) {
+		if (energyPoint < 17 && (data1!=null && (EQuestGridType)data1 != EQuestGridType.Q_ENEMY) ) {
 			NoviceGuideStepManager.Instance.StartStep(NoviceGuideStartType.BATTLE_SP);	
 		}
 		for (int i = 0; i < spSprite.Length; i++) {
