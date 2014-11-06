@@ -167,8 +167,17 @@ namespace bbproto{
 			if (clearItem == null) {
 				return StageState.NONE;
 			}
-			if (copyType == ECopyType.CT_NORMAL && clearItem.questId == 1 && clearItem.stageId == 1 && stageId == 11 && questId == 111) {
-				return StageState.NEW;		
+			if ( stageId == 11 && questId == 111) {
+				if(copyType == ECopyType.CT_NORMAL && clearItem.questId == 1 && clearItem.stageId == 1){
+					return StageState.NEW;
+				}else if(copyType == ECopyType.CT_ELITE && clearItem.questId == 0 && clearItem.stageId == 0){
+					if(DataCenter.Instance.GetCopyPassInfo(ECopyType.CT_NORMAL).GetQuestStar(stageId,questId) == 3){
+						return StageState.NEW;
+					}else{
+						return StageState.LOCKED;
+					}
+				}
+					
 			}
 			if ( stageId < clearItem.stageId ) { 
 				return StageState.CLEAR;
@@ -176,13 +185,30 @@ namespace bbproto{
 				if(questId <= clearItem.questId) { 
 					return StageState.CLEAR;
 				}else if(questId == (clearItem.questId + 1)){
-					return StageState.NEW;
+					if(copyType == ECopyType.CT_NORMAL){
+						return StageState.NEW;
+					}else{
+						if(DataCenter.Instance.GetCopyPassInfo(ECopyType.CT_NORMAL).GetQuestStar(stageId,questId) == 3){
+							return StageState.NEW;
+						}else{
+							return StageState.LOCKED;
+						}
+					}
+
 				}else{
 					return StageState.LOCKED;
 				}
 			}else if(stageId > clearItem.stageId){
 				if(IsStoryStageClear(DataCenter.Instance.QuestData.GetStageInfo(clearItem.stageId),copyType) && stageId == nextStageId(clearItem.stageId) && DataCenter.Instance.QuestData.GetStageInfo(stageId).QuestInfo[0].id == questId){
-					return StageState.NEW;
+					if(copyType == ECopyType.CT_NORMAL){
+						return StageState.NEW;
+					}else{
+						if(DataCenter.Instance.GetCopyPassInfo(ECopyType.CT_NORMAL).GetQuestStar(stageId,questId) == 3){
+							return StageState.NEW;
+						}else{
+							return StageState.LOCKED;
+						}
+					}
 //					questId == (clearItem.questId + 1)){
 				}
 				return StageState.LOCKED;
