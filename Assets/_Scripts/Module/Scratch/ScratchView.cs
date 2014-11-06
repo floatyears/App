@@ -29,9 +29,8 @@ public class ScratchView : ViewBase {
 	public override void ShowUI () {
 		currentFriendPoint.text = DataCenter.Instance.UserData.AccountInfo.friendPoint + "";
 		base.ShowUI ();
-       
-		rareTimes.text = TextCenter.GetText("OneTimesDesc",DataCenter.Instance.GetAvailableOneGachaTimes().ToString()); 
-
+       	
+		rareTimes.text = TextCenter.GetText("OneTimesDesc",DataCenter.Instance.GetGachaWillGot5StarCount().ToString()); 
 
 
 
@@ -162,7 +161,12 @@ public class ScratchView : ViewBase {
 		
 		DataCenter.Instance.UserData.AccountInfo.friendPoint = rsp.friendPoint;
 		DataCenter.Instance.UserData.AccountInfo.stone = rsp.stone;
-		
+
+		DataCenter.Instance.UserData.DataCount.gachaWillGet5Star -= 1;
+		if( DataCenter.Instance.UserData.DataCount.gachaWillGet5Star <= 0) {
+			DataCenter.Instance.UserData.DataCount.gachaWillGet5Star = 9;
+		}
+
 		LogHelper.Log("OnRspGacha() finished, friendPoint {0}, stone {1}"
 		              ,  DataCenter.Instance.UserData.AccountInfo.friendPoint, DataCenter.Instance.UserData.AccountInfo.stone);
 		

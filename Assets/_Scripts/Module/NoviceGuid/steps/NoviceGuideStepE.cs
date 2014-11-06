@@ -43,7 +43,7 @@ public class NoviceGuideStepE_3:NoviceGuidStep
 		nextState = typeof(NoviceGuideStepE_4);
 		MsgCenter.Instance.Invoke(CommandEnum.SortByRule, SortRule.ID);
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_17"));
-		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_leader_levelup"), new Vector3(0,0,3),true,true,o=>{
+		NoviceGuideUtil.ShowArrow (GameObject.FindWithTag ("unit_leader_levelup"), new Vector3(0,10,3),true,true,o=>{
 			NoviceGuideUtil.RemoveAllArrows();
 			GoToNextState();
 		});

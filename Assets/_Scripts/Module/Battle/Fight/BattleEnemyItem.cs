@@ -206,8 +206,12 @@ public class BattleEnemyItem : MonoBehaviour {
 
 		UnitInfo tui = enemyInfo.dropUnit.UnitInfo;
 		Debug.LogWarning("$$$$$$ enemyDrop,  dropId:"+enemyInfo.dropUnit.dropId+" unitId:"+enemyInfo.dropUnit.unitId+" pos:"+enemyInfo.dropUnit.dropPos);
+		if (BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getUnit.Exists(element => element == enemyInfo.dropUnit.dropId) ) {
+			Debug.LogError("enemyDrop,  Duplicated dropId:"+enemyInfo.dropUnit.dropId+" unitId:"+enemyInfo.dropUnit.unitId+" pos:"+enemyInfo.dropUnit.dropPos);
+		} else { //not exists, it's new drop
+			BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getUnit.Add (enemyInfo.dropUnit.dropId);
+		}
 
-		BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getUnit.Add (enemyInfo.dropUnit.dropId);
 		dropTexture.enabled = true;
 		dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
 	    iTween.ShakeRotation(dropTexture.gameObject, iTween.Hash("z", 20, "time", 0.5f));  //"oncomplete","DorpEnd","oncompletetarget",gameObject

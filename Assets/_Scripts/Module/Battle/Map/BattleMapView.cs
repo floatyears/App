@@ -842,7 +842,10 @@ public class BattleMapView : ViewBase {
 			foreach(var drop in  BattleConfigData.Instance.questDungeonData.drop) {
 				Debug.LogWarning("$$$$$$ BossDead() before Add bossDrop,  dropId:"+drop.dropId+" unitId:"+drop.unitId+" pos:"+drop.dropPos);
 			}
-			BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.dropId);
+
+			if (!BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getUnit.Exists(a => a == bossDrop.dropId) ) {
+				BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.dropId);
+			}
 		}
 		
 		AudioManager.Instance.PlayAudio (AudioEnum.sound_enemy_die);

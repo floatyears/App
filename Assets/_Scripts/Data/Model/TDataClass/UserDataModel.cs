@@ -103,4 +103,10 @@ public class UserDataModel : ProtobufDataBase {
 		accountInfo.RefreshAcountInfo(clearQuest);
 	}
 
+	private DataCount dataCount;
+	public DataCount DataCount { 
+		get { return dataCount; }
+		set { dataCount = value; }
+	}
+
 }
