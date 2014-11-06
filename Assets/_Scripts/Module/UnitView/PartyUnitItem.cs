@@ -37,6 +37,27 @@ public class PartyUnitItem : MyUnitItem {
 	public override void SetData<T> (T data, params object[] args)
 	{
 		base.SetData (data, args);
+
+		if (userUnit != null && args [1] is SortRule) {
+				switch((SortRule)args [1]){
+				case SortRule.Attack:
+					crossFadeLabel.text = TextCenter.GetText("Text_ATK") + " " + userUnit.Attack;
+					break;
+				case SortRule.HP:
+					crossFadeLabel.text = "HP "  + userUnit.Hp;
+					break;
+				case SortRule.ID:
+					crossFadeLabel.text = "ID " + userUnit.unitId;
+					break;
+				default:
+					break;
+					
+			}
+		}else{
+			crossFadeLabel.text = "";
+		}	
+		
+			
 		if (userUnit.unitId == 86) {
 			gameObject.tag = "unitId_86";	
 		}

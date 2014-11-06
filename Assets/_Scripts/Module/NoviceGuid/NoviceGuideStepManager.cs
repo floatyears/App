@@ -185,7 +185,7 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepD_1:
-			if(startType == NoviceGuideStartType.STAGE_SELECT ){
+			if(startType == NoviceGuideStartType.STAGE_SELECT || startType == NoviceGuideStartType.QUEST_SELECT){
 				ChangeState (nextType);	
 			}
 			break;
@@ -210,7 +210,7 @@ public class NoviceGuideStepManager {
 			}
 			break;
 		case NoviceGuideStage.NoviceGuideStepE_1:
-			if(startType == NoviceGuideStartType.STAGE_SELECT){
+			if(startType == NoviceGuideStartType.STAGE_SELECT || startType == NoviceGuideStartType.QUEST_SELECT){
 				ChangeState (nextType);	
 			}
 			break;

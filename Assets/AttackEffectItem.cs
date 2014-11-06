@@ -48,6 +48,8 @@ public class AttackEffectItem : MonoBehaviour {
 				SkillBase sbi = DataCenter.Instance.BattleData.Skill [skillID]; 	//(userUnitID, skillID, SkillType.NormalSkill);
 				skillNameLabel.text =  TextCenter.GetText (SkillBase.SkillNamePrefix + skillID);//sbi.skillBase.name;
 				ATKLabel.text = "HEAL " + atk;
+				ATKLabel.gradientTop = new Color(0.51f,0.78f,0f);
+				ATKLabel.gradientBottom = new Color(0.14f,0.64f,0.29f);
 			} else {
 				string id = DataCenter.Instance.BattleData.GetSkillID (userUnitID, skillID);
 				SkillBase sbi = null;
@@ -57,6 +59,8 @@ public class AttackEffectItem : MonoBehaviour {
 				}
 				skillNameLabel.text = TextCenter.GetText (SkillBase.SkillNamePrefix + skillID);
 				ATKLabel.text = "ATK " + atk;
+				ATKLabel.gradientTop = new Color(1f,0f,0f);
+				ATKLabel.gradientBottom = new Color(0.6f,0f,0f);
 			}
 			if (atk == 0) {
 				ATKLabel.text = "";

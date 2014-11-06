@@ -32,7 +32,6 @@ public class ShopView : ViewBase {
 	
 	public override void ShowUI () {
 		base.ShowUI ();
-		ShowUIAnimation();
 
 		#if UNITY_ANDROID
 		StoreController.StartIabServiceInBg();
@@ -184,11 +183,30 @@ public class ShopView : ViewBase {
 		ModuleManager.SendMessage (ModuleEnum.ShopModule, "DoUnitExpansion");
     }
 
-	private void ShowUIAnimation(){
-		infoPanelRoot.transform.localPosition = new Vector3(-1000, -287, 0);
-		windowRoot.transform.localPosition = new Vector3(1000, -630, 0);
-		iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
-		iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+	protected override void ToggleAnimation (bool isShow)
+	{
+		base.ToggleAnimation (isShow);
+		if (isShow) {
+			//			Debug.Log("Show Module!: [[[---" + config.moduleName + "---]]]pos: " + config.localPosition.x + " " + config.localPosition.y);
+			gameObject.SetActive(true);
+			transform.localPosition = new Vector3(config.localPosition.x, config.localPosition.y, 0);
+
+			infoPanelRoot.transform.localPosition = new Vector3(-1000, -287, 0);
+			windowRoot.transform.localPosition = new Vector3(1000, -630, 0);
+			iTween.MoveTo(infoPanelRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true,"oncomplete","OnAniEnd","oncompletetarget",gameObject));
+			iTween.MoveTo(windowRoot, iTween.Hash("x", 0, "time", 0.4f, "islocal", true));
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", config.localPosition.x, "time", 0.4f, "islocal", true));
+		}else{
+			//			Debug.Log("Hide Module!: [[[---" + config.moduleName + "---]]]");
+			transform.localPosition = new Vector3(-1000, config.localPosition.y, 0);	
+			gameObject.SetActive(false);
+			//			iTween.MoveTo(gameObject, iTween.Hash("x", -1000, "time", 0.4f, "islocal", true,"oncomplete","AnimationComplete","oncompletetarget",gameObject));
+		}
+
+	}
+
+	void OnAniEnd(){
+		dragPanel.RefreshUIPanel ();
 	}
 	
 }

@@ -428,14 +428,14 @@ public class BattleMapView : ViewBase {
 
 
 		currentItem = map[coor.x,coor.y];
-		BattleAttackManager.Instance.TrapTargetPoint (coor);
+
 		if (!currentItem.hasBeenReached) {
 
 			BattleConfigData.Instance.storeBattleData.GetLastQuestData().hitGrid.Add ((uint)BattleConfigData.Instance.questDungeonData.GetGridIndex (coor));
 			movePath.Clear ();
 
 			QuestGrid currentMapData = BattleConfigData.Instance.questDungeonData.GetCellDataByCoor (coor);
-
+			BattleAttackManager.Instance.ArriveTargetPoint (coor,currentMapData.type);
 
 			if (currentMapData.star == EGridStar.GS_KEY) {
 				//				BattleMapView.waitMove = true;
@@ -522,6 +522,7 @@ public class BattleMapView : ViewBase {
 				break;
 			}
 		} else {
+			BattleAttackManager.Instance.ArriveTargetPoint (coor);
 			ArriveAtCell();
 		}
 	}
@@ -775,24 +776,23 @@ public class BattleMapView : ViewBase {
 		StartCoroutine (MoveByTrap ());
 	}
 	
-	void TrapMove(object data) {
-		ModuleManager.SendMessage (ModuleEnum.BattleManipulationModule, "banclick", true);
-		if (data == null) {
-			CalcRoleDestPosByCoor (currentCoor);
-			StartCoroutine(MoveByTrap());
-			return;
-		}
-		Coordinate cd = (Coordinate)data;
-		CalcRoleDestPosByCoor (cd);
-//		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
-		BattleAttackManager.Instance.TrapTargetPoint (cd);
-//		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
-		RoleCoordinate (cd);
-
-		role.transform.localPosition = targetPoint;
-//		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
-		HighlightSurroundedCell (currentCoor);
-	}
+//	void TrapMove(object data) {
+//		if (data == null) {
+//			CalcRoleDestPosByCoor (currentCoor);
+//			StartCoroutine(MoveByTrap());
+//			return;
+//		}
+//		Coordinate cd = (Coordinate)data;
+//		CalcRoleDestPosByCoor (cd);
+////		MsgCenter.Instance.Invoke(CommandEnum.TrapTargetPoint, cd);
+//		BattleAttackManager.Instance.TrapTargetPoint (cd);
+////		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "rolecoor", cd);
+//		RoleCoordinate (cd);
+//
+//		role.transform.localPosition = targetPoint;
+////		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "style", currentCoor);
+//		HighlightSurroundedCell (currentCoor);
+//	}
 	
 	IEnumerator MoveByTrap() {
 		while (true) {

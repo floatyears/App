@@ -474,13 +474,13 @@ public class PartyView : ViewBase, IDragChangeView{
 		curSortRule = (SortRule)msg;
 		SortUnitByCurRule();
 
-		dragPanel.SetData<UserUnit> (myUnitDataList,curSortRule);
+		dragPanel.SetData<UserUnit> (myUnitDataList, OutPartyItemClick as DataListener,curSortRule);
 	}
 
 	void RefreshDragPanel(){
 		myUnitDataList = GetUnitList();
 		SortUnitByCurRule();
-		dragPanel.SetData<UserUnit> (myUnitDataList, OutPartyItemClick as DataListener);
+		dragPanel.SetData<UserUnit> (myUnitDataList, OutPartyItemClick as DataListener,curSortRule);
 	}
 
 	private void SortUnitByCurRule(){
