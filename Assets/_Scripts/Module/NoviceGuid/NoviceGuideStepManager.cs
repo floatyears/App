@@ -50,7 +50,7 @@ public class NoviceGuideStepManager {
 		if (nextState == null) {
 			Debug.LogWarning("Novice Guide's step is null.The State machine will stop.");
 			currentState = null;
-			CurrentGuideStep = NoviceGuideStage.BLANK;
+//			CurrentGuideStep = NoviceGuideStage.BLANK;
 			return;
 		}else{
 			currentState = nextState;
@@ -96,7 +96,9 @@ public class NoviceGuideStepManager {
 
 	public bool isInNoviceGuide()
 	{
-		return currentNoviceGuideStage != NoviceGuideStage.NONE && currentNoviceGuideStage != NoviceGuideStage.BLANK;
+		return currentNoviceGuideStage != NoviceGuideStage.NONE && currentNoviceGuideStage != NoviceGuideStage.NoviceGuideStepC_BLANK
+			&& currentNoviceGuideStage != NoviceGuideStage.NoviceGuideStepD_BLANK
+				&& currentNoviceGuideStage != NoviceGuideStage.NoviceGuideStepE_BLANK;
 	}
 //	
 	public void FinishCurrentStep(){
@@ -303,7 +305,7 @@ public enum NoviceGuideStartType{
 }
 
 public enum NoviceGuideStage{
-	BLANK = -2,
+//	BLANK = -2,
 	NONE = -1,
 //	Preface,
 //	SELECT_ROLE,
@@ -317,22 +319,28 @@ public enum NoviceGuideStage{
 	NoviceGuideStepB_2,
 	NoviceGuideStepB_3,
 	NoviceGuideStepB_4,
-	NoviceGuideStepB_5,
+	NoviceGuideStepB_5 = 10,
 	NoviceGuideStepC_1,
 	NoviceGuideStepC_2,
 	NoviceGuideStepC_3,
 	NoviceGuideStepC_4,
 	NoviceGuideStepC_5,
-	NoviceGuideStepD_1,
+	NoviceGuideStepC_BLANK,
+
+	NoviceGuideStepD_1 = 17,
 	NoviceGuideStepD_2,
 	NoviceGuideStepD_3,
 	NoviceGuideStepD_4,
 	NoviceGuideStepD_5,
-	NoviceGuideStepE_1,
+	NoviceGuideStepD_BLANK,
+
+	NoviceGuideStepE_1 = 23,
 	NoviceGuideStepE_2,
 	NoviceGuideStepE_3,
 	NoviceGuideStepE_4,
-	NoviceGuideStepF_1,
+	NoviceGuideStepE_BLANK,
+
+	NoviceGuideStepF_1 = 28,
 	NoviceGuideStepF_2,
 	NoviceGuideStepF_3,
 	NoviceGuideStepF_4,

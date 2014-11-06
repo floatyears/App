@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using bbproto;
 
@@ -7,8 +7,8 @@ namespace bbproto{
 		public ECopyType CopyType;
 
 		public int GetQuestStar(uint stageId, uint questId) {
-			bool isClear = DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageId, questId, CopyType);
-			if(!isClear) {
+			StageState state = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryQuestState(stageId, questId, CopyType);
+			if(state != StageState.CLEAR) {
 				return 0;
 			}
 
@@ -32,7 +32,7 @@ namespace bbproto{
 
 			int clearQuestCount = 0;
 			foreach(QuestInfo quest in stageInfo.quests ) {
-				if( DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageId, quest.id, this.CopyType) ) {
+				if( DataCenter.Instance.QuestData.QuestClearInfo.GetStoryQuestState(stageId, quest.id, this.CopyType) == StageState.CLEAR) {
 					clearQuestCount += 1;
 				}
 

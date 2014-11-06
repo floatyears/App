@@ -66,7 +66,7 @@ public class NoviceGuideStepF_4:NoviceGuidStep{
 		nextState = nextState = null;
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide7_content")); 
 		ModuleManager.SendMessage (ModuleEnum.BattleMapModule, "clear_quest_highlight");
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NONE;
 	}
 }
 

@@ -8,6 +8,7 @@ public class QuestSelectView : ViewBase {
 	private QuestRewardItemView questRewardItem;
 	private int currType = -1;
 	StageInfo currStage;
+	bool isAllLocked = false;
 
 	public override void Init (UIConfigItem uiconfig, Dictionary<string, object> data)
 	{
@@ -50,7 +51,30 @@ public class QuestSelectView : ViewBase {
 
 	}
 
+	public override void CallbackView (params object[] args)
+	{
+		if (args.Length > 0) {
+			currStage = DataCenter.Instance.QuestData.GetStageInfo((uint)args[0]);
+			if(args.Length > 1)
+				currStage.CopyType = (ECopyType)args[1];
+			UIToggle normal = FindChild<UIToggle>("CopyType/Normal");
+			UIToggle elite = FindChild<UIToggle>("CopyType/Elite");
+			if(currStage.CopyType == ECopyType.CT_ELITE){
+				elite.SendMessage("OnClick");
+			}else{
+				normal.SendMessage("OnClick");
+			}
+			//			newQuestList.Reverse ();
+			
+			ShowQuestList(currStage);
+			
+//			NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.QUEST_SELECT);
+		}
+	}
+
 	void ShowQuestList(StageInfo newPickedStage) {
+
+
 		List<QuestInfo> newQuestList = newPickedStage.QuestInfo;
 
 		if(accessQuestList == null){
@@ -66,6 +90,29 @@ public class QuestSelectView : ViewBase {
 
 		if (pickedStage != null) {
 			ModuleManager.SendMessage(ModuleEnum.SceneInfoBarModule,"stage",pickedStage.stageName);
+		}
+
+		if (isAllLocked) {
+			if((ECopyType)currType == ECopyType.CT_ELITE){
+				uint prev = DataCenter.Instance.QuestData.QuestClearInfo.prevStageId(currStage.id);
+				if( prev == 0 || DataCenter.Instance.QuestData.QuestClearInfo.GetStoryStageState(prev,ECopyType.CT_ELITE) == StageState.CLEAR){
+					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Quest_Limit"),TextCenter.GetText("Quest_NormalNeed"),TextCenter.GetText("OK"),o=>{
+//						StageInfo temp = DataCenter.Instance.QuestData.GetStageInfo();
+//						temp.CopyType = ECopyType.CT_NORMAL;
+						ModuleManager.SendMessage(ModuleEnum.QuestSelectModule,currStage.id,ECopyType.CT_NORMAL);
+					});	
+				}else{
+					TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Quest_Limit"),TextCenter.GetText("Quest_Need"),TextCenter.GetText("OK"),o=>{
+						ModuleManager.SendMessage(ModuleEnum.QuestSelectModule,DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage(ECopyType.CT_ELITE),ECopyType.CT_ELITE);
+					});	
+				}
+
+					
+			}else{
+				TipsManager.Instance.ShowMsgWindow(TextCenter.GetText("Quest_Limit"),TextCenter.GetText("Quest_Need"),TextCenter.GetText("OK"),o=>{
+					ModuleManager.SendMessage(ModuleEnum.QuestSelectModule,DataCenter.Instance.QuestData.QuestClearInfo.GetNewestStage(ECopyType.CT_NORMAL));
+				});	
+			}
 		}
 	}
 
@@ -88,6 +135,7 @@ public class QuestSelectView : ViewBase {
 
 			ModuleManager.SendMessage(ModuleEnum.StageSelectModule, "ChangeCopyType", selectCopyType);	
 		}
+
 	}
 
 	protected override void ToggleAnimation (bool isShow)
@@ -111,25 +159,29 @@ public class QuestSelectView : ViewBase {
 
 	private void GetAccessQuest(List<QuestInfo> questInfoList, List<QuestInfo> newList, ECopyType copyType){
 		newList.Clear ();
-		bool isLocked = false;
+		StageState state = StageState.NONE;
+		isAllLocked = false;
 		for (int i = 0; i < questInfoList.Count; i++){
 			newList.Add(questInfoList[ i ]);
 
 			bool isClear = false;
 			if(pickedStage.type == QuestType.E_QUEST_STORY){
-				isClear = DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(pickedStage.id, questInfoList[ i ].id, copyType);
+				state = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryQuestState(pickedStage.id, questInfoList[ i ].id, copyType);
 			}
 			else if(pickedStage.type == QuestType.E_QUEST_EVENT){
-				isClear = DataCenter.Instance.QuestData.QuestClearInfo.IsEventQuestClear(pickedStage.id, questInfoList[ i ].id);
+				state = DataCenter.Instance.QuestData.QuestClearInfo.IsEventQuestClear(pickedStage.id, questInfoList[ i ].id);
 			}
 
-			if( isClear )
+//			isLocked = DataCenter.Instance.QuestData.QuestClearInfo.stage
+			if( state == StageState.CLEAR )
 				questInfoList[ i ].state = EQuestState.QS_CLEARED;
-			else if (!isLocked) {
+			else if (state == StageState.NEW) {
 				questInfoList[ i ].state = EQuestState.QS_QUESTING;
-				isLocked = true;
-			}else{
+			}else if(state == StageState.LOCKED){
 				questInfoList[ i ].state = EQuestState.QS_NEW; // it means Locked.
+			}
+			if(i == 0 && state == StageState.LOCKED){
+				isAllLocked = true;
 			}
 		}
 

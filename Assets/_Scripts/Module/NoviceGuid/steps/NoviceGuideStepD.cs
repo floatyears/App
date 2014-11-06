@@ -86,7 +86,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 					GoToNextState();
 					NoviceGuideUtil.RemoveAllArrows ();
 					ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
-					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+					NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepD_BLANK;
 				});
 			});
 		}else{
@@ -95,7 +95,7 @@ public class NoviceGuideStepD_5:NoviceGuidStep
 				GoToNextState();
 				NoviceGuideUtil.RemoveAllArrows ();
 				ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips", TextCenter.GetText ("guide_string_15"));
-				NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+				NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepD_BLANK;
 			});
 		}
 

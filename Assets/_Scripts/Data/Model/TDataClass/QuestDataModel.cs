@@ -30,8 +30,12 @@ public class QuestDataModel : ProtobufDataBase {
 
 	public StageInfo GetStageInfo (uint stageID) {
 		uint cityId = stageID/10;
+		if (cityId == 0)
+			cityId = 1;
 		CityInfo cityInfo = GetCityInfo(cityId);
 		for(int i=0; i < cityInfo.stages.Count; i++) {
+			if(stageID == 1 || stageID == 0)
+				return cityInfo.stages[0];
 			if (stageID==cityInfo.stages[i].id)
 				return cityInfo.stages[i];
 		}

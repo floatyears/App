@@ -95,7 +95,7 @@ public class QuestItemView : DragPanelItemBase {
 
 //		clearFlagLabel.text = isClear ? TextCenter.GetText("clearQuest") : "";
 
-		bool isClear = DataCenter.Instance.QuestData.QuestClearInfo.IsStoryQuestClear(stageID, data.id, stageInfo.CopyType);
+		bool isClear = DataCenter.Instance.QuestData.QuestClearInfo.GetStoryQuestState(stageID, data.id, stageInfo.CopyType) == StageState.CLEAR;
 		ShowQuestStar(isClear);
 
 		UnitInfo bossUnitInfo = DataCenter.Instance.UnitData.GetUnitInfo(data.bossId[ 0 ]);

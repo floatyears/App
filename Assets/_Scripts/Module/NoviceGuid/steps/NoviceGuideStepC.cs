@@ -95,7 +95,7 @@ public class NoviceGuideStepC_5:NoviceGuidStep
 	}
 
 	void OnSkillRelease(object data){
-		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.BLANK;
+		NoviceGuideStepManager.Instance.CurrentGuideStep = NoviceGuideStage.NoviceGuideStepC_BLANK;
 		MsgCenter.Instance.RemoveListener (CommandEnum.AttackEnemyEnd,OnSkillRelease);
 		ModuleManager.Instance.ShowModule (ModuleEnum.NoviceGuideTipsModule, "tips",TextCenter.GetText ("guide5_content"));
 	}
