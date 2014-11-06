@@ -44,7 +44,8 @@ public class ResultModule : ModuleBase {
 			Debug.LogError("ShowFriendPointUpdateResult(), friendInfo is null!!!");
 			return;
 		}
-		AddGotFriendPoint(friendInfo);
+
+		DataCenter.Instance.UserData.AccountInfo.friendPoint += BattleConfigData.Instance.gotFriendPoint;
 		curFriendInfo = friendInfo;
 		if(!CheckIsFriend(friendInfo)){
 			SupportApplyFriend(true);
@@ -113,8 +114,5 @@ public class ResultModule : ModuleBase {
 		curFriendInfo = null;
 	}
 
-	private void AddGotFriendPoint(FriendInfo friendInfo){
-		DataCenter.Instance.UserData.AccountInfo.friendPoint += friendInfo.friendPoint;
-	}
 
 }
