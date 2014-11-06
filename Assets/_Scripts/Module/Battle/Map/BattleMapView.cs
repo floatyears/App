@@ -839,6 +839,9 @@ public class BattleMapView : ViewBase {
 		ToggleGuideTips (false, 2);
 		DropUnit bossDrop = BattleConfigData.Instance.questDungeonData.drop.Find (a => a.dropId == 0);
 		if (bossDrop != null) {
+			foreach(var drop in  BattleConfigData.Instance.questDungeonData.drop) {
+				Debug.LogWarning("$$$$$$ BossDead() before Add bossDrop,  dropId:"+drop.dropId+" unitId:"+drop.unitId+" pos:"+drop.dropPos);
+			}
 			BattleConfigData.Instance.storeBattleData.GetLastQuestData().getUnit.Add(bossDrop.dropId);
 		}
 		

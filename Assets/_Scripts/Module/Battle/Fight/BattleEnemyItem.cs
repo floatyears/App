@@ -205,6 +205,8 @@ public class BattleEnemyItem : MonoBehaviour {
 		bloodBgSprite.enabled = false;
 
 		UnitInfo tui = enemyInfo.dropUnit.UnitInfo;
+		Debug.LogWarning("$$$$$$ enemyDrop,  dropId:"+enemyInfo.dropUnit.dropId+" unitId:"+enemyInfo.dropUnit.unitId+" pos:"+enemyInfo.dropUnit.dropPos);
+
 		BattleConfigData.Instance.storeBattleData.GetLastQuestData ().getUnit.Add (enemyInfo.dropUnit.dropId);
 		dropTexture.enabled = true;
 		dropTexture.spriteName = DGTools.GetUnitDropSpriteName(tui.rare);
