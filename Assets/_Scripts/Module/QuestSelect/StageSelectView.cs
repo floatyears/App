@@ -67,6 +67,11 @@ public class StageSelectView : ViewBase{
 //			UIToggle toggle = UIToggle.GetActiveToggle (6);
 //			currCopyType = ((toggle==null || toggle.name == "Normal" ) ? ECopyType.CT_NORMAL : ECopyType.CT_ELITE);
 			Debug.Log("StageSelect.showUI >>> 111 currCopyType="+currCopyType+" elite.value:"+elite.value+" normal.val:"+normal.value);
+						
+			storyStageRoot.gameObject.SetActive(true);
+			eventStageRoot.gameObject.SetActive(false);
+			normal.gameObject.SetActive(true);
+			elite.gameObject.SetActive(true);
 
 			if(currCopyType == ECopyType.CT_ELITE){
 				elite.SendMessage("OnClick");
@@ -80,19 +85,21 @@ public class StageSelectView : ViewBase{
 //			if( toggle != null ) {
 //				Debug.Log( "StageSelect1 >>>> UIToggle.GetActiveToggle(6) = "+toggle.name);
 //			}
+
+
 			ShowStoryCityView(currentCityId, currCopyType);
 
 //			if( toggle != null )
 //			Debug.Log( "StageSelect2 >>>> UIToggle.GetActiveToggle(6) = "+toggle.name);
 
 
-			normal.gameObject.SetActive(true);
-			elite.gameObject.SetActive(true);
 
 		}else if(viewData.ContainsKey("event")) {
 			ShowEventCityView();
 			normal.gameObject.SetActive(false);
 			elite.gameObject.SetActive(false);
+			leftButton.gameObject.SetActive(false);
+			rightButton.gameObject.SetActive(false);
 		}
 //		else if(viewData.ContainsKey("evolve")){
 //			EvolveStartQuest(viewData["evolve"]);
