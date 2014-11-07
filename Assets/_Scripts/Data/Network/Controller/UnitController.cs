@@ -27,8 +27,6 @@ public class UnitController : ControllerBase {
 	
 	public void Evolve(NetCallback callback, uint baseUnitId, List<uint> partUnitId) {
 
-		;
-
 		ReqEvolve reqEvolve = new ReqEvolve();
 		reqEvolve.header = new ProtoHeader();
 		reqEvolve.header.apiVer = ServerConfig.API_VERSION;

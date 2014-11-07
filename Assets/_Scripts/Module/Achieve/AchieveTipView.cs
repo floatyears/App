@@ -9,6 +9,7 @@ public class AchieveTipView : ViewBase {
 
 	private UILabel name;
 	private UISprite bigIcon;
+	private UIAtlas atlas;
 
 	public override void Init (UIConfigItem uiconfig, System.Collections.Generic.Dictionary<string, object> data)
 	{
@@ -18,6 +19,8 @@ public class AchieveTipView : ViewBase {
 		FindChild<UILabel> ("Label_Achieved").text = TextCenter.GetText ("Achieve_Complete");
 		bigIcon = FindChild<UISprite> ("Item/Img");
 		name = FindChild<UILabel> ("Name");
+
+		atlas = bigIcon.atlas;
 	}
 
 	public override void ShowUI ()
@@ -29,11 +32,16 @@ public class AchieveTipView : ViewBase {
 			name.text = data.taskDesc;
 
 			if(data.giftItem.Count > 0){
-				bigIcon.spriteName = "icon_" + data.giftItem[0].content;
+				GiftItem tmp = data.giftItem[0];
+				if(tmp.content == (int)EGiftContent.UNIT) {
+					ResourceManager.Instance.GetAvatarAtlas((uint)tmp.value, bigIcon);
+				}else{
+					bigIcon.atlas = atlas;
+					bigIcon.spriteName = "icon_" + tmp.content;
+				}
 			}
-
 		}
-
+		
 	}
 
 	public override void HideUI ()

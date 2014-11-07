@@ -51,10 +51,12 @@ public class PlayerInfoBarView : ViewBase{
 		AddCommandListener();
 		base.ShowUI();
 		LogHelper.LogError("PlayerInfoBar.ShowUI()...");
+		MsgCenter.Instance.AddListener (CommandEnum.UpdatePlayerInfo, OnUpdateInfo);
 	}
 
 	public override void HideUI() {
 		RemoveCommandListener();
+		MsgCenter.Instance.AddListener (CommandEnum.UpdatePlayerInfo, OnUpdateInfo);
 		base.HideUI();          
 	}
 
@@ -255,5 +257,16 @@ public class PlayerInfoBarView : ViewBase{
 
 
 
+	}
+
+	private void OnUpdateInfo(object data){
+		chipNumValueLabel.text = DataCenter.Instance.UserData.AccountInfo.stone.ToString();
+		cionNumValueLabel.text = DataCenter.Instance.UserData.AccountInfo.money.ToString();
+
+		int staminaNow = DataCenter.Instance.UserData.UserInfo.staminaNow;
+		int staminaMax = DataCenter.Instance.UserData.UserInfo.staminaMax;
+		//        stamMaxValueLabel.text = staminaNow.ToString();
+		stamNowValueLabel.text = staminaNow.ToString() + "/" + staminaMax.ToString();
+		stamSpr.fillAmount = CountFillCount(staminaNow, staminaMax);
 	}
 }

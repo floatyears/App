@@ -61,6 +61,7 @@ public class UserDataModel : ProtobufDataBase {
 				userInfo.vipLevel = rsp.user.vipLevel;
 			}
 		}
+		MsgCenter.Instance.Invoke (CommandEnum.UpdatePlayerInfo);
 	}
 
 	void OnUserGuide(object data){
