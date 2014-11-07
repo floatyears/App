@@ -535,7 +535,7 @@
         "path":"Prefabs/UI/Battle/BattleManipulationUI",
         "parent": 2,
         "x": 0,
-        "y": 0,
+        "y": -30,
         "z": 0, 
         "group" : -1
     },
