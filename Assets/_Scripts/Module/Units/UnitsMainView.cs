@@ -70,7 +70,7 @@ public class UnitsMainView : ViewBase, IDragChangeView{
 	
 	public override void HideUI(){
 		base.HideUI();
-		DataCenter.Instance.UnitData.PartyInfo.ExitParty();
+
 	}
 
 	public override void DestoryUI(){

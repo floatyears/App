@@ -20,8 +20,8 @@ public class MainMenuView : ViewBase{
 	}
 	
 	public override void DestoryUI () {
-		base.DestoryUI ();
 		RemoveListener ();
+		base.DestoryUI ();
 	}
 
     private void AddListener(){
@@ -111,6 +111,32 @@ public class MainMenuView : ViewBase{
 
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
 				SetUVByConfig(leaderUnitInfo.showPos);
+
+				string sprName = "";
+				switch ( leaderUnitInfo.type ){
+				case EUnitType.UFIRE : 
+					sprName = "border_main_fire";
+					break;
+				case EUnitType.ULIGHT : 
+					sprName = "border_main_light";
+					break;
+				case EUnitType.UDARK : 
+					sprName = "border_main_dark";
+					break;
+				case EUnitType.UWATER : 
+					sprName = "border_main_water";
+					break;
+				case EUnitType.UNONE : 
+					sprName = "border_main_none";
+					break;
+				case EUnitType.UWIND : 
+					sprName = "border_main_wind";
+					break;
+				default:
+					break;
+				}
+				
+				leaderAvatarSpr.spriteName = sprName;
 			} );
 
 			return;
@@ -125,6 +151,31 @@ public class MainMenuView : ViewBase{
 
 				leaderUnitInfo = newestLeaderUnit.UnitInfo;
 				SetUVByConfig(leaderUnitInfo.showPos);
+				string sprName = "";
+				switch ( leaderUnitInfo.type ){
+				case EUnitType.UFIRE : 
+					sprName = "border_main_fire";
+					break;
+				case EUnitType.ULIGHT : 
+					sprName = "border_main_light";
+					break;
+				case EUnitType.UDARK : 
+					sprName = "border_main_dark";
+					break;
+				case EUnitType.UWATER : 
+					sprName = "border_main_water";
+					break;
+				case EUnitType.UNONE : 
+					sprName = "border_main_none";
+					break;
+				case EUnitType.UWIND : 
+					sprName = "border_main_wind";
+					break;
+				default:
+					break;
+				}
+
+				leaderAvatarSpr.spriteName = sprName;
 			});
  
 
@@ -174,4 +225,5 @@ public class MainMenuView : ViewBase{
 		labelTips.GetComponent<TweenPosition> ().enabled = true;
 		labelTips.GetComponent<TweenPosition> ().ResetToBeginning ();
 	}
+	
 }

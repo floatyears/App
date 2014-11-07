@@ -67,11 +67,12 @@ public class PartyView : ViewBase, IDragChangeView{
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
 		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
 		RmvCmdListener();
+		DataCenter.Instance.UnitData.PartyInfo.ExitParty();
 	}
 
 	public override void DestoryUI(){
-		base.DestoryUI();
 		partyItems.Clear();
+		base.DestoryUI();
 	}
 
 	protected override void ToggleAnimation (bool isShow)
