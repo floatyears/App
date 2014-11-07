@@ -163,14 +163,11 @@ namespace bbproto{
 		}
 
 		public StageState GetStoryQuestState(uint stageId, uint questId, ECopyType copyType) {
-			StageClearItem clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
-			if (clearItem == null) {
-				return StageState.NONE;
-			}
+
 			if ( stageId == 11 && questId == 111) {
-				if(copyType == ECopyType.CT_NORMAL && clearItem.questId == 1 && clearItem.stageId == 1){
+				if(copyType == ECopyType.CT_NORMAL){
 					return StageState.NEW;
-				}else if(copyType == ECopyType.CT_ELITE && clearItem.questId == 0 && clearItem.stageId == 0){
+				}else if(copyType == ECopyType.CT_ELITE){
 					if(DataCenter.Instance.GetCopyPassInfo(ECopyType.CT_NORMAL).GetQuestStar(stageId,questId) == 3){
 						return StageState.NEW;
 					}else{
@@ -178,6 +175,10 @@ namespace bbproto{
 					}
 				}
 					
+			}
+			StageClearItem clearItem = (copyType==ECopyType.CT_NORMAL) ? storyClear : eliteClear;
+			if (clearItem == null) {
+				return StageState.NONE;
 			}
 			if ( stageId < clearItem.stageId ) { 
 				return StageState.CLEAR;
