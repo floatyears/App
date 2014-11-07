@@ -17,6 +17,7 @@ public enum CommandEnum{
 	AchieveDataChange,
 	AchieveBonusChange,
 	TaskBonusChange,
+	UpdatePlayerInfo,
 
 	InquiryBattleBaseData 		= 1001,
 	MoveToMapItem 				= 1002,
