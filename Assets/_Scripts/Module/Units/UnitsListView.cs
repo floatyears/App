@@ -41,7 +41,12 @@ public class UnitsListView : ViewBase {
 
 		SortUnitByCurRule();
 
-		volumeInfo.text = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Count + "/" + DataCenter.Instance.UserData.UserInfo.unitMax;
+		if( DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Count > DataCenter.Instance.UserData.UserInfo.unitMax ) {
+			volumeInfo.text = "[FF0000]"+DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Count + "[-]/" + DataCenter.Instance.UserData.UserInfo.unitMax;
+		} else {
+			volumeInfo.text = DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit ().Count + "/" + DataCenter.Instance.UserData.UserInfo.unitMax;
+		}
+
 
 		NoviceGuideStepManager.Instance.StartStep (NoviceGuideStartType.UNIT_LIST);
 	}

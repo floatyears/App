@@ -860,7 +860,7 @@ public class BattleMapView : ViewBase {
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_back_attack);
 			break;
 		case EnemyAttackEnum.FirstAttack:
-			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "first");
+//			ModuleManager.SendMessage(ModuleEnum.BattleFullScreenTipsModule, "first");
 			AudioManager.Instance.PlayAudio(AudioEnum.sound_first_attack);
 			break;
 		default:

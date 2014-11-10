@@ -92,6 +92,7 @@ public class UnitLevelupAndEvolveView : ViewBase {
  			if(i == 5){
 				pui.callback = SelectedFriendCallback;
 				pui.PartyLabel.text = TextCenter.GetText("Text_Friend");
+				pui.PartyLabel.color = new Color(234f/255, 98f/255, 36f/255);
 			}else{
 				pui.callback = ClickToSelectedItem;
 				pui.PartyLabel.text = TextCenter.GetText("Text_Material");

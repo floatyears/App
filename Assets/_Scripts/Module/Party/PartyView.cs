@@ -47,7 +47,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	public override void ShowUI(){
 		base.ShowUI();
 		ModuleManager.Instance.ShowModule (ModuleEnum.UnitSortModule,"from","party");
-		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","party");
+//		ModuleManager.Instance.ShowModule (ModuleEnum.ItemCounterModule,"from","party");
 
 		AddCmdListener();
 		int curPartyIndex = DataCenter.Instance.UnitData.PartyInfo.CurrentPartyId + 1;
@@ -65,7 +65,7 @@ public class PartyView : ViewBase, IDragChangeView{
 	public override void HideUI(){
 		base.HideUI();
 		ModuleManager.Instance.HideModule (ModuleEnum.UnitSortModule);
-		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
+//		ModuleManager.Instance.HideModule (ModuleEnum.ItemCounterModule);
 		RmvCmdListener();
 		DataCenter.Instance.UnitData.PartyInfo.ExitParty();
 	}
@@ -497,7 +497,7 @@ public class PartyView : ViewBase, IDragChangeView{
 		countArgs.Add("current", DataCenter.Instance.UnitData.UserUnitList.GetAllMyUnit().Count);
 		countArgs.Add("max", DataCenter.Instance.UserData.UserInfo.unitMax);
 		countArgs.Add("posy", -316);
-		countArgs.Add("posx", -180);
+		countArgs.Add("posx", 20);
 		MsgCenter.Instance.Invoke(CommandEnum.RefreshItemCount, countArgs);
 	}
 

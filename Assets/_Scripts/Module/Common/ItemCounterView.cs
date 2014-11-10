@@ -43,6 +43,9 @@ public class ItemCounterView : ViewBase{
 			pos.y = (int)viewInfo["posy"];
 			pos.z = 0;
 		}
+		if (viewInfo.ContainsKey ("posx")) {
+			pos.x = (int)viewInfo["posx"];
+		}
 		this.gameObject.transform.localPosition = pos;
 		
 		if(max == 0){

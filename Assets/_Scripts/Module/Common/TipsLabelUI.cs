@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TipsLabelUI : MonoBehaviour {
 	private UILabel showInfoLabel;
+	private UISprite showInfoBg;
 	private TweenScale tweenScale;
 	private TweenAlpha tweenAlpha;
 	private Transform panel;
@@ -11,6 +12,8 @@ public class TipsLabelUI : MonoBehaviour {
 
 	void Awake() {
 		showInfoLabel = GetComponent<UILabel> ();
+		showInfoBg = GetComponent<UISprite> ();
+
 		tweenScale = GetComponent<TweenScale> ();
 		tweenAlpha = GetComponent<TweenAlpha> ();
 		panel = showInfoLabel.transform.parent.transform;
@@ -22,6 +25,7 @@ public class TipsLabelUI : MonoBehaviour {
 	}
 
 	public void ShowInfo(string text) {
+
 		showInfoLabel.text = text;
 		tweenScale.enabled = true;
 		tweenScale.ResetToBeginning ();
@@ -39,6 +43,8 @@ public class TipsLabelUI : MonoBehaviour {
 	public void ScaleEnd () {
 		tweenScale.enabled = false;
 		tweenAlpha.enabled = true;
+//		showInfoBg.enabled = true;
+
 		tweenAlpha.ResetToBeginning ();
 	}
 
@@ -47,6 +53,7 @@ public class TipsLabelUI : MonoBehaviour {
 		showInfoLabel.alpha = 1;
 		showInfoLabel.transform.localScale = Vector3.zero;
 		tweenAlpha.enabled = false;
+//		showInfoBg.enabled = false;
 
 		if (!cacheParent.Equals (panel.transform.parent)) {
 			SetParent(cacheParent);

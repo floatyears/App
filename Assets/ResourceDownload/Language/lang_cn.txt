@@ -140,7 +140,7 @@ Text_BGM=背景音乐
 Text_Sound=音量
 ContactUsContent=邮箱: MonsterStory@qq.com \n客服QQ: 414200          
 ContactUs=联系我们
-
+ 
 Text_Skill_Info=技能信息
 Text_Leader_Skill=队长技能
 Text_Active_Skill=主动技能
@@ -179,7 +179,7 @@ CatalogModule=图鉴
 FightReadyModule=战斗准备
 FriendMainModule=好友
 FriendListModule=好友列表
-FriendSelectModule=好友选择
+FriendSelectModule=选择好友
 OthersModule=其它
 PartyModule=编队
 ReceptionModule=接受请求
@@ -191,6 +191,7 @@ SellUnitModule=卡牌卖出
 UnitsListModule=卡牌列表
 GameRaiderModule=游戏攻略
 UnitSourceModule=卡牌来源
+UnitSelectModule=选择强化材料
 
 #menu name
 MainMenu_Home=战场
@@ -405,7 +406,7 @@ FriendGachaStatus=召唤1次: [FFB14A]{0}[-] 点\n召唤{1}次: [FFB14A]{2}[-] �
 ConfirmOneFriendGacha=召唤1次
 ConfirmMaxFriendGacha=召唤{0}次
 
-FriendGachaFailed=[FF0000]召唤失败[-]
+FriendGachaFailed=召唤失败
 UnitCountReachedMax=你的卡牌数量超过上限:[FF0000]{0}/[-]{1}, 请先扩充卡牌容量!
 GachaFriendPointNotEnough=你的友情点数不足！\n召唤一次需要 [FFB14A]{0}[-] 友情点。
 
