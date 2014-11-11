@@ -74,7 +74,7 @@ public class NicknameView : ViewBase {
 	void ClickCancelButton(GameObject go){
 		AudioManager.Instance.PlayAudio(AudioEnum.sound_click);
 		//		MsgCenter.Instance.Invoke( CommandEnum.ReqRenameNick, nickNameInput.value );
-		ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
+		ModuleManager.Instance.HideModule(ModuleEnum.NicknameModule);
 	}
 
 
@@ -115,8 +115,7 @@ public class NicknameView : ViewBase {
 				//TODO: show error msgbox.
 			}
 		}
-		
-		ModuleManager.Instance.ShowModule(ModuleEnum.OthersModule);
+		ModuleManager.Instance.HideModule (ModuleEnum.NicknameModule);
 //		HideUI ();
 	}
 
